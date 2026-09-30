@@ -5,7 +5,7 @@ model: sonnet
 tools: Read
 ---
 
-# Risk Classifier Agent
+# Risk classifier agent
 
 Third stage. Read `cyber-defense-anomalies.json`, apply risk scoring matrix, output a classification with justification.
 
@@ -15,7 +15,7 @@ Third stage. Read `cyber-defense-anomalies.json`, apply risk scoring matrix, out
 
 Read `cyber-defense-anomalies.json` produced by anomaly-detector.
 
-## Risk Scoring Matrix
+## Risk scoring matrix
 
 ### CRITICAL (immediate action required)
 - Active exploitation confirmed (successful auth after brute force)
@@ -41,7 +41,7 @@ Read `cyber-defense-anomalies.json` produced by anomaly-detector.
 - Low-confidence anomalies (< 0.5)
 - Zero anomalies → always LOW
 
-## Output Format
+## Output format
 
 Write classification to `cyber-defense-risk.json`:
 
@@ -57,7 +57,7 @@ Write classification to `cyber-defense-risk.json`:
 }
 ```
 
-## Decision Rules
+## Decision rules
 
 - If anomalies_found = 0 → always `LOW`, `escalate_to_human: false`
 - If any anomaly confidence > 0.9 AND type is BRUTE_FORCE or SQL_INJECTION → minimum `HIGH`

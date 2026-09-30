@@ -1,4 +1,4 @@
-# Evaluation: crit - Human-in-the-Loop Review Interface for AI Agents
+# Evaluation: crit - human-in-the-loop review interface for AI agents
 
 **Resource Type**: Open Source CLI Tool
 **Author**: Tomasz Tomczyk (@tomasz-tomczyk)
@@ -9,7 +9,7 @@
 
 ---
 
-## 1. Content Summary
+## 1. Content summary
 
 `crit` is a local review interface designed to sit between a developer and an AI agent. It provides an adaptive UI for reviewing AI-generated output across four modes:
 
@@ -32,7 +32,7 @@ The loop: agent produces output → developer opens crit → leaves inline comme
 
 ---
 
-## 2. Initial Scoring: 4/5 (High Value)
+## 2. Initial scoring: 4/5 (High value)
 
 | Score | Meaning | Action |
 |-------|---------|--------|
@@ -62,25 +62,25 @@ The loop: agent produces output → developer opens crit → leaves inline comme
 
 ---
 
-## 3. Technical Analysis
+## 3. Technical analysis
 
-### Round-to-Round Diffing: The Unique Value
+### Round-to-Round diffing: The unique value
 
 Standard diff tools (GitHub PRs, `git diff`, IDE diffs) show delta between commits or branches. `crit` shows delta between agent iterations within the same review session. That specific capability does not exist in any other tooling short of manual bookmarking.
 
 For Claude Code users specifically: when you run Claude multiple times on the same task and want to understand "what did it change from attempt 2 to attempt 3?", `crit` gives a structured answer.
 
-### Plan Review Before Execution
+### Plan review before execution
 
 The markdown mode enables reviewing `plan.md` or similar files inline before the agent proceeds. Without `crit`, this requires manually opening the file and passing feedback through the prompt. With `crit`, comments are attached to specific lines and readable by the agent via the CLI comment API.
 
-### GitHub PR Sync
+### GitHub PR sync
 
 `crit` can read and write GitHub PR review comments bidirectionally via `gh` CLI. This bridges the loop: Claude Code opens a PR, reviewer leaves inline comments in `crit`, those comments sync to the PR, Claude Code reads them via the PR context.
 
 ---
 
-## 4. Maturity Signals
+## 4. Maturity signals
 
 | Signal | Value |
 |--------|-------|
@@ -121,7 +121,7 @@ crit install claude-code      # Writes config snippets into the project
 
 ---
 
-## 6. Relevance to Claude Code Users
+## 6. Relevance to Claude Code users
 
 **Direct and explicit**. The tool is built for this workflow:
 
@@ -134,7 +134,7 @@ For guide readers: `crit` addresses a friction point that comes up in multi-iter
 
 ---
 
-## 7. Red Flags
+## 7. Red flags
 
 No serious issues. Minor notes:
 
@@ -149,7 +149,7 @@ No security concerns. No telemetry. No supply chain issues visible.
 
 ---
 
-## 8. Integration Decision
+## 8. Integration decision
 
 **INTEGRATE** at score **4/5**: mention in the guide under human-in-the-loop and review tooling.
 
@@ -164,7 +164,7 @@ No security concerns. No telemetry. No supply chain issues visible.
 
 ---
 
-## 9. Final Metadata
+## 9. Final metadata
 
 **Score**: 4/5
 **Decision**: Integrate

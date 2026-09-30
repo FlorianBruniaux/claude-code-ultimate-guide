@@ -4,11 +4,11 @@ description: "Event-driven scripts for automation, security blocking, and contex
 tags: [hooks, security, template, config]
 ---
 
-# Claude Code Hooks
+# Claude Code hooks
 
 Hooks are scripts that execute automatically on Claude Code events. They enable automation, block dangerous operations, and enrich context.
 
-## Available Hooks
+## Available hooks
 
 | Hook | Event | Purpose | Platform |
 |------|-------|---------|----------|
@@ -49,7 +49,7 @@ Hooks are scripts that execute automatically on Claude Code events. They enable 
 | [security-check.ps1](./powershell/security-check.ps1) | PreToolUse | Block secrets in commands | PowerShell |
 | [auto-format.ps1](./powershell/auto-format.ps1) | PostToolUse | Auto-format after edits | PowerShell |
 
-## Hook Events
+## Hook events
 
 33 events in 9 groups. Events marked **[B]** can block, through exit 2 or a JSON decision. `PermissionRequest` ignores exit 2 and blocks only through its `decision` object.
 
@@ -131,7 +131,7 @@ Hooks are scripts that execute automatically on Claude Code events. They enable 
 | `PreModelSwitch` **[B]** | Before a requested model switch is applied | Enforce allowed models, warn on cost |
 | `PostModelSwitch` | After the session model changes | Log model changes, inject model-specific context |
 
-## Advanced Guardrails (NEW in v3.3.0)
+## Advanced guardrails (NEW in v3.3.0)
 
 Advanced protection patterns inspired by production LLM systems.
 
@@ -224,7 +224,7 @@ export CLAUDE_PRECOMMIT_EVAL=1  # Enable evaluation
 
 ---
 
-## Security Hooks
+## Security hooks
 
 ### dangerous-actions-blocker.sh
 
@@ -342,7 +342,7 @@ Complements `security-check.sh` by scanning tool **outputs** (not inputs) for le
 }
 ```
 
-## Productivity Hooks
+## Productivity hooks
 
 ### rtk-baseline.sh
 
@@ -601,9 +601,9 @@ Hooks are configured in `.claude/settings.json`:
 - `"Edit|Write"` - Match Edit OR Write tools
 - `"Bash|Edit|Write"` - Match multiple tools
 
-## Creating Custom Hooks
+## Creating custom hooks
 
-### Basic Template
+### Basic template
 
 ```bash
 #!/bin/bash
@@ -634,7 +634,7 @@ EOF
 exit 0
 ```
 
-### Environment Variables
+### Environment variables
 
 Available in hook scripts:
 
@@ -645,7 +645,7 @@ Available in hook scripts:
 | `CLAUDE_TOOL_INPUT` | Tool input as JSON |
 | `HOME` | User home directory |
 
-### Best Practices
+### Best practices
 
 1. **Short Timeout**: Max 5-10s to avoid blocking Claude
 2. **Fail Gracefully**: Use `|| true` for non-critical operations
@@ -655,7 +655,7 @@ Available in hook scripts:
 6. **Document Behavior**: Clear comments on what hook does
 7. **Handle Errors**: Proper error messages for debugging
 
-### Example: Git Context Enrichment
+### Example: Git context enrichment
 
 Create `git-context.sh` (UserPromptSubmit event):
 
@@ -702,7 +702,7 @@ Register in settings:
 
 ## Installation
 
-### Project-Level (Shared with Team)
+### Project-Level (shared with team)
 
 1. Create hooks directory:
 ```bash
@@ -723,7 +723,7 @@ git add .claude/hooks/ .claude/settings.json
 git commit -m "Add Claude Code hooks"
 ```
 
-### Personal/Global (Your Machine Only)
+### Personal/global (your machine only)
 
 1. Create global hooks directory:
 ```bash
@@ -740,9 +740,9 @@ chmod +x ~/.claude/hooks/*.sh
 
 **Priority**: Project hooks override global hooks.
 
-## Platform-Specific Notes
+## Platform-specific notes
 
-### macOS / Linux (Bash)
+### macOS / Linux (bash)
 
 - Use `.sh` extension
 - Requires `chmod +x` for execution
@@ -758,13 +758,13 @@ chmod +x ~/.claude/hooks/*.sh
 
 ## Troubleshooting
 
-### Hook Not Executing
+### Hook not executing
 
 **Cause**: Not registered in settings.json or wrong path
 
 **Fix**: Verify configuration and use absolute paths or `$CLAUDE_PROJECT_DIR`
 
-### Permission Denied
+### Permission denied
 
 **Cause**: Hook not executable
 
@@ -773,19 +773,19 @@ chmod +x ~/.claude/hooks/*.sh
 chmod +x .claude/hooks/*.sh
 ```
 
-### Hook Blocks Everything
+### Hook blocks everything
 
 **Cause**: Exit code 2 without conditions
 
 **Fix**: Check logic, ensure `exit 0` is default case
 
-### Timeout Errors
+### Timeout errors
 
 **Cause**: Hook takes too long (>timeout value)
 
 **Fix**: Optimize hook performance or increase timeout in settings
 
-### jq Not Found
+### jq not found
 
 **Cause**: `jq` not installed
 
@@ -801,9 +801,9 @@ sudo apt-get install jq
 choco install jq
 ```
 
-## Advanced Examples
+## Advanced examples
 
-### Activity Logger
+### Activity logger
 
 Log all Claude operations to JSONL file:
 
@@ -827,7 +827,7 @@ EOF
 exit 0
 ```
 
-### Database Migration Detector
+### Database migration detector
 
 Alert when migrations are created:
 
@@ -855,7 +855,7 @@ fi
 exit 0
 ```
 
-## Security Considerations
+## Security considerations
 
 1. **Never Store Secrets in Hooks**: Use environment variables
 2. **Validate Input**: Always sanitize data from stdin

@@ -78,7 +78,7 @@ git diff main...HEAD | claude -p "Security review, JSON format" \
   --output-format json > review.json
 ```
 
-## Interactive vs Non-Interactive
+## Interactive vs non-interactive
 
 | Aspect | Interactive | Non-Interactive (`-p`) |
 |--------|-------------|------------------------|

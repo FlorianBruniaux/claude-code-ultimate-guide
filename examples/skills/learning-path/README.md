@@ -1,4 +1,4 @@
-# Executable Claude Code Learning Path
+# Executable Claude Code learning path
 
 This dependency-free prototype turns the existing [seven-module learning path](../../../guide/learning-path/README.md) into a local progression. It stores only learner-owned state in `.claude/learning/claude-code-guide-progress.json` under the target project.
 

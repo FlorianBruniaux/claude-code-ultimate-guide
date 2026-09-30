@@ -40,7 +40,7 @@ lang: en
 
 > **In 5 lines:** Understanding Claude Code's internal architecture changes how you use it. This whitepaper exposes the master loop (the fundamental reaction-action-observation cycle), the 9 native tools with their trade-offs, and the mechanics of model-dependent context budgets. With this mental model, you anticipate behaviors instead of reacting to them.
 
-# Philosophy: Less Scaffolding, More Model
+# Philosophy: Less scaffolding, more model
 
 ## Model and runtime responsibilities
 
@@ -54,7 +54,7 @@ Model-driven tool selection can adapt to new evidence, but two runs can choose d
 
 Source: [How Claude Code works](https://code.claude.com/docs/en/how-claude-code-works).
 
-## Current Models
+## Current models
 
 Standard API rates, verified September 24, 2026. USD per million input/output tokens, excluding caching.
 
@@ -67,7 +67,7 @@ Standard API rates, verified September 24, 2026. USD per million input/output to
 
 Sonnet's published rate remains $2/$10 after the launch promotion. Opus 5.5 is the direct-service default; account policy can override it. Model choice does not establish a typical task cost.
 
-## Select and Save
+## Select and save
 
 `/model` opens the picker. **Enter** saves a default; **s** applies it to this session only. `claude --model sonnet` applies to the launched session. Project and managed settings can reapply at the next launch.
 
@@ -75,7 +75,7 @@ Aliases depend on the provider. `opus` maps to 5.5 on most providers, but 4.6 on
 
 `fable` selects 5.1 where available, or 5 through the Claude apps gateway. `best` selects Fable when available, otherwise Opus. Pin a supported full ID when version identity matters.
 
-## Thinking and Effort
+## Thinking and effort
 
 Opus 5.5, Sonnet 5, and Fable 5.1 use adaptive thinking. Haiku 4.5 supports extended thinking but has **no effort parameter**.
 
@@ -87,7 +87,7 @@ Current adaptive models support `low`, `medium`, `high`, `xhigh`, and `max`. Opu
 
 `ultrathink` adds a reasoning instruction without changing API effort. `think hard` is ordinary prompt text.
 
-## Choose by Measured Results
+## Choose by measured results
 
 Evaluate Haiku on bounded tasks, Sonnet on routine work, and Opus or Fable on harder tasks. Compare accepted outcomes, retries, latency, and total cost on the same task set. Teammates can use different models.
 
@@ -109,9 +109,9 @@ Source: Anthropic official postmortem + Boris Cherny HN comments, April 2026.
 
 {{< pagebreak >}}
 
-# The Master Loop
+# The master loop
 
-## The Heart of Claude Code
+## The heart of Claude Code
 
 A simplified teaching model of the agentic cycle is:
 
@@ -122,7 +122,7 @@ while (claude_response.has_tool_call):
 return claude_response.text
 ```
 
-## Loop Visualization
+## Loop visualization
 
 ```
   Your Prompt
@@ -143,7 +143,7 @@ return claude_response.text
 
 The loop can include planning and delegation. Proposed calls pass through the applicable permission, hook and sandbox checks before their results return to context. Task decomposition and stop conditions should be explicit when the workflow needs them.
 
-## What This Means
+## What this means
 
 The model itself decides:
 - **When** to call a tool
@@ -158,7 +158,7 @@ Marc asks "add Zod validation to the shipping form". Claude enters the master lo
 
 > 📖 **Read more:** [Architecture Internals](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md): master loop, tool arsenal, sub-agent architecture, edit tool internals
 
-## Request Lifecycle
+## Request lifecycle
 
 From the moment you type a command to the display of the result, here is the complete flow:
 
@@ -180,7 +180,7 @@ Each round-trip to the Claude API consumes tokens (input + output). Tool calls, 
 
 {{< pagebreak >}}
 
-# Native Tools
+# Native tools
 
 The master loop decides when to act; native tools are what it acts with. Each tool has a token cost and a precise scope. Understanding what each tool does (and costs) lets you calibrate expectations and diagnose slow sessions.
 
@@ -200,7 +200,7 @@ These 9 tools form the interface between the model's reasoning and the local fil
 | **TodoWrite** | Track progress | Structured task management; disabled by default on Sonnet 5/Opus 4.8/Fable 5 and newer models since v2.1.233, re-enable with `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` |
 | **LSP Tool** (v2.0.74+) | Code intelligence | Symbols, references, diagnostics |
 
-## Bash: The Universal Adapter
+## Bash: The universal adapter
 
 **Key insight**: Bash is Claude's Swiss army knife. It can:
 
@@ -211,7 +211,7 @@ These 9 tools form the interface between the model's reasoning and the local fil
 
 The model was trained on massive amounts of shell data, making it highly effective at using Bash as a universal adapter.
 
-## Tool Selection (Model-Driven)
+## Tool selection (model-driven)
 
 ```
 "Read auth.ts"           → Read tool
@@ -224,7 +224,7 @@ The model was trained on massive amounts of shell data, making it highly effecti
 
 The model learns these patterns during training. For dangerous patterns (rm -rf, sudo, etc.), explicit rules in the system prompt complement the training; see the Security section.
 
-## Token Cost Per Tool
+## Token cost per tool
 
 Every tool call consumes tokens from the context budget, in input (the request to the tool) and output (the result returned). These costs accumulate with each master loop iteration, making tool selection directly tied to session economics. A poorly targeted Read on a large file can consume as much as a dozen targeted Grep calls.
 
@@ -240,9 +240,9 @@ Programmatic tool calling, tool search and examples in tool definitions are sepa
 
 {{< pagebreak >}}
 
-# Context Management
+# Context management
 
-## Context Budget (Model-Dependent)
+## Context budget (model-dependent)
 
 > **Current windows**: Opus 5.5, Sonnet 5, and Fable 5.1 use native 1M context; Haiku 4.5 uses 200K. See the model table below.
 
@@ -264,7 +264,7 @@ Programmatic tool calling, tool search and examples in tool definitions are sepa
 The context budget is a finite, non-extensible resource within a session. Every Read, every Bash, every Grep consumes space that will no longer be available for reasoning. This is why context management strategy directly conditions response quality toward the end of a session.
 
 
-## Context Is Model-Specific
+## Context is model-specific
 
 | Direct API model | Context | Maximum output |
 |------------------|---------|----------------|
@@ -275,13 +275,13 @@ The context budget is a finite, non-extensible resource within a session. Every 
 
 Verified September 24, 2026. Provider settings can expose different limits. Inspect `/context` for the active session.
 
-## No Native-1M Premium
+## No native-1M premium
 
 Current native 1M models use standard rates beyond 200K input tokens. They do not need the old long-context beta header. Sonnet 5 has no 200K variant on the direct API.
 
 Older Opus 4.6 and Sonnet 4.6 have `[1m]` variants with plan/provider restrictions. Do not transfer their access rules to current models.
 
-## Price a Complete Request
+## Price a complete request
 
 Illustrative USD totals without caching or retries:
 
@@ -293,7 +293,7 @@ Illustrative USD totals without caching or retries:
 
 Use separate input, output, cache-read, and cache-write counts. A context-window size is capacity, not a bill or an accuracy score.
 
-## Control Accumulation
+## Control accumulation
 
 `/context` shows the token breakdown. `/compact` summarizes the conversation; `/clear` starts fresh. Save decisions and verification commands before resetting context.
 
@@ -301,7 +301,7 @@ Use separate input, output, cache-read, and cache-write counts. A context-window
 
 Load relevant files rather than filling the available window. Split independent tasks when separate contexts help. No fixed percentage guarantees reliable recall.
 
-## Evaluate Retrieval
+## Evaluate retrieval
 
 Older MRCR results for Opus 4.6 or Sonnet 4.5 remain results for those models and benchmark conditions. They do not establish retrieval quality for Sonnet 5 or Opus 5.5.
 
@@ -309,7 +309,7 @@ Test on your own document set with answerable questions, expected citations, and
 
 Sources: [Model configuration](https://code.claude.com/docs/en/model-config), [model specifications](https://platform.claude.com/docs/en/models/overview), [pricing](https://platform.claude.com/docs/en/about-claude/pricing).
 
-## Auto-Compaction
+## Auto-compaction
 
 Auto-compaction depends on the model window and reserved capacity. Native 1M sessions normally compact around 967K tokens. `/autocompact 500k` chooses a smaller window; `/autocompact auto` restores the model default. Manual `/compact` remains available at a useful task boundary.
 
@@ -324,7 +324,7 @@ Inspect `/context`, keep the information needed for the task, and save decisions
 
 If Claude repeats reads, loses a constraint or proposes an unsupported path, check the current evidence and reopen the relevant files. These symptoms have multiple possible causes and cannot be diagnosed from context percentage alone.
 
-## The /context Command (v2.1.15+)
+## The /context command (v2.1.15+)
 
 Analyzes the current context window contents:
 
@@ -349,7 +349,7 @@ Recent large tool results:
 
 **Use case**: Diagnose why context fills up fast, identify massive tool results.
 
-## Decision Tree: Which Mechanism to Activate?
+## Decision tree: Which mechanism to activate?
 
 ```
   Need to access an external resource?
@@ -369,7 +369,7 @@ Recent large tool results:
                       └─ No  → Native Tools (sufficient)
 ```
 
-## Context Engineering: Mental Model
+## Context engineering: Mental model
 
 Claude Code = 4 hierarchical context layers:
 
@@ -390,7 +390,7 @@ You control applicable instruction files, while system instructions and loaded c
 
 **Effective strategy**: Keep relevant session evidence, concise instructions and scoped external retrieval; maximizing any layer blindly can add noise or risk.
 
-### Layer 3 in Action: cc-sessions (Composable Session History)
+### Layer 3 in action: cc-sessions (Composable session history)
 
 **cc-sessions** illustrates a key Claude Code architectural principle: the JSONL storage in `~/.claude/projects/` is not accidental. It makes session history *composable*: queryable by script, filterable by date/branch, resumable by third-party tools.
 
@@ -413,7 +413,7 @@ cc-sessions resume 8d472d
 
 → **Download**: [examples/scripts/cc-sessions.py](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/examples/scripts/cc-sessions.py)
 
-### Layer 4 in Action: Grepai (Local Semantic Search, v3.27.1)
+### Layer 4 in action: Grepai (local semantic search, v3.27.1)
 
 **Grepai** is a concrete example of Layer 4: it operates entirely outside the context window (local indexing with Ollama + nomic-embed-text; returned excerpts can enter the model context) and replaces token-expensive Grep+Read patterns. → See also the **MCP Integration** section for other Layer 4 tools.
 
@@ -430,7 +430,7 @@ grepai_trace_graph("processOrder") # Full call graph
 
 > 📖 **Read more:** [§2.2 Context Management](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#22-context-management): context zones, compaction strategies, /compact vs auto-compact
 
-## Agent Memory (MEMORY.md)
+## Agent memory (MEMORY.md)
 
 Main-session auto-memory is enabled by default and stored under `~/.claude/projects/<project>/memory/`. Its `MEMORY.md` index loads up to 200 lines or 25KB, whichever limit comes first; supporting files can be read when needed. Inspect or configure it with `/memory`.
 
@@ -446,11 +446,11 @@ Enabling agent memory adds Read, Write and Edit tools. Omit it when the agent mu
 
 {{< pagebreak >}}
 
-# Sub-Agents: The Agent Tool
+# Sub-Agents: The agent tool
 
 Native tools operate within the main agent's context. But certain tasks (broad exploration, parallel search, risky analysis) benefit from isolated context. That's the role of the Agent tool (formerly named Task): spawn a sub-agent with its own context window, which returns a summary without polluting the main context.
 
-## Isolation Architecture
+## Isolation architecture
 
 ```
   Isolation Architecture
@@ -467,7 +467,7 @@ Native tools operate within the main agent's context. But certain tasks (broad e
 
 Ordinary sub-agents start with their prompt and applicable configuration rather than the complete parent transcript. Supported forked workflows can inherit context. The parent normally receives the result or summary; its size varies and errors can propagate through it.
 
-## Why a Depth Limit of 3 Levels?
+## Why a depth limit of 3 levels?
 
 Since v2.1.172 (June 2026), a sub-agent can spawn its own sub-agents; v2.1.172 initially raised that cap to five levels. v2.1.217 reverted this and disabled nesting entirely (depth back to 1), adding `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS` to cap concurrency along the way. v2.1.219 restored nesting to a default depth of 3, the value still in effect; set `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH=1` to disable nesting and return to the strict single-level behavior. The 3-level cap serves the same goal as the old hard limit, containing the risk of runaway recursion, while unlocking real use cases like recursively decomposing a broad exploration (an architecture agent that delegates each subsystem to a dedicated agent, which in turn delegates each module).
 
@@ -478,7 +478,7 @@ Since v2.1.172 (June 2026), a sub-agent can spawn its own sub-agents; v2.1.172 i
 | Debugging nightmare | Tracing multi-level chains is hard | The risk grows with depth; tracing a 3-level chain needs observability Claude Code doesn't yet expose in fine detail |
 | Unpredictable costs | Nested agents = unpredictable tokens | Budget becomes harder to estimate upfront; in practice most tasks stay useful at 2 levels, beyond that the ROI drops fast |
 
-## Sub-Agent Types
+## Sub-agent types
 
 | Type | Purpose | Available Tools |
 |------|---------|----------------|
@@ -487,7 +487,7 @@ Since v2.1.172 (June 2026), a sub-agent can spawn its own sub-agents; v2.1.172 i
 | `Bash` | Command execution | Bash only |
 | `general-purpose` | Complex multi-step | All tools |
 
-## When to Use Sub-Agents
+## When to use sub-agents
 
 | Use Case | Why Sub-Agent Helps |
 |----------|---------------------|
@@ -502,13 +502,13 @@ Leila is debugging a performance issue on the payment API. Rather than reading a
 
 {{< pagebreak >}}
 
-# Agent Teams: Autonomous Coordination
+# Agent teams: Autonomous coordination
 
 **Status**: Experimental (v2.1.32+, models selected per teammate)
 
 Sub-agents can run in the foreground or background. For tasks requiring real coordination between multiple autonomous agents (each with its own 1M-token context window), Agent Teams represent the next step.
 
-## Lead-Teammate Architecture
+## Lead-teammate architecture
 
 ```
   Lead-Teammate Architecture
@@ -548,7 +548,7 @@ Or in `~/.claude/settings.json`:
 }
 ```
 
-## Validated Use Cases
+## Validated use cases
 
 **Read-heavy tasks** (Excellent):
 - Multi-layer code review (security + API + frontend)
@@ -559,7 +559,7 @@ Or in `~/.claude/settings.json`:
 - Refactoring shared files → merge conflicts
 - Coordinated migrations → timing issues
 
-## When to Use
+## When to use
 
 | Criteria | Teams | Single |
 |----------|-------|--------|
@@ -572,7 +572,7 @@ Claims about workforce screening or feature delivery in other deployments are no
 
 {{< pagebreak >}}
 
-# Background Agents: Async Tasks
+# Background agents: Async tasks
 
 **Introduced**: v2.0.60 | **Status**: Stable
 
@@ -586,7 +586,7 @@ Agents that execute in the background without blocking the main session.
 - Database migrations
 - Long-running scripts
 
-## Background Launch
+## Background launch
 
 Ask Claude to run an appropriate task in the background, or use `Ctrl+B` for a running task where supported. Inspect `/tasks` to see its progress and result. A prompt beginning with `&` requests a cloud task on supported accounts; it is not the generic local-background syntax.
 
@@ -620,7 +620,7 @@ Both foreground and background execution can use the Agent tool. Choose based on
 /tasks                   # Inspect running tasks and their results
 ```
 
-## When to Use Background
+## When to use background
 
 | Scenario | Background | Synchronous |
 |----------|-----------|-------------|
@@ -629,7 +629,7 @@ Both foreground and background execution can use the Agent tool. Choose based on
 | DB migrations | Yes | No (pointless waiting) |
 | Quick feature | No (overhead) | Yes (direct) |
 
-## Worktrees and Branch Isolation
+## Worktrees and branch isolation
 
 Git worktrees let you run Claude Code in an isolated branch without affecting your current workspace. Useful for testing risky changes or parallelizing tasks.
 
@@ -655,11 +655,11 @@ claude --worktree              # Create a worktree from the remote branch
 
 {{< pagebreak >}}
 
-# MCP Integration
+# MCP integration
 
 The Model Context Protocol (MCP) extends Claude Code's capabilities beyond its native tools. Where native tools cover file and shell operations, MCP lets you connect specialized external servers (documentation, semantic search, browser automation) without modifying Claude Code's core.
 
-## How MCP Works
+## How MCP works
 
 ```
   CLAUDE CODE
@@ -677,7 +677,7 @@ The Model Context Protocol (MCP) extends Claude Code's capabilities beyond its n
 
 The model treats MCP tools exactly like native tools: it proposes calls through the connected server and the applicable permission checks. Transport, server implementation and access controls determine what the server can do.
 
-## Key MCP Facts
+## Key MCP facts
 
 The MCP protocol rests on a few simple principles that shape how it works in practice. The MCP server only receives call parameters, not the full conversation context, but that protocol boundary is not filesystem or process isolation. A local server may be able to access files or network services using its own credentials.
 
@@ -693,7 +693,7 @@ The MCP protocol rests on a few simple principles that shape how it works in pra
 
 A tool request does not automatically include the full conversation, but a server can retain state, read resources available to its process, and return malicious instructions in metadata or results. Review its implementation and requested access. Permission approval for one tool is not a guarantee that the server is harmless.
 
-## Extension Mechanisms Comparison
+## Extension mechanisms comparison
 
 Claude Code offers 4 ways to extend its behavior, with very different profiles:
 
@@ -730,11 +730,11 @@ Impact: hooks become an integration bus between Claude Code and the MCP ecosyste
 
 {{< pagebreak >}}
 
-# The Security Model
+# The security model
 
 The model-driven loop runs within a configurable execution environment. On the contrary, the permission model is structured in 4 progressive layers, from the simplest user interaction to full filesystem isolation.
 
-## The 4 Permission Layers
+## The 4 permission layers
 
 ```
   Layer 1: INTERACTIVE PROMPTS
@@ -755,7 +755,7 @@ The model-driven loop runs within a configurable execution environment. On the c
 
 Each layer is independent and cumulative. Layer 1 is sufficient for personal use. Layers 2-3 are recommended for teams. Layer 4 is intended for CI/CD environments and automated pipelines where no human supervises execution.
 
-## Dangerous Patterns Detected
+## Dangerous patterns detected
 
 The model learns to recognize destructive commands during training, but that alone is insufficient for a production system. Explicit rules in the system prompt complement this learning alongside runtime permission controls. Prompt behavior depends on mode, rules, hooks and sandbox configuration.
 
@@ -782,11 +782,11 @@ These patterns are detected via model training AND explicit rules in the system 
 
 {{< pagebreak >}}
 
-# How the Edit Tool Works
+# How the edit tool works
 
 Edit replaces specified text in an existing file. Supply current content and enough surrounding text to identify the intended occurrence. Private matching fallbacks are not a stable public contract; re-read the file after another process or agent changes it.
 
-## Edit Validation
+## Edit validation
 
 | Check | Purpose |
 |-------|---------|
@@ -795,7 +795,7 @@ Edit replaces specified text in an existing file. Supply current content and eno
 | Single match | old_string must be unique |
 | New content differs | Prevent no-op edits |
 
-## When Edit Fails
+## When edit fails
 
 | Error | Cause | Claude's Response |
 |-------|-------|-------------------|
@@ -809,7 +809,7 @@ Antoine notices that Claude fails to edit a file with "old_string not found". Re
 
 {{< pagebreak >}}
 
-# Claude Code vs Alternatives
+# Claude Code vs alternatives
 
 ## Compare workflows on current evidence
 
@@ -817,7 +817,7 @@ Products and integrations change quickly. Evaluate terminal and IDE workflows, c
 
 Choose a representative task, fix the model and configuration where possible, and compare the accepted result, latency, review effort and total cost. Claude Code offers terminal workflows and editor integrations; test the surface your team actually uses.
 
-## Four Layers, Four Responsibilities
+## Four layers, four responsibilities
 
 Comparing products only by model or interface hides the responsibility that matters: who decides the next action. The [harness selection guide](https://cc.bruniaux.com/guide/agent-harness-landscape/) separates four layers.
 
@@ -834,7 +834,7 @@ An orchestrator can launch several harnesses without becoming their runtime. Con
 
 # Resources
 
-## What We DON'T Know
+## What we DON'T know
 
 Despite Anthropic's growing transparency, several internal aspects of Claude Code remain publicly undocumented. These blind spots do not prevent effective use of Claude Code, but they limit the ability to fine-tune sessions or predict certain behaviors.
 
@@ -857,7 +857,7 @@ Despite Anthropic's growing transparency, several internal aspects of Claude Cod
 | Opus 4.6 | May 2025 |
 | Haiku 4.5 | February 2025 |
 
-## Official Sources
+## Official sources
 
 Anthropic's official documentation is the primary source for implementation details. The links below point to the most useful pages for deepening your understanding of Claude Code's architecture and configuration.
 
@@ -869,7 +869,7 @@ Anthropic's official documentation is the primary source for implementation deta
 | Hooks Reference | code.claude.com/docs/en/hooks |
 | MCP Docs | code.claude.com/docs/en/mcp |
 
-## Recommended Path
+## Recommended path
 
 Each whitepaper in the series is self-contained, but they complement each other. Depending on your immediate priority (securing a deployment, onboarding a team, or refining your prompts), here are the most relevant next reads.
 
@@ -890,7 +890,7 @@ Each whitepaper in the series is self-contained, but they complement each other.
 
 *Version 3.43.0 | September 2026*
 
-# The Series
+# The series
 
 This whitepaper is part of the **Claude Code Ultimate Guide** series, a complete resource for mastering Claude Code, from installation to production deployment.
 

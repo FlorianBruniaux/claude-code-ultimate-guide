@@ -4,18 +4,18 @@ description: "CONTRIBUTING.md template section for disclosing AI tool usage in p
 tags: [template, config, ai-ecosystem]
 ---
 
-# AI Assistance Disclosure (CONTRIBUTING.md Template)
+# AI assistance disclosure (CONTRIBUTING.md template)
 
 > Copy this section into your project's CONTRIBUTING.md
 
 ---
 
-## AI Assistance Disclosure
+## AI assistance disclosure
 
 If you use any AI tools to help with your contribution, please disclose this
 in your pull request description.
 
-### What to Disclose
+### What to disclose
 
 | AI Usage | Example Disclosure |
 |----------|-------------------|
@@ -24,14 +24,14 @@ in your pull request description.
 | **AI-suggested approach** | "Copilot suggested the algorithm structure" |
 | **AI-drafted docs** | "Documentation was drafted with Claude assistance" |
 
-### What Doesn't Need Disclosure
+### What doesn't need disclosure
 
 - Trivial autocomplete (single keywords, short phrases)
 - IDE syntax helpers (formatting, auto-imports)
 - Grammar/spell checking
 - Code formatting tools (prettier, black)
 
-### Why We Ask
+### Why we ask
 
 AI-generated code often requires more careful review:
 
@@ -47,7 +47,7 @@ Disclosure helps maintainers:
 
 This is a **courtesy to reviewers**, not a judgment on AI use.
 
-### Suggested Disclosure Format
+### Suggested disclosure format
 
 In your PR description:
 

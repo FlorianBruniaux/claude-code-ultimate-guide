@@ -47,7 +47,7 @@ Known issues:
   "Do not use package X, version conflict with Y"
 ```
 
-## CLAUDE.md vs Auto-Memories
+## CLAUDE.md vs auto-memories
 
 | Aspect | CLAUDE.md | Auto-Memories |
 |--------|-----------|---------------|

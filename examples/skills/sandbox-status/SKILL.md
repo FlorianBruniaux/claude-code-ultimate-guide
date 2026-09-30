@@ -6,7 +6,7 @@ when_to_use: "Use to check whether Claude Code sandbox mode is active and what r
 disable-model-invocation: true
 ---
 
-# Sandbox Status Command
+# Sandbox status command
 
 Inspect the native Claude Code sandbox state, active configuration, and security events.
 
@@ -16,7 +16,7 @@ Inspect the native Claude Code sandbox state, active configuration, and security
 /sandbox-status
 ```
 
-## What It Does
+## What it does
 
 1. **Check sandbox availability**
    - Verify OS primitives installed (bubblewrap on Linux, Seatbelt on macOS)
@@ -139,7 +139,7 @@ echo "  Official: https://code.claude.com/docs/en/sandboxing"
 echo "  Runtime: https://github.com/anthropic-experimental/sandbox-runtime"
 ```
 
-## Example Output
+## Example output
 
 ```
 === Native Sandbox Status ===
@@ -171,14 +171,14 @@ Documentation:
   Runtime: https://github.com/anthropic-experimental/sandbox-runtime
 ```
 
-## Use Cases
+## Use cases
 
 - **Pre-deployment**: Verify sandbox config before running autonomous workflows
 - **Debugging**: Investigate why certain commands are blocked
 - **Security audit**: Review allowed domains and filesystem access
 - **Onboarding**: Help new team members understand project sandbox policy
 
-## See Also
+## See also
 
 - [Native Sandboxing Guide](../../../guide/security/sandbox-native.md) - Complete technical reference
 - [/sandbox-unblock](../sandbox-unblock/SKILL.md) - Diagnostic protocol when something looks blocked

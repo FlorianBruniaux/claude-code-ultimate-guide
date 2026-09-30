@@ -1,4 +1,4 @@
-# Resource Evaluation: Multi-Session Claude Code Management: Landscape Overview
+# Resource evaluation: Multi-Session Claude Code management: Landscape overview
 
 **Date**: 2026-03-19
 **Evaluator**: Claude (research session + structured synthesis)
@@ -28,9 +28,9 @@ No single tool covers all use cases. The space is fragmented, actively evolving 
 
 ---
 
-## Tool Landscape
+## Tool landscape
 
-### Category 1 — Monitoring Dashboards
+### Category 1 — monitoring dashboards
 
 | Tool | GitHub | Stars | Stack | Key Features |
 |------|--------|-------|-------|-------------|
@@ -43,7 +43,7 @@ No single tool covers all use cases. The space is fragmented, actively evolving 
 
 ---
 
-### Category 2 — Remote / Browser Access
+### Category 2 — remote / browser access
 
 | Tool | GitHub | Stars | Stack | Key Features |
 |------|--------|-------|-------|-------------|
@@ -54,7 +54,7 @@ No single tool covers all use cases. The space is fragmented, actively evolving 
 
 ---
 
-### Category 3 — Multi-Project Orchestrators
+### Category 3 — multi-project orchestrators
 
 | Tool | GitHub | Stars | Stack | Key Features |
 |------|--------|-------|-------|-------------|
@@ -67,7 +67,7 @@ No single tool covers all use cases. The space is fragmented, actively evolving 
 
 ---
 
-### Category 4 — Sound / Notification Systems
+### Category 4 — sound / notification systems
 
 | Tool | GitHub | Stars | Stack | Per-Project Sound |
 |------|--------|-------|-------|------------------|
@@ -89,7 +89,7 @@ No single tool covers all use cases. The space is fragmented, actively evolving 
 
 ---
 
-## Capability Matrix
+## Capability matrix
 
 | Tool | Multi-session visibility | Session switching | Per-project differentiation | Sound | Platform |
 |------|--------------------------|-------------------|-----------------------------|-------|----------|
@@ -107,7 +107,7 @@ No single tool covers all use cases. The space is fragmented, actively evolving 
 
 ---
 
-## Key Findings
+## Key findings
 
 **High adoption signal**: vibetunnel (4,276 stars, now 4,607 as of 2026-07-28) and multi-agent-shogun (1,082 stars, now 1,405 as of 2026-07-28) are the two breakout tools. Both are actively maintained and solve real problems at scale.
 
@@ -138,7 +138,7 @@ No single tool covers all use cases. The space is fragmented, actively evolving 
 
 ---
 
-## Related Evaluations
+## Related evaluations
 
 - [078-claude-swarm-monitor.md](078-claude-swarm-monitor.md): TUI for monitoring agents across worktrees (Rust, Linux)
 - [074-ruflo-multi-agent-orchestration.md](074-ruflo-multi-agent-orchestration.md): Ruflo orchestration platform

@@ -7,18 +7,18 @@ metadata:
   version: 1.0.0
 ---
 
-# RTK Optimizer Skill
+# RTK optimizer skill
 
 **Purpose**: Automatically suggest RTK wrappers for high-verbosity commands to reduce token consumption.
 
-## How It Works
+## How it works
 
 1. **Detect high-verbosity commands** in user requests
 2. **Suggest RTK wrapper** if applicable
 3. **Execute with RTK** when user confirms
 4. **Track savings** over session
 
-## Supported Commands
+## Supported commands
 
 ### Git (>70% reduction)
 - `git log` → `rtk git log` (92.3% reduction)
@@ -46,11 +46,11 @@ metadata:
 - `gh pr view` → `rtk gh pr view` (87% reduction)
 - `gh pr checks` → `rtk gh pr checks` (79% reduction)
 
-### File Operations
+### File operations
 - `ls` → `rtk ls` (condensed output)
 - `grep` → `rtk grep` (filtered output)
 
-## Activation Examples
+## Activation examples
 
 **User**: "Show me the git history"
 **Skill**: Detects `git log` → Suggests `rtk git log` → Explains 92.3% token savings
@@ -58,7 +58,7 @@ metadata:
 **User**: "Find all markdown files"
 **Skill**: Detects `find` → Suggests `rtk find "*.md" .` → Explains 76.3% savings
 
-## Installation Check
+## Installation check
 
 Before first use, verify RTK is installed:
 ```bash
@@ -74,7 +74,7 @@ brew install rtk-ai/tap/rtk
 cargo install rtk
 ```
 
-## Usage Pattern
+## Usage pattern
 
 ```markdown
 # When user requests high-verbosity command:
@@ -87,7 +87,7 @@ cargo install rtk
    "Saved ~13K tokens (baseline: 14K, RTK: 1K)"
 ```
 
-## Session Tracking
+## Session tracking
 
 Optional: Track cumulative savings across session:
 
@@ -96,7 +96,7 @@ Optional: Track cumulative savings across session:
 rtk gain  # Shows total token savings for session (SQLite-backed)
 ```
 
-## Edge Cases
+## Edge cases
 
 - **Small outputs** (<100 chars): Skip RTK (overhead not worth it)
 - **Already using Claude tools**: Grep/Read tools are already optimized
@@ -116,7 +116,7 @@ Use RTK (Rust Token Killer) for high-verbosity commands:
 - file finding and reading
 ```
 
-## Metrics (Verified)
+## Metrics (verified)
 
 Based on real-world testing:
 - `git log`: 13,994 chars → 1,076 chars (92.3% reduction)

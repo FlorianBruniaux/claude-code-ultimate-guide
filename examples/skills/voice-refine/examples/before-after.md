@@ -4,13 +4,13 @@ description: "Real-world examples of verbose voice input transformed into struct
 tags: [reference, tts, skill]
 ---
 
-# Voice Refine - Before/After Examples
+# Voice refine - before/after examples
 
 Real-world transformations from verbose voice input to structured prompts.
 
 ---
 
-## Example 1: React Table Component (French)
+## Example 1: React table component (French)
 
 ### Before (147 words)
 
@@ -47,7 +47,7 @@ Composant React + TypeScript
 
 ---
 
-## Example 2: Authentication Flow (English)
+## Example 2: Authentication flow (English)
 
 ### Before (189 words)
 
@@ -87,7 +87,7 @@ Auth module with middleware and hooks
 
 ---
 
-## Example 3: Bug Report (Mixed)
+## Example 3: Bug report (mixed)
 
 ### Before (112 words)
 
@@ -119,7 +119,7 @@ Likely: upload component, API route
 
 ---
 
-## Example 4: Feature Request (Detailed)
+## Example 4: Feature request (detailed)
 
 ### Before (203 words)
 
@@ -165,7 +165,7 @@ Dashboard page + components
 
 ---
 
-## Compression Summary
+## Compression summary
 
 | Example | Before | After | Ratio | Info Retained |
 |---------|--------|-------|-------|---------------|
@@ -177,16 +177,16 @@ Dashboard page + components
 
 ---
 
-## Patterns Identified
+## Patterns identified
 
-### Common Filler Phrases Removed
+### Common filler phrases removed
 
 - "basically", "like", "you know", "I mean"
 - "kind of", "sort of", "I think", "I guess"
 - "so yeah", "that kind of thing", "or something"
 - "by the way", "oh and", "also"
 
-### Structure Mapping
+### Structure mapping
 
 | Voice Pattern | Structured Section |
 |---------------|-------------------|

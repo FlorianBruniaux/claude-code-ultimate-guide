@@ -4,7 +4,7 @@ description: "Multi-session task coordination using Tasks API and TodoWrite for 
 tags: [workflow, guide, agents]
 ---
 
-# Task Management Workflow
+# Task management workflow
 
 **Version**: Claude Code v2.1.16+
 **Prerequisites**: Understanding of multi-session workflows, basic CLI proficiency
@@ -27,7 +27,7 @@ Task management in Claude Code evolved significantly in v2.1.16 with the introdu
 
 ---
 
-## System Comparison Quick Reference
+## System comparison quick reference
 
 | Feature | TodoWrite (Legacy) | Tasks API (v2.1.16+) |
 |---------|-------------------|---------------------|
@@ -49,11 +49,11 @@ claude
 
 ---
 
-## Workflow Phase 1: Task Planning
+## Workflow phase 1: Task planning
 
 **Goal**: Decompose complex work into trackable, executable units
 
-### Step 1: Analyze Scope
+### Step 1: Analyze scope
 
 Before creating tasks, understand what you're building:
 
@@ -66,7 +66,7 @@ claude
   - Identify integration points"
 ```
 
-### Step 2: Design Task Hierarchy
+### Step 2: Design task hierarchy
 
 Break work into logical phases with dependencies:
 
@@ -79,7 +79,7 @@ Authentication System (parent)
 └── 4. Integration tests (depends on #1, #2, #3)
 ```
 
-### Step 3: Create Task Structure
+### Step 3: Create task structure
 
 Use `TaskCreate` to materialize your plan:
 
@@ -134,17 +134,17 @@ claude
 
 ---
 
-## Workflow Phase 2: Task Execution
+## Workflow phase 2: Task execution
 
 **Goal**: Execute tasks systematically with progress tracking
 
-### Execution Pattern
+### Execution pattern
 
 ```
 TaskList → TaskGet (next pending) → Execute → TaskUpdate → Validate → Repeat
 ```
 
-### Step 1: Discover Next Task
+### Step 1: Discover next task
 
 ```bash
 # Session 2: Start implementation
@@ -163,7 +163,7 @@ Tasks for 'auth-system-v2':
 ⏳ task-tests: Write integration tests [pending, blocked by: task-refresh, task-logout]
 ```
 
-### Step 2: Get Task Details
+### Step 2: Get task details
 
 ```bash
 > "TaskGet task-refresh to see full requirements"
@@ -185,7 +185,7 @@ Tasks for 'auth-system-v2':
 }
 ```
 
-### Step 3: Execute & Update
+### Step 3: Execute & update
 
 ```bash
 > "Mark task-refresh as in_progress, then implement the token refresh endpoint according to requirements"
@@ -212,11 +212,11 @@ Tasks for 'auth-system-v2':
 
 ---
 
-## Workflow Phase 3: Session Management
+## Workflow phase 3: Session management
 
 **Goal**: Seamlessly resume work across sessions and context boundaries
 
-### Persistence Mechanism
+### Persistence mechanism
 
 **Storage location**: `~/.claude/tasks/<task-list-id>/`
 
@@ -226,7 +226,7 @@ Tasks survive:
 - System restarts
 - Multiple days of interruption
 
-#### ⚠️ Field Visibility Limitations
+#### ⚠️ Field visibility limitations
 
 **TaskList returns only**: `id`, `subject`, `status`, `owner`, `blockedBy`
 
@@ -262,7 +262,7 @@ TaskGet(task-auth-tests)    # Get details for next task
 - Keep `description` concise (50-100 words max)
 - Store detailed plans in markdown files (`docs/plan-*.md`)
 
-### Resume Pattern
+### Resume pattern
 
 ```bash
 # Days later, different terminal session
@@ -280,7 +280,7 @@ claude
 > "Continue with next pending task that isn't blocked"
 ```
 
-### Multi-Terminal Coordination
+### Multi-terminal coordination
 
 **Use case**: Run multiple Claude instances working on the same project
 
@@ -309,11 +309,11 @@ export CLAUDE_CODE_TASK_LIST_ID="mycompany-api-auth-refactor"
 
 ---
 
-## Integration: TDD + Task Management
+## Integration: TDD + task management
 
 Combine Test-Driven Development with task tracking for systematic test coverage.
 
-### Pattern: Test-First Task Execution
+### Pattern: Test-First task execution
 
 ```bash
 export CLAUDE_CODE_TASK_LIST_ID="tdd-feature-x"
@@ -330,7 +330,7 @@ claude
   Use TDD red-green-refactor cycle per task."
 ```
 
-### Example: Login Feature with TDD
+### Example: Login feature with TDD
 
 ```bash
 # Phase 1: Red (failing tests)
@@ -364,11 +364,11 @@ TaskCreate: {
 
 ---
 
-## Integration: Plan-Driven + Task Management
+## Integration: Plan-Driven + task management
 
 Convert strategic plans into executable task hierarchies.
 
-### Pattern: Plan-to-Tasks Transformation
+### Pattern: Plan-to-Tasks transformation
 
 ```bash
 # Step 1: Enter plan mode
@@ -385,7 +385,7 @@ claude
 > "Convert this plan into a task hierarchy using TaskCreate"
 ```
 
-### Example: Microservices Migration
+### Example: Microservices migration
 
 **Plan output:**
 ```
@@ -436,9 +436,9 @@ TaskCreate: {
 
 ---
 
-## TodoWrite Migration Guide
+## TodoWrite migration guide
 
-### When to Migrate
+### When to migrate
 
 **Stay with TodoWrite if:**
 - ✅ All work completes in a single session
@@ -453,16 +453,16 @@ TaskCreate: {
 - ✅ Multi-terminal collaboration
 - ✅ Want to resume after context compaction
 
-### Migration Steps
+### Migration steps
 
-#### Step 1: Identify TodoWrite Usage
+#### Step 1: Identify TodoWrite usage
 
 ```bash
 # Find existing TodoWrite usage in your CLAUDE.md or workflows
 grep -r "TodoWrite" .claude/
 ```
 
-#### Step 2: Convert TodoWrite Lists to Tasks
+#### Step 2: Convert TodoWrite lists to tasks
 
 **Before (TodoWrite):**
 ```markdown
@@ -484,7 +484,7 @@ claude
      - Child: 'Write tests' (depends on auth, hashing, sessions)"
 ```
 
-#### Step 3: Update CLAUDE.md Instructions
+#### Step 3: Update CLAUDE.md instructions
 
 **Before:**
 ```markdown
@@ -502,7 +502,7 @@ For complex tasks:
 - Resume with TaskList in new sessions
 ```
 
-#### Step 4: Test Migration
+#### Step 4: Test migration
 
 ```bash
 # Create test task list
@@ -522,11 +522,11 @@ claude
 
 ---
 
-## Patterns & Anti-Patterns
+## Patterns & anti-patterns
 
-### ✅ Good Patterns
+### ✅ Good patterns
 
-#### 1. Hierarchical Task Decomposition
+#### 1. Hierarchical task decomposition
 
 ```bash
 Project (parent)
@@ -540,7 +540,7 @@ Project (parent)
 
 **Why it works**: Mirrors natural project structure, makes dependencies explicit
 
-#### 2. Dependency-First Ordering
+#### 2. Dependency-first ordering
 
 ```bash
 # Always define dependencies when creating tasks
@@ -553,7 +553,7 @@ TaskCreate: {
 
 **Why it works**: Prevents premature execution, enforces quality gates
 
-#### 3. Granular Status Updates
+#### 3. Granular status updates
 
 ```bash
 # Bad: Large task marked completed without intermediate updates
@@ -570,7 +570,7 @@ TaskUpdate: {id: "auth-system", status: "completed"}
 
 **Why it works**: Provides visibility, enables context-aware resumption
 
-#### 4. Metadata-Rich Tasks
+#### 4. Metadata-rich tasks
 
 ```bash
 TaskCreate: {
@@ -589,7 +589,7 @@ TaskCreate: {
 
 **Why it works**: Context-rich resumption, easier delegation, better documentation
 
-### ❌ Anti-Patterns
+### ❌ Anti-patterns
 
 #### 1. Monolithic Tasks (>10 steps)
 
@@ -611,7 +611,7 @@ TaskCreate: {
 }
 ```
 
-#### 2. Missing Dependencies
+#### 2. Missing dependencies
 
 ```bash
 # ❌ BAD: Tasks can execute in wrong order
@@ -625,7 +625,7 @@ TaskCreate: {
 }
 ```
 
-#### 3. Orphan Tasks Without Context
+#### 3. Orphan tasks without context
 
 ```bash
 # ❌ BAD: Future you won't remember what this means
@@ -647,7 +647,7 @@ TaskCreate: {
 }
 ```
 
-#### 4. Status Mismatch
+#### 4. Status mismatch
 
 ```bash
 # ❌ BAD: Task marked completed but tests fail
@@ -738,11 +738,11 @@ TaskGet task-b-id
 
 ---
 
-## Advanced: Custom Task Metadata
+## Advanced: Custom task metadata
 
 Extend tasks with domain-specific metadata for enhanced workflows.
 
-### Metadata Conventions
+### Metadata conventions
 
 **Performance optimization tasks:**
 ```json
@@ -783,7 +783,7 @@ Extend tasks with domain-specific metadata for enhanced workflows.
 }
 ```
 
-### Querying by Metadata
+### Querying by metadata
 
 ```bash
 # Filter tasks by type (requires scripting, not built-in)
@@ -795,7 +795,7 @@ TaskList | jq '.tasks[] | select(.metadata.priority == "high" and .status == "pe
 
 ---
 
-## Session Lifecycle Protocol
+## Session lifecycle protocol
 
 Every agent session follows the same ten-step sequence, from boot to commit. Defining these steps explicitly, rather than leaving them implicit, is what makes sessions reliably resumable after an interruption. Anthropic's own engineering team observed this directly: in a game editor experiment, a bare Claude run failed partway through, while the same workload wrapped in a structured session harness completed successfully (source: [Anthropic Engineering Blog](https://www.anthropic.com/engineering/harness-design-long-running-apps)).
 
@@ -850,7 +850,7 @@ For the failure mode that occurs when the VERIFY step is skipped, see The Verifi
 
 ---
 
-## Related Workflows
+## Related workflows
 
 - **[TDD with Claude](tdd-with-claude.md)** - Test-first development with task tracking
 - **[Plan-Driven Development](plan-driven.md)** - Strategic planning to task hierarchies

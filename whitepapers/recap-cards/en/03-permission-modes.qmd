@@ -15,7 +15,7 @@ format:
   recap-card-typst: default
 ---
 
-## Available Modes
+## Available modes
 
 | Mode | Canonical name | Activation | Recommended use |
 |------|---------------|-----------|-----------------|
@@ -31,7 +31,7 @@ format:
 
 **Note:** `--dangerously-skip-permissions` no longer prompts for writes to `.claude/skills/`, `.claude/agents/`, and `.claude/commands/` (v2.1.121); the rest of `.claude/` (settings, hooks) and `.git/` stay protected even under full bypass. The `auto` mode relies on a classifier model that evaluates each tool call before execution, less friction, not a security boundary.
 
-## Tool Whitelist
+## Tool whitelist
 
 ```bash
 # Allow only specific tools
@@ -63,7 +63,7 @@ claude --allowedTools "Read,Edit,Bash(git *)"
 }
 ```
 
-## Permission Hierarchy
+## Permission hierarchy
 
 Permissions accumulate and are inherited in this order:
 
@@ -75,7 +75,7 @@ Permissions accumulate and are inherited in this order:
 
 Deny rules from any applicable scope take priority over allow rules.
 
-## Glob Patterns for Bash
+## Glob patterns for bash
 
 ```bash
 # Allow git only
@@ -88,7 +88,7 @@ Deny rules from any applicable scope take priority over allow rules.
 "Bash(cat *)", "Bash(ls *)"
 ```
 
-## Best Practices
+## Best practices
 
 **CI/CD**: Pre-approve the tools needed for a headless task and restrict availability with `--tools`. If bypass is necessary, use an isolated environment with restricted credentials and network access.
 

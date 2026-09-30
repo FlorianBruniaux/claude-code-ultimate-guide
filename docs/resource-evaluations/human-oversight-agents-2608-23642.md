@@ -1,4 +1,4 @@
-# AI Agents Push Humans Out of the Loop
+# AI agents push humans out of the loop
 
 **Reviewed:** 2026-09-27. **Score:** 4/5 for framing and proposed evaluation criteria. **Decision:** integrate into existing supervision and learning sections, without claiming a validated intervention.
 

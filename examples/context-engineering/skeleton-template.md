@@ -1,4 +1,4 @@
-# CLAUDE.md: [Project Name]
+# CLAUDE.md: [Project name]
 
 <!--
 HOW TO USE THIS SKELETON
@@ -13,7 +13,7 @@ Key principles:
 - Run `canary-check.sh` weekly to catch drift
 -->
 
-## Project Overview
+## Project overview
 
 <!--
 Write 2-3 sentences answering:
@@ -57,7 +57,7 @@ Cover:
 | Testing | [e.g., Vitest, Jest] | x.x |
 | CI/CD | [e.g., GitHub Actions] | - |
 
-### Folder Structure
+### Folder structure
 
 ```
 src/
@@ -67,7 +67,7 @@ src/
   [example: db/ — Prisma schema, migrations, query functions]
 ```
 
-### Key Architectural Decisions
+### Key architectural decisions
 
 <!--
 Record the "why" behind non-obvious choices. This prevents Claude from suggesting
@@ -82,7 +82,7 @@ Example:
 - [DECISION 1]
 - [DECISION 2]
 
-## Code Standards
+## Code standards
 
 <!--
 Be specific. "Write clean code" is useless. "Use named exports only — no default exports" is actionable.
@@ -104,7 +104,7 @@ Organize by language/domain if you have multiple.
 - Constants: `SCREAMING_SNAKE_CASE`
 - [ADD ANY EXCEPTIONS]
 
-### Error Handling
+### Error handling
 
 <!--
 Undefined behavior here causes the most inconsistency. Be explicit.
@@ -128,9 +128,9 @@ Example:
 
 - [COMMENT RULES]
 
-## Development Workflow
+## Development workflow
 
-### Git Conventions
+### Git conventions
 
 - Branch naming: `[type]/[short-description]` — e.g., `feat/add-refund-flow`, `fix/order-status-race`
 - Commit format: [Conventional Commits](https://www.conventionalcommits.org/)
@@ -143,7 +143,7 @@ Example:
 - Commits should be atomic — one logical change per commit
 - [ADD ANY EXCEPTIONS OR ADDITIONAL TYPES]
 
-### PR Requirements
+### PR requirements
 
 <!--
 Example:
@@ -155,7 +155,7 @@ Example:
 
 - [PR RULES]
 
-### Local Setup
+### Local setup
 
 ```bash
 # Install dependencies
@@ -179,21 +179,21 @@ Vague testing rules produce no tests. Specific rules produce correct tests.
 Tell Claude: what framework, what to test, how to structure tests, what coverage means here.
 -->
 
-### Framework and Location
+### Framework and location
 
 - Framework: [e.g., Vitest]
 - Test files: colocated with source (`foo.ts` → `foo.test.ts`) OR in `__tests__/` [choose one]
 - Run tests: `[TEST COMMAND]`
 - Run with coverage: `[COVERAGE COMMAND]`
 
-### What Requires Tests
+### What requires tests
 
 - All service layer functions (unit tests with mocked dependencies)
 - All API routes (integration tests using supertest or equivalent)
 - All utility functions that contain branching logic
 - **Not required**: pure pass-through functions, simple getters/setters, Prisma model definitions
 
-### Test Structure
+### Test structure
 
 ```typescript
 // Follow this pattern:
@@ -232,7 +232,7 @@ describe('[unit under test]', () => {
 [DEPLOY COMMAND OR PROCESS]
 ```
 
-### Post-Deploy Checks
+### Post-deploy checks
 
 <!--
 Tell Claude what to verify after deploying so it can suggest this when relevant.
@@ -245,7 +245,7 @@ Example:
 
 - [POST-DEPLOY CHECKS]
 
-## What Claude Should NOT Do
+## What Claude should NOT do
 
 <!--
 This section is high-value. Anti-patterns prevent regressions and stop Claude from
@@ -254,13 +254,13 @@ suggesting alternatives that were already rejected.
 Be specific about the pattern AND why it's banned.
 -->
 
-### Technologies Not in Use
+### Technologies not in use
 
 - Do NOT suggest GraphQL — REST is the architectural decision for this project
 - Do NOT use [LIBRARY NAME] — replaced by [ALTERNATIVE] in [VERSION/DATE]
 - [ADD YOUR BANNED TECHNOLOGIES]
 
-### Patterns to Avoid
+### Patterns to avoid
 
 <!--
 Example:
@@ -274,7 +274,7 @@ Example:
 - [ANTI-PATTERN 2]
 - [ANTI-PATTERN 3]
 
-### Known Problem Areas
+### Known problem areas
 
 <!--
 Patterns that caused production bugs or significant rework. Claude should be extra careful here.

@@ -7,7 +7,7 @@ when_to_use: "Use when hitting Claude Code issues, configuration errors, or unex
 disable-model-invocation: true
 ---
 
-# Claude Code Diagnostic Assistant
+# Claude Code diagnostic assistant
 
 Interactive troubleshooting assistant for Claude Code issues. Supports FR/EN.
 
@@ -15,14 +15,14 @@ Interactive troubleshooting assistant for Claude Code issues. Supports FR/EN.
 
 You are an expert diagnostic assistant for Claude Code problems. Your role is to identify issues and provide targeted solutions.
 
-### Step 1: Language Detection
+### Step 1: Language detection
 
 Detect the user's language from their input. If ambiguous, ask:
 > "FR or EN? / Français ou English?"
 
 Respond in the detected language throughout the session.
 
-### Step 2: Fetch Knowledge Base
+### Step 2: Fetch knowledge base
 
 Silently fetch the troubleshooting reference:
 
@@ -33,7 +33,7 @@ curl -sL "https://raw.githubusercontent.com/flobby41/claude-code-ultimate-guide/
 
 Use Section 10.4 (Troubleshooting) as your primary reference.
 
-### Step 3: Environment Scan
+### Step 3: Environment scan
 
 Run the audit scanner to understand the user's setup:
 
@@ -58,7 +58,7 @@ ls -la CLAUDE.md .claude/CLAUDE.md ~/.claude/CLAUDE.md 2>/dev/null
 cat ~/.claude.json 2>/dev/null | jq '.mcpServers // empty' || echo "No MCP config"
 ```
 
-### Step 4: Present Categories
+### Step 4: Present categories
 
 If the user hasn't described a specific problem, present these categories:
 
@@ -90,7 +90,7 @@ If the user hasn't described a specific problem, present these categories:
 
 ---
 
-### Step 5: Correlate & Diagnose
+### Step 5: Correlate & diagnose
 
 Cross-reference:
 - User's symptom/category choice
@@ -131,9 +131,9 @@ Section X.Y of the guide: [Brief description]
 
 ---
 
-## Common Patterns
+## Common patterns
 
-### Pattern: Repeated Permission Prompts
+### Pattern: Repeated permission prompts
 
 **Symptoms**: Claude keeps asking for permission despite settings.json configuration
 
@@ -148,7 +148,7 @@ Section X.Y of the guide: [Brief description]
 cat ~/.claude/settings.json | jq '.permissions.allow'
 ```
 
-### Pattern: MCP Server Not Found
+### Pattern: MCP server not found
 
 **Symptoms**: "Tool not found" or "Server not responding"
 
@@ -166,7 +166,7 @@ cat ~/.claude.json | jq '.mcpServers'
 which mcp-server-sequential
 ```
 
-### Pattern: Context Saturation
+### Pattern: Context saturation
 
 **Symptoms**: Claude loses context, forgets earlier discussion
 
@@ -179,7 +179,7 @@ which mcp-server-sequential
 
 ## Examples
 
-### Example 1: Permission Pattern Mismatch
+### Example 1: Permission pattern mismatch
 
 **User**: "Claude keeps asking me to approve `pnpm install`"
 
@@ -199,7 +199,7 @@ which mcp-server-sequential
 2. Add `"Bash(pnpm *)"` to allow array
 3. Restart Claude Code session
 
-### Example 2: Hooks Not Triggering
+### Example 2: Hooks not triggering
 
 **User**: "My pre-commit hook doesn't run"
 

@@ -1,4 +1,4 @@
-# AI Coding Tools Usage Charter
+# AI coding tools usage charter
 
 > **Template** — Copy to `docs/ai-usage-charter.md` in your organization's docs repo.
 > Adapt sections marked with `[BRACKETS]`.
@@ -22,7 +22,7 @@ This charter defines how [Organization] employees may use AI coding assistants, 
 
 ---
 
-## 2. Approved Tools
+## 2. Approved tools
 
 | Tool | Plan / Tier | Scope | Administered by |
 |------|-------------|-------|----------------|
@@ -34,7 +34,7 @@ This charter defines how [Organization] employees may use AI coding assistants, 
 
 ---
 
-## 3. Data Classification Rules
+## 3. Data classification rules
 
 All data at [Organization] is classified into four levels. Your use of AI tools must comply with this classification.
 
@@ -45,19 +45,19 @@ All data at [Organization] is classified into four levels. Your use of AI tools 
 | **CONFIDENTIAL** | Customer data (non-PII), business secrets, proprietary algorithms | Yes — Enterprise plan only, with approved config | |
 | **RESTRICTED** | PCI card data, PHI, credentials, auth tokens, encryption keys | **Never** | No exceptions |
 
-### Hard Rules
+### Hard rules
 
 - RESTRICTED data **never** enters an AI context window — not in prompts, not in files Claude reads, not as examples.
 - Personal AI accounts (personal Pro subscriptions) may only be used with PUBLIC or INTERNAL data.
 - Company credentials and API keys are RESTRICTED. Never paste them into prompts.
 
-### Technical Enforcement
+### Technical enforcement
 
 Projects handling CONFIDENTIAL or RESTRICTED data must configure `permissions.deny` in `.claude/settings.json` to block AI access to sensitive files. See the [Standard or Regulated tier config](../../guide/security/enterprise-governance.md#4-guardrail-tiers) for ready-to-use configurations.
 
 ---
 
-## 4. Approved Use Cases
+## 4. Approved use cases
 
 The following uses of AI coding assistants are approved without additional review:
 
@@ -72,7 +72,7 @@ The following uses of AI coding assistants are approved without additional revie
 
 ---
 
-## 5. Prohibited Use Cases
+## 5. Prohibited use cases
 
 The following are **not permitted** without explicit written approval:
 
@@ -87,7 +87,7 @@ The following are **not permitted** without explicit written approval:
 
 ---
 
-## 6. MCP Server Governance
+## 6. MCP server governance
 
 Model Context Protocol (MCP) servers extend Claude Code's capabilities and introduce additional risk surface. All MCP servers used on company projects must be:
 
@@ -101,9 +101,9 @@ Unapproved MCPs detected in project configs will be flagged at session start. De
 
 ---
 
-## 7. Code Review and Attribution
+## 7. Code review and attribution
 
-### AI Attribution
+### AI attribution
 
 All pull requests where AI assisted in writing code must include an AI disclosure section:
 
@@ -120,7 +120,7 @@ The standard `Co-Authored-By: Claude <noreply@anthropic.com>` commit trailer (ad
 - Any database schema change
 - Any new external API integration
 
-### Code Review Expectations
+### Code review expectations
 
 AI-generated code is not exempt from code review. Reviewers should apply the same — or stricter — scrutiny to AI-generated sections, particularly for:
 - Security-sensitive paths (auth, crypto, access control)
@@ -131,7 +131,7 @@ AI-generated code is not exempt from code review. Reviewers should apply the sam
 
 ## 8. Accountability
 
-### Developer Responsibilities
+### Developer responsibilities
 
 By using Claude Code on company systems, you agree to:
 - Follow this charter
@@ -140,14 +140,14 @@ By using Claude Code on company systems, you agree to:
 - Complete AI tools onboarding checklist when joining or switching teams
 - Not circumvent governance controls (hooks, deny rules, registry)
 
-### Team Lead Responsibilities
+### Team lead responsibilities
 
 - Ensure projects are configured with the appropriate guardrail tier
 - Review MCP registry quarterly
 - Include AI charter in team onboarding
 - Escalate charter violations per §9
 
-### Platform Team Responsibilities
+### Platform team responsibilities
 
 - Maintain shared governance config (settings.json templates, hooks)
 - Review MCP approval requests within 1 week
@@ -156,7 +156,7 @@ By using Claude Code on company systems, you agree to:
 
 ---
 
-## 9. Incident Response
+## 9. Incident response
 
 ### If you suspect data exposure
 
@@ -175,7 +175,7 @@ By using Claude Code on company systems, you agree to:
 
 ---
 
-## 10. Compliance Mapping
+## 10. Compliance mapping
 
 This charter addresses the following compliance requirements:
 
@@ -189,7 +189,7 @@ This charter addresses the following compliance requirements:
 
 ---
 
-## 11. Revision History
+## 11. Revision history
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|

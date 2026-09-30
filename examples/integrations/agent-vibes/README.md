@@ -4,7 +4,7 @@ description: "Community MCP server adding text-to-speech capabilities to Claude 
 tags: [mcp, integration, plugin]
 ---
 
-# Agent Vibes TTS - Text-to-Speech for Claude Code
+# Agent Vibes TTS - text-to-speech for Claude Code
 
 **Status**: Community MCP Server (optional)
 **Version**: 3.0.0
@@ -13,7 +13,7 @@ tags: [mcp, integration, plugin]
 
 ---
 
-## Quick Decision Matrix
+## Quick decision matrix
 
 Should you install Agent Vibes? Use this matrix:
 
@@ -29,7 +29,7 @@ Should you install Agent Vibes? Use this matrix:
 
 ---
 
-## 30-Second Overview
+## 30-second overview
 
 Agent Vibes adds **audible narration** to Claude Code responses using:
 
@@ -44,7 +44,7 @@ Agent Vibes adds **audible narration** to Claude Code responses using:
 
 ---
 
-## How It Works
+## How it works
 
 ### Architecture
 
@@ -77,7 +77,7 @@ Claude Code Response
 
 ---
 
-## Quick Start (5 Minutes)
+## Quick start (5 minutes)
 
 ### Prerequisites
 
@@ -101,7 +101,7 @@ ls -la ~/.claude/piper-voices/
 
 **Stuck?** See [Full Installation Guide](./installation.md) or [Troubleshooting](./troubleshooting.md)
 
-### First Test
+### First test
 
 ```bash
 # Launch Claude Code
@@ -117,9 +117,9 @@ You should hear audio narration!
 
 ---
 
-## Activation & Deactivation
+## Activation & deactivation
 
-### Quick Mute/Unmute
+### Quick mute/Unmute
 
 ```bash
 # In Claude Code
@@ -132,7 +132,7 @@ touch ~/.agentvibes-muted           # Global mute
 rm .claude/agentvibes-muted         # Project unmute
 ```
 
-### Mute Hierarchy
+### Mute hierarchy
 
 ```
 Priority 1: .claude/agentvibes-unmuted  (project override)
@@ -147,7 +147,7 @@ touch ~/.agentvibes-muted                 # All projects muted
 touch .claude/agentvibes-unmuted          # This project unmuted
 ```
 
-### Complete Uninstall
+### Complete uninstall
 
 ```bash
 # Automated uninstall
@@ -163,9 +163,9 @@ pipx uninstall piper-tts
 
 ---
 
-## Essential Commands
+## Essential commands
 
-### Provider Management
+### Provider management
 
 ```bash
 /agent-vibes:provider list              # List available providers
@@ -174,7 +174,7 @@ pipx uninstall piper-tts
 /agent-vibes:provider info              # Current provider details
 ```
 
-### Voice Management
+### Voice management
 
 ```bash
 /agent-vibes:list                       # List all voices
@@ -185,7 +185,7 @@ pipx uninstall piper-tts
 /agent-vibes:sample fr_FR-tom-medium    # Test specific voice
 ```
 
-### Audio Control
+### Audio control
 
 ```bash
 /agent-vibes:mute                       # Mute all TTS
@@ -196,7 +196,7 @@ pipx uninstall piper-tts
 /agent-vibes:verbosity medium           # Speak more
 ```
 
-### Effects & Personalization
+### Effects & personalization
 
 ```bash
 /agent-vibes:effects reverb light       # Add light reverb
@@ -207,7 +207,7 @@ pipx uninstall piper-tts
 /agent-vibes:personality professional   # Professional mode
 ```
 
-### Utility Commands
+### Utility commands
 
 ```bash
 /agent-vibes:hide                       # Hide all 34 commands
@@ -220,7 +220,7 @@ pipx uninstall piper-tts
 
 ---
 
-## Voice Catalog Quick Reference
+## Voice catalog quick reference
 
 ### French Voices (4 models, 128 speakers)
 
@@ -247,9 +247,9 @@ pipx uninstall piper-tts
 
 ---
 
-## Common Use Cases
+## Common use cases
 
-### 1. Listen During Code Reviews
+### 1. Listen during code reviews
 
 ```bash
 # Enable TTS with low verbosity
@@ -259,7 +259,7 @@ pipx uninstall piper-tts
 > "Review the authentication middleware for security issues"
 ```
 
-### 2. Audio Notifications for Long Tasks
+### 2. Audio notifications for long tasks
 
 ```bash
 # Run long test suite, get notified when done
@@ -267,7 +267,7 @@ pipx uninstall piper-tts
 # → Audio alert when tests complete
 ```
 
-### 3. Language Learning Mode
+### 3. Language learning mode
 
 ```bash
 # Enable dual-language TTS
@@ -279,7 +279,7 @@ pipx uninstall piper-tts
 > "Explain dependency injection"
 ```
 
-### 4. Custom Hooks (Errors Only)
+### 4. Custom hooks (errors only)
 
 ```bash
 # Create selective TTS hook
@@ -300,9 +300,9 @@ chmod +x .claude/hooks/speak-errors-only.sh
 
 ---
 
-## Performance Tips
+## Performance tips
 
-### Reduce Latency
+### Reduce latency
 
 ```bash
 # Use low-quality voice (faster generation)
@@ -317,7 +317,7 @@ chmod +x .claude/hooks/speak-errors-only.sh
 # Result: ~150ms latency instead of ~280ms
 ```
 
-### Optimize for Battery
+### Optimize for battery
 
 ```bash
 # macOS Say (instant, no CPU burst)
@@ -326,7 +326,7 @@ chmod +x .claude/hooks/speak-errors-only.sh
 # Trade-off: Lower quality, but 0ms generation time
 ```
 
-### Reduce Distraction
+### Reduce distraction
 
 ```bash
 # Minimum verbosity
@@ -343,7 +343,7 @@ chmod +x .claude/hooks/speak-errors-only.sh
 
 ## Troubleshooting
 
-### No Audio
+### No audio
 
 ```bash
 # 1. Check mute status
@@ -359,7 +359,7 @@ echo "Test" | piper -m ~/.claude/piper-voices/fr_FR-tom-medium.onnx \
 
 **Solution**: See [Troubleshooting Guide](./troubleshooting.md) for detailed diagnostics.
 
-### Voice Sounds Robotic
+### Voice sounds robotic
 
 **Solution**: Switch to high-quality model:
 ```bash
@@ -371,7 +371,7 @@ curl -L -o fr_FR-siwis-high.onnx \
 /agent-vibes:switch fr_FR-siwis-high
 ```
 
-### 34 Commands Clutter Command Palette
+### 34 commands clutter command palette
 
 **Solution**: Hide them:
 ```bash
@@ -385,7 +385,7 @@ curl -L -o fr_FR-siwis-high.onnx \
 
 ---
 
-## Configuration Files
+## Configuration files
 
 | File | Purpose | Format |
 |------|---------|--------|
@@ -398,7 +398,7 @@ curl -L -o fr_FR-siwis-high.onnx \
 
 ---
 
-## Related Documentation
+## Related documentation
 
 - **[Installation Guide](./installation.md)** - Complete 18-minute setup procedure
 - **[Voice Catalog](./voice-catalog.md)** - All 15 voices with audio samples

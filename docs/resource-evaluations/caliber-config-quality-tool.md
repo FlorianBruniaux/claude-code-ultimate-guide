@@ -91,7 +91,7 @@ Score 3/5 confirmed. Key points raised:
 - **Placement in guide**: Should NOT sit alongside AIBlueprint (scaffolding) — different operational category. Belongs in its own "Configuration Quality" subsection, bridging "one-project drift" (Caliber) and "org-scale distribution" (Packmind).
 - **Risk of not integrating**: Low to moderate. The drift detection gap is real but not critical for most users starting from scratch.
 
-## ✅ Fact-Check
+## ✅ Fact-check
 
 | Affirmation | Vérifiée | Source |
 |-------------|----------|--------|

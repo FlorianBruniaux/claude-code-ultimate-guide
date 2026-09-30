@@ -1,10 +1,10 @@
-# Resource Evaluation: Nick Tune - Code Quality Feedback Loops
+# Resource evaluation: Nick tune - code quality feedback loops
 
 **Evaluated**: 2026-02-01
 **Score**: 2/5 (Marginal)
 **Decision**: Do not integrate
 
-## Resource Details
+## Resource details
 
 - **URL**: https://nick-tune.me/blog/2026-02-01-code-quality-feedback-loops/
 - **Author**: Nick Tune
@@ -19,7 +19,7 @@ Article describes a workflow using custom `/post-merge-reflection` command that:
 3. Implements multi-layered solutions (lint rules, dependency-cruiser, docs)
 4. Uses `--remaining-feedback-items` flag for batching feedback
 
-## Scoring Breakdown
+## Scoring breakdown
 
 | Criterion | Score | Weight | Weighted | Justification |
 |-----------|-------|--------|----------|---------------|
@@ -31,7 +31,7 @@ Article describes a workflow using custom `/post-merge-reflection` command that:
 | Evidence Quality | 1/5 | 10% | 0.10 | Zero quantified data or benchmarks |
 | **Total** | **2.15/5** | | **2.15** | **Marginal value** |
 
-## Overlap Analysis
+## Overlap analysis
 
 | Aspect | Resource | Guide Coverage | Overlap |
 |--------|----------|----------------|---------|
@@ -43,7 +43,7 @@ Article describes a workflow using custom `/post-merge-reflection` command that:
 
 **Overall Overlap**: ~90% with existing content
 
-## Challenge Review
+## Challenge review
 
 **Agent**: technical-writer
 **Recommendation**: Downgrade to 2/5
@@ -54,7 +54,7 @@ Article describes a workflow using custom `/post-merge-reflection` command that:
 - Source credibility unverified (author credentials not established)
 - High risk of content duplication if integrated
 
-## Fact-Check Results
+## Fact-check results
 
 | Claim | Status | Source |
 |-------|--------|--------|
@@ -68,7 +68,7 @@ Article describes a workflow using custom `/post-merge-reflection` command that:
 
 **Factual accuracy**: Clean (no errors detected)
 
-## Final Decision
+## Final decision
 
 **Action**: **Do not integrate**
 
@@ -83,7 +83,7 @@ Article describes a workflow using custom `/post-merge-reflection` command that:
 
 **Alternative considered**: Add 1-line mention in `devops-sre.md` → Rejected (not worth the clutter)
 
-## Future Reconsideration
+## Future reconsideration
 
 Monitor for:
 - Community adoption signals (GitHub stars, blog citations)

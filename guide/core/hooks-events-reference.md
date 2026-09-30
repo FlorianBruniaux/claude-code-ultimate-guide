@@ -4,7 +4,7 @@ description: "Complete reference for all 33 Claude Code hook events: matcher fie
 tags: [reference, hooks]
 ---
 
-# Hooks Events Reference
+# Hooks events reference
 
 Complete reference for all 33 Claude Code hook events: matcher fields, input schemas, decision control, and timeout defaults. Source: official Anthropic documentation ([hooks reference](https://code.claude.com/docs/en/hooks)), checked against Claude Code v2.1.284.
 
@@ -14,7 +14,7 @@ See also: [Event-Driven Agent Automation](../workflows/event-driven-agents.md) f
 
 ---
 
-## Quick Reference
+## Quick reference
 
 | Event | Fires when | Matcher field | Can block? | Default timeout |
 |-------|-----------|---------------|------------|----------------|
@@ -56,7 +56,7 @@ See also: [Event-Driven Agent Automation](../workflows/event-driven-agents.md) f
 
 ---
 
-## Matcher Values by Event
+## Matcher values by event
 
 The `matcher` field filters on a different field depending on the event type.
 
@@ -155,7 +155,7 @@ Adding a `matcher` field to these events is silently ignored.
 
 ---
 
-## Exit Code 2 Behavior Per Event
+## Exit code 2 behavior per event
 
 Exit code 2 is the only exit code that blocks through the code alone. Claude Code reads JSON output fields from stdout on every exit code, not only 0: for events that use the standard decision model, a valid JSON decision (for example `permissionDecision: "deny"` or `decision: "block"`) takes effect with exit 0 or any other non-2 code, and exit 2 still blocks even if the JSON says `allow`. Exit code 1 without valid JSON is a non-blocking error: the action proceeds and the first line of stderr appears in the transcript. `WorktreeCreate` and `WorktreeRemove` are the exceptions: any non-zero code fails them.
 
@@ -194,7 +194,7 @@ Exit code 2 is the only exit code that blocks through the code alone. Claude Cod
 
 ---
 
-## Decision Control Format Per Event
+## Decision control format per event
 
 ### Top-level `decision` field
 
@@ -352,7 +352,7 @@ Same format as Elicitation output. Overrides what the user submitted.
 
 ---
 
-## Key Input Fields Per Event
+## Key input fields per event
 
 All events receive: `session_id`, `transcript_path`, `cwd`, `hook_event_name`, and usually `permission_mode`. Subagent hooks also receive `agent_id` and `agent_type`.
 
@@ -394,7 +394,7 @@ All events receive: `session_id`, `transcript_path`, `cwd`, `hook_event_name`, a
 
 ---
 
-## Hook Handler Fields
+## Hook handler fields
 
 ### Common fields (all types)
 
@@ -471,7 +471,7 @@ On `PermissionDenied`, prompt and agent hooks run but their output is discarded.
 
 ---
 
-## Path Placeholders
+## Path placeholders
 
 | Placeholder | Resolves to |
 |-------------|-------------|
@@ -497,7 +497,7 @@ Use append (`>>`) to preserve variables set by other hooks.
 
 ---
 
-## Common Gotchas
+## Common gotchas
 
 **Stop hook continuation cap**: both `decision: "block"` and `additionalContext` go through the `stop_hook_active` input and the 8-consecutive-continuation cap. Read `stop_hook_active` from stdin and exit 0 when it is `true` to let Claude stop cleanly.
 

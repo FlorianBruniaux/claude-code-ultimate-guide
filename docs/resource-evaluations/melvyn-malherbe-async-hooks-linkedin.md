@@ -1,4 +1,4 @@
-# Resource Evaluation: Melvyn Malherbe - Async Hooks Announcement (LinkedIn)
+# Resource evaluation: Melvyn Malherbe - async hooks announcement (LinkedIn)
 
 **Evaluated**: 2026-01-30
 **Evaluator**: Claude Sonnet 4.5
@@ -6,7 +6,7 @@
 
 ---
 
-## Source Information
+## Source information
 
 **Type**: LinkedIn Post
 **Author**: Melvyn Malherbe (Web Development Educator, 26.9K followers)
@@ -16,7 +16,7 @@
 
 ---
 
-## Content Summary
+## Content summary
 
 The post announces the introduction of asynchronous hooks in Claude Code with the following claims:
 
@@ -45,7 +45,7 @@ The post announces the introduction of asynchronous hooks in Claude Code with th
 4. **Commercial Link**: mlv.sh/ccli redirects to a paid product ("Claude Code CLI Setup Pro"), not technical documentation
 5. **No Actionable Content**: Zero code examples, zero configuration guidance, zero technical depth
 
-### What the Guide Already Has
+### What the guide already has
 
 | Aspect | LinkedIn Post | Ultimate Guide (Before Evaluation) |
 |--------|--------------|-----------------------------------|
@@ -57,7 +57,7 @@ The post announces the introduction of asynchronous hooks in Claude Code with th
 
 ---
 
-## Gap Identified
+## Gap identified
 
 **Critical Finding**: While the guide documents PostToolUse hooks extensively, it does NOT explicitly document:
 
@@ -73,9 +73,9 @@ This gap was discovered through:
 
 ---
 
-## Actions Taken
+## Actions taken
 
-### 1. Guide Enhancement (Completed)
+### 1. Guide enhancement (completed)
 
 **Added to guide/ultimate-guide.md** (after line 6073):
 - Section "Hook Execution Model (v2.1.0+)"
@@ -95,13 +95,13 @@ hooks_decision_matrix: 6091
 hooks_async_limitations: "no exit code feedback, no additionalContext, no blocking"
 ```
 
-### 2. LinkedIn Post Rejected
+### 2. LinkedIn post rejected
 
 **Reason**: No technical value beyond triggering gap discovery
 
 ---
 
-## Challenge (Technical-Writer Agent)
+## Challenge (technical-writer agent)
 
 The technical-writer agent correctly identified:
 
@@ -114,7 +114,7 @@ The technical-writer agent correctly identified:
 
 ---
 
-## Fact-Check Results
+## Fact-check results
 
 | Claim | Verified | Source |
 |-------|----------|--------|
@@ -127,7 +127,7 @@ The technical-writer agent correctly identified:
 
 ---
 
-## Final Decision
+## Final decision
 
 **Score**: 1/5 (Low - Reject)
 **Action**: Do NOT integrate LinkedIn post into guide
@@ -147,7 +147,7 @@ The technical-writer agent correctly identified:
 
 ---
 
-## Lessons Learned
+## Lessons learned
 
 **Positive Outcome**: A low-value marketing post triggered discovery of a legitimate documentation gap. The gap has been addressed with comprehensive async hooks documentation.
 

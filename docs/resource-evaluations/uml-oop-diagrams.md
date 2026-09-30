@@ -1,4 +1,4 @@
-# Évaluation: UML Diagrams for OOP Codebases
+# Évaluation: UML diagrams for OOP codebases
 
 **Date**: 2026-01-25
 **Source**: LinkedIn Post - Dennis Piskovatskov
@@ -60,7 +60,7 @@ Pattern suggéré : utiliser des diagrammes d'architecture (UML/Mermaid) comme c
 - Projets Java/Spring avec polymorphisme profond
 - Quand l'overview de symboles Serena est insuffisant
 
-## Key Insight
+## Key insight
 
 > "Context structure matters more than context size" — Les relations explicites améliorent le raisonnement LLM sur les architectures OOP.
 

@@ -1,4 +1,4 @@
-# Template Catalog
+# Template catalog
 
 Auto-generated template index with complexity, time, and domain filters.
 
@@ -15,13 +15,13 @@ Auto-generated template index with complexity, time, and domain filters.
 - **Workflows**: 5
 - **Scripts**: 2
 
-## Filter by Complexity
+## Filter by complexity
 
 - **Beginner**: 0 templates
 - **Intermediate**: 242 templates
 - **Advanced**: 0 templates
 
-## Filter by Time
+## Filter by time
 
 - **15 min**: 1 templates
 - **30 min**: 240 templates
@@ -29,7 +29,7 @@ Auto-generated template index with complexity, time, and domain filters.
 
 ---
 
-## By Category
+## By category
 
 ### Agents (23)
 
@@ -779,7 +779,7 @@ Auto-generated template index with complexity, time, and domain filters.
 
 ---
 
-## By Domain
+## By domain
 
 ### Architecture (1)
 
@@ -1034,7 +1034,7 @@ Auto-generated template index with complexity, time, and domain filters.
 
 ---
 
-## For Beginners
+## For beginners
 
 Templates recommended for first-time users:
 
@@ -1042,7 +1042,7 @@ No templates explicitly marked as beginner-friendly yet.
 
 ---
 
-## Metadata Reference
+## Metadata reference
 
 Templates can include the following metadata in YAML frontmatter:
 

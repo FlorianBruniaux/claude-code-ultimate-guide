@@ -6,7 +6,7 @@ effort: medium
 disable-model-invocation: true
 ---
 
-# Canary: Post-Deploy Monitoring
+# Canary: Post-Deploy monitoring
 
 Watch a live application after deployment. Alert on errors and regressions. Compare against a pre-deploy baseline.
 
@@ -87,7 +87,7 @@ Then **STOP** and tell the user: "Baseline captured. Deploy your changes, then r
 
 ---
 
-### Phase 3: Page Discovery
+### Phase 3: Page discovery
 
 If no pages were specified, auto-discover pages to monitor.
 
@@ -108,7 +108,7 @@ Default pages to monitor if nothing found: `/`, and the homepage only.
 
 ---
 
-### Phase 4: Monitoring Loop
+### Phase 4: Monitoring loop
 
 Monitor for the specified duration (default: 10 minutes). Run a check every 60 seconds.
 
@@ -167,7 +167,7 @@ Options:
 
 ---
 
-### Phase 5: Health Report
+### Phase 5: Health report
 
 After monitoring completes (or user stops), produce a summary.
 
@@ -198,7 +198,7 @@ Save report to `.canary/reports/<date>-canary.md`.
 
 ---
 
-### Phase 6: Baseline Update
+### Phase 6: Baseline update
 
 If the deploy is healthy and the user wants to update the baseline:
 
@@ -209,7 +209,7 @@ echo "Baseline updated to commit $(git rev-parse --short HEAD)"
 
 ---
 
-## Output Format
+## Output format
 
 See Phase 5 above for the full CANARY REPORT template.
 
@@ -238,7 +238,7 @@ Inline alert format (during monitoring):
 4. **MEDIUM alerts (performance)** may be cache warming; give it 2-3 more checks before acting
 5. **Keep `.canary/baselines/` in git** so any team member can run canary against the same baseline
 
-## Related Commands
+## Related commands
 
 - `/ship`: pre-deploy checklist (run before deploying)
 - `/land-and-deploy`: full merge-to-verify pipeline (runs canary automatically)

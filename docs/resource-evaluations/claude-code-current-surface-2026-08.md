@@ -5,7 +5,7 @@ status: verified-current-official-docs
 sources: official Claude Code documentation
 ---
 
-# Claude Code Current Surface: Computer Use, Plugin Hints, Apps Gateway, and Artifacts
+# Claude Code current surface: Computer use, plugin hints, apps gateway, and artifacts
 
 ## Verdict
 
@@ -25,7 +25,7 @@ The official [documentation index](https://code.claude.com/docs/llms.txt) was re
 
 ## Current product implications
 
-### Computer Use
+### Computer use
 
 Computer Use is distinct from Bash, browser automation, and MCP. The official order prefers an MCP server, Bash, or Claude in Chrome before screen control. Its operation on the actual desktop creates a separate trust boundary: per-application approval and `Esc` stopping reduce risk, but they do not sandbox the approved application or its visible data. The dedicated guide page is [Computer Use in Claude Code](../../guide/core/computer-use.md).
 

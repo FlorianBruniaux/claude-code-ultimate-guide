@@ -1,4 +1,4 @@
-# Resource Evaluation #081: Rippletide Code: Runtime Rule Enforcement for Claude Code
+# Resource evaluation #081: Rippletide code: Runtime rule enforcement for Claude Code
 
 **Source:** LinkedIn post (Patrick Joubert, CEO Rippletide) + [rippletide.com/dev](https://www.rippletide.com/dev)
 **Type:** Commercial tool — hook-native rule enforcement layer for Claude Code
@@ -7,7 +7,7 @@
 
 ---
 
-## 📄 Content Summary
+## 📄 Content summary
 
 1. **Problem addressed**: CLAUDE.md rules degrade at scale — after ~40 rules, Claude Code follows them inconsistently; context compaction causes rule loss between sessions. Per Rippletide: "50% of Claude Code CLAUDE.md issues are about rules being ignored" (18+ public GitHub reports cited).
 
@@ -21,7 +21,7 @@
 
 ---
 
-## 🎯 Relevance Score
+## 🎯 Relevance score
 
 | Score | Meaning |
 |-------|---------|
@@ -102,7 +102,7 @@ Key points raised by challenge:
 
 ---
 
-## ✅ Fact-Check
+## ✅ Fact-check
 
 | Claim | Verified | Source |
 |-------|----------|--------|
@@ -124,7 +124,7 @@ Key points raised by challenge:
 
 ---
 
-## 🎯 Final Decision
+## 🎯 Final decision
 
 - **Score**: 3/5
 - **Action**: Integrate with caveats — pattern documentation in ultimate-guide.md + limited entry in third-party-tools.md + Known Gaps table update

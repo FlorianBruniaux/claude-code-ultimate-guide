@@ -1,4 +1,4 @@
-# Resource Evaluation: "AI Fatigue is Real and Nobody Talks About It"
+# Resource evaluation: "AI Fatigue is Real and Nobody Talks About It"
 
 **Date:** 2026-02-10
 **Evaluator:** Claude Code (eval-resource skill)
@@ -6,7 +6,7 @@
 
 ---
 
-## Resource Details
+## Resource details
 
 | Field | Value |
 |-------|-------|
@@ -41,7 +41,7 @@ Khare argues that AI tools create a productivity paradox: faster task completion
 
 ## Evaluation Score: **3/5** (Pertinent — complément utile)
 
-### Scoring Breakdown
+### Scoring breakdown
 
 | Criterion | Score | Justification |
 |-----------|-------|---------------|
@@ -53,7 +53,7 @@ Khare argues that AI tools create a productivity paradox: faster task completion
 
 **Average:** 2.6/5 → **Rounded to 3/5**
 
-### Comparison to Guide Content
+### Comparison to guide content
 
 | Aspect | Article (Khare) | Guide (Current) |
 |--------|-----------------|-----------------|
@@ -71,7 +71,7 @@ Khare argues that AI tools create a productivity paradox: faster task completion
 
 ---
 
-## Fact-Check Results
+## Fact-check results
 
 | Claim | Verified | Source | Notes |
 |-------|----------|--------|-------|
@@ -88,7 +88,7 @@ Khare argues that AI tools create a productivity paradox: faster task completion
 
 ---
 
-## Technical-Writer Challenge Summary
+## Technical-Writer challenge summary
 
 **Initial score:** 4/5 (overestimated)
 **Challenged score:** 2/5 (technical-writer argued for downgrade)
@@ -111,13 +111,13 @@ Khare argues that AI tools create a productivity paradox: faster task completion
 
 ---
 
-## Integration Decision
+## Integration decision
 
 **Action:** Full integration (all 3 priorities, ~200 words total)
 
 **Locations:** `guide/roles/learning-with-ai.md` (3 locations)
 
-### Priority 1: Red Flags Checklist (line 869)
+### Priority 1: Red flags checklist (line 869)
 
 **What was added:**
 
@@ -163,7 +163,7 @@ This checkpoint prevents compounding exhaustion from extended sessions with dimi
 
 ---
 
-## Key Takeaways
+## Key takeaways
 
 1. **Score justification:** 3/5 reflects moderate relevance due to high overlap with superior existing content (RCT studies vs anecdotes)
 

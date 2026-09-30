@@ -4,7 +4,7 @@ description: "GitHub PR template with built-in AI assistance disclosure section"
 tags: [template, config, ai-ecosystem]
 ---
 
-# Pull Request Template with AI Disclosure
+# Pull request template with AI disclosure
 
 > Save as `.github/PULL_REQUEST_TEMPLATE.md` in your repository
 
@@ -14,7 +14,7 @@ tags: [template, config, ai-ecosystem]
 
 <!-- Describe your changes in detail -->
 
-## Type of Change
+## Type of change
 
 <!-- Check the relevant option -->
 
@@ -24,7 +24,7 @@ tags: [template, config, ai-ecosystem]
 - [ ] Documentation update
 - [ ] Refactoring (no functional changes)
 
-## AI Assistance
+## AI assistance
 
 <!-- Check all that apply -->
 
@@ -47,6 +47,6 @@ tags: [template, config, ai-ecosystem]
 - [ ] New and existing tests pass locally
 - [ ] I have updated documentation if needed
 
-## Additional Context
+## Additional context
 
 <!-- Add any other context about the PR here -->

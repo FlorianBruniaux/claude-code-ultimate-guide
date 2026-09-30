@@ -1,4 +1,4 @@
-# Evaluation: Simone Ruggiero - qmd Token Savings (Medium)
+# Evaluation: Simone Ruggiero - qmd token savings (medium)
 
 **Date**: 2026-02-14
 **Evaluator**: Claude Opus 4.6
@@ -17,7 +17,7 @@ Simone Ruggiero (Feb 1, 2026) promotes **qmd** (github.com/tobi/qmd), a local do
 
 ---
 
-## Content Summary
+## Content summary
 
 **Main Points**:
 - **qmd** is a local document indexer by Tobi Lutke (Shopify CEO)
@@ -29,7 +29,7 @@ Simone Ruggiero (Feb 1, 2026) promotes **qmd** (github.com/tobi/qmd), a local do
 
 ---
 
-## Fact-Check Results
+## Fact-check results
 
 | Claim | Verified | Verdict |
 |-------|----------|---------|
@@ -39,7 +39,7 @@ Simone Ruggiero (Feb 1, 2026) promotes **qmd** (github.com/tobi/qmd), a local do
 | **"500 lines = 10K tokens"** | ⚠️ MISLEADING | Assumes every file read sends full content. Claude Code already has intelligent context management and doesn't blindly read entire files |
 | **"Replaces Glob/Grep/Read"** | ⚠️ OVERSIMPLIFIED | Semantic search complements but doesn't replace exact pattern matching (Grep) or file discovery (Glob) |
 
-### Factual Corrections
+### Factual corrections
 
 **Major issue**: The 95% claim assumes a worst-case baseline (reading entire files raw) and compares against best-case indexed retrieval. Real-world savings depend on:
 1. Whether Claude Code would have read the full file anyway (often it reads specific line ranges)
@@ -53,7 +53,7 @@ Simone Ruggiero (Feb 1, 2026) promotes **qmd** (github.com/tobi/qmd), a local do
 
 ---
 
-## Scoring & Decision
+## Scoring & decision
 
 ### Score: **2/5** (Marginal)
 
@@ -72,7 +72,7 @@ Simone Ruggiero (Feb 1, 2026) promotes **qmd** (github.com/tobi/qmd), a local do
 
 ---
 
-## Comparative Analysis
+## Comparative analysis
 
 | Aspect | qmd | grepai (MCP) | reference.yaml |
 |--------|-----|-------------|----------------|
@@ -89,7 +89,7 @@ Simone Ruggiero (Feb 1, 2026) promotes **qmd** (github.com/tobi/qmd), a local do
 
 ---
 
-## Why NOT Integrate
+## Why NOT integrate
 
 1. **Already covered**: Semantic code search MCP = grepai (same capability, already available)
 2. **Unverifiable claims**: 95% savings claim has no benchmark, no methodology, no reproducible test
@@ -99,13 +99,13 @@ Simone Ruggiero (Feb 1, 2026) promotes **qmd** (github.com/tobi/qmd), a local do
 
 ---
 
-## Final Decision
+## Final decision
 
 - **Score**: **2/5** (Marginal - Do not integrate)
 - **Action**: **NOT APPROVED** - No integration, no watch-list addition
 - **Confidence**: **High** (concept valid but redundant with existing tools and patterns)
 
-### What Would Change This Score?
+### What would change this score?
 
 - **Independent benchmarks** comparing qmd vs grepai vs native Claude Code operations → could justify a mention
 - **Unique feature** not available in grepai (e.g., cross-repo indexing, natural language queries with context) → could merit evaluation

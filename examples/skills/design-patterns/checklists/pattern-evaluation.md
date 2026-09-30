@@ -4,11 +4,11 @@ description: "Systematic scoring criteria for evaluating design pattern implemen
 tags: [cheatsheet, design-patterns, code-review]
 ---
 
-# Design Pattern Quality Evaluation Checklist
+# Design pattern quality evaluation checklist
 
 Systematic criteria for evaluating the quality of design pattern implementations.
 
-## Evaluation Criteria
+## Evaluation criteria
 
 Each criterion is scored **0-10**, where:
 - **9-10**: Exemplary, reference-quality implementation
@@ -25,7 +25,7 @@ Each criterion is scored **0-10**, where:
 
 **Question**: Does the implementation correctly follow the canonical pattern structure?
 
-### Scoring Guidelines
+### Scoring guidelines
 
 | Score | Description |
 |-------|-------------|
@@ -71,7 +71,7 @@ Each criterion is scored **0-10**, where:
 - [ ] Can stack multiple decorators
 - [ ] Maintains interface contract
 
-### Common Mistakes (Deductions)
+### Common mistakes (deductions)
 
 - **-2**: Missing key component (e.g., Singleton without private constructor)
 - **-3**: Incorrect delegation (e.g., Decorator not calling wrapped object)
@@ -83,7 +83,7 @@ Each criterion is scored **0-10**, where:
 
 **Question**: How easy is it to write unit tests for this implementation?
 
-### Scoring Guidelines
+### Scoring guidelines
 
 | Score | Description |
 |-------|-------------|
@@ -103,7 +103,7 @@ Each criterion is scored **0-10**, where:
 - [ ] No static methods that can't be mocked
 - [ ] Side effects are minimized or controllable
 
-### Red Flags (Deductions)
+### Red flags (deductions)
 
 - **-2**: Using `getInstance()` instead of dependency injection
 - **-2**: Hard-coded concrete class instantiation
@@ -148,11 +148,11 @@ const service = new PaymentService(mockGateway, mockConfig);
 
 ---
 
-## 3. Single Responsibility Principle (0-10)
+## 3. Single responsibility principle (0-10)
 
 **Question**: Does the component have one, clearly defined responsibility?
 
-### Scoring Guidelines
+### Scoring guidelines
 
 | Score | Description |
 |-------|-------------|
@@ -170,7 +170,7 @@ const service = new PaymentService(mockGateway, mockConfig);
 - [ ] Class name clearly reflects its responsibility
 - [ ] No "and" in class name or description (e.g., "UserManagerAndLogger" is bad)
 
-### Red Flags (Deductions)
+### Red flags (deductions)
 
 - **-2**: Class handles 2 distinct concerns
 - **-3**: Class handles 3+ concerns
@@ -213,11 +213,11 @@ class UserService {
 
 ---
 
-## 4. Open/Closed Principle (0-10)
+## 4. Open/closed principle (0-10)
 
 **Question**: Can the component be extended without modifying its source code?
 
-### Scoring Guidelines
+### Scoring guidelines
 
 | Score | Description |
 |-------|-------------|
@@ -235,7 +235,7 @@ class UserService {
 - [ ] No switch statements on types (if adding new type requires modification)
 - [ ] Dependency inversion (depends on abstractions)
 
-### Red Flags (Deductions)
+### Red flags (deductions)
 
 - **-2**: Switch on type (adding new type requires modification)
 - **-3**: No interfaces (concrete dependencies everywhere)
@@ -285,7 +285,7 @@ class CryptoPaymentStrategy implements PaymentStrategy {
 
 **Question**: Is the implementation well-documented with clear intent and usage?
 
-### Scoring Guidelines
+### Scoring guidelines
 
 | Score | Description |
 |-------|-------------|
@@ -305,7 +305,7 @@ class CryptoPaymentStrategy implements PaymentStrategy {
 - [ ] Invariants and constraints are documented
 - [ ] Naming is self-documenting (clear, descriptive names)
 
-### Red Flags (Deductions)
+### Red flags (deductions)
 
 - **-2**: No class-level documentation
 - **-2**: Public API methods undocumented
@@ -377,9 +377,9 @@ class ConfigService {
 
 ---
 
-## Pattern-Specific Evaluation
+## Pattern-specific evaluation
 
-### Singleton Specific
+### Singleton specific
 
 **Additional Checklist**:
 - [ ] Lazy initialization (if appropriate)
@@ -393,7 +393,7 @@ class ConfigService {
 - **-2**: Multiple getInstance() methods returning different instances
 - **-2**: No consideration of test isolation
 
-### Observer Specific
+### Observer specific
 
 **Additional Checklist**:
 - [ ] Observers can unsubscribe
@@ -407,7 +407,7 @@ class ConfigService {
 - **-2**: Subject depends on concrete observer types
 - **-2**: Notification order matters but isn't guaranteed
 
-### Strategy Specific
+### Strategy specific
 
 **Additional Checklist**:
 - [ ] Strategies implement common interface
@@ -423,7 +423,7 @@ class ConfigService {
 
 ---
 
-## Overall Assessment Formula
+## Overall assessment formula
 
 ```
 Overall Score = (
@@ -439,7 +439,7 @@ Overall Score = (
 
 ---
 
-## Interpretation Guide
+## Interpretation guide
 
 | Overall Score | Interpretation | Action |
 |--------------|----------------|--------|
@@ -451,7 +451,7 @@ Overall Score = (
 
 ---
 
-## Example Evaluation Report
+## Example evaluation report
 
 ### Pattern: Singleton
 **File**: `src/services/config-singleton.ts`
@@ -469,7 +469,7 @@ Overall Score = (
 
 **Overall Score**: **6.8/10** (Acceptable)
 
-#### Issues Identified
+#### Issues identified
 
 1. **High Priority**: Add `resetInstance()` method for test isolation
    - Current: Tests must run in specific order
@@ -504,7 +504,7 @@ const config = new ConfigService(process.env);
 
 ---
 
-## Usage in Skill
+## Usage in skill
 
 When the design-patterns skill runs in **Evaluation Mode**, it:
 

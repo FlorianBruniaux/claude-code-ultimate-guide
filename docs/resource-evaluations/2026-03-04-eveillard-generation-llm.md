@@ -1,4 +1,4 @@
-# Resource Evaluation: Mathieu Eveillard: "Génération LLM : sale temps pour les juniors"
+# Resource evaluation: Mathieu Eveillard: "Génération LLM : sale temps pour les juniors"
 
 **Date**: 2026-03-04
 **Source**: LinkedIn post + https://www.mathieueveillard.com/blog/generation-llm
@@ -20,7 +20,7 @@ Key claims:
 
 ---
 
-## Score Justification
+## Score justification
 
 **2/5 — Does not integrate directly. Reveals a gap worth filling.**
 
@@ -30,7 +30,7 @@ What it *does* reveal: the guide had no section for tech leads or engineering ma
 
 ---
 
-## Gap Identified → Action Taken
+## Gap identified → action taken
 
 **Gap**: `guide/roles/learning-with-ai.md` was entirely written for individual developers. No content for the person responsible for onboarding policy, mentoring structure, or team-level AI governance.
 
@@ -49,7 +49,7 @@ Research validated with Perplexity:
 
 ---
 
-## What the Article Does NOT Cover
+## What the article does NOT cover
 
 - Scalability of compagnonnage past teams of 5-10
 - Empirical support for the labor market claims ("sale temps")
@@ -58,7 +58,7 @@ Research validated with Perplexity:
 
 ---
 
-## Fact-Check
+## Fact-check
 
 | Claim | Status |
 |-------|--------|

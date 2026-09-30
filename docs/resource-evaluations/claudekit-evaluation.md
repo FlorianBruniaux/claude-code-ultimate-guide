@@ -1,4 +1,4 @@
-# Resource Evaluation: ClaudeKit
+# Resource evaluation: ClaudeKit
 
 **Resource**: [carlrannaberg/claudekit](https://github.com/carlrannaberg/claudekit)
 **Type**: npm package / CLI wrapper
@@ -8,7 +8,7 @@
 
 ---
 
-## Quick Facts
+## Quick facts
 
 | Metric | Value |
 |--------|-------|
@@ -23,7 +23,7 @@
 
 ---
 
-## Score Summary
+## Score summary
 
 | Dimension | Score | Weight | Weighted |
 |-----------|-------|--------|----------|
@@ -38,7 +38,7 @@
 
 ---
 
-## What ClaudeKit Is
+## What ClaudeKit is
 
 ClaudeKit is an npm wrapper around Claude Code that:
 - Provides 32 pre-built subagent templates
@@ -53,7 +53,7 @@ ClaudeKit is an npm wrapper around Claude Code that:
 
 ---
 
-## Scoring Breakdown
+## Scoring breakdown
 
 ### Accuracy: 4/5
 
@@ -119,7 +119,7 @@ ClaudeKit is an npm wrapper around Claude Code that:
 
 ---
 
-## What We Already Cover Better
+## What we already cover better
 
 | Topic | Our Guide | ClaudeKit | Winner |
 |-------|-----------|-----------|--------|
@@ -134,9 +134,9 @@ ClaudeKit is an npm wrapper around Claude Code that:
 
 ---
 
-## 3 Gaps Identified (Actionable)
+## 3 gaps identified (actionable)
 
-### Gap 1: Auto-Checkpoint Workflow ⭐ HIGH PRIORITY
+### Gap 1: Auto-checkpoint workflow ⭐ HIGH PRIORITY
 
 **What ClaudeKit does**:
 - Stop hook that auto-creates git stash on session end
@@ -157,7 +157,7 @@ ClaudeKit is an npm wrapper around Claude Code that:
 
 ---
 
-### Gap 2: Validation Pipeline Hook ⭐ MEDIUM PRIORITY
+### Gap 2: Validation pipeline hook ⭐ MEDIUM PRIORITY
 
 **What ClaudeKit does**:
 - Separate PostToolUse hooks for typecheck, lint, test
@@ -177,7 +177,7 @@ ClaudeKit is an npm wrapper around Claude Code that:
 
 ---
 
-### Gap 3: File Protection Unified ⭐ MEDIUM PRIORITY
+### Gap 3: File protection unified ⭐ MEDIUM PRIORITY
 
 **What ClaudeKit does**:
 - `.agentignore` file with gitignore syntax
@@ -198,7 +198,7 @@ ClaudeKit is an npm wrapper around Claude Code that:
 
 ---
 
-## What We're Ignoring (Deliberately)
+## What we're ignoring (deliberately)
 
 | ClaudeKit Feature | Why We Skip |
 |-------------------|-------------|
@@ -214,7 +214,7 @@ ClaudeKit is an npm wrapper around Claude Code that:
 
 ---
 
-## Recommendation: Patterns Not Package
+## Recommendation: Patterns not package
 
 **Do NOT mention ClaudeKit in the guide**. Reasons:
 
@@ -228,9 +228,9 @@ ClaudeKit is an npm wrapper around Claude Code that:
 
 ---
 
-## Integration Strategy
+## Integration strategy
 
-### Files Modified
+### Files modified
 
 | File | Change | Lines | Status |
 |------|--------|-------|--------|
@@ -247,7 +247,7 @@ ClaudeKit is an npm wrapper around Claude Code that:
 
 ---
 
-## Verification Checklist
+## Verification checklist
 
 - [x] 4 new hook scripts created
 - [x] All scripts are executable (`chmod +x`)

@@ -1,6 +1,6 @@
 {{< pagebreak >}}
 
-## Fiche Récap : Architecture Interne
+## Fiche Récap : Architecture interne
 
 ```{=typst}
 #fiche-recap(

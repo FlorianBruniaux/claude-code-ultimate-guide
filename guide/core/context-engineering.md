@@ -4,7 +4,7 @@ description: "Comprehensive guide to filling Claude's context window with the ri
 tags: [context, configuration, architecture, team, advanced]
 ---
 
-# Context Engineering
+# Context engineering
 
 > **Confidence**: Tier 1, based on official documentation, measured production data, and community validation.
 >
@@ -18,7 +18,7 @@ This guide covers everything from the token math behind context budgets to build
 
 ---
 
-## Table of Contents
+## Table of contents
 
 1. [What is Context Engineering](#1-what-is-context-engineering)
 2. [The Context Budget](#2-the-context-budget)
@@ -38,7 +38,7 @@ This guide covers everything from the token math behind context budgets to build
 
 ## 1. What is Context Engineering
 
-### The Definition
+### The definition
 
 Andrej Karpathy coined the phrase: **"Context engineering is the art of filling the context window with the right information at the right time."**
 
@@ -48,11 +48,11 @@ That single sentence contains three non-obvious requirements:
 - **Right information**: not all information is equal. Architecture decisions are more valuable than linting preferences. Negative constraints ("never return raw SQL errors to the client") are more actionable than aspirational goals ("write clean code").
 - **Right time**: path-scoped rules for backend code have no value when editing a frontend component. Loading everything always is the lazy approach that degrades adherence.
 
-### A Contested Origin
+### A contested origin
 
 Karpathy's mid-2025 post is the commonly credited source, but the attribution resurfaced as a live debate at the AI Engineer conferences in 2026. Dex Horthy, founder of HumanLayer and author of "12-Factor Agents," is now described in the AI Engineer conference's own materials as having coined the term, with an earlier antecedent: the "dumb zone," the 40 to 60% band of a large context window where recall degrades and reasoning weakens, based on an analysis of roughly 100,000 developer sessions. Treat this as a genuinely open question rather than a settled fact. What matters practically is not who said it first, but that two independent lines of observation, Karpathy's framing and Horthy's session-scale data, converge on the same conclusion: mid-window content is where instruction-following breaks down first.
 
-### Prompt Engineering vs. Context Engineering
+### Prompt engineering vs. context engineering
 
 These terms are often conflated. The distinction matters:
 
@@ -68,7 +68,7 @@ These terms are often conflated. The distinction matters:
 
 A practical analogy: prompt engineering is writing a good email to a contractor. Context engineering is the onboarding process, code style guide, architecture documentation, and team norms that ensure the contractor understands the project before reading a single email.
 
-### Context Engineering vs. Context Optimization
+### Context engineering vs. context optimization
 
 Both terms appear in the literature and are sometimes used interchangeably. They are not the same.
 
@@ -93,7 +93,7 @@ A related distinction worth naming explicitly:
 
 Treating reasoning artifacts (intermediate thoughts, debug traces, error outputs) as context synthesis material is a common mistake. It pollutes the context with ephemeral state and accelerates context rot. Separate what should persist (synthesis) from what should be discarded (reasoning noise).
 
-### Why It Matters
+### Why it matters
 
 LLMs are context-window computers. The quality of output is bounded by the quality of input. This is not a soft claim. It has a hard technical basis:
 
@@ -105,7 +105,7 @@ Teams that invest in context engineering consistently report fewer revision cycl
 
 A useful diagnostic reframe: **most AI output failures are context failures, not model failures.** When Claude generates a generic response, ignores a convention, or produces code that doesn't match your stack, the model is almost never broken. The context it received was incomplete, contradictory, or missing the right information at the right time. This reframe shifts troubleshooting from "the AI is bad at this" to "what is missing from the context?"
 
-### The Three Layers
+### The three layers
 
 Context engineering in Claude Code operates across three distinct layers:
 
@@ -123,7 +123,7 @@ Good context engineering means putting each piece of information in the right la
 
 **A dedicated "research, then plan, then implement" sequence, each stage handed off through its own document, reduces rework on non-trivial tasks.** The pattern: a research document capturing findings with file and line-number references, then a plan document reviewed before any code changes, then implementation against that plan. Splitting research from planning from execution keeps each stage's context focused and gives a natural checkpoint to catch a wrong assumption before it propagates into code. (*Emmanuel Sciara, Dev With AI Meetup, 2026*)
 
-### Static vs. Dynamic Context
+### Static vs. dynamic context
 
 The three-layer system above is *static context*: configuration files that are assembled before a session begins and remain stable throughout. Claude Code is primarily a static context system, which is why CLAUDE.md structure and path-scoping matter so much.
 
@@ -142,7 +142,7 @@ For teams building automated pipelines and agents, Anthropic's September 2025 en
 
 Anthropic's April 2026 [Managed Agents architecture](https://www.anthropic.com/engineering/managed-agents) pushes this further with a named separation: the harness and model ("brain"), the sandboxed execution layer ("hands"), and a durable session event log that lives entirely outside the context window. The harness reads from that log through a `getEvents()`-style interface, pulling positional slices back in on demand rather than keeping everything resident. Anthropic's stated rationale is that they cannot predict which context-management techniques future models will need, so durability belongs in the session layer while the context logic stays in the harness, which is expected to change. The companion post, ["Effective harnesses for long-running agents"](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents), covers the open problem of preserving coherent progress across repeated context resets on multi-hour and multi-day tasks. See [AI Ecosystem §14](../ecosystem/ai-ecosystem.md#14-claude-managed-agents-cloud-hosted-platform) for the full architecture, including the append-only event log and checkpoint/restore mechanics already documented in this guide.
 
-### Why Context Rot is Structural, Not Accidental
+### Why context rot is structural, not accidental
 
 Transformer models attend to all tokens pairwise. That means the number of attention relationships in a context window grows as n², not n. Double the context length and you quadruple the number of relationships the model must weigh. At 200K tokens, this means billions of pairwise computations, and the model's attention becomes increasingly diffuse.
 
@@ -181,9 +181,9 @@ The practical rule: use CoT for complex isolated reasoning steps, not as a blank
 
 ---
 
-## 2. The Context Budget
+## 2. The context budget
 
-### Token Math
+### Token math
 
 A concrete baseline for a mid-size project:
 
@@ -199,7 +199,7 @@ Claude Sonnet 5 has a native 1M token context window. That means even a large al
 
 The practical rule: **always-on context should stay below 5% of the context window.** Beyond that, you are displacing actual task content, which matters more per token than standing instructions.
 
-### The 150-Instruction Ceiling
+### The 150-instruction ceiling
 
 Empirical observation from teams running large CLAUDE.md files: beyond approximately 150 distinct rules, models begin selectively ignoring some of them. This is not a hard cutoff (it depends on rule complexity, overlap, and placement), but it is a reliable signal that more rules does not equal better adherence.
 
@@ -209,7 +209,7 @@ HumanLayer's production data shows teams with structured context (fewer, more sp
 
 Implication: **rule quality beats rule quantity.** Twenty specific, actionable rules outperform 200 generic aspirational ones.
 
-### Adherence Degradation by File Size
+### Adherence degradation by file size
 
 ```
 Lines in CLAUDE.md    Adherence (estimated)
@@ -223,7 +223,7 @@ Lines in CLAUDE.md    Adherence (estimated)
 
 These are estimated baselines, not guarantees. Path-scoping and modular architecture can maintain higher adherence at larger total rule counts by ensuring that only relevant rules are in context at any given time.
 
-### Signs of Context Overload
+### Signs of context overload
 
 When always-on context becomes too large or too noisy, you see predictable failure modes:
 
@@ -234,7 +234,7 @@ When always-on context becomes too large or too noisy, you see predictable failu
 
 When you see these patterns, the diagnostic is: run a context audit (see Section 7), not more instructions.
 
-### MECW: Maximum Effective Context Window
+### MECW: Maximum effective context window
 
 The advertised context window and the effective context window are not the same number. Enterprise context engineering deployments consistently find that meaningful accuracy degradation begins before the stated limit is reached. The commonly cited figure from production experience: approximately 92% of the advertised limit.
 
@@ -256,7 +256,7 @@ These are engineering estimates, not guaranteed values. Treat them as planning f
 
 **A sharp, non-linear quality drop shows up around 70% of the context budget used, rather than a smooth decline.** Nine speakers at the same meetup independently reported this same threshold, which this guide reads as a notably strong signal for a claim usually offered as a vague hunch. The practical consequence is about timing: purge or compact context before crossing that threshold, not after the drop already shows up in the output. (*Emmanuel Sciara, Dev With AI Meetup, 2026. Malo and Dorian, same event and year, describe the same shift as abrupt rather than gradual.*)
 
-### Path-Scoping and Budget Efficiency
+### Path-Scoping and budget efficiency
 
 Path-scoping is the most effective single technique for reducing always-on context. Instead of loading all rules for all parts of the codebase, you load only the rules relevant to the files currently in context.
 
@@ -279,9 +279,9 @@ Result: 40-50% reduction in always-on context, with no loss of coverage. Each su
 
 ---
 
-## 3. Configuration Hierarchy
+## 3. Configuration hierarchy
 
-### The Three-Layer Stack
+### The three-layer stack
 
 ```
 ┌──────────────────────────────────────────────┐
@@ -301,7 +301,7 @@ Result: 40-50% reduction in always-on context, with no loss of coverage. Each su
 
 Later layers override earlier ones. A session instruction can override a project rule; a project rule can override a global default. This gives you escape hatches without requiring permanent changes to shared configuration.
 
-### Global Configuration
+### Global configuration
 
 **Location**: `~/.claude/CLAUDE.md`
 
@@ -337,7 +337,7 @@ Later layers override earlier ones. A session instruction can override a project
 - Add TODO comments only when referencing a tracked issue
 ```
 
-### Project Configuration
+### Project configuration
 
 **Location**: `./CLAUDE.md` (project root)
 
@@ -398,7 +398,7 @@ Two failure modes appear consistently in production CLAUDE.md files:
 
 The architecture choices, quality standards, and explicit "what not to do and why" rules are the productive altitude. The aspirational and the mechanical are noise.
 
-### Session Configuration
+### Session configuration
 
 **Mechanism**: Inline instructions, `/add-dir`, or system prompt flags for the current session.
 
@@ -410,7 +410,7 @@ The architecture choices, quality standards, and explicit "what not to do and wh
 
 Session instructions are not persisted. They evaporate when the session ends. Any instruction that you find yourself repeating across sessions belongs in the project config, not the session layer.
 
-### Decision Tree: Where Does This Rule Go?
+### Decision tree: Where does this rule go?
 
 ```
 Is this rule relevant to every project I work on?
@@ -430,7 +430,7 @@ Does this rule apply only to the current task or session?
 └── No → Revisit: is it really a rule, or just a one-time preference?
 ```
 
-### Import Chain and Override Semantics
+### Import chain and override semantics
 
 The import chain flows: `global → project root → path-scoped modules → session`.
 
@@ -445,9 +445,9 @@ Document your overrides explicitly. An undocumented override that contradicts a 
 
 ---
 
-## 4. Modular Architecture
+## 4. Modular architecture
 
-### The Problem with Monolithic Config
+### The problem with monolithic config
 
 A 600-line CLAUDE.md with no structure is the most common failure mode in production contexts. Symptoms:
 
@@ -463,7 +463,7 @@ The fix is architectural: decompose the monolith into focused modules, then use 
 
 A production data engineering team reached the same conclusion from a completely different starting point. Gorgias built an internal SQL-generating agent and found that a single large prompt describing their ~100 BigQuery tables was unmaintainable and noisy. Their fix was a three-tier context layer, structured much like the pattern above: per-table metadata with `when_to_use` and `how_to_use` fields (the productive-altitude pattern from Section 3, with 10-15 example question-query pairs per table), hierarchical topic instructions loaded per department, and step-by-step skill playbooks for multi-step tasks. Their own framing: progressive disclosure, loading only the relevant context on demand, was "the single biggest improvement" to reliability. Three unrelated teams (a CLAUDE.md meetup corpus, this guide's own SKILL.md progressive-disclosure pattern, and a data team solving SQL generation) converged on the same shape without coordinating. (*Gorgias Engineering, "Building a Context Layer From the Ground Up," Medium, 2026.*)
 
-### Path-Scoping Pattern
+### Path-scoping pattern
 
 **Mechanism**: Claude Code supports `@path/to/file.md` imports in CLAUDE.md. When a path-scoped import is active, rules from that module are added to context only when files under the specified path are in scope.
 
@@ -516,7 +516,7 @@ project/
 
 This module's 6 rules are in context only when working in `src/api/`. They do not consume context budget when working in `src/components/`.
 
-### Skills vs. Rules
+### Skills vs. rules
 
 This distinction is underused and matters:
 
@@ -548,7 +548,7 @@ Pre-built skill collections reduce the upfront investment in modular context eng
 
 These can be cloned, inspected, and adapted to your project conventions rather than built from scratch. Treat them as starting points: fork and modify to match your stack and naming conventions rather than using them verbatim.
 
-### Progressive Disclosure
+### Progressive disclosure
 
 The principle: don't load everything upfront. Load what is needed for the task at hand.
 
@@ -599,7 +599,7 @@ The progressive disclosure principle applies to MCP servers as much as to rules.
 
 Resist the pattern of adding every available MCP server to a project's settings "just in case." Each inactive-but-loaded server is pure overhead. If a server is used in fewer than 20% of sessions in a project, it should not be in the default project config.
 
-### Anti-Pattern: The Monolithic CLAUDE.md
+### Anti-pattern: The monolithic CLAUDE.md
 
 **What it looks like**:
 
@@ -633,7 +633,7 @@ Resist the pattern of adding every available MCP server to a project's settings 
 3. Move procedural knowledge to skills
 4. Target root CLAUDE.md at under 150 lines after extraction
 
-### Structural Metadata Files
+### Structural metadata files
 
 Rules and structure are two different types of context. Conflating them produces files that are too large to load always-on but too important to skip.
 
@@ -712,9 +712,9 @@ A ready-to-use template is available at [`examples/context-engineering/code-map-
 
 ---
 
-## 5. Team Assembly
+## 5. Team assembly
 
-### The N × M × P Problem
+### The N × M × P problem
 
 At team scale, context engineering faces a combinatorial challenge:
 
@@ -728,7 +728,7 @@ The solution is **profile-based assembly**: a single shared base of modules, wit
 
 N × M × P becomes N profiles × 1 shared module base, a manageable structure.
 
-### Profile YAML Structure
+### Profile YAML structure
 
 Each team member has a profile YAML that declaratively specifies their configuration:
 
@@ -801,7 +801,7 @@ overrides:
   - "Always measure before optimizing; profile first"
 ```
 
-### Module Library Structure
+### Module library structure
 
 The shared module library lives in the repository and is version-controlled:
 
@@ -835,7 +835,7 @@ The shared module library lives in the repository and is version-controlled:
     └── assemble-context.sh
 ```
 
-### Assembly Script
+### Assembly script
 
 The assembly script reads a profile and concatenates the specified modules into a CLAUDE.md:
 
@@ -929,7 +929,7 @@ echo "Assembled CLAUDE.md from profile: $PROFILE"
 ./scripts/assemble-context.sh alice --check
 ```
 
-### CI Drift Detection
+### CI drift detection
 
 Team members regenerate their CLAUDE.md from profiles, but base modules evolve over time. Without drift detection, a developer may be running an outdated configuration, one that predates a security rule addition or a convention update.
 
@@ -983,7 +983,7 @@ jobs:
             })
 ```
 
-### Onboarding with Profiles
+### Onboarding with profiles
 
 For new team members, the onboarding sequence becomes:
 
@@ -1009,9 +1009,9 @@ Add `CLAUDE.md` to `.gitignore` at the project root. The profile YAML is the sou
 
 ---
 
-## 6. Context Lifecycle
+## 6. Context lifecycle
 
-### Instruction Debt
+### Instruction debt
 
 Rules accumulate. They are rarely removed. This is instruction debt: the gradual accumulation of rules that are outdated, redundant, or contradictory, each still consuming context budget.
 
@@ -1039,7 +1039,7 @@ For each rule, classify as: KEEP | UPDATE | ARCHIVE | DELETE
 
 Run this as an actual Claude session, feeding the current CLAUDE.md and asking for a structured audit.
 
-### The Update Loop
+### The update loop
 
 The most common mistake after a bad Claude output is to fix the output manually and move on. This is a wasted learning opportunity.
 
@@ -1075,7 +1075,7 @@ When adding a rule from a failure, include the rationale inline:
 
 The rationale serves two purposes: it helps future auditors understand why the rule exists, and it gives Claude better context for applying the rule correctly.
 
-### Knowledge Feeding After Sprints
+### Knowledge feeding after sprints
 
 At the end of each sprint or release cycle, run a brief knowledge feeding session:
 
@@ -1086,7 +1086,7 @@ At the end of each sprint or release cycle, run a brief knowledge feeding sessio
 
 This keeps the context system current without requiring large periodic overhauls.
 
-### The ACE Pipeline
+### The ACE pipeline
 
 For teams that run Claude Code in automated or semi-automated workflows, the ACE pipeline provides a structured execution model. This is a config-persistence loop operating across sessions. It is distinct from arXiv:2510.04618 (Stanford/SambaNova, Oct 2025), which uses the same acronym for an inference-time context evolution technique. For the operational improvements that build on this pipeline, see Section 10 (Signal Taxonomy) and Section 11 (Loop Closure).
 
@@ -1128,7 +1128,7 @@ echo "=== EXECUTE ==="
 claude "$TASK"
 ```
 
-### Session Retrospective
+### Session retrospective
 
 At the end of each Claude Code session, before closing, ask:
 
@@ -1143,7 +1143,7 @@ Generate 3-5 candidate rules for CLAUDE.md based on this session.
 
 This takes 2-3 minutes and generates concrete improvement candidates. You review them and decide which to add. Over time, this is how configuration systems accumulate genuine project knowledge rather than just generic rules.
 
-### Context Chaining
+### Context chaining
 
 Context chaining is a pattern where the output of one context window becomes the structured input of the next. Each session builds on the previous one, passing a curated summary forward rather than discarding state.
 
@@ -1183,9 +1183,9 @@ Context chaining extends context intentionally. It is the opposite of the Ralph 
 
 ---
 
-## 7. Quality Measurement
+## 7. Quality measurement
 
-### Self-Evaluation Questions
+### Self-evaluation questions
 
 Run these questions against your CLAUDE.md periodically (quarterly at minimum):
 
@@ -1210,7 +1210,7 @@ Run these questions against your CLAUDE.md periodically (quarterly at minimum):
 
 A rule that fails more than one of these checks is a candidate for update or removal.
 
-### Canary Checks
+### Canary checks
 
 Canary checks are simple test prompts that verify Claude follows key conventions. Run them before and after major changes to CLAUDE.md to catch regressions.
 
@@ -1269,7 +1269,7 @@ echo "Canaries: $PASS passed, $FAIL failed"
 - When a team member reports unexpected Claude behavior
 - As part of the CI drift detection job
 
-### Adherence Tracking
+### Adherence tracking
 
 Informal but effective: for each key rule in CLAUDE.md, track how often Claude violates it across 10 consecutive interactions where the rule should apply.
 
@@ -1292,7 +1292,7 @@ Rules with >20% violation rate are broken in one of three ways:
 
 **Fix for "placed too late"**: Move the rule to the top third of the file, or to a more prominent position in its section.
 
-### Context Debt Score
+### Context debt score
 
 A single metric for the health of your context engineering system:
 
@@ -1325,7 +1325,7 @@ echo "Total rules: $TOTAL_RULES"
 echo "Run conflict audit manually or with Claude"
 ```
 
-### Context Drift Detection
+### Context drift detection
 
 The existing adherence metrics (canary checks, violation rates) require human interpretation: you know a rule is being violated when you notice it. Systematic drift detection is a complementary layer that detects behavioral shifts automatically, before they surface as bad outputs.
 
@@ -1375,7 +1375,7 @@ These are starting points. Calibrate against your baseline variance: if your out
 
 For interactive development with regular human review, canary checks and violation rate tracking (already above) are sufficient.
 
-### Useful Metrics to Track Over Time
+### Useful metrics to track over time
 
 | Metric | How to Measure | Target |
 |--------|---------------|--------|
@@ -1387,9 +1387,9 @@ For interactive development with regular human review, canary checks and violati
 
 ---
 
-## 8. Context Reduction Techniques
+## 8. Context reduction techniques
 
-### Path-Scoping: The Highest-Leverage Technique
+### Path-Scoping: The highest-leverage technique
 
 Path-scoping reduces always-on context by 40-50% with no loss of coverage. It is the single most impactful structural change for projects beyond ~200 lines of configuration.
 
@@ -1403,7 +1403,7 @@ Implementation steps:
 
 Target after refactor: root CLAUDE.md at under 150 lines (shared rules + import declarations only).
 
-### Negative Constraints
+### Negative constraints
 
 Empirically, negative constraints ("never do X") outperform positive instructions ("do X") by 15-25% for preventing bad patterns. This is counterintuitive: you might expect "do X" to be clearer. But in practice, the model needs to actively resist a temptation to do the wrong thing; explicitly naming the wrong thing and saying "never" is more salient.
 
@@ -1414,7 +1414,7 @@ Empirically, negative constraints ("never do X") outperform positive instruction
 
 **Technique**: For any rule where the wrong pattern is a common default (raw try/catch, console.log, default exports, any types), frame the rule as a negative constraint naming the specific pattern to avoid.
 
-### Rule Compression
+### Rule compression
 
 Long explanatory rules consume tokens and dilute attention. Compress explanations to their essence:
 
@@ -1453,7 +1453,7 @@ pairs and recommend which version to keep based on specificity and clarity.
 
 Run this as a Claude prompt against your CLAUDE.md. Review the suggestions and merge.
 
-### The Archive Pattern
+### The archive pattern
 
 When removing a rule, you lose the knowledge of why it existed. That institutional memory can be valuable: six months later, someone may try to reintroduce the same pattern the rule was preventing.
 
@@ -1477,7 +1477,7 @@ Reason: Standardized on single database; MongoDB was only used for sessions and 
 
 The archive is not loaded by Claude. It is reference documentation for humans. It prevents the same debates and mistakes from recurring.
 
-### The 80/20 Rule for Rules
+### The 80/20 rule for rules
 
 Across most production configurations, 20% of rules account for 80% of Claude's consequential decisions. The other 80% of rules cover edge cases, stylistic preferences, and situations that rarely arise.
 
@@ -1494,7 +1494,7 @@ Coverage completeness matters less here than protecting the rules that matter mo
 
 **Placement matters**: Place your top 20% rules in the first third of CLAUDE.md. Attention weight is not uniform across a long document. Early content has higher salience.
 
-### Think in Code
+### Think in code
 
 Named by context-mode v1.0.64 and independently described by Contieri in April 2026 as "Ask for the Analyst, Not the Analysis," this pattern addresses a common source of token waste in exploration tasks.
 
@@ -1523,7 +1523,7 @@ find src/ -name "*.test.ts" | sed 's|/[^/]*$||' | sort | uniq -c | sort -rn
 
 **Relationship to sub-agents**: Sub-agents execute in isolation with their own context budget. "Think in Code" keeps everything in the main agent but uses scripts as the exploration mechanism. Both approaches avoid loading irrelevant file content into context. For tasks that genuinely require reading file contents (edits, code review, understanding logic), sub-agents are the better fit. For pure discovery tasks that reduce to counts or lists, a single script call is faster and cheaper.
 
-### Graduated Context Offloading
+### Graduated context Offloading
 
 From LangGraph's Deep Agents SDK research into long-running agents, this three-tier cascade addresses context accumulation over time without losing access to the information.
 
@@ -1585,7 +1585,7 @@ else:
 
 This hook transparently intercepts large bash outputs, writes them to a temp file, and injects the path with a preview. The agent sees a compact summary and knows where to find the full content if it needs it. The same pattern applies to any tool type: MCP tool results, file reads, or API responses can all be offloaded to filesystem and referenced by path.
 
-### Optical and Visual Context Compression
+### Optical and visual context compression
 
 A distinct compression modality emerged in 2026, the first real modality shift in this discipline rather than an incremental improvement on text compression. Following DeepSeek-OCR's late-2025 demonstration that a model can decode more than 10x the token count from a small set of vision tokens, 2026 work (AgentOCR, Glyph, VIST) extends the idea to long documents: render the text as an image, pass it through a frozen vision encoder plus a trainable resampler, and hand the model compact visual tokens instead of raw text tokens. The 10x figure comes from the original DeepSeek-OCR paper under specific conditions; treat it as a compression ratio observed in that setup, not a universal multiplier.
 
@@ -1593,7 +1593,7 @@ pxpipe is the first production implementation of this pattern targeted specifica
 
 **When it applies**: large, mostly-static blocks of text your model does not need to recall verbatim (system prompts, tool documentation, old conversation turns already summarized elsewhere). It does not apply to content where exact character-level recall matters, since visual token decoding has a measurable non-zero error rate on precise strings.
 
-### Summary: Reduction Techniques by Impact
+### Summary: Reduction techniques by impact
 
 | Technique | Context Reduction | Effort | Adherence Impact |
 |-----------|------------------|--------|-----------------|
@@ -1617,11 +1617,11 @@ The highest-leverage sequence for a project with context debt:
 
 ---
 
-## 9. Maturity Assessment
+## 9. Maturity assessment
 
 Context engineering capability develops in stages. Most teams reach Level 2 and stop, not because higher levels are complex but because the failures at Level 2 are invisible. Output quality is acceptable, so the pressure to go further never appears. This assessment makes the gap visible.
 
-### The Six Levels
+### The six levels
 
 | Level | Name | What exists | Failure mode |
 |-------|------|-------------|--------------|
@@ -1632,7 +1632,7 @@ Context engineering capability develops in stages. Most teams reach Level 2 and 
 | **4** | Measured config | Canary tests, adherence tracking, lifecycle management | System works but drifts silently over time |
 | **5** | Engineered system | Profiles, CI drift detection, ACE pipeline, quarterly audit rhythm | None identified |
 
-### Self-Assessment
+### Self-assessment
 
 Answer each question and stop at the first "No": that is your current level.
 
@@ -1646,7 +1646,7 @@ Answer each question and stop at the first "No": that is your current level.
 
 **Level 4 → 5**: Do team members assemble their CLAUDE.md from profiles rather than editing it directly? Is there CI drift detection that alerts when configuration diverges from source modules? Do you run session retrospectives to feed new patterns back into configuration?
 
-### What to Do at Each Level
+### What to do at each level
 
 | Your level | Next action |
 |------------|-------------|
@@ -1661,13 +1661,13 @@ Most teams move from Level 0 to Level 2 in a single afternoon. Moving from Level
 
 ---
 
-## 10. Signal Taxonomy and Causal Attribution
+## 10. Signal taxonomy and causal attribution
 
 A flat friction score (errors × 3 + retries × 2) tells you how much friction happened but not which part of your configuration caused it. On a project running an ACE-v1 loop for ten weeks, this gap produced a misleading priority queue: Bash tool generated 3,377 retries vs 597 for Read vs 254 for Edit. Raw volume pointed at Bash as the problem, but the actual pattern was missing batching instructions, not a bad Bash rule. Without typed signals, a curator fixes the wrong layer.
 
 > A note on naming: arXiv:2510.04618 (Stanford/SambaNova, Oct 2025) uses "ACE" for an inference-time context evolution technique. The ACE described here is a config-persistence loop operating across sessions, not within them. Different concept, same acronym. The v2 improvements below apply to this guide's definition.
 
-### Signal Categories
+### Signal categories
 
 Replace the flat score with a five-category taxonomy. Each event gets a category and an attribution candidate.
 
@@ -1681,7 +1681,7 @@ Replace the flat score with a five-category taxonomy. Each event gets a category
 
 Weighting should reflect impact, not frequency. A single alignment violation in a production-critical flow costs more than 50 syntactic retries on a local script.
 
-### Causal Attribution
+### Causal attribution
 
 For each friction event, capture the active context: which rule files were loaded, which skills were invoked, and which profile was active. This lets the Curator build a rule-to-friction correlation table without running LLM-as-judge over the full session history.
 
@@ -1705,7 +1705,7 @@ resolved: false
 
 Store events as append-only YAML files or newline-delimited JSON. They are the raw material for the Curator; keep them local and gitignore them by default unless your team chooses a shared signal store (see Section 11).
 
-### Per-Pattern Tracking
+### Per-pattern tracking
 
 Beyond individual events, track friction by pattern over time. Replace a weekly total with a dict:
 
@@ -1723,13 +1723,13 @@ The pattern time series is what lets you measure whether a merged rule had any e
 
 ---
 
-## 11. Loop Closure: PR-Based Curation
+## 11. Loop closure: PR-Based curation
 
 The hidden failure mode at Level 5 is the open loop: the Curator generates suggestions but nothing gets merged. On the Aristote project over ten weeks of ACE-v1 operation, two curator reports separated by ten weeks proposed the same two rule candidates. Neither was merged. The loop was open, and the system produced reports instead of progress.
 
 Closing the loop requires making the Curator's output easy to act on. The mechanism: the Curator generates a Git PR rather than a plain report.
 
-### PR Anatomy
+### PR anatomy
 
 Each Curator PR contains four things:
 
@@ -1740,7 +1740,7 @@ Each Curator PR contains four things:
 
 A human reviews and merges or closes. The Curator never modifies rules directly. This is the "Augmented" in a mature context engineering workflow: the loop closes through human judgment, not automation.
 
-### A/B Canary Probes
+### A/B canary probes
 
 Before proposing a change, the Curator runs a small set of probe prompts against both the current config and the proposed config. Probes are simple, task-representative inputs that exercise the rule being changed.
 
@@ -1772,7 +1772,7 @@ Running the Curator on a single cadence produces two failure modes: too frequent
 
 The quarterly loop is not automatable in any useful way. It requires reading the system's actual behavior, not just its logged signals.
 
-### Signal Locality Decision
+### Signal locality decision
 
 Where friction signals live determines what the Curator can access. Three options:
 
@@ -1784,19 +1784,19 @@ Where friction signals live determines what the Curator can access. Three option
 
 Option A is the right default for solo developers. Option B is necessary for any team that wants cross-developer pattern analysis or multi-dev profile reconciliation; the signal store should be a private repo, not a SaaS platform, to keep sensitive path and tooling data off third-party servers. Option C is only worth considering if the team is already committed to hosted dev environments for other reasons.
 
-### Suggestion Suppression
+### Suggestion suppression
 
 A suggestion that appears in three consecutive reports without any action taken should change state: it either moves to "pending human decision" with a blocking flag in the next PR, or it gets closed as "won't fix" with a documented reason. Allowing suggestions to repeat silently is the same failure mode as the open loop, just more subtle.
 
 ---
 
-## 12. Ejection: Disciplined De-engineering
+## 12. Ejection: Disciplined de-engineering
 
 Every part of the context engineering stack helps you add more: more rules, more skills, more profile sections. None of it helps you remove what stopped working. This is the missing half of the discipline, and its absence is the reason Level 5 systems silently degrade.
 
 Context debt accumulates through addition. A rule written for a sprint six months ago may conflict with three newer rules, fire on edge cases the author never anticipated, and generate friction on every session. Without an ejection mechanism, it stays forever because removing it feels risky and auditing it takes time nobody has.
 
-### Ejection Heuristics
+### Ejection heuristics
 
 Three metrics drive ejection candidates:
 
@@ -1808,7 +1808,7 @@ For Claude Code skills, run `/skill-doctor` in the terminal to inspect visible s
 
 **Profile overlap**: when a rule appears in more than 80% of individual developer profiles, it belongs in the shared config rather than in each profile. This is a consolidation proposal, not an ejection, but it reduces duplicate maintenance surface.
 
-### Ejection vs. Archive
+### Ejection vs. archive
 
 Ejection does not mean deletion. The Archive Pattern (Section 8) established the institutional memory reason for keeping retired rules with a retirement note. Ejection is candidate detection, not an automatic decision. The Curator flags candidates; a human makes the final call. Move a retired rule to `CLAUDE-archive.md` with a date and reason. Preserve a retired skill in Git history or outside discovered skill directories; placing it under `.claude/skills/archive/` can keep it visible through nested discovery.
 
@@ -1816,11 +1816,11 @@ No commercial observability tool (Braintrust, Langfuse, Helicone, LangSmith) imp
 
 ---
 
-## 13. Constitutional and Self-consistency Audits
+## 13. Constitutional and self-consistency audits
 
 A config that grows without constraint eventually contradicts itself. Rule A says "always use ESLint for formatting". Rule B says "prefer Biome for speed". A new developer reads both and does neither, because the rules conflict and the system gives no signal that they conflict. Constitutional audits catch this before it compounds.
 
-### Constitutional Audit
+### Constitutional audit
 
 Before each Curator PR lands, run a constraint check against two targets: the proposed change vs. the existing rule set, and the proposed change vs. an explicit `constitution.md`.
 
@@ -1859,7 +1859,7 @@ When a claim diverges from the measured state by more than 10%, the check append
 
 ---
 
-## 14. Multi-dev Profile Reconciliation
+## 14. Multi-dev profile reconciliation
 
 Profile-based assembly (Section 5) solves the N-devs × M-tools fragmentation problem by giving each developer a personal profile. Over time, a new problem emerges: individual profiles diverge. Developer A's profile adds a rule preventing direct production database access. Developer B adds the same rule two weeks later, worded slightly differently. Developer C never adds it. The rule that should be in the shared config ends up duplicated, inconsistent, and unenforceable.
 
@@ -1897,11 +1897,11 @@ For a team of 5 or more developers, run the reconciliation check monthly. For te
 
 ---
 
-## 15. Token Audit Workflow
+## 15. Token audit workflow
 
 Context engineering theory only converts to real gains once you measure your actual overhead. Most developers discover they are loading 40-60K tokens of fixed context before any user task begins: configuration files, rules, hooks output, memory files, and the Claude Code system prompt all compound. This section provides a reproducible audit workflow that takes under five minutes and produces an actionable plan.
 
-### Real-World Session Benchmarks
+### Real-World session benchmarks
 
 Before auditing your overhead, calibrate against what practitioners observe on real codebases. The figures below come from heavy users on Max 200 plans running Opus 4.7 at high effort. Treat them as upper-range references: the same tasks at Sonnet-level effort run 30-50% lower.
 
@@ -1928,7 +1928,7 @@ Team-level perspective: in a Slack community survey of Claude Code power users (
 
 Sub-agents shift the math. Each sub-agent operates in a shorter, focused context window, so per-agent token cost is lower. Total cost across all agents in a complex workflow is typically higher than a single long session because you are spawning many agents. What improves is quality and parallelism, not raw token efficiency.
 
-### What Counts as Fixed Context
+### What counts as fixed context
 
 Every session starts with a baseline of tokens that Claude loads before processing a single user message:
 
@@ -1945,7 +1945,7 @@ Every session starts with a baseline of tokens that Claude loads before processi
 
 The critical distinction: `.claude/rules/` loads every `.md` file at session start regardless of relevance. Commands and agents are lazy-loaded. They cost nothing until invoked. Rules files are the most common source of unexpected overhead.
 
-### Step 1: Measure the Components
+### Step 1: Measure the components
 
 Run these commands from your project root to get a breakdown by component:
 
@@ -1962,7 +1962,7 @@ echo "=== GLOBAL ~/.claude ===" && ls -la ~/.claude/*.md 2>/dev/null \
   | awk '{print $5, $9}' | sort -rn
 ```
 
-### Step 2: Calculate Your Token Budget
+### Step 2: Calculate your token budget
 
 Tokens ≈ characters ÷ 4 (rough but reliable for English/code mix).
 
@@ -1986,7 +1986,7 @@ echo "TOTAL              : ~$(( TOTAL / 4 )) tokens"
 
 For context: Claude's window is 200K tokens. A 60K fixed overhead means 30% consumed before any work begins. Against a typical coding task that uses 20-40K additional tokens, that leaves less than half the window for actual output.
 
-### Step 3: Classify Rules by Usage Frequency
+### Step 3: Classify rules by usage frequency
 
 The rules files are usually where the biggest savings live. For each file in `.claude/rules/`, ask one question: how often is this relevant in a typical session?
 
@@ -2011,7 +2011,7 @@ Calculate: total chars that could be removed from auto-load if RARELY files
 are excluded.
 ```
 
-### Step 4: Audit Hook Overhead
+### Step 4: Audit hook overhead
 
 Hooks that fire on `PreToolUse` or `PostToolUse` run on every tool call. Each invocation injects its stdout into the context. A hook that outputs 500 characters per call, running 150 times per session, adds 75K characters (~19K tokens) to the session context.
 
@@ -2037,7 +2037,7 @@ For each `PreToolUse` or `PostToolUse` hook, estimate its output size by running
 - Hooks that run `git status` or `git log` unconditionally
 - `echo` statements used for debugging that were never removed
 
-### Step 5: Build the Action Plan
+### Step 5: Build the action plan
 
 Typical savings without RAG or custom infrastructure:
 
@@ -2051,7 +2051,7 @@ Typical savings without RAG or custom infrastructure:
 
 A realistic first pass typically yields 30-50% reduction in fixed context without touching anything that requires infrastructure.
 
-### The RAG Question
+### The RAG question
 
 You may encounter advice to move rules files into a vector database and retrieve them dynamically (RAG). This is a valid optimization at scale. It converts fixed overhead into per-query retrieval and enables precise lazy-loading.
 
@@ -2063,7 +2063,7 @@ Before investing in that infrastructure, verify the math honestly:
 
 For most individual developers and small teams, classification-based lazy loading (removing the auto-load tag from rarely-used files) achieves 80% of the gains at 2% of the infrastructure cost. RAG earns its complexity when you have 50+ rule files and need automated, intent-based loading.
 
-### Audit Prompt Template
+### Audit prompt template
 
 The following prompt produces a complete audit report when run inside a project. Replace the path variables as needed:
 
@@ -2113,11 +2113,11 @@ clearly whether the infrastructure investment is justified.
 
 ---
 
-## 16. Research Patterns: What the Literature Shows
+## 16. Research patterns: What the literature shows
 
 Applied context engineering draws from academic research on how language models process long inputs. Four findings have practical implications for how you structure context in production agents.
 
-### The Lost-in-the-Middle Effect
+### The lost-in-the-middle effect
 
 **Source**: Liu et al. (2023), Stanford, "Lost in the Middle: How Language Models Use Long Contexts"
 
@@ -2134,7 +2134,7 @@ The effect is consistent across model sizes and context lengths. A 20-document r
 
 The implication isn't that you should make contexts shorter. Position within the context window is a design variable, not an accident.
 
-### Progressive Summarization Risks
+### Progressive summarization risks
 
 Summarization pipelines that compress summaries of summaries lose information in ways that are invisible to the model. Each compression pass removes details, but the model's confidence doesn't decrease proportionally. By the third or fourth compression pass, the model can answer questions about the original content fluently, but the answers may no longer be accurate. It is confabulating based on what typically follows the compressed patterns it retained.
 
@@ -2156,7 +2156,7 @@ Summarization pipelines that compress summaries of summaries lose information in
 
 For multi-step agents that compress context to stay within budget, limit the chain to 2 compression passes before going back to source material.
 
-### Stratified Sampling for Calibration
+### Stratified sampling for calibration
 
 When evaluating whether a context-engineering setup is working, random sampling misses systematic failures. A random sample from a 100-item test set might show 85% accuracy, but if the 15 failures cluster in a specific difficulty tier (long documents, ambiguous instructions, edge cases), you won't detect the pattern.
 
@@ -2174,7 +2174,7 @@ Stratified sampling divides the evaluation set into strata by a relevant attribu
 
 If your accuracy on the long-context stratum is 20 points below the short-context stratum, that's a signal: add position-based structuring or implement chunked processing. Aggregate metrics would have hidden that gap.
 
-### Claim-Source Mapping (Provenance Tracking)
+### Claim-Source mapping (provenance tracking)
 
 In agents that synthesize information from multiple sources (web search, file reads, tool results), claims in the final output should be traceable to their source. Without provenance tracking, hallucinations are indistinguishable from accurate synthesis, and errors compound across agent steps.
 
@@ -2205,11 +2205,11 @@ For every factual claim you include in your response:
 
 The difference between claim-source mapping as a QA mechanism vs as a compliance mechanism: compliance tracking asks "did we use authorized sources?", QA tracking asks "is this specific claim accurate?" Both are valuable but for different failure modes. Agents that handle factual queries or generate reports need the QA version.
 
-### Chain-of-Thought as a Formal Compute Extension
+### Chain-of-Thought as a formal compute extension
 
 **A model's "reasoning" is defined operationally as the intermediate tokens it generates between an input and an output, not as some separate cognitive faculty.** This reframing carries a formal backing: a transformer that is allowed to produce a chain of reasoning before answering can solve any problem solvable by a Boolean circuit, given a constant number of intermediate steps. This is the theoretical anchor for why extended thinking and chain-of-thought prompting change what a model is capable of, not just how it explains its answer: token budget spent on reasoning is compute budget, not commentary. (*Denny Zhou, Google DeepMind, Stanford CS25 V5, 2025*)
 
-### New Research Directions (April to July 2026)
+### New research directions (April to July 2026)
 
 Research on context management shifted register during this window: earlier papers mostly documented context rot as a problem, while this batch proposes concrete mitigation architectures. Treat the results below with the confidence level noted for each; several are single-paper claims not yet independently reproduced.
 
@@ -2228,13 +2228,13 @@ Research on context management shifted register during this window: earlier pape
 
 ---
 
-## 17. Attention Mechanics & Reliability
+## 17. Attention mechanics & reliability
 
 Claude's attention is not uniform across the context window. Position within the prompt measurably affects whether information is used. This section covers the mechanics, the evidence behind them, and the patterns that compensate.
 
 ---
 
-### The Lost-in-the-Middle Problem
+### The lost-in-the-middle problem
 
 Research by Liu et al. (*Lost in the Middle: How Language Models Use Long Contexts*, TACL 2024, [arXiv:2307.03172](https://arxiv.org/abs/2307.03172)) examined how large language models use information at different positions within long contexts. The finding: retrieval accuracy follows a U-shaped curve. Information placed at the start or end of a long context is recalled significantly more accurately than information placed in the middle.
 
@@ -2246,7 +2246,7 @@ This has a direct implication for how to think about large context windows: trea
 
 ---
 
-### Primacy and Recency Placement
+### Primacy and recency placement
 
 The two high-attention zones are the beginning (primacy) and the end (recency) of the context window. The sandwich pattern exploits both:
 
@@ -2325,7 +2325,7 @@ Each section analysis is short and keeps the relevant content in the primacy pos
 
 ---
 
-### Context Window Size vs Attention Quality
+### Context window size vs attention quality
 
 Larger context windows do not mean better comprehension of large inputs. Attention quality degrades before the context window fills. In practice:
 
@@ -2339,7 +2339,7 @@ The misconception is treating context window size as a quality guarantee. A 200K
 
 ---
 
-### Persistent Facts Block
+### Persistent facts block
 
 The persistent facts block is a structured section, placed at the start of the system prompt, containing facts the model must reference throughout the conversation. Unlike retrieval, it is verbatim inclusion: the facts are always in the primacy position, always in scope, and compatible with prompt caching.
 
@@ -2367,7 +2367,7 @@ Keep the persistent facts block under 500 tokens. Beyond that, retrieval with re
 
 ---
 
-### Scratchpad Pattern
+### Scratchpad pattern
 
 The scratchpad pattern gives the model persistent working memory across turns without relying on context accumulation. A synthetic assistant message at the start of the conversation holds structured state; the orchestrator updates it programmatically after each turn.
 
@@ -2415,7 +2415,7 @@ The scratchpad stays in the primacy position (it is the first message) across al
 
 ---
 
-### Rolling Context Summaries
+### Rolling context summaries
 
 As conversation history grows, older turns lose relevance but consume tokens. Rolling context summaries compress completed phases into a compact record before they drift into the middle zone.
 
@@ -2467,7 +2467,7 @@ Trigger at 65% of the context limit rather than waiting for the 80% auto-compact
 
 ---
 
-## 18. Token Compression Tools
+## 18. Token compression tools
 
 The previous sections focus on what to put in context. This section covers tooling that compresses what enters context at the pipeline level: reducing token volume before Claude ever processes it. These tools complement CLAUDE.md authorship: good context engineering reduces noise at design time, compression tools reduce volume at runtime.
 
@@ -2475,7 +2475,7 @@ Two independent tools operate at different layers of the Claude Code tool pipeli
 
 ---
 
-### Layer 1: CLI Output: RTK
+### Layer 1: CLI output: RTK
 
 RTK (Rust Token Killer) is a CLI proxy that intercepts shell command output and compresses it before Claude reads it. It operates via a `PreToolUse` hook that rewrites commands like `git log` to `rtk git log`.
 
@@ -2493,7 +2493,7 @@ rtk gain                       # dashboard: tokens saved per command
 
 ---
 
-### Layer 2: File Reads and Session Memory: lean-ctx
+### Layer 2: File reads and session memory: lean-ctx
 
 lean-ctx operates as a global MCP server that intercepts Read calls and Bash calls at the tool level, below RTK's shell hook. It uses tree-sitter AST parsing to extract only the relevant structure of a file rather than sending the full content.
 
@@ -2570,7 +2570,7 @@ Install both. RTK handles CLI output; lean-ctx handles file reads and session me
 
 ---
 
-## Cross-References
+## Cross-references
 
 - Architecture and project structure patterns: `guide/core/architecture.md`
 - Methodology frameworks for AI-assisted development: `guide/core/methodologies.md`

@@ -4,7 +4,7 @@ description: "6-stage skill pipeline that transforms raw material into a confere
 tags: [workflow, skills, pipeline, presentation, ai-handoff]
 ---
 
-# Talk Preparation Pipeline: From Idea to Slides with AI
+# Talk preparation pipeline: From idea to slides with AI
 
 > **Confidence**: Tier 2, validated in production on real conference talks (DevWithAI Lyon, 2026).
 
@@ -12,7 +12,7 @@ Transform a raw article, transcript, or notes into a complete conference talk, i
 
 ---
 
-## Table of Contents
+## Table of contents
 
 1. [TL;DR](#tldr)
 2. [When to Use](#when-to-use)
@@ -72,7 +72,7 @@ Two modes: **REX** (talk with real-world proof: git history, metrics) and **Conc
 
 ---
 
-## When to Use
+## When to use
 
 This pipeline fits when you have a talk to prepare and either:
 
@@ -109,7 +109,7 @@ Not suited for: slide-deck updates for recurring meetings, short lightning talks
 
 ---
 
-## Pipeline Overview
+## Pipeline overview
 
 ### Output files per mode
 
@@ -146,7 +146,7 @@ talks/2026-devwithai-angles.md
 
 ---
 
-## Stage-by-Stage Guide
+## Stage-by-stage guide
 
 ### Stage 1: Extract
 
@@ -338,7 +338,7 @@ Tu peux aussi modifier, mixer, ou proposer quelque chose d'autre.
 
 ---
 
-## The Kimi Handoff
+## The Kimi handoff
 
 Stage 5 generates `{slug}-kimi-prompt.md`, a complete prompt for [kimi.com](https://kimi.com).
 
@@ -366,7 +366,7 @@ Stage 5 generates `{slug}-kimi-prompt.md`, a complete prompt for [kimi.com](http
 
 ---
 
-## Human-in-the-Loop Checkpoints
+## Human-in-the-loop checkpoints
 
 The pipeline has two human checkpoints:
 
@@ -387,7 +387,7 @@ This is the pipeline's critical gate. Stage 5 cannot start without an explicit h
 
 ---
 
-## Adapting the Pipeline
+## Adapting the pipeline
 
 ### Lightning talk (10-15 min)
 
@@ -418,7 +418,7 @@ This is the pipeline's critical gate. Stage 5 cannot start without an explicit h
 
 ---
 
-## Real-World Example
+## Real-world example
 
 **Talk**: "Dev with AI" REX, how we shipped a complex project in 7 months with AI tooling
 
@@ -458,7 +458,7 @@ talks/2026-devwithai-revision-sheets.md      (Stage 6)
 
 ---
 
-## Common Pitfalls
+## Common pitfalls
 
 ### Metrics without sources
 
@@ -482,7 +482,7 @@ Speaker notes in `pitch.md` should read as natural speech. If you catch yourself
 
 ---
 
-## Design Patterns Showcased
+## Design patterns showcased
 
 This pipeline is interesting from a Claude Code perspective because it demonstrates several advanced patterns in one coherent system.
 
@@ -527,7 +527,7 @@ The `--rex` / `--concept` flag controls which stages run. Stage 2 skips automati
 
 ---
 
-## See Also
+## See also
 
 - **Skill templates**: [`examples/skills/talk-pipeline/`](../../examples/skills/talk-pipeline/)
 - **PDF Generation workflow**: [`guide/workflows/pdf-generation.md`](./pdf-generation.md), for generating handouts from the talk content

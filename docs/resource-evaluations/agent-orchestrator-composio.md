@@ -1,4 +1,4 @@
-# Évaluation de Ressource: Agent Orchestrator (AO)
+# Évaluation de ressource: Agent orchestrator (AO)
 
 **URL**: https://github.com/AgentWrapper/agent-orchestrator
 **Type**: GitHub repository
@@ -68,7 +68,7 @@
 
 ---
 
-## ✅ Fact-Check
+## ✅ Fact-check
 
 | Affirmation | Vérifiée | Source/Commentaire |
 |-------------|----------|---------------------|

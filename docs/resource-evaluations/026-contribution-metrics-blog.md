@@ -1,4 +1,4 @@
-# Resource Evaluation: Contribution Metrics (Anthropic Blog)
+# Resource evaluation: Contribution metrics (Anthropic blog)
 
 | Field | Value |
 |-------|-------|
@@ -19,7 +19,7 @@ Anthropic announces "Contribution Metrics" for Claude Code — a GitHub-integrat
 - Conservative measurement: only high-confidence Claude Code involvement counted
 - Positioned as complement to DORA metrics and sprint velocity, not replacement
 
-## Gap Analysis
+## Gap analysis
 
 | Aspect | Resource | Guide (before integration) |
 |--------|----------|---------------------------|
@@ -28,7 +28,7 @@ Anthropic announces "Contribution Metrics" for Claude Code — a GitHub-integrat
 | Analytics dashboard | Full feature description | Not documented |
 | Methodology | PR/commit-based (GitHub) | Survey-based (132 engineers) |
 
-## Integration Decision
+## Integration decision
 
 **Score justification (4/5):**
 - Official first-party source with harder metrics than existing guide content
@@ -41,7 +41,7 @@ Anthropic announces "Contribution Metrics" for Claude Code — a GitHub-integrat
 - Identified 3 blind spots: methodology comparison, "conservative" claim scrutiny, competitive context
 - Corrected integration plan: separate subsection (not merged with Aug 2025 study)
 
-## Fact-Check
+## Fact-check
 
 | Claim | Status | Note |
 |-------|--------|------|
@@ -53,7 +53,7 @@ Anthropic announces "Contribution Metrics" for Claude Code — a GitHub-integrat
 
 **Confidence**: Medium — official source, but internal metrics without external validation or detailed methodology.
 
-## Integration Applied
+## Integration applied
 
 1. **New subsection** in `guide/ultimate-guide.md` after Anthropic Internal Study (Aug 2025) — separate section with own source, methodology note, and caveats
 2. **Reference.yaml** entry with source, date, availability, and key stats

@@ -1,4 +1,4 @@
-# Evaluation: Kairn: Knowledge Graph Memory MCP
+# Evaluation: Kairn: Knowledge graph memory MCP
 
 **Date**: 2026-02-25
 **Evaluator**: Claude (eval-resource skill)

@@ -5,17 +5,17 @@ allowed-tools: Write Read
 effort: high
 ---
 
-# Talk Stage 3: Concepts
+# Talk stage 3: Concepts
 
 Builds an exhaustive catalogue of all identifiable concepts in the source material. Each concept is numbered, categorized, and scored for its talk potential.
 
-## When to Use This Skill
+## When to use this skill
 
 - After Stage 1 (and Stage 2 if REX mode)
 - Before Stage 4 (Position needs the concept catalogue)
 - When you want a structured inventory of what's available before choosing an angle
 
-## What This Skill Does
+## What this skill does
 
 1. **Reads the summary**: loads `{slug}-summary.md`
 2. **Reads the timeline** (if available): enriches scoring with verified dates
@@ -36,7 +36,7 @@ Builds an exhaustive catalogue of all identifiable concepts in the source materi
 - `talks/{YYYY}-{slug}-concepts.md` (main catalogue)
 - `talks/{YYYY}-{slug}-concepts-enriched.md` (if repo_path provided)
 
-## Scoring Criteria
+## Scoring criteria
 
 ### HIGH: Strong potential
 - Demonstrable live or with a screenshot
@@ -59,7 +59,7 @@ Builds an exhaustive catalogue of all identifiable concepts in the source materi
 
 **Scoring discipline**: Max 30% HIGH. If everything is HIGH, nothing is.
 
-## Standard Categories
+## Standard categories
 
 | Category | Description |
 |----------|-------------|
@@ -78,7 +78,7 @@ Builds an exhaustive catalogue of all identifiable concepts in the source materi
 
 Adapt or create categories if the talk has domain-specific areas.
 
-## Output Format
+## Output format
 
 ### concepts.md
 
@@ -136,7 +136,7 @@ For each enriched concept, include:
 - Duplicating very similar concepts (merge them instead)
 - Analyzing repo code if the repo isn't accessible
 
-## Validation Checklist
+## Validation checklist
 
 - [ ] Minimum 15 concepts identified (20+ for REX with repo)
 - [ ] Each concept has a 1-2 sentence concrete description

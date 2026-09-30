@@ -1,4 +1,4 @@
-# Resource Evaluation: Hook-Driven Dev Workflows with Claude Code
+# Resource evaluation: Hook-Driven dev workflows with Claude Code
 
 **Date**: 2026-03-16
 **Evaluator**: Claude Sonnet 4.6
@@ -9,7 +9,7 @@
 
 ---
 
-## Executive Summary
+## Executive summary
 
 Nick Tune (already cited 4 times in the guide for his earlier Medium article) presents a new pattern that treats Claude Code hooks as a **workflow enforcement engine** with a typed state machine, JSON persistence, and per-state context injection. The guide covers individual hook types in isolation and has a bash-based single-entry dispatcher (§7.5). This article adds a TypeScript state machine layer on top of hooks that the guide does not cover. The most immediately useful standalone pattern — identity re-injection after compaction — can be integrated now without the full state machine.
 
@@ -17,7 +17,7 @@ Nick Tune (already cited 4 times in the guide for his earlier Medium article) pr
 
 ---
 
-## Scoring Summary
+## Scoring summary
 
 | Criterion | Score | Weight | Weighted Score |
 |-----------|-------|--------|----------------|
@@ -31,7 +31,7 @@ Nick Tune (already cited 4 times in the guide for his earlier Medium article) pr
 
 ---
 
-## Content Summary
+## Content summary
 
 The article introduces a hook-driven workflow pattern built on five core ideas:
 
@@ -43,7 +43,7 @@ The article introduces a hook-driven workflow pattern built on five core ideas:
 
 ---
 
-## Gap Analysis vs. Claude Code Ultimate Guide
+## Gap analysis vs. Claude Code Ultimate Guide
 
 | Pattern | This Article | Guide Coverage |
 |---------|-------------|----------------|
@@ -60,9 +60,9 @@ The article introduces a hook-driven workflow pattern built on five core ideas:
 
 ---
 
-## Detailed Analysis
+## Detailed analysis
 
-### Accuracy & Reliability (4/5)
+### Accuracy & reliability (4/5)
 
 Technical claims check out against Claude Code's documented hook behavior:
 - SubagentStart, SubagentStop, PreToolUse, TeammateIdle hooks are real and documented
@@ -73,31 +73,31 @@ Technical claims check out against Claude Code's documented hook behavior:
 
 One significant caveat: the author explicitly states "1 week of experimentation, cannot 100% recommend yet." That honest disclaimer is not a minor qualifier — it means this is unvalidated at any meaningful scale.
 
-### Depth & Comprehensiveness (5/5)
+### Depth & comprehensiveness (5/5)
 
 Full TypeScript code for the dispatcher, a worked `/states/developing.md` example, JSON persistence schema with real fields, Zod transition map, DDD framing. GitHub repo with complete code exists. This is the article's strongest dimension — not vaporware, genuinely implementable.
 
-### Practical Value (4/5)
+### Practical value (4/5)
 
 The core problem is real: getting consistent workflows in codebases you don't fully control. The identity re-injection pattern alone is worth the read. The full state machine is more complex but still implementable.
 
 Barrier: the approach requires Node.js + TypeScript runtime (`npx tsx`). The guide's hooks section is bash-first by design. Any integration needs to address this friction explicitly.
 
-### Originality & Uniqueness (3/5)
+### Originality & uniqueness (3/5)
 
 The single-entrypoint dispatcher already exists in §7.5 as bash. The agent teams feature is already documented. What's genuinely novel: (1) attaching a typed state machine to hooks, (2) per-state SubagentStart context injection from files, (3) respawn for context window hygiene, (4) identity re-injection after compaction. Strong delta on 4 specific patterns, not on the overall approach.
 
-### Production Readiness (2/5)
+### Production readiness (2/5)
 
 1 week of testing. Author's own words: "cannot fully recommend." Known wiring complexity ("ugly and fragile at times"). The hook JSON config requires repeating the same entry for each event type — acknowledged as a UX problem. This needs months of community validation before being presented as a recommended pattern.
 
-### Community Validation (2/5)
+### Community validation (2/5)
 
 Nick Tune is a credible practitioner (established author, DDD community). No adoption metrics for this specific article. The GitHub repo exists but engagement data is not available from the article.
 
 ---
 
-## Prerequisites (Not Mentioned in Evaluation v1)
+## Prerequisites (not mentioned in evaluation v1)
 
 Any integration must flag these hard dependencies:
 
@@ -107,9 +107,9 @@ Any integration must flag these hard dependencies:
 
 ---
 
-## Recommended Integration
+## Recommended integration
 
-### Tier 1 — Integrate Now (Standalone Pattern)
+### Tier 1 — integrate now (standalone pattern)
 
 **Identity re-injection after compaction** → `guide/ultimate-guide.md` §7.5 (Hook Examples)
 
@@ -121,7 +121,7 @@ When Claude's context compacts, agents in long sessions can "forget" their
 role. A hook can detect this and re-inject identity instructions.
 ```
 
-### Tier 2 — Integrate with Prerequisites Gate (3-4 weeks)
+### Tier 2 — integrate with prerequisites gate (3-4 weeks)
 
 **Per-state SubagentStart context injection** → Add to agent-teams.md as an advanced pattern section. Prerequisite: agent teams flag. Key insight: inject state-specific files at runtime rather than bundling everything in the system prompt — reduces system prompt bloat and keeps agents focused.
 
@@ -129,13 +129,13 @@ role. A hook can detect this and re-inject identity instructions.
 
 **`guide/workflows/hook-driven-workflows.md`**: Full state machine architecture, once the pattern has more community validation. Clear prerequisites header (agent teams flag, Opus 4.6, Node.js + TypeScript). Frame as experimental / advanced.
 
-### What NOT to Document
+### What NOT to document
 
 The specific CodeRabbit + GitHub issue + 10-state workflow is too opinionated. Document the architectural patterns; readers define their own states.
 
 ---
 
-## Challenge Findings (Technical Review)
+## Challenge findings (technical review)
 
 The challenge agent identified several issues with the initial v1 evaluation:
 
@@ -151,7 +151,7 @@ The challenge agent identified several issues with the initial v1 evaluation:
 
 ---
 
-## Fact-Check
+## Fact-check
 
 | Claim | Verified | Notes |
 |-------|----------|-------|

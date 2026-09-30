@@ -5,7 +5,7 @@ allowed-tools: Write Read AskUserQuestion Task
 effort: high
 ---
 
-# Talk Pipeline Orchestrator
+# Talk pipeline orchestrator
 
 Orchestrates the complete talk preparation pipeline from raw material to revision sheets. Can run the full pipeline or a single isolated stage.
 
@@ -24,7 +24,7 @@ Orchestrates the complete talk preparation pipeline from raw material to revisio
 /talk-pipeline --rex --slug=my-talk --event="Conf 2026" --date=2026-06-15 --duration=30
 ```
 
-## Context Collection
+## Context collection
 
 Ask with AskUserQuestion if not provided:
 
@@ -52,7 +52,7 @@ Ask with AskUserQuestion if not provided:
 7. **Run Stage 6** (`/talk-stage6-revision`)
 8. **Final summary**: list all generated files with their paths
 
-## Dependency Graph
+## Dependency graph
 
 ```
          extract (Stage 1)
@@ -84,7 +84,7 @@ If `--stage` is provided, run only the corresponding skill:
 | script | /talk-stage5-script |
 | revision | /talk-stage6-revision |
 
-## Output Naming Convention
+## Output naming convention
 
 ```
 talks/{YYYY}-{slug}-summary.md           # extract
@@ -103,7 +103,7 @@ talks/{YYYY}-{slug}-kimi-prompt.md
 talks/{YYYY}-{slug}-revision-sheets.md   # revision
 ```
 
-## Final Summary Format
+## Final summary format
 
 After Stage 6 completes, display:
 

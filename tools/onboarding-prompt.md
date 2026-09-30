@@ -1,4 +1,4 @@
-# Personalized Claude Code Onboarding
+# Personalized Claude Code onboarding
 
 > An interactive prompt for Claude to guide you through the Ultimate Claude Code Guide at your own pace.
 
@@ -8,7 +8,7 @@
 
 ---
 
-## 1. What This Does
+## 1. What this does
 
 This prompt instructs Claude to become your personal onboarding coach by:
 
@@ -24,7 +24,7 @@ This prompt instructs Claude to become your personal onboarding coach by:
 
 ---
 
-## 2. Who This Is For
+## 2. Who this is for
 
 | Goal | What You'll Get |
 |------|-----------------|
@@ -39,7 +39,7 @@ This prompt instructs Claude to become your personal onboarding coach by:
 
 ---
 
-## 3. How to Use It
+## 3. How to use it
 
 ### Option A: One-liner (no clone needed)
 
@@ -57,7 +57,7 @@ claude "Fetch and follow the onboarding instructions from: https://raw.githubuse
 
 ---
 
-## 4. The Prompt
+## 4. The prompt
 
 ```markdown
 # Personalized Claude Code Onboarding
@@ -319,7 +319,7 @@ Begin by asking about preferred language.
 
 ---
 
-## 5. Example Interaction
+## 5. Example interaction
 
 **Claude**: What language would you prefer for this onboarding?
 
@@ -368,7 +368,7 @@ Par quel sujet veux-tu commencer ?
 
 ---
 
-## 6. Tips for Best Results
+## 6. Tips for best results
 
 | Tip | Why It Helps |
 |-----|--------------|
@@ -379,7 +379,7 @@ Par quel sujet veux-tu commencer ?
 
 ---
 
-## 7. Related Resources
+## 7. Related resources
 
 - [Reference Index](../machine-readable/reference.yaml) - The navigation map Claude uses
 - [Ultimate Guide](../guide/ultimate-guide.md) - Full documentation

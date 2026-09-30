@@ -1,4 +1,4 @@
-# Agent Harness Landscape Visual Prompts
+# Agent harness landscape visual prompts
 
 These prompts generated the three raster figures used by the Agent Harness Map. Each image was generated as a separate asset, reviewed visually, resized to 1600 x 900, and converted to WebP.
 

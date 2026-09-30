@@ -4,7 +4,7 @@ Input: `/guide-recap week 2026-01-27`
 
 Date range: 2026-01-27 (Monday) to 2026-02-02 (Sunday)
 
-## Versions in Range
+## Versions in range
 
 | Version | Date | Entries |
 |---------|------|---------|
@@ -17,7 +17,7 @@ Date range: 2026-01-27 (Monday) to 2026-02-02 (Sunday)
 
 **6 releases this week.**
 
-## Scoring (Top Entries)
+## Scoring (top entries)
 
 | Entry | Version | Category | Score |
 |-------|---------|----------|-------|

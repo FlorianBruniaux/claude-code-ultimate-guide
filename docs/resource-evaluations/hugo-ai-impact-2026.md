@@ -1,4 +1,4 @@
-# Resource Evaluation: AI's Impact on Software Engineering in 2026
+# Resource evaluation: AI's impact on software engineering in 2026
 
 **URL**: https://eventuallymaking.io/p/ai-s-impact-on-the-state-of-the-art-in-software-engineering-in-2026
 **Author**: Hugo (Software Engineer, 20+ years, Founder Malt/Writizzy)
@@ -27,7 +27,7 @@ Opinion piece on AI's impact on software engineering practices in 2026, based on
 
 ---
 
-## Evaluation Scores
+## Evaluation scores
 
 | Criterion | Score (1-5) | Notes |
 |-----------|-------------|-------|
@@ -41,7 +41,7 @@ Opinion piece on AI's impact on software engineering practices in 2026, based on
 
 ---
 
-## Gap Analysis
+## Gap analysis
 
 ### What's NEW (not in guide)
 
@@ -61,7 +61,7 @@ Opinion piece on AI's impact on software engineering practices in 2026, based on
 
 ---
 
-## Fact-Check Results
+## Fact-check results
 
 | Claim | Verified | Source | Correction |
 |-------|----------|--------|------------|
@@ -76,7 +76,7 @@ Opinion piece on AI's impact on software engineering practices in 2026, based on
 
 ---
 
-## Technical-Writer Challenge
+## Technical-writer challenge
 
 **Agent ID**: `ae2f481` (technical-writer subagent)
 
@@ -95,11 +95,11 @@ Opinion piece on AI's impact on software engineering practices in 2026, based on
 
 ---
 
-## Integration Decision
+## Integration decision
 
 **Action taken**: **Minimal integration** (2 footnotes)
 
-### 1. Context Engineering (Thoughtworks) — Priority HIGH
+### 1. Context engineering (Thoughtworks) — priority HIGH
 
 **File**: `guide/core/methodologies.md` (after line 66, "Foundational Discipline" section)
 
@@ -114,7 +114,7 @@ Opinion piece on AI's impact on software engineering practices in 2026, based on
 
 **Rationale**: Legitimate framework gap, verified via Perplexity and Thoughtworks documentation.
 
-### 2. Corporate AI Marketplaces — Priority LOW
+### 2. Corporate AI marketplaces — priority LOW
 
 **File**: `guide/roles/adoption-approaches.md` (after line 277, "Larger Team" section)
 
@@ -130,7 +130,7 @@ Opinion piece on AI's impact on software engineering practices in 2026, based on
 
 ---
 
-## Why NOT More Integration?
+## Why NOT more integration?
 
 ### Rejected: Full "Team Governance" section
 
@@ -152,7 +152,7 @@ Opinion piece on AI's impact on software engineering practices in 2026, based on
 
 ---
 
-## Comparison to Other Evaluations
+## Comparison to other evaluations
 
 | Resource | Score | Templates/Code | Stats Quality | Integration |
 |----------|-------|----------------|---------------|-------------|
@@ -163,16 +163,16 @@ Opinion piece on AI's impact on software engineering practices in 2026, based on
 
 ---
 
-## Lessons Learned
+## Lessons learned
 
-### Evaluation Process Improvements
+### Evaluation process improvements
 
 1. **Terminology verification**: Always cross-check framework names with authoritative sources (Perplexity, official docs)
 2. **Gap analysis rigor**: Grep existing guide before claiming "missing content"
 3. **Stats scrutiny**: Require methodology documentation, not just numbers
 4. **Technical-writer challenge**: Proved valuable — caught overestimation of novelty
 
-### What Worked
+### What worked
 
 1. **Fact-check protocol**: Caught terminology error early
 2. **Agent challenge**: technical-writer agent provided brutal but accurate reality check

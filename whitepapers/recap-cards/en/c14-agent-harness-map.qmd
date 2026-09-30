@@ -14,7 +14,7 @@ format:
   recap-card-typst: default
 ---
 
-## The Four Layers
+## The four layers
 
 | Layer | Responsibility | Does not replace |
 |-------|----------------|------------------|
@@ -29,7 +29,7 @@ Loop and graph are not extra layers. Loop names the repeated feedback and stoppi
 
 A harness optimizer sits outside this stack. It changes and evaluates candidate harnesses for later runs.
 
-## Choose in the Right Order
+## Choose in the right order
 
 1. Define the task and acceptable autonomy.
 2. Select a runtime that owns the required loop.
@@ -37,7 +37,7 @@ A harness optimizer sits outside this stack. It changes and evaluates candidate 
 4. Write the repository contract: instructions, pass criteria, verification.
 5. Add an orchestrator only when coordination, isolation, or recovery across tasks requires it.
 
-## Five Sources, Five Uses
+## Five sources, five uses
 
 | Source | Used to | Limit |
 |--------|---------|-------|
@@ -49,7 +49,7 @@ A harness optimizer sits outside this stack. It changes and evaluates candidate 
 
 Statuses for observed mechanisms: `confirmed` = visible mechanism, `claimed` = source assertion, `unknown` = not established yet, `not_applicable` = category mismatch.
 
-## Short Trial, Traceable Verdict
+## Short trial, traceable verdict
 
 Compare two or three model-harness pairs on real tasks in separate worktrees. Repeat critical tasks. Measure human verdict, interventions, plan drift, wall time, accepted-task cost, recovery, and setup friction.
 

@@ -1,4 +1,4 @@
-# Audit Your Landing Cheatsheet
+# Audit your landing cheatsheet
 
 > A self-contained prompt to evaluate if your project needs a cheatsheet and audit existing ones against the gold standard.
 
@@ -8,7 +8,7 @@
 
 ---
 
-## 1. What This Does
+## 1. What this does
 
 This prompt instructs Claude to perform a systematic cheatsheet audit in 4 phases:
 
@@ -26,7 +26,7 @@ This prompt instructs Claude to perform a systematic cheatsheet audit in 4 phase
 
 ---
 
-## 2. Who This Is For
+## 2. Who this is for
 
 | Audience | What You'll Get |
 |----------|-----------------|
@@ -42,9 +42,9 @@ This prompt instructs Claude to perform a systematic cheatsheet audit in 4 phase
 
 ---
 
-## 3. How to Use It
+## 3. How to use it
 
-### Step 1: Copy the Prompt
+### Step 1: Copy the prompt
 
 Copy everything inside the code block in [Section 4](#4-the-prompt) below.
 
@@ -55,17 +55,17 @@ cd your-project-directory
 claude
 ```
 
-### Step 3: Paste and Execute
+### Step 3: Paste and execute
 
 Paste the prompt and press Enter. Claude will begin the 4-phase audit.
 
-### Step 4: Review Results
+### Step 4: Review results
 
 Claude will present findings per phase and a final summary with actionable recommendations.
 
 ---
 
-## 4. The Prompt
+## 4. The prompt
 
 ````markdown
 # Cheatsheet Audit
@@ -428,7 +428,7 @@ When evaluating HTML cheatsheet pages, the gold standard includes:
 
 ---
 
-## 5. Example Output
+## 5. Example output
 
 Here's what the audit looks like when run against a real project:
 

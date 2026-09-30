@@ -1,4 +1,4 @@
-# Session Progress
+# Session progress
 
 <!--
 agent-progress.md — Session handoff template for harness engineering.
@@ -10,22 +10,22 @@ of orientation at session start.
 Related: examples/templates/feature-list.json, §9.25 Harness Engineering
 -->
 
-## Last Updated
+## Last updated
 YYYY-MM-DD — Session N
 
-## Active Feature
+## Active feature
 feat-XXX: Feature Name
 
-## Done This Session
+## Done this session
 - [x] Completed item
 - [x] Another completed item
 
-## In Progress
+## In progress
 - [ ] Current work item
   - Status: brief description of how far along
   - Blocker: none (or describe the blocker)
 
-## Next Steps
+## Next steps
 1. First action for next session
 2. Second action
 3. Third action
@@ -37,7 +37,7 @@ feat-XXX: Feature Name
 - integration tests: N/N pass / not yet run
 - e2e: pass / not yet run
 
-## Notes for Next Session
+## Notes for next session
 Specific file paths, function names, and line numbers that save
 reconstruction time. Example: "The wiring point is
 src/services/DocumentService.import() at line 67. It expects a

@@ -9,7 +9,7 @@
 
 ---
 
-## Executive Summary
+## Executive summary
 
 This article presents a paradigm shift framework for AI-assisted engineering through two core concepts:
 1. **Eiffel Tower Principle**: AI tools fundamentally transform what's possible (like elevators enabled Eiffel Tower), not just acceleration
@@ -21,9 +21,9 @@ The article articulates the **Verification Paradox**: when AI succeeds 99% of th
 
 ---
 
-## Content Analysis
+## Content analysis
 
-### 5 Key Points
+### 5 key points
 
 1. **Tool-Enabled Transformation** (Eiffel Tower analogy)
    - Before elevators: tall buildings required thick bases (pyramidal)
@@ -53,7 +53,7 @@ The article articulates the **Verification Paradox**: when AI succeeds 99% of th
 
 ---
 
-## Scoring Justification (5/5 CRITICAL)
+## Scoring justification (5/5 CRITICAL)
 
 ### Relevance to Claude Code (5/5)
 - **Direct applicability**: Verification Paradox maps to production safety rules
@@ -61,13 +61,13 @@ The article articulates the **Verification Paradox**: when AI succeeds 99% of th
 - **Mental model alignment**: Engineer → orchestrator paradigm shift
 - **Prompt engineering**: Precision requirements match WHAT/WHERE/HOW framework
 
-### Author Credibility (5/5)
+### Author credibility (5/5)
 - **Charles Gorintin**: CTO of Alan (major French healthtech), ex-Facebook/Instagram/Twitter data science, Mistral AI board member
 - **Maxime Le Bras**: Talent Lead at Alan, pioneer in AI-assisted recruitment in France
 - **Company scale**: 15K+ companies, 300K+ members, €500M raised (production credibility)
 - **Newsletter reach**: 3,897 followers (Intelligence Humaine)
 
-### Content Quality (5/5)
+### Content quality (5/5)
 - **Original concepts**: First clear articulation of Verification Paradox
 - **Production-tested**: Insights from heavily regulated industry (health insurance)
 - **Philosophical depth**: Henri Bergson quote on intelligence ("tools to make tools")
@@ -87,9 +87,9 @@ The article articulates the **Verification Paradox**: when AI succeeds 99% of th
 
 ---
 
-## Comparative Analysis
+## Comparative analysis
 
-### This Resource vs. Our Guide
+### This resource vs. our guide
 
 | Aspect | Alan Article | Claude Code Guide Current State |
 |--------|--------------|--------------------------------|
@@ -104,9 +104,9 @@ The article articulates the **Verification Paradox**: when AI succeeds 99% of th
 
 ---
 
-## Integration Recommendations
+## Integration recommendations
 
-### ✅ APPROVED Integrations (3)
+### ✅ APPROVED integrations (3)
 
 1. **Production Safety** (`guide/security/production-safety.md`)
    - **Location**: After existing rules (new Rule 7 or dedicated section)
@@ -124,7 +124,7 @@ The article articulates the **Verification Paradox**: when AI succeeds 99% of th
    - **Entries**: `practitioner_alan`, `verification_paradox`, `verification_paradox_source`
    - **Rationale**: Enable LLM lookup of these concepts
 
-### ❌ REJECTED Integrations (4)
+### ❌ REJECTED integrations (4)
 
 1. **Quick Start "Paradigm Shift" section**
    - **Reason**: Too philosophical, breaks practical flow
@@ -144,13 +144,13 @@ The article articulates the **Verification Paradox**: when AI succeeds 99% of th
 
 ---
 
-## Technical Challenge Results
+## Technical challenge results
 
 **Challenger**: technical-writer agent
 **Date**: February 2, 2026
 **Methodology**: Systematic review of 6 proposed integrations
 
-### Challenge Outcomes
+### Challenge outcomes
 
 | Proposal | Technical Writer Verdict | Reasoning |
 |----------|-------------------------|-----------|
@@ -165,9 +165,9 @@ The article articulates the **Verification Paradox**: when AI succeeds 99% of th
 
 ---
 
-## Fact-Checking
+## Fact-checking
 
-### Author Credentials (Verified)
+### Author credentials (verified)
 
 ✅ **Charles Gorintin**:
 - LinkedIn: https://www.linkedin.com/in/charlesgorintin/
@@ -185,7 +185,7 @@ The article articulates the **Verification Paradox**: when AI succeeds 99% of th
 - Funding: €500M raised (confirmed via Crunchbase)
 - Industry: Health insurance (heavily regulated) (confirmed)
 
-### Content Claims (Verified)
+### Content claims (verified)
 
 ✅ **Stanislas Polu Interview**:
 - Dust co-founder (confirmed)
@@ -202,9 +202,9 @@ The article articulates the **Verification Paradox**: when AI succeeds 99% of th
 
 ---
 
-## Risks & Limitations
+## Risks & limitations
 
-### Potential Concerns
+### Potential concerns
 
 1. **Language Barrier**: Article in French → may limit direct quoting
    - **Mitigation**: English summaries + link to original
@@ -218,7 +218,7 @@ The article articulates the **Verification Paradox**: when AI succeeds 99% of th
 4. **Mirakl Data Point**: Not independently verified (75% employees)
    - **Mitigation**: Attribute to Polu interview, mark as reported
 
-### Counter-Arguments Considered
+### Counter-arguments considered
 
 **Argument**: "This is just acceleration of existing practices"
 **Counter**: Eiffel Tower analogy demonstrates structural transformation, not speed increase. Verification Paradox is qualitatively different safety challenge.
@@ -231,7 +231,7 @@ The article articulates the **Verification Paradox**: when AI succeeds 99% of th
 
 ---
 
-## Action Items
+## Action items
 
 ### Immediate (P1)
 
@@ -240,7 +240,7 @@ The article articulates the **Verification Paradox**: when AI succeeds 99% of th
 - [ ] Add Alan practitioner insight to `guide/ecosystem/ai-ecosystem.md`
 - [ ] Update `machine-readable/reference.yaml`
 
-### Follow-Up (P2)
+### Follow-up (P2)
 
 - [ ] Fix README.md counters (37/35/38 → 41 evaluations)
 - [ ] Verify landing sync after counter update
@@ -268,7 +268,7 @@ The article articulates the **Verification Paradox**: when AI succeeds 99% of th
 
 ---
 
-## Appendix: Original Article Excerpts (French)
+## Appendix: Original article excerpts (French)
 
 ### Sur le Principe de la Tour Eiffel
 

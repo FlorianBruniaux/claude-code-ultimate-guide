@@ -4,13 +4,13 @@ description: "TDD cycle, spec-first pipeline, plan-driven workflow, iterative re
 tags: [workflows, tdd, spec-first, plan-driven, iterative]
 ---
 
-# Development Workflows
+# Development workflows
 
 Proven patterns for structuring AI-assisted development sessions.
 
 ---
 
-### TDD Red-Green-Refactor with Claude
+### TDD red-green-refactor with Claude
 
 Test-Driven Development adapted for Claude Code: write the failing test first, then ask Claude to implement only what's needed to pass it. This prevents over-engineering and ensures tests actually verify behavior.
 
@@ -87,7 +87,7 @@ Write failing test (RED)
 
 ---
 
-### Spec-First Development Pipeline
+### Spec-First development pipeline
 
 Write the specification before the code. Claude uses the spec as the single source of truth, preventing drift between what was planned and what was built. The loop closes on `Maintain`: a monitoring threshold crossed in production drafts a new `intent.md` automatically, a pattern Anthropic's [AI-native SDLC playbook](https://claude.com/blog/the-ai-native-sdlc-playbook) (2026) documents as the boundary between a one-shot pipeline and a continuous one.
 
@@ -189,7 +189,7 @@ Idea → Write intent.md → Approved by PM? ─No→ Refine intent
 
 ---
 
-### Plan-Driven Workflow with Annotation
+### Plan-Driven workflow with annotation
 
 Complex tasks benefit from plan mode: Claude explores the codebase, proposes a plan, you annotate it, then Claude executes only what was approved. Prevents surprises on large refactors.
 
@@ -269,7 +269,7 @@ Complete ✓
 
 ---
 
-### Iterative Refinement Loop
+### Iterative refinement loop
 
 Output rarely hits the mark on the first try. This loop gives you a systematic way to improve results through targeted feedback rather than "make it better" vague instructions.
 
@@ -348,7 +348,7 @@ Prompt → Output → Evaluate → Good? ──Yes──► Done
 
 ---
 
-### AI Fluency: High vs Low Fluency Paths
+### AI Fluency: High vs low fluency paths
 
 When Claude produces a polished-looking output, a cognitive bias kicks in: the more complete the output appears, the less critically most users evaluate it. This is the Artifact Paradox, documented by Anthropic across 9,830 conversations. The diagram shows what separates the 30% of high-fluency users from the 70% who accept first outputs, and the measurable difference in outcome quality.
 

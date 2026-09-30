@@ -7,7 +7,7 @@ when_to_use: "Use when ready to stage, commit, and push the current work."
 disable-model-invocation: true
 ---
 
-# Ship Command - Pre-Deploy Checklist
+# Ship command - pre-deploy checklist
 
 Comprehensive pre-deployment verification to ensure release readiness.
 
@@ -20,9 +20,9 @@ Run before every production deployment to verify:
 - Documentation updates
 - Environment readiness
 
-## Pre-Deploy Checklist
+## Pre-deploy checklist
 
-### 🔴 Blockers (Must Pass)
+### 🔴 Blockers (must pass)
 
 ```bash
 # 1. All tests passing
@@ -40,7 +40,7 @@ npm run build 2>/dev/null || pnpm build 2>/dev/null
 grep -rn "API_KEY=\|SECRET=\|PASSWORD=" --include="*.{ts,js,json}" . 2>/dev/null | grep -v node_modules | grep -v ".env.example"
 ```
 
-### 🟠 High Priority (Should Pass)
+### 🟠 High priority (should pass)
 
 ```bash
 # 5. Security audit
@@ -57,7 +57,7 @@ grep -rn "TODO\|FIXME\|XXX\|HACK" --include="*.{ts,js}" src/ 2>/dev/null | head 
 [ -d "migrations" ] && echo "Migrations: $(ls migrations | wc -l) total"
 ```
 
-### 🟡 Recommended (Nice to Have)
+### 🟡 Recommended (nice to have)
 
 ```bash
 # 9. Documentation updated
@@ -70,18 +70,18 @@ cat package.json | jq -r '.version' 2>/dev/null || echo "Check version manually"
 [ -f ".env.example" ] && echo "✅ .env.example exists" || echo "⚠️ Missing .env.example"
 ```
 
-## Output Format
+## Output format
 
 ---
 
-### 🚀 Ship Readiness Report
+### 🚀 Ship readiness report
 
 **Branch**: [current branch]
 **Commit**: [HEAD short hash]
 **Target**: [production/staging]
 **Timestamp**: [date/time]
 
-### Blockers (Must Fix Before Deploy)
+### Blockers (must fix before deploy)
 
 | Check | Status | Details |
 |-------|--------|---------|
@@ -91,7 +91,7 @@ cat package.json | jq -r '.version' 2>/dev/null || echo "Check version manually"
 | Build | ✅/❌ | Success/Failed |
 | Secrets | ✅/❌ | X potential leaks |
 
-### High Priority
+### High priority
 
 | Check | Status | Action |
 |-------|--------|--------|
@@ -118,7 +118,7 @@ cat package.json | jq -r '.version' 2>/dev/null || echo "Check version manually"
 Overall:        [READY TO SHIP / NOT READY]
 ```
 
-### 🎯 Action Items
+### 🎯 Action items
 
 1. [Most critical fix needed]
 2. [Second priority]
@@ -126,9 +126,9 @@ Overall:        [READY TO SHIP / NOT READY]
 
 ---
 
-## Environment-Specific Checks
+## Environment-specific checks
 
-### Production Deploy
+### Production deploy
 
 ```bash
 # Verify production env vars
@@ -141,7 +141,7 @@ grep -rn "DEBUG=true\|NODE_ENV=development" .env* 2>/dev/null
 grep -rn "localhost\|127\.0\.0\.1" --include="*.{ts,js,json}" src/ 2>/dev/null | grep -v test | head -5
 ```
 
-### Staging Deploy
+### Staging deploy
 
 ```bash
 # Staging-specific checks
@@ -151,7 +151,7 @@ grep -rn "localhost\|127\.0\.0\.1" --include="*.{ts,js,json}" src/ 2>/dev/null |
 grep -rn "FEATURE_FLAG\|ENABLE_" .env* 2>/dev/null
 ```
 
-## CI/CD Integration
+## CI/CD integration
 
 Add to your pipeline:
 
@@ -171,7 +171,7 @@ ship-check:
         npm audit --audit-level=high
 ```
 
-## Post-Deploy Verification
+## Post-deploy verification
 
 After deployment, verify:
 
@@ -186,7 +186,7 @@ curl -s https://your-app.com/version | jq .
 npm run test:smoke 2>/dev/null || echo "Run smoke tests manually"
 ```
 
-## Rollback Preparation
+## Rollback preparation
 
 Before shipping, ensure you can rollback:
 
@@ -232,7 +232,7 @@ git describe --tags --abbrev=0
 4. **Document exceptions**: If skipping a check, note why
 5. **Monitor after deploy**: Ship is not done until monitoring confirms success
 
-## Related Commands
+## Related commands
 
 - `/release-notes` - Generate changelog and announcements
 - `/validate-changes` - LLM-based code review

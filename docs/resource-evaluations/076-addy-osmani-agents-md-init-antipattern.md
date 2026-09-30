@@ -1,4 +1,4 @@
-# Evaluation: Addy Osmani: Stop Using /init for AGENTS.md
+# Evaluation: Addy Osmani: Stop using /init for AGENTS.md
 
 **Resource Type**: Blog Article (Research Synthesis + Practitioner Guidance)
 **Author**: Addy Osmani (Director, Google Cloud AI)
@@ -9,7 +9,7 @@
 
 ---
 
-## 1. Content Summary
+## 1. Content summary
 
 Research-backed critique of the `/init` auto-generation workflow for AGENTS.md / CLAUDE.md context files, synthesizing two 2026 academic papers with practitioner architecture recommendations.
 
@@ -27,7 +27,7 @@ Research-backed critique of the `/init` auto-generation workflow for AGENTS.md /
 
 ---
 
-## 2. Initial Scoring: 4/5 (High Value)
+## 2. Initial scoring: 4/5 (High value)
 
 | Score | Meaning | Action |
 |-------|---------|--------|
@@ -61,7 +61,7 @@ Research-backed critique of the `/init` auto-generation workflow for AGENTS.md /
 
 ---
 
-## 3. Comparative Analysis
+## 3. Comparative analysis
 
 | Aspect | This Resource | Guide §3.1 |
 |--------|--------------|------------|
@@ -78,7 +78,7 @@ Research-backed critique of the `/init` auto-generation workflow for AGENTS.md /
 
 ---
 
-## 4. Integration Recommendations
+## 4. Integration recommendations
 
 ### Where to integrate
 
@@ -177,7 +177,7 @@ The challenger **downgraded the score to 3/5** with substantive reasoning.
 
 ---
 
-## 7. Final Decision
+## 7. Final decision
 
 **Score**: 3/5 (Moderate — derivative synthesis with unverified secondary claims)
 

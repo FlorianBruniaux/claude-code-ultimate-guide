@@ -1,11 +1,11 @@
-# Team Knowledge Base for Claude Code + Cowork
+# Team knowledge base for Claude Code + Cowork
 
 **Reading time**: 18 minutes
 **Skill level**: Month 1+ (team lead deploying both tools)
 
 > **Scope**: This section covers how to set up a shared company knowledge base (KB) that both Claude Code (developer CLI) and Claude Cowork (desktop app for non-developers, research preview) can read. It is the first infrastructure question most teams hit when they roll out both tools. If you only use Claude Code on a single codebase, the repo-as-KB pattern in [§9.25 Harness Engineering](../ultimate-guide.md#925-harness-engineering-at-agent-throughput) already covers your needs. This section is for the team-wide case: shared docs, live systems, and reusable workflows across developers and knowledge workers.
 
-## The "One Tool for Three Needs" Trap
+## The "One Tool for Three Needs" trap
 
 A team deploys Claude Code for engineers and Cowork for PMs, ops, and support. Someone asks the obvious question: "Where do we put the company knowledge so both tools can use it?" The instinct is to pick a single answer. A wiki. A Notion workspace. A vector database. One place, one connector, done.
 
@@ -40,7 +40,7 @@ Projects are fine for an individual exploring a fixed set of PDFs in the web app
 
 ---
 
-## Tier 1: Versioned Markdown Vault (Static Docs)
+## Tier 1: Versioned markdown vault (static docs)
 
 Most of what a team calls "the knowledge base" is static documentation. Runbooks, architecture decision records, coding standards, onboarding guides, the "how we deploy" doc, the incident postmortems. These change through deliberate edits, and you want every change reviewed and reversible. That description is the definition of a git repository.
 
@@ -133,7 +133,7 @@ For static docs, direct file reading is both the simplest and the most accurate 
 
 ---
 
-## Tier 2: MCP Connectors for Live Systems
+## Tier 2: MCP connectors for live systems
 
 Static docs are the easy half. The harder half is the knowledge that lives in systems other people update all day: the Jira backlog, the Confluence space, the CRM, the internal metrics API. You cannot copy this into a Markdown repo, because it is stale the instant you copy it. A sprint board changes hourly. A customer record changes when support touches it. The right approach is to connect the agent to the system of record, so it reads the current state on demand.
 
@@ -196,7 +196,7 @@ Many teams end up with both: engineering standards and ADRs in a Markdown vault 
 
 ---
 
-## Tier 3: RAG at Scale
+## Tier 3: RAG at scale
 
 Tiers 1 and 2 cover almost every team. Tier 3 exists for one specific situation: you have so many documents that the agent cannot read them directly, and search over a connector is too coarse. At that point you add a retrieval layer (RAG, retrieval-augmented generation) that indexes the corpus and returns the most relevant fragments for each query.
 
@@ -255,7 +255,7 @@ You upload and index your corpus in LlamaCloud, and the agent queries the index 
 
 ---
 
-## The Plugin Pattern: Distributing Team Workflows
+## The plugin pattern: Distributing team workflows
 
 The third shape of knowledge from the opening table is not documents at all. It is reusable behavior: the slash commands, skills, agents, and prompts that encode how your team works. A `/deploy-checklist` command, a `incident-summary` skill, a code-review agent tuned to your standards. These are not content to store; they are behavior to distribute, and the distribution mechanism is a plugin.
 
@@ -303,7 +303,7 @@ When you improve a command or add a skill, you push to the marketplace repo and 
 
 ---
 
-## Governance and Sensitivity Caveat
+## Governance and sensitivity caveat
 
 The architecture above optimizes for access. Before you wire a sensitive corpus into it, weigh the governance side honestly, because the two agentic tools are at different maturity levels here.
 
@@ -328,7 +328,7 @@ Anthropic's own documentation shows the live-KB-via-MCP pattern in action. The e
 
 ---
 
-## What to Do First
+## What to do first
 
 The mistake at the start of this section was reaching for one tool. The correction is to classify each piece of knowledge by its nature, then apply the matching tier. Here is the decision path, from the most common starting point outward.
 

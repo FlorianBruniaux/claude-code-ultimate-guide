@@ -4,7 +4,7 @@ description: "Generate professional PDFs using Claude Code with Quarto and Typst
 tags: [workflow, guide, integration]
 ---
 
-# PDF Generation with Claude Code
+# PDF generation with Claude Code
 
 > **Confidence**: Tier 2. Based on a production-tested workflow with the Quarto/Typst stack.
 
@@ -12,7 +12,7 @@ Generate professional PDFs (documentation, whitepapers, reports) using Claude Co
 
 ---
 
-## Table of Contents
+## Table of contents
 
 1. [TL;DR](#tldr)
 2. [When to Use](#when-to-use)
@@ -43,7 +43,7 @@ quarto preview document.qmd  # Hot-reload
 
 ---
 
-## When to Use
+## When to use
 
 | Use Case | Good Fit | Alternative |
 |----------|----------|-------------|
@@ -58,7 +58,7 @@ quarto preview document.qmd  # Hot-reload
 
 ---
 
-## Stack Overview
+## Stack overview
 
 ```
 ┌─────────────────────────────────────────────────┐
@@ -92,7 +92,7 @@ quarto preview document.qmd  # Hot-reload
 └─────────────────────────────────────────────────┘
 ```
 
-### Output Formats & Commands
+### Output formats & commands
 
 ```
   FORMAT                COMMANDE                      SORTIE
@@ -111,7 +111,7 @@ quarto preview document.qmd  # Hot-reload
   Preview         →  quarto preview doc.qmd           hot-reload navigateur
 ```
 
-### Extension Structure
+### Extension structure
 
 ```
   _extensions/
@@ -124,7 +124,7 @@ quarto preview document.qmd  # Hot-reload
       garder les 3 fichiers typst-template.typ synchronisés
 ```
 
-### Troubleshooting Rapide
+### Troubleshooting rapide
 
 ```
   SYMPTÔME                        CAUSE                    FIX
@@ -173,7 +173,7 @@ winget install Posit.Quarto
 quarto --version  # Should be ≥1.4.0
 ```
 
-### Project Structure
+### Project structure
 
 ```
 project/
@@ -189,7 +189,7 @@ project/
     └── logo.png           # Shared assets
 ```
 
-### Minimal Document
+### Minimal document
 
 Create `document.qmd`:
 
@@ -232,7 +232,7 @@ quarto render document.qmd  # Creates document.pdf
 
 ## Workflow
 
-### 1. Content-First Approach
+### 1. Content-first approach
 
 ```
 1. Write content in Markdown (.qmd)
@@ -242,7 +242,7 @@ quarto render document.qmd  # Creates document.pdf
 5. Version control both source and PDF
 ```
 
-### 2. Available YAML Parameters
+### 2. Available YAML parameters
 
 | Parameter | Type | Description | Example |
 |-----------|------|-------------|---------|
@@ -256,7 +256,7 @@ quarto render document.qmd  # Creates document.pdf
 | `lang` | string | Language | `fr` or `en` |
 | `section-numbering` | string | Number format | `"1.1"` |
 
-### 3. Markdown Features
+### 3. Markdown features
 
 **Page Breaks**:
 ```markdown
@@ -304,7 +304,7 @@ The skill provides:
 - Common troubleshooting fixes
 - Generation commands
 
-### Prompt Examples
+### Prompt examples
 
 **Generate documentation**:
 ```
@@ -328,7 +328,7 @@ Create a Quarto extension for our company's document style:
 - Inter font for body, JetBrains Mono for code
 ```
 
-### With Plan Mode
+### With plan mode
 
 For complex documents:
 ```
@@ -342,7 +342,7 @@ Plan the structure:
 4. Version management
 ```
 
-### With Hooks
+### With hooks
 
 Auto-generate PDF after edits using a PostToolUse hook:
 
@@ -364,7 +364,7 @@ Auto-generate PDF after edits using a PostToolUse hook:
 
 ## Customization
 
-### Custom Template Extension
+### Custom template extension
 
 Create `_extensions/mytemplate/_extension.yml`:
 
@@ -380,7 +380,7 @@ contributes:
         - typst-show.typ
 ```
 
-### Typst Template Variables
+### Typst template variables
 
 In `typst-template.typ`:
 
@@ -413,7 +413,7 @@ In `typst-template.typ`:
 }
 ```
 
-### Callout Boxes
+### Callout boxes
 
 Define in template:
 
@@ -443,7 +443,7 @@ Use in document:
 
 ## Troubleshooting
 
-### Quick Checks
+### Quick checks
 
 ```bash
 # Verify Quarto
@@ -459,7 +459,7 @@ grep -c '^```' document.qmd
 file -i document.qmd  # Should show utf-8
 ```
 
-### Common Issues
+### Common issues
 
 | Issue | Symptom | Fix |
 |-------|---------|-----|
@@ -469,7 +469,7 @@ file -i document.qmd  # Should show utf-8
 | Font warnings | "unknown font family" | Normal; uses fallbacks |
 | Special chars broken | `?` or garbled | Convert to UTF-8 |
 
-### Nested Code Blocks
+### Nested code blocks
 
 **Problem**: Inner code block closes outer block prematurely.
 
@@ -487,7 +487,7 @@ Outer block continues...
 ````
 `````
 
-### Validation Script
+### Validation script
 
 ```bash
 #!/bin/bash
@@ -503,7 +503,7 @@ done
 
 ---
 
-## See Also
+## See also
 
 - [Quarto Documentation](https://quarto.org/docs/guide/)
 - [Typst Documentation](https://typst.app/docs/)

@@ -21,7 +21,7 @@ In a team of 5 developers using 3 AI tools on 2 operating systems, you potential
 
 This is not a discipline problem. It is a configuration architecture problem.
 
-## Solution: Profile-Based Module Assembly
+## Solution: Profile-Based module assembly
 
 Instead of a shared monolithic file, the recommended structure breaks instructions into reusable modules assembled by profile.
 

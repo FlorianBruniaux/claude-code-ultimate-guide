@@ -4,16 +4,16 @@ description: Test-Driven Development workflow and best practices
 effort: low
 ---
 
-# TDD Workflow Skill
+# TDD workflow skill
 
-## The TDD Cycle
+## The TDD cycle
 
 ```
 RED → GREEN → REFACTOR
  ↑__________________|
 ```
 
-### 1. RED: Write a Failing Test
+### 1. RED: Write a failing test
 - Write the smallest test that fails
 - Test should fail for the right reason
 - Ensure the test actually runs
@@ -23,14 +23,14 @@ RED → GREEN → REFACTOR
 - Don't optimize yet
 - It's okay if the code is ugly
 
-### 3. REFACTOR: Clean Up
+### 3. REFACTOR: Clean up
 - Improve code structure
 - Remove duplication
 - Keep tests passing
 
-## TDD Best Practices
+## TDD best practices
 
-### Test Naming Convention
+### Test naming convention
 ```
 should_[expected behavior]_when_[condition]
 ```
@@ -40,7 +40,7 @@ Examples:
 - `should_throw_error_when_invalid_input`
 - `should_calculate_total_when_items_present`
 
-### Test Structure (AAA)
+### Test structure (AAA)
 ```typescript
 it('should calculate discount when coupon applied', () => {
   // Arrange - Set up test data
@@ -56,13 +56,13 @@ it('should calculate discount when coupon applied', () => {
 });
 ```
 
-### Test Isolation
+### Test isolation
 - Each test should be independent
 - No shared state between tests
 - Use `beforeEach` for common setup
 - Clean up in `afterEach`
 
-## TDD Workflow Example
+## TDD workflow example
 
 ### Feature: Add item to cart
 
@@ -109,7 +109,7 @@ Run test → Still PASSES
 ### Next iteration: Calculate total
 Repeat the cycle for each new behavior.
 
-## When to Use TDD
+## When to use TDD
 
 ### Good for TDD
 - Business logic
@@ -118,13 +118,13 @@ Repeat the cycle for each new behavior.
 - State management
 - Utility functions
 
-### Less Suitable
+### Less suitable
 - UI layout (visual testing better)
 - Database migrations
 - External integrations (use integration tests)
 - Exploratory/prototype code
 
-## Common TDD Mistakes
+## Common TDD mistakes
 
 1. **Writing too much test** - Start with smallest failing test
 2. **Writing too much code** - Only enough to pass
@@ -132,7 +132,7 @@ Repeat the cycle for each new behavior.
 4. **Testing implementation** - Test behavior, not internals
 5. **Ignoring failing tests** - Fix or delete, never skip
 
-## Test Doubles
+## Test doubles
 
 | Type | Purpose | Example |
 |------|---------|---------|

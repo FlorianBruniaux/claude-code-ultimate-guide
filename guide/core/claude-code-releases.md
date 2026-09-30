@@ -10,7 +10,7 @@ keywords:
   - "anthropic claude changelog june 2026 release notes"
 ---
 
-# Claude Code Release History
+# Claude Code release history
 
 > Condensed changelog of Claude Code official releases.
 > **Full details**: [github.com/anthropics/claude-code/CHANGELOG.md](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md)
@@ -21,7 +21,7 @@ keywords:
 
 ---
 
-## Quick Jump
+## Quick jump
 
 - [v2.1.285](#v21285-2026-09-29): `allowedProviders`, `claude --desktop`, time-limited background commands, 1M context behind custom base URLs and permission-check fixes
 - [v2.1.284](#v21284-2026-09-28): Sonnet 5.5, auto mode by default in interactive sessions, Ultracode toggle and stream and compaction recovery fixes
@@ -50,7 +50,7 @@ keywords:
 
 ---
 
-## 2.1.x Series (January-August 2026)
+## 2.1.x series (January-August 2026)
 
 ### v2.1.285 (2026-09-29)
 
@@ -3487,7 +3487,7 @@ keywords:
 
 ---
 
-## 2.0.x Series (November 2025 - January 2026)
+## 2.0.x series (november 2025 - January 2026)
 
 ### v2.0.76 (2026-01-05)
 
@@ -3567,7 +3567,7 @@ keywords:
 
 ---
 
-## Breaking Changes Summary
+## Breaking changes summary
 
 ### URLs
 
@@ -3582,7 +3582,7 @@ keywords:
 | v2.0.58 | Managed settings prefer `C:\Program Files\ClaudeCode` |
 | v2.1.2 | Deprecated `C:\ProgramData\ClaudeCode` path |
 
-### SDK / Agent Tool
+### SDK / agent tool
 
 | Version | Change |
 |---------|--------|
@@ -3595,7 +3595,7 @@ keywords:
 | v2.1.224 | Removed the 200-subagent-per-session spawn cap; concurrency and depth limits still apply |
 | v2.1.232 | Subagent forking on by default: `subagent_type: "fork"` inherits the full conversation and prompt cache, and non-teammate agent spawns run in the background |
 
-### Models and Behavior
+### Models and behavior
 
 | Version | Change |
 |---------|--------|
@@ -3644,7 +3644,7 @@ keywords:
 | v2.1.229 | Self-hosted runner on Windows requires an explicit `--base-dir`; no default checkout directory |
 | v2.1.232 | `sandbox.ripgrep` honored only from user, managed, and `--settings` settings; project settings can no longer override it |
 
-### API Ecosystem
+### API ecosystem
 
 | Date | Feature |
 |------|---------|
@@ -3658,7 +3658,7 @@ keywords:
 | v2.0.70 | Removed `#` shortcut for quick memory entry |
 | v2.1.153 | `modelPicker:setAsDefault` keybinding renamed to `modelPicker:thisSessionOnly` in `keybindings.json` |
 
-### Security Fixes
+### Security fixes
 
 | Version | Issue |
 |---------|-------|
@@ -3693,7 +3693,7 @@ keywords:
 
 ---
 
-## Milestone Features
+## Milestone features
 
 | Version | Key Features |
 |---------|--------------|
@@ -3732,7 +3732,7 @@ keywords:
 
 ---
 
-## Updating This Document
+## Updating this document
 
 1. **Watch**: [github.com/anthropics/claude-code/releases](https://github.com/anthropics/claude-code/releases)
 2. **Update**: `machine-readable/claude-code-releases.yaml` (source of truth)

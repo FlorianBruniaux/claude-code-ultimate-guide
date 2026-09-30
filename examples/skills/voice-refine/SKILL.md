@@ -5,19 +5,19 @@ allowed-tools: Read
 effort: low
 ---
 
-# Voice Refine Skill
+# Voice refine skill
 
 Transform verbose, stream-of-consciousness voice dictation into structured,
 token-efficient prompts for Claude Code.
 
-## When to Use
+## When to use
 
 - Input from voice dictation (Wispr Flow, Superwhisper, macOS Dictation)
 - Verbose text >150 words
 - Contains filler words, repetitions, or tangents
 - Natural speech patterns that need structure
 
-## Transformation Pipeline
+## Transformation pipeline
 
 ```
 1. DEDUPE    → Remove repetitions and filler words
@@ -26,7 +26,7 @@ token-efficient prompts for Claude Code.
 4. COMPRESS  → Reduce to ~30% of original while preserving intent
 ```
 
-## Output Format
+## Output format
 
 ```markdown
 ## Contexte
@@ -53,9 +53,9 @@ token-efficient prompts for Claude Code.
 | `--verbose` | Keep more detail, less compression |
 | `--en` | Output in English (default: matches input language) |
 
-## Usage Examples
+## Usage examples
 
-### Basic Usage
+### Basic usage
 
 ```
 /voice-refine
@@ -68,7 +68,7 @@ pouvoir trier par nom ou par date d'inscription, ah et on utilise Tailwind
 dans le projet donc faut que ça matche avec ça...
 ```
 
-### With Flags
+### With flags
 
 ```
 /voice-refine --direct --en
@@ -76,7 +76,7 @@ dans le projet donc faut que ça matche avec ça...
 [voice input in any language → sends English prompt directly]
 ```
 
-## Compression Metrics
+## Compression metrics
 
 | Metric | Target |
 |--------|--------|
@@ -84,13 +84,13 @@ dans le projet donc faut que ça matche avec ça...
 | Information retention | >95% |
 | Structure clarity | High |
 
-## Filtering Rules
+## Filtering rules
 
 **Remove**: filler words ("euh", "um", "like", "basically"), repetitions, tangents, hedging ("maybe", "probably" unless relevant), politeness padding ("please", "could you").
 
 **Preserve**: technical requirements, constraints, existing code context, expected output format, edge cases, business logic rules.
 
-## See Also
+## See also
 
 - `guide/ecosystem/ai-ecosystem.md` - Voice-to-Text Tools section
 - `examples/before-after.md` - Full transformation examples

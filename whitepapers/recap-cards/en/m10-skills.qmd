@@ -29,7 +29,7 @@ my-skill/
     └── pattern.ts
 ```
 
-## Invocation Modes
+## Invocation modes
 
 | Mode | Frontmatter | Behavior |
 |------|-------------|----------|
@@ -54,7 +54,7 @@ allowed-tools: Read Grep Bash
 | `allowed-tools` | Tool whitelist (supports wildcards) |
 | `disable-model-invocation` | `true` for manual-only invocation |
 
-## Skills vs Commands
+## Skills vs commands
 
 | Aspect | Skill | Command |
 |--------|-------|---------|
@@ -65,7 +65,7 @@ allowed-tools: Read Grep Bash
 
 The main difference: a skill can embed a 500-line `reference.md` file that becomes available on invocation. A command cannot.
 
-## Installing Community Skills
+## Installing community skills
 
 ```bash
 # Inspect available skills before installing

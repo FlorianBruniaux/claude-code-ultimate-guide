@@ -1,4 +1,4 @@
-# Resource Evaluation: Nick Tune: Workflow DSL: Domain-Driven Claude Code Workflows
+# Resource evaluation: Nick tune: Workflow DSL: Domain-Driven Claude Code workflows
 
 **URL:** https://nick-tune.me/blog/2026-03-01-workflow-dsl-domain-driven-claude-code-workflows/
 **Author:** Nick Tune
@@ -8,7 +8,7 @@
 
 ---
 
-## Content Summary
+## Content summary
 
 - Introduces a TypeScript DSL for defining Claude Code workflow states declaratively: each state specifies an emoji identifier, agent instruction file path, allowed state transitions, permitted operations, and transition guard functions.
 - Three-module architecture: `workflow-engine` (executes rules, domain-agnostic), `workflow-dsl` (language for defining steps), `workflow-definition` (aggregate root with actual workflow logic and invariants).
@@ -39,7 +39,7 @@
 
 ---
 
-## Comparative Analysis
+## Comparative analysis
 
 | Aspect | This Resource | Our Guide |
 |--------|--------------|-----------|
@@ -54,7 +54,7 @@
 
 ---
 
-## Integration Recommendations
+## Integration recommendations
 
 **Selective extraction — no new top-level file warranted until community adoption exists.**
 
@@ -86,7 +86,7 @@ Three surgical integrations, in priority order:
 
 ---
 
-## Fact-Check
+## Fact-check
 
 | Claim | Verified | Source |
 |-------|----------|--------|
@@ -103,7 +103,7 @@ No hallucinated statistics. No unverifiable claims. Article is descriptive (arch
 
 ---
 
-## Final Decision
+## Final decision
 
 - **Score:** 3/5
 - **Action:** Integrate selectively (3 surgical extractions — event log, failure re-injection, state validation callout)

@@ -1,8 +1,8 @@
-# LinkedIn Template
+# LinkedIn template
 
 Target: ~1300 characters. Structure: hook + context + bullets + CTA + hashtags.
 
-## FR Template
+## FR template
 
 ```
 {hook_line_fr}
@@ -18,7 +18,7 @@ Target: ~1300 characters. Structure: hook + context + bullets + CTA + hashtags.
 #ClaudeCode #CodingWithAI #DeveloperTools
 ```
 
-## EN Template
+## EN template
 
 ```
 {hook_line_en}
@@ -34,7 +34,7 @@ Target: ~1300 characters. Structure: hook + context + bullets + CTA + hashtags.
 #ClaudeCode #CodingWithAI #DeveloperTools
 ```
 
-## Field Rules
+## Field rules
 
 ### hook_line (1 line, max 150 chars)
 

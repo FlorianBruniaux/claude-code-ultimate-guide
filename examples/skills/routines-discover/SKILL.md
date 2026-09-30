@@ -5,7 +5,7 @@ effort: medium
 disable-model-invocation: true
 ---
 
-# Routines Use Case Discovery
+# Routines use case discovery
 
 Analyzes this codebase and surfaces actionable Routine candidates across the three trigger types.
 
@@ -13,7 +13,7 @@ Analyzes this codebase and surfaces actionable Routine candidates across the thr
 
 ---
 
-## What Are Routines
+## What are Routines
 
 A Routine is an autonomous Claude Code session running on Anthropic-managed cloud infrastructure, triggered in three ways:
 

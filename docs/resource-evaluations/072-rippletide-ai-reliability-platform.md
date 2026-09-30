@@ -1,4 +1,4 @@
-# Resource Evaluation #072: Rippletide: AI Reliability Platform
+# Resource evaluation #072: Rippletide: AI reliability platform
 
 **Source:** [Rippletide Documentation](https://rippletide.com) / [llms-full.txt](https://rippletide.com/llms-full.txt)
 **Type:** Documentation officielle — plateforme SaaS (eval, mémoire persistante, raisonnement déterministe)
@@ -87,7 +87,7 @@ Rippletide est une plateforme de fiabilité IA articulée autour de trois pilier
 
 ---
 
-## ✅ Fact-Check
+## ✅ Fact-check
 
 | Affirmation | Vérifiée | Source |
 |-------------|----------|--------|

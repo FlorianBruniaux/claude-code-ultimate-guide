@@ -1,4 +1,4 @@
-# Resource Evaluation: Community Discussions Analysis Report (January 2026)
+# Resource evaluation: Community discussions analysis report (January 2026)
 
 **Evaluated**: January 28, 2026
 **Resource Type**: Analytical report (copied text, not URL)
@@ -7,7 +7,7 @@
 
 ---
 
-## 📄 Resource Summary
+## 📄 Resource summary
 
 Comprehensive analytical report titled "Analyse Mensuelle des Discussions Communautaires Claude Code - Janvier 2026" covering:
 - 7 months of community sentiment tracking (July 2025 - January 2026)
@@ -20,13 +20,13 @@ Comprehensive analytical report titled "Analyse Mensuelle des Discussions Commun
 
 ---
 
-## 🎯 Evaluation Score
+## 🎯 Evaluation score
 
 **Initial Score**: 5/5 (Critical - Major gap in guide)
 **Post-Challenge Score**: 3/5 (Relevant - Useful complement)
 **Post-Fact-Check Score**: **2/5** (Marginal - Minimal mention or skip)
 
-### Score Justification
+### Score justification
 
 **Downgrade reasons**:
 1. **Major factual errors**: Version 2.0.61 doesn't exist (confused with v2.1.1)
@@ -43,9 +43,9 @@ Comprehensive analytical report titled "Analyse Mensuelle des Discussions Commun
 
 ---
 
-## ✅ Fact-Check Results
+## ✅ Fact-check results
 
-### Verification Methods
+### Verification methods
 
 1. **Perplexity Pro searches** (4 queries):
    - Token consumption bug v2.0.61
@@ -59,7 +59,7 @@ Comprehensive analytical report titled "Analyse Mensuelle des Discussions Commun
    - `gh issue view` → Specific issue details
    - `gh api releases` → Version existence check
 
-### Key Findings
+### Key findings
 
 | Claim | Status | Reality |
 |-------|--------|---------|
@@ -70,7 +70,7 @@ Comprehensive analytical report titled "Analyse Mensuelle des Discussions Commun
 | Token consumption issues | ✅ **PARTIAL** | 20+ reports found, but Anthropic denies official bug |
 | Model degradation Aug 2025 | ✅ **TRUE** | Anthropic official postmortem confirms 3 infrastructure bugs |
 
-### Sources Verified
+### Sources verified
 
 **✅ Confirmed**:
 - [Anthropic Postmortem](https://www.anthropic.com/engineering/a-postmortem-of-three-recent-issues) (Sept 17, 2025)
@@ -85,9 +85,9 @@ Comprehensive analytical report titled "Analyse Mensuelle des Discussions Commun
 
 ---
 
-## 🚨 Critical Errors in Report
+## 🚨 Critical errors in report
 
-### Error #1: Version Confusion
+### Error #1: Version confusion
 
 **Report claim**:
 > "Depuis décembre 2025 (version 2.0.61), les utilisateurs signalent une consommation de tokens 5-20x normale"
@@ -102,7 +102,7 @@ Comprehensive analytical report titled "Analyse Mensuelle des Discussions Commun
 
 ---
 
-### Error #2: Stats Inflation/Deflation
+### Error #2: Stats inflation/deflation
 
 | Metric | Report | Reality (Jan 28) | Variance |
 |--------|--------|------------------|----------|
@@ -114,7 +114,7 @@ Comprehensive analytical report titled "Analyse Mensuelle des Discussions Commun
 
 ---
 
-### Error #3: Unverifiable Sentiment Scores
+### Error #3: Unverifiable sentiment scores
 
 **Report claim**: "Sentiment: 28-35/100 (janvier 2026)"
 
@@ -128,7 +128,7 @@ Comprehensive analytical report titled "Analyse Mensuelle des Discussions Commun
 
 ---
 
-## ✅ What Was Integrated
+## ✅ What was integrated
 
 ### Created: `guide/core/known-issues.md` (285 lines)
 
@@ -163,7 +163,7 @@ Comprehensive analytical report titled "Analyse Mensuelle des Discussions Commun
 
 ---
 
-## ❌ What Was Rejected
+## ❌ What was rejected
 
 1. **Version 2.0.61 references** (non-existent)
 2. **December 2025 timing** for token bug (incorrect)
@@ -174,9 +174,9 @@ Comprehensive analytical report titled "Analyse Mensuelle des Discussions Commun
 
 ---
 
-## 📊 Integration Impact
+## 📊 Integration impact
 
-### Files Modified
+### Files modified
 
 1. **guide/core/known-issues.md** (NEW, 285 lines)
    - Comprehensive critical bugs tracker
@@ -200,7 +200,7 @@ Comprehensive analytical report titled "Analyse Mensuelle des Discussions Commun
    - Noted fact-checking process
    - Verified stats (5,702 issues, 527 invalid labels)
 
-### User Benefits
+### User benefits
 
 1. **Security awareness**: Users warned about GitHub auto-creation bug (privacy risk)
 2. **Cost management**: Token consumption workarounds documented
@@ -210,7 +210,7 @@ Comprehensive analytical report titled "Analyse Mensuelle des Discussions Commun
 
 ---
 
-## 🔍 Methodology Evaluation
+## 🔍 Methodology evaluation
 
 ### Strengths
 
@@ -228,7 +228,7 @@ Comprehensive analytical report titled "Analyse Mensuelle des Discussions Commun
 - **Survivorship bias**: Community discussions over-represent problems
 - **No control group**: No comparison with other tools' issue patterns
 
-### Lesson Learned
+### Lesson learned
 
 **For future resource evaluations**:
 1. ✅ **Always fact-check claims** via Perplexity + direct API queries
@@ -240,7 +240,7 @@ Comprehensive analytical report titled "Analyse Mensuelle des Discussions Commun
 
 ---
 
-## 🎯 Final Decision
+## 🎯 Final decision
 
 **Action Taken**: **PARTIAL INTEGRATION** (verified facts only)
 
@@ -258,7 +258,7 @@ Comprehensive analytical report titled "Analyse Mensuelle des Discussions Commun
 
 ---
 
-## 📝 Evaluator Notes
+## 📝 Evaluator notes
 
 This evaluation demonstrates the importance of **systematic fact-checking** before integrating community-sourced content. Even comprehensive analytical reports can contain:
 - Version confusion

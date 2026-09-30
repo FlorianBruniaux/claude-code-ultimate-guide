@@ -1,4 +1,4 @@
-# Resource Evaluation: Reddit Comment - Claude Code Max Plan Optimization Tips
+# Resource evaluation: Reddit comment - Claude Code max plan optimization tips
 
 **Date**: 2026-02-04
 **Evaluator**: Claude (Sonnet 4.5)
@@ -8,7 +8,7 @@
 
 ---
 
-## Executive Summary
+## Executive summary
 
 **Score**: 2/5 (Marginal)
 **Decision**: Do not integrate
@@ -18,7 +18,7 @@ Anonymous Reddit comment claiming "5x plan has better value than 20x" with optim
 
 ---
 
-## Content Overview
+## Content overview
 
 The comment provides six optimization tips:
 
@@ -31,9 +31,9 @@ The comment provides six optimization tips:
 
 ---
 
-## Relevance Analysis
+## Relevance analysis
 
-### Coverage Comparison
+### Coverage comparison
 
 | Aspect | This Resource | Our Guide | Gap? |
 |--------|---------------|-----------|------|
@@ -45,7 +45,7 @@ The comment provides six optimization tips:
 | Memory-search (rjyo) | Tool presented | **Not covered** (but Serena + doobidoo cover use case) | ⚠️ Minor gap, tool too immature (15 stars) |
 | Rate limit strategies | Implied mention | **Partial** (known-issues.md:105-139, reactive troubleshooting) | ⚠️ Proactive budgeting angle missing |
 
-### New Information Assessment
+### New information assessment
 
 - **5x vs 20x pricing analysis**: Already covered extensively (ultimate-guide.md:1951-2013)
 - **Context management**: Already covered extensively (multiple sections, detailed zones)
@@ -57,7 +57,7 @@ The comment provides six optimization tips:
 
 ---
 
-## Fact-Check Results
+## Fact-check results
 
 | Claim | Verified | Source | Notes |
 |-------|----------|--------|-------|
@@ -70,7 +70,7 @@ The comment provides six optimization tips:
 | "Memory module from OpenClaw" | **❌ VAGUE** | Perplexity: no confirmation | No verifiable link between OpenClaw (AI chatbot framework) and rjyo/memory-search. Author appears confused |
 | "rjyo/memory-search" | **✅ EXISTS** | WebFetch GitHub | 15 stars, hybrid vector+BM25, installable skill. Minimal traction |
 
-### Critical Corrections
+### Critical corrections
 
 **Main claim is likely FALSE**: The assertion that "5x has better value per dollar than 20x" contradicts public pricing ratios:
 - 5x Plan: $100/month = 25x Free tier capacity
@@ -81,28 +81,28 @@ Author may be confusing personal usage patterns (not utilizing 20x capacity) wit
 
 ---
 
-## Challenge (Self-Critique)
+## Challenge (self-critique)
 
-### Arguments for Score +1 (3/5):
+### Arguments for score +1 (3/5):
 - "Disable unused MCPs" advice deserves more visibility (currently a sub-bullet)
 - `rjyo/memory-search` mention could enrich third-party-tools.md as lightweight alternative to Serena/doobidoo
 - "Proactive rate limit management" (session budgeting) is a genuine gap in the guide
 
-### Arguments for Score -1 (1/5):
+### Arguments for score -1 (1/5):
 - Main claim (5x > 20x value) is **provably false** - integrating would misinform readers
 - Zero measured data, zero methodology, pure anecdote
 - Memory-search tool has 15 stars and 15 commits - too immature to recommend
 - OpenClaw attribution unverifiable - author credibility questionable
 
-### Challenge Verdict
+### Challenge verdict
 
 **Score maintained at 2/5.** False pricing claim disqualifies direct integration. Few valid insights (disable MCPs, session budgeting) are already covered or too minor to justify formal evaluation.
 
-### Missed Points
+### Missed points
 
 None significant.
 
-### Risk of Non-Integration
+### Risk of non-integration
 
 **Negligible.** Guide already covers everything valid in this comment.
 
@@ -110,20 +110,20 @@ Only real risk would be missing `rjyo/memory-search` if tool gains traction, but
 
 ---
 
-## Final Decision
+## Final decision
 
 **Score**: 2/5 (Marginal)
 **Action**: **Do not integrate**
 **Confidence**: High
 
-### Rejection Rationale
+### Rejection rationale
 
 1. **Main claim (5x > 20x value) is provably false** based on public pricing ratios
 2. **All valid content already extensively covered** in guide
 3. **Memory-search tool too immature** (15 stars) to recommend
 4. **Source lacks authority** (anonymous Reddit comment with unverified claims)
 
-### Optional Minor Actions (Non-Blocking)
+### Optional minor actions (non-blocking)
 
 - **Optional**: Make "disable unused MCPs" advice more visible in context management section (currently sub-bullet at ultimate-guide.md:1886)
 - **Watch list**: Monitor `rjyo/memory-search` if traction increases (>100 stars)

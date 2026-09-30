@@ -4,7 +4,7 @@ description: "A control-led framework for choosing workforce coding plans, gover
 tags: [ops, cost, enterprise, multi-provider, mistral, guide]
 ---
 
-# Subscription Strategy at Team Scale
+# Subscription strategy at team scale
 
 > **Audience**: Engineering leaders, platform teams, security teams, and procurement owners deciding how an organization should buy and govern AI coding tools.
 >

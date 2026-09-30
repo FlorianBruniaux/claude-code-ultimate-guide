@@ -25,13 +25,13 @@ Shift+Tab          # Cycle available permission modes
 Approve the plan   # Exit and move to execution
 ```
 
-## Why It Changes Everything
+## Why it changes everything
 
 Planning gives you an opportunity to review scope, dependencies and acceptance criteria before implementation. It does not guarantee a correct first attempt.
 
 Claude explores the codebase without pressure to act. It identifies hidden dependencies, secondary impacts, edge cases. The resulting plan is more solid than what Claude would produce in reactive mode.
 
-## What Plan Mode Allows
+## What plan mode allows
 
 - Reading files and exploring the codebase
 - Architecture and dependency analysis
@@ -44,7 +44,7 @@ Claude explores the codebase without pressure to act. It identifies hidden depen
 - Executing state-changing commands
 - Git commits
 
-## When to Use It
+## When to use it
 
 | Situation | Plan Mode? |
 |-----------|------------|
@@ -54,7 +54,7 @@ Claude explores the codebase without pressure to act. It identifies hidden depen
 | Typo fix or simple rename | No |
 | Quick edit on a known file | No |
 
-## Plan-Validate-Execute Pattern
+## Plan-validate-execute pattern
 
 ```
 1. /plan
@@ -69,7 +69,7 @@ Claude explores the codebase without pressure to act. It identifies hidden depen
 
 Review the plan to catch scope, dependency and acceptance-criteria mistakes before implementation. The benefit depends on the task and the quality of the review.
 
-## Auto Plan Mode
+## Auto plan mode
 
 An `--append-system-prompt` instruction can request a plan before each action. It is not a permission boundary; use Plan Mode and tool permissions for enforced restrictions:
 
@@ -81,6 +81,6 @@ alias claude-safe='claude --append-system-prompt \
 
 Validate the plan before execution and measure total tokens, retries and accepted results on your own tasks. This workflow has no established universal savings rate.
 
-## Integration with Agents
+## Integration with agents
 
 Set `permissionMode: plan` in a custom agent's frontmatter for planning. A planner can pass a saved plan to an implementation agent; choose each model explicitly and keep file ownership separate.

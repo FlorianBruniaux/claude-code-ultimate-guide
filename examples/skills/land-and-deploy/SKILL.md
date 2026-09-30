@@ -6,7 +6,7 @@ effort: high
 disable-model-invocation: true
 ---
 
-# Land and Deploy
+# Land and deploy
 
 Complete landing pipeline: merge the PR, wait for CI, verify the deployment, run a health check.
 
@@ -34,7 +34,7 @@ gh pr view --json number,state,title,url,mergeStateStatus,mergeable,baseRefName,
 
 ---
 
-### Step 2: CI Status Check
+### Step 2: CI status check
 
 ```bash
 # Check current CI status
@@ -67,7 +67,7 @@ Record CI wait duration for the deploy report.
 
 ---
 
-### Step 3.5: Pre-Merge Readiness Gate
+### Step 3.5: Pre-Merge readiness gate
 
 **This is the one critical confirmation before an irreversible merge.** Collect all evidence, then get explicit approval.
 
@@ -167,7 +167,7 @@ gh pr view --json state -q .state
 
 ---
 
-### Step 5: Platform Detection
+### Step 5: Platform detection
 
 Detect how this project deploys so we know what to verify.
 
@@ -207,7 +207,7 @@ git diff --name-only $(git merge-base HEAD~1 origin/main)...HEAD | \
 
 ---
 
-### Step 6: Wait for Deploy
+### Step 6: Wait for deploy
 
 **GitHub Actions deploy workflow:**
 
@@ -236,7 +236,7 @@ Record deploy duration for the report.
 
 ---
 
-### Step 7: Production Health Check
+### Step 7: Production health check
 
 Use diff scope (from Step 5) to determine check depth:
 
@@ -302,7 +302,7 @@ If branch protections → "Create a revert PR: `gh pr create --title 'revert: <t
 
 ---
 
-### Step 9: Deploy Report
+### Step 9: Deploy report
 
 ```
 LAND & DEPLOY REPORT
@@ -330,7 +330,7 @@ VERDICT: DEPLOYED AND VERIFIED / DEPLOYED (UNVERIFIED) / REVERTED
 
 ---
 
-### Step 10: Follow-up Suggestions
+### Step 10: Follow-up suggestions
 
 After the deploy report, suggest relevant next steps:
 
@@ -339,7 +339,7 @@ After the deploy report, suggest relevant next steps:
 
 ---
 
-## Important Rules
+## Important rules
 
 - **Never force push.** Use `gh pr merge` (it's safe).
 - **Never skip CI.** Failing checks = stop.
@@ -357,7 +357,7 @@ After the deploy report, suggest relevant next steps:
 /land-and-deploy 123 https://app.example.com        # PR number + verification URL
 ```
 
-## Related Commands
+## Related commands
 
 - `/ship`: run this first to create the PR
 - `/canary`: extended post-deploy monitoring loop

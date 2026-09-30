@@ -1,4 +1,4 @@
-# Evaluation: SKILL.md / SKILLMIND: Boris Cherny Workflow Practices
+# Evaluation: SKILL.md / SKILLMIND: Boris Cherny workflow practices
 
 **Date:** 2026-02-19
 **Evaluator:** Claude (Sonnet 4.6)
@@ -98,7 +98,7 @@ Points du challenge:
 
 ---
 
-## ✅ Fact-Check
+## ✅ Fact-check
 
 | Affirmation | Vérifiée | Source |
 |-------------|----------|--------|

@@ -620,7 +620,7 @@ def main():
 
     needs = [e for e in entries if e["status"] in BROKEN_STATUSES]
     if needs:
-        rows += ["## Entries Needing Correction", ""]
+        rows += ["## Entries needing correction", ""]
         for e in sorted(needs, key=lambda x: (x["file"], x["key"])):
             rows.append(f"### {e['key']} ({e['status']}, conf={e['confidence']:.2f})")
             rows.append(f"- **File**: `{e['file']}`")

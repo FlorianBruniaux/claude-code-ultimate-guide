@@ -4,13 +4,13 @@ description: "Onboarding paths, UVAL learning protocol, trust calibration matrix
 tags: [adoption, learning, onboarding, teams, trust]
 ---
 
-# Adoption & Learning
+# Adoption & learning
 
 How individuals and teams successfully adopt Claude Code without losing skills or control.
 
 ---
 
-### Onboarding Adaptive Learning Paths
+### Onboarding adaptive learning paths
 
 Different backgrounds require different onboarding approaches. Forcing developers through a beginner path wastes time; dropping non-technical users into advanced features causes frustration.
 
@@ -87,7 +87,7 @@ Your background?
 
 ---
 
-### UVAL Learning Protocol
+### UVAL learning protocol
 
 The UVAL protocol prevents the "copy-paste trap": using Claude Code without understanding what it did. Each cycle builds real competency that survives tool unavailability.
 
@@ -143,7 +143,7 @@ Anti-pattern (AVOID): Accept output → Deploy → Bug → "Claude broke it"
 
 ---
 
-### Trust Calibration Matrix
+### Trust calibration matrix
 
 Knowing when to trust Claude's output and when to verify is the most important skill in AI-assisted development. Over-trust causes bugs; under-trust eliminates productivity gains.
 

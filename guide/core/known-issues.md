@@ -4,7 +4,7 @@ description: "Verified critical issues affecting Claude Code users from communit
 tags: [reference, security, debugging]
 ---
 
-# Known Issues & Critical Bugs
+# Known issues & critical bugs
 
 This document tracks verified, critical issues affecting Claude Code users based on community reports and official communications.
 
@@ -15,9 +15,9 @@ See also: [Claude Code Releases](claude-code-releases.md) for the version histor
 
 ---
 
-## 🚨 Active Critical Issues
+## 🚨 Active critical issues
 
-### 0. Prompt Cache Bugs: Silent Cost Inflation (Mar 2026 - Present)
+### 0. Prompt cache bugs: Silent cost inflation (mar 2026 - present)
 
 **Severity**: 🔴 **HIGH - COST IMPACT**
 **Status**: ⚠️ PARTIALLY FIXED (Bug 3 and Bug 2 still active as of v2.1.88)
@@ -101,13 +101,13 @@ that discusses this bug), it may be replaced in the wrong location.
 **Workaround**: Do not paste `cch=00000` literally in CLAUDE.md or config files.
 Note: this only affects the standalone binary, not npm/npx installs.
 
-#### Audit Tool
+#### Audit tool
 
 Run `/check-cache-bugs` (install from the [examples/commands](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/examples/commands/check-cache-bugs.md) directory) to audit your setup for all three bugs in ~20 seconds.
 
 > **Best practice**: run at the very start of a fresh session, or as a one-shot via `claude -p "$(cat .claude/commands/check-cache-bugs.md)"` to avoid contaminating the current session context with `cch=` strings (potential Bug 1 trigger).
 
-#### Monitoring Cache Health
+#### Monitoring cache health
 
 To verify whether your sessions are healthy, use the official `ANTHROPIC_BASE_URL` environment variable to route through a transparent local proxy and log `cache_creation_input_tokens` / `cache_read_input_tokens` from API responses:
 
@@ -131,7 +131,7 @@ Community tools for monitoring:
 Community patch (applies both Bug 1 and Bug 2 fixes):
 - [`cc-cache-fix`](https://github.com/Rangizingo/cc-cache-fix): community-developed patch + test toolkit
 
-#### Official Response
+#### Official response
 
 Partial fix in v2.1.88 (tool schema bytes). Bugs 2 and 3 confirmed still active.
 
@@ -141,7 +141,7 @@ Partial fix in v2.1.88 (tool schema bytes). Bugs 2 and 3 confirmed still active.
 
 ---
 
-### 1. GitHub Issue Auto-Creation in Wrong Repository (Dec 2025 - Present)
+### 1. GitHub issue auto-creation in wrong repository (Dec 2025 - present)
 
 **Severity**: 🔴 **CRITICAL - SECURITY/PRIVACY RISK**
 **Status**: ⚠️ ACTIVE (as of Jan 28, 2026)
@@ -170,7 +170,7 @@ Claude Code **systematically creates GitHub issues in the public `anthropics/cla
 - No confirmation prompt before creating issue in public repository
 - Occurs when asking Claude to "create an issue" while in local git repo
 
-#### Examples of Accidental Creations
+#### Examples of accidental creations
 
 Recent confirmed cases (Jan 2026):
 - [#20792](https://github.com/anthropics/claude-code/issues/20792): "Deleted - created in wrong repo"
@@ -180,7 +180,7 @@ Recent confirmed cases (Jan 2026):
 
 Full list: [Search "wrong repo" OR "delete this"](https://github.com/anthropics/claude-code/issues?q=is%3Aissue+%22wrong+repo%22+OR+%22delete+this%22)
 
-#### Root Cause (Hypothesis)
+#### Root cause (hypothesis)
 
 Claude Code may confuse:
 - **Legitimate feedback** about Claude Code itself → `anthropics/claude-code` (correct)
@@ -211,7 +211,7 @@ The tool appears to hardcode or over-prioritize `anthropics/claude-code` as defa
 
 5. **Never include sensitive information** in issue creation prompts until bug is fixed
 
-#### If You're Affected
+#### If you're affected
 
 If you accidentally created an issue exposing sensitive information:
 
@@ -220,7 +220,7 @@ If you accidentally created an issue exposing sensitive information:
 3. **Report to Anthropic** via [security email](mailto:security@anthropic.com) if security-sensitive
 4. **Check for data leaks**: Monitor exposed information usage
 
-#### Official Response
+#### Official response
 
 As of Jan 28, 2026: **Issue remains open**, no official fix announced.
 
@@ -228,7 +228,7 @@ As of Jan 28, 2026: **Issue remains open**, no official fix announced.
 
 ---
 
-### 2. Excessive Token Consumption (Jan 2026 - Present)
+### 2. Excessive token consumption (Jan 2026 - present)
 
 **Severity**: 🟠 **HIGH - COST IMPACT**
 **Status**: ⚠️ REPORTED (Anthropic investigating)
@@ -259,14 +259,14 @@ Common reports:
 
 However, **reports persist beyond this timing**, suggesting potential underlying issue.
 
-#### Anthropic Response
+#### Anthropic response
 
 From [The Register](https://www.theregister.com/2026/01/05/claude_devs_usage_limits/) (Jan 5, 2026):
 > "Anthropic stated it 'takes all such reports seriously but hasn't identified any flaw related to token usage' and indicated it had ruled out bugs in its inference stack."
 
 **Status**: **Not officially confirmed as a bug** by Anthropic as of Jan 28, 2026.
 
-#### Related Issues
+#### Related issues
 
 20+ reports found (Dec 2025 - Jan 2026):
 - [#17687](https://github.com/anthropics/claude-code/issues/17687): "Unexpectedly high token consumption rate since January 2026"
@@ -307,7 +307,7 @@ While Anthropic investigates:
    - Compare before/after version upgrades
    - Document unusual spikes
 
-#### Investigation Tips
+#### Investigation tips
 
 If experiencing excessive consumption:
 
@@ -318,9 +318,9 @@ If experiencing excessive consumption:
 
 ---
 
-## ✅ Resolved Historical Issues
+## ✅ Resolved historical issues
 
-### Triple Harness Incident: Effort, Thinking Tokens, Verbosity (Mar-Apr 2026)
+### Triple harness incident: Effort, thinking tokens, verbosity (mar-apr 2026)
 
 **Severity**: 🔴 **HIGH**
 **Status**: ✅ **RESOLVED** (all three issues resolved by April 20, 2026)
@@ -330,7 +330,7 @@ If experiencing excessive consumption:
 
 Three independent harness and system-prompt changes degraded Claude Code output quality over a six-week period. None were model-level regressions; all were in the Claude Code harness layer. The Anthropic API used directly (without the Claude Code harness) was not affected.
 
-#### Incident 1: Default Effort High to Medium (March 4, reverted April 7)
+#### Incident 1: Default effort high to medium (March 4, reverted April 7)
 
 **Trigger**: Long latency in high effort mode made the UI appear frozen on some sessions.
 **Change**: Anthropic changed the default reasoning effort from `high` to `medium` for Sonnet 4.6 and Opus 4.6.
@@ -338,7 +338,7 @@ Three independent harness and system-prompt changes degraded Claude Code output 
 **Affected**: Sonnet 4.6, Opus 4.6.
 **Resolution**: Reverted April 7. Defaults at that time: xhigh for Opus 4.7, high for the other supported models. Current Opus 5.5 defaults to medium; see [model selection](../ultimate-guide.md#effort-levels). Proper UI iterations (thinking spinners, clearer `/effort` UX) shipped alongside.
 
-#### Incident 2: Thinking Tokens Cleared Per Turn After Idle (March 26, fixed April 10)
+#### Incident 2: Thinking tokens cleared per turn after idle (March 26, fixed April 10)
 
 **Trigger**: Anthropic shipped a change to clear thinking tokens once when a session had been idle for over an hour (to reduce latency and cache cost on resume).
 **Bug**: A code defect caused the clear to trigger on every subsequent turn for the rest of the session, not just once on resume.
@@ -346,21 +346,21 @@ Three independent harness and system-prompt changes degraded Claude Code output 
 **Affected**: Sonnet 4.6, Opus 4.6.
 **Resolution**: Bug fixed April 10, 2026 (v2.1.101). Root cause per Boris Cherny (CC team): large idle sessions caused full cache misses (900K+ tokens), creating significant token cost spikes for Pro users on resume.
 
-#### Incident 3: Verbosity System Prompt Instruction (April 16, reverted April 20)
+#### Incident 3: Verbosity system prompt instruction (April 16, reverted April 20)
 
 **Trigger**: Anthropic added a system prompt instruction to reduce response verbosity.
 **Impact**: In combination with other prompt changes active at the time, coding quality dropped noticeably.
 **Affected**: Sonnet 4.6, Opus 4.6, Opus 4.7.
 **Resolution**: Reverted April 20. Four-day exposure, fastest resolution of the three incidents.
 
-#### Community Impact
+#### Community impact
 
 - Widespread reports of quality degradation across Reddit, HN, X/Twitter (March–April 2026)
 - Cancellations among Pro and Max subscribers
 - Anthropic employees (including Boris Cherny) initially responded in comment sections without acknowledging the systemic issues
 - HN thread reached 250+ comments on day of disclosure
 
-#### Anthropic Response
+#### Anthropic response
 
 **Official Update**: [An update on recent Claude Code quality reports](https://www.anthropic.com/engineering/april-23-postmortem) (April 23, 2026)
 
@@ -376,7 +376,7 @@ Key quote from Boris Cherny (HN comment):
 
 ---
 
-### Model Quality Degradation (Aug-Sep 2025)
+### Model quality degradation (Aug-sep 2025)
 
 **Severity**: 🔴 **CRITICAL**
 **Status**: ✅ **RESOLVED** (mid-September 2025)
@@ -391,7 +391,7 @@ Users reported Claude Code producing:
 - Failed basic tasks
 - Incorrect code edits
 
-#### Root Cause
+#### Root cause
 
 Anthropic identified **three infrastructure bugs** (not model degradation):
 
@@ -399,13 +399,13 @@ Anthropic identified **three infrastructure bugs** (not model degradation):
 2. **Output Corruption**: Misconfiguration deployed Aug 25 caused token generation errors
 3. **XLA:TPU Miscompilation**: Performance optimization triggered latent compiler bug affecting token selection
 
-#### Community Impact
+#### Community impact
 
 - **Mass cancellation campaign** (Aug-Sep 2025)
 - Community theories: intentional model degradation (quantization) to reduce costs
 - Reddit sentiment dropped sharply
 
-#### Anthropic Response
+#### Anthropic response
 
 **Official Postmortem**: [A postmortem of three recent issues](https://www.anthropic.com/engineering/a-postmortem-of-three-recent-issues) (Sept 17, 2025)
 
@@ -416,19 +416,19 @@ Key quote:
 
 ---
 
-## 🔄 LLM Day-to-Day Performance Variance
+## 🔄 LLM day-to-day performance variance
 
 **Type**: Expected behavior (not a bug)
 **Severity**: 🟡 **LOW - AWARENESS**
 **Status**: Inherent to LLM inference, not specific to any version
 
-### What This Is
+### What this is
 
 Claude's output quality can vary noticeably from session to session, even with identical prompts and a clean context window. That differs from context window degradation, which happens within a session as context fills up. Here the concern is variance between fresh sessions.
 
 Users sometimes report shorter responses, more conservative suggestions, or unexpected refusals on tasks that worked fine the day before. This can feel like a model downgrade, but it is not.
 
-### Root Causes
+### Root causes
 
 **Probabilistic inference**: Temperature above 0 means every inference run is non-deterministic. Two runs of the same prompt will produce different token sequences. This is fundamental to how language models work.
 
@@ -438,7 +438,7 @@ Users sometimes report shorter responses, more conservative suggestions, or unex
 
 **Context sensitivity**: Even with `/clear`, tiny differences between sessions accumulate. The system prompt, tool list, and session initialization all slightly affect the model's first outputs.
 
-### Observable Signals
+### Observable signals
 
 | Signal | What You See | What It Means |
 |--------|-------------|---------------|
@@ -448,7 +448,7 @@ Users sometimes report shorter responses, more conservative suggestions, or unex
 | Creativity | More conservative, less inventive suggestions | Not a capability loss, a sampling outcome |
 | Verbosity | More caveats and disclaimers than usual | Normal variance in token probabilities |
 
-### What This Is NOT
+### What this is NOT
 
 - **Not a model downgrade**: Anthropic versions models deliberately and documents changes. Day-to-day variance happens within the same model version.
 - **Not a bug to report**: This behavior is expected and documented in LLM literature. It is inherent to probabilistic inference.
@@ -457,7 +457,7 @@ Users sometimes report shorter responses, more conservative suggestions, or unex
 
 > The Aug-Sep 2025 incident ([see Resolved Issues above](#model-quality-degradation-aug-sep-2025)) was the exception: Anthropic confirmed actual infrastructure bugs causing systematic degradation. True systematic degradation is rare and Anthropic investigates it. Normal session-to-session variance is something else.
 
-### Mitigation Strategies
+### Mitigation strategies
 
 **Constrain the prompt**: More specific prompts reduce the output space and make variance less noticeable. "Write a function that does X, Y, Z, returns type T, handles edge case E" produces more consistent outputs than "write me something to handle X."
 
@@ -471,7 +471,7 @@ Users sometimes report shorter responses, more conservative suggestions, or unex
 
 ---
 
-## 📊 Issue Statistics (as of Jan 28, 2026)
+## 📊 Issue statistics (as of Jan 28, 2026)
 
 | Metric | Count | Source |
 |--------|-------|--------|
@@ -483,9 +483,9 @@ Users sometimes report shorter responses, more conservative suggestions, or unex
 
 ---
 
-## 🔍 How to Track Issues
+## 🔍 How to track issues
 
-### Check Open Critical Issues
+### Check open critical issues
 
 ```bash
 # Most reacted-to issues (community priority)
@@ -495,13 +495,13 @@ gh issue list --repo anthropics/claude-code --state open --sort reactions-+1 --l
 gh search issues --repo anthropics/claude-code "bug" "critical" --sort created --order desc --limit 10
 ```
 
-### Monitor Specific Topics
+### Monitor specific topics
 
 - **Token consumption**: [Search](https://github.com/anthropics/claude-code/issues?q=is%3Aissue+excessive+token)
 - **Wrong repo creations**: [Search](https://github.com/anthropics/claude-code/issues?q=is%3Aissue+%22wrong+repo%22)
 - **Model quality**: [Search](https://github.com/anthropics/claude-code/issues?q=is%3Aissue+quality+degradation)
 
-### Official Channels
+### Official channels
 
 - **GitHub Issues**: https://github.com/anthropics/claude-code/issues
 - **Anthropic Status**: https://status.anthropic.com/
@@ -510,7 +510,7 @@ gh search issues --repo anthropics/claude-code "bug" "critical" --sort created -
 
 ---
 
-## 📝 Contributing to This Document
+## 📝 Contributing to this document
 
 This document tracks **verified, high-impact issues only**. Criteria for inclusion:
 

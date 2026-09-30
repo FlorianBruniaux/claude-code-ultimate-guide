@@ -8,7 +8,7 @@ metadata:
   version: 1.0.0
 ---
 
-# Audit Agents/Skills/Commands (Advanced Skill)
+# Audit agents/skills/commands (advanced skill)
 
 Comprehensive quality audit system for Claude Code agents, skills, and commands. Provides quantitative scoring, comparative analysis, and production readiness grading based on industry best practices.
 
@@ -42,7 +42,7 @@ Comprehensive quality audit system for Claude Code agents, skills, and commands.
 
 ## Methodology
 
-### Why These Criteria?
+### Why these criteria?
 
 The 16-criteria framework is derived from:
 1. **Claude Code Best Practices** (Ultimate Guide line 4921: Agent Validation Checklist)
@@ -50,7 +50,7 @@ The 16-criteria framework is derived from:
 3. **Production Failures** (Community feedback on hardcoded paths, missing error handling)
 4. **Composition Patterns** (Skills should reference other skills, agents should be modular)
 
-### Scoring Philosophy
+### Scoring philosophy
 
 **Weight Rationale**:
 - **Identity (3x)**: If users can't find/invoke the agent, quality is irrelevant (discoverability > quality)
@@ -92,7 +92,7 @@ The 16-criteria framework is derived from:
    guide/examples/commands/   (benchmark files)
    ```
 
-### Phase 2: Scoring Engine
+### Phase 2: Scoring engine
 
 Load scoring criteria from `scoring/criteria.yaml`:
 
@@ -117,7 +117,7 @@ For each file:
 4. Calculate score: `(points / max_points) × 100`
 5. Assign grade (A-F)
 
-### Phase 3: Comparative Analysis (Comparative Mode Only)
+### Phase 3: Comparative analysis (comparative mode only)
 
 For each project file:
 1. Find closest matching template (by description similarity)
@@ -138,7 +138,7 @@ Gaps:
 Total gap: 16 points (explains C vs A difference)
 ```
 
-### Phase 4: Report Generation
+### Phase 4: Report generation
 
 **Markdown Report** (`audit-report.md`):
 - Summary table (overall + by type)
@@ -196,7 +196,7 @@ Total gap: 16 points (explains C vs A difference)
 }
 ```
 
-### Phase 5: Fix Suggestions (Optional)
+### Phase 5: Fix suggestions (optional)
 
 For each failing criterion, generate **actionable fix**:
 
@@ -219,7 +219,7 @@ Add this section after "Methodology":
 
 ---
 
-## Scoring Criteria
+## Scoring criteria
 
 See `scoring/criteria.yaml` for complete definitions. Summary:
 
@@ -270,9 +270,9 @@ See `scoring/criteria.yaml` for complete definitions. Summary:
 
 ---
 
-## Detection Patterns
+## Detection patterns
 
-### Frontmatter Parsing
+### Frontmatter parsing
 
 ```python
 import yaml
@@ -285,7 +285,7 @@ def parse_frontmatter(content):
     return None
 ```
 
-### Keyword Detection
+### Keyword detection
 
 ```python
 def has_keywords(text, keywords):
@@ -297,7 +297,7 @@ has_trigger = has_keywords(description, ['when', 'use', 'trigger'])
 has_error_handling = has_keywords(content, ['error', 'failure', 'fallback'])
 ```
 
-### Overlap Detection (Duplication Check)
+### Overlap detection (duplication check)
 
 ```python
 def jaccard_similarity(text1, text2):
@@ -312,7 +312,7 @@ if jaccard_similarity(desc1, desc2) > 0.5:
     issues.append("High overlap with another file")
 ```
 
-### Token Counting (Approximate)
+### Token counting (approximate)
 
 ```python
 def estimate_tokens(text):
@@ -328,7 +328,7 @@ if tokens > 5000:
 
 ---
 
-## Industry Context
+## Industry context
 
 **Source**: LangChain Agent Report 2026 (public report, page 14-22)
 
@@ -351,9 +351,9 @@ if tokens > 5000:
 
 ---
 
-## Output Examples
+## Output examples
 
-### Quick Audit (Top-5 Criteria)
+### Quick audit (top-5 criteria)
 
 ```markdown
 # Quick Audit: Agents/Skills/Commands
@@ -375,11 +375,11 @@ if tokens > 5000:
 3. **Add usage examples**: 4 files
 ```
 
-### Full Audit
+### Full audit
 
 See Phase 4: Report Generation above for full structure.
 
-### Comparative (Full + Benchmarks)
+### Comparative (full + benchmarks)
 
 ```markdown
 # Comparative Audit
@@ -403,7 +403,7 @@ Focus on these gaps to reach template quality:
 
 ## Usage
 
-### Basic (Full Audit)
+### Basic (full audit)
 
 ```bash
 # In Claude Code
@@ -413,7 +413,7 @@ Use skill: audit-agents-skills
 Use skill: audit-agents-skills for ~/projects/my-app
 ```
 
-### With Options
+### With options
 
 ```bash
 # Quick audit (fast)
@@ -429,7 +429,7 @@ Use skill: audit-agents-skills with fixes=true
 Use skill: audit-agents-skills with output=~/Desktop/audit.json
 ```
 
-### JSON Output Only
+### JSON output only
 
 ```bash
 # For programmatic integration
@@ -475,7 +475,7 @@ jobs:
 
 ---
 
-## Comparison: Command vs Skill
+## Comparison: Command vs skill
 
 | Aspect | Command (`/audit-agents-skills`) | Skill (this file) |
 |--------|----------------------------------|-------------------|
@@ -493,7 +493,7 @@ jobs:
 
 ## Maintenance
 
-### Updating Criteria
+### Updating criteria
 
 Edit `scoring/criteria.yaml`:
 ```yaml
@@ -509,7 +509,7 @@ agents:
 
 Version bump: Increment `version` in frontmatter when criteria change.
 
-### Adding File Types
+### Adding file types
 
 To support new file types (e.g., "workflows"):
 1. Add to `scoring/criteria.yaml`:

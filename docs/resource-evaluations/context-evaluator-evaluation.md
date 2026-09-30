@@ -9,13 +9,13 @@
 
 ---
 
-## Score: 4/5 (High Value)
+## Score: 4/5 (High value)
 
 **Decision**: Integrate — add to `guide/ecosystem/third-party-tools.md` (Configuration Quality section) and extract 2 patterns to `guide/core/skill-design-patterns.md`.
 
 ---
 
-## What It Is
+## What it is
 
 context-evaluator analyzes CLAUDE.md and AGENTS.md files using 17 specialized AI evaluators (13 error + 4 suggestion categories). Available as:
 
@@ -27,7 +27,7 @@ Evaluation takes 1-3 minutes. Outputs a scored report with severity levels (Crit
 
 ---
 
-## Scoring Breakdown
+## Scoring breakdown
 
 | Criterion | Score | Rationale |
 |-----------|-------|-----------|
@@ -41,9 +41,9 @@ Evaluation takes 1-3 minutes. Outputs a scored report with severity levels (Crit
 
 ---
 
-## Technical Patterns Identified (Source Read)
+## Technical patterns identified (source read)
 
-### Pattern 1: Runtime Prompt Logging (`runtime-prompt-logger.ts`)
+### Pattern 1: Runtime prompt logging (`runtime-prompt-logger.ts`)
 
 **Always-on blocking write to disk BEFORE the AI provider call.** Not a debug flag — every prompt is saved to `prompts/debug/` with an ISO-8601 timestamp filename, regardless of `--debug` flag state. The write is `await writeFile()` (blocking). If the provider call crashes or times out, the exact prompt is already on disk.
 
@@ -54,7 +54,7 @@ Key design decisions:
 
 **Not in guide currently.** The guide covers `--debug` flag usage but does not name "write-before-invoke" as a design pattern for evaluator skills.
 
-### Pattern 2: Adaptive Unified/Parallel Mode (`runner.ts:764-775`)
+### Pattern 2: Adaptive unified/parallel mode (`runner.ts:764-775`)
 
 **Token-threshold switching between single-agent and parallel-agent execution.** Before launching evaluators, the system estimates the combined token count of all input files. If below 100K tokens (`DEFAULT_MAX_UNIFIED_TOKENS`), all files are evaluated in a single unified agent call that can detect cross-file contradictions. If above, each file is evaluated by independent parallel agents.
 
@@ -75,7 +75,7 @@ export function canUseUnifiedMode(
 
 **Not explicitly named in guide.** The guide discusses parallel sub-agents and multi-file evaluation but does not document the "check token count, choose 1-agent vs N-agent" switching pattern with a concrete threshold.
 
-### Pattern 3: Technical Inventory Injection (`context-identifier.ts`)
+### Pattern 3: Technical inventory injection (`context-identifier.ts`)
 
 CLOC + folder structure + `ls -la` analysis are collected first, then injected as structured context into all 17 evaluator prompts. Similar to Shared Ground Truth Injection (already documented in v3.39.0 `skill-design-patterns.md`). **No new documentation needed**: this is a variant of a pattern already covered.
 
@@ -85,7 +85,7 @@ Three-phase pipeline: rule-based clustering (location tolerance + text similarit
 
 ---
 
-## Integration Decisions
+## Integration decisions
 
 | Item | Decision | Rationale |
 |------|----------|-----------|
@@ -124,7 +124,7 @@ context-evaluator and Caliber are complementary, not competitive. The guide shou
 
 ---
 
-## Files Modified
+## Files modified
 
 - `docs/resource-evaluations/context-evaluator-evaluation.md` (this file)
 - `guide/ecosystem/third-party-tools.md` — new context-evaluator entry (Configuration Quality section)

@@ -1,4 +1,4 @@
-# Evaluation: "Construire un mini Claude Code pas à pas" - Kajan Siva
+# Evaluation: "Construire un mini Claude Code pas à pas" - kajan siva
 
 **Resource Type**: Blog article
 **Author**: Kajan Siva
@@ -9,7 +9,7 @@
 
 ---
 
-## 1. Content Summary
+## 1. Content summary
 
 Long-form article (~9 min read) walking through the construction of a minimal Claude Code-like agent in four steps: basic API call, context window (message history), tool calling, and the agentic loop that ties them together. JavaScript/Node.js, Anthropic API (Claude Sonnet 5). Code is provided for each step, including a `searchCode` tool schema and a simplified agent loop. Covers `stop_reason`, `tool_use_id` linking, and flags prompt injection risk when tool output re-enters the context unfiltered.
 
@@ -17,7 +17,7 @@ Long-form article (~9 min read) walking through the construction of a minimal Cl
 
 ---
 
-## 2. Initial Scoring: 2/5 (Marginal)
+## 2. Initial scoring: 2/5 (Marginal)
 
 | Score | Signification | Action |
 |-------|----------------|--------|
@@ -46,7 +46,7 @@ Long-form article (~9 min read) walking through the construction of a minimal Cl
 
 ---
 
-## 3. Comparative Analysis
+## 3. Comparative analysis
 
 | Aspect | Article Kajan Siva | Guide (`architecture.md` §1) |
 |--------|---------------------|-------------------------------|
@@ -59,7 +59,7 @@ Long-form article (~9 min read) walking through the construction of a minimal Cl
 
 ---
 
-## 4. Integration Decision
+## 4. Integration decision
 
 ### Decision: **DO NOT INTEGRATE** ❌
 
@@ -68,13 +68,13 @@ Long-form article (~9 min read) walking through the construction of a minimal Cl
 2. Contenu français, incompatible avec la règle de langue du repo (anglais uniquement).
 3. Le genre "construis ton propre agent pour comprendre" mérite une entrée dans `guide/roles/learning-with-ai.md` § External Resources, mais avec la source canonique anglophone du genre plutôt que celle-ci.
 
-### Alternative Action
+### Alternative action
 
 Ajout de **Thorsten Ball, "How to Build an Agent"** (https://ampcode.com/blog/how-to-build-an-agent) dans `guide/roles/learning-with-ai.md` § External Resources, à la place de cet article : même genre pédagogique (comprendre l'agent loop en le construisant), en anglais, référence la plus citée du genre.
 
 ---
 
-## 5. Final Metadata
+## 5. Final metadata
 
 **Initial Score**: 2/5
 **Final Score**: 2/5

@@ -54,7 +54,7 @@ This scenario has a name now. And there's a protocol to prevent it.
 
 This whitepaper covers the **UVAL protocol** (Understand, Verify, Apply, Learn), a four-step system for using AI without losing mastery of your code. It also covers academic research on AI productivity (some of it counterintuitive), the three developer patterns when facing AI tools, and a concrete 30-day plan to reach the "augmented" level.
 
-## Document Structure
+## Document structure
 
 | Section | Content | Pages |
 |---------|---------|-------|
@@ -69,9 +69,9 @@ This whitepaper covers the **UVAL protocol** (Understand, Verify, Apply, Learn),
 | **S9: Collective Dimension** | Beyond UVAL, team debt | ~2 |
 | **S10: Appendices** | Templates, glossary, quick reference | ~2 |
 
-# The Problem: Comprehension Debt
+# The problem: Comprehension debt
 
-## Two Researchers, Three Names
+## Two researchers, three names
 
 For a long time, I thought my inability to explain code I'd shipped was a discipline issue. A me problem. Then two researchers gave it actual names.
 
@@ -104,7 +104,7 @@ Three weeks later, a colleague asks why the system is structured that way. You o
 The code is correct. The understanding is gone. This is exactly comprehension debt, and it accumulates with every session where pressure short-circuits understanding.
 :::
 
-## The Vibe Coding Trap
+## The vibe coding trap
 
 The term "vibe coding" was coined by Andrej Karpathy (February 2025, Collins Word of the Year 2025): coding by "fully giving in to the vibes" without understanding the generated code.
 
@@ -120,7 +120,7 @@ The term "vibe coding" was coined by Andrej Karpathy (February 2025, Collins Wor
 **Antidote**: The UVAL protocol (section S4) forces understanding before acceptance.
 :::
 
-## Three Learning Flows
+## Three learning flows
 
 ```
 TRADITIONAL           AI (WRONG WAY)         AI (RIGHT WAY)
@@ -141,9 +141,9 @@ It's where learning happens.
 
 The critical difference: in the "right way" flow, you arrive at the conversation with context. You've tried. You've identified where you're stuck. The AI's response answers your specific question, anchored in your existing understanding. In the "wrong way" flow, you delegate the understanding along with the problem.
 
-# The Reality of AI Productivity
+# The reality of AI productivity
 
-## The Three-Phase Curve
+## The three-phase curve
 
 Before optimizing your learning approach, understand what productivity research actually shows about AI. It's more nuanced than the marketing suggests.
 
@@ -159,7 +159,7 @@ Adoption may involve initial experimentation, task-specific gains and a stable w
 Sources: [arXiv:2601.20245](https://arxiv.org/abs/2601.20245) | [arXiv:2507.09089](https://arxiv.org/abs/2507.09089) | [arXiv:2507.00788](https://arxiv.org/abs/2507.00788)
 :::
 
-## Where AI Helps (And Where It Hurts)
+## Where AI helps (and where it hurts)
 
 | High-Gain Tasks | Low/Negative-Gain Tasks |
 |-----------------|-------------------------|
@@ -185,9 +185,9 @@ Nondeterministic outputs (identical prompts → varying results) create cognitiv
 Julien Lepine (IFTTD ep 351) makes the same point from a different angle: cap your daily AI development cycles even when the tooling makes more cycles technically possible. Cognitive load limits are real, and practitioners who ignored them reported significant fatigue within weeks.
 :::
 
-# Diagnosis: Which Developer Are You?
+# Diagnosis: Which developer are you?
 
-## Self-Check (5 Questions)
+## Self-check (5 questions)
 
 Answer honestly before continuing:
 
@@ -209,7 +209,7 @@ Answer honestly before continuing:
 
 Be honest. This guide only helps if you acknowledge where you actually are.
 
-## The Three Patterns
+## The three patterns
 
 These three illustrative patterns can help reflect on habits; they are not a validated diagnostic or an exhaustive classification:
 
@@ -237,7 +237,7 @@ Karim uses AI as a tool. Before asking, he spends 15 minutes formulating the pro
 **Pattern**: Augmented | **Advantage**: Productivity + understanding | **Action**: Advanced optimization (Predictive Prompting, Teaching Mode)
 :::
 
-## Where Are You? The Agent Adoption Curve
+## Where are you? the agent adoption curve
 
 The three patterns (Dependent, Avoidant, Augmented) describe your relationship to AI. The agent adoption curve, formalized by Nicolas Martignole (Back Market), describes your sophistication level with tools like Claude Code. The two grids are complementary: you can be "Augmented" in mindset but still at level 2 on tooling, or at level 4 on tooling but Dependent in how you handle comprehension.
 
@@ -253,7 +253,7 @@ The three patterns (Dependent, Avoidant, Augmented) describe your relationship t
 
 The value of this scale is practical: it lets you set a concrete progression target ("reach level 3 within three months") instead of a vague "get better at AI." The actions are identifiable: level 3 requires hooks and custom agents, and these are learnable things, not innate talents.
 
-# The UVAL Protocol
+# The UVAL protocol
 
 ## Overview
 
@@ -268,7 +268,7 @@ UVAL is an acronym, but the logic isn't complicated: understanding should come b
 
 I formalized UVAL in the learning-with-ai section of the Claude Code Ultimate Guide. The name is an acronym, but the logic isn't complicated: understanding should come before using, not after shipping. The temptation to skip U is the whole problem.
 
-## U: Understand First (The 15-Minute Rule)
+## U: Understand first (the 15-minute rule)
 
 For months, my first move when hitting a problem was to open a new chat and describe it. The results were correct but opaque. What I wasn't doing was arriving at the conversation with context that would make the AI's response useful to me specifically, with my specific codebase, specific constraints, and specific things I already understood.
 
@@ -322,7 +322,7 @@ List three possible approaches, even if you're not sure they'll work:
 
 Having to name them makes you realize how much of the problem space you actually already understand.
 
-### Step 2.5: Recognize Fatigue Signals (30 sec)
+### Step 2.5: Recognize fatigue signals (30 sec)
 
 Before moving forward, assess your cognitive state:
 
@@ -332,7 +332,7 @@ Before moving forward, assess your cognitive state:
 
 This checkpoint prevents compounding exhaustion from extended sessions with diminishing returns.
 
-### Step 3: Identify Knowledge Gaps (3 min)
+### Step 3: Identify knowledge gaps (3 min)
 
 What specifically do you NOT know?
 
@@ -343,17 +343,17 @@ What specifically do you NOT know?
 - I've never used Zod but it keeps coming up
 ```
 
-### Step 4: THEN Ask AI (5 min)
+### Step 4: THEN ask AI (5 min)
 
 Only now. Your question is ten times better.
 
 The 15 minutes isn't slowness. It's the difference between delegating a problem and collaborating on one. The hardest part, honestly, is the first sentence. It sounds trivial. It's not.
 
-## V: Verify (Explain It Back)
+## V: Verify (explain it back)
 
 **The rule**: If you can't explain the code to a colleague, you haven't learned it.
 
-### The Rubber Duck Protocol
+### The rubber duck protocol
 
 When I first tried talking the code out loud (the Rubber Duck approach from Hunt and Thomas's Pragmatic Programmer), I assumed I'd breeze through it. I'd read the AI-generated code, it made sense, I understood what it was doing. Then I tried to explain not what each line did, but why it was written that way.
 
@@ -369,7 +369,7 @@ After AI generates code:
 4. Identify parts you don't understand
 5. Ask AI to explain those specific parts
 
-### Example: Zod Refine
+### Example: Zod refine
 
 AI generates:
 
@@ -393,7 +393,7 @@ Your explanation:
 
 If you can't explain the code to a colleague, you haven't understood it. That's the test.
 
-## A: Apply (Transform, Don't Copy)
+## A: Apply (transform, don't copy)
 
 **The rule**: Never copy-paste AI code directly. Always modify something.
 
@@ -403,7 +403,7 @@ Explaining, adapting and testing a solution makes your understanding observable.
 
 This is exactly how comprehension debt builds: not through laziness but through accumulated small acts of bypassing the one moment of engagement that makes understanding stick.
 
-### Cognitive Load by Modification Type
+### Cognitive load by modification type
 
 | Action | Cognitive Load | Retention |
 |--------|---------------|-----------|
@@ -412,7 +412,7 @@ This is exactly how comprehension debt builds: not through laziness but through 
 | Add edge case | Medium | Good |
 | Refactor structure | High | Excellent |
 
-### The 4 Minimum Modifications
+### The 4 minimum modifications
 
 Always do at least ONE:
 
@@ -449,11 +449,11 @@ function calculateCartTotal(cartItems) {
 
 Now you've engaged with the code, added your own thinking, and learned something.
 
-## L: Learn (Capture the Insight)
+## L: Learn (capture the insight)
 
 I have started four learning journals in my career. None survived past week two. Life moves fast, the insight that seemed worth documenting feels obvious by Saturday, and by Monday the context has evaporated along with the motivation to write it down. I don't think the problem is discipline. I think the problem is friction.
 
-### The One-Thing Rule
+### The one-thing rule
 
 At the end of each coding session, capture ONE thing you learned. Not ten. One.
 
@@ -464,19 +464,19 @@ Context  : Login form needed password != email check
 Future me: Use refine() when validation involves multiple fields
 ```
 
-### The Stop Hook: Capture Without Friction
+### The stop hook: Capture without friction
 
 The solution: a Claude Code hook on the Stop event. After each session, Claude asks "What's one thing you learned today?" The answer goes automatically to a log file. Ten seconds, no friction, it happens before I close the terminal.
 
 The insights are rough and sometimes useless, but occasionally there's one I'd have completely forgotten by the next day, and it's there in the log.
 
-### CLAUDE.md as a Decision Log
+### CLAUDE.md as a decision log
 
 The other mechanism: use `CLAUDE.md` as a decision log. Not "we use Zod for validation" but "we use Zod because manual validation missed a nested object edge case in production, and we needed the schema as the single source of truth for field rules."
 
 The code tells you what the system does. The decision log tells you why it was built this way. Without it, the why disappears the moment you close the editor, and three months later nobody can reconstruct the reasoning, including you.
 
-## When UVAL Applies (And When It Doesn't)
+## When UVAL applies (and when it doesn't)
 
 ::: {.callout-warning title="UVAL Is Not Universal"}
 **UVAL applies to:**
@@ -498,7 +498,7 @@ The code tells you what the system does. The decision log tells you why it was b
 
 # Implementing UVAL with Claude Code
 
-## CLAUDE.md: Learning Mode Configuration
+## CLAUDE.md: Learning mode configuration
 
 The `CLAUDE.md` file is your first line of defense against comprehension debt. Configured correctly, it turns every session into a learning opportunity rather than pure code generation.
 
@@ -537,7 +537,7 @@ Y is the single source of truth for Z"
 ```
 :::
 
-## Slash Commands for Learning
+## Slash commands for learning
 
 | Command | Purpose | When to Use |
 |---------|---------|-------------|
@@ -572,7 +572,7 @@ Test my understanding of the code I just wrote or accepted.
 $ARGUMENTS (optional: focus area like "error handling")
 ```
 
-## Learning Capture Hook
+## Learning capture hook
 
 The example Stop hook provides a learning reminder after Claude finishes a response. From the cloned guide repository, copy `examples/hooks/bash/learning-capture.sh` into your project at `.claude/hooks/bash/learning-capture.sh`, then make it executable. It does not automatically capture your next answer:
 
@@ -591,7 +591,7 @@ The example Stop hook provides a learning reminder after Claude finishes a respo
 
 The script creates the journal header if needed and returns a `systemMessage` reminder. Record the learning entry yourself or explicitly ask Claude to append it. A Stop event ends a response, not necessarily the session.
 
-## The 70/30 Weekly Split
+## The 70/30 weekly split
 
 Balancing learning and producing:
 
@@ -602,7 +602,7 @@ Balancing learning and producing:
 
 **Status of this ratio**: 70/30 is a suggested scheduling heuristic. The cited studies do not validate this exact allocation. Adjust it using independent recall, code explanation and task results.
 
-### Example Week Structure
+### Example week structure
 
 ```
 Monday    : Learn new React pattern      (minimal AI)
@@ -616,9 +616,9 @@ The key: don't use AI heavily when learning NEW concepts. Use it heavily when ap
 
 Sebastien Deleuze (Spring Framework committer, IFTTD ep 349) recommends going further: deliberately alternate AI-assisted and manual coding sessions, not just by task type but as a standing habit, to preserve deep system understanding over time. The 70/30 split gives you the ratio; alternating sessions gives you the rhythm that keeps it from decaying into passive acceptance.
 
-# Exit Plans by Pattern
+# Exit plans by pattern
 
-## Dependent Pattern: 4-Week Recovery Program
+## Dependent pattern: 4-week recovery program
 
 You've been using AI as a crutch. Here's how to rebuild your foundation.
 
@@ -631,7 +631,7 @@ You've been using AI as a crutch. Here's how to rebuild your foundation.
 | Interview failures on fundamentals | Focus on basics without AI |
 :::
 
-### Week 1: Cold Turkey
+### Week 1: Cold turkey
 
 **Goal**: Prove to yourself you can code without AI.
 
@@ -643,7 +643,7 @@ You've been using AI as a crutch. Here's how to rebuild your foundation.
 
 **Expect this to feel slow and frustrating.** That's the learning happening.
 
-### Week 2: Guided Reintroduction
+### Week 2: Guided reintroduction
 
 **Goal**: Use AI as a teacher, not a generator.
 
@@ -657,7 +657,7 @@ You've been using AI as a crutch. Here's how to rebuild your foundation.
 
 Apply the UVAL protocol to every interaction. Time-box sessions to 45 minutes. Target: 70% AI usage on known tasks, maintain 30 min daily without AI.
 
-## Avoidant Pattern: 4-Week Progressive Introduction
+## Avoidant pattern: 4-week progressive introduction
 
 You've been avoiding AI. Here's why that's a problem and how to change.
 
@@ -673,7 +673,7 @@ You're not cheating by using AI. You're being inefficient by not using it.
 The best developers use every tool available. AI is a tool, not a replacement for judgment.
 :::
 
-### Week 1: Low-Stakes Introduction
+### Week 1: Low-Stakes introduction
 
 | Task | Why It's Safe | Try It |
 |------|---------------|--------|
@@ -682,7 +682,7 @@ The best developers use every tool available. AI is a tool, not a replacement fo
 | Write documentation | Documentation isn't the core skill | "Document this function" |
 | Generate test cases | Tests verify YOUR understanding | "Generate test cases for this function" |
 
-### Week 2: Expanded Usage
+### Week 2: Expanded usage
 
 | Task | Old Way | AI-Assisted Way |
 |------|---------|-----------------|
@@ -694,11 +694,11 @@ The best developers use every tool available. AI is a tool, not a replacement fo
 
 Apply the UVAL protocol to ensure you're learning, not just generating. The avoidant developer who correctly integrates AI often ends up stronger than the dependent one, because they have the foundations the dependent never built.
 
-## Augmented Pattern: Advanced Optimization
+## Augmented pattern: Advanced optimization
 
 You're using AI well. Here's how to level up.
 
-### Predictive Prompting
+### Predictive prompting
 
 Before AI generates code, predict the approach:
 
@@ -708,7 +708,7 @@ My prediction: This will probably use reduce()
 Then compare to AI output --- learn from differences
 ```
 
-### Teaching Mode
+### Teaching mode
 
 Use AI to test your knowledge by teaching:
 
@@ -721,17 +721,17 @@ useState stores state that persists between renders...
 
 AI acts as a smart rubber duck that can catch errors.
 
-### JiT Tests as a Comprehension Exercise
+### JiT tests as a comprehension exercise
 
 A useful learning exercise is to ask for a test designed to fail on a specific regression, then inspect whether it fails for the intended reason. Articulate the expected behavior yourself before accepting the test; no general improvement percentage is established here.
 
-### The Job Is Now the Spec
+### The job is now the spec
 
 A reframing that redefines what mastery means: the developer's job is no longer writing code, it's writing specs clear enough that Claude can implement them correctly. This reframing (Larridin/Kanitkar, "Building AI-Native Engineering Teams") turns the developer into a **producer** rather than an implementer, a director who knows exactly what they want and can evaluate what they get.
 
 The direct consequence: the measure of your mastery is no longer "can I write this code?", it's "is my spec precise enough to produce the right code on the first attempt?" Augmented developers invest in spec quality as much as in reviewing the produced code.
 
-### Comparative Analysis
+### Comparative analysis
 
 Ask for multiple approaches, then choose:
 
@@ -746,7 +746,7 @@ Explain trade-offs of each.
 
 This builds architectural thinking.
 
-### Advanced CLAUDE.md Configuration
+### Advanced CLAUDE.md configuration
 
 ```markdown
 # Advanced Learning Configuration
@@ -769,9 +769,9 @@ After each feature, summarize:
 3. Potential interview questions from this code
 ```
 
-# Case Study: Hybrid Learning
+# Case study: Hybrid learning
 
-## Methode Aristote: The Model
+## Methode Aristote: The model
 
 What works best for learning with AI? Research and successful implementations point to the same pattern.
 
@@ -795,7 +795,7 @@ Applied to coding with AI:
 - **Equity**: Everyone can learn, pace varies. Don't compare yourself to others
 :::
 
-## Transferable Principles
+## Transferable principles
 
 | Aristote Principle | Developer Equivalent |
 |--------------------|---------------------|
@@ -804,7 +804,7 @@ Applied to coding with AI:
 | Level-based progression | Projects of increasing complexity |
 | Long-term relationship | Consistent feedback from the same people |
 
-## Building Your Own Support System
+## Building your own support system
 
 You probably don't have a dedicated tutor, but you can create the structure:
 
@@ -817,7 +817,7 @@ You probably don't have a dedicated tutor, but you can create the structure:
 
 The combination of **human accountability + AI practice** beats either alone. This mirrors what research shows about successful teams: clear guidelines, code review standards, and mentorship structures.
 
-# 30-Day Progression Plan
+# 30-day progression plan
 
 ## Week 1: Foundations
 
@@ -847,7 +847,7 @@ The combination of **human accountability + AI practice** beats either alone. Th
 
 **Success criteria**: Can modify AI-generated code with confidence.
 
-## Week 3: Critical Usage
+## Week 3: Critical usage
 
 **Focus**: Challenge AI suggestions, find their limits.
 
@@ -887,7 +887,7 @@ The combination of **human accountability + AI practice** beats either alone. Th
 | Prolonged sessions without breaks | AI fatigue, nondeterminism stress | Time-box: 30 min, max 3 retries |
 :::
 
-### Weekly Self-Audit
+### Weekly self-audit
 
 Every Friday, ask:
 
@@ -898,9 +898,9 @@ Every Friday, ask:
 
 If you're faster but not smarter, you're building dependency.
 
-# The Collective Dimension: Beyond UVAL
+# The collective dimension: Beyond UVAL
 
-## UVAL Is the Individual Layer
+## UVAL is the individual layer
 
 UVAL addresses your comprehension: your ability to explain your own code three weeks later, your capacity to onboard someone onto logic you built months ago. The four steps are checkpoints that force engagement precisely at the moments when it's easiest to skip.
 
@@ -917,13 +917,13 @@ Individual comprehension debt (Twei/Osmani) becomes collective cognitive debt (S
 **Combine individual reflection and team review, then check whether understanding is improving. These practices do not guarantee protection from skill loss.**
 :::
 
-## The Review Bottleneck Inversion
+## The review bottleneck inversion
 
 An often-underestimated warning sign: with AI, juniors can generate code faster than seniors can audit it. The traditional bottleneck was generation; now it's **comprehension and validation**. A junior who vibe-codes 300 lines in 20 minutes creates a disproportionate review burden for seniors, with no guarantee of quality.
 
 This inversion shifts management priorities: the question is no longer "how do we accelerate production" but "how do we maintain review capacity at a sufficient standard." Teams that ignore this measure velocity and ignore the comprehension debt accumulating in every PR accepted too quickly.
 
-## Teams That Succeed vs. Teams That Stagnate
+## Teams that succeed vs. teams that stagnate
 
 | Teams That Succeed | Teams That Stagnate |
 |--------------------|---------------------|
@@ -934,7 +934,7 @@ This inversion shifts management priorities: the question is no longer "how do w
 
 The four practices in the left column (clear guidelines, matched review, shared prompts, pairing) are what separates the two columns, not the choice of AI tool.
 
-## Team Recommendations
+## Team recommendations
 
 **Margaret-Anne Storey** recommends to counter collective cognitive debt:
 
@@ -945,7 +945,7 @@ The four practices in the left column (clear guidelines, matched review, shared 
 
 The signature of collective cognitive debt: no alarm, no crash, no failing test. Just a slow erosion of understanding until nobody can explain why the system is structured the way it is, and everyone is slightly too embarrassed to admit it in a PR review.
 
-## A Note for Tech Leads and Managers: Regulatory Exposure
+## A note for tech leads and managers: Regulatory exposure
 
 AI usage in development workflows is entering the regulatory perimeter incrementally. Two frameworks to watch for teams in Europe and the medical space:
 
@@ -955,9 +955,9 @@ For most product teams, immediate impact is limited. But for teams working on hi
 
 # Appendices
 
-## A. Sources and Research
+## A. sources and research
 
-### Academic Research
+### Academic research
 
 | Source | Link | Key Finding |
 |--------|------|-------------|
@@ -967,7 +967,7 @@ For most product teams, immediate impact is limited. But for teams working on hi
 | **GitHub Copilot Impact Study (2024)** | [dl.acm.org](https://dl.acm.org/doi/10.1145/3613904.3642394) | Productivity gains + skill atrophy risks in junior developers |
 | **Student Dependency Patterns (IACIS 2024)** | IACIS 2024 | "Learned helplessness" in over-reliant AI students |
 
-### Industry and Productivity
+### Industry and productivity
 
 | Source | Link | Key Content |
 |--------|------|-------------|
@@ -976,7 +976,7 @@ For most product teams, immediate impact is limited. But for teams working on hi
 | **OCTO Technology (2025)** | [blog.octo.com](https://blog.octo.com/le-developpement-logiciel-a-l-ere-des-agents-ia) | Pairs as minimal unit, bottleneck shift technical → functional |
 | **Matteo Collina: Human in the Loop** | [adventures.nodeland.dev](https://adventures.nodeland.dev/archive/the-human-in-the-loop/) | "The human in the loop isn't a limitation. It's the point." |
 
-### Practitioners and Concepts
+### Practitioners and concepts
 
 | Source | Link | Key Content |
 |--------|------|-------------|
@@ -985,7 +985,7 @@ For most product teams, immediate impact is limited. But for teams working on hi
 | **Addy Osmani: The 80% Problem** | [addyosmani.com](https://addyosmani.com/blog/the-80-problem-in-agentic-coding/) | Comprehension debt framework, January 2026 |
 | **Margaret-Anne Storey: Cognitive Debt** | [margaretstorey.com](https://margaretstorey.com/blog/2026/02/09/cognitive-debt/) | Team extension, collective cognitive debt, February 2026 |
 
-### Education and Frameworks
+### Education and frameworks
 
 | Source | Link | Key Content |
 |--------|------|-------------|
@@ -993,9 +993,9 @@ For most product teams, immediate impact is limited. But for teams working on hi
 | **The Pragmatic Programmer** | [pragprog.com](https://pragprog.com/titles/tpp20/the-pragmatic-programmer-20th-anniversary-edition/) | Deliberate practice principles, Rubber Duck Protocol |
 | **Anthropic Claude Code Best Practices** | [anthropic.com](https://www.anthropic.com/engineering/claude-code-best-practices) | Official guidance for effective usage |
 
-## B. Ready-to-Use Templates
+## B. ready-to-use templates
 
-### Complete CLAUDE.md Template
+### Complete CLAUDE.md template
 
 ```markdown
 # Learning-First Configuration
@@ -1029,7 +1029,7 @@ Example: [2026-02-15] Zod: manual validation missed
          a nested object edge case in prod
 ```
 
-### /learn:quiz Slash Command
+### /learn:quiz slash command
 
 File: `.claude/commands/learn/quiz.md`
 
@@ -1052,7 +1052,7 @@ Test my understanding of the code I just worked on.
 $ARGUMENTS (optional: focus area)
 ```
 
-### Hook JSON Configuration
+### Hook JSON configuration
 
 File: `.claude/settings.json`
 
@@ -1069,9 +1069,9 @@ File: `.claude/settings.json`
 }
 ```
 
-## C. Quick Reference Card
+## C. quick reference card
 
-### UVAL Protocol Summary
+### UVAL protocol summary
 
 ```
 U --- UNDERSTAND FIRST
@@ -1091,14 +1091,14 @@ L --- LEARN
     CLAUDE.md = decision log (the WHY not the WHAT)
 ```
 
-### The 70/30 Heuristic
+### The 70/30 heuristic
 
 ```
 Learning new concepts:  70% struggle, 30% AI
 Applying known skills:  30% struggle, 70% AI
 ```
 
-### Daily Minimums
+### Daily minimums
 
 ```
 + 15 min: Code something without AI
@@ -1106,7 +1106,7 @@ Applying known skills:  30% struggle, 70% AI
 +  1 min: Record one thing you learned (hook reminder optional)
 ```
 
-### Claude Code Commands for Learning
+### Claude Code commands for learning
 
 ```
 Ask: Explain this code and its trade-offs
@@ -1115,7 +1115,7 @@ Ask: Explain this code and its trade-offs
 /learn:alternatives   -- Compare approaches
 ```
 
-## D. Glossary
+## D. glossary
 
 | Term | Definition |
 |------|-----------|
@@ -1126,7 +1126,7 @@ Ask: Explain this code and its trade-offs
 | **15-minute rule** | A 4-substep protocol (State, Approaches, Gaps, Ask) to execute before any AI request |
 | **70/30 split** | 70% struggle time on new concepts, 30% AI; proportions reversed for already-mastered skills |
 
-# Feedback and Contributions
+# Feedback and contributions
 
 **Encountering issues?** Report them on [Anthropic GitHub Issues](https://github.com/anthropics/claude-code/issues)
 
@@ -1139,7 +1139,7 @@ Ask: Explain this code and its trade-offs
 ---
 
 *Version 3.43.0 | Created: 2026-02 | Updated: 2026-09 | UVAL Protocol & Comprehension Debt*
-# The Series
+# The series
 
 This whitepaper is part of the **Claude Code Ultimate Guide** series, a complete resource for mastering Claude Code, from installation to production deployment.
 

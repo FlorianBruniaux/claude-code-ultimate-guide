@@ -33,7 +33,7 @@ Utility scripts for Claude Code power users.
 
 ---
 
-## Bridge Script (Claude Code → LM Studio)
+## Bridge script (Claude Code → LM Studio)
 
 **Purpose**: Execute Claude Code plans locally via LM Studio for cost savings.
 
@@ -152,7 +152,7 @@ search_by_tag(["result", "plan_auth_refactor"])
 # Returns all execution results
 ```
 
-### Plan Schema
+### Plan schema
 
 See `bridge-plan-schema.json` for the complete JSON Schema.
 
@@ -166,7 +166,7 @@ See `bridge-plan-schema.json` for the complete JSON Schema.
 | `context.files_context` | No | Files to inject (`LOAD`) or reference |
 | `steps` | Yes | Array of execution steps |
 
-### Step Types
+### Step types
 
 | Type | Use Case |
 |------|----------|
@@ -175,7 +175,7 @@ See `bridge-plan-schema.json` for the complete JSON Schema.
 | `code_modification` | Modify existing code |
 | `decision` | Make architectural or design decisions |
 
-### Validation Types
+### Validation types
 
 | Type | Description |
 |------|-------------|
@@ -184,7 +184,7 @@ See `bridge-plan-schema.json` for the complete JSON Schema.
 | `syntax_check` | Valid Python syntax |
 | `contains_keys` | JSON contains specific keys |
 
-### Failure Handling
+### Failure handling
 
 | on_failure | Behavior |
 |------------|----------|
@@ -192,7 +192,7 @@ See `bridge-plan-schema.json` for the complete JSON Schema.
 | `skip` | Skip step, continue execution |
 | `halt` | Stop entire plan |
 
-### Cost Savings
+### Cost savings
 
 - **Planning** (Opus): ~$0.50-2.00 per complex plan
 - **Execution** (LM Studio): Free (local)
@@ -209,7 +209,7 @@ See `bridge-plan-schema.json` for the complete JSON Schema.
 
 ---
 
-## Audit Scan
+## Audit scan
 
 Security and quality audit of your Claude Code configuration.
 
@@ -225,7 +225,7 @@ Checks:
 
 ---
 
-## Health Check
+## Health check
 
 Quick verification of Claude Code installation.
 
@@ -239,7 +239,7 @@ Quick verification of Claude Code installation.
 
 ---
 
-## Clean Reinstall
+## Clean reinstall
 
 Complete reinstall preserving configurations.
 
@@ -253,7 +253,7 @@ Complete reinstall preserving configurations.
 
 ---
 
-## Fresh Context Loop
+## Fresh context loop
 
 Run Claude Code with fresh context for long-running tasks.
 
@@ -263,7 +263,7 @@ Run Claude Code with fresh context for long-running tasks.
 
 ---
 
-## Session Search
+## Session search
 
 Search across all Claude Code session histories.
 
@@ -273,7 +273,7 @@ Search across all Claude Code session histories.
 
 ---
 
-## Session Manager (Advanced)
+## Session manager (advanced)
 
 Advanced CLI for session search, browse, resume & pattern discovery with incremental indexing.
 
@@ -322,7 +322,7 @@ curl -sL https://raw.githubusercontent.com/FlorianBruniaux/cc-sessions/main/cc-s
 
 ---
 
-## Session Stats
+## Session stats
 
 Get statistics about your Claude Code usage.
 

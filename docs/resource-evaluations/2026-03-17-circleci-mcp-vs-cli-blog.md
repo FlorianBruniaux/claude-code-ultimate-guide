@@ -1,4 +1,4 @@
-# Resource Evaluation: "MCP vs. CLI" (CircleCI Blog)
+# Resource evaluation: "MCP vs. CLI" (CircleCI blog)
 
 **Date**: 2026-03-17
 **Evaluator**: Claude Sonnet 4.6
@@ -9,13 +9,13 @@
 
 ---
 
-## Executive Summary
+## Executive summary
 
 Jacob Schmitt proposes a decision framework for choosing between MCP servers and CLI tools in agentic workflows, using the inner loop / outer loop distinction as the organizing principle. The post includes a browser automation benchmark (CLI 33% better token efficiency, 77 vs 60 task completion), a 6-question decision guide, and a hybrid architecture example from CircleCI's own tooling. The framework aligns with how the guide already positions RTK and the CLI+MCP hybrid approach. The post adds useful external validation and a cleaner decision vocabulary than what currently exists in the guide, but does not introduce new technical ground for experienced Claude Code users.
 
 ---
 
-## Content Summary
+## Content summary
 
 - **Core thesis**: inner loop (frequent, local, low-latency dev iteration) favors CLI; outer loop (shared systems, CI/CD, cross-team infrastructure) favors MCP
 - **Browser automation benchmark**: single test comparing agentic browser automation via CLI vs MCP. CLI: 77% task completion, 33% better token efficiency. MCP: 60% task completion. Methodology not detailed (single test, CircleCI-internal)
@@ -31,7 +31,7 @@ Jacob Schmitt proposes a decision framework for choosing between MCP servers and
 
 ---
 
-## Gap Analysis vs. Guide
+## Gap analysis vs. guide
 
 | Area | CircleCI post | Guide coverage |
 |------|---------------|----------------|
@@ -46,7 +46,7 @@ Jacob Schmitt proposes a decision framework for choosing between MCP servers and
 
 ---
 
-## Quality Assessment
+## Quality assessment
 
 **Strengths**:
 - The inner loop / outer loop distinction is well-established in dev productivity literature (ring-fencing fast local iteration vs. shared system operations) and applies cleanly to MCP vs. CLI
@@ -78,7 +78,7 @@ Solid framework from a credible source. The inner loop / outer loop vocabulary i
 
 ---
 
-## Fact-Check
+## Fact-check
 
 | Claim | Verified | Source |
 |-------|----------|--------|

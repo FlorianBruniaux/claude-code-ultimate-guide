@@ -1,4 +1,4 @@
-# Resource Evaluation: Paul Rayner: "Will AI Kill Refactoring?" (LinkedIn)
+# Resource evaluation: Paul Rayner: "Will AI Kill Refactoring?" (LinkedIn)
 
 **Date**: 2026-03-16
 **Evaluator**: Claude (automated via /eval-resource)
@@ -42,7 +42,7 @@ Paul Rayner built ContextFlow (a DDD context mapping tool) entirely with Claude 
 
 ---
 
-## Integration Recommendations
+## Integration recommendations
 
 **Split the two artifacts. Treat them independently.**
 
@@ -88,7 +88,7 @@ Additional issues flagged:
 
 ---
 
-## Fact-Check
+## Fact-check
 
 | Claim | Status | Notes |
 |-------|--------|-------|

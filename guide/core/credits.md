@@ -4,13 +4,13 @@ description: "Open-source projects and engineering teams whose work informed spe
 tags: [credits, attribution, open-source]
 ---
 
-# Credits and External Inspirations
+# Credits and external inspirations
 
 This guide documents patterns from the Claude Code community. Some sections are directly inspired by open-source repos, blog posts, or public engineering work. This page consolidates attributions in one place.
 
 ---
 
-## Packmind Engineering Team
+## Packmind engineering team
 
 **Repo**: [github.com/packmind/packmind](https://github.com/PackmindHub/packmind)
 **Author**: Cédric Teyton (CTO, Packmind)
@@ -18,42 +18,42 @@ This guide documents patterns from the Claude Code community. Some sections are 
 
 Packmind maintains a production Claude Code configuration in their open-source repo. Several patterns documented in this guide were inspired by their `.claude/` setup:
 
-### Pattern 1: MCP Reference File
+### Pattern 1: MCP reference file
 
 **Guide section**: [Documenting an MCP for Claude](../ecosystem/mcp-servers-ecosystem.md#documenting-an-mcp-for-claude-the-reference-file-pattern)
 **Source**: `.claude/skills/datadog-analysis/references/datadog_mcp.md`
 
 A `references/<mcp-name>.md` file read by the skill before any MCP call. Captures query syntax gotchas, required parameter combinations, working examples, and noise exclusion rules specific to one MCP server.
 
-### Pattern 2: Skeptical Reviewer Sub-Agent
+### Pattern 2: Skeptical reviewer sub-agent
 
 **Guide section**: [Pattern: Skeptical Reviewer Sub-Agent](../ultimate-guide.md#pattern-skeptical-reviewer-sub-agent)
 **Source**: `.claude/skills/playbook-audit/references/report-agent.md`
 
 A fourth agent in a multi-agent audit pipeline whose job is to reject false positives from the first three agents. Operates with explicit false-positive criteria and requires evidence from both artifacts before keeping any finding.
 
-### Pattern 3: Shared Ground Truth Injection
+### Pattern 3: Shared ground truth injection
 
 **Guide section**: [Skill Design Patterns](./skill-design-patterns.md#shared-ground-truth-injection)
 **Source**: `.claude/skills/doc-audit/SKILL.md`
 
 The orchestrator computes a shared factual baseline (nav structure, CLI commands, file list) once, then injects the same block into all parallel sub-agent prompts. Prevents each sub-agent from re-discovering the same facts independently.
 
-### Pattern 4: Pre-filtered References via Frontmatter Paths
+### Pattern 4: Pre-filtered references via frontmatter paths
 
 **Guide section**: [Skill Design Patterns](./skill-design-patterns.md#pre-filtered-references-via-frontmatter-paths)
 **Source**: `.claude/skills/qa-review/SKILL.md`
 
 The orchestrator reads rules files, parses `paths:` frontmatter glob patterns, matches them against modified files, and passes only applicable rules to each review agent. Progressive disclosure applied to standards, not just documentation.
 
-### Pattern 5: Handoff Triad with Merge Semantics
+### Pattern 5: Handoff triad with merge semantics
 
 **Guide section**: [Session Handoff Pattern](../ultimate-guide.md#session-handoff-pattern) and templates at `examples/commands/handoff/`
 **Source**: `.claude/commands/create-handoff.md`, `resume-handoff.md`, `update-handoff.md`
 
 A three-command protocol for session continuity: `create-handoff` initializes a structured document, `update-handoff` applies section-specific merge rules (append-only for work log, replace for status), and `resume-handoff` loads the latest document into context.
 
-### Pattern 6: Recipe Template with Context Validation Checkpoints
+### Pattern 6: Recipe template with context validation checkpoints
 
 **Guide section**: [Skill Design Patterns](./skill-design-patterns.md#recipe-template-and-context-validation-checkpoints) and template at `examples/commands/recipe-template.md`
 **Source**: recurring pattern across Packmind command files
@@ -70,14 +70,14 @@ A command template structure where a "Context Validation Checkpoints" section li
 
 context-evaluator is an OSS CLAUDE.md / AGENTS.md quality analyzer. Two patterns from its source were extracted for the guide:
 
-### Pattern 7: Runtime Prompt Logging
+### Pattern 7: Runtime prompt logging
 
 **Guide section**: [Skill Design Patterns](./skill-design-patterns.md#runtime-prompt-logging)
 **Source**: `src/shared/evaluation/runtime-prompt-logger.ts`
 
 Always-on blocking write of the full evaluator prompt to `prompts/debug/` before invoking the AI provider. Survives provider crashes and timeouts. Never throws. Separate from the `--debug` flag.
 
-### Pattern 8: Adaptive Unified/Parallel Mode
+### Pattern 8: Adaptive unified/parallel mode
 
 **Guide section**: [Skill Design Patterns](./skill-design-patterns.md#adaptive-unifiedparallel-mode)
 **Source**: `src/shared/evaluation/runner.ts` (`canUseUnifiedMode()`)
@@ -86,7 +86,7 @@ Token-threshold switching between single-agent unified evaluation (cross-file de
 
 ---
 
-## Anthropic Engineering Team
+## Anthropic engineering team
 
 **skill-creator**: The `skill-creator` skill vendored in the Packmind repo (and referenced in this guide's skill evaluation section) was originally published by Anthropic. It contains the canonical evaluation harness for testing skills: evals filesystem convention, blind A/B comparator, description optimization loop, and benchmark aggregation scripts.
 
@@ -94,7 +94,7 @@ Token-threshold switching between single-agent unified evaluation (cross-file de
 
 ---
 
-## Guillaume Laforge (Open Reasoning Format)
+## Guillaume Laforge (open reasoning format)
 
 **Blog**: [glaforge.dev](https://glaforge.dev/posts/2026/07/21/open-reasoning-format-encoding-and-remembering-agentic-behavior/)
 **Author**: Guillaume Laforge, Developer Advocate at Google Cloud, co-founder of Apache Groovy
@@ -113,7 +113,7 @@ DiffMem is documented as a case study in [memory-systems.md §3.7](memory-system
 
 ---
 
-## IFTTD (If This Then Dev) Podcast
+## IFTTD (if this then dev) podcast
 
 **Podcast**: [ifttd.io](https://www.ifttd.io/)
 **Host**: Bruno Soulez
@@ -200,14 +200,14 @@ Markdown as shared persistent memory paired with a conventions file.
 
 ---
 
-## Dev With AI Meetup
+## Dev With AI meetup
 
 **Meetup**: Dev With AI (French AI-native development meetup)
 **License**: Editorial citation (no code)
 
 Dev With AI Meetup talks from 2026 were analyzed and paraphrased into the guide's practitioner insights. No direct quotes appear; all material is reformulated in English and attributed by speaker and year.
 
-### Sections drawing on Dev With AI Meetup
+### Sections drawing on Dev With AI meetup
 
 **Guide section**: [Practitioner Insights](../ecosystem/practitioner-insights.md#dev-with-ai-meetup)
 **Speakers**: Emmanuel Sciara, Florian Allainmat, Luis Iglesias Hernandez, Alexandre Balmes, Vyncke, Samuel Gallet, Geslain Dahan, Geoffrey Graveaud, and others (see the Dev With AI Meetup table on that page)
@@ -277,7 +277,7 @@ Verifying AI-generated code as the emerging critical skill.
 
 ---
 
-## The Product Crew
+## The product crew
 
 **Podcast**: The Product Crew (French product management podcast)
 **License**: Editorial citation (no code)
@@ -300,11 +300,11 @@ The "tokens into ROI" framing used to introduce the stakes of unit economics.
 
 ---
 
-## AI Engineer and Pragmatic Engineer interviews
+## AI engineer and pragmatic engineer interviews
 
 Selected 2026 transcript passages informed the verification and attention updates: [Dex Horthy on review capacity](https://www.youtube.com/watch?v=Ib5GBkD555M&t=380s), [Clare Liguori on continuous agent supervision](https://www.youtube.com/watch?v=pqlWNihgdjI&t=948s), [Eugene Yan on separating discovery from verification](https://www.youtube.com/watch?v=imFedndyXYQ&t=739s), and [Nicole Forsgren on developer experience](https://www.youtube.com/watch?v=DfrAaDgFgjc&t=444s). These are attributed practitioner accounts, not a joint study of productivity or burnout. The proposed worksheets do not claim measured gains from these talks.
 
-## Adding to This File
+## Adding to this file
 
 When a guide section is directly inspired by or adapted from external open-source work, add an entry here. Include:
 - Repository URL

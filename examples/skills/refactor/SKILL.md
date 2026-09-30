@@ -7,7 +7,7 @@ when_to_use: "Use when a module has SOLID violations, code smells, or duplicatio
 disable-model-invocation: true
 ---
 
-# SOLID Refactoring Assistant
+# SOLID refactoring assistant
 
 Analyze code for SOLID violations and suggest targeted improvements.
 
@@ -21,7 +21,7 @@ Identify refactoring opportunities based on:
 
 ## Instructions
 
-### Step 1: Scope Analysis
+### Step 1: Scope analysis
 
 Determine the refactoring scope from user input:
 - Single file: Deep analysis
@@ -39,9 +39,9 @@ elif [ -d "$TARGET" ]; then
 fi
 ```
 
-### Step 2: SOLID Violations Detection
+### Step 2: SOLID violations detection
 
-#### S - Single Responsibility
+#### S - single responsibility
 
 Look for:
 - Files > 300 lines
@@ -57,35 +57,35 @@ find . -name "*.{ts,js,py}" -exec wc -l {} + 2>/dev/null | sort -rn | head -10
 grep -rn "function\|def \|fn " --include="*.{ts,js,py,rs}" . | head -20
 ```
 
-#### O - Open/Closed Principle
+#### O - open/closed principle
 
 Look for:
 - Switch/case statements on types
 - Repeated if/else type checking
 - Direct modifications vs extensions
 
-#### L - Liskov Substitution
+#### L - liskov substitution
 
 Look for:
 - Overridden methods that throw "not implemented"
 - Type checks before method calls
 - Empty method overrides
 
-#### I - Interface Segregation
+#### I - interface segregation
 
 Look for:
 - Large interfaces (> 10 methods)
 - Classes implementing unused interface methods
 - Fat service classes
 
-#### D - Dependency Inversion
+#### D - dependency inversion
 
 Look for:
 - Direct instantiation of dependencies (`new Service()`)
 - Hardcoded class references
 - Missing dependency injection
 
-### Step 3: Code Smells
+### Step 3: Code smells
 
 ```bash
 # Duplication patterns
@@ -99,23 +99,23 @@ grep -rn "function.*,.*,.*,.*," --include="*.{ts,js}" . 2>/dev/null | head -10
 grep -rn "^\s\{16,\}" --include="*.{ts,js,py}" . 2>/dev/null | head -10
 ```
 
-### Step 4: Complexity Assessment
+### Step 4: Complexity assessment
 
 For each issue found, assess:
 - **Impact**: How much code is affected?
 - **Risk**: What could break?
 - **Effort**: Lines to change, tests needed?
 
-## Output Format
+## Output format
 
 ---
 
-### 🔧 Refactoring Analysis
+### 🔧 Refactoring analysis
 
 **Target**: [file/directory]
 **Lines Analyzed**: [count]
 
-### 📊 SOLID Scorecard
+### 📊 SOLID scorecard
 
 | Principle | Status | Issues Found |
 |-----------|--------|--------------|
@@ -125,7 +125,7 @@ For each issue found, assess:
 | Interface Segregation | 🔴 | 2 fat interfaces |
 | Dependency Inversion | 🟡 | 5 direct instantiations |
 
-### 🎯 Priority Refactorings
+### 🎯 Priority refactorings
 
 #### 1. [Highest Impact] - Extract class from `UserService`
 
@@ -156,7 +156,7 @@ switch (paymentType) {
 **Suggested**: Strategy pattern with `PaymentProcessor` interface
 **Risk**: Low (isolated change)
 
-### 📝 Code Smells
+### 📝 Code smells
 
 | Smell | Location | Severity |
 |-------|----------|----------|
@@ -164,19 +164,19 @@ switch (paymentType) {
 | Duplicate Code | `utils/*.ts` (3 similar blocks) | 🟡 Medium |
 | Deep Nesting | `parser.ts:parse` (6 levels) | 🟡 Medium |
 
-### 🚀 Quick Wins (Low Risk, High Value)
+### 🚀 Quick wins (low risk, high value)
 
 1. Extract `validateEmail()` to shared utils (used in 4 places)
 2. Replace magic numbers with named constants
 3. Add early returns to reduce nesting in `processOrder()`
 
-### ⚠️ Technical Debt Notes
+### ⚠️ Technical debt notes
 
 - [Item to track for future sprints]
 
 ---
 
-## Refactoring Safety Checklist
+## Refactoring safety checklist
 
 Before applying suggestions:
 

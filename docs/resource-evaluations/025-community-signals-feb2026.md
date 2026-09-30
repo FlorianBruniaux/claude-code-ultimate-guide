@@ -1,4 +1,4 @@
-# Évaluation Ressource: Signaux communautaires Claude Code: Janvier–Février 2026
+# Évaluation ressource: Signaux communautaires Claude Code: Janvier–Février 2026
 
 **Source type**: Texte copié — synthèse manuelle multi-sources (GitHub Issues API, Reddit, X/Twitter, HN, presse)
 **Période couverte**: 2026-01-29 → 2026-02-28
@@ -96,7 +96,7 @@ Trois pain points (500 errors, `.claude.json` corruption multi-instances, Remote
 
 ---
 
-## Fact-Check
+## Fact-check
 
 | Affirmation | Vérifiée | Notes |
 |-------------|----------|-------|

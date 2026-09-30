@@ -5,7 +5,7 @@ model: haiku
 tools: Read, Glob
 ---
 
-# Log Ingestor Agent
+# Log ingestor agent
 
 First stage of the cyber defense pipeline. Parse raw logs and produce structured event data for downstream agents.
 
@@ -26,7 +26,7 @@ Raw log content passed in the task description, or a file path to read.
    - `INFO` — normal operations (include for baseline)
 3. Extract metadata per event: timestamp, source IP (if present), service, message
 
-## Output Format
+## Output format
 
 Write parsed events to a shared file `cyber-defense-events.json`:
 

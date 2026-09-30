@@ -67,7 +67,7 @@ DORA (DevOps Research and Assessment) mesure la santé d'un système de livraiso
 
 **Signal à examiner** : une fréquence de déploiement et un Change Failure Rate qui montent ensemble. Inspectez les changements et les incidents avant d’en attribuer la cause à la revue ou à l’IA.
 
-## Change Lead Time
+## Change lead time
 
 **Ce que ça mesure** : Temps entre un commit et ce code en production.
 
@@ -77,7 +77,7 @@ DORA (DevOps Research and Assessment) mesure la santé d'un système de livraiso
 
 **Diagnostic** : Mappez explicitement vos étapes (temps de code, attente revue, attente staging, fenêtre de déploiement) pour savoir où est le levier.
 
-## Change Failure Rate
+## Change failure rate
 
 **Ce que ça mesure** : Pourcentage de déploiements qui causent un incident en production ou nécessitent un rollback.
 
@@ -87,7 +87,7 @@ DORA (DevOps Research and Assessment) mesure la santé d'un système de livraiso
 
 **Recommandation** : comparez les groupes avec une définition documentée de l’assistance IA, en tenant compte des tâches, de la taille des changements et des équipes. Un écart peut justifier une investigation de l’outil, de la revue ou du contexte ; il n’identifie pas à lui seul la cause.
 
-## Failed Deployment Recovery Time
+## Failed deployment recovery time
 
 **Ce que ça mesure** : Le temps nécessaire pour récupérer après un déploiement raté qui demande une intervention immédiate.
 
@@ -95,7 +95,7 @@ DORA (DevOps Research and Assessment) mesure la santé d'un système de livraiso
 
 **En contexte IA** : Le diagnostic assisté par IA peut réduire le temps de récupération si le modèle inspecte les métadonnées du déploiement, les logs, les traces et le code. Mesurez la distribution des temps, les faux diagnostics et le temps humain. Une démo ne prouve pas une amélioration.
 
-## Deployment Rework Rate
+## Deployment rework rate
 
 **Ce que ça mesure** : Le ratio de déploiements non planifiés causés par un incident en production.
 
@@ -109,7 +109,7 @@ L'[historique officiel](https://dora.dev/insights/dora-metrics-history/) documen
 
 Le rapport 2025 a aussi remplacé les anciens clusters Elite, High, Medium et Low par sept archétypes d'équipe plus larges. Les tables historiques ne sont pas des cibles universelles actuelles. Comparez un service à sa baseline et améliorez sa contrainte principale.
 
-# Au-delà de DORA : Le Framework SPACE
+# Au-delà de DORA : Le framework SPACE
 
 DORA mesure le système de livraison, SPACE mesure les personnes à l'intérieur. Les deux sont nécessaires et ni l'un ni l'autre ne suffit seul.
 
@@ -169,13 +169,13 @@ La proportion de code commité qui était IA-généré ou IA-assisté. Disponibl
 
 **Pourquoi ça compte** : Fournit le contexte pour tout le reste. Une augmentation de 5 % du CFR est un signal différent si l'IA assiste 10 % de votre code versus 80 %. Trackez ça comme dénominateur de toutes les métriques de qualité. Ce chiffre monte typiquement dans le temps au fur et à mesure de l'adoption, benchmarquez-le trimestriellement.
 
-## CFR : Code IA vs Code Manuel
+## CFR : Code IA vs code manuel
 
 Comparez les déploiements avec et sans assistance IA identifiée, en documentant les changements mixtes et les cas sans attribution. Le [PR Audit Trail](https://cc.bruniaux.com/guide/ai-traceability/) peut fournir des traces supplémentaires : `PreToolUse` journalise une tentative d’appel, sans prouver son succès ni attribuer intégralement le code livré. La collecte et la conservation des artefacts dépendent de votre workflow.
 
 Un écart de 2 ou 3 points de pourcentage n’est pas un seuil universel de bon fonctionnement. Examinez les effectifs, la sévérité, les tâches et l’incertitude avant de conclure. Un CFR plus faible peut refléter des tâches moins risquées ou d’autres différences.
 
-## Temps de Revue : PRs IA vs PRs Manuelles
+## Temps de revue : PRs IA vs PRs manuelles
 
 Comparez le temps moyen de revue (ouverture à merge) pour les PRs IA-générées versus les PRs écrites manuellement. Si les PRs IA sont mergées significativement plus vite que les manuelles, vous avez peut-être un problème de rubber-stamping.
 
@@ -193,11 +193,11 @@ Un proxy pour la clarté et la maintenabilité du code : demandez aux reviewers 
 
 Un temps de compréhension croissant suggère que le code devient plus complexe ou moins bien organisé dans le temps, indépendamment de qui l'a écrit. Le code IA-généré peut gonfler cette métrique en produisant des implémentations syntaxiquement denses plus difficiles à raisonner que des alternatives plus simples et plus explicites.
 
-# Métriques Agentiques : Ce Que DORA Ne Mesure Pas
+# Métriques agentiques : Ce que DORA ne mesure pas
 
 DORA et SPACE ont été conçus pour des systèmes logiciels déterministes. Les agents introduisent du non-déterminisme, une qualité probabiliste, et des modes d'échec qui échappent à toutes les catégories de métriques existantes. Trois groupes de métriques comblent ce manque.
 
-## Pourquoi DORA Standard Ne Suffit Pas pour les Workflows Agentiques
+## Pourquoi DORA standard ne suffit pas pour les workflows agentiques
 
 DORA mesure la santé du pipeline, pas la justesse du résultat produit. Une étude portant sur 39 frameworks d'agents et 439 applications agentiques (arXiv 2509.19185) montre que 70 % de l'effort de test se concentre sur les composants déterministes (outils, workflows), contre moins de 5 % sur le "LLM Plan Body", le composant de raisonnement central le plus susceptible de produire des résultats incorrects. La plupart des outils DORA ont le même angle mort.
 
@@ -277,19 +277,19 @@ Choisissez k et le nombre de tâches selon l’incertitude à mesurer. Relancer 
 
 Les métriques d'ingénierie mesurent comment le code est construit. Les métriques produit mesurent si le code résout réellement les bons problèmes. La plupart des équipes d'ingénierie trackent les premières et laissent entièrement les secondes aux product managers. Ça crée un angle mort où une équipe peut shipper vite, avec de bons scores DORA, pendant que le produit dérive loin des besoins utilisateurs.
 
-## Time-to-Value
+## Time-to-value
 
 Combien de temps met un nouvel utilisateur pour atteindre son premier succès avec votre produit ? Définissez "premier succès" de façon concrète : première tâche complétée, premier élément sauvegardé, premier rapport généré.
 
 Trackez ça en médiane sur vos cohortes utilisateurs, et surveillez les régressions après les releases majeures. L'IA peut accélérer votre rythme de livraison de features sans améliorer l'expérience des nouveaux utilisateurs, voire en la dégradant.
 
-## Feature Adoption Rate
+## Feature adoption rate
 
 Parmi les utilisateurs qui pourraient utiliser la feature X, quel pourcentage l'utilise réellement dans les 14 jours suivant la release ? Une feature livrée à temps avec de bons métriques DORA mais que personne n'utilise reste une feature ratée.
 
 Segmentez par cohorte utilisateur (nouveaux vs. utilisateurs existants, différents tiers de pricing) pour distinguer les problèmes d'adoption des problèmes de discoverability.
 
-## Bug Escape Rate
+## Bug escape rate
 
 Bugs trouvés en production divisés par le total des bugs (bugs pré-production + bugs en production). Formule : `bugs_en_prod / (bugs_avant_prod + bugs_en_prod)`.
 
@@ -398,7 +398,7 @@ Aucun outil ne remonte automatiquement les métriques AI-specific décrites plus
 
 **Évitez la prolifération d'outils.** Une équipe avec LinearB, Jira, GitHub Insights et deux outils analytics séparés passera plus de temps à réconcilier les chiffres qu'à agir dessus. Un outil DORA, un outil analytics produit, GitHub Analytics pour les données AI-specific.
 
-## Autres Plateformes de Delivery Intelligence
+## Autres plateformes de delivery intelligence
 
 Le tableau de départ ci-dessus couvre ce que la plupart des équipes essaient en premier. Le marché 2026 est plus large, et mérite un second regard si ce tableau ne colle pas à la taille ou aux contraintes de votre organisation.
 
@@ -428,7 +428,7 @@ Dans les deux cas, le rôle de l'IA générative est d'expliquer et de prioriser
 
 Chaque benchmark de ce whitepaper jusqu'ici répond à "où on en est". Cette section répond à une question différente : "quand ça va livrer", et elle y répond avec une distribution de probabilité plutôt qu'une date unique.
 
-## Pourquoi une Estimation Ponctuelle Trompe
+## Pourquoi une estimation Ponctuelle trompe
 
 La prévision traditionnelle prend votre vélocité (points de story ou throughput par sprint) et la divise dans le scope restant pour produire une date unique. Cette date porte une fausse précision, en impliquant une certitude que les données sous-jacentes n'ont jamais eue. Deux équipes avec la même vélocité moyenne peuvent avoir une variance radicalement différente, et la variance, c'est exactement ce qu'une estimation ponctuelle jette à la poubelle.
 
@@ -539,7 +539,7 @@ Aucun des deux ne remplace le travail plus dur décrit ci-dessus. Une meilleure 
 
 La tentation est de tout vouloir dès le départ. Une stack de métriques, comme un codebase, accumule de la dette quand elle grossit plus vite que la capacité de l'équipe à agir dessus. Construisez-la par phases, élagez régulièrement, et gardez le test en 4 questions comme filtre permanent.
 
-# Voir Aussi
+# Voir aussi
 
 - [Team Metrics : Guide de référence](https://cc.bruniaux.com/guide/team-metrics/) : version complète avec tableaux de bord et ressources complémentaires
 - [Observabilité des Sessions](https://cc.bruniaux.com/guide/observability/) : monitoring des sessions Claude Code, tracking des coûts, patterns d'usage

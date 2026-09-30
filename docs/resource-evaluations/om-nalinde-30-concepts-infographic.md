@@ -1,4 +1,4 @@
-# Resource Evaluation: "30 Claude Code Concepts" - Om Nalinde (LinkedIn)
+# Resource evaluation: "30 Claude Code Concepts" - om Nalinde (LinkedIn)
 
 **URL**: https://www.linkedin.com/posts/that-aum_if-youre-just-getting-started-with-claude-activity-7425498761629601792-nyO6
 **Date de publication**: 6 février 2026
@@ -51,7 +51,7 @@
 
 ---
 
-## Fact-Check
+## Fact-check
 
 | Affirmation | Vérifiée? | Source |
 |-------------|-----------|--------|

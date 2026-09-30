@@ -7,7 +7,7 @@ when_to_use: "Use when preparing a release and need notes in multiple formats."
 disable-model-invocation: true
 ---
 
-# Release Notes Generator
+# Release notes generator
 
 Generate release notes in 3 formats from git commits for production releases.
 
@@ -20,7 +20,7 @@ Generate release notes in 3 formats from git commits for production releases.
 5. **Generate 3 Outputs**: CHANGELOG, PR body, communication message
 6. **Transform Language**: Convert tech jargon to product language
 
-## Output Formats
+## Output formats
 
 ### 1. CHANGELOG.md Section
 
@@ -48,14 +48,14 @@ Generate release notes in 3 formats from git commits for production releases.
 - PRs: X | Features: Y | Fixes: Z | Files changed: N
 ```
 
-### 2. PR Release Body
+### 2. PR release body
 
 Uses your project's release template:
 - `.github/PULL_REQUEST_TEMPLATE/release.md`
 - `.github/pull_request_template_release.md`
 - Or custom location specified in project config
 
-### 3. Communication Announcement
+### 3. Communication announcement
 
 Generate user-facing announcement (Slack, email, etc.):
 - Non-technical language
@@ -66,7 +66,7 @@ Template location examples:
 - `.github/COMMUNICATION_TEMPLATE/slack-release.md`
 - `docs/templates/release-announcement.md`
 
-## Migration Alert
+## Migration alert
 
 **If migrations detected:**
 
@@ -86,7 +86,7 @@ Template location examples:
 ✅ [OK] No database migrations required
 ```
 
-## Tech-to-Product Transformation
+## Tech-to-product transformation
 
 Convert technical commits to user-friendly descriptions:
 
@@ -99,7 +99,7 @@ Convert technical commits to user-friendly descriptions:
 | "Refactor React hooks architecture" | *Internal only - don't communicate* |
 | "Add rate limiting to API endpoints" | "Improved system stability and security" |
 
-## Commit Categories
+## Commit categories
 
 | Prefix | Category | Include in Announcement? |
 |--------|----------|--------------------------|
@@ -114,7 +114,7 @@ Convert technical commits to user-friendly descriptions:
 | `build:` | Build System | No |
 | `ci:` | CI/CD | No |
 
-## Commands to Execute
+## Commands to execute
 
 ```bash
 # 1. Get last release tag
@@ -145,7 +145,7 @@ FEATURES=$(git log $LAST_TAG..HEAD --oneline --no-merges | grep -c 'feat:')
 FIXES=$(git log $LAST_TAG..HEAD --oneline --no-merges | grep -c 'fix:')
 ```
 
-## Semantic Versioning
+## Semantic versioning
 
 Determine version number based on changes:
 
@@ -160,7 +160,7 @@ Determine version number based on changes:
 - `feat:` commits present → MINOR
 - Only `fix:` / `perf:` → PATCH
 
-## Workflow Integration
+## Workflow integration
 
 Typical release workflow:
 
@@ -176,7 +176,7 @@ Typical release workflow:
 9. Monitor deployment and migrations
 ```
 
-## Git Tag Creation
+## Git tag creation
 
 After PR merge, create annotated tag:
 
@@ -191,7 +191,7 @@ git push origin v1.2.3
 git push --tags
 ```
 
-## Project-Specific Customization
+## Project-specific customization
 
 Adapt these paths to your project:
 
@@ -216,7 +216,7 @@ docs/templates/release-notes.md
 - **Linked issues**: Include issue/ticket numbers for traceability
 - **Database migrations**: Test in staging before production
 
-## Edge Cases
+## Edge cases
 
 | Scenario | Behavior |
 |----------|----------|
@@ -226,7 +226,7 @@ docs/templates/release-notes.md
 | Pre-release tags (v1.0.0-beta.1) | Exclude from "last release" search |
 | Commits without conventional format | Categorize as "Other Changes" |
 
-## Usage Examples
+## Usage examples
 
 ```bash
 # Generate release notes from last tag to HEAD

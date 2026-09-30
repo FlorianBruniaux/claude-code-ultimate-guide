@@ -15,7 +15,7 @@ format:
   recap-card-typst: default
 ---
 
-## Les Deux Commandes
+## Les deux commandes
 
 | | `/compact` | `/clear` |
 |--|-----------|---------|
@@ -30,7 +30,7 @@ format:
 
 Utiliser `/context` pour inspecter l'usage. Compacter quand l'historique utile devient volumineux ; vider quand le sujet change ou qu'une nouvelle conversation serait plus utile. Aucun pourcentage d'occupation ne prédit la qualité des réponses. Sauvegarder décisions, critères d'acceptation et travail inachevé avant l'une ou l'autre opération.
 
-## Quand Utiliser `/compact`
+## Quand utiliser `/compact`
 
 **Situations idéales :**
 - Tâche en cours avec contexte historique utile
@@ -43,7 +43,7 @@ Utiliser `/context` pour inspecter l'usage. Compacter quand l'historique utile d
 
 Claude remplace l'historique de conversation par un résumé. L'espace récupéré et les détails conservés varient ; vérifier `/context` et garder l'état critique dans des fichiers.
 
-## Quand Utiliser `/clear`
+## Quand utiliser `/clear`
 
 **Situations idéales :**
 - Changement complet de sujet ou de projet
@@ -66,7 +66,7 @@ Esc + Esc → sélectionner un checkpoint → "Summarize from here"
 
 Plus précis que `/compact` global, utile quand seule la fin de la session est verbeuse.
 
-## Comparaison Rapide
+## Comparaison rapide
 
 | Situation | Commande |
 |-----------|---------|
@@ -76,6 +76,6 @@ Plus précis que `/compact` global, utile quand seule la fin de la session est v
 | Historique utile à résumer | `/compact` |
 | Confusion répétée, nouveau départ nécessaire | `/clear` |
 
-## Ce que `/compact` NE Conserve PAS
+## Ce que `/compact` NE conserve PAS
 
 Le résumé généré par `/compact` est une synthèse. Il peut simplifier des nuances techniques ou des décisions implicites. Après un compact, vérifier que les éléments critiques sont encore accessibles avant de poursuivre une implémentation complexe.

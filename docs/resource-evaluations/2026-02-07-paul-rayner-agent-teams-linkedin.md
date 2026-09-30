@@ -1,4 +1,4 @@
-# Evaluation: Paul Rayner - Agent Teams Production Usage (LinkedIn)
+# Evaluation: Paul Rayner - agent teams production usage (LinkedIn)
 
 **Date**: 2026-02-07
 **Evaluator**: Claude Sonnet 4.5
@@ -15,7 +15,7 @@ Paul Rayner (CEO Virtual Genius, EventStorming Handbook author, Explore DDD foun
 
 ---
 
-## Content Summary
+## Content summary
 
 **Source**: [LinkedIn Post](https://www.linkedin.com/posts/thepaulrayner_this-is-wild-i-just-upgraded-claude-code-activity-7425635159678414850-MNyv)
 **Date**: ~2026-02-06 (contemporaneous with Claude Code v2.1.32 release)
@@ -31,7 +31,7 @@ Paul Rayner (CEO Virtual Genius, EventStorming Handbook author, Explore DDD foun
 
 ---
 
-## Fact-Check Results
+## Fact-check results
 
 | Claim | Verified | Official Source | Verdict |
 |-------|----------|-----------------|---------|
@@ -42,7 +42,7 @@ Paul Rayner (CEO Virtual Genius, EventStorming Handbook author, Explore DDD foun
 | **"Beads framework (Steve Yegge)"** | ✅ **TRUE** | [Guide ai-ecosystem.md:1532](../../guide/ecosystem/ai-ecosystem.md) | Referenced in Gas Town (beads.db) |
 | **"Uncertainty beads vs teams"** | ✅ **LEGITIMATE** | Documentation gap | Guidance effectively absent in official docs and guide |
 
-### Factual Corrections
+### Factual corrections
 
 **No corrections needed** - All verifiable claims are accurate.
 
@@ -54,9 +54,9 @@ Paul Rayner (CEO Virtual Genius, EventStorming Handbook author, Explore DDD foun
 
 ---
 
-## Scoring & Decision
+## Scoring & decision
 
-### Initial Score: 3/5 → **Corrected Score: 4/5** (High Value)
+### Initial score: 3/5 → **Corrected score: 4/5** (High value)
 
 **Scoring Grid**:
 
@@ -92,7 +92,7 @@ Paul Rayner (CEO Virtual Genius, EventStorming Handbook author, Explore DDD foun
 
 ---
 
-## Comparative Analysis
+## Comparative analysis
 
 | Aspect | Paul Rayner Post | Claude Code Guide (v3.23.1) | Gap? |
 |--------|------------------|----------------------------|------|
@@ -106,7 +106,7 @@ Paul Rayner (CEO Virtual Genius, EventStorming Handbook author, Explore DDD foun
 | **Guidance beads vs teams** | ⚠️ Question unresolved | ❌ **GAP** - Comparison missing | ✅ **YES** |
 | **Metrics / performance** | ⚠️ "Pretty impressive" (subjective) | ❌ No benchmarks in guide | Gap |
 
-### Real Gaps Identified
+### Real gaps identified
 
 Despite feature being in releases (v2.1.32, v2.1.33), guide lacks:
 
@@ -119,12 +119,12 @@ Despite feature being in releases (v2.1.32, v2.1.33), guide lacks:
 
 ---
 
-## Technical Writer Agent Challenge
+## Technical writer agent challenge
 
 **Agent ID**: a21b7b7
 **Challenge Question**: "Le score 3/5 est-il justifié ? Arguments pour un score +1 ou -1 ?"
 
-### Key Arguments for Score 4/5
+### Key arguments for score 4/5
 
 **Gap documentaire réel et critique**:
 - Agent teams = **0 mentions** dans guide principal (11K lines)
@@ -169,7 +169,7 @@ Despite feature being in releases (v2.1.32, v2.1.33), guide lacks:
 
 ---
 
-## Perplexity Research Results
+## Perplexity research results
 
 ### Sources Discovered (5 major sources)
 
@@ -200,7 +200,7 @@ Despite feature being in releases (v2.1.32, v2.1.33), guide lacks:
    - Integration patterns: Claude Code + plugins (Conductor, Superpowers, Context7)
    - "AI development team" vs "AI autocomplete"
 
-### Key Information Extracted
+### Key information extracted
 
 **Architecture**:
 - **Team Lead**: Session principale, décompose tâches
@@ -258,7 +258,7 @@ export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=true
 
 ---
 
-## Integration Plan
+## Integration plan
 
 ### Priority: 🔴 HIGH - Integrate within 1 week
 
@@ -269,9 +269,9 @@ export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=true
 - Early adopter testimonial validates production readiness
 - Risk: Users discover on LinkedIn → search guide → find nothing → perception "not Ultimate"
 
-### Recommended Locations
+### Recommended locations
 
-#### 1. Guide Principal - Section 9.20 (NEW)
+#### 1. Guide principal - section 9.20 (NEW)
 
 **File**: `guide/ultimate-guide.md`
 **Section**: **9.20 - Agent Teams (Multi-Agent Coordination)**
@@ -291,7 +291,7 @@ export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=true
 - Advanced feature (experimental flag) → Section 9 appropriate
 - Cohérence: Multi-Instance (9.17) = orchestration manuelle, Agent Teams (9.20) = coordination automatisée
 
-#### 2. Workflow Dédié (Deep-Dive)
+#### 2. Workflow Dédié (deep-dive)
 
 **File**: `guide/workflows/agent-teams.md` (NEW, ~15-20K lines, 30-40 min read)
 
@@ -398,7 +398,7 @@ export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=true
 - Non-trivial setup (experimental flag, git worktrees) → step-by-step guide needed
 - Consistency: Other complex patterns have workflows (tdd-with-claude.md, task-management.md)
 
-#### 3. Navigation Updates
+#### 3. Navigation updates
 
 **README.md - Learning Paths**:
 
@@ -422,7 +422,7 @@ New section after "257-Question Quiz":
 [Agent Teams Workflow →](./guide/workflows/agent-teams.md)
 ```
 
-#### 4. Machine-Readable Index
+#### 4. Machine-readable index
 
 **File**: `machine-readable/reference.yaml`
 
@@ -447,7 +447,7 @@ agent_teams_sources:
   - "https://www.linkedin.com/posts/thepaulrayner_this-is-wild-i-just-upgraded-claude-code-activity-7425635159678414850-MNyv"
 ```
 
-#### 5. Quiz Questions
+#### 5. Quiz questions
 
 **File**: `quiz/questions/04-agents.yaml` or new category `10-agent-teams.yaml`
 
@@ -461,7 +461,7 @@ agent_teams_sources:
 6. **Architecture**: Role of team lead? (task decomposition + coordination)
 7. **Navigation**: How to switch between agents? (Shift+Up/Down, tmux)
 
-#### 6. Landing Site (Optional)
+#### 6. Landing site (optional)
 
 **Section**: Features (not Hero, not Badges - experimental status)
 
@@ -486,7 +486,7 @@ agent_teams_sources:
 
 ---
 
-## Risks of Non-Integration
+## Risks of non-integration
 
 ### Short-term (1-2 weeks):
 - Guide incomplete on **recent feature** (released 2 days ago)
@@ -510,14 +510,14 @@ agent_teams_sources:
 
 ---
 
-## Final Decision
+## Final decision
 
 - **Score**: **4/5** (High Value - Integrate within 1 week)
 - **Action**: **APPROVED** - Integrate with 5 sources (3 Anthropic + 2 dev.to + Paul Rayner)
 - **Confidence**: **High** (rigorous fact-check, multiple source validation, gap confirmed)
 - **Documentary value**: **High** (primary source + validates feature in production)
 
-### Principle Applied
+### Principle applied
 
 **"Accuracy over marketing"** (RULES.md) is **RESPECTED**:
 - ✅ Credible source (Paul Rayner: CEO, published author, DDD expert)
@@ -531,7 +531,7 @@ agent_teams_sources:
 
 ---
 
-## Action Plan
+## Action plan
 
 **Execution Order** (6 steps):
 

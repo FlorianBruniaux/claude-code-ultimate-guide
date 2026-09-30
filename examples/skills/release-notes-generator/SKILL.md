@@ -5,7 +5,7 @@ allowed-tools: Bash
 effort: low
 ---
 
-# Release Notes Generator
+# Release notes generator
 
 Generate comprehensive release notes in 3 formats from git commits.
 
@@ -18,9 +18,9 @@ Generate comprehensive release notes in 3 formats from git commits.
 5. **Transform language** from technical jargon to accessible messaging
 6. **Alert on migrations** if database migrations are detected
 
-## How to Use
+## How to use
 
-### Basic Usage
+### Basic usage
 
 ```
 Generate release notes since last release
@@ -30,19 +30,19 @@ Generate release notes since last release
 Create release notes for version 0.18.0
 ```
 
-### With Specific Range
+### With specific range
 
 ```
 Generate release notes from v0.17.0 to HEAD
 ```
 
-### Preview Only
+### Preview only
 
 ```
 Preview release notes without writing files
 ```
 
-## Output Formats
+## Output formats
 
 ### 1. CHANGELOG.md Section
 
@@ -75,7 +75,7 @@ Technical format for developers:
 - Bugs: Z
 ```
 
-### 2. PR Release Body
+### 2. PR release body
 
 Uses template from `.github/PULL_REQUEST_TEMPLATE/release.md`:
 - Objective summary
@@ -85,7 +85,7 @@ Uses template from `.github/PULL_REQUEST_TEMPLATE/release.md`:
 - Migration instructions
 - Deployment checklist
 
-### 3. Slack Announcement
+### 3. Slack announcement
 
 Product-focused format from `.github/COMMUNICATION_TEMPLATE/slack-release.md`:
 - **PR link** included for traceability
@@ -94,7 +94,7 @@ Product-focused format from `.github/COMMUNICATION_TEMPLATE/slack-release.md`:
 - Emojis for readability
 - Statistics summary
 
-## Workflow Integration
+## Workflow integration
 
 This skill integrates with the release workflow:
 
@@ -108,7 +108,7 @@ This skill integrates with the release workflow:
 7. Generate Slack announcement
 ```
 
-## Tech-to-Product Transformation
+## Tech-to-product transformation
 
 The skill automatically transforms technical language:
 
@@ -122,7 +122,7 @@ The skill automatically transforms technical language:
 | "Fix N+1 in user loaders" | "Performance improvement" |
 | "Add retry logic for DB connection errors" | "Better connection stability" |
 
-## Commit Categories
+## Commit categories
 
 Commits are categorized by conventional commit prefix:
 
@@ -138,11 +138,11 @@ Commits are categorized by conventional commit prefix:
 | `test:` | Tests | No |
 | `style:` | Style | No |
 
-## Console Output Format
+## Console output format
 
 When generating release notes, ALWAYS display a clear summary in the console with:
 
-### Migration Alert (CRITICAL)
+### Migration alert (CRITICAL)
 
 If migrations are detected, display prominently:
 
@@ -168,7 +168,7 @@ If NO migrations:
 ✅ [OK] No database migrations required
 ```
 
-### Detection Method
+### Detection method
 
 Check for new migration files since last release:
 
@@ -213,7 +213,7 @@ Found:
 Write to files? (CHANGELOG.md, clipboard for PR/Slack)
 ```
 
-## Commands Used
+## Commands used
 
 ```bash
 # Get last release tag
@@ -237,14 +237,14 @@ git show --stat <sha>
 - Adjust product language for your audience
 - Use `--preview` to see output without writing
 
-## Reference Files
+## Reference files
 
 - `assets/changelog-template.md` - CHANGELOG section template
 - `assets/slack-template.md` - Slack announcement template
 - `references/tech-to-product-mappings.md` - Transformation rules
 - `references/commit-categories.md` - Categorization rules
 
-## Related Skills
+## Related skills
 
 - `github-actions-templates` - For CI/CD workflows
 - `changelog-generator` - Original inspiration (ComposioHQ)

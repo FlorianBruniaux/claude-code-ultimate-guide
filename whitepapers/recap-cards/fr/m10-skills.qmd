@@ -55,7 +55,7 @@ allowed-tools: Read Grep Bash
 | `argument-hint` | Placeholder dans le menu si le skill accepte `$ARGUMENTS` |
 | `disable-model-invocation` | `true` pour invocation manuelle uniquement |
 
-## Skills vs Commands
+## Skills vs commands
 
 | Aspect | Skill | Command |
 |--------|-------|---------|

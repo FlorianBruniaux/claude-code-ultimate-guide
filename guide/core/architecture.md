@@ -4,7 +4,7 @@ description: "Technical deep-dive into Claude Code internal mechanisms and archi
 tags: [architecture, guide, performance]
 ---
 
-# How Claude Code Works: Architecture & Internals
+# How Claude Code works: Architecture & internals
 
 > A technical deep-dive into Claude Code's internal mechanisms, based on official Anthropic documentation and verified community analysis.
 
@@ -16,7 +16,7 @@ tags: [architecture, guide, performance]
 
 ---
 
-## Source Transparency
+## Source transparency
 
 This document combines three tiers of sources:
 
@@ -30,7 +30,7 @@ Each claim is marked with its confidence level. **Always prefer official documen
 
 ---
 
-## Where Claude Code Sits in the Harness Stack
+## Where Claude Code sits in the harness stack
 
 Claude Code is a **runtime harness**: it owns the iterative model-and-tool loop for a coding task. The model generates tokens; the repository supplies instructions, setup, state, and verification; an orchestrator coordinates multiple runtime sessions. Those layers answer different questions and should not be evaluated as interchangeable products.
 
@@ -38,7 +38,7 @@ Read [Agent Harness Engineering](./agent-harness.md) for the four-layer model an
 
 ---
 
-## TL;DR - 5 Bullet Summary
+## TL;DR - 5 bullet summary
 
 1. **Simple Loop**: Claude Code runs a `while(tool_call)` loop, with no DAGs, no classifiers, no RAG. The model decides everything.
 
@@ -56,7 +56,7 @@ Read [Agent Harness Engineering](./agent-harness.md) for the four-layer model an
 
 ---
 
-## Visual Overview
+## Visual overview
 
 Claude Code is not a new AI model. It's an orchestration layer that wraps Claude (Opus/Sonnet/Haiku) with the ability to read files, run shell commands, navigate repositories, and spawn sub-agents, all in a continuous loop until the task is done.
 
@@ -93,7 +93,7 @@ flowchart TB
 
 ---
 
-## Table of Contents
+## Table of contents
 
 - [Visual Overview](#visual-overview)
 
@@ -114,7 +114,7 @@ flowchart TB
 
 ---
 
-## 1. The Master Loop
+## 1. The master loop
 
 **Confidence**: 100% (Tier 1 - Official)
 **Source**: [Anthropic Engineering Blog](https://www.anthropic.com/engineering/claude-code-best-practices)
@@ -168,7 +168,7 @@ Claude Code is remarkably simple:
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### What This Means
+### What this means
 
 The entire architecture is a simple `while` loop:
 
@@ -188,14 +188,14 @@ return claude_response.text
 
 The model itself decides when to call tools, which tools to call, and when it's done. This is the "agentic loop" pattern described in Anthropic's engineering blog.
 
-### Why This Design?
+### Why this design?
 
 1. **Simplicity**: Fewer components = fewer failure modes
 2. **Model-driven**: Claude's reasoning is better than hand-coded heuristics
 3. **Flexibility**: No rigid pipeline constraining what Claude can do
 4. **Debuggability**: Easy to understand what happened and why
 
-### Agentic Loop API Vocabulary
+### Agentic loop API vocabulary
 
 The master loop diagram above shows the flow conceptually, but the Anthropic API exposes it through concrete `stop_reason` values. Every API response includes a `stop_reason` field: it's how Claude signals what should happen next. Understanding these three values is essential for building custom agents on top of the Anthropic SDK.
 
@@ -259,7 +259,7 @@ if result.stop_reason == "max_turns":
 
 Setting `max_turns` per task type rather than globally prevents a single slow task from starving others in a multi-agent pipeline. A nightly batch job that legitimately needs 50 turns should not inherit the same cap as a quick lookup that should resolve in 5.
 
-### Native Capabilities Audit
+### Native capabilities audit
 
 Use this checklist to verify you understand Claude Code's full surface area. Each capability is documented in detail elsewhere in this guide.
 
@@ -315,7 +315,7 @@ Use this checklist to verify you understand Claude Code's full surface area. Eac
 
 ---
 
-## 2. The Tool Arsenal
+## 2. The tool arsenal
 
 **Confidence**: 100% (Tier 1 - Official)
 **Source**: [code.claude.com/docs](https://code.claude.com/docs/en/setup)
@@ -333,7 +333,7 @@ These 8 tools cover 90% of day-to-day use, out of roughly 40 built-in tools tota
 | `Agent` | Spawn sub-agents (formerly `Task`) | Isolated context, depth=1 limit | High (new context) |
 | `TodoWrite` | Track progress (legacy) | Superseded by Tasks API (v2.1.16+); disabled by default since v2.1.142 | Low |
 
-### The Bash Universal Adapter
+### The bash universal adapter
 
 **Key insight**: Bash is Claude's swiss-army knife. It can:
 
@@ -344,7 +344,7 @@ These 8 tools cover 90% of day-to-day use, out of roughly 40 built-in tools tota
 
 The model has been trained on massive amounts of shell data, making it highly effective at using Bash as a universal adapter when specialized tools aren't enough.
 
-### Tool Selection Logic
+### Tool selection logic
 
 Claude decides which tool to use based on the task. There's no hardcoded routing:
 
@@ -366,7 +366,7 @@ Claude decides which tool to use based on the task. There's no hardcoded routing
 └─────────────────────────────────────────────────────┘
 ```
 
-### Extended Tool Ecosystem
+### Extended tool ecosystem
 
 Beyond the 8 core tools, Claude Code can use:
 
@@ -381,7 +381,7 @@ Beyond the 8 core tools, Claude Code can use:
 **Community Plugins**:
 - **ast-grep**: AST-based structural code search (explicit invocation)
 
-### Search Tool Selection Matrix
+### Search tool selection matrix
 
 Claude Code offers multiple ways to search code, each with specific strengths:
 
@@ -409,7 +409,7 @@ Claude Code offers multiple ways to search code, each with specific strengths:
 
 ---
 
-## 3. Context Management Internals
+## 3. Context management internals
 
 **Confidence**: 80% (Tier 2 - Partially Official)
 **Sources**:
@@ -418,7 +418,7 @@ Claude Code offers multiple ways to search code, each with specific strengths:
 
 Claude Code operates within a fixed context window (~200K tokens, varies by model).
 
-### Context Budget Breakdown
+### Context budget breakdown
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -457,7 +457,7 @@ Claude Code operates within a fixed context window (~200K tokens, varies by mode
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### System Prompt Contents
+### System prompt contents
 
 **Confidence**: 100% (Tier 1 - Official Anthropic Documentation)
 **Sources**:
@@ -487,7 +487,7 @@ Claude system prompts (~5-15K tokens) are **publicly published** by Anthropic as
 
 ---
 
-### Auto-Compaction
+### Auto-compaction
 
 **Confidence**: 75% (Tier 2 - Community-verified with research backing)
 
@@ -529,7 +529,7 @@ Recent research and practitioner observations confirm **quality degradation with
 
 **User control**: Use `/compact` manually to trigger summarization at logical breakpoints, or use **session handoffs** (see [Session Handoffs](#session-handoffs)) to preserve intent over compressed history.
 
-### Context Preservation Strategies
+### Context preservation strategies
 
 | Strategy | When to Use | How |
 |----------|-------------|-----|
@@ -539,7 +539,7 @@ Recent research and practitioner observations confirm **quality degradation with
 | Specific reads | Know what you need | Read exact files, not directories |
 | CLAUDE.md | Persistent context | Store conventions in memory files |
 
-### Session Degradation Limits
+### Session degradation limits
 
 **Confidence**: 70% (Tier 2 - Practitioner studies, arXiv research)
 
@@ -566,7 +566,7 @@ Claude Code's effectiveness degrades predictably under certain conditions:
 3. **Scope tightly**: Break large tasks into focused sub-tasks
 4. **Use sub-agents**: Delegate exploration to `Task` tool to preserve main context
 
-### Failure-Triggered Context Drift
+### Failure-Triggered context drift
 
 A separate degradation mode that does not depend on context size: repeated tool failures. When a tool call fails and Claude retries, error output accumulates in the context window. Stack traces, retry noise, and error messages dilute the original intent. Subsequent attempts follow the error narrative rather than the task goal. The context window is not full, but the signal-to-noise ratio has degraded.
 
@@ -585,14 +585,14 @@ Source: [Nick Tune, Workflow DSL: Domain-Driven Claude Code Workflows](https://n
 
 ---
 
-## 4. Sub-Agent Architecture
+## 4. Sub-agent architecture
 
 **Confidence**: 100% (Tier 1 - Documented behavior)
 **Source**: [code.claude.com/docs](https://code.claude.com/docs/en/setup) + System prompt (visible in tool definitions)
 
 The `Task` tool spawns sub-agents for parallel or isolated work.
 
-### Isolation Model
+### Isolation model
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -624,7 +624,7 @@ The `Task` tool spawns sub-agents for parallel or isolated work.
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### Why Depth = 1?
+### Why depth = 1?
 
 Limiting sub-agents to one level prevents:
 
@@ -633,7 +633,7 @@ Limiting sub-agents to one level prevents:
 3. **Debugging nightmares**: Tracking multi-level agent chains is hard
 4. **Unpredictable costs**: Nested agents = unpredictable token usage
 
-### Sub-Agent Types
+### Sub-agent types
 
 Claude Code offers specialized sub-agent types via the `subagent_type` parameter:
 
@@ -644,7 +644,7 @@ Claude Code offers specialized sub-agent types via the `subagent_type` parameter
 | `Bash` | Command execution | Bash only |
 | `general-purpose` | Complex multi-step | All tools |
 
-### When to Use Sub-Agents
+### When to use sub-agents
 
 | Use Case | Why Sub-Agent Helps |
 |----------|---------------------|
@@ -653,7 +653,7 @@ Claude Code offers specialized sub-agent types via the `subagent_type` parameter
 | Risky exploration | Errors don't pollute main context |
 | Specialized analysis | Different "mindset" for different tasks |
 
-### Hub-and-Spoke Orchestration
+### Hub-and-spoke orchestration
 
 The dominant multi-agent pattern in production is **hub-and-spoke**: one coordinator agent sits at the center, manages N worker sub-agents, and is the only entity that holds the full picture.
 
@@ -708,7 +708,7 @@ Workers should never need to communicate with each other. If they do, that's a s
 
 ---
 
-## 5. Permission & Security Model
+## 5. Permission & security model
 
 **Confidence**: 100% (Tier 1 - Official)
 **Sources**:
@@ -756,7 +756,7 @@ Claude Code has a layered security model:
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### Dangerous Pattern Detection
+### Dangerous pattern detection
 
 **Confidence**: 80% (Tier 2 - Observed but not exhaustive)
 
@@ -773,7 +773,7 @@ Claude Code appears to flag certain patterns for extra scrutiny:
 
 This is not a complete blocklist. Patterns are likely detected through model training rather than explicit rules.
 
-### Native Sandbox (v2.1.0+)
+### Native sandbox (v2.1.0+)
 
 **Confidence**: 100% (Tier 1 - Official)
 **Source**: [code.claude.com/docs/en/sandboxing](https://code.claude.com/docs/en/sandboxing)
@@ -857,7 +857,7 @@ Claude Code includes built-in **native sandboxing** using OS-level primitives fo
 
 **Deep dive**: See [Native Sandboxing Guide](../security/sandbox-native.md) for complete technical reference, configuration examples, and troubleshooting.
 
-### Hooks System
+### Hooks system
 
 Hooks allow programmatic control over Claude's actions:
 
@@ -917,14 +917,14 @@ Common fields sent to all events: `session_id`, `transcript_path`, `cwd`, `permi
 
 ---
 
-## 6. MCP Integration
+## 6. MCP integration
 
 **Confidence**: 100% (Tier 1 - Official)
 **Source**: [code.claude.com/docs/en/mcp](https://code.claude.com/docs/en/mcp)
 
 MCP (Model Context Protocol) servers extend Claude Code with additional tools.
 
-### MCP Architecture Overview
+### MCP architecture overview
 
 > **💡 Visual Guide**: The following diagram illustrates how MCP creates a secure control layer between LLMs and real systems. The LLM layer has **no direct data access** - the MCP Server enforces security policies before tools can interact with databases, APIs, or files.
 
@@ -937,7 +937,7 @@ MCP (Model Context Protocol) servers extend Claude Code with additional tools.
 - **Orange layer (MCP Server)**: Security control point (policies, validation, logs)
 - **Grey layer (Real Systems)**: Protected data - **Hidden From AI**
 
-### How MCP Works (Technical Details)
+### How MCP works (technical details)
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -972,7 +972,7 @@ MCP (Model Context Protocol) servers extend Claude Code with additional tools.
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### Key MCP Facts
+### Key MCP facts
 
 | Aspect | Behavior |
 |--------|----------|
@@ -982,7 +982,7 @@ MCP (Model Context Protocol) servers extend Claude Code with additional tools.
 | Lifecycle | Server starts on first use, stays alive during session |
 | Permissions | Same system as native tools |
 
-### What MCP Cannot Do
+### What MCP cannot do
 
 | Limitation | Explanation |
 |------------|-------------|
@@ -993,19 +993,19 @@ MCP (Model Context Protocol) servers extend Claude Code with additional tools.
 
 → **Cross-reference**: See [Section 8.6 - MCP Security](#86-mcp-security) for security considerations.
 
-### MCP Extensions: Apps (SEP-1865)
+### MCP extensions: Apps (SEP-1865)
 
 **Status**: Stable (January 26, 2026)
 **Spec**: [SEP-1865 on GitHub](https://github.com/modelcontextprotocol/ext-apps)
 **Co-authored by**: OpenAI, Anthropic, MCP-UI creators
 
-#### What Are MCP Apps?
+#### What are MCP Apps?
 
 MCP Apps is the **first official extension** to the Model Context Protocol, enabling MCP servers to deliver **interactive user interfaces** alongside traditional tool responses.
 
 **The problem solved**: Traditional text-based responses create friction for workflows requiring exploration. Each interaction (sort, filter, drill-down) demands a new prompt cycle. MCP Apps eliminates this "context gap" by rendering interactive UIs directly in the conversation.
 
-#### Technical Architecture
+#### Technical architecture
 
 **Two core primitives**:
 
@@ -1056,7 +1056,7 @@ MCP Apps is the **first official extension** to the Model Context Protocol, enab
 └─────────────────────────────────────────────────────────┘
 ```
 
-#### Security Model
+#### Security model
 
 **Multi-layered protection**:
 
@@ -1112,7 +1112,7 @@ app.sendFollowUpMessage('Applied filters: EU, Active');
 
 **Standard communication**: All features operate over `postMessage` (no framework lock-in).
 
-#### Platform Support
+#### Platform support
 
 | Platform | MCP Apps Support | Notes |
 |----------|------------------|-------|
@@ -1123,7 +1123,7 @@ app.sendFollowUpMessage('Applied filters: EU, Active');
 | **Goose** | ✅ Available now | Open-source CLI with UI support |
 | **Claude Code CLI** | ❌ N/A | Terminal text-only (no iframe rendering) |
 
-#### Relevance for Claude Code Users
+#### Relevance for Claude Code users
 
 **Direct usage**: None (CLI is text-only, cannot render iframes)
 
@@ -1136,7 +1136,7 @@ app.sendFollowUpMessage('Applied filters: EU, Active');
    - Switch to Claude Code CLI for implementation (scripting, automation)
 4. **Context for configuration**: MCP servers may advertise UI capabilities in metadata
 
-#### Example Implementations
+#### Example implementations
 
 **Official example servers** (in [`ext-apps` repository](https://github.com/modelcontextprotocol/ext-apps)):
 
@@ -1162,7 +1162,7 @@ app.sendFollowUpMessage('Applied filters: EU, Active');
 
 **Coming soon**: Salesforce (Agentforce 360)
 
-#### Relationship to Prior Work
+#### Relationship to prior work
 
 MCP Apps standardizes patterns pioneered by:
 - **MCP-UI**: Early UI extension for MCP (community project)
@@ -1172,7 +1172,7 @@ Both frameworks continue to be supported. MCP Apps provides a **unified specific
 
 **Migration path**: Straightforward for existing MCP-UI and Apps SDK implementations.
 
-#### When to Use MCP Apps
+#### When to use MCP Apps
 
 **Decision tree for MCP server developers**:
 
@@ -1198,7 +1198,7 @@ Building a custom MCP server?
 
 ---
 
-### MCP Tool Search (Lazy Loading)
+### MCP tool search (lazy loading)
 
 **Confidence**: 100% (Tier 1 - Official)
 **Source**: [anthropic.com/engineering/advanced-tool-use](https://www.anthropic.com/engineering/advanced-tool-use)
@@ -1266,7 +1266,7 @@ ENABLE_TOOL_SEARCH=false     # Disabled (eager loading)
 
 ---
 
-## 7. Advanced Tool Use Patterns (API)
+## 7. Advanced tool use patterns (API)
 
 **Confidence**: 90% (Tier 1 - Official Anthropic Engineering)
 **Source**: [Anthropic Engineering: Advanced Tool Use](https://www.anthropic.com/engineering/advanced-tool-use) | [Programmatic Tool Calling Docs](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling)
@@ -1286,7 +1286,7 @@ Four API-level features released as generally available on February 18, 2026 (wi
 - Web research returning noise → Dynamic Filtering
 - Parameter errors despite correct schema → Tool Use Examples
 
-### Programmatic Tool Calling (PTC)
+### Programmatic tool calling (PTC)
 
 **The paradigm shift**: instead of calling tools one at a time with a full model round trip each, Claude writes Python code that orchestrates all tool calls internally. Only the final `stdout` enters the context window.
 
@@ -1334,7 +1334,7 @@ PTC:         prompt → Claude → writes Python → code calls tool 1, 2, 3 →
 
 **Constraints**: API and Foundry only (not Bedrock/Vertex). No MCP tools, no web search/fetch, no `strict: true` tools. Container lifetime ~4.5 minutes. Not covered by Zero Data Retention.
 
-### Dynamic Filtering for Web Search/Fetch
+### Dynamic filtering for web search/fetch
 
 Web search and fetch tools dump full HTML into context: navigation, ads, boilerplate included. Dynamic Filtering lets Claude write Python to pre-process and filter results before they enter its context window.
 
@@ -1360,7 +1360,7 @@ Header required: `anthropic-beta: code-execution-web-tools-2026-02-09`. Filterin
 
 Average input token reduction: ~24%. Best suited for multi-step research, citation verification, and extracting specific data points from large pages.
 
-### Tool Use Examples
+### Tool use examples
 
 JSON schemas define structure but can't express when to include optional parameters, which combinations make sense, or format conventions. Add `input_examples` to tool definitions to show concrete usage patterns:
 
@@ -1378,7 +1378,7 @@ JSON schemas define structure but can't express when to include optional paramet
 
 Accuracy on complex parameter handling: 72% → 90% in Anthropic's benchmarks. Use 1-5 realistic examples per tool, covering minimal, partial, and full specifications.
 
-### Claude Code Relevance
+### Claude Code relevance
 
 | Feature | Claude Code CLI | Action for CLI users |
 |---------|----------------|---------------------|
@@ -1389,7 +1389,7 @@ Accuracy on complex parameter handling: 72% → 90% in Anthropic's benchmarks. U
 
 ---
 
-## 8. The Edit Tool: How It Actually Works
+## 8. The edit tool: How it actually works
 
 **Confidence**: 90% (Tier 2 - Verified through behavior)
 **Sources**:
@@ -1398,7 +1398,7 @@ Accuracy on complex parameter handling: 72% → 90% in Anthropic's benchmarks. U
 
 The Edit tool is more sophisticated than it appears.
 
-### Edit Algorithm
+### Edit algorithm
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -1431,7 +1431,7 @@ The Edit tool is more sophisticated than it appears.
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### Fuzzy Matching Details
+### Fuzzy matching details
 
 When exact match fails, the Edit tool attempts:
 
@@ -1441,7 +1441,7 @@ When exact match fails, the Edit tool attempts:
 
 If fuzzy matching also fails, the tool returns an error asking Claude to verify the old_string.
 
-### Edit Validation
+### Edit validation
 
 Before applying changes, the Edit tool:
 
@@ -1452,7 +1452,7 @@ Before applying changes, the Edit tool:
 | Single match | old_string must be unique (or use `replace_all`) |
 | New content differs | Prevent no-op edits |
 
-### When Edit Fails
+### When edit fails
 
 | Error | Cause | Claude's Response |
 |-------|-------|-------------------|
@@ -1462,21 +1462,21 @@ Before applying changes, the Edit tool:
 
 ---
 
-## 9. Session Persistence
+## 9. Session persistence
 
 **Confidence**: 100% (Tier 1 - Official)
 **Source**: [code.claude.com/docs](https://code.claude.com/docs/en/setup)
 
 Sessions can be resumed across terminal sessions.
 
-### Resume Mechanisms
+### Resume mechanisms
 
 | Command | Behavior |
 |---------|----------|
 | `claude --continue` / `claude -c` | Resume most recent session |
 | `claude --resume <id>` / `claude -r <id>` | Resume specific session by ID |
 
-### What Gets Persisted
+### What gets persisted
 
 | Persisted | Not Persisted |
 |-----------|---------------|
@@ -1485,7 +1485,7 @@ Sessions can be resumed across terminal sessions.
 | Session ID | File locks |
 | Working directory context | Environment variables |
 
-### Storage Format
+### Storage format
 
 **Confidence**: 50% (Tier 3 - Inferred)
 
@@ -1499,7 +1499,7 @@ Sessions appear to be stored as JSON/JSONL files in `~/.claude/` but:
 
 ---
 
-## 10. Philosophy: Less Scaffolding, More Model
+## 10. Philosophy: Less scaffolding, more model
 
 **Confidence**: 100% (Tier 1 - Official)
 **Source**: Daniela Amodei (Anthropic Co-founder & President) - Public statements
@@ -1508,7 +1508,7 @@ The core philosophy behind Claude Code:
 
 > "Do more with less. Smart architecture choices, better training efficiency, and focused problem-solving can compete with raw scale."
 
-### What This Means in Practice
+### What this means in practice
 
 | Traditional Approach | Claude Code Approach |
 |---------------------|---------------------|
@@ -1519,7 +1519,7 @@ The core philosophy behind Claude Code:
 | Complex state machines | Conversation as state |
 | Prompt engineering frameworks | Trust the model |
 
-### Why It Works
+### Why it works
 
 1. **Model capability**: Claude 4+ is capable enough to handle routing decisions
 2. **Reduced latency**: Fewer components = faster response
@@ -1535,7 +1535,7 @@ The core philosophy behind Claude Code:
 | Fewer bugs | Model errors affect everything |
 | Fast iteration | Requires good model quality |
 
-### Community Validation
+### Community validation
 
 The "native capabilities first" approach is increasingly validated by external practitioners. Embedded engineering teams (including former Cursor power users) converge on Agent Skills standard over external orchestration frameworks, demonstrating the viability of trusting Claude's native reasoning over adding scaffolding layers.
 
@@ -1545,7 +1545,7 @@ This convergence suggests that the "less scaffolding, more model" approach scale
 
 ---
 
-## 11. Claude Code vs Alternatives
+## 11. Claude Code vs alternatives
 
 **Confidence**: 80% (Tier 2 - Based on March 2026 fact-checked data)
 **Sources**: Official documentation, Perplexity research March 2026, vendor changelogs
@@ -1561,7 +1561,7 @@ This convergence suggests that the "less scaffolding, more model" approach scale
 | **MCP Support** | Native | Yes (GA, auto-approve) | Yes (MCP Apps v2.6) | Yes (native) |
 | **Pricing** | Pro $20 / Max $100-200 | Free / Pro $10 / Pro+ $39 / Biz $19/seat | Free / Pro $20 / Biz $40/seat | Free / Pro $19/seat / Enterprise |
 
-### When to Choose Claude Code
+### When to choose Claude Code
 
 | Scenario | Claude Code | Alternative |
 |----------|-------------|-------------|
@@ -1574,9 +1574,9 @@ This convergence suggests that the "less scaffolding, more model" approach scale
 
 ---
 
-## 12. Sources & References
+## 12. Sources & references
 
-### Tier 1 - Official Anthropic
+### Tier 1 - official Anthropic
 
 | Source | URL | Topics |
 |--------|-----|--------|
@@ -1592,14 +1592,14 @@ This convergence suggests that the "less scaffolding, more model" approach scale
 | llms.txt (index) | code.claude.com/docs/llms.txt | LLM-optimized doc index, ~65 pages |
 | llms-full.txt | code.claude.com/docs/llms-full.txt | Full documentation (~98 KB text) |
 
-### Tier 2 - Verified Analysis
+### Tier 2 - verified analysis
 
 | Source | URL | Topics |
 |--------|-----|--------|
 | PromptLayer Analysis | blog.promptlayer.com/claude-code-behind-the-scenes-of-the-master-agent-loop/ | Internal architecture |
 | Steve Kinney Course | stevekinney.com/courses/ai-development/claude-code-* | Permissions, sessions |
 
-### Tier 3 - Community Resources
+### Tier 3 - community resources
 
 | Source | Topics |
 |--------|--------|
@@ -1609,11 +1609,11 @@ This convergence suggests that the "less scaffolding, more model" approach scale
 
 ---
 
-## 13. Appendix: What We Don't Know
+## 13. Appendix: What we don't know
 
 Transparency about gaps in our understanding:
 
-### Unknown or Unconfirmed
+### Unknown or unconfirmed
 
 | Topic | What We Don't Know | Confidence in Current Understanding |
 |-------|-------------------|-------------------------------------|
@@ -1624,7 +1624,7 @@ Transparency about gaps in our understanding:
 | **Internal caching** | Is there result caching between sessions? | 20% |
 | **Rate limiting logic** | How rate limits are applied per-tool | 40% |
 
-### Explicitly Undocumented
+### Explicitly undocumented
 
 These are intentionally not documented by Anthropic:
 
@@ -1634,7 +1634,7 @@ These are intentionally not documented by Anthropic:
 - Token usage breakdown per component
 - Exact permission evaluation order
 
-### How to Stay Updated
+### How to stay updated
 
 1. **Official changelog**: Watch anthropic.com/changelog
 2. **GitHub releases**: github.com/anthropics/claude-code/releases
@@ -1659,7 +1659,7 @@ Found an error? Have verified new information? Contributions welcome:
 
 ---
 
-## Anthropic API Patterns for Architects
+## Anthropic API patterns for architects
 
 Three API-level features that architects must understand for production systems: the Message Batches API for cost-optimized bulk processing, `tool_choice` for guaranteed structured output, and strict-mode JSON schema enforcement.
 
@@ -1739,7 +1739,7 @@ Retrying individual failed items synchronously costs 2x the batch rate. If your 
 
 ---
 
-### tool_choice: Controlling When Tools Fire
+### tool_choice: Controlling when tools fire
 
 `tool_choice` governs whether and which tools the model can call. Four modes:
 

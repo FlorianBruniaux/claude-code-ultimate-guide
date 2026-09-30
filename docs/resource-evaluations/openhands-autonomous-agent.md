@@ -1,4 +1,4 @@
-# Évaluation de Ressource: OpenHands (All Hands AI)
+# Évaluation de ressource: OpenHands (all hands AI)
 
 **URL**: https://github.com/OpenHands/OpenHands
 **Type**: GitHub repository
@@ -63,7 +63,7 @@
 
 ---
 
-## ✅ Fact-Check
+## ✅ Fact-check
 
 | Affirmation | Vérifiée | Source/Commentaire |
 |-------------|----------|---------------------|

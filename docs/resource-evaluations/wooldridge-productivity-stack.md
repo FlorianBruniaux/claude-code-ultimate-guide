@@ -1,4 +1,4 @@
-# Évaluation de Ressource: My Claude Code Productivity Stack
+# Évaluation de ressource: My Claude Code productivity stack
 
 **URL**: https://quantably.co/blog/claude-code-productivity-stack/
 **Auteur**: Peter Wooldridge
@@ -160,7 +160,7 @@ plugins_popular:
 
 ---
 
-### 4. Cross-ref `--max-iterations` (Priorité: Basse)
+### 4. Cross-ref `--max-iterations` (priorité: Basse)
 
 **Fichier**: `guide/core/methodologies.md`
 **Ligne**: ~57 (après mention Ralph Inferno)
@@ -231,7 +231,7 @@ plugins_popular:
 
 ---
 
-## ✅ Fact-Check
+## ✅ Fact-check
 
 ### Vérifications article original
 

@@ -1,4 +1,4 @@
-# Cyber Defense Agent Team
+# Cyber defense agent team
 
 A 4-agent pipeline that detects security threats in log files. Built natively with Claude Code Agent Teams.
 
@@ -26,11 +26,11 @@ Each agent has a single responsibility and passes data to the next via shared JS
 
 ---
 
-## LangGraph vs Claude Code Agent Teams
+## LangGraph vs Claude Code agent teams
 
 Same system built twice. Here's the full comparison.
 
-### The LangGraph Version (~150 lines of Python)
+### The LangGraph version (~150 lines of Python)
 
 ```python
 from typing import TypedDict, List
@@ -138,7 +138,7 @@ def analyze_logs(logs: str) -> str:
     return result.get("report", "No threats detected.")
 ```
 
-### The Claude Code Version (~60 lines of YAML/Markdown)
+### The Claude Code version (~60 lines of YAML/markdown)
 
 Four agent files, one skill file. No graph assembly, no TypedDict, no boilerplate.
 
@@ -157,7 +157,7 @@ Each agent file is a YAML frontmatter (name, model, tools) + a plain English sys
 
 ---
 
-## Side-by-Side Comparison
+## Side-by-side comparison
 
 | Dimension | LangGraph | Claude Code Agent Teams |
 |-----------|-----------|------------------------|
@@ -175,7 +175,7 @@ Each agent file is a YAML frontmatter (name, model, tools) + a plain English sys
 
 ---
 
-## When to Use Which
+## When to use which
 
 **Use Claude Code Agent Teams when:**
 - You want to move fast — prototype to working system in 30 minutes
@@ -193,7 +193,7 @@ Each agent file is a YAML frontmatter (name, model, tools) + a plain English sys
 
 ---
 
-## Files in This Example
+## Files in this example
 
 | File | Agent Role | Model | Responsibility |
 |------|-----------|-------|----------------|

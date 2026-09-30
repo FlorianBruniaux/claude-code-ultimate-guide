@@ -6,7 +6,7 @@ effort: medium
 argument-hint: "[claude | codex | path to a hooks or settings file; default: all locations]"
 ---
 
-# Hooks Evaluator
+# Hooks evaluator
 
 Discover every Claude Code and Codex hook in scope, validate each one against the filesystem and the host's documented hook semantics, then run an interactive session to confirm or improve them.
 
@@ -14,7 +14,7 @@ The goal is not just to score; it is to leave every hook working, correctly scop
 
 Sources of truth: the official Claude Code hooks reference (https://code.claude.com/docs/en/hooks) and the Codex hooks documentation (https://developers.openai.com/codex/hooks). When a rule below and the live documentation disagree, the documentation wins; report the disagreement instead of scoring against stale text.
 
-## When to Use
+## When to use
 
 - First time adding hooks (validate before committing)
 - A hook never fires, or fires on every tool call
@@ -38,7 +38,7 @@ When a `ctxharness doctor --format json` report generated during this task is av
 
 ---
 
-## Claude Code: Key Concepts
+## Claude Code: Key concepts
 
 ### Event types (33)
 
@@ -170,7 +170,7 @@ On `PermissionDenied`, prompt and agent hooks run but their output is discarded.
 
 ---
 
-## Claude Code: Locations Scanned
+## Claude Code: Locations scanned
 
 | Location | Scope | Notes |
 |---|---|---|
@@ -193,7 +193,7 @@ Also record, from the effective settings:
 
 ---
 
-## Codex: Key Concepts
+## Codex: Key concepts
 
 ### Locations
 
@@ -259,7 +259,7 @@ Codex matchers are regex strings. `Interrupt` and `SessionEnd` do not run for su
 
 ---
 
-## Execution Instructions
+## Execution instructions
 
 ### Step 1: Discovery
 
@@ -464,7 +464,7 @@ Observational hook: exit 2 would only show stderr to Claude. All applicable crit
 
 Done when: the report lists every scanned hook with its score and criterion notes.
 
-### Step 7: Fix Summary
+### Step 7: Fix summary
 
 ```
 ## What Changed This Session
@@ -490,7 +490,7 @@ Done when: the summary line counts match the per-hook results and no deletion ha
 
 ---
 
-## Edge Cases
+## Edge cases
 
 - **Inline one-liner** (e.g. `rtk hook claude`): skip script-level checks, verify the binary is on `PATH`
 - **`bash -c '...'` inline**: parse the inner script for interactive commands and exit logic

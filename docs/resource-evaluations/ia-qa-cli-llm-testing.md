@@ -10,7 +10,7 @@
 
 ---
 
-## Executive Summary
+## Executive summary
 
 | Criterion | Value |
 |-----------|-------|
@@ -22,7 +22,7 @@ Downgrade rationale: hands-on testing showed the tool count is honest but the pr
 
 ---
 
-## What It Is
+## What it is
 
 A 336-line, zero-dependency Node client that exposes 148 tools from ia-qa.com in the shell. It pairs with an existing MCP server so agents with shell access (Claude Code, Copilot CLI) can call the same toolbox.
 
@@ -41,7 +41,7 @@ That single line is the whole evaluation. The package is a transport, not a tool
 | Published | 2026-07-10, five versions in under 3 hours |
 | Node requirement | >= 18 (global `fetch`) |
 
-## Verification Method
+## Verification method
 
 All numbers below come from running the tools, not from reading claims. Tarball downloaded and read before execution; only synthetic payloads were sent to the server.
 
@@ -135,7 +135,7 @@ The 336 lines are better engineered than most of what gets posted:
 
 The server-side tool descriptions are also honest about their limits ("approximation", "not semantic, does not understand synonyms"). The overselling lives in the LinkedIn post, not in the product. That distinction is worth stating plainly: this is a marketing gap, not a integrity gap.
 
-## Redundancy With Existing Guide Content
+## Redundancy with existing guide content
 
 | Claim | Already covered |
 |-------|-----------------|
@@ -146,7 +146,7 @@ The server-side tool descriptions are also honest about their limits ("approxima
 
 Nothing here fills a gap. `mcp2cli` already solves the MCP-to-CLI problem generically, for any server, without a hosted dependency.
 
-## Decision: 2/5, Watch Only
+## Decision: 2/5, Watch only
 
 Not integrated. The reasoning:
 

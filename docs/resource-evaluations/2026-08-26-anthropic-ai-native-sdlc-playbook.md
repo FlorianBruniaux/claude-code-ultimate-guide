@@ -1,4 +1,4 @@
-# Évaluation de Ressource: The AI-Native SDLC Playbook (Anthropic)
+# Évaluation de ressource: The AI-native SDLC playbook (Anthropic)
 
 **URL**: https://claude.com/blog/the-ai-native-sdlc-playbook
 **Type**: Article de blog officiel Anthropic
@@ -86,7 +86,7 @@ C'est un score 3/5 et pas 4/5: le gap est réel mais localisé à deux ajouts da
 
 ---
 
-## ✅ Fact-Check
+## ✅ Fact-check
 
 | Affirmation | Vérifiée | Commentaire |
 |-------------|----------|-------------|

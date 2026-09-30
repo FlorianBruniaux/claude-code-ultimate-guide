@@ -1,4 +1,4 @@
-# Resource Evaluation: "Master Claude Code - The Complete Guide for Everyone" - Rakesh Gohel / Aakash Gupta
+# Resource evaluation: "Master Claude Code - The Complete Guide for Everyone" - rakesh Gohel / Aakash Gupta
 
 **URL**: https://www.linkedin.com/posts/rakeshgohel01_i-still-think-claude-code-is-an-underrated-activity-7426689113375940608-dJCz/
 **Date de publication**: 9 février 2026
@@ -58,7 +58,7 @@
 
 ---
 
-## Fact-Check
+## Fact-check
 
 | Affirmation | Vérifiée? | Source | Correction |
 |-------------|-----------|--------|------------|

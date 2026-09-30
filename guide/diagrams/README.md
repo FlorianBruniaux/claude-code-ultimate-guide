@@ -4,7 +4,7 @@ description: "49 Mermaid interactive diagrams covering all major Claude Code con
 tags: [reference, architecture, diagrams, mermaid]
 ---
 
-# Claude Code: Visual Diagrams
+# Claude Code: Visual diagrams
 
 49 interactive Mermaid diagrams organized in 12 thematic files. Each diagram includes a Mermaid version (rendered natively on GitHub) and an ASCII fallback.
 
@@ -12,7 +12,7 @@ tags: [reference, architecture, diagrams, mermaid]
 
 ---
 
-## Visual Palette
+## Visual palette
 
 All diagrams use the consistent Bold Guy palette:
 
@@ -25,7 +25,7 @@ All diagrams use the consistent Bold Guy palette:
 | Neutral Gray | `#B8B8B8` | Infrastructure, passive elements |
 | Light Blue | `#6DB3F2` | Information, documentation refs |
 
-## Mermaid Conventions
+## Mermaid conventions
 
 | Shape | Syntax | Meaning |
 |-------|--------|---------|
@@ -58,7 +58,7 @@ All diagrams use the consistent Bold Guy palette:
 
 ---
 
-## Navigate by Use Case
+## Navigate by use case
 
 ### "I'm new to Claude Code, where do I start?"
 1. [Quick Decision Tree](./01-foundations.md#quick-decision-tree): Should I use Claude Code?

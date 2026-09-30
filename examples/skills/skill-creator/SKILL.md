@@ -5,18 +5,18 @@ allowed-tools: Write Bash
 effort: low
 ---
 
-# Skill Creator
+# Skill creator
 
 Generate new Claude Code skills with correct directory structure, YAML frontmatter, and optional bundled resources.
 
-## When to Use
+## When to use
 
 - Creating a new custom skill for a project
 - Standardizing skill structure across a team
 - Generating skill templates with scripts, references, and assets
 - Packaging skills for distribution
 
-## Skill Directory Structure
+## Skill directory structure
 
 ```
 skill-name/
@@ -28,7 +28,7 @@ skill-name/
 
 ## Workflow
 
-### 1. Create the Skill
+### 1. Create the skill
 
 ```
 Create a new skill called "my-skill-name" in ~/.claude/skills/
@@ -47,7 +47,7 @@ Or via the initialization script:
 python3 ~/.claude/skills/skill-creator/scripts/init_skill.py <skill-name> --path <output-directory>
 ```
 
-### 2. Generated SKILL.md Template
+### 2. Generated SKILL.md template
 
 The created SKILL.md follows this structure:
 
@@ -75,7 +75,7 @@ description: "What the skill does. Use when [trigger conditions]."
 **Output**: [Example output]
 ```
 
-### 3. Validate the Skill
+### 3. Validate the skill
 
 After creation, verify:
 
@@ -84,13 +84,13 @@ After creation, verify:
 3. **Structure**: SKILL.md is under 5000 words; references and assets are in correct subdirectories
 4. **Test**: Invoke the skill with a real use case and confirm expected output
 
-### 4. Package for Distribution (Optional)
+### 4. Package for distribution (optional)
 
 ```bash
 python3 ~/.claude/skills/skill-creator/scripts/package_skill.py <path/to/skill-folder> [output-directory]
 ```
 
-## Organizational Patterns
+## Organizational patterns
 
 | Pattern | Best For | Structure |
 |---------|----------|-----------|
@@ -99,7 +99,7 @@ python3 ~/.claude/skills/skill-creator/scripts/package_skill.py <path/to/skill-f
 | **Reference/Guidelines** | Standards, specs | Rules and examples |
 | **Capabilities-Based** | Interrelated features | Feature descriptions |
 
-## Example: Creating a Release Notes Skill
+## Example: Creating a release notes skill
 
 **User**: "Create a skill for generating release notes with 3 output formats"
 

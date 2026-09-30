@@ -7,7 +7,7 @@ when_to_use: "Use when starting feature work that needs isolation from main work
 disable-model-invocation: true
 ---
 
-# Git Worktree Setup
+# Git worktree setup
 
 Create isolated git worktrees for feature development without switching branches.
 
@@ -37,7 +37,7 @@ Create isolated git worktrees for feature development without switching branches
 | `--isolated` | Fresh `node_modules` install (no symlink) |
 | `--skip-install` | Skip dependency install, keep baseline tests |
 
-## Branch Name Validation
+## Branch name validation
 
 ```bash
 # Auto-prefix based on naming convention
@@ -55,9 +55,9 @@ echo "$BRANCH_NAME" | grep -qE '^[a-zA-Z0-9/_-]+$' || exit 1
 git show-ref --verify --quiet "refs/heads/$BRANCH_NAME" && echo "Branch already exists" && exit 1
 ```
 
-## Directory Selection
+## Directory selection
 
-### Priority Order
+### Priority order
 
 ```bash
 # 1. Check existing directories
@@ -72,7 +72,7 @@ grep -i "worktree.*director" CLAUDE.md 2>/dev/null
 
 **If both exist:** `.worktrees/` wins.
 
-## Safety Verification
+## Safety verification
 
 **For project-local directories:**
 
@@ -88,7 +88,7 @@ grep -q "^\.worktrees/$" .gitignore || grep -q "^worktrees/$" .gitignore
 
 **Why critical:** Prevents accidentally committing worktree contents.
 
-## Creation Steps
+## Creation steps
 
 ```bash
 # 1. Detect project name
@@ -101,7 +101,7 @@ git worktree add .worktrees/$BRANCH_NAME -b $BRANCH_NAME
 cd .worktrees/$BRANCH_NAME
 ```
 
-## Dependency Optimization (Node.js)
+## Dependency optimization (node.js)
 
 **Default behavior:** Symlink `node_modules` from main worktree to avoid duplicate installs (~30s saved).
 
@@ -123,7 +123,7 @@ fi
 - Testing dependency upgrades
 - Debugging `node_modules` issues
 
-## Auto-Detect Setup (Multi-Stack)
+## Auto-Detect setup (multi-stack)
 
 ```bash
 # Node.js (if not symlinked)
@@ -142,7 +142,7 @@ if [ -f pyproject.toml ]; then poetry install; fi
 if [ -f go.mod ]; then go mod download; fi
 ```
 
-## Background Verification
+## Background verification
 
 **Instead of blocking on full test suite, run verification in background:**
 
@@ -165,7 +165,7 @@ fi
 
 **With `--fast`:** Skip all verification.
 
-## Final Report
+## Final report
 
 ```
 Worktree ready at <full-path>
@@ -177,11 +177,11 @@ Check status: /git-worktree-status
 Ready to implement <feature-name>
 ```
 
-## Database Branch Suggestion
+## Database branch suggestion
 
 **After worktree creation, detect database provider and suggest isolation.**
 
-### Quick Command Reference
+### Quick command reference
 
 | Provider | Suggested Command |
 |----------|-------------------|
@@ -200,7 +200,7 @@ DB Isolation: neonctl branches create --name feat-auth --parent main
    Full guide: ../workflows/database-branch-setup.md
 ```
 
-### .worktreeinclude Setup
+### .worktreeinclude setup
 
 **Critical for environment variables:**
 
@@ -214,7 +214,7 @@ DB Isolation: neonctl branches create --name feat-auth --parent main
 
 **Why:** Without this, `.env` files won't be copied to worktrees.
 
-### When to Create Database Branch
+### When to create database branch
 
 | Scenario | Create Branch? |
 |----------|---------------|
@@ -225,7 +225,7 @@ DB Isolation: neonctl branches create --name feat-auth --parent main
 
 **See:** [Database Branch Setup Guide](../../workflows/database-branch-setup.md) for complete workflows.
 
-## Quick Reference
+## Quick reference
 
 | Situation | Action |
 |-----------|--------|
@@ -242,7 +242,7 @@ DB Isolation: neonctl branches create --name feat-auth --parent main
 | PlanetScale detected | Suggest `pscale branch create` |
 | No .worktreeinclude | Create with `.env` pattern |
 
-## Common Mistakes
+## Common mistakes
 
 **Skipping .gitignore verification**
 - Worktree contents get tracked, pollute git status

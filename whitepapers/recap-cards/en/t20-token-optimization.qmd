@@ -15,7 +15,7 @@ format:
   recap-card-typst: default
 ---
 
-## RTK: Upstream Filtering
+## RTK: Upstream filtering
 
 RTK (Rust Token Killer) intercepts command outputs **before** they enter Claude's context. It is not a post-hoc summary, it is a filter that eliminates structurally redundant noise.
 
@@ -29,11 +29,11 @@ rtk init --dry-run
 rtk init
 ```
 
-## Measure Output Reduction
+## Measure output reduction
 
 Compare equivalent commands on the same repository state, inspect failures, and use `rtk gain` for local estimates. Smaller shell output is only one contributor to token usage; it does not establish an equal reduction in the total bill. RTK estimates token counts rather than running the model's tokenizer. See the [RTK savings explanation](https://github.com/rtk-ai/rtk#how-savings-work).
 
-## Essential RTK Commands
+## Essential RTK commands
 
 ```bash
 rtk git status        # Condensed git
@@ -44,7 +44,7 @@ rtk gh pr view 123    # Optimized GitHub PR
 rtk gain              # Savings dashboard
 ```
 
-## Compact: Freeing Up Context
+## Compact: Freeing up context
 
 `/compact` summarizes conversation history. The recovered space varies and details can be lost; preserve decisions and next steps in files and inspect `/context` before continuing.
 
@@ -54,7 +54,7 @@ rtk gain              # Savings dashboard
 
 The difference from `/clear`: compact preserves session continuity, clear starts from scratch.
 
-## Limit Reads and Search Scope
+## Limit reads and search scope
 
 Claude Code does not document a native `.claudeignore` mechanism. Name the relevant directories in requests. Where access must be blocked, use permission rules in `.claude/settings.json`, for example:
 
@@ -68,7 +68,7 @@ Claude Code does not document a native `.claudeignore` mechanism. Name the relev
 
 Review shell and MCP access separately. These rules are access restrictions, not a ranking hint for search. See [permission patterns](https://code.claude.com/docs/en/permissions#read-and-edit).
 
-## Efficient Prompt Rules
+## Efficient prompt rules
 
 **Target, don't load:**
 - "Check the `login` function in `auth.ts:45-60`" rather than "Check auth.ts for issues"
@@ -84,6 +84,6 @@ Review shell and MCP access separately. These rules are access restrictions, not
 | Long conversation without /compact | Accumulation |
 | Tests with full unfiltered output | 3K-10K |
 
-## Combined Strategy
+## Combined strategy
 
 Filter verbose shell output, compact when useful, and restrict reads to relevant sources. Verify the resulting output still contains the evidence needed to complete the task.

@@ -1,4 +1,4 @@
-# Built-in Tools Reference
+# Built-in tools reference
 
 Claude Code ships with a set of built-in tools it uses to read, modify, and execute things in your environment. You do not install or configure them; they are always present.
 

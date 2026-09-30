@@ -35,7 +35,7 @@ pip install ccburn
 ccburn
 ```
 
-## Dashboard & Monitoring
+## Dashboard & monitoring
 
 **ccboard** : TUI et interface web pour monitorer sessions, coûts et statistiques en temps réel.
 
@@ -45,7 +45,7 @@ ccboard          # Interface TUI
 ccboard --web    # UI web sur localhost:3000
 ```
 
-## Partage Social & Classement
+## Partage social & Classement
 
 **Straude** : dashboard social pour tracker et partager ses stats de consommation. Pousse les métriques quotidiennes (coût, tokens, modèles) vers un leaderboard public. Attention : envoie le hostname machine et un UUID device aux serveurs Straude. Utiliser `--dry-run` avant le premier push.
 
@@ -61,7 +61,7 @@ straude status       # Streak, rank global, totaux
 npx viberank-cli      # Soumettre les données ccusage
 ```
 
-## Optimisation Tokens
+## Optimisation tokens
 
 **RTK (Rust Token Killer)** : proxy CLI qui filtre les outputs avant qu'ils entrent dans le contexte. Les économies dépendent de la commande et de sa sortie ; les estimations ne prouvent pas une réduction équivalente de la facture API. Voir fiche T20 pour le détail.
 
@@ -87,7 +87,7 @@ Flux typique : créer un workspace par feature depuis une issue GitHub ou Linear
 | Multi-agents | Conductor ou Toad |
 | Écosystème Python | ccburn + Claude Chic |
 
-## Lacunes Connues
+## Lacunes connues
 
 Pas d'éditeur visuel pour les skills `.claude/skills/`. Pas de dashboard unifié combinant config, sessions, coûts et MCP. Un TUI dédié existe pour les serveurs MCP (`claude-code-config`, `pip install claude-code-config`), mais reste limité au scope `~/.claude.json` : ni `settings.json`, ni hooks, ni commandes.
 

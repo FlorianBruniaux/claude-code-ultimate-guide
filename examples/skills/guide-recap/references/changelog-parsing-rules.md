@@ -1,8 +1,8 @@
-# CHANGELOG Parsing Rules
+# CHANGELOG parsing rules
 
 How to extract and categorize entries from `CHANGELOG.md` for social content generation.
 
-## CHANGELOG Format
+## CHANGELOG format
 
 The project follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
@@ -26,9 +26,9 @@ The project follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 (horizontal rule separates grouped entries within same version)
 ```
 
-## Extraction Methods
+## Extraction methods
 
-### By Version (`/guide-recap v3.20.5`)
+### By version (`/guide-recap v3.20.5`)
 
 1. Read CHANGELOG.md
 2. Find line matching `## [3.20.5]`
@@ -41,7 +41,7 @@ The project follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 2. Skip `## [Unreleased]`
 3. Extract first `## [X.Y.Z]` block (= latest released version)
 
-### By Week (`/guide-recap week` or `/guide-recap week 2026-01-27`)
+### By week (`/guide-recap week` or `/guide-recap week 2026-01-27`)
 
 1. Determine date range:
    - `week` with no date: Monday of current week -> today
@@ -50,7 +50,7 @@ The project follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 3. Collect all `## [X.Y.Z] - YYYY-MM-DD` entries where date falls in range
 4. Aggregate all entries across versions
 
-## Entry Structure
+## Entry structure
 
 Each top-level bullet under `### Added/Changed/Fixed` is one **entry**. Parse:
 
@@ -65,7 +65,7 @@ Each top-level bullet under `### Added/Changed/Fixed` is one **entry**. Parse:
 | `metrics` | Numbers in description | `227 -> 257`, `+522 lines`, `4 new` |
 | `score` | Evaluation score if present | `Score: 4/5` |
 
-## Category Classification
+## Category classification
 
 Each entry gets exactly one category with a weight:
 
@@ -77,7 +77,7 @@ Each entry gets exactly one category with a weight:
 | `FIX` | 1 | Bug fixes, corrections, accuracy improvements |
 | `MAINTENANCE` | 0 | README updates, badge updates, count syncs, landing syncs |
 
-### Classification Rules
+### Classification rules
 
 1. If entry creates a new `.md` file or new section -> `NEW_CONTENT`
 2. If entry contains `-> ` with numbers (growth) -> `GROWTH_METRIC`
@@ -99,7 +99,7 @@ Each entry gets exactly one category with a weight:
 "README.md: Added Visual Reference to table" -> MAINTENANCE (nav update)
 ```
 
-## Scoring Algorithm
+## Scoring algorithm
 
 For each entry, compute:
 
@@ -121,7 +121,7 @@ score = (category_weight * 3)
 | `impact_files` | 0-3 | Count of distinct files mentioned (capped at 3) |
 | `breaking` | 0 or 1 | Entry is under `### Breaking` or mentions breaking change |
 
-### Score Interpretation
+### Score interpretation
 
 | Score | Action |
 |-------|--------|
@@ -132,7 +132,7 @@ score = (category_weight * 3)
 
 Select top 3-4 entries by score. If all scores < 3, flag as "no social content recommended."
 
-## Week Aggregation Rules
+## Week aggregation rules
 
 When generating for a week with multiple versions:
 

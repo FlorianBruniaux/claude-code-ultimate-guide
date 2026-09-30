@@ -5,15 +5,15 @@ effort: high
 disable-model-invocation: true
 ---
 
-# /plan-pipeline:start: 5-Phase Planning
+# /plan-pipeline:start: 5-phase planning
 
 Analyze the request and produce a complete implementation plan through structured phases. No code is written. Every significant decision is recorded. Run `/clear` after this command before running `/plan-pipeline:validate`.
 
 ---
 
-## Phase 1: PRD & Design Analysis
+## Phase 1: PRD & design analysis
 
-### Step 1.1: PRD Analysis
+### Step 1.1: PRD analysis
 
 *Skip if no PRD exists (refactor, infra change, bug fix).*
 
@@ -27,7 +27,7 @@ Surface findings in 3 buckets:
 
 For each finding: present options with concrete pros/cons. Discuss with user. Record every decision in the plan file under a `## Decisions` section before moving on. Do not proceed past unresolved ambiguities.
 
-### Step 1.2: Design Analysis
+### Step 1.2: Design analysis
 
 *Skip if no UI changes are in scope.*
 
@@ -45,7 +45,7 @@ Create Design ADRs for significant UX decisions (choice of interaction pattern, 
 
 ---
 
-## Phase 2: Technical Analysis
+## Phase 2: Technical analysis
 
 Spawn 1-2 Explore agents for targeted codebase research. Run them in the background via Task tool.
 
@@ -61,7 +61,7 @@ For each significant decision:
 
 ---
 
-## Phase 3: Scope Assessment
+## Phase 3: Scope assessment
 
 Apply trigger rules to determine which research agents are needed. Present the proposed team with justification for each inclusion.
 
@@ -95,7 +95,7 @@ Wait for approval before Phase 4.
 
 ---
 
-## Phase 4: Research & Plan Creation
+## Phase 4: Research & plan creation
 
 **Tier 0**: Conduct inline research. Write plan directly without spawning agents.
 
@@ -147,13 +147,13 @@ Commit: plan file + ADR files + agent report manifests.
 
 ---
 
-## Phase 5: Finalize Metrics
+## Phase 5: Finalize metrics
 
 Record timestamps, phase durations, agent counts, and cost estimates in `docs/plans/metrics/{name}.json`. Commit.
 
 ---
 
-## Auto-Transition
+## Auto-transition
 
 If Phase 1 produced no unresolved ambiguities and Phase 2 produced no unresolved decisions: auto-start `/plan-pipeline:validate` without asking.
 
@@ -169,13 +169,13 @@ If any human discussion occurred: ask "Ready to validate this plan?" before proc
 
 Provide the feature description or point to a PRD file when prompted. The command handles the rest interactively.
 
-## When to Use
+## When to use
 
 Use for any non-trivial feature: anything touching more than 2 files, involving architecture decisions, or where a planning mistake would be expensive to undo.
 
 For simple changes (typos, trivial refactors): use `/plan` mode instead.
 
-## Pipeline Position
+## Pipeline position
 
 ```
 /plan-pipeline:ceo-review    → product direction locked

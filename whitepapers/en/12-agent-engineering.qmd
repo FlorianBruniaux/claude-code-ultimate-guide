@@ -42,7 +42,7 @@ lang: en
 
 > **In 5 lines:** Agents are crossing from "augmented autocomplete" to autonomous loops capable of spending days on a codebase. This regime change is not an automatic gain: a randomized controlled trial (RCT) on experienced developers (METR, Model Evaluation and Threat Research, n=16) measures 19% longer completion time despite a positive perception of +24%. Productivity returns when teams master three things: a properly architected harness (executability, inspectability, statefulness), a CI/CD (Continuous Integration / Continuous Delivery) pipeline instrumented for continuous evaluation, and HITL (Human-in-the-Loop) governance that holds at scale while preserving meaningful review of consequential actions.
 
-# The L2-L3 Threshold and the Productivity J-curve
+# The L2-L3 threshold and the productivity J-curve
 
 Agent adoption is no longer a debate. Stack Overflow 2025 (n=49,000+) reports 84% adoption among professional developers, 51% daily use, and 31% who now operate agents rather than just autocomplete. DeputyDev observed natural diffusion across a 300-person team go from 4% adoption in month one to 83% in month six, stabilizing around 60%. So the question is not whether teams use agents. The question is what happens when the first teams cross from L2 (interactive multi-file assistance) into L3 (autonomous multi-hour sessions on real repositories), and why their metrics often get worse before they get better.
 
@@ -75,7 +75,7 @@ The macro layer adds another piece to the puzzle. Erik Brynjolfsson reported in 
 
 What this means operationally is that the dip is real, it lands on the teams crossing L3 first, and it shows up in measurement before it shows up in perception. Teams get through it by changing three things at once: harness architecture, CI/CD instrumentation, and governance. The next six sections cover those three changes.
 
-# Code as Agent Harness
+# Code as agent harness
 
 The conversation about agents usually centers on the model: provider, checkpoint, and context window. The reproducible unit is the **model-harness pair** under a named task set and budget. The harness controls the agentic loop, context, tools, permissions, state, and verification; the model and harness can each remain the binding constraint.
 
@@ -115,7 +115,7 @@ Sandboxing infrastructure has matured fast. The Kubernetes SIG agent-sandbox pro
 Survey arXiv 2509.19185 found that 70% of test effort in agentic apps targets deterministic components and less than 5% targets the Plan Body. Less than 1% of those apps use any formal evaluation framework. If your test pyramid for agents looks like your test pyramid for a stateless REST API, you are testing the wrong layer.
 :::
 
-# Agentic CI/CD in Production
+# Agentic CI/CD in production
 
 The transition from experimentation to product happened in 2026. GitHub, AWS, GitLab, and Anthropic now ship managed agentic CI/CD platforms with documented capabilities and documented limits. The question is no longer "should we adopt", it is "what does the state of the art actually do today, and where does it stop".
 
@@ -147,7 +147,7 @@ Anthropic Claude Managed Agents provides a managed runtime with cross-session ch
 | GitLab CI Expert | Beta (18.11) | Natural language CI assistance | Not GA |
 | Anthropic Claude Managed Agents | GA | Runtime, checkpointing, scoped perms | Anthropic API only |
 
-## Claude Code: Native Workflow Primitives
+## Claude Code: Native workflow primitives
 
 Anthropic has shipped its own answer to the managed-orchestration question since v2.1.154 (May 28, 2026), directly inside the CLI most readers of this document already use. Dynamic Workflows (trigger keyword `ultracode`, renamed from `workflow` in v2.1.160) are JavaScript scripts that orchestrate tens to hundreds of subagents in a single session through four primitives: `agent()` launches an isolated subagent with its own context window, `parallel()` runs several thunks concurrently and returns results in input order, `pipeline()` chains sequential steps, and `phase()` groups calls under a label visible in the `/workflows` interface. The orchestrator script itself consumes zero tokens; only each `agent()` call is billed.
 
@@ -159,11 +159,11 @@ For this document's central thesis, that the harness is the engineering unit, th
 
 Practitioner case studies follow the pattern of self-reported wins. Plane, a CodeRabbit customer, reports 50% reduction in review time and 4x faster merges with no control group. These numbers are real for that team, and they do not necessarily generalize. The lesson from this section is to combine the independent benchmarks (c-CRAB, Code Review Bench), the platform documented limits, and your own measurement, rather than picking the most impressive case-study number and assuming it transfers.
 
-# The Agent Ecosystem in 2026
+# The agent ecosystem in 2026
 
 Claude Code is one of several viable tools for teams crossing the L3 threshold. Since 2024, three categories of agents have emerged with fundamentally different usage models: interactive terminal agents (pair programmers), autonomous agents (assign and come back), and multi-agent frameworks (build your own). Using the wrong category for the work regime is a common source of wasted effort: an interactive tool in an async workflow burns developer attention; an autonomous agent on a task that requires continuous judgment produces output nobody trusts.
 
-## Terminal Agents: Direct Alternatives
+## Terminal agents: Direct alternatives
 
 **Codex CLI** is OpenAI's terminal agent for inspecting files, changing code and running local tools. It supports interactive work, `codex exec` automation and delegated subtasks. Select the model and reasoning effort exposed by the installed client and account; older lists of GPT-4o/o3/o4-mini are not a current model catalog. Compare the whole model-runtime combination on representative tasks, including permissions, verification, usage limits and cost. See the [official Codex CLI documentation](https://learn.chatgpt.com/docs/codex/cli).
 
@@ -171,7 +171,7 @@ Claude Code is one of several viable tools for teams crossing the L3 threshold. 
 
 **Aider** (Aider-AI/aider, 45,400+ stars, Apache 2.0, Python) predates Claude Code and established several conventions the field subsequently adopted: git auto-commits with descriptive messages, whole-file editing format, and multi-model support via LiteLLM. Mature, well-documented, 5.3M+ PyPI downloads. The right call for teams wanting multi-model support in a lighter package than Hermes. Release cadence has slowed since mid-2025 (v0.86.0, August 2025), which makes it stable but less reactive to the latest model capabilities.
 
-## Autonomous Agents: Assign and Come Back
+## Autonomous agents: Assign and come back
 
 The interaction model differs fundamentally from terminal agents. You describe a task, step away, and return to a pull request. The quality of the task specification shapes the output quality more than the choice of agent.
 
@@ -179,7 +179,7 @@ The interaction model differs fundamentally from terminal agents. You describe a
 
 **SWE-agent** (Princeton NLP Group, NeurIPS 2024, 19,300+ stars, MIT) was designed specifically for resolving GitHub issues from a URL alone: pass it an issue, it produces a patch. Its Agent-Computer Interface (ACI) architecture demonstrated that agent performance correlates strongly with environment quality, not just model power. Claude Code in headless mode (`claude -p`) is the non-academic production equivalent for teams that want this pattern running in CI.
 
-## Multi-Agent Frameworks: Build vs Use
+## Multi-Agent frameworks: Build vs use
 
 CrewAI (52,300+ stars), LangGraph (33,100+ stars), and AutoGen/MAF (Microsoft) are libraries for building custom agent systems, not coding tools. For teams on Claude Code, the native orchestration (subagents, parallelization, and the Dynamic Workflow primitives from section 3) covers most L3 requirements. These frameworks become relevant in three situations: coordinating heterogeneous agents across different models and stacks, building processing pipelines that do not fit the interactive coding model, or integrating domain-specific business logic with no native equivalent. LangGraph provides the finest control through an explicit state graph with durable execution. CrewAI is faster to deploy for role-based multi-agent workflows. Neither replaces Claude Code; both orchestrate it alongside other tools.
 
@@ -195,11 +195,11 @@ CrewAI (52,300+ stars), LangGraph (33,100+ stars), and AutoGen/MAF (Microsoft) a
 
 Full coverage with configurations and detailed comparisons: [Agent Tools: Beyond Claude Code](https://cc.bruniaux.com/guide/ecosystem/agentic-tools/).
 
-## Select a Harness Without Mixing Data Sets
+## Select a harness without mixing data sets
 
 Selection starts with the job to be done and the acceptable level of responsibility, not a global ranking. Separating the runtime that owns the loop, the repository contract that bounds the change, and the orchestrator that coordinates several sessions prevents one category from being asked to solve another category's problem.
 
-## Loop, Graph, Harness, and Orchestrator: Four Views, Not Four Substitutes
+## Loop, graph, harness, and orchestrator: Four views, not four substitutes
 
 The four words answer different questions. Treating them as competing product categories hides the boundary that matters.
 
@@ -226,7 +226,7 @@ Five evidence surfaces answer different decisions. The strict table in the [Agen
 
 The JSON retains links, verification date, scope, and the values `confirmed`, `claimed`, `unknown`, or `not_applicable`. A `claimed` value records a source assertion, not confirmed by mechanism evidence. An `unknown` value means a decision-relevant point has not yet been established, including after reading the public docs. These statuses apply to observed mechanisms and sourced capabilities, not to terminology labels. This model helps distinguish demonstrated capability from a source assertion or missing data. The selection criteria and trial protocol are in the [Agent Harness Map](https://cc.bruniaux.com/guide/agent-harness-landscape/); the terminology synthesis is in [Loop & Graph Engineering](https://cc.bruniaux.com/guide/loop-graph-engineering/), and definitions remain in the [glossary](https://cc.bruniaux.com/guide/glossary/).
 
-## Harness Optimizers and Meta-Harnesses
+## Harness optimizers and meta-harnesses
 
 A harness optimizer proposes changes to prompts, context policy, tools, memory, control flow, or verification, then evaluates candidate versions. A meta-harness adds an outer search loop around that process. It does not replace the runtime harness that executes user tasks or the orchestrator that schedules runs.
 
@@ -234,7 +234,7 @@ A harness optimizer proposes changes to prompts, context policy, tools, memory, 
 
 [HarnessOpt-Bench](https://arxiv.org/abs/2608.06301) provides the stronger current protocol: hidden tests, a trusted execution environment, explicit search budgets, and versioned candidates. A credible optimizer trial freezes the model, grader, permissions, and resource limits; separates development from held-out tasks; meters all attempts; and rejects any candidate that improves task score by weakening security or skipping verification.
 
-# Spec-Driven Development
+# Spec-driven development
 
 Test-driven development taught a generation of engineers to write the test before the code, on the bet that the act of writing the test forces clarity about intent. That bet has weakened in agentic mode. An L3 agent can write the test itself, and if the specification handed to the agent is vague, the test will be correct relative to the vague specification rather than correct relative to the actual intent. The test no longer captures intent, it captures what the agent decided the spec meant.
 
@@ -266,7 +266,7 @@ Practitioner numbers in this space are sparse and should be read with caution. A
 When the test can no longer carry intent on its own, the team needs an artifact that does. That artifact is the specification. The SDD discipline is to invest in writing specifications that are precise enough that the agent and the reviewer agree on what success looks like, before code gets generated. The team's review burden then shifts upstream from code review to specification review, which is cheaper to fix and harder to skip.
 :::
 
-# Evaluation and Observability
+# Evaluation and observability
 
 Two engineering disciplines have to grow together for agentic systems to be operable: automated test generation that keeps up with the velocity of agent-written code, and observability that surfaces problems before they reach production. Both have matured in the past 18 months, and both have well-documented limits that teams need to understand before relying on them.
 
@@ -308,7 +308,7 @@ Two production observability signals have emerged as particularly valuable. Agen
 
 What this all means operationally: invest in automated test generation because the gains are real and measurable, never let the creator verify its own work, instrument OpenTelemetry GenAI client attributes through a versioned adapter or frozen local schema, and treat LLM-judges as fast first-line filters rather than final arbiters. Getting evaluation right means combining multiple signals (mutation scores, independent verifiers, structured policy checks) rather than relying on any single one.
 
-# Governance and HITL at Scale
+# Governance and HITL at scale
 
 Consequential agent decisions need accountable oversight. At high request volumes, a process that asks people to approve every operation can encourage superficial review. Measure approval volume, review time, sampled decision quality and incident outcomes in your own workflow before choosing which actions may proceed automatically.
 
@@ -338,7 +338,7 @@ Strata Maverics provides multi-IdP orchestration with a native MCP (Model Contex
 
 The pattern across these tools is the same: treat agent identity as first-class, scope permissions per task rather than per agent, prefer short-lived credentials over static keys, and instrument every action with attribution that survives audit. None of this is novel from a security architecture perspective. What is new is that the volume of agent operations now forces teams to actually implement what was previously a best-practice slide deck.
 
-# What This Changes for Roles
+# What this changes for roles
 
 **Senior developer**. The work shifts from "I write" to "I design and verify". Digital Applied measures 11.4 hours per week reviewing AI code across the general population and 14 to 16 hours among heavy users, which is now the dominant time allocation rather than writing. The skill that matters most is precise specification (the SDD discipline from section 4), intent-based review rather than line-by-line syntactic review, and a working understanding of the 9 harness components from section 2 so that the agent can be instrumented correctly when it goes off the rails. Context mastery, meaning knowing what the agent currently sees and does not see, becomes a differentiating skill, because a developer who can shape the agent's working context can get a useful answer where another developer cannot. Test writing remains important, but the leverage moves to spec writing.
 
@@ -348,7 +348,7 @@ The pattern across these tools is the same: treat agent identity as first-class,
 
 **Engineering Manager**. Velocity metrics (commits per developer, PRs merged per week) inflate mechanically with agent adoption, and they say nothing about whether the team is shipping value. The only available RCT (METR Study 1, n=16, +19% completion time with a 39-point perception gap) shows that managing on developer feel rather than measurement produces systematically optimistic forecasts. Engineering managers who want to navigate the J-curve from section 1 successfully recalibrate their DORA targets around what their team actually measures, instrument the AI-specific metrics WP11 covers, and resist the temptation to treat the early adoption period as a productivity win. Communicating the dip to leadership before it shows up in the numbers avoids budget cuts at the worst possible moment.
 
-# See Also
+# See also
 
 - [Claude Code Architecture](https://cc.bruniaux.com/guide/core/architecture/): multi-agent patterns and orchestration
 - [Security and sandboxing](https://cc.bruniaux.com/guide/security/security-hardening/): Lethal Trifecta and recommended configurations
@@ -364,7 +364,7 @@ The pattern across these tools is the same: treat agent identity as first-class,
 
 *Version 3.43.0 | September 2026*
 
-# The Series
+# The series
 
 This collection covers Claude Code practices from initial adoption to advanced engineering. Thirteen whitepapers, from effective prompts to autonomous agent governance.
 

@@ -1,8 +1,8 @@
-# Landing Page Pattern Reference
+# Landing page pattern reference
 
 Documentation of the established landing page pattern used in `claude-code-ultimate-guide-landing` and `claude-cowork-guide-landing`.
 
-## Tech Stack
+## Tech stack
 
 | Component | Choice | Rationale |
 |-----------|--------|-----------|
@@ -12,7 +12,7 @@ Documentation of the established landing page pattern used in `claude-code-ultim
 | Deployment | GitHub Pages + Actions | Free, automatic, reliable |
 | Search | MiniSearch with fallback | Client-side, fast, no backend needed |
 
-## File Structure
+## File structure
 
 ```
 project-landing/
@@ -30,9 +30,9 @@ project-landing/
     └── static.yml          # Pages deployment
 ```
 
-## HTML Structure
+## HTML structure
 
-### Document Head
+### Document head
 
 ```html
 <!DOCTYPE html>
@@ -67,7 +67,7 @@ project-landing/
 </head>
 ```
 
-### Body Structure
+### Body structure
 
 ```html
 <body>
@@ -94,7 +94,7 @@ project-landing/
 </body>
 ```
 
-## Section Patterns
+## Section patterns
 
 ### Header
 
@@ -125,7 +125,7 @@ project-landing/
 </header>
 ```
 
-### Hero Section
+### Hero section
 
 ```html
 <section class="hero">
@@ -148,7 +148,7 @@ project-landing/
 </section>
 ```
 
-### Risk Banner (Optional)
+### Risk banner (optional)
 
 ```html
 <div class="risk-banner" role="alert">
@@ -162,7 +162,7 @@ project-landing/
 </div>
 ```
 
-### Features Grid
+### Features grid
 
 ```html
 <section id="features" class="features">
@@ -180,7 +180,7 @@ project-landing/
 </section>
 ```
 
-### Code Block with Copy
+### Code block with copy
 
 ```html
 <div class="code-block">
@@ -194,7 +194,7 @@ project-landing/
 </div>
 ```
 
-### FAQ Section
+### FAQ section
 
 ```html
 <section id="faq" class="faq">
@@ -237,9 +237,9 @@ project-landing/
 </footer>
 ```
 
-## CSS Architecture
+## CSS architecture
 
-### Custom Properties (Theme)
+### Custom properties (theme)
 
 ```css
 :root {
@@ -289,7 +289,7 @@ project-landing/
 }
 ```
 
-### Component Patterns
+### Component patterns
 
 ```css
 /* Container */
@@ -344,7 +344,7 @@ project-landing/
 }
 ```
 
-### Responsive Breakpoints
+### Responsive breakpoints
 
 ```css
 /* Tablet */
@@ -362,9 +362,9 @@ project-landing/
 }
 ```
 
-## JavaScript Patterns
+## JavaScript patterns
 
-### Search Implementation
+### Search implementation
 
 ```javascript
 (function() {
@@ -399,7 +399,7 @@ project-landing/
 })();
 ```
 
-### Copy Code Function
+### Copy code function
 
 ```javascript
 async function copyCode(button) {
@@ -420,7 +420,7 @@ async function copyCode(button) {
 
 ## Deployment
 
-### GitHub Actions Workflow
+### GitHub Actions workflow
 
 ```yaml
 name: Deploy to GitHub Pages
@@ -455,7 +455,7 @@ jobs:
         uses: actions/deploy-pages@v4
 ```
 
-## Accessibility Checklist
+## Accessibility checklist
 
 - [ ] Skip link to main content
 - [ ] Semantic HTML (header, main, section, footer)
@@ -466,7 +466,7 @@ jobs:
 - [ ] Reduced motion respect
 - [ ] Alt text on images
 
-## SEO Checklist
+## SEO checklist
 
 - [ ] Descriptive title tag
 - [ ] Meta description

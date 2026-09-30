@@ -7,11 +7,11 @@ argument-hint: "[path (default: every discovered skill root)]"
 effort: medium
 ---
 
-# Skill Evaluator
+# Skill evaluator
 
 Discover every skill in scope, classify its distribution profile, score it on eight criteria, and keep structural validity separate from routing evidence. Every score states the host and profile it applies to.
 
-## When to Use
+## When to use
 
 - Before committing or publishing a skill
 - After bulk-importing skills from another project or library
@@ -58,7 +58,7 @@ find .claude/commands -name '*.md' ! -name 'README*' 2>/dev/null
 
 ---
 
-## Distribution Profiles
+## Distribution profiles
 
 Classify each skill before scoring it. The profile decides which fields are valid.
 
@@ -74,7 +74,7 @@ A skill published to several profiles follows their intersection. Keeping host-s
 
 ---
 
-## Claude Code Frontmatter Reference
+## Claude Code frontmatter reference
 
 Claude Code reads frontmatter only when the opening `---` is the file's first line. It ignores an unknown field without reporting an error. When the YAML does not parse, the skill loads with no fields set: `/name` still works, but Claude cannot match the description. Detect parse failures with `claude plugin validate <skills-dir>` (Claude Code v2.1.233 or later). Boolean fields accept `yes`, `no`, `on`, `off`, `1`, and `0` in any case from v2.1.218.
 
@@ -103,7 +103,7 @@ Claude Code reads frontmatter only when the opening `---` is the file's first li
 
 Fields outside this table, such as `tags`, `category`, `keywords`, `usage`, or `args`, have no effect in Claude Code and break an Agent Skills upload. Flag them.
 
-### String Substitutions
+### String substitutions
 
 | Placeholder | Meaning |
 |---|---|
@@ -119,7 +119,7 @@ Fields outside this table, such as `tags`, `category`, `keywords`, `usage`, or `
 
 An indexed placeholder with no matching argument stays in the text unchanged. Escape a literal `$` before a digit, `ARGUMENTS`, or a declared name with a single backslash, as in `\$1.00`. Placeholders such as `${ARGS}` or `%ARGUMENTS%` are passed as literal text. The Codex skills documentation does not describe argument substitution: record Codex behavior for these placeholders as `UNKNOWN` rather than assuming it.
 
-### Listing Budget
+### Listing budget
 
 - **Claude Code:** the skill listing gets 1% of the model's context window. Each entry's combined `description` and `when_to_use` is capped at 1,536 characters, configurable with `skillListingMaxDescChars`. `skillListingBudgetFraction` or `SLASH_COMMAND_TOOL_CHAR_BUDGET` raise the budget. On overflow, descriptions of the least-invoked skills are dropped first. `skillOverrides` set to `"name-only"` frees budget. `/skill-doctor` (v2.1.252 or later) reports cost and usage per skill.
 - **Codex:** the initial list uses at most 2% of the context window, or 8,000 characters when the window is unknown. Codex shortens descriptions first and may omit skills with a warning.
@@ -186,7 +186,7 @@ Apply three checks sentence by sentence:
 
 ---
 
-## Producing Routing Evidence
+## Producing routing evidence
 
 Never award a routing point without a recorded run. Record `UNKNOWN` for a host that was not tested.
 
@@ -199,7 +199,7 @@ Never award a routing point without a recorded run. Record `UNKNOWN` for a host 
 
 ---
 
-## Effort Level Inference
+## Effort level inference
 
 Infer a level from the description and body. Report it as a recommendation for Claude Code native skills only.
 
@@ -216,7 +216,7 @@ If a declared `effort` differs from the inference, flag it:
 
 ---
 
-## Execution Instructions
+## Execution instructions
 
 ### Step 1: Discover
 
@@ -288,7 +288,7 @@ Routing evidence: N both hosts · N one host · N UNKNOWN
 
 ---
 
-## Fix Summary Format
+## Fix summary format
 
 End with a copy-paste block of recommended `effort` values for Claude Code native skills only, then one count line:
 

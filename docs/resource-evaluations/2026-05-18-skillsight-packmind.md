@@ -1,4 +1,4 @@
-# Resource Evaluation: Skillsight (Packmind)
+# Resource evaluation: Skillsight (Packmind)
 
 **Source:** [GitHub: PackmindHub/skillsight](https://github.com/PackmindHub/skillsight)
 **Type:** Open-source self-hosted dashboard — Claude Code skills usage analytics
@@ -9,7 +9,7 @@
 
 ---
 
-## Content Summary
+## Content summary
 
 Skillsight is a self-hosted dashboard that ingests Claude Code OTEL telemetry and visualizes which skills are actually invoked across a team or organization. Two ingestion paths: push via OTLP HTTP/JSON (Claude Code → Skillsight directly), or pull via Loki (Grafana Cloud relay). Skills usage is visible per user, per session, per plugin, with cohort segmentation.
 
@@ -59,7 +59,7 @@ Skillsight addresses a real gap: no tool in the current guide covers team-level 
 
 ---
 
-## Integration Recommendation
+## Integration recommendation
 
 **Target:** `guide/ecosystem/third-party-tools.md` — new subsection "Skills Observability"
 
@@ -80,7 +80,7 @@ Skillsight addresses a real gap: no tool in the current guide covers team-level 
 
 ---
 
-## Security Findings (Audit Summary)
+## Security findings (audit summary)
 
 Four findings are worth flagging to any operator before self-hosting:
 
@@ -94,7 +94,7 @@ Four findings are worth flagging to any operator before self-hosting:
 
 ---
 
-## Architecture Highlights
+## Architecture highlights
 
 The hexagonal architecture is real, not cargo-cult: ports are interfaces, use cases depend on abstractions, test coverage uses in-memory fakes with meaningful behavioral assertions. The PostgreSQL schema has proper constraints (FK, NOT NULL, functional indexes including partial JSONB indexes).
 
@@ -106,7 +106,7 @@ Three structural issues worth noting:
 
 ---
 
-## Docs & DX Findings
+## Docs & DX findings
 
 Two issues directly block first-time setup:
 
@@ -118,7 +118,7 @@ Onboarding experience is otherwise well-designed: the UI page auto-generates a c
 
 ---
 
-## Fact-Check
+## Fact-check
 
 | Claim | Verified | Source |
 |-------|----------|--------|
@@ -136,7 +136,7 @@ Onboarding experience is otherwise well-designed: the UI page auto-generates a c
 
 ---
 
-## Final Decision
+## Final decision
 
 - **Score**: 3/5
 - **Action**: Integrate with explicit caveats

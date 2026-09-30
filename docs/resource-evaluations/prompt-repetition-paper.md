@@ -1,4 +1,4 @@
-# Evaluation: Prompt Repetition Paper (arXiv:2512.14982)
+# Evaluation: Prompt repetition paper (arXiv:2512.14982)
 
 **Date**: 2026-01-25
 **Paper**: "Prompt Repetition Improves Non-Reasoning LLMs"
@@ -8,9 +8,9 @@
 
 ---
 
-## 1. Findings Summary
+## 1. Findings summary
 
-### Core Claim
+### Core claim
 Repeating the input prompt 2x improves accuracy for LLMs **without reasoning mode**, without increasing output length or latency.
 
 ### Tested Models (directly from paper)
@@ -23,7 +23,7 @@ Repeating the input prompt 2x improves accuracy for LLMs **without reasoning mod
 ### Benchmarks
 ARC (Challenge), OpenBookQA, GSM8K, MMLU-Pro, MATH, NameIndex, MiddleMatch
 
-### Key Results
+### Key results
 | Metric | Value |
 |--------|-------|
 | Wins (no reasoning) | 47/70 benchmark-model combinations |
@@ -39,7 +39,7 @@ ARC (Challenge), OpenBookQA, GSM8K, MMLU-Pro, MATH, NameIndex, MiddleMatch
 
 ## 2. Relevance to Claude Code
 
-### Model Situation (Jan 2026)
+### Model situation (Jan 2026)
 
 | Model | Thinking Mode | Prompt Repetition Applicable? |
 |-------|---------------|-------------------------------|
@@ -47,7 +47,7 @@ ARC (Challenge), OpenBookQA, GSM8K, MMLU-Pro, MATH, NameIndex, MiddleMatch
 | Sonnet 4 | Not available | YES - could benefit |
 | Haiku 3.5 | Not available | YES - could benefit |
 
-### The Problem
+### The problem
 
 Claude Code uses:
 - **Sonnet as default** (85% of usage per guide stats)
@@ -56,7 +56,7 @@ Claude Code uses:
 
 The paper's technique is specifically for **non-reasoning** scenarios. This makes it potentially relevant for Sonnet/Haiku in Claude Code.
 
-### The Catch
+### The catch
 
 1. **Input token cost doubles**: Repeating prompt = 2x input tokens
 2. **Claude Code context is already under pressure**: Guide emphasizes context management (100K practical limit)
@@ -65,14 +65,14 @@ The paper's technique is specifically for **non-reasoning** scenarios. This make
 
 ---
 
-## 3. Community Reception
+## 3. Community reception
 
-### Academic Impact (as of 2026-01-25)
+### Academic impact (as of 2026-01-25)
 - **Citations**: 0 (paper is 5 weeks old)
 - **Semantic Scholar**: Listed, no citations
 - **Replications**: None found
 
-### Community Discussion
+### Community discussion
 - **Hacker News**: 5+ submissions, max 3 points, 0 comments
 - **Reddit r/MachineLearning**: No relevant posts
 - **Reddit r/LocalLLaMA**: No relevant posts
@@ -83,9 +83,9 @@ Extremely low community engagement. No independent validation. No practical adop
 
 ---
 
-## 4. Practical Considerations for Claude Code
+## 4. Practical considerations for Claude Code
 
-### Hypothetical Hook Implementation
+### Hypothetical hook implementation
 
 ```bash
 # pre-prompt-hook.sh (EXPERIMENTAL)
@@ -102,7 +102,7 @@ else
 fi
 ```
 
-### Problems with This Approach
+### Problems with this approach
 
 1. **No API access to modify prompts in Claude Code** - hooks can't intercept user input
 2. **Would need SDK-level changes** - not a user-configurable feature
@@ -111,7 +111,7 @@ fi
 
 ---
 
-## 5. Evaluation Matrix
+## 5. Evaluation matrix
 
 | Criterion | Score | Notes |
 |-----------|-------|-------|
@@ -140,14 +140,14 @@ fi
 
 5. **Niche application**: Even if valid, it only helps on specific benchmark-style tasks (multiple choice, math) - not the open-ended coding tasks Claude Code handles.
 
-### What Could Change This
+### What could change this
 
 - Independent replications with Claude Sonnet 4
 - Real-world adoption reports from Claude Code users
 - Anthropic acknowledgment or integration
 - Evidence that accuracy gains outweigh 2x input cost
 
-### Alternative Recommendation
+### Alternative recommendation
 
 If users want better accuracy on Sonnet:
 - Use **OpusPlan** (Opus for planning, Sonnet for execution) - already documented
@@ -158,7 +158,7 @@ These are proven techniques in the guide that don't double costs.
 
 ---
 
-## 7. Files to NOT Update
+## 7. Files to NOT update
 
 - `guide/ultimate-guide.md` - No integration
 - `examples/hooks/` - No experimental hook
@@ -166,7 +166,7 @@ These are proven techniques in the guide that don't double costs.
 
 ---
 
-## 8. Archive Decision
+## 8. Archive decision
 
 **Action**: Keep this evaluation in `claudedocs/resource-evaluations/` for future reference.
 

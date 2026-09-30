@@ -7,18 +7,18 @@ agent: specialist
 effort: high
 ---
 
-# Design Patterns Analyzer Skill
+# Design patterns analyzer skill
 
 **Purpose**: Detect, suggest, and evaluate Gang of Four (GoF) design patterns in TypeScript/JavaScript codebases with stack-aware adaptations.
 
-## Core Capabilities
+## Core capabilities
 
 1. **Stack Detection**: Identify primary framework/library (React, Angular, NestJS, Vue, Express, RxJS, Redux, ORMs)
 2. **Pattern Detection**: Find existing implementations of 23 GoF patterns
 3. **Smart Suggestions**: Recommend patterns to fix code smells, using stack-native idioms when available
 4. **Quality Evaluation**: Assess pattern implementation quality against best practices
 
-## Operating Modes
+## Operating modes
 
 ### Mode 1: Detection
 
@@ -82,7 +82,7 @@ effort: high
 
 ## Methodology
 
-### Phase 1: Stack Detection
+### Phase 1: Stack detection
 
 **Sources** (in priority order):
 1. `package.json` -> Check dependencies and devDependencies
@@ -113,7 +113,7 @@ effort: high
 }
 ```
 
-### Phase 2: Pattern Detection
+### Phase 2: Pattern detection
 
 **Search Strategy**:
 1. **Glob Phase**: Find candidate files by naming convention
@@ -141,7 +141,7 @@ effort: high
 - `custom`: Manual TypeScript implementation
 - `library`: Third-party library providing pattern (RxJS Subject, Redux Store, etc.)
 
-### Phase 3: Code Smell Detection
+### Phase 3: Code smell detection
 
 **Target Smells** (from `signatures/code-smells.yaml`):
 1. **Switch on Type** -> Strategy/Factory pattern
@@ -162,7 +162,7 @@ effort: high
 - Find state conditionals: `if.*state.*===.*&&.*if.*state.*===`
 - Find notification patterns: `forEach.*notify`, `map.*\.emit\(`
 
-### Phase 4: Stack-Aware Suggestions
+### Phase 4: Stack-Aware suggestions
 
 **Adaptation Logic** (from `signatures/stack-patterns.yaml`):
 
@@ -192,7 +192,7 @@ ELSE IF pattern_implemented_incorrectly:
 | Chain of Responsibility | Express | Middleware (`app.use()`) | Use Express middleware chain |
 | Command | Redux | Action creators + reducers | Use Redux actions, not custom command objects |
 
-### Phase 5: Quality Evaluation
+### Phase 5: Quality evaluation
 
 **Criteria** (from `checklists/pattern-evaluation.md`):
 1. **Correctness (0-10)**: Does it match the canonical pattern structure?
@@ -215,9 +215,9 @@ ELSE IF pattern_implemented_incorrectly:
 - Missing error handling
 - Poor naming (Strategy1, Strategy2 instead of descriptive names)
 
-## Output Formats
+## Output formats
 
-### Detection Mode (JSON)
+### Detection mode (JSON)
 
 ```json
 {
@@ -287,7 +287,7 @@ ELSE IF pattern_implemented_incorrectly:
 }
 ```
 
-### Suggestion Mode (Markdown)
+### Suggestion mode (markdown)
 
 ```markdown
 # Design Pattern Suggestions
@@ -415,7 +415,7 @@ const CartDisplay = () => {
 - **Primary benefits**: Reduced complexity, improved testability, stack-native idioms
 ```
 
-### Evaluation Mode (JSON)
+### Evaluation mode (JSON)
 
 ```json
 {
@@ -480,31 +480,31 @@ const CartDisplay = () => {
 }
 ```
 
-## Constraints & Guidelines
+## Constraints & guidelines
 
-### Read-Only Analysis
+### Read-only analysis
 - **No modifications**: This skill only analyzes and suggests, never modifies code
 - **No file creation**: Does not generate refactored code files
 - **User decision**: All suggestions require explicit user approval before implementation
 
-### Language Focus
+### Language focus
 - **Primary**: TypeScript (`.ts`, `.tsx`)
 - **Secondary**: JavaScript (`.js`, `.jsx`)
 - **Exclusions**: Other languages (Python, Java, C#) not supported
 
-### Pattern Coverage
+### Pattern coverage
 - **Creational (5)**: Singleton, Factory Method, Abstract Factory, Builder, Prototype
 - **Structural (7)**: Adapter, Bridge, Composite, Decorator, Facade, Flyweight, Proxy
 - **Behavioral (11)**: Chain of Responsibility, Command, Iterator, Mediator, Memento, Observer, State, Strategy, Template Method, Visitor, Interpreter
 
-### Performance Considerations
+### Performance considerations
 - **Large codebases (>500 files)**: Use `--scope` to limit scan to specific directories
 - **Parallel search**: Grep searches run independently for each pattern
 - **Caching**: Stack detection results cached per session to avoid redundant package.json reads
 
-## Usage Examples
+## Usage examples
 
-### Basic Detection
+### Basic detection
 ```bash
 # Detect all patterns in src/
 /design-patterns detect src/
@@ -516,7 +516,7 @@ const CartDisplay = () => {
 /design-patterns detect src/ --pattern=singleton
 ```
 
-### Targeted Suggestions
+### Targeted suggestions
 ```bash
 # Get suggestions for payment module
 /design-patterns suggest src/payment/
@@ -528,7 +528,7 @@ const CartDisplay = () => {
 /design-patterns suggest src/ --priority=high
 ```
 
-### Quality Evaluation
+### Quality evaluation
 ```bash
 # Evaluate specific file
 /design-patterns evaluate src/services/api-client.ts
@@ -540,14 +540,14 @@ const CartDisplay = () => {
 /design-patterns evaluate src/ --detailed
 ```
 
-## Integration with Other Skills
+## Integration with other skills
 
 This skill can be inherited by:
 - `refactoring-specialist.md`: Provides pattern knowledge for refactoring
 - `code-reviewer.md`: Adds pattern detection to review process
 - `architecture-advisor.md`: Informs architectural decisions with pattern usage
 
-## Reference Files
+## Reference files
 
 - `reference/patterns-index.yaml`: Machine-readable index of 23 patterns with metadata
 - `reference/creational.md`: Creational patterns documentation

@@ -24,7 +24,7 @@ format:
 | **Audience** | Développeurs | Devs + métier | Équipe entière |
 | **Feedback** | Tests pass/fail | Scénarios validés | Spec implémentée |
 
-## TDD avec Claude : Red-Green-Refactor
+## TDD avec Claude : Red-green-refactor
 
 Le cycle classique, rendu explicite dans les prompts pour éviter que Claude ne saute directement à l'implémentation.
 
@@ -43,7 +43,7 @@ Le cycle classique, rendu explicite dans les prompts pour éviter que Claude ne 
 
 Être explicite sur "FAILING" et "n'existe pas encore" compte, sinon Claude tend à écrire test et implémentation ensemble.
 
-## BDD avec Claude : Given/When/Then
+## BDD avec Claude : Given/when/then
 
 ```bash
 > "Décris le comportement de la page de login
@@ -80,7 +80,7 @@ Les trois méthodes reposent sur le même principe identifié par Boris Cherny :
 | Style | ESLint / Prettier |
 | Sécurité | Semgrep, analyseurs statiques |
 
-## Chain-of-Verification
+## Chain-of-verification
 
 Pattern de validation croisée (arXiv:2309.11495) pour réduire les hallucinations : Claude génère une réponse, puis génère des questions de vérification sur cette réponse, puis répond à ces questions pour détecter les incohérences.
 

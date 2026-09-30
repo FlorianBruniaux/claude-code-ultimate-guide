@@ -1,4 +1,4 @@
-# Resource Evaluation: Claude Code Remote Control
+# Resource evaluation: Claude Code Remote Control
 
 **Date**: 2026-02-25
 **Evaluator**: Claude (claude-sonnet-4-6)
@@ -18,7 +18,7 @@
 
 ---
 
-## 1. Content Summary
+## 1. Content summary
 
 Remote Control allows continuing a local Claude Code session from a phone, tablet, or web browser (claude.ai/code or Claude mobile app on iOS/Android).
 
@@ -39,7 +39,7 @@ Remote Control allows continuing a local Claude Code session from a phone, table
 
 ---
 
-## 2. Relevance Score
+## 2. Relevance score
 
 **Score: 4/5 — Very Relevant (significant improvement)**
 
@@ -59,7 +59,7 @@ Remote Control allows continuing a local Claude Code session from a phone, table
 
 ---
 
-## 3. Gap Analysis
+## 3. Gap analysis
 
 | Aspect | Doc officielle Anthropic | Notre guide |
 |--------|--------------------------|-------------|
@@ -75,7 +75,7 @@ Remote Control allows continuing a local Claude Code session from a phone, table
 
 ---
 
-## 4. Integration Recommendations
+## 4. Integration recommendations
 
 ### Files to modify
 
@@ -99,7 +99,7 @@ Remote Control allows continuing a local Claude Code session from a phone, table
 
 ---
 
-## 5. Challenge (Technical Review)
+## 5. Challenge (technical review)
 
 **Score adjusted: 4/5** (down from 5)
 
@@ -123,7 +123,7 @@ Remote Control allows continuing a local Claude Code session from a phone, table
 
 ---
 
-## 6. Fact-Check
+## 6. Fact-check
 
 | Claim | Verified | Source |
 |-------|----------|--------|
@@ -141,7 +141,7 @@ Remote Control allows continuing a local Claude Code session from a phone, table
 
 ---
 
-## 7. Community Articles Found
+## 7. Community articles found
 
 | Source | Title | Date | Type |
 |--------|-------|------|------|
@@ -157,11 +157,11 @@ Remote Control allows continuing a local Claude Code session from a phone, table
 
 ---
 
-## 8. Community Feedback (FR Slack, 2026-02-25)
+## 8. Community feedback (FR Slack, 2026-02-25)
 
 Source: French-speaking developer Slack discussion (~15 messages, 7 participants)
 
-### Field Insights (Not in Official Docs)
+### Field insights (not in official docs)
 
 | Observation | Impact on guide |
 |-------------|-----------------|
@@ -173,7 +173,7 @@ Source: French-speaking developer Slack discussion (~15 messages, 7 participants
 | Server setup: 6-8 Claude sessions in tmux, no interruption while traveling | Advanced architecture to document |
 | happy.engineering = main open-source alternative now "obsolete" | Mention in comparison |
 
-### Security Concerns (Senior Devs)
+### Security concerns (senior devs)
 
 | Concern | Analysis |
 |---------|----------|
@@ -182,7 +182,7 @@ Source: French-speaking developer Slack discussion (~15 messages, 7 participants
 | Per-command permissions limit risk but "an attacker would say yes to everything" | Valid nuance: mobile approval guards against unintentional actions, not active attacker |
 | Suggestion: use on "hardened trusted workstation à la Chromebook" | Best practice to document |
 
-### Overall Sentiment
+### Overall sentiment
 
 - **Strong enthusiasm**: "KILLER FEATURE", "finally", "here it is"
 - **Immediate adoption**: several tested it within hours of announcement
@@ -192,13 +192,13 @@ Source: French-speaking developer Slack discussion (~15 messages, 7 participants
 
 ---
 
-## 9. Final Decision
+## 9. Final decision
 
 - **Final score**: 4/5
 - **Action**: Integrate this week with "Research Preview" disclaimer
 - **Confidence**: High (official doc verified, community feedback confirmed, multiple press sources)
 
-### Added Value vs Official Doc
+### Added value vs official doc
 
 Thanks to community feedback, the guide can provide **original content** not in Anthropic docs:
 

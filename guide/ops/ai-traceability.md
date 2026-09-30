@@ -4,7 +4,7 @@ description: "Industry standards, tools, and templates for AI-generated code att
 tags: [guide, git, workflows]
 ---
 
-# AI Code Traceability & Attribution
+# AI code traceability & attribution
 
 > **TL;DR**: As AI-generated code becomes ubiquitous, projects need clear attribution policies. This guide covers industry standards (LLVM, Ghostty, Fedora), practical tools (git-ai), and implementation templates.
 
@@ -12,7 +12,7 @@ tags: [guide, git, workflows]
 
 ---
 
-## Table of Contents
+## Table of contents
 
 1. [Why Traceability Matters Now](#why-traceability-matters-now)
 2. [The Disclosure Spectrum](#the-disclosure-spectrum)
@@ -26,11 +26,11 @@ tags: [guide, git, workflows]
 
 ---
 
-## Why Traceability Matters Now
+## Why traceability matters now
 
 The rise of AI coding assistants has created a new challenge: **knowing which code came from AI and which from humans**.
 
-### AI Code Halflife
+### AI code Halflife
 
 Research on git-ai tracked repositories reveals a striking metric: the **AI Code Halflife** is approximately **3.33 years** (median). This means half of AI-generated code gets replaced within 3.33 years, faster than typical code churn.
 
@@ -40,7 +40,7 @@ Why? AI code often:
 - Requires rework when requirements evolve
 - Gets replaced as developers understand the problem better
 
-### Four Drivers for Traceability
+### Four drivers for traceability
 
 | Driver | Concern | Stakeholder |
 |--------|---------|-------------|
@@ -49,7 +49,7 @@ Why? AI code often:
 | **Legal/Copyright** | Training data provenance, license ambiguity | Legal |
 | **Debugging** | Understanding "why" behind AI choices | Developers |
 
-### The Attribution Gap
+### The attribution gap
 
 Most AI coding tools (Copilot, Cursor, ChatGPT) leave **no trace** in version control. This creates:
 
@@ -61,7 +61,7 @@ Most AI coding tools (Copilot, Cursor, ChatGPT) leave **no trace** in version co
 
 ---
 
-## The Disclosure Spectrum
+## The disclosure spectrum
 
 Not all projects need the same level of attribution. Choose based on your context:
 
@@ -72,7 +72,7 @@ Not all projects need the same level of attribution. Choose based on your contex
 | **Standard** | `Assisted-by` trailer + PR disclosure | Team projects, active OSS | Framework contributions |
 | **Full** | git-ai + prompt preservation | Enterprise, compliance, research | Regulated industry code |
 
-### Choosing Your Level
+### Choosing your level
 
 **Ask these questions:**
 
@@ -82,7 +82,7 @@ Not all projects need the same level of attribution. Choose based on your contex
 4. **Is this a learning project?** → Minimal is fine
 5. **Public OSS with active maintainers?** → Check their policy
 
-### Level Progression
+### Level progression
 
 Projects often start at Minimal and move up:
 
@@ -93,9 +93,9 @@ Personal → OSS contribution → Team project → Enterprise
 
 ---
 
-## Attribution Methods
+## Attribution methods
 
-### 3.1 Co-Authored-By (Claude Code Default)
+### 3.1 Co-authored-by (Claude Code default)
 
 The simplest method. Claude Code automatically adds this to commits:
 
@@ -117,7 +117,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 - No prompt/context preservation
 - Binary (AI helped or didn't)
 
-### 3.2 Assisted-by Trailer (LLVM Standard)
+### 3.2 Assisted-by trailer (LLVM standard)
 
 LLVM's January 2026 policy introduced a more nuanced trailer:
 
@@ -143,7 +143,7 @@ Assisted-by: Claude (Anthropic)
 - Compliance contexts requiring human accountability
 - When AI provided significant help but you heavily modified
 
-### 3.3 PR/MR Disclosure (Ghostty Pattern)
+### 3.3 PR/MR disclosure (Ghostty pattern)
 
 Ghostty (terminal emulator) requires disclosure at the PR level, not commit level:
 
@@ -194,7 +194,7 @@ See [Tools & Automation](#tools--automation) for details.
 
 ---
 
-## Industry Policy Reference
+## Industry policy reference
 
 Major projects have published AI policies. Use these as templates.
 
@@ -233,7 +233,7 @@ Assisted-by: Claude (Anthropic)
 Reviewed-by: Human Developer <human@llvm.org>
 ```
 
-### 4.2 Ghostty Mandatory Disclosure (August 2025)
+### 4.2 Ghostty mandatory disclosure (August 2025)
 
 **Source:** [Ghostty CONTRIBUTING.md](https://github.com/ghostty-org/ghostty/blob/main/CONTRIBUTING.md)
 
@@ -258,7 +258,7 @@ Reviewed-by: Human Developer <human@llvm.org>
 
 **Enforcement:** Social (trust-based), not automated.
 
-### 4.3 Fedora Contributor Accountability (October 2025)
+### 4.3 Fedora contributor accountability (October 2025)
 
 **Source:** [Fedora AI Policy](https://docs.fedoraproject.org/en-US/council/policy/ai-contribution-policy/)
 
@@ -275,7 +275,7 @@ Reviewed-by: Human Developer <human@llvm.org>
 
 **Scope:** All contributions: code, docs, translations, artwork.
 
-### 4.4 Policy Comparison Matrix
+### 4.4 Policy comparison matrix
 
 | Aspect | LLVM | Ghostty | Fedora |
 |--------|------|---------|--------|
@@ -287,7 +287,7 @@ Reviewed-by: Human Developer <human@llvm.org>
 | **Scope** | Code + RFCs | Code + docs | All contributions |
 | **Human Requirement** | Must understand & defend | Must review | Must be accountable |
 
-### Implications for Your Project
+### Implications for your project
 
 **If Contributing to These Projects:**
 - Follow their specific policy
@@ -300,7 +300,7 @@ Reviewed-by: Human Developer <human@llvm.org>
 
 ---
 
-## Tools & Automation
+## Tools & automation
 
 ### 5.1 Entire CLI
 
@@ -528,7 +528,7 @@ ls .git/hooks/                    # Check for conflicts with existing hooks
 | 2-5 devs | Justified if multi-agent workflows or shared audit trail needed |
 | 5+ devs / enterprise | Strong fit (shared checkpoints, governance, compliance) |
 
-### 5.2 Automated Attribution Hook
+### 5.2 Automated attribution hook
 
 Add `Assisted-by` trailer automatically when Claude Code commits:
 
@@ -554,7 +554,7 @@ Assisted-by: Claude (Anthropic)"
 
 **Note:** This supplements, not replaces, Claude Code's default `Co-Authored-By`.
 
-### 5.3 CI/CD Integration
+### 5.3 CI/CD integration
 
 **GitHub Action to Verify Disclosure:**
 
@@ -588,9 +588,9 @@ jobs:
 
 ---
 
-## Security Implications
+## Security implications
 
-### 6.1 PromptPwnd Vulnerability
+### 6.1 PromptPwnd vulnerability
 
 **What:** A class of attacks where malicious prompts in repositories exploit AI coding assistants.
 
@@ -627,7 +627,7 @@ API_KEY = os.environ['API_KEY']
 
 See [Security Hardening](../security/security-hardening.md) for full guidance.
 
-### 6.2 Non-Determinism Risk
+### 6.2 Non-determinism risk
 
 **Finding:** Same prompt to same model can produce different code (ArXiv research, 2025).
 
@@ -655,9 +655,9 @@ git-ai can store this metadata.
 
 ---
 
-## Implementation Guide
+## Implementation guide
 
-### 7.1 Quick Start (Solo Developer)
+### 7.1 Quick start (solo developer)
 
 **Minimum viable attribution in 2 minutes:**
 
@@ -683,7 +683,7 @@ npm install -g git-ai
 git-ai init
 ```
 
-### 7.2 Team Adoption
+### 7.2 Team adoption
 
 **Recommended approach:**
 
@@ -706,7 +706,7 @@ git-ai init
    - Are reviews finding issues?
    - Adjust policy as needed
 
-### 7.3 Enterprise/Compliance
+### 7.3 Enterprise/compliance
 
 **For regulated industries (finance, healthcare, government):**
 
@@ -735,7 +735,7 @@ git-ai init
    - Mandatory human-only review for security-critical?
    - Approval workflow for AI-heavy PRs?
 
-### Evidence Collection for Auditors
+### Evidence collection for auditors
 
 When SOC2, ISO27001, or HIPAA auditors ask for evidence of AI code governance, here's what to provide and where to find it:
 
@@ -756,7 +756,7 @@ When SOC2, ISO27001, or HIPAA auditors ask for evidence of AI code governance, h
 
 ## Templates
 
-### Commit Message with Assisted-by
+### Commit message with assisted-by
 
 ```
 feat: implement rate limiting middleware
@@ -792,7 +792,7 @@ in your pull request description.
 - Grammar/spell checking
 ```
 
-### PR Template
+### PR template
 
 See full template: [examples/config/PULL_REQUEST_TEMPLATE-ai.md](../../examples/config/PULL_REQUEST_TEMPLATE-ai.md)
 
@@ -807,13 +807,13 @@ See full template: [examples/config/PULL_REQUEST_TEMPLATE-ai.md](../../examples/
 
 ---
 
-## PR Audit Trail
+## PR audit trail
 
 For regulated environments and compliance-conscious orgs, capturing a snapshot of AI activity at PR creation gives you a structured artifact that answers the question "what did Claude do during this change?" without relying on session memory.
 
 If you'd rather query history that already exists than instrument new logging, tools like [cc-sessions](https://github.com/FlorianBruniaux/cc-sessions) search and analyze Claude Code's own session transcripts directly, useful when the question comes up after the fact and no PR-time hook was in place.
 
-### The Document Chain as a Second Audit Trail
+### The document chain as a second audit trail
 
 A session log answers "what did Claude do?". It does not answer "who asked for this, and who approved it?". Anthropic's [AI-native SDLC playbook](https://claude.com/blog/the-ai-native-sdlc-playbook) (2026) gets that second answer from the documents the pipeline already commits: "Every stage commits an artifact the next stage can read. Together, the intent, the spec, the plan, the diff and the review findings are the audit trail." In the playbook's words, the chain of commits records "who asked for what, the agent produced, and who approved it."
 
@@ -824,7 +824,7 @@ A session log answers "what did Claude do?". It does not answer "who asked for t
 
 The two layers fail differently, so keep both. A document chain with no execution log cannot show that the diff matches the approved plan. An execution log with no document chain cannot show that anyone with authority asked for the change. The chain is only an audit trail if each gate records a named approver and a date in the committed file or in the PR approval; an unsigned `plan.md` in the repository proves that a plan existed, not that it was approved.
 
-### What to Capture
+### What to capture
 
 A minimal PR audit artifact contains four things:
 
@@ -833,7 +833,7 @@ A minimal PR audit artifact contains four things:
 3. **Session metadata**: session ID, timestamp, Claude Code version, model used
 4. **CLAUDE.md hash**: proof of which rules were active during the session
 
-### Session Logger Hook
+### Session logger hook
 
 This PreToolUse hook writes a structured log to `.claude/logs/activity-{date}.jsonl`:
 
@@ -855,7 +855,7 @@ echo "{\"timestamp\":\"$(date -u +%FT%TZ)\",\"session_id\":\"${SESSION_ID}\",\"t
   >> "${LOG_DIR}/activity-${DATE}.jsonl"
 ```
 
-### GitHub Actions: Capture and Upload at PR Time
+### GitHub Actions: Capture and upload at PR time
 
 Add this step to your PR workflow to collect the session log and attach it as a GitHub artifact:
 
@@ -910,7 +910,7 @@ jobs:
 
 The artifact is stored for 90 days and linked to the PR. Auditors can download it directly from the GitHub Actions tab.
 
-### Compliance Report Script
+### Compliance report script
 
 For periodic reports across all PRs:
 
@@ -940,21 +940,21 @@ jq -s '{
 echo "Report saved: $REPORT_FILE"
 ```
 
-### What This Does Not Cover
+### What this does not cover
 
 The session logger captures tool calls at the Claude Code level. It does not record what the tool actually produced, such as the file content after an edit or the output of a shell command. A third-party gateway such as the LiteLLM example in [api-gateway.md](./api-gateway.md) can add model-level request metadata and, when deliberately configured, payload logging. That covers only routed API traffic, can place sensitive prompt or completion content in another system, and does not prove which file state resulted from a request. Choose the evidence sources and logging fields from the compliance requirement and data classification rules.
 
 ---
 
-## See Also
+## See also
 
-### In This Guide
+### In this guide
 
 - [Git Workflow](#git-workflow): Claude Code's default Co-Authored-By behavior
 - [Learning with AI](../roles/learning-with-ai.md#the-vibe-coding-trap): why understanding AI code matters
 - [Security Hardening](../security/security-hardening.md): protecting against prompt injection and other attacks
 
-### External Resources
+### External resources
 
 - [git-ai Repository](https://github.com/git-ai-project/git-ai): checkpoint tracking tool
 - [LLVM AI Policy](https://llvm.org/docs/AIToolPolicy.html): Assisted-by standard

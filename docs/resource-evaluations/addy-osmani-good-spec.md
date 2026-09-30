@@ -1,4 +1,4 @@
-# Resource Evaluation: Addy Osmani - "How to write a good spec for AI agents"
+# Resource evaluation: Addy Osmani - "How to write a good spec for AI agents"
 
 **Resource**: https://addyosmani.com/blog/good-spec/
 **Author**: Addy Osmani (former Head of Chrome Developer Experience at Google, 14 years on Chrome team)
@@ -24,7 +24,7 @@ Comprehensive guide on writing effective specifications for AI coding agents (Cl
 
 ---
 
-## Scoring Breakdown
+## Scoring breakdown
 
 ### 1. Relevance to Claude Code (5/5)
 
@@ -35,7 +35,7 @@ Comprehensive guide on writing effective specifications for AI coding agents (Cl
 
 **Evidence**: Article uses Claude Code examples, references Anthropic documentation, shows command specs (`npm test`, `pytest -v`).
 
-### 2. Technical Accuracy (5/5)
+### 2. Technical accuracy (5/5)
 
 ✅ **Fact-checked**: All claims verified (2,500+ GitHub configs analysis, six core areas, three-tier boundaries)
 ✅ **Author credentials verified**: Addy Osmani (14 years Chrome, O'Reilly author) via Perplexity search
@@ -43,7 +43,7 @@ Comprehensive guide on writing effective specifications for AI coding agents (Cl
 
 **Minor correction**: Osmani left Chrome team Dec 1, 2025 (still at Google, different role).
 
-### 3. Novelty/Uniqueness (4/5)
+### 3. Novelty/uniqueness (4/5)
 
 ✅ **Modular prompts**: Not explicitly covered in our spec-first.md (new pattern)
 ✅ **Operational boundaries**: Always/Ask/Never framework missing from our binary MUST/MUST NOT
@@ -61,7 +61,7 @@ Comprehensive guide on writing effective specifications for AI coding agents (Cl
 
 **User impact**: High - reduces context overhead, improves spec clarity, provides operational framework.
 
-### 5. Source Credibility (5/5)
+### 5. Source credibility (5/5)
 
 ✅ **Professional credentials**: Google Chrome team (14 years), O'Reilly author
 ✅ **Recent publication**: Jan 13, 2026 (19 days ago) = current best practices
@@ -72,7 +72,7 @@ Comprehensive guide on writing effective specifications for AI coding agents (Cl
 
 ---
 
-## Comparative Analysis
+## Comparative analysis
 
 | Aspect | Osmani Article | Our Guide (spec-first.md) |
 |--------|----------------|---------------------------|
@@ -88,9 +88,9 @@ Comprehensive guide on writing effective specifications for AI coding agents (Cl
 
 ---
 
-## Integration Plan
+## Integration plan
 
-### Primary Integration: guide/workflows/spec-first.md
+### Primary integration: guide/workflows/spec-first.md
 
 **Add 4 new sections** (after line 318, before "See Also"):
 
@@ -120,7 +120,7 @@ Comprehensive guide on writing effective specifications for AI coding agents (Cl
 
 **File growth**: 327 lines → ~507 lines
 
-### Secondary Updates
+### Secondary updates
 
 **machine-readable/reference.yaml** (8 new entries after line 476):
 ```yaml
@@ -138,7 +138,7 @@ spec_osmani_score: "4/5"
 
 ---
 
-## Risks of NOT Integrating
+## Risks of NOT integrating
 
 1. **Users write bloated, monolithic CLAUDE.md** → Context pollution → Performance degradation → Frustration
 2. **No operational framework for boundaries** → Users struggle to map MUST/MUST NOT to daily decisions (when to trust vs validate)
@@ -167,7 +167,7 @@ spec_osmani_score: "4/5"
 
 ---
 
-## Fact-Check Summary
+## Fact-check summary
 
 | Claim | Verified | Source |
 |-------|----------|--------|

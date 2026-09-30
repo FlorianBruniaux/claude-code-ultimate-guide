@@ -1,4 +1,4 @@
-# Resource Evaluation: RTK (Rust Token Killer)
+# Resource evaluation: RTK (Rust Token Killer)
 
 **Date**: 2026-01-28 (Updated: 2026-02-14)
 **Evaluator**: Claude Sonnet 4.5 / Claude Opus 4.6
@@ -10,11 +10,11 @@
 
 ---
 
-## UPDATE 2026-02-14: v0.16.0 - Massive Growth & Multi-Language Support
+## UPDATE 2026-02-14: v0.16.0 - massive growth & multi-language support
 
 **The numbers speak for themselves**: RTK went from 17 stars to 446 (+2,524%), 2 to 38 forks, went viral on Reddit (700+ upvotes r/ClaudeAI), and migrated to a dedicated GitHub org.
 
-### Key Changes Since v0.7.0
+### Key changes since v0.7.0
 
 | Aspect | v0.7.0 (2026-02-01) | v0.16.0 (2026-02-14) | Change |
 |--------|---------------------|----------------------|--------|
@@ -27,7 +27,7 @@
 | **Languages** | JS/TS, Rust, Git | + Python, Go | Multi-language |
 | **Key features** | 27+ commands | + `rtk init`, `rtk tree`, `rtk learn` | Hook-first install, learning |
 
-### New Features (v0.8.0 → v0.16.0)
+### New features (v0.8.0 → v0.16.0)
 
 - **Python support**: `rtk python pytest` - Python test output condensed
 - **Go support**: `rtk go test` - Go test results filtered
@@ -37,7 +37,7 @@
 - **Interactive learning**: `rtk learn` - learn RTK commands interactively
 - **Install script**: `curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/main/install.sh | bash`
 
-### Community Validation (Massive)
+### Community validation (massive)
 
 | Metric | v0.7.0 | v0.16.0 | Significance |
 |--------|--------|---------|-------------|
@@ -46,7 +46,7 @@
 | Forks | 2 | 38 | Active development community |
 | Releases | 7 in 13 days | 30 in 23 days | Sustained rapid development |
 
-### Score Update: 4.5/5 → **5/5**
+### Score update: 4.5/5 → **5/5**
 
 **Justification**: All "Path to 5/5" criteria from v0.7.0 evaluation met or exceeded:
 - Community growth: 17 → 446 stars (target was 50+) - **exceeded 9x**
@@ -59,13 +59,13 @@ The fork distinction (`FlorianBruniaux/rtk`) is no longer relevant - all feature
 
 ---
 
-## UPDATE 2026-02-01: Upstream v0.7.0 - All Gaps Closed
+## UPDATE 2026-02-01: Upstream v0.7.0 - all gaps closed
 
 **Breaking News**: All features previously identified as missing are now in upstream v0.7.0.
 
 In just 9 days (2026-01-23 → 2026-02-01), RTK evolved from v0.2.0 to v0.7.0 through **5 major releases** with contributions from the community (10+ PRs from @FlorianBruniaux).
 
-### Evolution Summary
+### Evolution summary
 
 | Feature | v0.2.0 (old eval) | v0.7.0 (now) | Version Added |
 |---------|-------------------|--------------|---------------|
@@ -81,7 +81,7 @@ In just 9 days (2026-01-23 → 2026-02-01), RTK evolved from v0.2.0 to v0.7.0 th
 | **curl JSON** | ❌ None | ✅ Auto-detection + filtering | v0.6.0 |
 | **ls bug** | ❌ Broken (-274% worse) | ✅ Fixed: native proxy | v0.7.0+ |
 
-### Architecture Maturity (New)
+### Architecture maturity (new)
 
 v0.7.0 introduces production-ready infrastructure:
 
@@ -91,7 +91,7 @@ v0.7.0 introduces production-ready infrastructure:
 - **Configuration system**: `~/.config/rtk/config.toml` for customization
 - **Extension points**: Easy to add new commands (documented in ARCHITECTURE.md)
 
-### Community Growth
+### Community growth
 
 | Metric | v0.2.0 (2026-01-28) | v0.7.0 (2026-02-01) | Growth |
 |--------|---------------------|---------------------|--------|
@@ -104,7 +104,7 @@ v0.7.0 introduces production-ready infrastructure:
 
 ---
 
-## Executive Summary (Updated for v0.7.0)
+## Executive summary (updated for v0.7.0)
 
 RTK (Rust Token Killer) is a high-performance CLI proxy that filters and compresses command outputs **before they reach LLM contexts**. Real-world testing confirms **70-90% average token reduction** across modern development stacks (git, pnpm, npm, cargo, gh CLI).
 
@@ -112,7 +112,7 @@ RTK (Rust Token Killer) is a high-performance CLI proxy that filters and compres
 
 ---
 
-## Scoring Summary (Updated)
+## Scoring summary (updated)
 
 | Criterion | v0.2.0 Score | v0.7.0 Score | Change | Justification |
 |-----------|-------------|--------------|--------|---------------|
@@ -128,7 +128,7 @@ RTK (Rust Token Killer) is a high-performance CLI proxy that filters and compres
 
 ---
 
-## Detailed Analysis (Updated for v0.7.0)
+## Detailed analysis (updated for v0.7.0)
 
 ### 1. Accuracy & Reliability (Score: 4/5, was 3/5)
 
@@ -400,7 +400,7 @@ rtk cargo test           # 1,500 chars → ~450 tokens (90% ↓)
 
 ---
 
-## New Commands Testing (v0.7.0)
+## New commands testing (v0.7.0)
 
 **Commands to benchmark** (not yet tested, pending v0.7.0 installation):
 
@@ -421,7 +421,7 @@ rtk cargo test           # 1,500 chars → ~450 tokens (90% ↓)
 
 ---
 
-## Integration Recommendations (Updated for v0.7.0)
+## Integration recommendations (updated for v0.7.0)
 
 ### Immediate Actions (Score 4.5 = 1 week)
 
@@ -522,9 +522,9 @@ rtk cargo test           # 1,500 chars → ~450 tokens (90% ↓)
 
 ---
 
-## Unique Learnings (Updated)
+## Unique learnings (updated)
 
-### 1. Rapid Open-Source Evolution
+### 1. Rapid open-source evolution
 
 RTK's 9-day journey (v0.2.0 → v0.7.0) demonstrates **rapid iteration** in OSS:
 - 5 major releases in 9 days
@@ -532,28 +532,28 @@ RTK's 9-day journey (v0.2.0 → v0.7.0) demonstrates **rapid iteration** in OSS:
 - All critical bugs fixed
 - **Lesson**: Early-stage tools can mature quickly with active maintainers
 
-### 2. Preprocessing > Postprocessing (Confirmed)
+### 2. Preprocessing > Postprocessing (confirmed)
 
 RTK's approach (filter outputs **before** LLM) remains more efficient:
 - Symbol System: 30-50% reduction (postprocessing)
 - RTK: 89.4% reduction (preprocessing, v0.7.0)
 - **Lesson**: Attack verbosity at source, not destination
 
-### 3. Full Stack Coverage = Maximum ROI
+### 3. Full stack coverage = maximum ROI
 
 v0.7.0's comprehensive coverage (git + pnpm + npm + cargo + gh) proves:
 - v0.2.0 (git only): 72.6% reduction, 40% command coverage
 - v0.7.0 (full stack): 89.4% reduction, 85% command coverage
 - **Lesson**: Breadth matters - optimize entire workflow, not just git
 
-### 4. Analytics Enable Optimization
+### 4. Analytics enable optimization
 
 `rtk gain` and `rtk discover` (v0.4.0, v0.7.0) provide **visibility**:
 - Temporal audit: See token savings over time (SQLite)
 - Opportunity scanner: Find commands you should optimize
 - **Lesson**: Meta-tools (analytics) accelerate adoption
 
-### 5. Community Contributions Scale
+### 5. Community contributions scale
 
 @FlorianBruniaux's 10+ PRs demonstrate **fork-to-upstream** model:
 - Fork for rapid prototyping (feat/all-features branch)
@@ -563,41 +563,41 @@ v0.7.0's comprehensive coverage (git + pnpm + npm + cargo + gh) proves:
 
 ---
 
-## Risks & Limitations (Updated for v0.7.0)
+## Risks & limitations (updated for v0.7.0)
 
-### 1. Early-Stage Maturity (MEDIUM RISK, was HIGH)
+### 1. Early-Stage maturity (MEDIUM RISK, was HIGH)
 
 - **Risk**: v0.7.0 = 9 days of rapid development (potential instability)
 - **Mitigation**: All critical bugs fixed, but watch for regressions
 - **Impact**: MEDIUM (maturity improved, but still young)
 - **Status**: Improved from HIGH (broken commands) to MEDIUM (stable but young)
 
-### 2. ~~Broken Commands~~ (RESOLVED)
+### 2. ~~Broken commands~~ (RESOLVED)
 
 - **Risk (v0.2.0)**: grep returns empty, ls worse than baseline
 - **Status (v0.7.0)**: ✅ All fixed (grep works, ls uses native proxy)
 - **Impact**: RESOLVED
 
-### 3. ~~Missing Package Managers~~ (RESOLVED)
+### 3. ~~Missing package managers~~ (RESOLVED)
 
 - **Risk (v0.2.0)**: npm/pnpm not supported
 - **Status (v0.7.0)**: ✅ pnpm (v0.6.0), npm (v0.6.0) fully supported
 - **Impact**: RESOLVED
 
-### 4. ~~Git Argument Parsing~~ (RESOLVED)
+### 4. ~~Git argument parsing~~ (RESOLVED)
 
 - **Risk (v0.2.0)**: `git log --oneline` failed with parser error
 - **Status (v0.7.0)**: ✅ Fixed in v0.7.0 (proper arg forwarding)
 - **Impact**: RESOLVED
 
-### 5. Community Size (LOW RISK, improving)
+### 5. Community size (LOW RISK, improving)
 
 - **Risk**: 17 stars = still small community (abandonment possible)
 - **Mitigation**: Active development (5 releases in 9 days), external PRs
 - **Impact**: LOW (trending upward +113% growth)
 - **Trend**: Improving (2 forks, 10+ PRs, growing adoption)
 
-### 6. No Public CI/CD (LOW IMPACT)
+### 6. No public CI/CD (LOW IMPACT)
 
 - **Risk**: No visible test suite or CI badges
 - **Mitigation**: Rust's type system provides safety, manual testing
@@ -605,7 +605,7 @@ v0.7.0's comprehensive coverage (git + pnpm + npm + cargo + gh) proves:
 
 ---
 
-## Real-World Testing Summary
+## Real-World testing summary
 
 **v0.2.0 Testing** (2026-01-28):
 - Repository: claude-code-ultimate-guide
@@ -627,7 +627,7 @@ v0.7.0's comprehensive coverage (git + pnpm + npm + cargo + gh) proves:
 
 ---
 
-## Final Recommendation (Updated for v0.16.0)
+## Final recommendation (updated for v0.16.0)
 
 **Score: 5/5 (EXCEPTIONAL, was 4.5/5 EXCELLENT)**
 

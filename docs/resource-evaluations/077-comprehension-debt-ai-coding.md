@@ -1,4 +1,4 @@
-# Resource Evaluation #077: "Comprehension Debt — The Hidden Cost of AI Generated Code"
+# Resource evaluation #077: "Comprehension Debt — The Hidden Cost of AI Generated Code"
 
 **Date**: 2026-03-17
 **Evaluator**: Claude Sonnet 4.6
@@ -15,7 +15,7 @@ Long-form LinkedIn article arguing that AI coding tools create "comprehension de
 
 ---
 
-## 📄 Key Points
+## 📄 Key points
 
 - **Comprehension debt** = the gap between how much code exists and how much any human genuinely understands. Breeds false confidence because metrics look fine while system knowledge erodes.
 - **Speed asymmetry**: Junior devs can now generate code faster than senior devs can critically audit it. The rate-limiting factor that historically made code review meaningful has been removed.
@@ -84,7 +84,7 @@ The challenge stands. Adjusted score is correct.
 
 ---
 
-## ✅ Fact-Check
+## ✅ Fact-check
 
 | Claim | Verified | Source |
 |-------|----------|--------|
@@ -102,7 +102,7 @@ The challenge stands. Adjusted score is correct.
 
 ---
 
-## 🎯 Final Decision
+## 🎯 Final decision
 
 - **Score**: 3/5
 - **Action**: Integrate at the margin (terminology + regulation angle only)

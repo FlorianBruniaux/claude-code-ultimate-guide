@@ -1,4 +1,4 @@
-# Resource Evaluation: Context7 CLI (ctx7)
+# Resource evaluation: Context7 CLI (ctx7)
 
 **URL**: https://context7.com/docs/clients/cli
 **Date**: 2026-03-17
@@ -19,15 +19,15 @@ Key commands:
 
 **Integrated** into `guide/ultimate-guide.md` §5.5 as new subsection "Registry-based Discovery: ctx7 CLI" (~60 lines) and a cross-reference note in `guide/ecosystem/mcp-servers-ecosystem.md` Context7 section.
 
-## Key Finding
+## Key finding
 
 The existing workflow (curl/unzip from GitHub) is replaced by `ctx7 skills suggest` + `ctx7 skills install`, which adds dependency-awareness and trust scores. The guide was documenting a 2024 manual workflow for a 2025 ecosystem.
 
-## Fact-Check Note
+## Fact-check note
 
 First WebFetch call hallucinated "Built by Anthropic" for Context7 — this is false. Context7 is an Upstash product (confirmed via mcp-servers-ecosystem.md: `@upstash/context7-mcp`). Corrected before integration.
 
-## Registry Relationship
+## Registry relationship
 
 - `agentskills.io` = open spec (30+ platforms, defined skill format) — guide §5.1
 - `context7.com/skills` = hosted registry of conforming skills with trust scores

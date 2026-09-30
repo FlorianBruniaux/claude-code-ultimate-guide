@@ -4,7 +4,7 @@ description: "Quick reference for 15 structured AI-assisted development methodol
 tags: [reference, tdd, design-patterns, workflows]
 ---
 
-# Development Methodologies Reference
+# Development methodologies reference
 
 > **Confidence**: Tier 2, validated by multiple production reports and official documentation.
 >
@@ -14,7 +14,7 @@ This is a quick reference for 15 structured development methodologies that have 
 
 ---
 
-## Methodology Is Not Harness Ownership
+## Methodology is not harness ownership
 
 Methodologies define how work is planned, checked, and improved. They do not determine whether a product owns the agent loop. Keep the four layers separate: the model generates tokens, the runtime harness executes the loop, the repository harness supplies project-specific feedback, and an orchestrator coordinates multiple runs.
 
@@ -22,7 +22,7 @@ Use [Agent Harness Engineering](./agent-harness.md) for that model and the [Agen
 
 ---
 
-## Table of Contents
+## Table of contents
 
 1. [Decision Tree](#decision-tree-what-do-you-need)
 2. [The 15 Methodologies](#the-15-methodologies)
@@ -33,7 +33,7 @@ Use [Agent Harness Engineering](./agent-harness.md) for that model and the [Agen
 
 ---
 
-## Decision Tree: What Do You Need?
+## Decision tree: What do you need?
 
 ```
 ┌─ "I want quality code" ────────────→ workflows/tdd-with-claude.md
@@ -49,7 +49,7 @@ Use [Agent Harness Engineering](./agent-harness.md) for that model and the [Agen
 
 ---
 
-## Methodology Map
+## Methodology map
 
 Where each methodology sits on two axes: **Spec-First vs Code-First** (Y) and **Lean/Solo vs Enterprise/Governed** (X).
 
@@ -82,11 +82,11 @@ Where each methodology sits on two axes: **Spec-First vs Code-First** (Y) and **
 
 ---
 
-## The 15 Methodologies
+## The 15 methodologies
 
 Organized in a 6-tier pyramid from strategic orchestration down to optimization techniques.
 
-### Tier 1: Strategic Orchestration
+### Tier 1: Strategic orchestration
 
 | Name | What | Best For | Claude Fit |
 |------|------|----------|------------|
@@ -107,7 +107,7 @@ Organized in a 6-tier pyramid from strategic orchestration down to optimization 
 
 ---
 
-### Foundational Discipline: Plan-First Workflow
+### Foundational discipline: Plan-First workflow
 
 > **"Once the plan is good, the code is good."**
 > Boris Cherny, creator of Claude Code
@@ -179,7 +179,7 @@ Document your team's plan-first triggers:
 
 ---
 
-### Tier 2: Specification & Architecture
+### Tier 2: Specification & architecture
 
 | Name | What | Best For | Claude Fit |
 |------|------|----------|------------|
@@ -201,7 +201,7 @@ Document your team's plan-first triggers:
 
 ---
 
-### Tier 3: Behavior & Acceptance
+### Tier 3: Behavior & acceptance
 
 | Name | What | Best For | Claude Fit |
 |------|------|----------|------------|
@@ -259,7 +259,7 @@ No open-source implementation exists yet. You can approximate this today: before
 
 ---
 
-### Tier 4: Feature Delivery
+### Tier 4: Feature delivery
 
 | Name | What | Best For | Claude Fit |
 |------|------|----------|------------|
@@ -356,7 +356,7 @@ Meta-Agent (Orchestrator)
 └── Reviewer (validation)
 ```
 
-### ADR-Driven Development
+### ADR-driven development
 
 **Pattern**: Write plain English ADRs → Feed to implement-adr skill → Execute natively
 
@@ -431,7 +431,7 @@ vim docs/adr/001-database-migration.md
 
 ---
 
-## SDD Tools Reference
+## SDD tools reference
 
 Three tools have emerged to formalize Spec-Driven Development:
 
@@ -442,7 +442,7 @@ Three tools have emerged to formalize Spec-Driven Development:
 | **Specmatic** | API contract testing | [specmatic.io](https://specmatic.io) | MCP agent available |
 | **Spec-to-Code Factory** | Greenfield, enforcement outillé | [github.com/SylvainChabaud/spec-to-code-factory](https://github.com/SylvainChabaud/spec-to-code-factory) | Implémentation référence multi-agents (BREAK→MODEL→ACT→DEBRIEF) |
 
-### Spec Kit (Greenfield)
+### Spec Kit (greenfield)
 
 5-phase workflow:
 1. Constitution: `/speckit.constitution` → guardrails
@@ -462,7 +462,7 @@ openspec/
 
 Workflow: Proposal → Review → Apply → Archive
 
-### Specmatic (API Contracts)
+### Specmatic (API contracts)
 
 - **Contract as Test**: Auto-generates 1000s of tests from OpenAPI spec
 - **Contract as Stub**: Mock server for parallel development
@@ -470,12 +470,12 @@ Workflow: Proposal → Review → Apply → Archive
 
 ---
 
-## Writing Effective Specs
+## Writing effective specs
 
 > Based on analysis of 2,500+ agent configuration files.
 > Source: [Addy Osmani](https://addyosmani.com/blog/good-spec/)
 
-### The Six Essential Components
+### The six essential components
 
 | Component | What to Include | Example |
 |-----------|-----------------|---------|
@@ -486,7 +486,7 @@ Workflow: Proposal → Review → Apply → Archive
 | **Git workflow** | Branch, commit, PR format | `feat/name`, conventional commits |
 | **Boundaries** | Permission tiers | See below |
 
-### Permission Tiers
+### Permission tiers
 
 | Tier | Symbol | Use For |
 |------|--------|---------|
@@ -494,13 +494,13 @@ Workflow: Proposal → Review → Apply → Archive
 | Ask first | ⚠️ | High-impact changes (delete, publish) |
 | Never do | 🚫 | Hard stops (commit secrets, force push main) |
 
-### Curse of Instructions
+### Curse of instructions
 
 > ⚠️ The same analysis found **more instructions = worse adherence** to each one.
 >
 > Solution: Feed only relevant spec sections per task, not the entire document.
 
-### Monolithic vs Modular Specs
+### Monolithic vs modular specs
 
 | Project Size | Approach |
 |--------------|----------|
@@ -510,7 +510,7 @@ Workflow: Proposal → Review → Apply → Archive
 
 ---
 
-## Combination Patterns
+## Combination patterns
 
 Recommended stacks by situation:
 
@@ -525,7 +525,7 @@ Recommended stacks by situation:
 
 ---
 
-## Quick Reference Table
+## Quick reference table
 
 | Methodology | Level | Primary Focus | Best Context | Learning Curve |
 |-------------|-------|---------------|--------------|----------------|
@@ -549,7 +549,7 @@ Recommended stacks by situation:
 
 ## Sources
 
-### Official Documentation (Tier 1)
+### Official documentation (tier 1)
 
 - Anthropic: [Claude Code Best Practices](https://www.anthropic.com/engineering/claude-code-best-practices)
 - Anthropic: [Effective Context Engineering for AI Agents](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)
@@ -557,7 +557,7 @@ Recommended stacks by situation:
 - GitHub: [Spec-Driven Development Toolkit](https://github.blog/ai-and-ml/generative-ai/spec-driven-development-with-ai-get-started-with-a-new-open-source-toolkit/)
 - Microsoft: [Spec-Driven Development with Spec Kit](https://developer.microsoft.com/blog/spec-driven-development-spec-kit)
 
-### Methodology References (Tier 2)
+### Methodology references (tier 2)
 
 **SDD & Spec-First**
 - Addy Osmani: [How to Write Good Specs for AI Agents](https://addyosmani.com/blog/good-spec/)
@@ -591,14 +591,14 @@ Recommended stacks by situation:
 - Brandon Casci: [Transform into a Dev Team using Claude Code Agents](https://www.brandoncasci.com/2025/09/21/how-to-transform-yourself-into-a-dev-team-using-claude-codes-ai-agents.html)
 - The Unwind AI: [Claude Code's Multi-Agent Orchestration](https://www.theunwindai.com/p/claude-code-s-hidden-multi-agent-orchestration-now-open-source)
 
-### Tools Documentation (Tier 1)
+### Tools documentation (tier 1)
 
 - OpenSpec: [github.com/Fission-AI/OpenSpec](https://github.com/Fission-AI/OpenSpec)
 - Spec Kit: [github.com/github/spec-kit](https://github.com/github/spec-kit)
 - Specmatic: [specmatic.io](https://specmatic.io)
 - Specmatic Article: [Spec-Driven Development with GitHub Spec Kit and Specmatic MCP](https://specmatic.io/article/spec-driven-development-api-design-first-with-github-spec-kit-and-specmatic-mcp/)
 
-### Additional References
+### Additional references
 
 - Talent500: [Claude Code TDD Guide](https://talent500.com/blog/claude-code-test-driven-development-guide/)
 - Testlio: [Acceptance Test-Driven Development](https://testlio.com/blog/what-is-acceptance-test-driven-development/)
@@ -609,7 +609,7 @@ Recommended stacks by situation:
 
 ---
 
-## See Also
+## See also
 
 - [workflows/tdd-with-claude.md](../workflows/tdd-with-claude.md): practical TDD guide
 - [workflows/spec-first.md](../workflows/spec-first.md): spec-first development

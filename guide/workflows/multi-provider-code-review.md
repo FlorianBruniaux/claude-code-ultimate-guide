@@ -4,7 +4,7 @@ description: "Run Claude Code Action alongside CodeRabbit and Greptile without t
 tags: [workflow, ci-cd, code-review, github-actions, coderabbit, greptile]
 ---
 
-# Multi-Provider Code Review: Non-Redundant Automated PR Review
+# Multi-Provider code review: Non-Redundant automated PR review
 
 > **Evidence boundary**: this is a design pattern informed by project configuration, not a validated end-to-end deployment contract. Inspect effective provider execution, permissions, output handling and branch policy in your repository. Severity thresholds, domain names and file-count cutoffs are illustrative starting points; the advisory workflow and control simulation have distinct limits documented below.
 
@@ -14,7 +14,7 @@ This page separates semantic review, executable checks and cross-file investigat
 
 ---
 
-## Table of Contents
+## Table of contents
 
 1. [When Another Reviewer Earns Its Place](#when-another-reviewer-earns-its-place)
 2. [Role Separation](#role-separation)
@@ -30,7 +30,7 @@ This page separates semantic review, executable checks and cross-file investigat
 
 ---
 
-## When Another Reviewer Earns Its Place
+## When another reviewer earns its place
 
 A different tool can expose a blind spot, but additional coverage must be measured. Repository search can help investigate callers outside the diff. Executable lint rules and tests provide repeatable checks for specified properties; they can still miss cases outside their model, scope or implementation. An AI reviewer emitting PASS/FAIL is not thereby deterministic. In particular, do not assume that CodeRabbit custom checks have the same guarantees as a compiler or a tested lint rule.
 
@@ -38,7 +38,7 @@ Stacking overlapping tools can increase duplicate findings without enough additi
 
 ---
 
-## Role Separation
+## Role separation
 
 | Provider | Job | Can it block merge? | Why this job fits this tool |
 |----------|-----|---------------------|------------------------------|
@@ -63,7 +63,7 @@ This is a practitioner method, not proof that a second model makes a finding cor
 
 ---
 
-## The Non-Duplication Rule
+## The non-duplication rule
 
 Write the boundary into every config file, not just into a wiki page nobody reads mid-review-setup. Concretely:
 
@@ -75,7 +75,7 @@ Assign an owner to each rule and distinguish intentional defense in depth from d
 
 ---
 
-## Blocking Merge: the CI Gate
+## Blocking merge: the CI gate
 
 An automated comment does not establish merge authority. A required check or required approving review must be part of the effective repository policy. Parsing a severity count is one input to a check; it is not a sufficient acceptance contract.
 
@@ -99,7 +99,7 @@ Run the [local control exercise](../../examples/workflows/review-control-demo.py
 
 Treat verification capacity as an admission condition, using the [worksheet](../../examples/workflows/review-admission.md). A deferred task needs a responsible owner and a route back into review. The decision dossier keeps the current revision, evidence, disagreement and unresolved questions visible.
 
-## Scaling to Large PRs: Batching
+## Scaling to large PRs: Batching
 
 A single review pass over a 150-file PR either times out or spreads the model's attention so thin that findings get shallow. The [batched workflow template](../../examples/github-actions/claude-code-review-batched.yml) in this repo handles this: a `check-size` job counts changed files, and above a threshold (75 in the shipped example, tune to your PR size distribution), a matrix job splits the diff by domain (migrations, backend services, API routes, frontend, tests) and runs each slice as an independent, parallel review. A final synthesis job merges the per-domain findings into one deduplicated severity table.
 
@@ -107,7 +107,7 @@ This keeps the same prompt file (`code-review.md`) as the source of truth for re
 
 ---
 
-## Cutting Redundant Reviews: Delta-Review
+## Cutting redundant reviews: Delta-Review
 
 Re-reviewing the entire diff on every push to a long-lived PR burns tokens re-checking code Claude already approved on the previous push. A delta-review step compares the SHA embedded in the previous review (post it as an HTML comment, `<!-- reviewed-sha: abc123 -->`, inside the review body) against the current push's SHA, and scopes the new review to only the files touched since.
 
@@ -117,7 +117,7 @@ A marker is only a locator, not authenticated evidence. Validate its publisher a
 
 ---
 
-## Cross-Tool Deduplication
+## Cross-tool deduplication
 
 Preserve independent observations before combining findings. The optional synthesis job reads prior reviews after they have been produced; that is different from conditioning a reviewer on another review before its initial verdict. If the latter is used, declare it as a treatment and do not call the resulting observations independent.
 
@@ -125,7 +125,7 @@ Keep disagreements and the evidence behind unique findings. Count corrections th
 
 ---
 
-## Known Friction: Rule Drift Across Configs
+## Known friction: Rule drift across configs
 
 There is no single generator that pushes one source of truth into all three provider configs. Canonical conventions live in whatever internal docs a project already maintains, and each provider config is a manual, condensed transcription of the relevant subset, kept short on purpose since the reviewing tool should not have to load and parse an entire internal wiki on every PR.
 
@@ -133,13 +133,13 @@ The practical cost: a file-exclusion list (lockfiles, generated code, migrations
 
 ---
 
-## Interactive Companions vs. CI
+## Interactive companions vs. CI
 
 The workflow templates target CI; the local simulation and admission worksheet serve different purposes. A separate, complementary layer is a handful of local Claude Code skills a developer runs by hand during active work: a quick check of the current PR's CI/review/preview status, a pull of everything posted since the last push across every bot and human reviewer, and a periodic retrospective audit across the last N PRs to spot findings bots keep flagging that no rule file covers yet. These are developer-convenience tools, not part of the CI pipeline, worth building as project-local skills once the CI-side architecture above is stable, not before.
 
 ---
 
-## Setup Checklist
+## Setup checklist
 
 1. Copy `claude-code-review.yml` + `prompts/code-review.md` (see [GitHub Actions Workflows](./github-actions.md) for the base setup)
 2. Fill in the prompt's stack context and a severity calibration table matched to your product's actual risk profile, not a generic OWASP list
@@ -151,7 +151,7 @@ The workflow templates target CI; the local simulation and admission worksheet s
 
 ---
 
-## See Also
+## See also
 
 - [GitHub Actions Workflows](./github-actions.md): the base patterns this architecture extends
 - [Ready-to-use templates](../../examples/github-actions/): `claude-code-review.yml`, `claude-code-review-batched.yml`, `.coderabbit.yaml`, `.greptile/`

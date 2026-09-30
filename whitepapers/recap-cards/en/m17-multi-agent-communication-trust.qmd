@@ -78,7 +78,7 @@ Agent Teams store tasks in `~/.claude/tasks/<team-name>/`. Task claiming uses fi
 
 Give each agent separate file ownership or worktrees. Mailbox messages carry progress and results; source conflicts still require review.
 
-## Iterative Retrieval (v3.38.0)
+## Iterative retrieval (v3.38.0)
 
 Sub-agents lacking sufficient context should retrieve information in a structured way. Limit to 3 retrieval cycles before escalating to the orchestrator.
 

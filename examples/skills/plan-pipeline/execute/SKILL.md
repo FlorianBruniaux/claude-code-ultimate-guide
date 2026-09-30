@@ -5,7 +5,7 @@ effort: high
 disable-model-invocation: true
 ---
 
-# /plan-pipeline:execute: Execution to Merged PR
+# /plan-pipeline:execute: Execution to merged PR
 
 Execute the validated plan in an isolated worktree. Spawn per-task agents, verify quality, create and merge the PR. Handles everything through to cleanup.
 
@@ -19,7 +19,7 @@ A validated plan must exist at `docs/plans/plan-{name}.md` with all issues resol
 
 ---
 
-## Step 1: Worktree Setup
+## Step 1: Worktree setup
 
 Create an isolated git worktree:
 
@@ -31,7 +31,7 @@ All execution happens inside the worktree. Main branch remains clean throughout.
 
 ---
 
-## Step 2: TDD Scaffolding
+## Step 2: TDD scaffolding
 
 *Only for tasks marked as TDD in the plan.*
 
@@ -45,7 +45,7 @@ Do not write implementation code in this step.
 
 ---
 
-## Step 3: Level-Based Parallel Execution
+## Step 3: Level-Based parallel execution
 
 Parse the task list from the plan. Group tasks by layer (Layer 1 = foundation, Layer 2 = depends on Layer 1, etc.).
 
@@ -77,7 +77,7 @@ Commit your changes when complete with message: "feat: {task-description}"
 
 ---
 
-## Step 4: Quality Gate
+## Step 4: Quality gate
 
 Run in parallel:
 - Linter
@@ -99,7 +99,7 @@ Smoke test failures are debugged by a `quality-fixer-smoke` agent with the same 
 
 ---
 
-## Step 5: Pre-PR Documentation
+## Step 5: Pre-PR documentation
 
 *In the worktree, before creating the PR.*
 
@@ -147,7 +147,7 @@ gh pr merge --squash --delete-branch
 
 ---
 
-## Step 7: Post-Merge Metrics
+## Step 7: Post-Merge metrics
 
 Switch back to develop/main. Update `docs/plans/metrics/{name}.json` with execution data:
 - Task count and per-layer breakdown
@@ -162,7 +162,7 @@ Commit metrics update.
 
 ---
 
-## Step 8: Worktree Cleanup
+## Step 8: Worktree cleanup
 
 ```bash
 git worktree remove .worktrees/{plan-name}
@@ -227,11 +227,11 @@ Metrics committed. Worktree cleaned.
 ✅ Feature complete.
 ```
 
-## When to Use
+## When to use
 
 After `/plan-pipeline:validate` confirms all issues are resolved. Never skip validation: executing an unvalidated plan skips the independent review that catches ~18 issues on average.
 
-## Pipeline Position
+## Pipeline position
 
 ```
 /plan-pipeline:ceo-review    → product direction locked

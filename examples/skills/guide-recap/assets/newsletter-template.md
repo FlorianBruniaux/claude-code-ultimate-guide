@@ -1,8 +1,8 @@
-# Newsletter Template
+# Newsletter template
 
 Target: ~500 words. Structured sections with depth.
 
-## FR Template
+## FR template
 
 ```markdown
 # {title_fr}
@@ -26,7 +26,7 @@ Target: ~500 words. Structured sections with depth.
 [Guide complet]({landing_url}) | [GitHub]({github_url})
 ```
 
-## EN Template
+## EN template
 
 ```markdown
 # {title_en}
@@ -50,7 +50,7 @@ Target: ~500 words. Structured sections with depth.
 [Full guide]({landing_url}) | [GitHub]({github_url})
 ```
 
-## Field Rules
+## Field rules
 
 ### title (max 80 chars)
 

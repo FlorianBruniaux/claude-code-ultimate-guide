@@ -4,13 +4,13 @@ description: "Metrics, patterns, and tools for measuring custom agent effectiven
 tags: [agents, testing, guide]
 ---
 
-# Agent Evaluation
+# Agent evaluation
 
 **Quick nav**: [Why Evaluate?](#why-evaluate-agents) · [Metrics to Track](#metrics-to-track) · [Implementation](#implementation-patterns) · [Example](#example-agent-with-evaluation) · [Tools](#tools--references)
 
 ---
 
-## Why Evaluate Agents?
+## Why evaluate agents?
 
 When you create custom agents in `.claude/agents/`, you're encoding specialized expertise into reusable workflows. But how do you know if your agents are actually effective?
 
@@ -30,13 +30,13 @@ When you create custom agents in `.claude/agents/`, you're encoding specialized 
 
 ---
 
-## Evaluate the Layer That Owns the Behavior
+## Evaluate the layer that owns the behavior
 
 An evaluation must identify what it is scoring. A runtime harness owns the model-and-tool loop, so measure task completion, interventions, recovery, cost, and wall time there. A repository harness owns instructions and delivery gates, so measure whether setup and deterministic checks detect covered regressions and block delivery when a gate fails. An orchestrator owns routing and coordination, so measure handoffs, queueing, duplicate work, and escalation.
 
 Use the [Agent Harness Map](../ecosystem/agent-harness-landscape.md) to determine whether a candidate owns a runtime loop or is an adjacent framework, control plane, or support tool. Its test-drive protocol is for comparing shortlisted products. [Agent Harness Engineering](../core/agent-harness.md) defines the runtime boundary; [Loop & Graph Engineering](../core/loop-graph-engineering.md) defines loop, route, state, stopping, and judgment contracts; [Session Observability](../ops/observability.md) covers collection and inspection; [Security Hardening](../security/security-hardening.md) covers the controls that evaluation must not bypass. See the [glossary](../core/glossary.md) for the shared vocabulary.
 
-### Evaluate the Model-Harness Pair
+### Evaluate the model-harness pair
 
 Record the model, harness version, repository state, tool set, permissions, context policy, and budget for every comparison. A model-only label is not reproducible evidence. In [The Scaffold Effect](https://arxiv.org/abs/2607.22585), two models were each tested through three coding harnesses across 50 tasks. Harness choice changed token use per solved task by up to 40 times, while pass-rate differences stayed between 0 and 8 percentage points and were mostly not statistically significant.
 
@@ -46,7 +46,7 @@ For optimizer or meta-harness experiments, split development and held-out tasks,
 
 For a multi-agent control plane, separate workflow correctness from task correctness. [Liza](https://github.com/liza-mas/liza) provides concrete orchestration signals such as lease recovery, forbidden state transitions, reviewer verdicts, worktree cleanup, and merge eligibility. Those tests show whether the control plane followed its contract. They do not show that the final patch satisfies the user's requirements, so pair them with repository tests, requirement-level review, intervention counts, recovery drills, and repeated real-ticket outcomes. The [Liza profile](../ecosystem/agentic-tools.md#48-liza) records the pinned evidence boundary.
 
-### Evaluate Judgment Allocation and Reviewer Independence
+### Evaluate judgment allocation and reviewer independence
 
 An evaluation should identify not only what ran, but who was allowed to decide. Record the owner of the quality bar, decomposition, tool permissions, acceptance verdict, exceptions, and release decision. A system that automates task execution while silently moving every ambiguous verdict to one human has improved execution capacity, not necessarily end-to-end throughput.
 
@@ -70,7 +70,7 @@ In [Building uReview, 05:11](https://www.youtube.com/watch?v=EL123UNokkI&t=311s)
 
 For your evaluation, record separately whether developers react, act on a finding, and produce a verified correction. Inspect unresolved findings and regressions introduced by accepted advice. Define each denominator and observation window: a popular comment, an edited line and a fixed defect measure different outcomes.
 
-### Freeze the Oracle and the Decision Rule
+### Freeze the oracle and the decision rule
 
 Before exposing reviewer outputs, freeze the change set, inclusion policy, acceptance criteria and independently established reference defects. Keep candidate code and reviewer instructions from modifying the evaluator or its hidden cases. New valid findings can justify a versioned reference amendment; they must not silently rewrite an earlier result.
 
@@ -90,9 +90,9 @@ Evaluate supervision separately with the [human exercise](../../examples/learnin
 
 When evaluating another reviewer, retain a baseline and a predeclared stopping rule. Track confirmed additional defects, harmful corrections and human triage cost. Different providers or fresh contexts do not alone establish informational independence.
 
-## Metrics to Track
+## Metrics to track
 
-### 1. Response Quality Metrics
+### 1. Response quality metrics
 
 **What to measure**:
 - **Task completion rate**: Did the agent accomplish the stated goal?
@@ -120,7 +120,7 @@ When evaluating another reviewer, retain a baseline and a predeclared stopping r
 
 ---
 
-### 2. Tool Usage Metrics
+### 2. Tool usage metrics
 
 **What to measure**:
 - **Tool call success rate**: Percentage of tool calls that executed without errors
@@ -148,7 +148,7 @@ When evaluating another reviewer, retain a baseline and a predeclared stopping r
 
 ---
 
-### 3. Performance Metrics
+### 3. Performance metrics
 
 **What to measure**:
 - **Response time**: Total time from user prompt to complete response
@@ -177,7 +177,7 @@ When evaluating another reviewer, retain a baseline and a predeclared stopping r
 
 ---
 
-### 4. User Satisfaction Metrics
+### 4. User satisfaction metrics
 
 **What to measure**:
 - **Explicit feedback**: User ratings, comments, bug reports
@@ -205,9 +205,9 @@ When evaluating another reviewer, retain a baseline and a predeclared stopping r
 
 ---
 
-## Implementation Patterns
+## Implementation patterns
 
-### Pattern 1: Logging Hook System
+### Pattern 1: Logging hook system
 
 **Use Case**: Automatically track all agent interactions without manual intervention
 
@@ -231,7 +231,7 @@ echo "{\"timestamp\":\"$(date -Iseconds)\",\"agent\":\"$AGENT_ID\",\"tool\":\"$T
 
 ---
 
-### Pattern 2: Agent Unit Tests
+### Pattern 2: Agent unit tests
 
 **Use Case**: Regression testing to ensure agent improvements don't break existing capabilities
 
@@ -266,7 +266,7 @@ fi
 
 ---
 
-### Pattern 3: A/B Testing Configurations
+### Pattern 3: A/B testing configurations
 
 **Use Case**: Compare two versions of agent to determine which performs better
 
@@ -310,7 +310,7 @@ instructions: |
 
 ---
 
-### Pattern 4: Feedback Loop Integration
+### Pattern 4: Feedback loop integration
 
 **Use Case**: Continuously improve agent based on real-world usage data
 
@@ -338,11 +338,11 @@ fi
 
 ---
 
-## Example: Agent with Evaluation
+## Example: Agent with evaluation
 
 **Full template available**: [`examples/agents/analytics-with-eval/`](../../examples/agents/analytics-with-eval/) includes complete agent definition, hooks, analysis scripts, and report template.
 
-### Setup: Analytics Agent with Built-in Metrics
+### Setup: Analytics agent with built-in metrics
 
 ```yaml
 # .claude/agents/analytics-agent.md
@@ -375,7 +375,7 @@ After each query:
 [... agent instructions ...]
 ```
 
-### Metrics Hook
+### Metrics hook
 
 ```bash
 # .claude/hooks/log-analytics-metrics.sh
@@ -420,11 +420,11 @@ jq -s 'group_by(.safety) | map({safety: .[0].safety, count: length})' \
 
 ---
 
-## Tools & References
+## Tools & references
 
-### Open-Source Evaluation Frameworks
+### Open-Source evaluation frameworks
 
-#### nao (Analytics Agents)
+#### nao (analytics agents)
 
 **URL**: [github.com/getnao/nao](https://github.com/getnao/nao/)
 
@@ -443,7 +443,7 @@ jq -s 'group_by(.safety) | map({safety: .[0].safety, count: length})' \
 
 ---
 
-### Claude Code Native Patterns
+### Claude Code native patterns
 
 **Hooks system**: `.claude/hooks/` for automated logging (see `examples/hooks/README.md`)
 
@@ -455,30 +455,30 @@ jq -s 'group_by(.safety) | map({safety: .[0].safety, count: length})' \
 
 ---
 
-## Best Practices
+## Best practices
 
-### Start Simple
+### Start simple
 
 **Week 1**: Add basic logging hook (tool calls only)
 **Week 2**: Add user feedback prompt (manual ratings)
 **Week 3**: Build dashboard to visualize metrics
 **Week 4**: Run first A/B test on agent configuration
 
-### Focus on Actionable Metrics
+### Focus on actionable metrics
 
 Don't track metrics you won't act on. Prioritize:
 1. **Task completion rate** → Refine agent instructions
 2. **Tool call errors** → Improve context or add examples
 3. **User ratings** → Identify confusing or unhelpful responses
 
-### Automate Where Possible
+### Automate where possible
 
 Manual evaluation doesn't scale. Use:
 - Hooks for automatic logging
 - CI/CD integration for agent unit tests
 - Scripts for periodic metric aggregation
 
-### Build Feedback Loops
+### Build feedback loops
 
 Metrics are useless without action:
 - Weekly: Review metrics, identify patterns
@@ -489,11 +489,11 @@ Metrics are useless without action:
 
 ---
 
-## Evaluating Probabilistic Systems
+## Evaluating probabilistic systems
 
 Standard unit tests do not apply to LLM outputs. A test that passes or fails deterministically cannot capture the behavior of a system whose outputs vary across runs with the same input. Production teams working with agentic pipelines have converged on a different evaluation model.
 
-### Temperature Zero Does Not Guarantee Determinism
+### Temperature zero does not guarantee determinism
 
 Setting temperature to 0 is often assumed to make an LLM's output deterministic. It does not. Floating-point arithmetic on GPUs is not strictly associative, and batching, kernel scheduling, and Mixture-of-Experts routing introduce run-to-run variance even when sampling is disabled. Determinism, when it matters, has to be engineered around the model rather than expected from the model: pin the API version, lock the exact model checkpoint used in production, and version prompts explicitly so a silent upstream change does not shift behavior underneath an evaluation suite.
 
@@ -503,7 +503,7 @@ The same caution applies across time, not just across runs. A prompt that return
 
 ---
 
-### Build a Scored Dataset, Not a Test Suite
+### Build a scored dataset, not a test suite
 
 The foundational shift is treating evaluation as: build a dataset of inputs paired with expected outputs, run a scoring function over agent responses, and track the score over time. The metric is a percentage, not a boolean. Moving from 85% to 87% to 89% is success; having a test suite that was green last week and is still green this week tells you nothing about the direction of travel.
 
@@ -513,7 +513,7 @@ This means collecting real inputs from production, labeling expected outputs (ma
 
 ---
 
-### Match the Metric to the Pipeline Stage
+### Match the metric to the pipeline stage
 
 Not every phase of an agent's lifecycle should be evaluated with the same rigor or cost. In the development loop, a fast and cheap metric is enough to catch obvious regressions quickly. During model selection, the evaluation can afford to be slower and more qualitative, since the decision is infrequent and the cost of getting it wrong is high. In production, the metric needs to be reliable and stable over long periods, since it is the signal a team trusts to detect real drift rather than noise.
 
@@ -525,7 +525,7 @@ When evaluation relies on human raters or an LLM-as-judge, measuring raw percent
 
 ---
 
-### Statistical CI/CD: Replay, Do Not Assert
+### Statistical CI/CD: Replay, do not assert
 
 Because LLM outputs are non-deterministic, a single run of a test scenario proves nothing about reliability. The statistical CI/CD approach replays each key scenario 10 to 100 times in parallel and measures the success rate with a confidence interval. A regression is detected when the success rate drops below a threshold across many runs, not when a single run fails.
 
@@ -547,7 +547,7 @@ Set a pass-rate threshold for each scenario (for example, 90% of runs must score
 
 ---
 
-### Combine Frameworks and Force Structured Output
+### Combine frameworks and force structured output
 
 No single evaluation framework covers every metric a production system needs; one might handle factual accuracy well but say nothing useful about latency, cost, or tool-call correctness. Combining several frameworks, each covering the dimensions it is strongest at, gives a more complete picture than standardizing on one.
 
@@ -557,7 +557,7 @@ On the output side, forcing the model to return a structured schema (a Pydantic 
 
 ---
 
-### LLM-as-Judge: Run Asynchronously
+### LLM-as-Judge: Run asynchronously
 
 LLM-as-judge uses a larger or more capable model to evaluate the output of the agent model. Running this synchronously on every user request penalizes all users for the failure rate of a minority of interactions. The pattern that works in production:
 
@@ -572,7 +572,7 @@ The judge model is typically larger than the production model (for example, usin
 
 ---
 
-### Hallucination as a Trade-Off, Not a Bug
+### Hallucination as a trade-off, not a bug
 
 Hallucination is a structural feature of how LLMs are trained, not a defect that can be eliminated. The training process rewards confident answers over abstentions, which means models sometimes fabricate plausible-sounding content rather than saying they do not know.
 
@@ -608,7 +608,7 @@ Adding instrumentation retroactively is expensive and disruptive. Instrument bef
 
 ---
 
-### Workflow vs. Pure Agent: Evaluation Implications
+### Workflow vs. pure agent: Evaluation implications
 
 Agentic workflows where the sequence of steps is predetermined are easier to evaluate than pure agents where the model decides its own path. In a workflow, each step has a defined expected output and can be evaluated independently. In a pure agent, the path to the result varies and you can only evaluate the final output.
 
@@ -618,7 +618,7 @@ If latency and cost are constraints (they almost always are), a deterministic wo
 
 ---
 
-### Evaluate Confidence, Not Coverage
+### Evaluate confidence, not coverage
 
 A common trap in agent evaluation is treating test coverage (how many scenarios are scripted) as a proxy for how trustworthy the agent is. A more useful frame is confidence: how sure can you be that the agent behaves correctly, not just on the scenarios you tested, but on the ones you did not think to write.
 
@@ -628,7 +628,7 @@ Building that confidence requires evaluating at two levels simultaneously: each 
 
 ---
 
-### Skill Self-Improvement as Reinforcement Learning
+### Skill self-improvement as reinforcement learning
 
 Iterating on a skill (the instructions and structure that shape how an agent performs a task) can be treated as a lightweight reinforcement learning loop: make an incremental change, score the result against a binary or numeric criterion, keep the change if the score improves, discard it otherwise. This turns skill refinement into a repeatable, measurable process instead of an ad hoc round of prompt tweaking.
 
@@ -638,7 +638,7 @@ That evaluation needs to happen on two distinct layers. The first is activation:
 
 ---
 
-### Scope the Problem Before You Evaluate It
+### Scope the problem before you evaluate it
 
 Before adding an LLM to a pipeline, or expanding what a model is asked to do, it is worth confirming that the LLM is actually solving a problem simpler methods cannot. Academic work on model selection makes the same point that practitioners report from production: added sophistication has to demonstrate a real marginal gain, an LLM remains hard to control precisely even in well-resourced teams, and prompting or retrieval-augmented generation is often preferable to costly fine-tuning when the simpler approach reaches comparable quality.
 
@@ -648,7 +648,7 @@ This scoping question also applies to what a single agent call should be trusted
 
 ---
 
-## Related Sections
+## Related sections
 
 - **[Agents](#4-agents)**: Creating custom agents
 - **[Hooks](#7-hooks)**: Automation with event hooks

@@ -1,4 +1,4 @@
-# Audit Your Context Engineering Setup
+# Audit your context engineering setup
 
 > A self-contained prompt to measure and improve your Claude Code context architecture.
 
@@ -8,7 +8,7 @@
 
 ---
 
-## 1. What This Does
+## 1. What this does
 
 This prompt instructs Claude to audit your context engineering setup by:
 
@@ -23,7 +23,7 @@ This prompt instructs Claude to audit your context engineering setup by:
 
 ---
 
-## 2. Who This Is For
+## 2. Who this is for
 
 | Level | What You Get |
 |-------|-------------|
@@ -40,9 +40,9 @@ This prompt instructs Claude to audit your context engineering setup by:
 
 ---
 
-## 3. How to Use It
+## 3. How to use it
 
-### Step 1: Copy the Prompt
+### Step 1: Copy the prompt
 
 Copy everything inside the code block in [Section 4](#4-the-prompt) below.
 
@@ -53,15 +53,15 @@ cd your-project-directory
 claude
 ```
 
-### Step 3: Paste and Execute
+### Step 3: Paste and execute
 
 Paste the prompt and press Enter. Claude will begin the audit.
 
-### Step 4: Review Results
+### Step 4: Review results
 
 Claude will present findings, then ask for validation before making any changes.
 
-### Platform Note
+### Platform note
 
 | Platform | Global Config Path |
 |----------|-------------------|
@@ -70,7 +70,7 @@ Claude will present findings, then ask for validation before making any changes.
 
 ---
 
-## 4. The Prompt
+## 4. The prompt
 
 ```markdown
 # Audit My Context Engineering Setup
@@ -440,11 +440,11 @@ Structure your response exactly as:
 
 ---
 
-## 5. What to Expect
+## 5. What to expect
 
 Here's an example of what the audit report looks like:
 
-### Example Score Table
+### Example score table
 
 ```
 ## Context Engineering Audit
@@ -463,7 +463,7 @@ Here's an example of what the audit report looks like:
 | Knowledge Loop | 3/10 | not git tracked, no retro pattern |
 ```
 
-### Example Quick Wins
+### Example quick wins
 
 ```
 Quick Wins (< 30 min each):
@@ -474,7 +474,7 @@ Quick Wins (< 30 min each):
 
 ---
 
-## 6. Scoring Guide
+## 6. Scoring guide
 
 | Score | Maturity | Recommended Action |
 |-------|----------|--------------------|
@@ -503,7 +503,7 @@ Quick Wins (< 30 min each):
 
 ---
 
-## 8. Common Issues
+## 8. Common issues
 
 ### "Token estimate seems off"
 
@@ -531,7 +531,7 @@ Quick Wins (< 30 min each):
 
 ---
 
-## 9. Related Resources
+## 9. Related resources
 
 - [The Ultimate Claude Code Guide](../guide/ultimate-guide.md) - Full reference
 - [Audit Your Claude Code Setup](./audit-prompt.md) - Full configuration audit (agents, hooks, MCP, CI)

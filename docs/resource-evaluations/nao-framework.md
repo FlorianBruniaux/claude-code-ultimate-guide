@@ -22,7 +22,7 @@
 
 ---
 
-## Relevance Score: 3/5 (Moderate - Useful Complement)
+## Relevance score: 3/5 (Moderate - useful complement)
 
 ### Initial Score: 2/5 → Adjusted to 3/5 after technical challenge
 
@@ -41,7 +41,7 @@
 
 ---
 
-## Comparative Analysis
+## Comparative analysis
 
 | Aspect | nao | Current Guide | Gap? |
 |--------|-----|---------------|------|
@@ -56,11 +56,11 @@
 
 ---
 
-## Integration Recommendations
+## Integration recommendations
 
 **Score 3/5 → Integrate (3 approaches)**
 
-### ✅ Priority 1: Dedicated Section (Recommended)
+### ✅ Priority 1: Dedicated section (recommended)
 
 **Create**: `guide/roles/agent-evaluation.md` (~800 tokens)
 
@@ -76,7 +76,7 @@
 
 ---
 
-### ✅ Priority 2: Agent Template with Evaluation (Optional)
+### ✅ Priority 2: Agent template with evaluation (optional)
 
 **Create**: `examples/agents/analytics-with-eval/`
 
@@ -98,7 +98,7 @@ analytics-with-eval/
 
 ---
 
-### ✅ Priority 3: Ecosystem Mention (Minimal)
+### ✅ Priority 3: Ecosystem mention (minimal)
 
 **Add**: Section "Domain-Specific Agent Frameworks" in `guide/ecosystem/ai-ecosystem.md`
 
@@ -110,17 +110,17 @@ analytics-with-eval/
 
 ---
 
-## Technical Challenge Results
+## Technical challenge results
 
 The technical-writer agent identified several biases in the initial evaluation:
 
-### Missed Points in Initial Evaluation
+### Missed points in initial evaluation
 
 1. **Transposable agent architecture**: nao's `context builder` pattern applicable to Claude Code agents
 2. **Evaluation framework = critical gap**: Guide has NO mention of agent evaluation (metrics, testing, feedback)
 3. **Database context patterns**: Patterns for context injection from databases not documented
 
-### Score Justification
+### Score justification
 
 **Correction**: 2/5 → **3/5** (Moderate)
 
@@ -130,20 +130,20 @@ The technical-writer agent identified several biases in the initial evaluation:
 - Usable database context patterns (+0.5)
 - Open-source, well-documented (+0.5)
 
-### Gap "Agent Evaluation" Must Be Addressed
+### Gap "Agent Evaluation" must be addressed
 
 **YES, the guide MUST have this section** because:
 - Devs create agents without knowing how to measure quality
 - Anthropic docs mention evaluations but not in Claude Code context
 - nao proves this is feasible and useful (production-ready)
 
-### Risks of Non-Integration
+### Risks of non-integration
 
 1. **Evaluation gap remains undocumented** → Devs don't know how to measure agent quality
 2. **Database context patterns undocumented** → Devs reinvent already-proven patterns
 3. **Loss of credibility** → If evaluation becomes standard, guide will be behind
 
-### Why Initial Evaluation Was Biased
+### Why initial evaluation was biased
 
 1. **Confusion between scope and relevance**: Different scope ≠ not relevant
 2. **Focus on final product**: Evaluated nao as *competing product*, not *pattern source*
@@ -154,7 +154,7 @@ The technical-writer agent identified several biases in the initial evaluation:
 
 ---
 
-## Fact-Check Results
+## Fact-check results
 
 All technical claims verified by re-fetching GitHub repository:
 
@@ -173,19 +173,19 @@ All technical claims verified by re-fetching GitHub repository:
 
 ---
 
-## Final Decision
+## Final decision
 
 - **Final Score**: **3/5 (Moderate - Useful Complement)**
 - **Action**: **Integrate** via 3 approaches (priority 1 + 2 + 3)
 - **Confidence**: **High** (all claims fact-checked ✅)
 
-### Concrete Action Plan
+### Concrete action plan
 
 1. **Immediate** (today): Add mention in `guide/ecosystem/ai-ecosystem.md` section "Domain-Specific Agent Frameworks"
 2. **Week 1**: Create `guide/roles/agent-evaluation.md` with patterns inspired by nao
 3. **Week 2-3**: Create template `examples/agents/analytics-with-eval/` with metrics
 
-### Added Value for Guide
+### Added value for guide
 
 - ✅ Addresses critical gap (agent evaluation)
 - ✅ Adds transposable patterns (context builder, DB integrations)

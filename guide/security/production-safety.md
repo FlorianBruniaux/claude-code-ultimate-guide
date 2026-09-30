@@ -4,7 +4,7 @@ description: "Non-negotiable safety rules for teams deploying Claude Code in pro
 tags: [security, guide, devops]
 ---
 
-# Production Safety Rules
+# Production safety rules
 
 > **Audience**: Teams deploying Claude Code in production environments.
 > **For solo learners**: See [Getting Started](#getting-started) instead.
@@ -24,7 +24,7 @@ tags: [security, guide, devops]
 
 ---
 
-## When to Use These Rules
+## When to use these rules
 
 | Project Type | Use These Rules? | Why |
 |--------------|------------------|-----|
@@ -36,9 +36,9 @@ tags: [security, guide, devops]
 
 ---
 
-## Rule 1: Port Stability
+## Rule 1: Port stability
 
-### The Problem
+### The problem
 
 Changing ports breaks:
 - Local development environments
@@ -48,7 +48,7 @@ Changing ports breaks:
 
 **Real incident**: Backend port changed from 3000 → 8080 during refactor. All developers lost a day re-configuring local envs. Staging deployment failed silently because nginx proxy still pointed to 3000.
 
-### The Rule
+### The rule
 
 **Never modify backend/frontend ports without explicit team permission.**
 
@@ -105,7 +105,7 @@ To change ports:
 4. Notify team 48h in advance
 ```
 
-### Edge Cases
+### Edge cases
 
 | Scenario | Behavior |
 |----------|----------|
@@ -115,9 +115,9 @@ To change ports:
 
 ---
 
-## Rule 2: Database Safety
+## Rule 2: Database safety
 
-### The Problem
+### The problem
 
 Accidental deletions in production = data loss.
 
@@ -126,7 +126,7 @@ Accidental deletions in production = data loss.
 - `DROP TABLE sessions` during cleanup → Production table dropped
 - Migration rollback → Data loss because no backup
 
-### The Rule
+### The rule
 
 **Always backup before destructive operations.**
 
@@ -221,7 +221,7 @@ psql $DATABASE_URL < backups/[latest].sql
 ```
 ```
 
-### MCP Database Safety
+### MCP database safety
 
 If using MCP database servers (Postgres, MySQL, etc.):
 
@@ -244,9 +244,9 @@ If using MCP database servers (Postgres, MySQL, etc.):
 
 ---
 
-## Rule 3: Feature Completeness
+## Rule 3: Feature completeness
 
-### The Problem
+### The problem
 
 Claude Code sometimes "half-asses" features when context runs low:
 - Deletes existing functionality instead of fixing bugs
@@ -259,7 +259,7 @@ Claude Code sometimes "half-asses" features when context runs low:
 - Error handling "added" with `throw new Error("Not implemented")`
 - Feature "completed" with `// TODO: Add actual logic here`
 
-### The Rule
+### The rule
 
 **Never ship half-implemented features. If you start, you finish to working state.**
 
@@ -345,9 +345,9 @@ exit 0
 
 ---
 
-## Rule 4: Infrastructure Lock
+## Rule 4: Infrastructure lock
 
-### The Problem
+### The problem
 
 Claude might modify infrastructure configs without understanding production implications:
 - Changes Docker Compose volumes → data loss
@@ -355,7 +355,7 @@ Claude might modify infrastructure configs without understanding production impl
 - Updates Terraform → unintended resource changes
 - Tweaks Kubernetes manifests → downtime
 
-### The Rule
+### The rule
 
 **Infrastructure modifications require explicit team permission.**
 
@@ -409,9 +409,9 @@ You are **FORBIDDEN** from modifying these without explicit permission:
 
 ---
 
-## Rule 5: Dependency Safety
+## Rule 5: Dependency safety
 
-### The Problem
+### The problem
 
 Adding dependencies without team approval:
 - Increases bundle size (performance)
@@ -426,7 +426,7 @@ Adding dependencies without team approval:
 
 Dependency approval gates only work if someone actually triages what a new package pulls in. [A supply-chain triage walkthrough against a real compromised dependency](https://florian.bruniaux.com/guides/claude-code-attack-surface/) shows what that looks like in practice.
 
-### The Rule
+### The rule
 
 **No new dependencies without explicit approval.**
 
@@ -507,9 +507,9 @@ fi
 
 ---
 
-## Rule 6: Pattern Following
+## Rule 6: Pattern following
 
-### The Problem
+### The problem
 
 Claude introduces new patterns inconsistent with codebase:
 - Uses `class` components when project is functional React
@@ -517,7 +517,7 @@ Claude introduces new patterns inconsistent with codebase:
 - Writes REST endpoints when project is GraphQL
 - Uses `fetch` when project standardized on `axios`
 
-### The Rule
+### The rule
 
 **Conform to existing codebase conventions. Check before implementing.**
 
@@ -644,9 +644,9 @@ fi
 
 ---
 
-## Rule 7: The Verification Paradox
+## Rule 7: The verification paradox
 
-### The Problem
+### The problem
 
 When AI succeeds 99% of the time, traditional human verification becomes fragile:
 
@@ -664,13 +664,13 @@ When AI succeeds 99% of the time, traditional human verification becomes fragile
 
 **Source**: [Alan Engineering Team (Charles Gorintin, Maxime Le Bras), Feb 2026](https://www.linkedin.com/pulse/le-principe-de-la-tour-eiffel-et-ralph-wiggum-maxime-le-bras-psmxe/)
 
-### The Rule
+### The rule
 
 **Build automated safety systems instead of relying on human vigilance.**
 
 When AI reliability crosses ~95%, shift from manual review to automated guardrails.
 
-### Anti-Patterns vs Better Approaches
+### Anti-Patterns vs better approaches
 
 | Anti-Pattern | Better Approach |
 |--------------|-----------------|
@@ -766,7 +766,7 @@ echo "✅ All automated checks passed"
 echo "💡 Human review can now focus on architecture/UX/business logic"
 ```
 
-### Edge Cases
+### Edge cases
 
 | Scenario | Behavior |
 |----------|----------|
@@ -775,7 +775,7 @@ echo "💡 Human review can now focus on architecture/UX/business logic"
 | Trivial changes (typo fix) | Run automation (typos can break prod) |
 | Emergency hotfix | Automation REQUIRED (stress = higher error rate) |
 
-### Why This Matters
+### Why this matters
 
 **Old model (pre-AI)**:
 - Code quality = human expertise + careful review
@@ -789,7 +789,7 @@ echo "💡 Human review can now focus on architecture/UX/business logic"
 
 **Solution**: Automate the boring verification (syntax, types, tests), reserve human attention for creative/strategic review.
 
-### Integration with Other Rules
+### Integration with other rules
 
 - **Rule 3 (Feature Completeness)**: Automated tests verify features are actually complete
 - **Rule 2 (Database Safety)**: Migration tests catch destructive operations
@@ -799,9 +799,9 @@ The agent-side counterpart to this paradox is the Verification Gap pattern docum
 
 ---
 
-## Integration with Existing Workflows
+## Integration with existing workflows
 
-### With Plan Mode
+### With plan mode
 
 ```bash
 # Before multi-file changes
@@ -813,7 +813,7 @@ The agent-side counterpart to this paradox is the Verification Gap pattern docum
 # You review before execution
 ```
 
-### With Git Hooks
+### With git hooks
 
 These rules integrate with existing git workflows:
 
@@ -914,7 +914,7 @@ Team settings take precedence, but individuals can opt-in to stricter rules.
 
 ---
 
-## See Also
+## See also
 
 - [Ultimate Guide §9.12 Git Best Practices](#912-git-best-practices-workflows): Commit workflow, Plan → Act pattern
 - [Security Hardening Guide](./security-hardening.md): MCP security, secret protection, hook stack
@@ -926,9 +926,9 @@ Team settings take precedence, but individuals can opt-in to stricter rules.
 
 ---
 
-## Quick Reference
+## Quick reference
 
-### Rule Severity
+### Rule severity
 
 | Rule | Severity | Breaking this causes |
 |------|----------|----------------------|
@@ -939,7 +939,7 @@ Team settings take precedence, but individuals can opt-in to stricter rules.
 | 5. Dependency Safety | 🟡 Medium | Bundle bloat, license issues |
 | 6. Pattern Following | 🟢 Low | Code inconsistency, maintenance burden |
 
-### Enforcement Methods
+### Enforcement methods
 
 | Method | Strictness | Setup Time | Best For |
 |--------|------------|------------|----------|
@@ -949,7 +949,7 @@ Team settings take precedence, but individuals can opt-in to stricter rules.
 | **Post-tool warnings** | ~30% (warns only) | 5 min | Best practices, suggestions |
 | **Git hooks** | 100% (blocks commits) | 15 min | Final safety net before push |
 
-### Common Patterns
+### Common patterns
 
 **Allow staging changes, block production**:
 ```json
@@ -979,9 +979,9 @@ After expiry: revert to standard rules.
 
 ---
 
-## Rule 6: Autonomous Loop Safety
+## Rule 6: Autonomous loop safety
 
-### The Problem
+### The problem
 
 Autonomous agent loops (a Claude session running unattended for hours, processing a queue, monitoring a system) have a failure mode that's hard to debug: the process *appears* to be running but has silently stalled. No error. No exit code. Just nothing happening, consuming your API budget.
 
@@ -990,7 +990,7 @@ This happens when:
 - A tool call hangs waiting for a resource that's gone
 - The session hits an edge case that produces no output but also no failure
 
-### The Rule
+### The rule
 
 For any autonomous session expected to run longer than a few minutes, implement a heartbeat mechanism. If the heartbeat stops, kill the entire **process group**, not just the parent process.
 
@@ -1070,7 +1070,7 @@ rm -f "$CLAUDE_HEARTBEAT_FILE"
 exit "$EXIT_CODE"
 ```
 
-### Tuning the Timeout
+### Tuning the timeout
 
 | Task type | Recommended timeout |
 |-----------|-------------------|
@@ -1081,7 +1081,7 @@ exit "$EXIT_CODE"
 
 Start at 30s and increase only when you observe legitimate pauses longer than your timeout.
 
-### When NOT to Use This
+### When NOT to use this
 
 - Interactive sessions (you're watching): the watchdog adds no value
 - Tasks under 5 minutes: setup overhead isn't justified

@@ -1,4 +1,4 @@
-# Kimi Presentation Template
+# Kimi presentation template
 
 > Copy-paste this entire prompt into Kimi.com to generate the presentation.
 > Fill in all {PLACEHOLDER} values before sending.
@@ -8,7 +8,7 @@
 
 Please create a professional conference talk presentation with the following specifications:
 
-## Presentation Requirements
+## Presentation requirements
 
 **Title**: {FULL_TITLE}
 **Speaker**: {SPEAKER_NAME}
@@ -18,7 +18,7 @@ Please create a professional conference talk presentation with the following spe
 **Language**: {LANGUAGE}
 **Format**: Conference talk — storytelling, minimal text, big numbers, high visual impact
 
-## Design Requirements
+## Design requirements
 
 **Visual Style**:
 - Dark theme, modern and minimal
@@ -51,9 +51,9 @@ Please create a professional conference talk presentation with the following spe
 - Code blocks with slightly lighter background (#1e293b) and monospace font
 - Diagrams using simple boxes, arrows, and the accent color palette
 
-## Slide Content Structure
+## Slide content structure
 
-### ACT 1: {ACT1_TITLE} (Slides 1-{ACT1_LAST_SLIDE}, ~{ACT1_DURATION} min)
+### ACT 1: {ACT1_TITLE} (slides 1-{ACT1_LAST_SLIDE}, ~{ACT1_DURATION} min)
 
 ---
 
@@ -81,7 +81,7 @@ Please create a professional conference talk presentation with the following spe
 
 ---
 
-### ACT 2: {ACT2_TITLE} (Slides {ACT2_FIRST}-{ACT2_LAST}, ~{ACT2_DURATION} min)
+### ACT 2: {ACT2_TITLE} (slides {ACT2_FIRST}-{ACT2_LAST}, ~{ACT2_DURATION} min)
 
 ---
 
@@ -89,7 +89,7 @@ Please create a professional conference talk presentation with the following spe
 
 ---
 
-### ACT 3: {ACT3_TITLE} (Slides {ACT3_FIRST}-{ACT3_LAST}, ~{ACT3_DURATION} min)
+### ACT 3: {ACT3_TITLE} (slides {ACT3_FIRST}-{ACT3_LAST}, ~{ACT3_DURATION} min)
 
 ---
 
@@ -97,7 +97,7 @@ Please create a professional conference talk presentation with the following spe
 
 ---
 
-### ACT 4: {ACT4_TITLE} (Slides {ACT4_FIRST}-{ACT4_LAST}, ~{ACT4_DURATION} min)
+### ACT 4: {ACT4_TITLE} (slides {ACT4_FIRST}-{ACT4_LAST}, ~{ACT4_DURATION} min)
 
 ---
 
@@ -105,7 +105,7 @@ Please create a professional conference talk presentation with the following spe
 
 ---
 
-### ACT 5 + CONCLUSION: {ACT5_TITLE} (Slides {ACT5_FIRST}-{LAST_SLIDE}, ~{ACT5_DURATION} min)
+### ACT 5 + CONCLUSION: {ACT5_TITLE} (slides {ACT5_FIRST}-{LAST_SLIDE}, ~{ACT5_DURATION} min)
 
 ---
 
@@ -113,7 +113,7 @@ Please create a professional conference talk presentation with the following spe
 
 ---
 
-## Speaker Notes Guidelines
+## Speaker notes guidelines
 
 For each slide, speaker notes include:
 - The key narrative beat (what emotion/reaction to aim for)
@@ -126,7 +126,7 @@ Key storytelling moments requiring deliberate pauses:
 2. {PAUSE_MOMENT_2} — {WHY_PAUSE}
 3. {PAUSE_MOMENT_3} — {WHY_PAUSE}
 
-## Screenshot Placeholders
+## Screenshot placeholders
 
 Several slides are designed to accommodate real screenshots. Mark these areas clearly with a placeholder rectangle labeled "SCREENSHOT AREA":
 
@@ -135,7 +135,7 @@ Several slides are designed to accommodate real screenshots. Mark these areas cl
 | {SLIDE_N} | {SCREENSHOT_DESCRIPTION} | {SOURCE} |
 {REPEAT_FOR_ALL_SCREENSHOT_SLIDES}
 
-## Additional Requirements
+## Additional requirements
 
 - Total slide count: Exactly {SLIDE_COUNT} slides
 - Include page numbers on all slides except slide 1 (title)
@@ -154,7 +154,7 @@ Several slides are designed to accommodate real screenshots. Mark these areas cl
 - Don't rely on color alone to convey information (use icons + color)
 - Test readability at typical projector resolution (1920x1080)
 
-## Tone Reference
+## Tone reference
 
 {TONE_PARAGRAPH}
 

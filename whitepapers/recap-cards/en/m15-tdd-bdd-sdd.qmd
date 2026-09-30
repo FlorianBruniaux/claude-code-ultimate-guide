@@ -24,7 +24,7 @@ format:
 | **Audience** | Developers | Devs + business | Entire team |
 | **Feedback** | Tests pass/fail | Validated scenarios | Spec implemented |
 
-## TDD with Claude: Red-Green-Refactor
+## TDD with Claude: Red-green-refactor
 
 The classic cycle, made explicit in prompts to prevent Claude from jumping straight to implementation.
 
@@ -43,7 +43,7 @@ The classic cycle, made explicit in prompts to prevent Claude from jumping strai
 
 Being explicit about "FAILING" and "does not exist yet" matters. Otherwise Claude tends to write test and implementation together.
 
-## BDD with Claude: Given/When/Then
+## BDD with Claude: Given/when/then
 
 ```bash
 > "Describe the behavior of the login page
@@ -80,13 +80,13 @@ All three methods rely on the same principle identified by Boris Cherny: **an ag
 | Style | ESLint / Prettier |
 | Security | Semgrep, static analyzers |
 
-## Chain-of-Verification
+## Chain-of-verification
 
 Cross-validation pattern (arXiv:2309.11495) to reduce hallucinations: Claude generates a response, then generates verification questions about that response, then answers those questions to detect inconsistencies.
 
 Applicable when result correctness is critical and automated tests are insufficient (complex algorithms, subtle business logic).
 
-## Integration with Tasks API
+## Integration with tasks API
 
 Enable task tools with `CLAUDE_CODE_ENABLE_TODO_TOOLS=1`, then ask Claude:
 

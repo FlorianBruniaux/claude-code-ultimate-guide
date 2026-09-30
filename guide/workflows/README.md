@@ -4,13 +4,13 @@ description: "Step-by-step guides for common development patterns with Claude Co
 tags: [workflow, guide, reference]
 ---
 
-# Claude Code Workflows
+# Claude Code workflows
 
 Step-by-step guides for common development patterns with Claude Code.
 
 ---
 
-## 🔍 Search & Discovery
+## 🔍 Search & discovery
 
 ### [Search Tools Mastery](./search-tools-mastery.md) ⭐ NEW
 
@@ -33,7 +33,7 @@ Learn when to use each tool, how to combine them for maximum efficiency, and rea
 
 ---
 
-## 🎯 Development Workflows
+## 🎯 Development workflows
 
 ### [Plan-Driven Development](./plan-driven.md)
 
@@ -155,7 +155,7 @@ Switch between specialist roles across your ship cycle: strategic product gate, 
 
 ---
 
-## 🎨 Design & Content
+## 🎨 Design & content
 
 ### [Design to Code](./design-to-code.md)
 
@@ -189,7 +189,7 @@ Configure Text-to-Speech for Claude Code responses (Agent Vibes integration).
 
 ---
 
-## 🔬 Code Exploration
+## 🔬 Code exploration
 
 ### [Exploration Workflow](./exploration-workflow.md)
 
@@ -201,7 +201,7 @@ Systematically explore and understand unfamiliar codebases.
 
 ---
 
-## Multi-Agent & Advanced
+## Multi-agent & advanced
 
 ### [Dynamic Workflows](./dynamic-workflows.md) ⭐ NEW
 
@@ -268,7 +268,7 @@ Multi-session task tracking with TodoWrite, tasks API, and context persistence a
 
 ---
 
-## Quick Selection Guide
+## Quick selection guide
 
 | Your Situation | Recommended Workflow |
 |----------------|---------------------|

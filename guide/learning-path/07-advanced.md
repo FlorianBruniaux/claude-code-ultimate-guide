@@ -3,7 +3,7 @@ title: "Module 07: Advanced Patterns"
 description: "Learning Path Module 07: orchestrate multi-agent Claude Code workflows, handle error recovery, and apply production-grade automation patterns for team workflows. 2-3 hours, advanced."
 ---
 
-# Module 07: Advanced Patterns
+# Module 07: Advanced patterns
 
 **Time**: 2-3 hours | **Complexity**: ⭐⭐⭐ Advanced
 
@@ -13,7 +13,7 @@ Orchestrate multi-agent workflows. Build complex automation that coordinates mul
 
 ---
 
-## What You'll Learn
+## What you'll learn
 
 - Multi-agent architecture patterns
 - Orchestration strategies
@@ -24,13 +24,13 @@ Orchestrate multi-agent workflows. Build complex automation that coordinates mul
 
 ---
 
-## Multi-Agent Systems
+## Multi-agent systems
 
 A **multi-agent system** is when multiple specialized agents work together on one goal.
 
 Before choosing a team pattern, separate the layers: the model produces tokens, a runtime harness owns a session's model-and-tool loop, the repository harness supplies instructions and verification, and an orchestrator coordinates sessions. [Agent Harness Engineering](../core/agent-harness.md) explains that model; the [Agent Harness Map](../ecosystem/agent-harness-landscape.md) compares loop-owning runtimes and keeps the broader directory separate. Use [Agent Tools: Beyond Claude Code](../ecosystem/agentic-tools.md) for frameworks and control planes, the [glossary](../core/glossary.md) for terms, [Agent Evaluation](../roles/agent-evaluation.md) to score the result, [Session Observability](../ops/observability.md) to inspect execution, and [Security Hardening](../security/security-hardening.md) before running work unattended.
 
-### Example: Code Release Workflow
+### Example: Code release workflow
 
 Instead of one Claude handling everything:
 
@@ -56,9 +56,9 @@ Each agent is fast at its specialized task.
 
 ---
 
-## Orchestration Patterns
+## Orchestration patterns
 
-### Pattern 1: Sequential (Pipeline)
+### Pattern 1: Sequential (pipeline)
 
 Agents run one after another. Output of agent N becomes input to agent N+1.
 
@@ -92,7 +92,7 @@ Design the schema based on these specs
 Generate models based on the schema
 ```
 
-### Pattern 2: Parallel (Fork-Join)
+### Pattern 2: Parallel (fork-join)
 
 Multiple agents work simultaneously, results combined.
 
@@ -128,7 +128,7 @@ Parallel tasks:
 Results combined into one report
 ```
 
-### Pattern 3: Conditional (If-Then)
+### Pattern 3: Conditional (if-then)
 
 Route to different agents based on conditions.
 
@@ -160,7 +160,7 @@ Optimize this code
 
 ---
 
-## Building a Release Workflow
+## Building a release workflow
 
 ### Scenario
 
@@ -173,7 +173,7 @@ You want to automate your release process. Right now you:
 6. Push to origin
 7. Deploy to staging
 
-### Solution: Multi-Agent Workflow
+### Solution: Multi-Agent workflow
 
 **Step 1: Create agents** (each specializes in one task)
 
@@ -301,9 +301,9 @@ Claude then:
 
 ---
 
-## Error Handling in Multi-Agent Systems
+## Error handling in multi-agent systems
 
-### Pattern: Graceful Degradation
+### Pattern: Graceful degradation
 
 If one agent fails, others continue:
 
@@ -321,7 +321,7 @@ If one agent fails, others continue:
   [Instructions to fix tests first]
 ```
 
-### Pattern: Retry on Failure
+### Pattern: Retry on failure
 
 For transient failures (network, timeouts):
 
@@ -349,7 +349,7 @@ echo "❌ Tests failed after $max_retries attempts"
 exit 1
 ```
 
-### Pattern: Rollback on Error
+### Pattern: Rollback on error
 
 If something goes wrong, undo changes:
 
@@ -383,9 +383,9 @@ exit 0
 
 ---
 
-## Production Patterns
+## Production patterns
 
-### Pattern 1: Staged Rollout
+### Pattern 1: Staged rollout
 
 Release to different environments progressively:
 
@@ -404,7 +404,7 @@ Release to different environments progressively:
 Release Complete
 ```
 
-### Pattern 2: Approval Gates
+### Pattern 2: Approval gates
 
 Block advancement until reviewed:
 
@@ -426,7 +426,7 @@ fi
 exit 0
 ```
 
-### Pattern 3: Monitoring & Rollback
+### Pattern 3: Monitoring & rollback
 
 After deployment, verify health:
 
@@ -451,7 +451,7 @@ exit 0
 
 ---
 
-## Exercise: Build Your First Multi-Agent Workflow
+## Exercise: Build your first multi-agent workflow
 
 ### Scenario
 
@@ -462,7 +462,7 @@ You have a data science project. Release checklist:
 4. Update documentation
 5. Create release tag
 
-### Step 1: Create Agents
+### Step 1: Create agents
 
 Create `.claude/agents/` with:
 - `model-versioner.md` - Updates VERSION, model metadata
@@ -471,7 +471,7 @@ Create `.claude/agents/` with:
 - `doc-updater.md` - Updates README, API docs
 - `release-tagger.md` - Creates git tag
 
-### Step 2: Create the Orchestration Command
+### Step 2: Create the orchestration command
 
 `.claude/commands/ml-release.md`:
 ```markdown
@@ -492,7 +492,7 @@ Usage:
 5. Tagger creates release tag
 ```
 
-### Step 3: Test It
+### Step 3: Test it
 
 ```bash
 /ml-release patch
@@ -502,7 +502,7 @@ Watch as agents coordinate the full release.
 
 ---
 
-## Best Practices for Advanced Systems
+## Best practices for advanced systems
 
 ### DO
 
@@ -532,7 +532,7 @@ Watch as agents coordinate the full release.
 
 ---
 
-## Validation: You're Ready If...
+## Validation: You're ready if...
 
 ✓ You can explain multi-agent orchestration patterns
 
@@ -546,7 +546,7 @@ Watch as agents coordinate the full release.
 
 ---
 
-## What's Next?
+## What's next?
 
 You've completed the 7-module learning path! You now understand:
 
@@ -558,7 +558,7 @@ You've completed the 7-module learning path! You now understand:
 - ✅ Hooks and automation
 - ✅ Advanced orchestration
 
-### Next Steps
+### Next steps
 
 **Option A: Deep Dive into a Domain**
 - Go deeper into security: `guide/security/`

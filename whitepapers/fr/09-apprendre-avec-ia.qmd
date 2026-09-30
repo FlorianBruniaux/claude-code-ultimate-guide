@@ -69,9 +69,9 @@ Ce whitepaper couvre le protocole **UVAL** (Understand, Verify, Apply, Learn), u
 | **S9 : Dimension Collective** | Au-dela d'UVAL, dette d'equipe | ~2 |
 | **S10 : Annexes** | Templates, glossaire, quick reference | ~2 |
 
-# Le Probleme : La Dette de Comprehension
+# Le probleme : La dette de comprehension
 
-## Deux Chercheurs, Trois Noms
+## Deux chercheurs, trois noms
 
 Pendant longtemps, j'ai cru que mon incapacite a expliquer du code que j'avais ship etait un probleme de discipline. Un probleme personnel. Puis deux chercheurs lui ont donne des noms precis.
 
@@ -104,7 +104,7 @@ Trois semaines plus tard, un collegue demande pourquoi le systeme est structure 
 Le code est correct. La comprehension a disparu. C'est exactement la dette de comprehension, et elle s'accumule a chaque session ou la pression court-circuite la comprehension.
 :::
 
-## Le Piege du Vibe Coding
+## Le piege du vibe coding
 
 Le terme "vibe coding" a ete forge par Andrej Karpathy (fevrier 2025, Mot de l'Annee Collins 2025) : coder en "se laissant totalement porter par les vibes" sans comprendre le code genere.
 
@@ -143,7 +143,7 @@ La difference critique : dans le flux "IA bonne", vous arrivez a la conversation
 
 # La Realite de la Productivite IA
 
-## La Courbe en Trois Phases
+## La courbe en trois phases
 
 Avant d'optimiser votre approche d'apprentissage, comprenez ce que la recherche montre reellement sur la productivite IA. C'est plus nuance que le marketing.
 
@@ -159,7 +159,7 @@ Trois phases peuvent servir de repère de discussion : découverte, apprentissag
 Sources : [arXiv:2601.20245](https://arxiv.org/abs/2601.20245) | [arXiv:2507.09089](https://arxiv.org/abs/2507.09089) | [arXiv:2507.00788](https://arxiv.org/abs/2507.00788)
 :::
 
-## Ou l'IA Aide (Et Ou Elle Nuit)
+## Ou l'IA aide (et ou elle nuit)
 
 | Taches a Haut Gain | Taches a Gain Faible/Negatif |
 |-------------------|------------------------------|
@@ -185,9 +185,9 @@ Les outputs non-deterministes (memes prompts → resultats variables) creent une
 
 Ce constat rejoint le retour terrain de Julien Lepine (ingenieur, [IFTTD ep 351](https://www.ifttd.io/episodes/aws-summit)) : capper les cycles de developpement assiste par IA chaque jour selon la charge cognitive reelle, pas selon ce que l'outillage permet techniquement. Les praticiens qui ignorent cette limite rapportent une fatigue significative en quelques semaines seulement.
 
-# Diagnostic : Quel Developpeur Etes-Vous ?
+# Diagnostic : Quel Developpeur etes-vous ?
 
-## Self-Check (5 Questions)
+## Self-check (5 questions)
 
 Repondez honnêtement avant de continuer :
 
@@ -209,7 +209,7 @@ Repondez honnêtement avant de continuer :
 
 Soyez honnete. Ce guide ne sert que si vous reconnaissez ou vous en etes reellement.
 
-## Les Trois Patterns
+## Les trois patterns
 
 Chaque developpeur qui utilise l'IA tombe dans l'un de ces trois patterns :
 
@@ -253,7 +253,7 @@ Les trois patterns (Dependant, Evitant, Augmente) decrivent votre relation a l'I
 
 La valeur de cette grille est pratique : elle vous permet de vous fixer un objectif de progression concret ("passer du niveau 2 au niveau 3 d'ici trois mois") plutot qu'un vague "mieux utiliser l'IA". Les actions correspondantes sont identifiables : passer au niveau 3 demande d'adopter le mode Plan et une revue systematique, passer au niveau 5 demande de construire des hooks et des agents personnalises. Ce sont des choses apprenables, pas des talents.
 
-# Le Protocole UVAL
+# Le protocole UVAL
 
 ## Vue d'Ensemble
 
@@ -351,11 +351,11 @@ Seulement maintenant. Votre question est dix fois meilleure.
 
 Les 15 minutes ne sont pas de la lenteur. C'est la difference entre deleguer un probleme et collaborer sur un. La partie la plus difficile, honnêtement, c'est la premiere phrase. Ca parait trivial. Ce n'est pas.
 
-## V : Verifier (Expliquer en Retour)
+## V : Verifier (expliquer en retour)
 
 **La regle** : Si vous ne pouvez pas expliquer le code a un collegue, vous ne l'avez pas appris.
 
-### Le Rubber Duck Protocol
+### Le rubber duck protocol
 
 Quand j'ai essaye de commenter le code a voix haute (l'approche Rubber Duck d'Hunt et Thomas dans le Pragmatic Programmer), j'etais convaincu que ca irait facilement. J'avais lu le code IA, ca avait du sens, je comprenais ce que ca faisait. Puis j'ai essaye d'expliquer non pas ce que chaque ligne faisait, mais pourquoi elle etait ecrite ainsi.
 
@@ -371,7 +371,7 @@ Apres que l'IA a genere du code :
 4. Identifiez les parties que vous ne comprenez pas
 5. Demandez a l'IA d'expliquer ces parties specifiques
 
-### Exemple : Zod Refine
+### Exemple : Zod refine
 
 L'IA genere :
 
@@ -395,7 +395,7 @@ Votre explication :
 
 Si vous ne pouvez pas expliquer le code a un collegue, vous ne l'avez pas compris. C'est le test.
 
-## A : Appliquer (Transformer, Pas Copier)
+## A : Appliquer (transformer, pas copier)
 
 **La regle** : Ne jamais copier-coller du code IA directement. Toujours modifier quelque chose.
 
@@ -414,7 +414,7 @@ C'est exactement comment la dette de comprehension se construit : pas par paress
 | Ajouter un cas limite | Dépend de l’exercice | À mesurer |
 | Refactorer la structure | Dépend de l’exercice | À mesurer |
 
-### Les 4 Modifications Minimales
+### Les 4 modifications minimales
 
 Faites toujours AU MOINS UNE :
 
@@ -480,7 +480,7 @@ L'autre mecanisme : utiliser `CLAUDE.md` comme log de decisions. Pas "on utilise
 
 Le code vous dit ce que le systeme fait. Le log de decisions vous dit pourquoi il a ete construit ainsi. Sans ca, le "pourquoi" disparait des que vous fermez l'editeur, et trois mois plus tard personne ne peut reconstruire le raisonnement, vous y compris.
 
-## Quand UVAL s'Applique (Et Quand Non)
+## Quand UVAL s'Applique (et quand non)
 
 ::: {.callout-warning title="UVAL n'est Pas Universel"}
 **UVAL s'applique a :**
@@ -502,7 +502,7 @@ Le code vous dit ce que le systeme fait. Le log de decisions vous dit pourquoi i
 
 # Implementer UVAL avec Claude Code
 
-## CLAUDE.md : Configuration Learning Mode
+## CLAUDE.md : Configuration learning mode
 
 Le fichier `CLAUDE.md` est votre premiere ligne de defense contre la dette de comprehension. Configure correctement, il transforme chaque session en opportunite d'apprentissage plutot qu'en simple generation de code.
 
@@ -602,7 +602,7 @@ chmod +x .claude/hooks/bash/learning-capture.sh
 
 Le script ne reçoit pas les réponses futures à son rappel. Inspectez le journal et ajoutez explicitement les apprentissages que vous souhaitez conserver.
 
-## Le Split 70/30 Hebdomadaire
+## Le split 70/30 Hebdomadaire
 
 Le ratio 70/30, la règle des 15 minutes et les calendriers ci-dessous sont des heuristiques pédagogiques proposées. Le diagnostic n’est pas un instrument validé ; ajustez ces repères à la personne et vérifiez l’apprentissage réel.
 
@@ -629,7 +629,7 @@ La cle : Ne pas utiliser l'IA intensement quand vous apprenez de NOUVEAUX concep
 
 # Plans de Sortie par Pattern
 
-## Pattern Dependant : Sevrage 4 Semaines
+## Pattern dependant : Sevrage 4 semaines
 
 Vous avez utilise l'IA comme bequille. Voici comment reconstruire votre base.
 
@@ -642,7 +642,7 @@ Vous avez utilise l'IA comme bequille. Voici comment reconstruire votre base.
 | Questions d'entretien echouees sur fondamentaux | Focus sur les bases sans IA |
 :::
 
-### Semaine 1 : Cold Turkey
+### Semaine 1 : Cold turkey
 
 **Objectif** : Prouver a vous-meme que vous pouvez coder sans IA.
 
@@ -654,7 +654,7 @@ Vous avez utilise l'IA comme bequille. Voici comment reconstruire votre base.
 
 **Attendez-vous a ce que ca soit lent et frustrant.** C'est l'apprentissage qui se produit.
 
-### Semaine 2 : Reintroduction Guidee
+### Semaine 2 : Reintroduction guidee
 
 **Objectif** : Utiliser l'IA comme enseignant, pas comme generateur.
 
@@ -668,7 +668,7 @@ Vous avez utilise l'IA comme bequille. Voici comment reconstruire votre base.
 
 Appliquer le protocole UVAL a chaque interaction. Time-boxer les sessions a 45 minutes. Objectif : usage 70% IA sur les taches connues, maintenir 30 min quotidiennes sans IA.
 
-## Pattern Evitant : Introduction Progressive 4 Semaines
+## Pattern Evitant : Introduction progressive 4 semaines
 
 Vous evitez l'IA. Voici pourquoi c'est un probleme et comment changer.
 
@@ -684,7 +684,7 @@ Vous ne trichez pas en utilisant l'IA. Vous etes inefficace en ne l'utilisant pa
 Les meilleurs developpeurs utilisent tous les outils disponibles. L'IA est un outil, pas un remplacement du jugement.
 :::
 
-### Semaine 1 : Introduction a Faible Risque
+### Semaine 1 : Introduction a faible risque
 
 | Tache | Pourquoi c'est Suret | A Essayer |
 |-------|---------------------|---------|
@@ -705,11 +705,11 @@ Les meilleurs developpeurs utilisent tous les outils disponibles. L'IA est un ou
 
 Appliquer le protocole UVAL pour s'assurer d'apprendre, pas juste de generer. L'evitant qui integre l'IA correctement devient souvent plus fort que le dependant, parce qu'il a les bases que l'autre n'a pas construites.
 
-## Pattern Augmente : Optimisation Avancee
+## Pattern augmente : Optimisation avancee
 
 Vous utilisez l'IA bien. Voici comment passer au niveau superieur.
 
-### Predictive Prompting
+### Predictive prompting
 
 Avant que l'IA genere du code, predire l'approche :
 
@@ -719,7 +719,7 @@ Ma prediction : Ca va probablement utiliser reduce()
 Puis comparer a l'output IA --- apprendre des differences
 ```
 
-### Teaching Mode
+### Teaching mode
 
 Utiliser l'IA pour tester votre connaissance en enseignant :
 
@@ -736,13 +736,13 @@ L'IA agit comme un rubber duck intelligent qui peut attraper les erreurs.
 
 Une technique avancee issue des pratiques Meta en production : demander a l'IA de generer des tests ephemeres concus pour echouer sur des regressions dans une fonction specifique ("ecris un test qui detecterait une regression dans cette logique de calcul"). Meta rapporte 4x plus d'efficacite que les tests de durcissement classiques, avec 70% de reduction de charge de review humaine. Pour l'apprentissage, l'interet est different : generer un test qui cible la comprehension d'un bloc de code forces a articuler exactement ce que ce code est cense faire, ce que le simple lecture ne garantit pas.
 
-### Le Metier, C'est la Spec
+### Le metier, c'est la spec
 
 Un changement de cadre qui redefint l'objectif de la maitrise : le metier du developpeur n'est plus d'ecrire du code, c'est d'ecrire des specs assez claires pour que Claude les implemente correctement. Ce recadrage (Larridin/Kanitkar, "Building AI-Native Engineering Teams") transforme le developpeur en **producteur** plutot qu'implementeur, un directeur qui sait exactement ce qu'il veut et peut evaluer ce qu'il obtient.
 
 La consequence directe : la mesure de votre maitrise n'est plus "est-ce que je peux ecrire ce code ?", c'est "est-ce que ma spec est assez precise pour produire le bon code au premier essai ?". Les developpeurs augmentes investissent dans la qualite de la specification autant que dans la revue du code produit.
 
-### Comparative Analysis
+### Comparative analysis
 
 Demander plusieurs approches, puis choisir :
 
@@ -757,7 +757,7 @@ Expliquez les trade-offs de chacune.
 
 Ca construit la pensee architecturale.
 
-### Configuration CLAUDE.md Avancee
+### Configuration CLAUDE.md avancee
 
 ```markdown
 # Configuration Apprentissage Avance
@@ -781,9 +781,9 @@ Apres chaque feature, resumer :
 3. Questions potentielles d'entretien depuis ce code
 ```
 
-# Case Study : Apprentissage Hybride
+# Case study : Apprentissage hybride
 
-## Methode Aristote : Le Modele
+## Methode Aristote : Le modele
 
 Ce cas décrit un dispositif pédagogique ; il ne constitue pas une étude comparative d’efficacité ni une preuve de transfert de ses résultats à l’apprentissage du développement.
 
@@ -809,7 +809,7 @@ Appliquee au coding avec IA :
 - **Equite** : Tout le monde peut apprendre, le rythme varie. Ne vous comparez pas aux autres
 :::
 
-## Principes Transferables
+## Principes transferables
 
 | Principe Aristote | Equivalent Developpeur |
 |-------------------|----------------------|
@@ -818,7 +818,7 @@ Appliquee au coding avec IA :
 | Progression par niveaux | Projets de complexite croissante |
 | Relation long terme | Feedback constant des memes personnes |
 
-## Construire Votre Propre Systeme de Support
+## Construire votre propre systeme de support
 
 Vous n'avez probablement pas de tuteur dedie, mais vous pouvez creer la structure :
 
@@ -861,7 +861,7 @@ La combinaison **responsabilite humaine + pratique IA** bat les deux seuls. C'es
 
 **Critere de succes** : Pouvoir modifier du code IA-genere avec confiance.
 
-## Semaine 3 : Usage Critique
+## Semaine 3 : Usage critique
 
 **Focus** : Challenger les suggestions IA, trouver leurs limites.
 
@@ -901,7 +901,7 @@ La combinaison **responsabilite humaine + pratique IA** bat les deux seuls. C'es
 | Sessions prolongees sans pause | Fatigue IA, variabilite non-deterministe | Time-boxer : 30 min, max 3 retries |
 :::
 
-### Auto-Audit Hebdomadaire
+### Auto-audit Hebdomadaire
 
 Chaque vendredi, demandez-vous :
 
@@ -912,7 +912,7 @@ Chaque vendredi, demandez-vous :
 
 Si vous etes plus rapide mais pas plus competent, vous construisez de la dependance.
 
-# La Dimension Collective : Au-Dela d'UVAL
+# La dimension collective : Au-Dela d'UVAL
 
 ## UVAL est la Couche Individuelle
 
@@ -1012,7 +1012,7 @@ Les exigences dépendent de la classification du système, du rôle de l’organ
 
 ## B. Templates Prets a l'Emploi
 
-### Template CLAUDE.md Complet
+### Template CLAUDE.md complet
 
 ```markdown
 # Learning-First Configuration
@@ -1046,7 +1046,7 @@ Exemple : [2026-02-15] Zod : validation manuelle avait
           rate un cas limite imbrique en prod
 ```
 
-### Slash Command /learn:quiz
+### Slash command /learn:quiz
 
 Fichier : `.claude/commands/learn/quiz.md`
 
@@ -1070,7 +1070,7 @@ de travailler.
 $ARGUMENTS (optionnel : domaine de focus)
 ```
 
-### Configuration Hook JSON
+### Configuration hook JSON
 
 Fichier : `.claude/settings.json`
 
@@ -1087,9 +1087,9 @@ Fichier : `.claude/settings.json`
 }
 ```
 
-## C. Quick Reference Card
+## C. quick reference card
 
-### Protocole UVAL Resume
+### Protocole UVAL resume
 
 ```
 U --- COMPRENDRE D'ABORD
@@ -1109,14 +1109,14 @@ L --- APPRENDRE
     CLAUDE.md = log de decisions (le POURQUOI pas le QUOI)
 ```
 
-### La Regle 70/30
+### La regle 70/30
 
 ```
 Apprendre nouveaux concepts : 70% lutte, 30% IA
 Appliquer competences connues : 30% lutte, 70% IA
 ```
 
-### Minimums Quotidiens
+### Minimums quotidiens
 
 ```
 + 15 min : Coder quelque chose sans IA
@@ -1133,7 +1133,7 @@ Prompt : Explique ce code -- Comprendre du code existant
 /learn:alternatives   -- Comparer des approches
 ```
 
-## D. Glossaire
+## D. glossaire
 
 | Terme | Definition |
 |-------|-----------|

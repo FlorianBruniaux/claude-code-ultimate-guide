@@ -10,7 +10,7 @@
 
 ---
 
-## Executive Summary
+## Executive summary
 
 | Criterion | Value |
 |-----------|-------|
@@ -20,7 +20,7 @@
 
 ---
 
-## What It Is
+## What it is
 
 Semble is a Python-based semantic search tool with a native Claude Code MCP server. It searches across code, documentation, and configuration files in a repository. On first run it builds a local index using Model2Vec embeddings plus BM25 ranking, fused with RRF (Reciprocal Rank Fusion). Subsequent searches hit the cached index.
 
@@ -38,7 +38,7 @@ Key facts, verified against the repo:
 
 ---
 
-## Scoring Breakdown
+## Scoring breakdown
 
 | Criterion | Score | Rationale |
 |-----------|-------|-----------|
@@ -52,7 +52,7 @@ Key facts, verified against the repo:
 
 ---
 
-## Critical Fact: Semble Requires an Index
+## Critical fact: Semble requires an index
 
 Community posts (including the one that prompted this evaluation) describe Semble as "without index, therefore compatible with worktrees." This is false. The Semble README states explicitly: "It requires building an index on first run, then caches it automatically."
 
@@ -62,7 +62,7 @@ No guide content should describe Semble as index-free.
 
 ---
 
-## Comparison with Documented Alternatives
+## Comparison with documented alternatives
 
 | Aspect | grepai | Semble |
 |--------|--------|--------|
@@ -93,7 +93,7 @@ The qmd precedent argues for caution, not rejection. Semble clears the specific 
 
 ---
 
-## Challenge Assessment
+## Challenge assessment
 
 **Challenge agent position**: Score should drop to 2/5 because "two index-based semantic search tools in the same section creates redundancy and reader confusion."
 
@@ -103,7 +103,7 @@ The qmd precedent argues for caution, not rejection. Semble clears the specific 
 
 ---
 
-## Integration Plan
+## Integration plan
 
 ### `guide/ecosystem/mcp-servers-ecosystem.md` (Code Search & Analysis section, near line 826)
 
@@ -117,7 +117,7 @@ Add one entry following the existing server template, after the grepai entry. Ke
 
 ---
 
-## Files Modified
+## Files modified
 
 - `docs/resource-evaluations/semble-code-search.md` (this file)
 - `docs/resource-evaluations/README.md` (index row)

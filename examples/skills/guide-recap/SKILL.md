@@ -6,11 +6,11 @@ argument-hint: "<latest|vX.Y.Z|week [YYYY-MM-DD]> [--interactive] [--format=link
 effort: low
 ---
 
-# Guide Recap
+# Guide recap
 
 Generate social media content from CHANGELOG.md entries. Produces 8 outputs by default (4 formats x 2 languages).
 
-## When to Use
+## When to use
 
 - After running `/release` to create social announcements
 - Weekly to summarize multiple releases
@@ -35,9 +35,9 @@ Generate social media content from CHANGELOG.md entries. Produces 8 outputs by d
 | `--save` | Save output to `[project-docs]/social-posts/` | Display only |
 | `--force` | Generate even if only maintenance entries | Skip low-score |
 
-## Workflow (7 Steps)
+## Workflow (7 steps)
 
-### Step 1: Parse Input
+### Step 1: Parse input
 
 Parse `$ARGUMENTS` to determine mode:
 
@@ -50,7 +50,7 @@ Parse `$ARGUMENTS` to determine mode:
 
 If no argument or invalid argument, display usage and exit.
 
-### Step 2: Extract CHANGELOG Entries
+### Step 2: Extract CHANGELOG entries
 
 Read `CHANGELOG.md` from the project root.
 
@@ -66,7 +66,7 @@ Read `CHANGELOG.md` from the project root.
 **Error: version not found** -> List last 5 versions, suggest `latest`.
 **Error: week has no entries** -> Show date of last release, suggest that version.
 
-### Step 3: Categorize Entries
+### Step 3: Categorize entries
 
 For each top-level entry (first-level bullet under `###`), assign a category:
 
@@ -80,7 +80,7 @@ For each top-level entry (first-level bullet under `###`), assign a category:
 
 See `references/changelog-parsing-rules.md` for detailed classification rules.
 
-### Step 4: Transform to User Value
+### Step 4: Transform to user value
 
 Apply mappings from `references/content-transformation.md`:
 
@@ -121,7 +121,7 @@ If `--interactive` flag is set, insert between steps 4 and 5:
 
 5. Confirm selection and proceed to step 5.
 
-### Step 5: Score and Select
+### Step 5: Score and select
 
 Compute score for each entry:
 
@@ -138,7 +138,7 @@ Select top 3-4 entries by score. Highest score = hook line.
 
 **If all scores < 3**: Output "No social content recommended for this version. Use `--force` to generate anyway." and exit (unless `--force`).
 
-### Step 6: Generate Content
+### Step 6: Generate content
 
 For each requested format (default: all 4) and language (default: both):
 

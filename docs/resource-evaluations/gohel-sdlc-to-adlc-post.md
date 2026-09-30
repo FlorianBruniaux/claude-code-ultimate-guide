@@ -1,4 +1,4 @@
-# From SDLC to ADLC (Rakesh Gohel, LinkedIn, Sep 2026)
+# From SDLC to ADLC (rakesh Gohel, LinkedIn, sep 2026)
 
 ## Evaluation metadata
 

@@ -1,4 +1,4 @@
-# Code Quality Suite Plugin
+# Code quality suite plugin
 
 Code analysis, refactoring, and clean code enforcement.
 
@@ -15,7 +15,7 @@ bash install.sh
 - **/refactor command**: Safe refactoring with validation
 - **/optimize command**: Performance optimization
 
-## Quick Start
+## Quick start
 
 ```bash
 # Refactor a file or folder

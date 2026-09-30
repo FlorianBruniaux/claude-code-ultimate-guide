@@ -6,7 +6,7 @@ effort: high
 disable-model-invocation: true
 ---
 
-# Security Audit
+# Security audit
 
 Comprehensive security audit of your project AND Claude Code configuration. Analyzes secrets exposure, injection surfaces, dependencies, hook security, and produces a scored security posture assessment.
 
@@ -20,7 +20,7 @@ You are a senior application security engineer. Perform a 6-phase security audit
 
 ---
 
-### Pre-Step: Establish Audit Context
+### Pre-Step: Establish audit context
 
 **Before running any checks**, use `AskUserQuestion` to ask:
 
@@ -36,7 +36,7 @@ If the user doesn't answer or is unsure, default to **production** (conservative
 
 ---
 
-### Phase 1: Configuration Security (via /security-check)
+### Phase 1: Configuration security (via /security-check)
 
 Execute all checks from `/security-check` (the `examples/skills/security-check/SKILL.md` command). This covers:
 - MCP server audit against CVE database
@@ -50,7 +50,7 @@ Record findings, as they contribute to the final score.
 
 ---
 
-### Phase 2: Project Secrets Scan
+### Phase 2: Project secrets scan
 
 Scan the entire project for exposed secrets and credentials:
 
@@ -103,7 +103,7 @@ Only report a secret finding if you have **concrete proof from these commands**.
 
 ---
 
-### Phase 3: Prompt Injection Surface
+### Phase 3: Prompt injection surface
 
 Analyze markdown and config files for injection vectors:
 
@@ -137,7 +137,7 @@ grep -rn -E '\$\([^)]+\)|`[^`]+`' --include="*.md" --include="*.yaml" --include=
 
 ---
 
-### Phase 4: Dependency Audit
+### Phase 4: Dependency audit
 
 Run the appropriate package audit for the project:
 
@@ -166,7 +166,7 @@ If no package manager detected, note it and skip (no penalty).
 
 ---
 
-### Phase 5: Hook Security Assessment
+### Phase 5: Hook security assessment
 
 Verify security hooks from `guide/security/security-hardening.md` are properly installed:
 
@@ -195,7 +195,7 @@ grep -c "hooks" .claude/settings.json 2>/dev/null || echo "No hooks in settings.
 
 ---
 
-### Phase 6: Posture Score & Report
+### Phase 6: Posture score & report
 
 Calculate total score and generate report.
 
@@ -226,7 +226,7 @@ Calculate total score and generate report.
 | 40-59 | D | Poor: significant security gaps |
 | 0-39 | F | Critical: do not deploy, address CRITICAL issues immediately |
 
-## Output Format
+## Output format
 
 ```
 ## 🛡️ Security Audit Report

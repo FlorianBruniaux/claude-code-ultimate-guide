@@ -4,7 +4,7 @@ description: "Structured context handoff template triggered at 85% context usage
 tags: [template, memory, workflows]
 ---
 
-# Session Handoff Template
+# Session handoff template
 
 **Inspired by**: Robin Lorenz's Context Engineering approach (original LinkedIn post unavailable) (Feb 2026)
 
@@ -12,7 +12,7 @@ tags: [template, memory, workflows]
 
 ---
 
-## Session Metadata
+## Session metadata
 
 **Date**: YYYY-MM-DD
 **Project**: [Project Name]
@@ -21,7 +21,7 @@ tags: [template, memory, workflows]
 
 ---
 
-## ✅ Completed Work
+## ✅ Completed work
 
 List all work finished in this session with commit references:
 
@@ -42,7 +42,7 @@ git log -5 --oneline
 
 ---
 
-## 🔄 Pending Tasks
+## 🔄 Pending tasks
 
 Tasks started but not completed, with percentage and blockers:
 
@@ -59,7 +59,7 @@ Tasks started but not completed, with percentage and blockers:
 
 ---
 
-## 🚧 Blockers & Issues
+## 🚧 Blockers & issues
 
 Critical blockers that need resolution before proceeding:
 
@@ -74,7 +74,7 @@ Critical blockers that need resolution before proceeding:
 
 ---
 
-## ➡️ Next Steps
+## ➡️ Next steps
 
 Prioritized action items for the next session:
 
@@ -87,19 +87,19 @@ Prioritized action items for the next session:
 
 ---
 
-## 📌 Essential Context
+## 📌 Essential context
 
 Critical information that MUST be preserved (decisions, patterns, constraints):
 
-### Architectural Decisions
+### Architectural decisions
 - **Decision 1**: We chose approach X over Y because [rationale]
 - **Pattern established**: All new features must follow [pattern]
 
-### Technical Constraints
+### Technical constraints
 - **Constraint 1**: Can't use library X due to [reason]
 - **Constraint 2**: Must maintain compatibility with [system]
 
-### Domain Knowledge
+### Domain knowledge
 - **Business rule**: Important rule discovered during implementation
 - **Edge case**: [Unusual scenario] requires [special handling]
 
@@ -109,7 +109,7 @@ Critical information that MUST be preserved (decisions, patterns, constraints):
 
 ---
 
-## 🔄 Resume Instructions
+## 🔄 Resume instructions
 
 **For next session**:
 
@@ -132,7 +132,7 @@ claude
 
 ---
 
-## 📊 Session Stats (Optional)
+## 📊 Session stats (optional)
 
 - **Turns**: ~X (approaching degradation threshold at 15-25 turns)
 - **Context usage**: X% (triggered handoff at 85%)
@@ -141,7 +141,7 @@ claude
 
 ---
 
-## 💡 Why This Template?
+## 💡 Why this template?
 
 **Research-backed rationale**:
 
@@ -154,7 +154,7 @@ claude
 
 ---
 
-## 📚 Related Resources
+## 📚 Related resources
 
 - [Session Handoffs (Ultimate Guide)](../../guide/ultimate-guide.md#session-handoff-pattern)
 - [Auto-Compaction Research (Architecture)](../../guide/core/architecture.md#auto-compaction)

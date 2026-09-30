@@ -8,13 +8,13 @@
 
 ---
 
-## Executive Summary
+## Executive summary
 
 A bash skill that automates cross-folder session migration for Claude Code. Addresses a real gap (GitHub issue #1516) but has zero community adoption. Manual filesystem operations are safer and recommended over this automation tool.
 
 ---
 
-## Source Information
+## Source information
 
 | Field | Value |
 |-------|-------|
@@ -28,7 +28,7 @@ A bash skill that automates cross-folder session migration for Claude Code. Addr
 
 ---
 
-## What It Does
+## What it does
 
 **Problem solved**: Native `--resume` command is limited to the current working directory. When you move a project or want to fork a session to a new folder, the session becomes inaccessible.
 
@@ -46,7 +46,7 @@ A bash skill that automates cross-folder session migration for Claude Code. Addr
 
 ---
 
-## Evaluation Criteria
+## Evaluation criteria
 
 ### 1. Accuracy (4/5)
 
@@ -102,7 +102,7 @@ A bash skill that automates cross-folder session migration for Claude Code. Addr
 
 ---
 
-## Comparative Analysis
+## Comparative analysis
 
 | Aspect | Weller Skill | Manual Approach | Claude Guide |
 |--------|--------------|-----------------|--------------|
@@ -114,7 +114,7 @@ A bash skill that automates cross-folder session migration for Claude Code. Addr
 
 ---
 
-## Integration Decision
+## Integration decision
 
 **Integrated as**: Section addition in `guide/ops/observability.md`
 
@@ -130,7 +130,7 @@ A bash skill that automates cross-folder session migration for Claude Code. Addr
 
 ---
 
-## Fact-Check Results
+## Fact-check results
 
 | Claim | Verified | Source |
 |-------|----------|--------|
@@ -145,7 +145,7 @@ A bash skill that automates cross-folder session migration for Claude Code. Addr
 
 ---
 
-## Risks of Non-Integration
+## Risks of non-integration
 
 **Low risk**:
 - 95%+ users won't need cross-folder migration (based on use case analysis)
@@ -158,7 +158,7 @@ A bash skill that automates cross-folder session migration for Claude Code. Addr
 
 ---
 
-## Technical Writer Challenge Results
+## Technical writer challenge results
 
 **Initial score**: 4/5
 **Challenged score**: 3/5 (adjusted down)
@@ -177,21 +177,21 @@ A bash skill that automates cross-folder session migration for Claude Code. Addr
 
 ## Recommendations
 
-### For Guide Maintainers
+### For guide maintainers
 
 1. **Document manual approach first** (recommended solution)
 2. **Mention community skill** (attribution + honest caveats)
 3. **Warn about risks** (secrets, paths, MCP mismatches)
 4. **Link GitHub issue #1516** (feature request tracking)
 
-### For Users
+### For users
 
 1. **Prefer manual approach** for safety and control
 2. **Test skill thoroughly** before production use (0 community validation)
 3. **Audit `.jsonl` files** for secrets before migration
 4. **Verify MCP compatibility** between source and target projects
 
-### For Skill Author (Jim Weller)
+### For skill author (jim Weller)
 
 1. **Add comprehensive testing** (edge cases, different project types)
 2. **Document security considerations** (secrets, credentials handling)

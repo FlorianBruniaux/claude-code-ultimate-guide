@@ -4,7 +4,7 @@ description: "CLAUDE.md configuration for developers who want to learn while cod
 tags: [claude-md, template, workflows, memory]
 ---
 
-# Learning Mode CLAUDE.md Template
+# Learning mode CLAUDE.md template
 
 A CLAUDE.md configuration optimized for developers who want to learn, not just produce code.
 
@@ -104,9 +104,9 @@ Before ending a session, remind me:
 
 ---
 
-## Customization Guide
+## Customization guide
 
-### For Complete Beginners
+### For complete beginners
 
 Add to "Response Style":
 ```markdown
@@ -115,7 +115,7 @@ Add to "Response Style":
 - Check understanding frequently before moving on
 ```
 
-### For Interview Preparation
+### For interview preparation
 
 Add section:
 ```markdown
@@ -126,7 +126,7 @@ Add section:
 - Note what FAANG companies look for in solutions
 ```
 
-### For Career Changers
+### For career changers
 
 Add to "About Me":
 ```markdown
@@ -135,7 +135,7 @@ Add to "About Me":
 - Help me connect concepts to what I already know
 ```
 
-### For Team Learning
+### For team learning
 
 Add section:
 ```markdown
@@ -147,7 +147,7 @@ Add section:
 
 ---
 
-## Integration with Hooks
+## Integration with hooks
 
 Pair this CLAUDE.md with the learning-capture hook to automatically log insights:
 
@@ -169,7 +169,7 @@ See [examples/hooks/bash/learning-capture.sh](../hooks/bash/learning-capture.sh)
 
 ---
 
-## See Also
+## See also
 
 - [Learning with AI Guide](../../guide/roles/learning-with-ai.md): Complete learning methodology
 - [/learn:quiz Command](../commands/learn/quiz.md): Test your understanding

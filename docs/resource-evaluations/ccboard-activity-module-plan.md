@@ -1,4 +1,4 @@
-# ccboard Activity Module: Implementation Plan
+# ccboard activity module: Implementation plan
 
 **Date**: 2026-02-21
 **Status**: Draft
@@ -17,7 +17,7 @@ Session JSONL files already contain this data — every `tool_use` block in `typ
 
 ## Architecture
 
-### New Files
+### New files
 
 ```
 ccboard-core/
@@ -38,7 +38,7 @@ ccboard-web/
         └── activity.rs          # /activity route — Web UI rendering
 ```
 
-### Modified Files
+### Modified files
 
 ```
 ccboard-core/src/db/schema.rs    # Add activity_events table
@@ -49,7 +49,7 @@ ccboard-web/src/router.rs        # Register /activity route
 
 ---
 
-## Data Models
+## Data models
 
 ```rust
 // ccboard-core/src/models/activity.rs
@@ -176,7 +176,7 @@ fn is_sensitive_file(path: &str) -> bool {
 
 ---
 
-## SQLite Schema
+## SQLite schema
 
 ```sql
 -- Add to ccboard-core/src/db/schema.rs migrations
@@ -208,7 +208,7 @@ CREATE TABLE IF NOT EXISTS activity_alerts (
 
 ---
 
-## TUI Tab (Tab 10)
+## TUI tab (tab 10)
 
 ### Layout
 
@@ -256,7 +256,7 @@ CREATE TABLE IF NOT EXISTS activity_alerts (
 
 ---
 
-## Web UI Page (/activity)
+## Web UI page (/activity)
 
 ```
 GET /activity                    → Session picker → redirect to /activity?session=ID
@@ -277,7 +277,7 @@ GET /api/activity/:session_id/timeline     → Vec<ToolCall> sorted by timestamp
 
 ---
 
-## Alert Detection Rules
+## Alert detection rules
 
 | Rule | Condition | Severity |
 |------|-----------|----------|
@@ -293,7 +293,7 @@ Alerts are generated at parse time and stored in `activity_alerts`. They do **no
 
 ---
 
-## Performance Constraints
+## Performance constraints
 
 ### Requirements
 
@@ -302,7 +302,7 @@ Alerts are generated at parse time and stored in `activity_alerts`. They do **no
 - SQLite cache: parse once, cache `activity_events` by session_id + mtime. Invalidate on file change.
 - Memory: stream JSONL line-by-line, never load full file
 
-### Caching Strategy
+### Caching strategy
 
 ```
 Session selected
@@ -311,7 +311,7 @@ Session selected
     → Cache miss: parse JSONL → insert to DB → return (< 500ms for typical session)
 ```
 
-### Index Strategy
+### Index strategy
 
 Parse activity index (tool counts, alert counts) at startup alongside session metadata — same lazy-index pattern used for session list. Full detail only on demand.
 
@@ -326,7 +326,7 @@ On session select:
 
 ---
 
-## Implementation Phases
+## Implementation phases
 
 ### Phase 1: Parser + Models (1-2 days)
 
@@ -366,7 +366,7 @@ On session select:
 
 ---
 
-## Out of Scope
+## Out of scope
 
 - **Real-time monitoring** (watching live session as it runs) — future phase
 - **Cross-session aggregation** (e.g., "all files read this week") — future phase

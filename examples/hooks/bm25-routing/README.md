@@ -1,4 +1,4 @@
-# BM25 Skill Router for Codex and Claude Code
+# BM25 skill router for Codex and Claude Code
 
 This `UserPromptSubmit` hook ranks active skills against curated examples with Okapi BM25. It supports one global Codex installation that discovers both project and user skills from the prompt's `cwd`.
 

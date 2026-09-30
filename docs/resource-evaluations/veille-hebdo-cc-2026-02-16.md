@@ -47,7 +47,7 @@ Arguments:
 
 **Contre-argument retenu**: La correction des attributions erronees justifie le 4/5. Sans cette veille, 3 features resteraient attribuees a la mauvaise version.
 
-## Fact-Check
+## Fact-check
 
 | Affirmation | Verifiee | Source |
 |-------------|----------|--------|

@@ -257,13 +257,13 @@ Teams like incident.io and others built custom bash/fish wrappers. See:
 
 ---
 
-## 📋 Implementation Recommendations
+## 📋 Implementation recommendations
 
 **Changes proposés:** Ajout section "Advanced Tooling (Optional)"
 
 **Files à modifier:**
 
-### Option A: Section 9.17 (Multi-Instance Workflows)
+### Option A: Section 9.17 (multi-instance workflows)
 - **Fichier**: `guide/ultimate-guide.md`
 - **Ligne**: ~10700 (après "Database Branch Workflow")
 - **Contenu**: Section complète "Advanced Tooling" (voir Option 1 ci-dessus)

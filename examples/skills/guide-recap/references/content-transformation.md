@@ -1,8 +1,8 @@
-# Content Transformation
+# Content transformation
 
 Maps technical CHANGELOG language to user-facing social value. Apply tone-guidelines.md rules to all outputs.
 
-## Transformation Principle
+## Transformation principle
 
 ```
 Technical fact (CHANGELOG) -> User benefit (social post)
@@ -10,9 +10,9 @@ Technical fact (CHANGELOG) -> User benefit (social post)
 
 Never invent benefits. Every transformation must trace back to a concrete CHANGELOG line.
 
-## Mapping Table
+## Mapping table
 
-### New Content
+### New content
 
 | Technical (CHANGELOG) | Social (User Value) |
 |---|---|
@@ -24,7 +24,7 @@ Never invent benefits. Every transformation must trace back to a concrete CHANGE
 | `Enhanced [command/agent] (+N lines)` | `[Command] now supports [new capability]` |
 | `N new entries in reference.yaml` | Skip (internal indexing, no user value) |
 
-### Research & Sources
+### Research & sources
 
 | Technical (CHANGELOG) | Social (User Value) |
 |---|---|
@@ -36,7 +36,7 @@ Never invent benefits. Every transformation must trace back to a concrete CHANGE
 | `Resource evaluation: [file]` | Skip (internal process, not user-facing) |
 | `Fact-checked: N/N claims verified` | Can mention as credibility signal: `All N claims verified` |
 
-### Growth Metrics
+### Growth metrics
 
 | Technical (CHANGELOG) | Social (User Value) |
 |---|---|
@@ -44,7 +44,7 @@ Never invent benefits. Every transformation must trace back to a concrete CHANGE
 | `X -> Y total [items]` | `Now Y [items] (was X)` |
 | `+N lines: X -> Y` | `[Feature] expanded with N lines of [content type]` |
 
-### Fixes & Changes
+### Fixes & changes
 
 | Technical (CHANGELOG) | Social (User Value) |
 |---|---|
@@ -53,7 +53,7 @@ Never invent benefits. Every transformation must trace back to a concrete CHANGE
 | `Landing synced` | Skip (infrastructure) |
 | `Badge updated` | Skip (infrastructure) |
 
-### Maintenance (Usually Skip)
+### Maintenance (usually skip)
 
 | Technical (CHANGELOG) | Social Value |
 |---|---|
@@ -63,9 +63,9 @@ Never invent benefits. Every transformation must trace back to a concrete CHANGE
 | `reference.yaml: +N entries` | Skip |
 | `CLAUDE.md: [update]` | Skip |
 
-## Pattern Recognition
+## Pattern recognition
 
-### Numbers to Highlight
+### Numbers to highlight
 
 When an entry contains numeric changes, extract and format:
 
@@ -85,7 +85,7 @@ When an entry contains numeric changes, extract and format:
 -> highlight: "+522 lines of new content"
 ```
 
-### Named Sources to Credit
+### Named sources to credit
 
 Extract author names and give proper attribution:
 
@@ -97,7 +97,7 @@ Extract author names and give proper attribution:
 "Jude Gao (Vercel)"             -> "From Vercel's benchmarks (Jude Gao)"
 ```
 
-### Topic Clustering
+### Topic clustering
 
 When multiple entries share a theme, cluster them:
 
@@ -115,23 +115,23 @@ Entries about security:
 -> Cluster: "Security focus: sandbox isolation, defense layers, incident response timeline"
 ```
 
-## Version vs Week Framing
+## Version vs week framing
 
-### Single Version
+### Single version
 
 ```
 FR: "Claude Code Ultimate Guide v3.20.5"
 EN: "Claude Code Ultimate Guide v3.20.5"
 ```
 
-### Week (Multiple Versions)
+### Week (multiple versions)
 
 ```
 FR: "Cette semaine dans le guide (N releases)"
 EN: "This week in the guide (N releases)"
 ```
 
-### Week (Single Version)
+### Week (single version)
 
 ```
 FR: "Cette semaine : guide v3.20.5"

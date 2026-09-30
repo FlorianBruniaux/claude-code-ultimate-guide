@@ -1,4 +1,4 @@
-# Resource Evaluation: Boris Paillard: "Son site custom en 2h avec Claude Code"
+# Resource evaluation: Boris Paillard: "Son site custom en 2h avec Claude Code"
 
 **Date**: 2026-03-05
 **Source**: [LinkedIn Pulse](https://www.linkedin.com/pulse/son-site-custom-en-2h-avec-claude-code-m%C3%A9thodes-et-prompts-paillard-7q8je/)
@@ -22,7 +22,7 @@ Concrete project: mixt.care (personalized dermatology). Stack: Tailwind CSS + va
 
 ---
 
-## Score Justification
+## Score justification
 
 **3/5 — Relevant, integrate as field example.**
 
@@ -32,7 +32,7 @@ However: no WCAG/accessibility coverage, no differentiation from Cursor/Copilot,
 
 ---
 
-## Gap Identified → Action Taken
+## Gap identified → action taken
 
 **Gap**: The guide had no documentation of the "Design Reference File" pattern — keeping `brand-book.html` and `ui-kit.html` at the project root as permanent context files for Claude Code. This pattern ensures design coherence across all generated pages without re-prompting.
 
@@ -47,7 +47,7 @@ No changes to `ultimate-guide.md` — the pattern is documented as an example, n
 
 ---
 
-## What the Article Does NOT Cover
+## What the article does NOT cover
 
 - WCAG accessibility / contrast ratios for the generated palette
 - Maintainability after the 2h MVP (technical debt, component evolution)
@@ -56,7 +56,7 @@ No changes to `ultimate-guide.md` — the pattern is documented as an example, n
 
 ---
 
-## Fact-Check
+## Fact-check
 
 | Claim | Status |
 |-------|--------|

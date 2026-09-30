@@ -72,7 +72,7 @@ No need to disclose: trivial autocomplete,
 grammar correction, IDE helpers.
 ```
 
-## AI Code Halflife
+## AI code Halflife
 
 Traceability makes longitudinal maintenance studies possible. Compare equivalent cohorts, observation periods and review practices before attributing differences in code survival to AI assistance. This card does not establish a measured lifespan or a causal effect.
 

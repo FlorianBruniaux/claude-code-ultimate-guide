@@ -1,4 +1,4 @@
-# Steinberger "Shipping at Inference-Speed" - Evaluation
+# Steinberger "Shipping at Inference-Speed" - evaluation
 
 **Date**: 2026-01-30
 **Source**: [steipete.me/posts/2025/shipping-at-inference-speed](https://steipete.me/posts/2025/shipping-at-inference-speed)
@@ -6,7 +6,7 @@
 
 ---
 
-## Score Initial (Human)
+## Score initial (human)
 
 **3/5** - Pertinent (Complément utile)
 
@@ -29,7 +29,7 @@
 
 ---
 
-## Challenge (Agent Technical-Writer)
+## Challenge (agent technical-writer)
 
 **Score proposé**: 2/5 - Marginal
 
@@ -112,7 +112,7 @@
 
 ---
 
-## Score Final
+## Score final
 
 **3/5** - Pertinent (Complément utile)
 

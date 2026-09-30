@@ -1,4 +1,4 @@
-# Resource Evaluation: ManoMano "Project Aegis": Serena MCP Benchmarking
+# Resource evaluation: ManoMano "Project Aegis": Serena MCP benchmarking
 
 **Date**: 2026-03-19
 **Evaluator**: Claude Sonnet 4.6
@@ -10,13 +10,13 @@
 
 ---
 
-## Executive Summary
+## Executive summary
 
 ManoMano's engineering team ran "Project Aegis," an internal benchmark of AI coding agents across their dev stack. Their conclusion: Serena MCP became a must-have tool. The article surfaces real production usage data for Serena, an LSP-based MCP server that provides symbol-level code navigation and session memory. The guide already documents Serena extensively (8+ files, high depth in `ultimate-guide.md` and `search-tools-mastery.md`) but has a specific consistency gap: no entry in `mcp-servers-ecosystem.md`, which lists GrepAI as the only code search/analysis MCP. A reader landing on that page gets an incomplete picture.
 
 ---
 
-## Content Summary
+## Content summary
 
 **What the article covers** (reconstructed — direct fetch failed):
 
@@ -49,7 +49,7 @@ ManoMano's engineering team ran "Project Aegis," an internal benchmark of AI cod
 
 ---
 
-## Gap Analysis vs. Guide
+## Gap analysis vs. guide
 
 | Area | ManoMano article / Serena | Guide coverage |
 |------|--------------------------|----------------|
@@ -64,7 +64,7 @@ ManoMano's engineering team ran "Project Aegis," an internal benchmark of AI cod
 
 ---
 
-## Relevance Score: 3/5
+## Relevance score: 3/5
 
 ### Why 3/5 (Pertinent — Integrate when time available)?
 
@@ -115,7 +115,7 @@ The agent challenge during evaluation raised three valid points:
 
 ---
 
-## Fact-Check
+## Fact-check
 
 | Claim | Verified | Source |
 |-------|----------|--------|

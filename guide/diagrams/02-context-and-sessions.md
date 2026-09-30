@@ -4,13 +4,13 @@ description: "Context zones, memory hierarchy, session management, and fresh con
 tags: [context, sessions, memory, optimization]
 ---
 
-# Context & Sessions
+# Context & sessions
 
 How Claude Code manages context, memory, and sessions across your work.
 
 ---
 
-### Context Management Zones
+### Context management zones
 
 Your context window has 4 distinct zones, each requiring different strategies. Knowing which zone you're in prevents context bloat and maintains response quality throughout long sessions.
 
@@ -87,7 +87,7 @@ flowchart LR
 
 ---
 
-### Memory Hierarchy (6 Types)
+### Memory hierarchy (6 types)
 
 Claude Code has 6 distinct memory types with different scopes and persistence. Knowing which memory type to use for each piece of information is key to effective sessions.
 
@@ -158,7 +158,7 @@ Auto-Memory = persists cross-session, scoped per project
 
 ---
 
-### Session Continuity: Saving and Resuming State
+### Session continuity: Saving and resuming state
 
 Sessions don't automatically persist context between terminals. This diagram shows how to save state and resume it in a new session or terminal, enabling async workflows.
 
@@ -204,7 +204,7 @@ Save progress ──────────────► Write             Lo
 
 ---
 
-### Fresh Context Anti-Pattern vs. Best Practice
+### Fresh context anti-pattern vs. best practice
 
 Long sessions accumulate noise that degrades response quality. This diagram shows the degradation pattern and the recommended "focused sessions" approach that maintains performance.
 

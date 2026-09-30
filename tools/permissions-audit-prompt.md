@@ -1,4 +1,4 @@
-# Audit Your Claude Code Permission and Sandbox Posture
+# Audit your Claude Code permission and sandbox posture
 
 > A self-contained prompt that audits how a project actually gates Claude Code: blanket execution grants, allow-rule bloat, deny and ask coverage, sandbox configuration, scope hygiene, and permission-mode interactions.
 
@@ -101,7 +101,7 @@ Claude Code's permission matcher has specific semantics. Most bad audits come fr
 
 If you are unsure whether a behavior still holds in the installed version, say so in the report under "Not verified" rather than asserting it. Record the version from `claude --version`.
 
-## Phase 0. Inventory
+## Phase 0. inventory
 
 Locate every settings file that applies here and count what is in each. Report the table before analyzing anything.
 

@@ -4,14 +4,14 @@ description: "Reference catalog of available TTS voices with quality ratings and
 tags: [reference, tts, integration]
 ---
 
-# Agent Vibes - Complete Voice Catalog
+# Agent Vibes - complete voice catalog
 
 **Total Voices**: 15 installed + 50+ available
 **Languages**: French (4 models, 128 speakers), English (12 models)
 
 ---
 
-## French Voices (Voix Françaises)
+## French voices (voix françaises)
 
 ### Overview
 
@@ -93,7 +93,7 @@ echo "Analyse des données en cours. Résultats disponibles dans quelques instan
 
 ---
 
-### fr_FR-mls-medium ⭐️⭐️⭐️⭐️⭐️ (Multi-Speaker)
+### fr_FR-mls-medium ⭐️⭐️⭐️⭐️⭐️ (multi-speaker)
 
 **Gender**: Mixed (49 female, 75 male)
 **Quality**: Medium
@@ -140,7 +140,7 @@ done
 
 ---
 
-## English Voices (Voix Anglaises)
+## English voices (voix anglaises)
 
 ### Overview
 
@@ -206,7 +206,7 @@ done
 
 ---
 
-### 16Speakers ⭐️⭐️⭐️⭐️ (Multi-Speaker English)
+### 16Speakers ⭐️⭐️⭐️⭐️ (multi-speaker English)
 
 **Gender**: Mixed (8 female, 8 male)
 **Quality**: Medium
@@ -228,16 +228,16 @@ echo "I am speaker number 5" | \
 
 ---
 
-## Low-Quality Voices (Faster, Lower Quality)
+## Low-Quality voices (faster, lower quality)
 
-### When to Use Low-Quality
+### When to use low-quality
 
 - Battery optimization (50% faster generation)
 - Latency-sensitive applications (<150ms requirement)
 - Quick prototyping or testing
 - Background notifications (quality less important)
 
-### Available Low-Quality Models
+### Available low-quality models
 
 | Voice ID | Gender | Latency | Quality |
 |----------|--------|---------|---------|
@@ -257,16 +257,16 @@ curl -L -o fr_FR-gilles-low.onnx.json \
 
 ---
 
-## High-Quality Voices (Slower, Better Quality)
+## High-Quality voices (slower, better quality)
 
-### When to Use High-Quality
+### When to use high-quality
 
 - Professional presentations
 - Content creation (videos, podcasts)
 - Demos or public showcases
 - When latency is not critical
 
-### Available High-Quality Models
+### Available high-quality models
 
 | Voice ID | Gender | Latency | Quality |
 |----------|--------|---------|---------|
@@ -286,11 +286,11 @@ curl -L -o fr_FR-siwis-high.onnx.json \
 
 ---
 
-## Additional Languages
+## Additional languages
 
 Piper TTS supports **50+ languages**. Download additional voices from Hugging Face.
 
-### Popular Languages Available
+### Popular languages available
 
 | Language | Voices Available | Repository |
 |----------|------------------|------------|
@@ -301,7 +301,7 @@ Piper TTS supports **50+ languages**. Download additional voices from Hugging Fa
 | Russian (ru_RU) | 4+ voices | [Link](https://huggingface.co/rhasspy/piper-voices/tree/main/ru/ru_RU) |
 | Chinese (zh_CN) | 3+ voices | [Link](https://huggingface.co/rhasspy/piper-voices/tree/main/zh/zh_CN) |
 
-### Download Spanish Voice Example
+### Download Spanish voice example
 
 ```bash
 cd ~/.claude/piper-voices
@@ -320,9 +320,9 @@ echo "Hola, soy Claude y hablo español" | \
 
 ---
 
-## Voice Selection Recommendations
+## Voice selection recommendations
 
-### By Use Case
+### By use case
 
 | Use Case | Recommended Voice | Reason |
 |----------|-------------------|--------|
@@ -334,7 +334,7 @@ echo "Hola, soy Claude y hablo español" | \
 | **Variety/Dialogue** | fr_FR-mls-medium | 124 different voices |
 | **Battery Optimization** | Any "-low" voice | 50% faster generation |
 
-### By Language
+### By language
 
 | Primary Language | Best Voice | Alternative |
 |------------------|------------|-------------|
@@ -345,7 +345,7 @@ echo "Hola, soy Claude y hablo español" | \
 
 ---
 
-## Voice Comparison Tool
+## Voice comparison tool
 
 Compare voices side-by-side:
 

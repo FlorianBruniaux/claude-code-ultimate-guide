@@ -39,7 +39,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 cargo install ccboard
 ```
 
-## Installation Process
+## Installation process
 
 1. Checks if cargo is installed
 2. Detects existing ccboard installation
@@ -47,7 +47,7 @@ cargo install ccboard
 4. Installs via `cargo install ccboard --force`
 5. Verifies installation and shows version
 
-## After Installation
+## After installation
 
 Once installed, use these commands:
 

@@ -38,9 +38,9 @@ lever. This resource names the gap clearly. However, the actual CLAUDE.md conten
 rules), the benchmark is weak, and the repo is one day old. Score held at 3 by the framing value, not the
 template.
 
-## Gap Analysis
+## Gap analysis
 
-### Already Covered in Guide
+### Already covered in guide
 
 | Topic | Location |
 |-------|----------|
@@ -49,7 +49,7 @@ template.
 | Profile-based module assembly | lines 5784-6101 |
 | CLAUDE.md caching behavior | line 2337 |
 
-### Not Covered (Real Gap)
+### Not covered (real gap)
 
 | Gap | Impact |
 |-----|--------|
@@ -57,7 +57,7 @@ template.
 | Input vs output token cost as separate optimization axes | Guide treats token efficiency as one axis |
 | Anti-sycophancy rules for agentic loops | Claude adding unsolicited suggestions between task steps is a real agentic workflow pain |
 
-## Fact-Check
+## Fact-check
 
 | Claim | Status | Notes |
 |-------|--------|-------|
@@ -71,7 +71,7 @@ template.
 
 No hallucinations detected. README is honest about benchmark limitations.
 
-## Integration Recommendation
+## Integration recommendation
 
 **Do not integrate now. Monitor 2-3 weeks.**
 

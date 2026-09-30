@@ -11,7 +11,7 @@ Produces a complete analysis of AI config evolution in a git repository. Finds w
 
 **Output**: a single file `{output_dir}/{slug}-git-archaeology.md`
 
-## Expected Input
+## Expected input
 
 ```
 /git-ai-archaeology repo_path=/path/to/repo [output=./talks/slug] [slug=talk-name] [since=2025-01-01]
@@ -35,7 +35,7 @@ Produces a complete analysis of AI config evolution in a git repository. Finds w
 
 ---
 
-## Step 1: Verification and Global Metrics
+## Step 1: Verification and global metrics
 
 ```bash
 # Verify it's a git repo
@@ -52,7 +52,7 @@ git -C {repo_path} log --merges --oneline | wc -l                           # me
 
 ---
 
-## Step 2: Section 1: First Commits per AI-Config Path
+## Step 2: Section 1: First commits per AI-config path
 
 For each path, find the origin commit with `--diff-filter=A`:
 
@@ -90,7 +90,7 @@ Sorted chronologically.
 
 ---
 
-## Step 3: Section 2: Monthly Distribution of AI-Config Commits
+## Step 3: Section 2: Monthly distribution of AI-config commits
 
 Filter commits by AI-config-related keywords:
 
@@ -126,7 +126,7 @@ Build ASCII distribution chart (horizontal or vertical bars).
 
 ---
 
-## Step 4: Section 3: Major PRs and Commits
+## Step 4: Section 3: Major PRs and commits
 
 ### 3.1: feat(ai): / docs(ai): / tech(ai): commits
 
@@ -178,7 +178,7 @@ Only list releases with AI-config content (CLAUDE.md, MCP, agents, skills, hooks
 
 ---
 
-## Step 6: Section 5: Evolution Phases
+## Step 6: Section 5: Evolution phases
 
 Analyze collected data and identify maturity phases. Typical pattern:
 
@@ -197,7 +197,7 @@ Compute the "recent vs historical" ratio (e.g., "81% of AI-config commits in the
 
 ---
 
-## Output Format: {slug}-git-archaeology.md
+## Output format: {slug}-git-archaeology.md
 
 ```markdown
 # Git Archaeology: AI Config Evolution: {slug}
@@ -305,7 +305,7 @@ Compute the "recent vs historical" ratio (e.g., "81% of AI-config commits in the
 
 ---
 
-## Important Rules
+## Important rules
 
 - **Read-only**: no git commands that modify repo state
 - **Verify before asserting**: a date not found in git = note "unverified"
@@ -314,7 +314,7 @@ Compute the "recent vs historical" ratio (e.g., "81% of AI-config commits in the
 - **Section 4 optional**: if no CHANGELOG.md or no AI mentions, note "Not applicable" and skip to Section 5
 - **Adaptive phases**: 4 phases is a common pattern, not a rule; 2 phases or 6 phases are equally valid
 
-## Anti-Patterns
+## Anti-patterns
 
 - Inventing data not found in git
 - Rounding numbers without flagging it
@@ -322,7 +322,7 @@ Compute the "recent vs historical" ratio (e.g., "81% of AI-config commits in the
 - Confusing a rename commit with a creation
 - Omitting "flat" months (0 AI-config commits also tells a story)
 
-## Validation Checklist
+## Validation checklist
 
 - [ ] Repo verified and readable
 - [ ] Section 1: only paths that exist in this repo

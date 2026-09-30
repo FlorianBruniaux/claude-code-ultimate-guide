@@ -5,7 +5,7 @@ effort: medium
 disable-model-invocation: true
 ---
 
-# /plan-pipeline:eng-review: Engineering Architecture Gate
+# /plan-pipeline:eng-review: Engineering architecture gate
 
 Post-direction, pre-implementation command. Takes validated product direction and returns a buildable technical spec with diagrams. Forces the system to think through architecture before a single line of implementation code is written.
 
@@ -13,7 +13,7 @@ Post-direction, pre-implementation command. Takes validated product direction an
 
 ---
 
-## The Problem This Solves
+## The problem this solves
 
 Once product direction is locked, the next failure mode is vague architecture. "The system will handle it" is not a plan. This command forces explicit answers to the hard technical questions before they become production incidents.
 
@@ -21,7 +21,7 @@ The key unlock: **forcing diagram generation**. Diagrams surface hidden assumpti
 
 ---
 
-## When to Use
+## When to use
 
 - After product direction is validated (post `/plan-pipeline:ceo-review` or equivalent)
 - Before any implementation work starts on a non-trivial feature
@@ -30,7 +30,7 @@ The key unlock: **forcing diagram generation**. Diagrams surface hidden assumpti
 
 ---
 
-## What It Should Produce
+## What it should produce
 
 | Output | Why it matters |
 |--------|----------------|
@@ -44,7 +44,7 @@ The key unlock: **forcing diagram generation**. Diagrams surface hidden assumpti
 
 ---
 
-## Prompt Template
+## Prompt template
 
 ```markdown
 # /plan-pipeline:eng-review
@@ -178,7 +178,7 @@ Failure modes:
 
 ---
 
-## Pipeline Position
+## Pipeline position
 
 ```
 /plan-pipeline:ceo-review    -> product direction locked

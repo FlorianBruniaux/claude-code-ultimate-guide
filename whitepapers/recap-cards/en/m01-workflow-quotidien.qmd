@@ -15,7 +15,7 @@ format:
   recap-card-typst: default
 ---
 
-## The Interaction Loop
+## The interaction loop
 
 Every Claude Code session follows this pattern:
 
@@ -31,7 +31,7 @@ Every Claude Code session follows this pattern:
 
 **Claude proposes, you decide.** Never skip the review step, even on changes that seem obvious.
 
-## Session Start
+## Session start
 
 **Before typing the first request:**
 
@@ -45,7 +45,7 @@ claude
 # Check with /status or a question about the project config
 ```
 
-## During the Session
+## During the session
 
 **Review the diff at each step**: do not let Claude chain multiple changes without intermediate validation. On significant modifications, ask explicitly:
 
@@ -62,7 +62,7 @@ You: Show me what you changed before continuing
 | 75%+ | `/compact` now |
 | 90%+ | Save decisions, then compact or hand off as needed |
 
-## Anti-Pattern: Vibe Coding
+## Anti-Pattern: Vibe coding
 
 Letting Claude iterate unsupervised across multiple files, then discovering problems an hour later. The end-of-session diff becomes unreadable and rolling back is costly.
 
@@ -71,7 +71,7 @@ Letting Claude iterate unsupervised across multiple files, then discovering prob
 - Run tests after each significant change
 - Commit regularly to have clean rollback points
 
-## End of Session
+## End of session
 
 Before closing:
 
@@ -85,7 +85,7 @@ git commit -m "feat: short description"
 
 If important decisions were made during the session (architecture choices, adopted conventions), note them in CLAUDE.md so the next session starts from the right context. Sessions do not transfer implicit decisions on their own.
 
-## Effective Prompt Format
+## Effective prompt format
 
 ```
 WHAT:   Fix the timeout bug on login

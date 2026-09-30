@@ -5,15 +5,15 @@ model: haiku
 tools: Read, Bash
 ---
 
-# Loop Monitor Agent
+# Loop monitor agent
 
 Monitors a running autonomous Claude session for failure modes that don't produce errors: stalls, token runaway, and repeated actions with no progress. Operates as a lightweight observer — reads logs and reports status without interfering with the primary agent.
 
 **Role**: Safety layer for unattended sessions. Pair with a heartbeat watchdog (see [Production Safety: Rule 6](../../guide/security/production-safety.md#rule-6-autonomous-loop-safety)) for full coverage.
 
-## What This Agent Detects
+## What this agent detects
 
-### 1. Stall Detection
+### 1. Stall detection
 
 The primary agent has stopped making progress — no new tool calls, no file changes, no output — for longer than the expected task cadence.
 
@@ -26,13 +26,13 @@ NOW=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 # Report if gap > threshold
 ```
 
-### 2. Token Runaway
+### 2. Token runaway
 
 The session is consuming tokens at an abnormally high rate relative to the work being done — often caused by a reasoning loop or repeated tool call with no exit condition.
 
 **Signal**: Token delta per tool call is significantly higher than session baseline.
 
-### 3. Repeated Action Loop
+### 3. Repeated action loop
 
 The same tool call (same tool, same input) appears more than N times in a row without a different action in between — a classic infinite loop signature.
 
@@ -71,7 +71,7 @@ If status is not OK, include:
 4. **Output status report** to stdout (piped to the watchdog or a notification hook)
 5. **Exit 0** on OK/COMPLETE, **exit 1** on any alert state
 
-## Example Integration
+## Example integration
 
 ```bash
 #!/bin/bash
@@ -103,13 +103,13 @@ while true; do
 done
 ```
 
-## Anti-Patterns
+## Anti-patterns
 
 - **Don't interfere** with the primary agent — read-only access to logs only
 - **Don't alert on expected pauses**: long API calls or compilation steps are not stalls; tune `STALL_THRESHOLD` to your task's expected cadence
 - **Don't run this on interactive sessions**: overhead isn't justified when a human is watching
 
-## Model Rationale
+## Model rationale
 
 Haiku is used here because monitoring is a high-frequency, low-complexity operation. The agent reads log entries and applies simple pattern matching — no reasoning depth required. Saves cost on every 30s cycle.
 

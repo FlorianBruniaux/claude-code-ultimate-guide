@@ -6,7 +6,7 @@ when_to_use: "Use to see all active worktrees and their current branch status."
 disable-model-invocation: true
 ---
 
-# Git Worktree Status
+# Git worktree status
 
 Check background verification tasks (type check, tests, build) launched by `/git-worktree`.
 
@@ -21,7 +21,7 @@ Check background verification tasks (type check, tests, build) launched by `/git
 3. **Parse Results**: Extract pass/fail counts, errors
 4. **Report Status**: Color-coded summary with actionable next steps
 
-## Worktree Detection
+## Worktree detection
 
 ```bash
 # Check if inside a worktree (not main repo)
@@ -36,9 +36,9 @@ BRANCH=$(git rev-parse --abbrev-ref HEAD)
 MAIN_REPO=$(git rev-parse --git-common-dir | sed 's|/\.git/worktrees/.*||')
 ```
 
-## Background Task Checks
+## Background task checks
 
-### Type Check Status
+### Type check status
 
 ```bash
 LOG=".worktree-logs/typecheck.log"
@@ -59,7 +59,7 @@ else
 fi
 ```
 
-### Test Status
+### Test status
 
 ```bash
 LOG=".worktree-logs/tests.log"
@@ -81,7 +81,7 @@ else
 fi
 ```
 
-### Build Status
+### Build status
 
 ```bash
 LOG=".worktree-logs/build.log"
@@ -100,7 +100,7 @@ else
 fi
 ```
 
-## Report Format
+## Report format
 
 ```
 Worktree Status: .worktrees/feat/auth
@@ -136,7 +136,7 @@ Checks:
 Action: Fix type errors before proceeding. Run `npx tsc --noEmit` for full output.
 ```
 
-## Log Management
+## Log management
 
 ```bash
 # Clean old logs (useful for re-running checks)
@@ -147,7 +147,7 @@ npx tsc --noEmit > .worktree-logs/typecheck.log 2>&1 &
 npx vitest run --reporter=json > .worktree-logs/tests.log 2>&1 &
 ```
 
-## Quick Reference
+## Quick reference
 
 | Situation | Output |
 |-----------|--------|

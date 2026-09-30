@@ -4,7 +4,7 @@ description: "A bounded protocol for generating independent candidates, selectin
 tags: [workflow, evaluation, verification, agents, testing]
 ---
 
-# Best-of-N: Generate, Select, and Verify
+# Best-of-N: Generate, select, and verify
 
 Best-of-N is useful when a task admits meaningfully different solutions, the cost of a wrong choice is material, and a reviewer or executable check can distinguish the candidates. Generate a small, independent set of candidates, score them against a rubric fixed before generation, verify the selected result, then record the evidence. It is a decision protocol, not a claim that more samples make an output correct.
 

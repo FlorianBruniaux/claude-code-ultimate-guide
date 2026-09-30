@@ -1,4 +1,4 @@
-# Evaluation: agentskills.io - Agent Skills Open Specification
+# Evaluation: agentskills.io - Agent Skills open specification
 
 **Date**: 2026-02-01
 **Source**: [agentskills.io](https://agentskills.io/home) | [GitHub: agentskills/agentskills](https://github.com/agentskills/agentskills) (8.2K stars, désormais 23 547 au 28/07/2026) | [GitHub: anthropics/skills](https://github.com/anthropics/skills) (60.1K stars, désormais 164 580 au 28/07/2026)
@@ -118,7 +118,7 @@ Score 4/5 maintenu. L'argument "spec pour implementeurs" est valide mais le guid
 ### Risques de non-integration:
 **Moderes.** Un lecteur decouvrant la spec agentskills.io realiserait que le guide decrit les skills comme une feature Claude Code isolee, alors qu'elles sont cross-plateforme. Perte de credibilite sur la completude.
 
-## Fact-Check
+## Fact-check
 
 | Affirmation | Verifiee | Source |
 |-------------|----------|--------|

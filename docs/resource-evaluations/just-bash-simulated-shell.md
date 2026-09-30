@@ -1,4 +1,4 @@
-# Resource Evaluation: just-bash (Vercel Labs)
+# Resource evaluation: just-bash (Vercel labs)
 
 **URL**: https://github.com/vercel-labs/just-bash
 **Type**: GitHub repository (monorepo), npm `just-bash` (core) and `@just-bash/executor` (tool discovery)

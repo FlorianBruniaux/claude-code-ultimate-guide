@@ -172,7 +172,7 @@ Au niveau organisationnel, la même courbe existe mais décalée de plusieurs mo
 
 # Q&A: Objections fréquentes
 
-## Budget & Procurement
+## Budget & procurement
 
 **"C'est quoi le budget exact ?"**
 
@@ -230,7 +230,7 @@ Une offre cloud peut transmettre du code et des résultats d’outils hors de l�
 
 Légitime. L'inférence IA est vendue à des prix attractifs aujourd'hui, dans une logique d'acquisition d'audience. La trajectoire à surveiller : les coûts GPU d'inférence baissent structurellement, ce qui limite la capacité à monter les prix indéfiniment. Mais une hausse future reste possible. Deux garde-fous pratiques : préférer les offres avec clauses d'exit claires plutôt que des engagements annuels verrouillés, et ne pas construire de dépendances d'infrastructure sur des appels API illimités. Testez plusieurs scénarios de prix et d’usage dans le budget. La rentabilité reste à démontrer pour chacun.
 
-## ROI & Mesure
+## ROI & mesure
 
 **"On peut pas mesurer le ROI."**
 
@@ -272,7 +272,7 @@ Déterminez les obligations à partir des données, du rôle de l’organisation
 
 Le code généré par IA est du code comme les autres dans le git : visible dans les diffs, les PRs, l'historique. La gouvernance s'applique au code, pas à son origine.
 
-## Usage & Gouvernance
+## Usage & gouvernance
 
 **"Les devs vont perdre leurs compétences."**
 

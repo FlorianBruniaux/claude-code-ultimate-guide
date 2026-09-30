@@ -60,7 +60,7 @@ memory: local     # .claude/agent-memory-local/<name>/
 
 La mémoire `project` peut être commitée pour l’équipe après relecture. La mémoire `local` reste privée à la machine. Activer la mémoire ajoute automatiquement Read, Write et Edit : omettre `memory` pour un agent strictement en lecture seule.
 
-## Agent vs Slash Command
+## Agent vs slash command
 
 | Critère | Agent | Slash Command |
 |---------|-------|---------------|

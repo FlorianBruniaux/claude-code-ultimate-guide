@@ -1,4 +1,4 @@
-# Resource Evaluation: Context Hub (andrewyng/context-hub)
+# Resource evaluation: Context Hub (andrewyng/context-hub)
 
 **Date**: 2026-03-16
 **Source**: LinkedIn post (text) + https://github.com/andrewyng/context-hub
@@ -8,7 +8,7 @@
 
 ---
 
-## Summary of Content
+## Summary of content
 
 - **What it is**: A CLI tool (`chub`) providing coding agents with curated, versioned API documentation as markdown files
 - **Core commands**: `chub get openai/chat --lang py` to fetch API docs; `chub annotate <id> "note"` for persistent cross-session annotations
@@ -25,7 +25,7 @@
 
 ---
 
-## Comparative Analysis
+## Comparative analysis
 
 | Aspect | Context Hub | Our Guide |
 |--------|------------|-----------|
@@ -52,7 +52,7 @@
 
 ---
 
-## Fact-Check
+## Fact-check
 
 | Claim (from LinkedIn post) | Verdict | Notes |
 |---------------------------|---------|-------|

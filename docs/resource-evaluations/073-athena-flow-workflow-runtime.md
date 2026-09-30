@@ -1,4 +1,4 @@
-# Resource Evaluation #073: Athena Flow: Hook-Based Workflow Runtime for Claude Code
+# Resource evaluation #073: Athena flow: Hook-Based workflow runtime for Claude Code
 
 **Source:** [athenaflow.in](https://athenaflow.in) / [github.com/lespaceman/athena-flow](https://github.com/lespaceman/athena-flow)
 **Type:** Open source tool (MIT) — workflow runtime wrapping Claude Code via hooks
@@ -93,7 +93,7 @@ Points souleves par l'agent:
 
 ---
 
-## Fact-Check
+## Fact-check
 
 | Affirmation | Verifiee | Source |
 |-------------|----------|--------|

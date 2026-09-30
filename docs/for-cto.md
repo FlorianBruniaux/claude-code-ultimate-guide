@@ -1,4 +1,4 @@
-# Claude Code: For CTOs & Decision Makers
+# Claude Code: For CTOs & decision makers
 
 > Your engineering team is probably already using AI coding tools. The question isn't whether to adopt Claude Code — it's whether to do it in a controlled, secure, measurable way or let it happen organically (which means inconsistently).
 
@@ -16,7 +16,7 @@ The gap isn't adoption — it's structured adoption. Most teams are using 10% of
 
 ## What decision makers need to know
 
-### Security & Compliance
+### Security & compliance
 
 Claude Code runs locally. It does **not** send your codebase to Anthropic — only the specific context you include in a prompt. What matters for compliance:
 

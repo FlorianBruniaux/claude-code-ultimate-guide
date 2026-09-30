@@ -1,4 +1,4 @@
-# Resource Evaluation: "The Code Agent Orchestra"
+# Resource evaluation: "The Code Agent Orchestra"
 
 **Date**: 2026-03-27
 **Evaluator**: Claude (Sonnet 4.6)
@@ -24,7 +24,7 @@ Addy Osmani presents the paradigm shift from single-agent synchronous interactio
 
 ---
 
-## Evaluation Scoring
+## Evaluation scoring
 
 | Criterion | Score | Notes |
 |-----------|-------|-------|
@@ -40,9 +40,9 @@ Downgraded from initial 4 after challenge review identified that Ralph Loop, AGE
 
 ---
 
-## Gap Analysis
+## Gap analysis
 
-### Already Covered in Guide
+### Already covered in guide
 
 | Topic | Guide Location |
 |-------|----------------|
@@ -55,7 +55,7 @@ Downgraded from initial 4 after challenge review identified that Ralph Loop, AGE
 | Context isolation per agent | `guide/workflows/agent-teams.md:255` |
 | Scope-focused specialized agents | `guide/ultimate-guide.md:4438` |
 
-### Not Covered / Gaps
+### Not covered / gaps
 
 | Gap | Priority |
 |-----|----------|
@@ -69,7 +69,7 @@ Downgraded from initial 4 after challenge review identified that Ralph Loop, AGE
 
 ---
 
-## Integration Recommendations
+## Integration recommendations
 
 ### 1. AGENTS.md success rate stats (Priority: High)
 **File**: `guide/ultimate-guide.md` — section AGENTS.md, near line 4620
@@ -118,7 +118,7 @@ Add a disambiguation note to prevent reader confusion.
 
 ---
 
-## Challenge Notes
+## Challenge notes
 
 Challenge review (technical-writer agent) raised these points, all validated:
 
@@ -130,7 +130,7 @@ Challenge review (technical-writer agent) raised these points, all validated:
 
 ---
 
-## Fact-Check
+## Fact-check
 
 | Claim | Status | Source |
 |-------|--------|--------|

@@ -12,7 +12,7 @@ keywords:
   - "linear mcp vs cli"
 ---
 
-# MCP vs CLI: Decision Guide
+# MCP vs CLI: Decision guide
 
 **Last updated**: May 2026
 
@@ -251,7 +251,7 @@ Note on mcp2cli: the token savings are real for direct API use, remote MCP serve
 
 ---
 
-## MCP vs Skills
+## MCP vs skills
 
 Skills (`.claude/skills/*.md`) are a third integration paradigm, distinct from both MCP servers and CLI tools. Conflating them with CLIs is the most common framing error in this space.
 

@@ -4,7 +4,7 @@ description: "Running Claude Code safely in isolated environments with Docker, n
 tags: [security, sandbox, devops, guide]
 ---
 
-# Sandbox Isolation for Coding Agents
+# Sandbox isolation for coding agents
 
 > **Confidence**: Tier 2 (Official Docker docs + verified vendor documentation)
 > **Reading time**: ~10 minutes
@@ -34,7 +34,7 @@ docker sandbox run claude ~/my-project
 
 ---
 
-## 1. The Problem: Safe Autonomy
+## 1. The problem: Safe autonomy
 
 Claude Code's permission system protects you from unintended actions. But it creates a tension:
 
@@ -46,7 +46,7 @@ Claude Code's permission system protects you from unintended actions. But it cre
 
 ---
 
-## 2. Isolation Approaches
+## 2. Isolation approaches
 
 ```mermaid
 flowchart TD
@@ -74,7 +74,7 @@ flowchart TD
 
 Docker Sandboxes run AI coding agents in microVM-based isolation on your local machine. Each sandbox gets its own private Docker daemon and filesystem. Sandboxes do NOT appear in `docker ps` since they are VMs, not containers.
 
-### Quick Start
+### Quick start
 
 ```bash
 # Create and run a sandbox with your project
@@ -125,7 +125,7 @@ Key properties:
 - **Private Docker**: Each sandbox has its own Docker daemon for building/running containers
 - **Claude runs with `--dangerously-skip-permissions`**: intentional, since the sandbox is the security boundary
 
-### Network Policies
+### Network policies
 
 Control what the sandbox can access on the network.
 
@@ -161,7 +161,7 @@ docker sandbox network proxy my-sandbox \
 
 **Config storage**: Per-sandbox at `~/.docker/sandboxes/vm/[name]/proxy-config.json`. Policies persist across restarts.
 
-### Custom Templates
+### Custom templates
 
 For teams needing reproducible environments with specific tooling:
 
@@ -195,7 +195,7 @@ docker sandbox create my-sandbox \
 
 Use custom templates when: team environments, specific tool versions, repeated setups, complex configurations. For simple one-off work, use the defaults and let the agent install what it needs.
 
-### Commands Reference
+### Commands reference
 
 | Command | Description |
 |---------|-------------|
@@ -218,7 +218,7 @@ Set `ANTHROPIC_API_KEY` in `~/.bashrc` or `~/.zshrc`. The sandbox daemon reads f
 
 Triggered automatically if no credentials found. Use `/login` inside Claude Code to trigger manually. Authentication does NOT persist when the sandbox is destroyed.
 
-### Supported Agents
+### Supported agents
 
 | Agent | Provider | Status |
 |-------|----------|--------|
@@ -238,7 +238,7 @@ Triggered automatically if no credentials found. Use `/login` inside Claude Code
 
 ---
 
-## 4. Native Claude Code Sandbox
+## 4. Native Claude Code sandbox
 
 > **Source**: [code.claude.com/docs/en/sandboxing](https://code.claude.com/docs/en/sandboxing)
 > **Requires**: macOS (built-in) or Linux/WSL2 (bubblewrap + socat)
@@ -282,7 +282,7 @@ Claude Code includes built-in **native sandboxing** using OS-level primitives fo
 | **Docker-in-Docker** | ❌ Not supported | ✅ Private Docker daemon |
 | **Use case** | Daily dev, trusted code | Untrusted code, max isolation |
 
-### OS Primitives
+### OS primitives
 
 **macOS**: Uses Seatbelt (TrustedBSD Mandatory Access Control)
 - Built-in, works out of the box
@@ -296,7 +296,7 @@ Claude Code includes built-in **native sandboxing** using OS-level primitives fo
 
 **Windows native**: ⏳ Planned (not yet available)
 
-### Quick Start
+### Quick start
 
 ```bash
 # Enable sandboxing (interactive menu)
@@ -312,7 +312,7 @@ sudo dnf install bubblewrap socat      # Fedora
 1. **Auto-allow mode**: Bash commands auto-approved if sandboxed (recommended for daily dev)
 2. **Regular permissions mode**: All commands require approval (for high-security)
 
-### Configuration Example
+### Configuration example
 
 ```json
 {
@@ -336,7 +336,7 @@ sudo dnf install bubblewrap socat      # Fedora
 }
 ```
 
-### When to Use Native vs Docker
+### When to use native vs Docker
 
 **Use Native Sandbox when**:
 - ✅ Daily development with trusted team
@@ -368,7 +368,7 @@ Maximum security?
 └─ Standard (process isolation OK) → Native Sandbox
 ```
 
-### Security Limitations
+### Security limitations
 
 **⚠️ Native Sandbox limitations** (see [guide/security/sandbox-native.md](./sandbox-native.md) for details):
 
@@ -379,7 +379,7 @@ Maximum security?
 
 **For untrusted code**, Docker Sandboxes provide stronger isolation.
 
-### Open-Source Runtime
+### Open-source runtime
 
 The sandbox implementation is available as an open-source npm package:
 
@@ -393,7 +393,7 @@ npx @anthropic-ai/sandbox-runtime node mcp-server.js
 
 **Repository**: [github.com/anthropic-experimental/sandbox-runtime](https://github.com/anthropic-experimental/sandbox-runtime)
 
-### Deep Dive
+### Deep dive
 
 For complete technical details, configuration examples, troubleshooting, and security analysis:
 
@@ -403,7 +403,7 @@ Covers: OS primitives, network proxy architecture, sandbox modes, escape hatch, 
 
 ---
 
-## 5. Cloud Sandboxes Landscape
+## 5. Cloud sandboxes landscape
 
 ### Fly.io Sprites
 
@@ -420,7 +420,7 @@ Hardware-isolated execution environments built on Firecracker microVMs, by Fly.i
 - **API**: CLI (`sprite` command), REST API, JavaScript and Go client libraries
 - **Pricing**: Pay-per-use ($0.07/CPU-hour, $0.04/GB-hour). $30 trial credits.
 
-### Cloudflare Sandbox SDK
+### Cloudflare sandbox SDK
 
 > **Source**: [developers.cloudflare.com/sandbox/](https://developers.cloudflare.com/sandbox/)
 
@@ -434,7 +434,7 @@ Secure code execution in isolated containers, built on Cloudflare's Workers plat
 - **Pricing**: Workers Paid plan required. Based on Containers platform pricing.
 - **Tutorial**: [developers.cloudflare.com/sandbox/tutorials/claude-code/](https://developers.cloudflare.com/sandbox/tutorials/claude-code/)
 
-### Vercel Sandboxes
+### Vercel sandboxes
 
 > **Source**: [vercel.com/docs/vercel-sandbox/](https://vercel.com/docs/vercel-sandbox/)
 
@@ -462,7 +462,7 @@ Open-source sandbox platform for AI agents and LLM applications.
 - **Deployment**: Cloud-hosted, BYOC (AWS/GCP/Azure), self-hosted on-premises/VPC
 - **Pricing**: Free tier ($100 credits, 1h max), Pro from $150/month (24h max)
 
-### Native Claude Code Sandbox Mode
+### Native Claude Code sandbox mode
 
 > **Source**: [code.claude.com/docs/en/sandboxing](https://code.claude.com/docs/en/sandboxing)
 
@@ -495,7 +495,7 @@ The README says it without hedging: "All execution happens without VM isolation.
 
 ---
 
-## 6. Comparison Matrix
+## 6. Comparison matrix
 
 | Criterion | Docker Sandboxes | Native CC | Fly.io Sprites | Cloudflare SDK | E2B | Vercel Sandboxes |
 |-----------|-----------------|-----------|----------------|----------------|-----|-----------------|
@@ -512,7 +512,7 @@ The README says it without hedging: "All execution happens without VM isolation.
 
 ---
 
-## 7. Safe Autonomy Workflows
+## 7. Safe autonomy workflows
 
 ### Pattern: Docker Sandbox + --dangerously-skip-permissions
 
@@ -540,7 +540,7 @@ cd ~/my-project && git diff
 git add -A && git commit -m "feat: JWT auth (sandbox-generated)"
 ```
 
-### Pattern: CI/CD Pipeline with Sandbox
+### Pattern: CI/CD pipeline with sandbox
 
 Sketch for GitHub Actions:
 
@@ -564,7 +564,7 @@ For CI/CD, cloud sandboxes (E2B, Vercel, Sprites) are typically better than Dock
 
 ---
 
-## 7b. WebAssembly-based MCP Tool Sandboxing (Experimental)
+## 7b. WebAssembly-based MCP tool sandboxing (experimental)
 
 > **Confidence**: Tier 3, primary sources verified (GitHub repos, Microsoft Open Source Blog). No production deployments confirmed as of June 2026.
 > **Maturity**: Experimental. None of the tools listed here are production-ready.
@@ -581,7 +581,7 @@ WebAssembly offers a different model: compile each MCP tool to a `.wasm` compone
 
 *Christoph Bühler, Devoxx, 2026 (and Deepu Sasidharan, 2025)*
 
-### Available Tools
+### Available tools
 
 | Tool | Role | Maturity |
 |------|------|----------|
@@ -594,7 +594,7 @@ WebAssembly offers a different model: compile each MCP tool to a `.wasm` compone
 
 Note on Wasmtime CVEs: the runtime has a confirmed history of sandbox escape vulnerabilities, including CVE-2026-34971 (Cranelift miscompilation on aarch64 with wasm_memory64 enabled, patched in 36.0.7 / 42.0.2 / 43.0.1). If you evaluate this approach, track [Bytecode Alliance security advisories](https://github.com/bytecodealliance/wasmtime/security/advisories) directly.
 
-### What Wasm Sandboxing Does Not Cover
+### What Wasm sandboxing does not cover
 
 This isolation layer controls OS-level access for MCP tools. It does not provide:
 
@@ -604,13 +604,13 @@ This isolation layer controls OS-level access for MCP tools. It does not provide
 
 These are complementary controls, not alternatives to each other.
 
-### When to Watch This Space
+### When to watch this space
 
 If your threat model includes compromised or third-party MCP servers with unpredictable filesystem access, Wasm-based isolation is the right architectural direction. For most teams today, the practical path is the approval workflow in enterprise-governance.md combined with Docker-based environment isolation. Reassess when Wassette publishes a production-ready release.
 
 ---
 
-## 8. Anti-Patterns
+## 8. Anti-patterns
 
 | Anti-pattern | Why it's dangerous | Do instead |
 |-------------|-------------------|------------|
@@ -623,7 +623,7 @@ If your threat model includes compromised or third-party MCP servers with unpred
 
 ---
 
-## See Also
+## See also
 
 - [architecture.md](../core/architecture.md): Layer 4 (Sub-Agent Architecture) and permission model
 - [security-hardening.md](./security-hardening.md): MCP vetting, injection defense, CVE tracking

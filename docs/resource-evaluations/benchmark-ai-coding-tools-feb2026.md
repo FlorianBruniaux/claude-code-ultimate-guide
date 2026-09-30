@@ -1,4 +1,4 @@
-# Resource Evaluation: Benchmark Comparatif AI Coding Tools (Feb 2026)
+# Resource evaluation: Benchmark comparatif AI coding tools (Feb 2026)
 
 **Date**: 2026-03-02
 **Evaluator**: Claude Sonnet 4.6
@@ -8,7 +8,7 @@
 
 ---
 
-## Executive Summary
+## Executive summary
 
 **Score**: 3/5 (Pertinent — Complément utile)
 **Decision**: Intégration sélective (2 apports nets identifiés)
@@ -99,7 +99,7 @@ Benchmark structuré comparant 5 outils d'agentic coding avec des tableaux déta
 
 ---
 
-## Fact-Check
+## Fact-check
 
 | Affirmation | Vérifiée | Source | Notes |
 |-------------|----------|--------|-------|

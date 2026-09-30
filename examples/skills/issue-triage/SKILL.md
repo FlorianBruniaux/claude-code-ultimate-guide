@@ -5,11 +5,11 @@ allowed-tools: Bash
 effort: medium
 ---
 
-# Issue Triage
+# Issue triage
 
 3-phase workflow for maintainers: automated audit of all open issues, opt-in deep analysis via parallel agents, and validated triage actions (comments, labels, closures).
 
-## When to Use This Skill
+## When to use this skill
 
 | Skill | Usage | Output |
 |-------|-------|--------|
@@ -88,7 +88,7 @@ If still ambiguous, ask via `AskUserQuestion`.
 
 **Note**: `comments` field in `gh issue list --json comments` returns the count, not content. For Phase 2, fetch full content separately: `gh issue view {num} --json comments`.
 
-### Analysis Dimensions
+### Analysis dimensions
 
 Run all 6 dimensions for each open issue:
 
@@ -114,7 +114,7 @@ Scan each open PR body for references to the issue number:
 - Use regex locally on the `body` fields already fetched; do NOT make N additional API calls
 - If found: flag issue as "PR-linked" with PR number
 
-#### 3. Duplicate Detection via Jaccard Similarity
+#### 3. Duplicate detection via Jaccard similarity
 
 **Algorithm (self-contained, no external library)**:
 
@@ -144,7 +144,7 @@ Step 4: Flag:
 
 Jaccard is computed at runtime using the fetched data; no API calls beyond Phase 1 gather.
 
-#### 4. Risk Classification
+#### 4. Risk classification
 
 Assign Red / Yellow / Green based on signals in title + body:
 
@@ -178,7 +178,7 @@ One recommended action per issue:
 | PR-linked | No action needed (tracked via PR) |
 | Normal + labeled | No action needed |
 
-### Output: Triage Tables
+### Output: Triage tables
 
 ```
 ## Open Issues ({count})
@@ -222,7 +222,7 @@ One recommended action per issue:
 - If body is empty → always request details before any other action
 - Never auto-close a Red issue without user confirmation
 
-### Automatic Copy
+### Automatic copy
 
 After displaying the triage tables, copy to clipboard using platform-appropriate command:
 
@@ -247,7 +247,7 @@ Confirm: `Triage tables copied to clipboard.` (EN) / `Tableaux copiés dans le p
 
 ## Phase 2: Deep Analysis (opt-in)
 
-### Issue Selection
+### Issue selection
 
 **If argument passed**:
 - `"all"` → all issues with recommended actions
@@ -275,7 +275,7 @@ options:
 
 If "Skip" → end workflow.
 
-### Executing Analysis
+### Executing analysis
 
 For each selected issue, launch an analysis agent via **Task tool in parallel**:
 
@@ -326,7 +326,7 @@ Aggregate all reports. Display a summary after all analyses complete.
 
 ## Phase 3: Actions (mandatory validation)
 
-### Draft Generation
+### Draft generation
 
 For each analyzed issue, generate the appropriate action using the template `templates/issue-comment.md`.
 
@@ -345,7 +345,7 @@ For each analyzed issue, generate the appropriate action using the template `tem
 - Never post a comment AND close in the same action without user seeing both drafts
 - Always attach a comment when closing (explain why)
 
-### Display and Validation
+### Display and validation
 
 **Display ALL drafted actions** in format:
 
@@ -404,7 +404,7 @@ If "None" → `No actions executed. Workflow complete.`
 
 ---
 
-## Edge Cases
+## Edge cases
 
 | Situation | Behavior |
 |-----------|----------|

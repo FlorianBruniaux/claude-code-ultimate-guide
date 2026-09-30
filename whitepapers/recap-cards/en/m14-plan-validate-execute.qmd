@@ -67,7 +67,7 @@ Every significant architectural decision generates an ADR. 1 ADR: watching. 2 AD
 
 Measure all planning, validation, implementation and retry calls. Current standard rates per million input/output tokens are $2/$10 for Sonnet 5 and $4/$20 for Opus 5.5; a task label alone does not determine the pipeline cost.
 
-## Auto Plan Mode
+## Auto plan mode
 
 Force native Plan Mode on all operations via `--append-system-prompt`:
 

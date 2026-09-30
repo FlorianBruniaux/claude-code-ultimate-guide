@@ -1,4 +1,4 @@
-# Resource Evaluation: Pavan Belagatti 2026 YouTube Corpus
+# Resource evaluation: Pavan Belagatti 2026 YouTube corpus
 
 **Channel**: https://www.youtube.com/@pavanbelagatti
 **Type**: YouTube practitioner and product-tutorial corpus

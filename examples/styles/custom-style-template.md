@@ -4,7 +4,7 @@ description: Review code directly and flag decisions that need human attention
 keep-coding-instructions: true
 ---
 
-# Custom Output Style Template
+# Custom output style template
 
 > Save as `.claude/output-styles/<your-style-name>.md` for a project or `~/.claude/output-styles/<your-style-name>.md` for user-wide use, then reference it via `outputStyle` in `settings.json`, `/output-style`, or `/config`.
 

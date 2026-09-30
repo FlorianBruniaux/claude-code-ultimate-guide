@@ -5,7 +5,7 @@ argument-hint: "[topic] [--hard]"
 effort: low
 ---
 
-# Quiz Me
+# Quiz me
 
 Test understanding of recently written or accepted code.
 
@@ -30,7 +30,7 @@ Test understanding of recently written or accepted code.
 4. Wait for my answer before revealing the correct response
 5. Provide explanations with each answer, not just "correct/incorrect"
 
-## Question Types
+## Question types
 
 ### Level 1: Recall
 - "What does the function X return?"
@@ -57,7 +57,7 @@ Test understanding of recently written or accepted code.
 - "What would need to change to support X?"
 - "Design an extension that adds Y"
 
-## Focus Areas
+## Focus areas
 
 When focus is specified (e.g., `/learn:quiz error handling`), prioritize questions about:
 
@@ -70,7 +70,7 @@ When focus is specified (e.g., `/learn:quiz error handling`), prioritize questio
 | `architecture` | Patterns, separation of concerns, SOLID |
 | `types` | TypeScript types, inference, generics |
 
-## Difficulty Modes
+## Difficulty modes
 
 ### Default
 - 3 questions
@@ -83,7 +83,7 @@ When focus is specified (e.g., `/learn:quiz error handling`), prioritize questio
 - Include hypothetical modifications
 - Ask about trade-offs and alternatives
 
-## Response Format
+## Response format
 
 For each question:
 
@@ -108,7 +108,7 @@ What's your answer?
 Ready for the next question?
 ```
 
-## After Quiz Complete
+## After quiz complete
 
 Summarize:
 - Score: X/Y correct
@@ -116,7 +116,7 @@ Summarize:
 - Review needed: [Topics to revisit]
 - Suggested practice: [Specific exercise]
 
-## Example Session
+## Example session
 
 ```
 User: /learn:quiz
@@ -141,7 +141,7 @@ Correct! An empty dependency array means the effect runs only on mount
 Ready for Question 2?
 ```
 
-## Tips for Users
+## Tips for users
 
 1. **Be honest**: Wrong answers are learning opportunities
 2. **Explain your reasoning**: Helps identify gaps even in correct answers

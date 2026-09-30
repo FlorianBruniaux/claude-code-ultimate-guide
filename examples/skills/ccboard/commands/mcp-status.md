@@ -4,7 +4,7 @@ description: Open ccboard MCP servers tab
 category: monitoring
 ---
 
-# MCP Status Command
+# MCP status command
 
 Launch ccboard and jump directly to the MCP servers management tab.
 
@@ -28,7 +28,7 @@ Launch ccboard and jump directly to the MCP servers management tab.
 ccboard --tab mcp
 ```
 
-## MCP Tab Navigation
+## MCP tab navigation
 
 - `h/j/k/l` or `←/→/↑/↓` : Navigate
 - `Enter` : Focus detail pane
@@ -36,7 +36,7 @@ ccboard --tab mcp
 - `o` : Reveal config file
 - `r` : Refresh server status
 
-## Server Status
+## Server status
 
 - **● Green** : Server process is running
 - **○ Red** : Server process is stopped

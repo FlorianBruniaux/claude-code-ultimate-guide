@@ -1,4 +1,4 @@
-# Resource Evaluation: "What Claude's 1M Token Context Window Means for Your Work"
+# Resource evaluation: "What Claude's 1M Token Context Window Means for Your Work"
 
 **Source**: https://reading.sh/what-claudes-1m-token-context-window-means-for-your-work-3c9f900f04c6
 **Author**: JP Caparas (Medium)
@@ -15,7 +15,7 @@ Plain-language explainer covering: what tokens are and what 1M tokens can hold (
 
 ---
 
-## Fact-Check
+## Fact-check
 
 | Claim | Status | Notes |
 |-------|--------|-------|
@@ -37,7 +37,7 @@ Plain-language explainer covering: what tokens are and what 1M tokens can hold (
 
 ---
 
-## Comparative Analysis
+## Comparative analysis
 
 | Aspect | This resource | Our guide |
 |--------|--------------|-----------|
@@ -52,7 +52,7 @@ Plain-language explainer covering: what tokens are and what 1M tokens can hold (
 
 ---
 
-## Challenge Notes
+## Challenge notes
 
 The technical-writer review agreed score 2/5 is justified. An initial proposal of 3/5 was revised downward because the fact-check demolishes the article's core value proposition — wrong pricing data cannot complement a guide that aims for accuracy. The Povilas Korop anecdote (83% context utilization on a Laravel project) is a nice real-world datapoint, but anecdotal and insufficient to shift the score.
 

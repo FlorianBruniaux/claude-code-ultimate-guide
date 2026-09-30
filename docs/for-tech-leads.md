@@ -1,4 +1,4 @@
-# Claude Code: For Tech Leads & Engineering Managers
+# Claude Code: For tech leads & engineering managers
 
 > You've probably heard your devs talk about Claude Code. Maybe some are already using it. This page is for you — the person responsible for making that adoption consistent, secure, and scalable across the team.
 

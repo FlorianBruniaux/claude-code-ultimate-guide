@@ -4,7 +4,7 @@ description: "When to use Claude Code vs complementary AI tools and how to chain
 tags: [ai-ecosystem, guide, workflows, integration]
 ---
 
-# AI Ecosystem: Maximizing Claude Code with Complementary Tools
+# AI ecosystem: Maximizing Claude Code with complementary tools
 
 > **Reading time**: ~25 minutes
 >
@@ -12,7 +12,7 @@ tags: [ai-ecosystem, guide, workflows, integration]
 
 ---
 
-## Choose the Layer Before Choosing a Product
+## Choose the layer before choosing a product
 
 The model is not the runtime harness, and a framework, dashboard, or fleet manager is not automatically a runtime either. A runtime harness owns the iterative model-and-tool loop. A repository harness makes one codebase legible and verifiable. An orchestrator coordinates multiple runtime sessions. This distinction prevents a feature list from becoming a false comparison.
 
@@ -20,7 +20,7 @@ Read the [Agent Harness Map](./agent-harness-landscape.md) for the strict runtim
 
 ---
 
-## Table of Contents
+## Table of contents
 
 - [Introduction](#introduction)
 - [1. Perplexity AI (Research & Sourcing)](#1-perplexity-ai-research--sourcing)
@@ -51,7 +51,7 @@ Read the [Agent Harness Map](./agent-harness-landscape.md) for the strict runtim
 
 ## Introduction
 
-### Philosophy: Augmentation, Not Replacement
+### Philosophy: Augmentation, not replacement
 
 Claude Code excels at:
 - **Contextual reasoning** across entire codebases
@@ -71,7 +71,7 @@ The goal is not to find "better" tools, but to chain the **right tool for each s
 
 > The same persona/agent pattern that chains complementary tools here is being applied one level up, to named business executive roles (CFO, CMO, board of directors) rather than dev tools. See [AI Executive Agents](./ai-executive-agents.md) for that landscape.
 
-### The Complementarity Matrix
+### The complementarity matrix
 
 | Task | Claude Code | Better Alternative | Why |
 |------|-------------|-------------------|-----|
@@ -85,9 +85,9 @@ The goal is not to find "better" tools, but to chain the **right tool for each s
 
 ---
 
-## 1. Perplexity AI (Research & Sourcing)
+## 1. Perplexity AI (research & sourcing)
 
-### Complementarity Diagram
+### Complementarity diagram
 
 The following diagram illustrates how Perplexity and Claude Code complement each other across the development workflow:
 
@@ -124,7 +124,7 @@ flowchart TB
 
 **Key Insight**: Perplexity answers "What should we build?" → Claude Code answers "How do we build it here?"
 
-### Decision Flow
+### Decision flow
 
 ```mermaid
 flowchart LR
@@ -144,7 +144,7 @@ flowchart LR
     style CW fill:#fef3c7,stroke:#f59e0b
 ```
 
-### When to Use Perplexity Over Claude
+### When to use Perplexity over Claude
 
 | Scenario | Use Perplexity | Use Claude |
 |----------|---------------|------------|
@@ -153,7 +153,7 @@ flowchart LR
 | "Explain this error message" | ⚠️ Generic | ✅ Contextual |
 | "Implement auth in my codebase" | ❌ No files | ✅ Full access |
 
-### Perplexity Pro Features for Developers
+### Perplexity Pro features for developers
 
 **Deep Research Mode**
 - Synthesizes 100+ sources into structured output
@@ -170,9 +170,9 @@ flowchart LR
 - Code blocks: Syntax-highlighted exports
 - Charts: Auto-generated from data
 
-### Integration Workflow
+### Integration workflow
 
-#### Pattern 1: Research → Spec → Code
+#### Pattern 1: Research → spec → code
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -194,7 +194,7 @@ flowchart LR
 └─────────────────────────────────────────────────────────┘
 ```
 
-#### Pattern 2: Parallel Pane Workflow
+#### Pattern 2: Parallel pane workflow
 
 Using tmux or terminal split:
 
@@ -221,9 +221,9 @@ claude "Add rate limiting to API. Check spec.md for approach."
 
 ---
 
-## 2. Google Gemini (Visual Understanding)
+## 2. Google Gemini (visual understanding)
 
-### Developer Use Cases
+### Developer use cases
 
 **Gemini's Visual Superpowers**:
 - UI mockup → HTML/CSS/React code (90%+ fidelity)
@@ -231,7 +231,7 @@ claude "Add rate limiting to API. Check spec.md for approach."
 - Screenshot debugging ("why does this look broken?")
 - Design token extraction (colors, spacing from images)
 
-### Gemini 2.5 Pro for Development
+### Gemini 2.5 Pro for development
 
 Best-in-class for:
 - **Complex UI conversion**: Upload Figma screenshot → Get Tailwind components
@@ -242,9 +242,9 @@ Model selection:
 - **Gemini 2.5 Pro**: Complex visual reasoning, long context
 - **Gemini 2.5 Flash**: Quick visual tasks, lower cost
 
-### Integration Workflow
+### Integration workflow
 
-#### Pattern: Visual → Code
+#### Pattern: Visual → code
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -268,7 +268,7 @@ Model selection:
 └─────────────────────────────────────────────────────────┘
 ```
 
-#### Pattern: Diagram → Implementation Plan
+#### Pattern: Diagram → implementation plan
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -291,7 +291,7 @@ Model selection:
 └─────────────────────────────────────────────────────────┘
 ```
 
-### Image Generation Alternatives
+### Image generation alternatives
 
 For generating diagrams, mockups, or visual assets:
 
@@ -309,7 +309,7 @@ For generating diagrams, mockups, or visual assets:
 
 ---
 
-## 3. Kimi (PPTX & Long Document Generation)
+## 3. Kimi (PPTX & long document generation)
 
 ### What is Kimi?
 
@@ -319,7 +319,7 @@ For generating diagrams, mockups, or visual assets:
 - **Code-aware layouts** (syntax highlighting in slides)
 - **Multilingual** (excellent Chinese/English)
 
-### Developer Use Cases
+### Developer use cases
 
 **Presentation Generation**:
 - PR summary → stakeholder deck
@@ -327,9 +327,9 @@ For generating diagrams, mockups, or visual assets:
 - Technical spec → team onboarding slides
 - Code walkthrough → training materials
 
-### Integration Workflow
+### Integration workflow
 
-#### Pattern: Code → Presentation
+#### Pattern: Code → presentation
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -352,7 +352,7 @@ For generating diagrams, mockups, or visual assets:
 └─────────────────────────────────────────────────────────┘
 ```
 
-#### Pattern: Architecture → Training
+#### Pattern: Architecture → training
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -373,7 +373,7 @@ For generating diagrams, mockups, or visual assets:
 └─────────────────────────────────────────────────────────┘
 ```
 
-### Comparison: Presentation Tools
+### Comparison: Presentation tools
 
 | Tool | Strengths | Weaknesses | Best For |
 |------|-----------|------------|----------|
@@ -387,9 +387,9 @@ For generating diagrams, mockups, or visual assets:
 
 ---
 
-## 4. NotebookLM (Synthesis & Audio)
+## 4. NotebookLM (synthesis & audio)
 
-### Developer Use Cases
+### Developer use cases
 
 **Documentation Synthesis**:
 - Upload 50+ files → Get unified understanding
@@ -401,9 +401,9 @@ For generating diagrams, mockups, or visual assets:
 - Two AI hosts discuss your documentation
 - Perfect for onboarding or reviewing large systems
 
-### Integration Workflow
+### Integration workflow
 
-#### Pattern: Codebase → Audio Onboarding
+#### Pattern: Codebase → audio onboarding
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -433,7 +433,7 @@ For generating diagrams, mockups, or visual assets:
 └─────────────────────────────────────────────────────────┘
 ```
 
-#### Pattern: Multi-Source Synthesis
+#### Pattern: Multi-Source synthesis
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -473,7 +473,7 @@ After NotebookLM synthesis, export key insights to your project:
 
 ---
 
-## 4.1 NotebookLM MCP Integration
+## 4.1 NotebookLM MCP integration
 
 **Available since**: Claude Code v2.1+ with MCP support
 
@@ -558,7 +558,7 @@ The MCP stores credentials in an isolated Chrome profile, so your main browser c
 # }
 ```
 
-### Building Your Notebook Library
+### Building your notebook library
 
 Unlike the web UI, the MCP works with **share links** rather than auto-syncing all notebooks.
 
@@ -595,7 +595,7 @@ Topics: LLM, fine-tuning, RAG, deployment"
 # Returns relevant notebooks based on name, description, topics
 ```
 
-### Querying Notebooks
+### Querying notebooks
 
 **Direct query** (specify notebook):
 
@@ -634,7 +634,7 @@ Topics: LLM, fine-tuning, RAG, deployment"
 "How does DPO compare to RLHF?"
 ```
 
-### Advanced Workflows
+### Advanced workflows
 
 **Multi-notebook research**:
 
@@ -665,7 +665,7 @@ Topics: LLM, fine-tuning, RAG, deployment"
 # Useful to resume previous research threads
 ```
 
-### Comparison: MCP vs Web UI
+### Comparison: MCP vs web UI
 
 | Feature | MCP Integration | Web UI |
 |---------|----------------|--------|
@@ -703,7 +703,7 @@ cat ~/.claude.json | jq '.mcpServers.notebooklm'
 # }
 ```
 
-### Example: Onboarding Workflow
+### Example: Onboarding workflow
 
 ```bash
 # Day 1: Setup
@@ -725,7 +725,7 @@ cat ~/.claude.json | jq '.mcpServers.notebooklm'
 
 ---
 
-## 4.2 Advanced Features (Full Profile)
+## 4.2 Advanced features (full profile)
 
 **When to use `full` profile**:
 - Need to switch Google accounts frequently (`re_auth`)
@@ -742,7 +742,7 @@ export NOTEBOOKLM_PROFILE=full
 # Restart Claude Code
 ```
 
-### Remove Notebook from Library
+### Remove notebook from library
 
 ```bash
 "Remove notebook: LLM Engineer Handbook"
@@ -753,7 +753,7 @@ export NOTEBOOKLM_PROFILE=full
 
 **Use case**: Declutter library, remove outdated notebooks, fix duplicate entries.
 
-### Re-authentication (Account Switching)
+### Re-authentication (account switching)
 
 **Scenario**: You want to switch from personal Google account to work account.
 
@@ -770,7 +770,7 @@ export NOTEBOOKLM_PROFILE=full
 
 **Important**: After re-auth, your notebook library is **preserved** (stored locally), but you'll need to verify access to notebooks (they must be shared with new account).
 
-### Cleanup Data
+### Cleanup data
 
 **Scenario**: Start fresh, clear all MCP data (auth, library, browser profile).
 
@@ -804,7 +804,7 @@ export NOTEBOOKLM_PROFILE=full
 # → cleanup_data(preserve_library=false, confirm=true)
 ```
 
-### Manual Browser Control
+### Manual browser control
 
 **Advanced debugging tools** (full profile only):
 
@@ -834,11 +834,11 @@ export NOTEBOOKLM_PROFILE=full
 
 ---
 
-## 4.3 Browser Options (All Profiles)
+## 4.3 Browser options (all profiles)
 
 Control browser behavior for queries and authentication.
 
-### Available Options
+### Available options
 
 ```javascript
 {
@@ -869,7 +869,7 @@ Control browser behavior for queries and authentication.
 }
 ```
 
-### Usage Examples
+### Usage examples
 
 **Debug authentication visually**:
 
@@ -908,11 +908,11 @@ ask_question(
 
 ---
 
-## 4.4 Session Management
+## 4.4 Session management
 
 NotebookLM MCP maintains conversation context across queries via `session_id`.
 
-### How Sessions Work
+### How sessions work
 
 ```bash
 # First query → Creates session
@@ -934,7 +934,7 @@ NotebookLM MCP maintains conversation context across queries via `session_id`.
 - **Timeout**: 15 minutes of inactivity (configurable)
 - **Max sessions**: 10 concurrent (configurable)
 
-### List Active Sessions
+### List active sessions
 
 ```bash
 "List my active NotebookLM sessions"
@@ -949,7 +949,7 @@ NotebookLM MCP maintains conversation context across queries via `session_id`.
 
 **Use case**: Resume previous research threads, understand query history, debug context issues.
 
-### Manual Session Control
+### Manual session control
 
 **Resume specific session**:
 
@@ -973,9 +973,9 @@ Sessions auto-expire after 15 minutes. Manual cleanup via `cleanup_data`.
 
 ---
 
-## 4.5 Library Management Best Practices
+## 4.5 Library management best practices
 
-### Organizing Notebooks
+### Organizing notebooks
 
 **Naming conventions**:
 
@@ -1012,7 +1012,7 @@ use_cases: [
 ]
 ```
 
-### Metadata Refinement Workflow
+### Metadata refinement workflow
 
 After using a notebook, refine its metadata:
 
@@ -1031,7 +1031,7 @@ Topics: TypeScript, types"
  - Add tag: advanced"
 ```
 
-### Search and Discovery
+### Search and discovery
 
 **Keyword search**:
 
@@ -1051,7 +1051,7 @@ Topics: TypeScript, types"
 # Claude auto-selects TypeScript Guide if metadata matches
 ```
 
-### Notebook Lifecycle
+### Notebook lifecycle
 
 ```bash
 # 1. Add
@@ -1077,14 +1077,14 @@ Topics: TypeScript, types"
 
 ---
 
-## 5. Voice-to-Text Tools (Wispr Flow, Superwhisper)
+## 5. Voice-to-Text tools (wispr flow, Superwhisper)
 
 **Philosophy**: "Vibe coding," dictate intent and let AI implement
 
 Voice input delivers ~4x typing speed (~150 WPM vs ~40 WPM) with richer context.
 You say more when you don't have to type it.
 
-### Tool Comparison
+### Tool comparison
 
 | Tool | Processing | Latency | Privacy | Price | Platform |
 |------|------------|---------|---------|-------|----------|
@@ -1092,7 +1092,7 @@ You say more when you don't have to type it.
 | **Superwhisper** | Local | 1-2s | 100% offline | ~$50 one-time | Mac only |
 | **MacWhisper** | Local | Variable | 100% offline | $49 one-time | Mac only |
 
-### When Voice + Claude Code Shines
+### When voice + Claude Code shines
 
 | Scenario | Why voice wins |
 |----------|---------------|
@@ -1101,7 +1101,7 @@ You say more when you don't have to type it.
 | Multi-agent management | Dictate to 3-4 Claude sessions simultaneously |
 | Accessibility | RSI, mobility constraints, eye strain |
 
-### Vibe Coding Workflow
+### Vibe coding workflow
 
 1. Open Claude Code or Cursor
 2. Activate voice (Wispr hotkey or system dictation)
@@ -1135,7 +1135,7 @@ See `/voice-refine` skill template in `examples/skills/`.
 
 ---
 
-## 5.1 Text-to-Speech Tools (Agent Vibes)
+## 5.1 Text-to-speech tools (Agent Vibes)
 
 **Philosophy**: Audible narration frees your eyes for multitasking
 
@@ -1145,7 +1145,7 @@ Text-to-speech adds audio narration to Claude Code responses, enabling:
 - **Accessibility** (visual impairment, eye strain, RSI)
 - **Background monitoring** (alerts for errors/completion)
 
-### Tool: Agent Vibes (Community MCP Server)
+### Tool: Agent Vibes (community MCP server)
 
 **Status**: Optional integration (not official Claude Code feature)
 **Cost**: 100% free (offline TTS)
@@ -1160,7 +1160,7 @@ Text-to-speech adds audio narration to Claude Code responses, enabling:
 | **Disk Space** | ~1.3GB (Piper + voices + audio effects) |
 | **Installation** | ~18 minutes (5 phases, interactive) |
 
-### When TTS Shines
+### When TTS shines
 
 | Scenario | Benefit |
 |----------|---------|
@@ -1179,7 +1179,7 @@ Text-to-speech adds audio narration to Claude Code responses, enabling:
 | Multi-language (50+) | ~1GB disk space for voice models |
 | 124 voice variety | Installation requires Homebrew, Bash 5.x |
 
-### Quick Start
+### Quick start
 
 **Installation**: [TTS Setup Workflow](../workflows/tts-setup.md) (18 min)
 
@@ -1210,7 +1210,7 @@ Text-to-speech adds audio narration to Claude Code responses, enabling:
 | **Battery-conscious** | Use macOS Say provider (instant, lower quality) |
 | **Public workspace** | ❌ Skip TTS (audio distraction to others) |
 
-### Complete Documentation
+### Complete documentation
 
 - **[Agent Vibes Integration Guide](../../examples/integrations/agent-vibes/README.md)** - Overview, commands, use cases
 - **[Installation Guide](../../examples/integrations/agent-vibes/installation.md)** - 18-minute setup procedure
@@ -1223,7 +1223,7 @@ Text-to-speech adds audio narration to Claude Code responses, enabling:
 
 ---
 
-## 6. IDE, ADE, and Hybrid Coding Environments
+## 6. IDE, ADE, and hybrid coding environments
 
 > **Technical Comparison**: For an objective comparison of Claude Code vs 22+ alternatives across 11 criteria (MCP support, Skills, Commands, Subagents, Plan Mode), see the [AI Coding Agents Matrix](https://coding-agents-matrix.dev/) (updated Jan 2026).
 
@@ -1237,7 +1237,7 @@ Compare three independent questions before choosing a product:
 
 The [Agent Harness Landscape](./agent-harness-landscape.md#interface-execution-and-loop-ownership-are-separate) applies this taxonomy across the sourced catalog. The deeper [Warp Agent CLI profile](./agentic-tools.md#19-warp-agent-cli) shows why a product commonly described as an ADE may also belong in a terminal-agent comparison.
 
-### Choose the Interface by Workflow
+### Choose the interface by workflow
 
 | Need | Interface to test first | Examples, not rankings |
 |---|---|---|
@@ -1250,7 +1250,7 @@ The [Agent Harness Landscape](./agent-harness-landscape.md#interface-execution-a
 
 An interface match is only a shortlist. Permission controls, repository isolation, execution location, recovery, model access, and accepted-task cost still require a representative trial.
 
-### Hybrid Workflow
+### Hybrid workflow
 
 **Morning session (strategic)**:
 ```bash
@@ -1271,7 +1271,7 @@ claude "Review my changes and suggest tests"
 # Claude reviews diff, generates comprehensive tests
 ```
 
-### Real-World Migration Path: Cursor → Windsurf → Claude Code
+### Real-World migration path: Cursor → Windsurf → Claude Code
 
 > **Source**: [Zadig&Voltaire Engineering Blog](https://tech.zadig-et-voltaire.com/blog/migration-nuxt/), Benjamin Calef, Feb 2026
 
@@ -1290,7 +1290,7 @@ The team reported the pivot to Claude Code was driven by **codebase-level contex
 
 **Caveat**: Performance gains reported (-33% LOC, -63% LCP) are primarily attributable to the Nuxt 3 migration itself, not the AI tooling. The tool migration path is the transferable insight.
 
-### Cursor-Specific Integration
+### Cursor-specific integration
 
 Cursor's `.cursor/rules` can mirror your CLAUDE.md:
 
@@ -1308,11 +1308,11 @@ Cursor's `.cursor/rules` can mirror your CLAUDE.md:
 - Components use render props for flexibility
 ```
 
-### Multi-IDE Configuration Sync
+### Multi-IDE configuration sync
 
 When your team uses multiple AI coding tools (Claude Code + Cursor + Copilot), maintaining consistent conventions across all tools becomes a challenge.
 
-#### The Problem
+#### The problem
 
 | Tool | Config File | Format |
 |------|-------------|--------|
@@ -1323,7 +1323,7 @@ When your team uses multiple AI coding tools (Claude Code + Cursor + Copilot), m
 
 **Without sync**: Each file drifts independently, producing inconsistent AI behavior across tools.
 
-#### Solution 1: Native @import (Recommended for Claude Code)
+#### Solution 1: Native @import (recommended for Claude Code)
 
 Claude Code supports `@path/to/file.md` imports natively:
 
@@ -1336,7 +1336,7 @@ Claude Code supports `@path/to/file.md` imports natively:
 **Pros**: Native, no build step, maintained by Anthropic
 **Cons**: Cursor/.cursorrules doesn't support @import
 
-#### Solution 2: Script-Based Generation (Multi-IDE Teams)
+#### Solution 2: Script-Based generation (multi-IDE teams)
 
 For teams needing **identical conventions across all IDEs**:
 
@@ -1374,7 +1374,7 @@ cat "docs/ai-instructions/cursor-specific.md" >> .cursorrules
 - Need to enforce identical conventions across all tools
 - CI/CD validation of AI instructions
 
-#### ⚠️ AGENTS.md Support Status
+#### ⚠️ AGENTS.md support status
 
 **Claude Code does NOT natively support AGENTS.md** ([GitHub issue #6235](https://github.com/anthropics/claude-code/issues/6235), 171 comments, still open as of Feb 2026).
 
@@ -1392,13 +1392,13 @@ When you need Claude's deeper analysis:
 
 ---
 
-## 6.1 Google Antigravity (Agent-First IDE)
+## 6.1 Google Antigravity (agent-first IDE)
 
 > **Source**: [Google Codelabs](https://codelabs.developers.google.com/getting-started-google-antigravity), [Google Cloud Blog](https://cloud.google.com/blog/topics/developers-practitioners/choosing-antigravity-or-gemini-cli), community reviews (Feb 2026)
 
 Google Antigravity is an **agent-first IDE** (VS Code fork) launched late 2025. Unlike traditional IDE tools that add AI to an editor, Antigravity makes autonomous agents the primary interface. Developers supervise through a mission control-style UI rather than writing code directly.
 
-### Claude Code vs Antigravity: Two Philosophies
+### Claude Code vs Antigravity: Two philosophies
 
 | Dimension | Claude Code | Google Antigravity |
 |-----------|-------------|-------------------|
@@ -1415,7 +1415,7 @@ Google Antigravity is an **agent-first IDE** (VS Code fork) launched late 2025. 
 
 A community [npm package](https://www.npmjs.com/package/antigravity-claude-proxy) exposes an Anthropic-compatible API backed by Antigravity's Cloud Code service. This lets developers use Claude models through Antigravity's interface, or chain both tools in a single workflow.
 
-### When to Consider Antigravity
+### When to consider Antigravity
 
 | Scenario | Recommendation |
 |----------|---------------|
@@ -1435,9 +1435,9 @@ A community [npm package](https://www.npmjs.com/package/antigravity-claude-proxy
 
 ---
 
-## 7. UI Prototypers (v0, Bolt, Lovable)
+## 7. UI prototypers (v0, bolt, lovable)
 
-### When to Use Prototypers
+### When to use prototypers
 
 | Scenario | Use Prototyper | Use Claude Code |
 |----------|---------------|-----------------|
@@ -1446,7 +1446,7 @@ A community [npm package](https://www.npmjs.com/package/antigravity-claude-proxy
 | "Rapid UI iteration" | ✅ Live preview | ⚠️ Slower |
 | "Match design system" | ⚠️ Generic | ✅ Reads your tokens |
 
-### Tool Comparison
+### Tool comparison
 
 | Tool | Strengths | Stack | Best For |
 |------|-----------|-------|----------|
@@ -1455,9 +1455,9 @@ A community [npm package](https://www.npmjs.com/package/antigravity-claude-proxy
 | **Lovable** | Design-to-code | React | Designer handoff |
 | **WebSim** | Experimental UI | Web | Creative exploration |
 
-### Integration Workflow
+### Integration workflow
 
-#### Pattern: Prototype → Production
+#### Pattern: Prototype → production
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -1483,9 +1483,9 @@ A community [npm package](https://www.npmjs.com/package/antigravity-claude-proxy
 
 ---
 
-## 7.1 Generative UI: Agent-Driven Interactive Output Formats
+## 7.1 Generative UI: Agent-Driven interactive output formats
 
-### Why This Category Exists
+### Why this category exists
 
 UI prototypers (Section 7) generate a static app you paste into a codebase. A different problem is showing up in 2025-2026: an agent that needs to render an actual form, an approval gate, or a button *inside a single chat turn*, not as a separate artifact. Plain text can't collect structured input. A static screenshot can't dispatch an action. The response itself needs to be interactive, and it needs to come from a model call, often a small or fine-tuned one, not from a human writing JSX.
 
@@ -1500,7 +1500,7 @@ Four approaches are competing to solve this, with genuinely different assumption
 
 These solve adjacent but distinct problems. MCP Apps is about a tool response carrying a UI. The Vercel AI SDK pattern is about the server choosing and streaming React components directly, so the client never parses an intermediate format. MDMA inverts that: the model produces validated YAML, and a client-side renderer interprets it, which trades some rendering flexibility for a format that's easier for a small or resource-constrained model to produce correctly. A third adjacent category is MCP Apps itself, already covered separately in this guide (`guide/core/architecture.md`, MCP Extensions section) since it's a protocol-level concern, not a rendering-format concern.
 
-### Case Study: MDMA
+### Case study: MDMA
 
 [MDMA](https://github.com/MobileReality/mdma) is an open-source project built around one core idea: producing a syntactically valid, schema-conformant YAML block is a lower bar for a small LLM (their target is models like Gemini Flash, and they fine-tuned their own 26B model) than producing correct JSX or hand-written HTML. The engineering behind that idea holds up under audit. The marketing claims layered on top of it mostly don't.
 
@@ -1526,7 +1526,7 @@ These solve adjacent but distinct problems. MCP Apps is about a tool response ca
 
 Full evaluation with scoring breakdown: `docs/resource-evaluations/mdma-evaluation.md`.
 
-### Where This Category Is Actually Headed
+### Where this category is actually headed
 
 This is a young category, all four approaches above shipped or gained traction within the 2025-2026 window, and none has become a de facto standard. The technical debate (Markdown/YAML vs. streamed JSX vs. structured tool payload) isn't settled either: MDMA's own evals don't compare against a JSON-mode or function-calling structured output constrained by a grammar, which is arguably the most relevant alternative to "the model writes YAML by hand." Their 41%→90.5% number documents that a DSL plus a validator beats a bare prompt; it doesn't establish that Markdown beats a JSON schema catalog under the same conditions.
 
@@ -1534,9 +1534,9 @@ The other open question is distribution, not architecture. MCP Apps has Anthropi
 
 ---
 
-## 8. Workflow Orchestration
+## 8. Workflow orchestration
 
-### The Complete Pipeline
+### The complete pipeline
 
 For maximum efficiency, chain tools in this order:
 
@@ -1578,9 +1578,9 @@ For maximum efficiency, chain tools in this order:
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
-### Session Templates
+### Session templates
 
-#### Research-Heavy Feature
+#### Research-heavy feature
 
 ```bash
 # 1. Research (Perplexity - 10 min)
@@ -1597,7 +1597,7 @@ claude
 # → Generate 5-slide update deck
 ```
 
-#### Visual-Heavy Feature
+#### Visual-heavy feature
 
 ```bash
 # 1. UI Prototype (v0 - 10 min)
@@ -1613,7 +1613,7 @@ claude
    Add proper TypeScript types."
 ```
 
-#### Onboarding New Codebase
+#### Onboarding new codebase
 
 ```bash
 # 1. Audio overview (NotebookLM - 15 min)
@@ -1632,7 +1632,7 @@ claude
 
 ---
 
-### 8.1 Multi-Agent Orchestration Systems
+### 8.1 Multi-Agent orchestration systems
 
 When scaling beyond single Claude Code sessions, external orchestration systems coordinate multiple concurrent agents.
 
@@ -1675,7 +1675,7 @@ When scaling beyond single Claude Code sessions, external orchestration systems 
 
 **When to use**: Teams wanting full control over agent orchestration, on-prem/airgap environments
 
-#### agent-chat (Justin Abrahms)
+#### agent-chat (justin Abrahms)
 
 **What it is**: Real-time monitoring UI (Slack-like) for agent communications:
 - Reads Gas Town's `beads.db` (SQLite) and multiclaude's JSON message files
@@ -1698,7 +1698,7 @@ When scaling beyond single Claude Code sessions, external orchestration systems 
 
 See: `guide/ops/observability.md` for native Claude Code session monitoring
 
-#### Entire CLI: Governance-First Orchestration
+#### Entire CLI: Governance-first orchestration
 
 **What it is**: Agent-native platform focused on **governance + sequential handoffs** vs pure parallel coordination.
 
@@ -1797,7 +1797,7 @@ entire handoff --to="gemini" --task="ui-polish" --require-approval
 
 > **Full docs**: [AI Traceability Guide](../ops/ai-traceability.md#51-entire-cli), [Third-Party Tools](./third-party-tools.md)
 
-#### Security & Cost Warnings
+#### Security & cost warnings
 
 **Before using external orchestrators**:
 
@@ -1808,7 +1808,7 @@ entire handoff --to="gemini" --task="ui-polish" --require-approval
 | **Experimental status** | Not for production critical paths, test in staging first |
 | **Context leakage** | Logs may contain sensitive data - review before enabling monitoring UI |
 
-#### Integration with Native Claude Code
+#### Integration with native Claude Code
 
 If you're not using Gas Town/multiclaude, you can still:
 
@@ -1826,7 +1826,7 @@ If you're not using Gas Town/multiclaude, you can still:
 # UI: React/HTML consuming SSE stream
 ```
 
-#### When NOT to Use Orchestrators
+#### When NOT to use orchestrators
 
 **Use single Claude Code session when**:
 - Task is <3 steps or affects <5 files
@@ -1840,11 +1840,11 @@ If you're not using Gas Town/multiclaude, you can still:
 - Experimentation tolerance is high (work may be lost/redone)
 - Team has SRE capacity to monitor/intervene
 
-### 8.2 Domain-Specific Agent Frameworks
+### 8.2 Domain-Specific agent frameworks
 
 Beyond general-purpose coding assistants, specialized frameworks target specific use cases with built-in context, evaluation, and deployment patterns.
 
-#### nao (Analytics Agents)
+#### nao (analytics agents)
 
 **URL**: [github.com/getnao/nao](https://github.com/getnao/nao/) | **Stack**: TypeScript 58.9%, Python 38.5%
 
@@ -1868,9 +1868,9 @@ Beyond general-purpose coding assistants, specialized frameworks target specific
 
 ---
 
-## 9. Cost & Subscription Strategy
+## 9. Cost & subscription strategy
 
-### Monthly Cost Comparison
+### Monthly cost comparison
 
 | Tool | Free Tier | Pro Cost | Best For |
 |------|-----------|----------|----------|
@@ -1882,7 +1882,7 @@ Beyond general-purpose coding assistants, specialized frameworks target specific
 | v0.dev | Limited | $20/month | UI prototyping |
 | Cursor | Free tier | $20/month | IDE integration |
 
-### Recommended Subscriptions by Profile
+### Recommended subscriptions by profile
 
 **Minimal Stack ($40-70/month)**:
 - Claude Code (pay-per-use) - $20-50
@@ -1904,7 +1904,7 @@ Beyond general-purpose coding assistants, specialized frameworks target specific
 - v0 Pro - $20
 - Free: NotebookLM, Kimi
 
-### Cost Optimization Tips
+### Cost optimization tips
 
 1. **Use Claude Code's Haiku model** for simple tasks (`/model haiku`)
 2. **Batch research sessions** in Perplexity to maximize Deep Research
@@ -1914,7 +1914,7 @@ Beyond general-purpose coding assistants, specialized frameworks target specific
 
 ---
 
-## 10. Claude Cowork (Research Preview)
+## 10. Claude Cowork (research preview)
 
 > **Research Preview** (January 2026): limited documentation, expect bugs, local-only access. No production use recommended yet.
 
@@ -1922,7 +1922,7 @@ Cowork extends Claude's agentic capabilities to non-technical users via the Clau
 
 **Official source**: [claude.com/blog/cowork-research-preview](https://claude.com/blog/cowork-research-preview)
 
-### Quick Comparison
+### Quick comparison
 
 | Aspect | Claude Code | Cowork | Projects |
 |--------|-------------|--------|----------|
@@ -1936,7 +1936,7 @@ Cowork extends Claude's agentic capabilities to non-technical users via the Clau
 | **Platform** | All | macOS only | All |
 | **Subscription** | Usage-based | Pro or Max | All tiers |
 
-### When to Use What
+### When to use what
 
 ```
 Need code execution?        → Claude Code
@@ -1945,7 +1945,7 @@ Cloud files/collaboration?  → Wait (no connectors yet)
 Ideation/planning?          → Projects
 ```
 
-### Key Use Cases
+### Key use cases
 
 | Use Case | Input | Output |
 |----------|-------|--------|
@@ -1954,7 +1954,7 @@ Ideation/planning?          → Projects
 | **Report synthesis** | Scattered notes + PDFs | Formatted Word/PDF document |
 | **Meeting prep** | Company docs + LinkedIn | Briefing document |
 
-### Security Considerations
+### Security considerations
 
 > **No official security documentation exists yet.**
 
@@ -1972,7 +1972,7 @@ Ideation/planning?          → Projects
 | Browser action abuse | HIGH | Review each web action |
 | Local file exposure | MEDIUM | Minimal permission scope |
 
-### Developer ↔ Non-Developer Workflows
+### Developer ↔ non-developer workflows
 
 **Pattern**: Dev specs in Claude Code → PM review in Cowork
 
@@ -2003,9 +2003,9 @@ Shared context via `~/Shared/CLAUDE.md` file.
 
 ---
 
-## Appendix: Ready-to-Use Prompts
+## Appendix: Ready-to-Use prompts
 
-### Perplexity: Technical Spec Research
+### Perplexity: Technical spec research
 
 ```
 Research [TECHNOLOGY/PATTERN] implementation best practices in [FRAMEWORK].
@@ -2020,7 +2020,7 @@ Requirements:
 Output format: Markdown spec I can feed to a coding assistant.
 ```
 
-### Gemini: UI to Code
+### Gemini: UI to code
 
 ```
 Convert this UI screenshot to a [FRAMEWORK] component using [STYLING].
@@ -2035,7 +2035,7 @@ Requirements:
 Output: Complete component code ready to paste.
 ```
 
-### Kimi: Code to Presentation
+### Kimi: Code to presentation
 
 ```
 Create a [N]-slide presentation from this technical content.
@@ -2053,7 +2053,7 @@ Requirements:
 Output: Downloadable PPTX file.
 ```
 
-### NotebookLM: Codebase Understanding
+### NotebookLM: Codebase understanding
 
 After uploading documentation:
 
@@ -2068,7 +2068,7 @@ Based on all sources, explain:
 Format as a structured summary I can add to my CLAUDE.md file.
 ```
 
-### Claude Code: Integrate External Output
+### Claude Code: Integrate external output
 
 ```
 I have [DESCRIBE SOURCE] from [TOOL].
@@ -2087,9 +2087,9 @@ Validate against existing code before implementing.
 
 ---
 
-## Quick Reference Card
+## Quick reference card
 
-### Tool Decision Matrix
+### Tool decision matrix
 
 | I need to... | Use |
 |--------------|-----|
@@ -2101,7 +2101,7 @@ Validate against existing code before implementing.
 | Rapid UI prototype | v0/Bolt → Claude |
 | Quick inline edits | IDE + Copilot |
 
-### Chaining Patterns
+### Chaining patterns
 
 ```
 Research → Code:     Perplexity → Claude Code
@@ -2113,13 +2113,13 @@ Docs → Understanding: NotebookLM → Claude Code
 
 ---
 
-## 11. AI Coding Agents Matrix
+## 11. AI coding agents matrix
 
 **URL**: [coding-agents-matrix.dev](https://coding-agents-matrix.dev) | **GitHub**: [PackmindHub/coding-agents-matrix](https://github.com/PackmindHub/coding-agents-matrix) | **License**: Apache-2.0
 
 **Maintainers**: [Packmind](https://packmind.com) (Cédric Teyton, Arthur Magne)
 
-### What Is It?
+### What is it?
 
 An **interactive comparison matrix** of 23 AI coding agents across 11 technical criteria:
 
@@ -2131,7 +2131,7 @@ An **interactive comparison matrix** of 23 AI coding agents across 11 technical 
 
 **Agents compared**: Aider, Claude Code, Cursor, GitHub Copilot, Continue, Goose, Windsurf, and 16 others.
 
-### Why It's Useful
+### Why it's useful
 
 **Discovery tool**: When you're choosing which coding agent to adopt, the Matrix helps you filter by specific technical requirements:
 
@@ -2141,7 +2141,7 @@ An **interactive comparison matrix** of 23 AI coding agents across 11 technical 
 
 **Objective data**: No marketing fluff, just feature presence/absence (Yes/No/Partial). Community-driven updates via GitHub issue templates.
 
-### Complementarity with This Guide
+### Complementarity with this guide
 
 | Matrix (Discovery) | This Guide (Mastery) |
 |-------------------|---------------------|
@@ -2152,7 +2152,7 @@ An **interactive comparison matrix** of 23 AI coding agents across 11 technical 
 
 **Use case**: Use Matrix to **discover and compare** → Choose Claude Code → Use this guide to **master it**.
 
-### Interactive Features
+### Interactive features
 
 - **Sortable columns**: Click any criterion to sort ascending/descending
 - **Multi-filter**: Combine filters with AND logic (e.g., "Open Source + MCP Support + Plan Mode")
@@ -2167,7 +2167,7 @@ An **interactive comparison matrix** of 23 AI coding agents across 11 technical 
 - **No workflows**: Doesn't teach you how to use the agents effectively (that's what this guide does).
 - **No performance metrics**: Doesn't benchmark speed, accuracy, or cost.
 
-### Related Resources
+### Related resources
 
 - [Packmind](https://packmind.com): Context engineering & governance for AI coding agents
 - [Packmind OSS](https://github.com/PackmindHub/packmind): Framework for versioning AI coding context
@@ -2181,11 +2181,11 @@ An **interactive comparison matrix** of 23 AI coding agents across 11 technical 
 
 ---
 
-## 11.1 Goose: Open-Source Alternative (Block)
+## 11.1 Goose: Open-Source alternative (block)
 
 For developers hitting Claude Code's subscription limits or needing model flexibility, [Goose](https://github.com/block/goose) is a notable open-source alternative worth understanding.
 
-### What Is Goose?
+### What is Goose?
 
 An **on-machine AI coding agent** developed by Block (formerly Square), released under Apache 2.0 license. Unlike Claude Code, Goose runs entirely locally and is **model-agnostic**: it can use Claude, GPT, Gemini, Groq, or any LLM provider.
 
@@ -2197,7 +2197,7 @@ An **on-machine AI coding agent** developed by Block (formerly Square), released
 | **License** | Apache 2.0 (permissive) |
 | **Primary Language** | Rust (64%) + TypeScript (26%) |
 
-### Claude Code vs Goose: Key Differences
+### Claude Code vs Goose: Key differences
 
 | Aspect | Claude Code | Goose |
 |--------|-------------|-------|
@@ -2209,7 +2209,7 @@ An **on-machine AI coding agent** developed by Block (formerly Square), released
 | **MCP Support** | Native (growing ecosystem) | Thousands of MCP servers available |
 | **Setup Complexity** | Simple (npm install) | Moderate (Rust toolchain, API keys) |
 
-### When to Consider Goose
+### When to consider Goose
 
 **Good fit**:
 - You're hitting Claude Code's weekly limits frequently
@@ -2224,15 +2224,15 @@ An **on-machine AI coding agent** developed by Block (formerly Square), released
 - You value Claude's specific reasoning capabilities and can't substitute
 - You don't want to manage LLM API credentials
 
-### Recipes: Goose's Equivalent of Skills + Commands
+### Recipes: Goose's equivalent of skills + commands
 
 Goose has a workflow primitive called **Recipes**: versionable, shareable, parameterized multi-step workflows. Unlike Claude Code's skills (which define agent capabilities) or slash commands (which trigger one-shot actions), Recipes define complete execution sequences: what to do, in what order, with which model at each step. They can be shared as deeplinks, imported by teammates, and checked into source control. Closest Claude Code analogy: a skill that chains multiple commands in a defined sequence, with state carried between steps.
 
-### Subagent Orchestration
+### Subagent orchestration
 
 Since mid-2025, Goose supports spawning specialized subagents within a workflow. A parent agent can delegate subtasks to subagents with different roles (Planner, Architect, Frontend Dev, Backend Dev), each potentially running a different LLM optimized for its task. This differs from Claude Code's Agent tool (which spawns a subagent with the same model). Goose enables heterogeneous agent teams where model choice is per-role, not per-session. See §9 for Claude Code's native multi-agent patterns.
 
-### Skill Portability
+### Skill portability
 
 Both Claude Code and Goose support the [Agent Skills open standard](https://agentskills.io) (agentskills.io). Skills you create with SKILL.md are portable across 26+ platforms including Cursor, VS Code, GitHub, OpenAI Codex, and Gemini CLI. Claude Code-specific fields (`context`, `agent`) are ignored by other platforms but don't break compatibility.
 
@@ -2246,7 +2246,7 @@ Both Claude Code and Goose support the [Agent Skills open standard](https://agen
 | Open source (contribute back) | Smaller user base, fewer tutorials |
 | Offline with local models | Local models inferior for complex tasks |
 
-### Hardware Requirements
+### Hardware requirements
 
 Goose itself is lightweight (Rust binary). The requirements depend on your LLM choice:
 
@@ -2255,7 +2255,7 @@ Goose itself is lightweight (Rust binary). The requirements depend on your LLM c
 | **Cloud APIs** (Claude, GPT, Gemini) | Minimal (just network access) |
 | **Local models** (Ollama, etc.) | 16-32GB RAM, GPU recommended for larger models |
 
-### Quick Start
+### Quick start
 
 ```bash
 # macOS
@@ -2285,7 +2285,7 @@ For most developers already invested in Claude Code workflows, the switching cos
 
 ---
 
-## 11.2 Practitioner Insights
+## 11.2 Practitioner insights
 
 External resources from experienced practitioners that validate and extend the patterns documented in this guide.
 
@@ -2318,7 +2318,7 @@ External resources from experienced practitioners that validate and extend the p
 
 **Note**: The phrase "English is the new programming language" (sometimes attributed to this article) originates from Andrej Karpathy and Bindu Reddy, not Van Veen.
 
-### Matteo Collina (Node.js TSC Chair)
+### Matteo Collina (node.js TSC chair)
 
 **URL**: [adventures.nodeland.dev/archive/the-human-in-the-loop/](https://adventures.nodeland.dev/archive/the-human-in-the-loop/)
 
@@ -2357,7 +2357,7 @@ External resources from experienced practitioners that validate and extend the p
 
 **Debate context**: Collina's article directly responds to Arnaldi (Effect/Effectful CEO) who argued "software development is dead." The Collina-Arnaldi exchange became a defining moment in the January 2026 discourse on AI and developer roles.
 
-### Peter Steinberger (PSPDFKit Founder, Moltbot Creator)
+### Peter Steinberger (PSPDFKit founder, Moltbot creator)
 
 **URL**: [Shipping at Inference-Speed](https://steipete.me/posts/2025/shipping-at-inference-speed)
 
@@ -2384,7 +2384,7 @@ External resources from experienced practitioners that validate and extend the p
 
 **Note**: Steinberger is the creator of Moltbot (see [ClawdBot FAQ](#claude-code-vs-clawdbot-whats-the-difference)). His observations originate from a non-Claude workflow; patterns should be validated in Claude Code context before adoption.
 
-### Addy Osmani (Google Chrome Team)
+### Addy Osmani (Google Chrome team)
 
 **URL**: [The 80% Problem in Agentic Coding](https://addyo.substack.com/p/the-80-problem-in-agentic-coding)
 
@@ -2449,7 +2449,7 @@ External resources from experienced practitioners that validate and extend the p
 
 **Language note**: Original article in French; concepts and quotes translated for this guide.
 
-### Zadig&Voltaire Engineering (Benjamin Calef)
+### Zadig&Voltaire engineering (benjamin calef)
 
 **URL**: [tech.zadig-et-voltaire.com/blog/migration-nuxt/](https://tech.zadig-et-voltaire.com/blog/migration-nuxt/)
 
@@ -2514,11 +2514,11 @@ External resources from experienced practitioners that validate and extend the p
 
 ---
 
-## 11.3 When to Build vs Use
+## 11.3 When to build vs use
 
 For most developers, Claude Code CLI provides the right balance of power and simplicity. But understanding when to use pre-built agents versus building custom agents helps you choose the right tool for your needs.
 
-### Pre-Built Agents
+### Pre-built agents
 
 **Claude Code, Cursor, Windsurf, Goose**: Ready-to-use CLI or GUI tools optimized for coding workflows. Install and start working immediately.
 
@@ -2528,7 +2528,7 @@ For most developers, Claude Code CLI provides the right balance of power and sim
 - Want managed updates and community support
 - Prefer fixed costs (subscriptions) over usage-based pricing
 
-### Agent Builder Frameworks
+### Agent builder frameworks
 
 **Google ADK, LangChain, Vercel AI SDK**: Code-first toolkits for building custom agents from scratch.
 
@@ -2559,7 +2559,7 @@ For most developers, Claude Code CLI provides the right balance of power and sim
 - Maximum flexibility, minimal dependencies
 - You're handling tool calls, memory, and orchestration yourself
 
-### Decision Tree
+### Decision tree
 
 ```
 Need coding assistant? → Claude Code
@@ -2570,7 +2570,7 @@ Custom workflow logic? → Framework
 Standard dev tasks? → Pre-built agent
 ```
 
-### MCP: The Common Standard
+### MCP: The common standard
 
 All frameworks (Claude Code, ADK, LangChain) support the **Model Context Protocol** (MCP). This means:
 - MCP servers you build work across tools
@@ -2587,11 +2587,11 @@ All frameworks (Claude Code, ADK, LangChain) support the **Model Context Protoco
 
 ---
 
-## 11.4 Skills Distribution Platforms
+## 11.4 Skills distribution platforms
 
 For discovering and distributing agent skills beyond local creation:
 
-### skills.sh (Vercel Labs)
+### skills.sh (Vercel labs)
 
 **URL**: [skills.sh](https://skills.sh/) | **GitHub**: [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills) | **Launched**: January 21, 2026
 
@@ -2623,7 +2623,7 @@ Use the catalog for pattern discovery even when you install nothing. Installatio
 
 **Status**: Established community resource, broader scope than skills.sh (includes entire `.claude/` configurations)
 
-### SkillsMP (Community Index)
+### SkillsMP (community index)
 
 **URL**: [skillsmp.com](https://skillsmp.com/)
 
@@ -2631,7 +2631,7 @@ Use the catalog for pattern discovery even when you install nothing. Installatio
 
 **Focus**: Discovery and cataloging, broader ecosystem than just Claude Code
 
-### When to Use
+### When to use
 
 | Use Case | Platform |
 |----------|----------|
@@ -2641,7 +2641,7 @@ Use the catalog for pattern discovery even when you install nothing. Installatio
 | Team-specific/internal skills | GitHub repos (custom) |
 | Enterprise custom skills | Local `.claude/skills/` |
 
-### Integration with This Guide
+### Integration with this guide
 
 See [Section 5.5: Skills Marketplace](#skills-marketplace-skillssh) for:
 - Detailed installation instructions
@@ -2651,18 +2651,18 @@ See [Section 5.5: Skills Marketplace](#skills-marketplace-skillssh) for:
 
 ---
 
-## 12. Context Packing Tools
+## 12. Context packing tools
 
 When working with LLMs on large codebases, **context packing** refers to techniques for extracting and feeding relevant code context to the model efficiently.
 
-### Why Context Matters
+### Why context matters
 
 Claude Code automatically reads files as needed, but external tools exist for:
 - **Pre-session preparation**: Dump relevant code before starting
 - **Cross-tool workflows**: Feed context to models outside Claude Code
 - **Offline analysis**: Prepare context for later use
 
-### Available Tools
+### Available tools
 
 | Tool | Purpose | How It Works |
 |------|---------|--------------|
@@ -2670,7 +2670,7 @@ Claude Code automatically reads files as needed, but external tools exist for:
 | **repo2txt** | Repo → formatted context | Similar to gitingest, with formatting options |
 | **Context7 MCP** | Docs lookup | Fetches library documentation on-demand (see [MCP section](#8-mcp-servers)) |
 
-### When to Use (and When Not)
+### When to use (and when not)
 
 | Scenario | Best Approach |
 |----------|---------------|
@@ -2685,7 +2685,7 @@ Claude Code automatically reads files as needed, but external tools exist for:
 
 - Addy Osmani: [My AI Coding Workflow in 2026](https://addyosmani.com/blog/ai-coding-workflow/), discussing context packing as part of a broader AI development workflow
 
-### Architecture Diagrams as Context (Advanced Pattern)
+### Architecture diagrams as context (advanced pattern)
 
 For large OOP codebases, research confirms LLMs struggle with polymorphism and dependency reasoning when processing files in chunks ([ACM 2024](https://dl.acm.org/doi/10.1145/3639474.3640052): "LLMs Still Can't Avoid Instanceof").
 
@@ -2701,7 +2701,7 @@ For large OOP codebases, research confirms LLMs struggle with polymorphism and d
 | **Inline Mermaid** | Manual | 200-500 tokens | Custom architectural views |
 | **PlantUML ref** | Manual | Minimal | Enterprise/IDE integration |
 
-#### MCP Tools for Architecture Visualization
+#### MCP tools for architecture visualization
 
 **Archy MCP** (phxdev1, April 2025):
 - Auto-generates Mermaid from GitHub repos or text descriptions
@@ -2716,7 +2716,7 @@ For large OOP codebases, research confirms LLMs struggle with polymorphism and d
 - Text descriptions → technical diagrams
 - Async job management
 
-#### Inline Example (CLAUDE.md)
+#### Inline example (CLAUDE.md)
 
 ```markdown
 ## Architecture Overview
@@ -2735,19 +2735,19 @@ classDiagram
 \`\`\`
 ```
 
-#### When to Use
+#### When to use
 
 - OOP codebases >20 modules with complex inheritance
 - Java/Spring projects with deep polymorphism
 - When Serena symbol overview is insufficient
 
-#### Recommended Workflow
+#### Recommended workflow
 
 1. **Try Serena first**: `get_symbols_overview` + `find_symbol` (zero maintenance)
 2. **If insufficient**: Use **Archy MCP** to auto-generate class diagrams
 3. **Last resort**: Manual inline Mermaid for custom views
 
-#### Key Insight
+#### Key insight
 
 > "Context structure matters more than context size." Explicit relationships improve LLM reasoning on OOP architectures.
 
@@ -2763,7 +2763,7 @@ classDiagram
 
 The autoresearch pattern lets an AI agent run improvement iterations overnight with zero human involvement per loop. Originally designed for ML research, the same pattern applies to code quality, refactoring, and any task with an objective, measurable metric.
 
-### The Core Loop
+### The core loop
 
 ```
 measure → propose change → apply → re-measure → keep if better / git reset if not → repeat
@@ -2776,7 +2776,7 @@ Four ingredients make it work:
 3. **Git as rollback**: bad changes disappear with `git checkout -- .`. No damage accumulates.
 4. **`program.md`**: a Markdown file that defines what the agent can/cannot do. This is identical in structure to a CLAUDE.md or skill file.
 
-### What karpathy/autoresearch Does
+### What karpathy/autoresearch does
 
 The original repo runs autonomous ML research on a single GPU:
 
@@ -2792,7 +2792,7 @@ The original repo runs autonomous ML research on a single GPU:
 
 Result: ~100 experiments per 8-hour sleep on an H100. Two merged commits in the repo itself are `Co-Authored-By: Claude Opus 4.6`. The agent ran autoresearch on autoresearch.
 
-### Adapting to Code Quality
+### Adapting to code quality
 
 The same loop works for mechanical code improvements. Swap the ML metric for a grep count:
 
@@ -2814,7 +2814,7 @@ The same loop works for mechanical code improvements. Swap the ML metric for a g
 | `loop-interface-type` | `grep "export interface " src/` | 0 |
 | `loop-eslint-disable` | `grep "eslint-disable" src/` | 0 |
 
-### The `program.md` Pattern
+### The `program.md` pattern
 
 `program.md` is the most important file: it encodes what the agent is allowed to do. Never auto-generate it. Write it yourself per loop to capture your codebase's constraints.
 
@@ -2854,7 +2854,7 @@ Use the `/autoresearch` command (available in [examples/commands/](../../example
 /autoresearch --status                       # Check all loops
 ```
 
-### When to Use This Pattern
+### When to use this pattern
 
 Works well for:
 - **Mechanical refactoring** with a clear rule (rename pattern, remove anti-pattern, enforce convention)
@@ -2867,13 +2867,13 @@ Does not work for:
 - Metrics without a clear direction (style opinions, architectural trade-offs)
 - Changes where "worse is sometimes acceptable" for other reasons
 
-### Safety Properties
+### Safety properties
 
 The pattern is safe because of the git rollback guarantee. The agent never accumulates bad changes. Every regression disappears immediately. The only risk is if your `program.md` constraints are too loose. Write tight constraints, then widen if needed.
 
 ---
 
-## Pointing Claude Code at Another Backend
+## Pointing Claude Code at another backend
 
 Two different things are often filed under the same heading, and they carry
 opposite risk profiles. Separate them before deciding.
@@ -2892,7 +2892,7 @@ below on feature degradation still apply when you route to a non-Claude model.
 API to reach a subscription you are not licensed to consume that way is a
 different matter, and the warning below is unchanged for it.
 
-### Community Workarounds
+### Community workarounds
 
 > ⚠️ **Disclaimer**: This subsection documents reverse-engineered techniques
 > that exist in the community for **completeness only**. These methods are:
@@ -2905,14 +2905,14 @@ different matter, and the warning below is unchanged for it.
 > Code with Claude models as intended, or use tools designed for
 > multi-provider support (Aider, Continue.dev).
 
-### What Exists
+### What exists
 
 Claude Code reads `ANTHROPIC_BASE_URL` from environment variables, following
 Anthropic SDK conventions. This is the intended mechanism for enterprise
 gateways. It can also technically point to any Anthropic-compatible proxy,
 including a reverse-engineered one, which is what this subsection is about.
 
-### Known Environment Variables
+### Known environment variables
 
 | Variable | Purpose | Status |
 |----------|---------|--------|
@@ -2920,7 +2920,7 @@ including a reverse-engineered one, which is what this subsection is about.
 | `ANTHROPIC_MODEL` | Default model name | Semi-documented |
 | `ANTHROPIC_AUTH_TOKEN` | API authentication | Official |
 
-### Why We Recommend Against a Reverse-Engineered Proxy
+### Why we recommend against a reverse-engineered proxy
 
 Points 1 and 5 apply to any non-Claude model, including through a gateway
 under contract. Points 2, 3 and 4 are specific to an unsanctioned proxy.
@@ -2933,7 +2933,7 @@ under contract. Points 2, 3 and 4 are specific to an unsanctioned proxy.
 4. **Maintenance burden**: Proxies break when providers change APIs
 5. **Misleading outputs**: Non-Claude responses may not match expected behavior
 
-### Better Alternatives
+### Better alternatives
 
 If you need local models or multi-provider flexibility:
 
@@ -2943,7 +2943,7 @@ If you need local models or multi-provider flexibility:
 | Multi-provider IDE | [Continue.dev](https://continue.dev) |
 | Claude + local flexibility | Aider (supports both) |
 
-### Further Reading (External)
+### Further reading (external)
 
 For those who understand the risks and want to explore anyway:
 - Community discussions on r/LocalLLaMA
@@ -2956,7 +2956,7 @@ For those who understand the risks and want to explore anyway:
 
 ---
 
-## 14. Claude Managed Agents (Cloud-Hosted Platform)
+## 14. Claude Managed Agents (cloud-hosted platform)
 
 > **Launched**: April 8, 2026 (public beta, enabled by default for all Anthropic API accounts).
 
@@ -2966,7 +2966,7 @@ The key mental model: **Claude Code is a harness built on top of the same infras
 
 ---
 
-### The Three-Way Decision
+### The three-way decision
 
 Anthropic offers three distinct ways to build with Claude. Picking the wrong layer costs weeks.
 
@@ -2985,7 +2985,7 @@ Anthropic offers three distinct ways to build with Claude. Picking the wrong lay
 
 ---
 
-### Architecture: Brain, Hands, Memory
+### Architecture: Brain, hands, memory
 
 The platform decouples three components that older agent architectures bundled together in one fragile container.
 
@@ -3040,7 +3040,7 @@ flowchart TD
 
 ---
 
-### Core Concepts (API)
+### Core concepts (API)
 
 Four objects, in order of creation:
 
@@ -3055,7 +3055,7 @@ Four objects, in order of creation:
 
 ---
 
-### Multi-Agent Coordination (Research Preview)
+### Multi-Agent coordination (research preview)
 
 One agent (coordinator) delegates to specialized sub-agents running in parallel threads. Each thread has its own isolated context. Tools and conversation history are not shared.
 
@@ -3084,7 +3084,7 @@ flowchart TD
 
 ---
 
-### Real-World Use Cases
+### Real-World use cases
 
 | Use case | Why Managed Agents fits |
 |----------|------------------------|
@@ -3098,7 +3098,7 @@ flowchart TD
 
 ---
 
-### Next.js Integration Pattern
+### Next.js integration pattern
 
 The most common pattern: a Next.js API route that creates a session, sends a task, and streams the agent's progress back to the frontend via Server-Sent Events.
 
@@ -3225,7 +3225,7 @@ ENVIRONMENT_ID=env_...   # from client.beta.environments.create()
 
 ---
 
-### When to Reach for Managed Agents (Decision Checklist)
+### When to reach for Managed Agents (decision checklist)
 
 Use Managed Agents when **two or more** of these apply:
 
@@ -3242,11 +3242,11 @@ Stay on **Claude Code** when you are the user: writing software, reviewing PRs, 
 
 ---
 
-### Research Preview Features
+### Research preview features
 
 Three features behind a separate access request, functional but not yet stable API contracts.
 
-#### Outcomes (Self-Evaluation Loop)
+#### Outcomes (self-evaluation loop)
 
 The agent evaluates its own output against criteria you define, then iterates until it meets them. No manual retry loop on your side.
 
@@ -3266,13 +3266,13 @@ const agent = await client.beta.agents.create({
 
 Measured impact on internal tests: up to 10-point improvement in task success on structured file generation, with the largest gains on the hardest problems.
 
-#### Memory (Cross-Session Persistence)
+#### Memory (cross-session persistence)
 
 The agent remembers facts across sessions. Stored in a vector index managed by Anthropic. No external database required.
 
 Useful for: user preference tracking, project context that builds over time, personal assistants that learn.
 
-#### Multi-Agent (Coordination)
+#### Multi-agent (coordination)
 
 Documented above. One coordinator, N specialists in parallel threads, one level of delegation.
 
@@ -3280,7 +3280,7 @@ Documented above. One coordinator, N specialists in parallel threads, one level 
 
 ---
 
-### Cost Model & Optimization
+### Cost model & optimization
 
 **Billing**: standard Anthropic API token pricing. No session fee, no compute surcharge beyond tokens. Prompt caching and compaction are applied automatically. You pay for the reduced token count.
 
@@ -3352,7 +3352,7 @@ The CLI sets all required beta headers automatically. Useful for one-off agent s
 
 ---
 
-### SDK Support Matrix
+### SDK support matrix
 
 The Managed Agents API is available in 8 SDKs out of beta. All set the `managed-agents-2026-04-01` beta header automatically.
 
@@ -3369,7 +3369,7 @@ The Managed Agents API is available in 8 SDKs out of beta. All set the `managed-
 
 ---
 
-### Engineering Background: Why the Architecture Changed
+### Engineering background: Why the architecture changed
 
 From the [Anthropic engineering blog](https://www.anthropic.com/engineering/managed-agents), useful context for understanding the design decisions.
 
@@ -3395,7 +3395,7 @@ From the [Anthropic engineering blog](https://www.anthropic.com/engineering/mana
 
 ---
 
-## 15. Project Glasswing & Claude Mythos Preview (Defensive Security)
+## 15. Project Glasswing & Claude Mythos preview (defensive security)
 
 > **Announced**: April 7, 2026. **Access**: Invite-only research preview, not a public API endpoint.
 
@@ -3432,7 +3432,7 @@ From Anthropic's release materials, corroborated by TechCrunch, PBS NewsHour, an
 
 ---
 
-### Related: Messages API on Amazon Bedrock (Research Preview)
+### Related: Messages API on Amazon Bedrock (research preview)
 
 Announced April 7, 2026 in the Anthropic API release notes alongside Glasswing: the standard Messages API is now available as a research preview on **Amazon Bedrock**, in the `us-east-1` region. It uses the same request schema as the first-party Anthropic API, running on AWS-managed infrastructure.
 
@@ -3449,7 +3449,7 @@ Practical notes for enterprise Claude Code users:
 
 ---
 
-## 16. Step by Token: How LLMs Work (Interactive Guide)
+## 16. Step by token: How LLMs work (interactive guide)
 
 [stepbytoken.com](https://www.stepbytoken.com/en), by Dimitri Mérault
 

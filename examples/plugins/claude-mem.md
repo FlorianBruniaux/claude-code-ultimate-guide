@@ -4,7 +4,7 @@ description: "Automatic persistent memory plugin capturing tool calls and decisi
 tags: [plugin, memory, integration]
 ---
 
-# claude-mem Plugin Template
+# claude-mem plugin template
 
 **Purpose**: Automatic persistent memory across Claude Code sessions
 **Repository**: https://github.com/thedotmack/claude-mem
@@ -14,7 +14,7 @@ tags: [plugin, memory, integration]
 
 ---
 
-## What It Does
+## What it does
 
 claude-mem automatically captures **everything Claude does** during your coding sessions:
 - Tool calls (Read, Edit, Bash, Grep, etc.)
@@ -30,7 +30,7 @@ Then **intelligently injects** relevant context when you reconnect to the projec
 
 ## Installation
 
-### Via Plugin Marketplace (Recommended)
+### Via plugin marketplace (recommended)
 
 ```bash
 # Add marketplace
@@ -44,7 +44,7 @@ exit
 claude
 ```
 
-### Manual Installation
+### Manual installation
 
 ```bash
 # Requires Bun runtime (not Node) — install first if needed:
@@ -66,7 +66,7 @@ bun install
 
 ## Configuration
 
-### Default Configuration
+### Default configuration
 
 claude-mem works **out of the box** with sensible defaults:
 
@@ -92,7 +92,7 @@ claude-mem works **out of the box** with sensible defaults:
 
 > ⚠️ **Security**: Always use `host: "127.0.0.1"`, never `"0.0.0.0"`. The `GET /api/settings` endpoint returns API keys in plain text — any local process (browser extension, npm package) can read it. Localhost-only binding reduces the attack surface but does not eliminate it on shared machines.
 
-### Custom Configuration
+### Custom configuration
 
 Create `~/.claude-mem/config.json`:
 
@@ -131,7 +131,7 @@ Create `~/.claude-mem/config.json`:
 
 ## Usage
 
-### Automatic Capture (Default Behavior)
+### Automatic capture (default behavior)
 
 **No commands needed**: claude-mem automatically:
 
@@ -159,7 +159,7 @@ Claude: [Already has context, no re-reading]
 
 ---
 
-### Available Skills
+### Available skills
 
 claude-mem ships 5 skills accessible via `/claude-mem:<skill>`:
 
@@ -171,7 +171,7 @@ claude-mem ships 5 skills accessible via `/claude-mem:<skill>`:
 | `do` | "Execute the plan" | Runs a `make-plan` output via sub-agents |
 | `timeline-report` | "Show my journey" | Narrative report of full project history |
 
-### Natural Language Search (`mem-search` Skill)
+### Natural language search (`mem-search` skill)
 
 Search your session history using natural language:
 
@@ -191,7 +191,7 @@ The skill returns:
 
 ---
 
-### Web Dashboard
+### Web dashboard
 
 Access real-time UI at `http://localhost:37777`:
 
@@ -219,9 +219,9 @@ open http://localhost:37777
 
 ---
 
-### Privacy Controls
+### Privacy controls
 
-#### Using `<private>` Tags
+#### Using `<private>` tags
 
 ```markdown
 <!-- In your prompts -->
@@ -236,7 +236,7 @@ API Key: sk-1234567890abcdef
 <!-- claude-mem excludes content between <private> tags -->
 ```
 
-#### Manually Exclude Observations
+#### Manually exclude observations
 
 ```bash
 # Delete specific observation
@@ -246,7 +246,7 @@ curl -X DELETE http://localhost:37777/api/observations/obs_123
 curl -X DELETE http://localhost:37777/api/sessions/session_456/observations
 ```
 
-#### Data Location
+#### Data location
 
 ```bash
 # Database location
@@ -261,9 +261,9 @@ du -sh ~/.claude-mem/
 
 ---
 
-## Advanced Features
+## Advanced features
 
-### Progressive Disclosure
+### Progressive disclosure
 
 claude-mem uses a 3-layer approach to minimize tokens:
 
@@ -285,7 +285,7 @@ Layer 3: Details (full context)
 
 ---
 
-### Endless Mode (Beta)
+### Endless mode (beta)
 
 Experimental feature for extended sessions:
 
@@ -307,7 +307,7 @@ Experimental feature for extended sessions:
 
 ---
 
-### Export/Import
+### Export/import
 
 **Export session history**:
 
@@ -333,9 +333,9 @@ curl -X POST http://localhost:37777/api/import \
 
 ---
 
-## Cost Considerations
+## Cost considerations
 
-### API Compression Costs
+### API compression costs
 
 | Usage Level | Sessions/Month | Observations | Est. Cost (Claude Haiku) | Est. Cost (Gemini Lite) |
 |-------------|----------------|--------------|--------------------------|-------------------------|
@@ -374,7 +374,7 @@ Batch compression (hourly) reduces API calls vs per-observation compression.
 
 ---
 
-### Storage Costs
+### Storage costs
 
 **Local storage** (SQLite + Chroma):
 
@@ -399,7 +399,7 @@ Batch compression (hourly) reduces API calls vs per-observation compression.
 
 ## Troubleshooting
 
-### Dashboard Not Loading
+### Dashboard not loading
 
 ```bash
 # Check if worker is running
@@ -415,7 +415,7 @@ tail -f ~/.claude-mem/logs/worker.log
 
 ---
 
-### High API Costs
+### High API costs
 
 ```bash
 # Check observation count
@@ -430,7 +430,7 @@ curl http://localhost:37777/api/stats
 
 ---
 
-### Memory Not Injected
+### Memory not injected
 
 ```bash
 # Verify indexation
@@ -443,7 +443,7 @@ curl -X POST http://localhost:37777/api/index/rebuild
 
 ---
 
-### Database Corruption
+### Database corruption
 
 ```bash
 # Backup first
@@ -459,7 +459,7 @@ claude-mem init
 
 ---
 
-## License Considerations
+## License considerations
 
 ### AGPL-3.0
 
@@ -486,7 +486,7 @@ If using in commercial product:
 
 ## When to Use claude-mem
 
-### ✅ Use When:
+### ✅ Use when:
 
 - Multi-session projects (>1 week)
 - Need to remember decisions across days/weeks
@@ -494,7 +494,7 @@ If using in commercial product:
 - Value automatic capture over manual note-taking
 - Want web dashboard for exploration
 
-### ❌ Don't Use When:
+### ❌ Don't use when:
 
 - One-off quick tasks (<10 minutes)
 - Extremely sensitive data (consider manual Serena instead)
@@ -504,7 +504,7 @@ If using in commercial product:
 
 ---
 
-## Comparison to Alternatives
+## Comparison to alternatives
 
 | Tool | Purpose | Capture | Query |
 |------|---------|---------|-------|

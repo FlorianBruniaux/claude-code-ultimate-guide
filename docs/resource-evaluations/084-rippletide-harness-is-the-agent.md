@@ -1,4 +1,4 @@
-# Resource Evaluation #084: Rippletide, "The Harness is the Agent, What's Inside?"
+# Resource evaluation #084: Rippletide, "The Harness is the Agent, What's Inside?"
 
 **Source:** LinkedIn post (Yann Bilien, Co-founder & Chief Scientific Officer, Rippletide) linking to [rippletide.com/resources/blog/the-harness-is-the-agent-whats-inside](https://www.rippletide.com/resources/blog/the-harness-is-the-agent-whats-inside)
 **Type:** Blog article, conceptual framework, no product pitch
@@ -7,7 +7,7 @@
 
 ---
 
-## Content Summary
+## Content summary
 
 The article argues the model is not the durable asset, the harness is: the surrounding system (tools, context, memory, orchestration, permissions, hooks, skills, evals, observability, sandboxes) is where organizational know-how compounds, because models become interchangeable while the harness accumulates fixes.
 
@@ -23,7 +23,7 @@ Closing line: "the harness gets trained too. Not by changing weights, but by run
 
 ---
 
-## Relevance Score
+## Relevance score
 
 | Score | Meaning |
 |-------|---------|
@@ -68,7 +68,7 @@ Score does not exceed 2 because the article introduces no new fact, tool, or pat
 
 ---
 
-## Fact-Check
+## Fact-check
 
 | Claim | Verified | Source |
 |-------|----------|--------|
@@ -79,7 +79,7 @@ Score does not exceed 2 because the article introduces no new fact, tool, or pat
 
 ---
 
-## Final Decision
+## Final decision
 
 - **Score**: 2/5
 - **Action**: Reject, no integration, no watch-list entry

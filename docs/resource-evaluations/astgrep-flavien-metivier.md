@@ -7,7 +7,7 @@
 
 ---
 
-## Executive Summary
+## Executive summary
 
 **Score**: 3/5 (Pertinent - Complément utile, mais nécessite validation)
 
@@ -19,7 +19,7 @@
 
 ---
 
-## Content Summary
+## Content summary
 
 **Main Claims**:
 
@@ -33,7 +33,7 @@
 
 ---
 
-## Fact-Check Results
+## Fact-check results
 
 | Claim | Verified | Source | Notes |
 |-------|----------|--------|-------|
@@ -52,7 +52,7 @@
 
 ---
 
-## Score Breakdown
+## Score breakdown
 
 **Scoring Formula**:
 
@@ -85,9 +85,9 @@ Score Final: (4+2+3+2)/4 = 2.75 → arrondi à 3/5
 
 ---
 
-## Integration Performed
+## Integration performed
 
-### Level 1: Practical Guide (URGENT) ✅
+### Level 1: Practical guide (URGENT) ✅
 
 **File**: `guide/ultimate-guide.md`
 **Location**: After Context7 (line 6564)
@@ -99,7 +99,7 @@ Score Final: (4+2+3+2)/4 = 2.75 → arrondi à 3/5
 - Explicit invocation requirement
 - Design philosophy context (RAG→grep history)
 
-### Level 2: Design Context (IMPORTANT) ✅
+### Level 2: Design context (IMPORTANT) ✅
 
 **File**: `guide/core/architecture.md`
 **Location**: Line 172 (Grep tool table)
@@ -132,7 +132,7 @@ Score Final: (4+2+3+2)/4 = 2.75 → arrondi à 3/5
 - Claude prompt templates
 - Best practices
 
-### Level 5: Reference Update ✅
+### Level 5: Reference update ✅
 
 **File**: `machine-readable/reference.yaml`
 **Section**: MCP (lines 475-482)
@@ -171,7 +171,7 @@ grep_vs_rag_history: "guide/core/architecture.md:33"
 
 ---
 
-## Gaps in Original Resource
+## Gaps in original resource
 
 **What the LinkedIn post missed**:
 
@@ -192,7 +192,7 @@ grep_vs_rag_history: "guide/core/architecture.md:33"
 
 ---
 
-## Impact Assessment
+## Impact assessment
 
 **Before integration**:
 - ast-grep: 0 mentions in guide

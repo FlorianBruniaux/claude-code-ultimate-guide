@@ -145,7 +145,7 @@ Les environnements isolés (sandboxes) opérationnels aujourd'hui : agent-sandbo
 arXiv 2509.19185 a analysé 39 frameworks et 439 applications agentiques en production. 70% de l'effort de test couvre les composants déterministes (parsing, API, formatage), moins de 5% le Plan Body. Moins de 1% utilisent DeepEval ou un framework d'évaluation formel. Si votre équipe se reconnaît dans ce ratio, vous testez la plomberie pendant que la logique de décision dérive sans contrôle.
 :::
 
-# CI/CD Agentic Productisé
+# CI/CD agentic productisé
 
 Les pages précédentes ont traité le harness comme construction interne. Le mouvement de 2025-2026 est la productisation : les grandes plateformes (GitHub, AWS, GitLab, Anthropic) livrent maintenant des composants managés qui implémentent une partie du harness, avec des SLAs, des intégrations natives, et des limites documentées. Ce qui était à construire en interne il y a 18 mois s'achète aujourd'hui.
 
@@ -167,7 +167,7 @@ Digital Applied a publié au Q1 2026 une étude sur n=2 847 développeurs qui co
 
 Cette contradiction est importante pour le pilotage. Une équipe qui adopte massivement l'AI sans recalibrer ses processus de revue voit sa charge de relecture augmenter, pas diminuer. Les gains attendus se réalisent ailleurs (vélocité d'écriture, exploration de variantes), pas sur le temps de revue. Le tech lead doit anticiper ce déplacement et ajuster ses cibles, sinon il mesure un faux gain de productivité tout en laissant une dette de qualité s'accumuler.
 
-## GitHub Agentic Workflows
+## GitHub agentic workflows
 
 GitHub Agentic Workflows (preview technique, février 2026) est la réponse de GitHub à la demande d'orchestration multi-agents managée. Le workflow se définit en Markdown lisible par humain. La commande `gh aw compile` produit un fichier `.lock.yml` versionné qui est le contrat exécutable du workflow. Cette séparation Markdown source / YAML compilé est analogue à la séparation source code / bytecode : on édite l'un, on exécute l'autre, et on commit les deux.
 
@@ -290,7 +290,7 @@ Un optimiseur de harness propose des changements aux prompts, à la politique de
 
 [HarnessOpt-Bench](https://arxiv.org/abs/2608.06301) fournit le protocole actuel le plus strict: tests cachés, environnement d'exécution de confiance, budgets de recherche explicites et candidats versionnés. Un essai crédible fige le modèle, le grader, les permissions et les limites de ressources; sépare les tâches de développement des tâches tenues à l'écart; mesure toutes les tentatives; et rejette tout candidat qui améliore le score en affaiblissant la sécurité ou en sautant une vérification.
 
-# Spec-Driven Development
+# Spec-driven development
 
 Le TDD (test-driven development, développement piloté par les tests) nous a appris à écrire les tests avant le code, dans l'idée que cette inversion force la clarté de l'intention. Quand un humain écrit le test, il doit nommer précisément ce que la fonction doit faire, et le test devient la spécification exécutable de l'intention. Cette discipline reste valide pour du code écrit par humain.
 
@@ -486,7 +486,7 @@ Les sept sections précédentes ont posé le cadre technique et empirique. Cette
 
 **Engineering Manager**. Les métriques de vélocité brutes (commits, PRs mergées, story points livrés) explosent mécaniquement avec l'adoption des agents. Ce n'est pas un signal de productivité, c'est un artefact d'adoption : l'agent produit plus d'artefacts mesurables, mais la mesure du temps réel sur des tâches complexes ne suit pas (METR Study 1 : 19% plus lent contre +24% perçu, gap de 39 points). Un EM qui communique à sa direction sur la base des métriques de vélocité agentic se prépare à un retour de bâton quand la J-curve descend (creux de -1.33 point de PTF documenté par Brynjolfsson sur le terrain industriel américain). Recalibrer les cinq métriques DORA actuelles (change lead time, deployment frequency, failed deployment recovery time, change fail rate et deployment rework rate) à la lumière de l'agentic, puis instrumenter les métriques AI-specific détaillées dans le whitepaper 11. Concrètement : ne jamais piloter sur le ressenti seul, demander des données mesurées, accepter la J-curve dans la communication avec la direction, communiquer en amont sur le creux pour éviter les coupes budgétaires au pire moment.
 
-# Voir Aussi
+# Voir aussi
 
 - [Architecture Claude Code](https://cc.bruniaux.com/guide/core/architecture/) : patterns multi-agents et orchestration
 - [Sécurité et isolation](https://cc.bruniaux.com/guide/security/security-hardening/) : Lethal Trifecta et configurations recommandées

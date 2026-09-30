@@ -1,4 +1,4 @@
-# Resource Evaluation: dclaude: Dockerized Claude Code Wrapper
+# Resource evaluation: dclaude: Dockerized Claude Code wrapper
 
 | Field | Value |
 |-------|-------|
@@ -19,7 +19,7 @@
 4. **Installation**: Single `curl` download, auto-builds Docker image on first run. Requires Docker Engine only (no Docker Desktop).
 5. **Security model**: Standard container isolation (not microVM). Mounts host Docker socket (`/var/run/docker.sock`), `~/.ssh`, `~/.gnupg` into container — expands attack surface vs. Docker Sandboxes' private daemon approach.
 
-## Gap Analysis
+## Gap analysis
 
 | Topic | Guide status | dclaude adds |
 |-------|-------------|--------------|
@@ -28,7 +28,7 @@
 | Worktree isolation use case | ❌ Not explicitly motivated | ✅ Explicit motivation |
 | SSH/GPG forwarding in sandbox | ❌ Not covered | ✅ Built-in (but ⚠️ security tradeoff) |
 
-## Score Justification
+## Score justification
 
 **2/5 (Marginal)** because:
 
@@ -52,7 +52,7 @@ The technical-writer agent confirmed the 2/5 score with additional analysis:
 - **Placement recommendation refined**: Footnote in Limitations subsection (line 225), NOT in comparison matrix
 - **Risk of non-integration**: Minimal — no reader fails to find a sandbox solution without dclaude
 
-## Fact-Check
+## Fact-check
 
 | Claim | Status | Source |
 |-------|--------|--------|
@@ -66,7 +66,7 @@ The technical-writer agent confirmed the 2/5 score with additional analysis:
 | Persistent container mode | ✅ | GitHub README |
 | 60 likes, 7 comments (LinkedIn) | ✅ | LinkedIn post (snapshot at fetch time) |
 
-## Integration Applied
+## Integration applied
 
 - `guide/security/sandbox-isolation.md` line 225 — Footnote mention in Limitations subsection with security tradeoff note
 - `docs/resource-evaluations/dclaude-docker-wrapper.md` — This file

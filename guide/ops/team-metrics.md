@@ -4,11 +4,11 @@ description: "How to measure and pilot a tech-product team using AI. DORA, SPACE
 tags: [guide, metrics, dora, space, team, observability, ai-augmented]
 ---
 
-# Team Metrics for AI-Augmented Engineering
+# Team metrics for AI-augmented engineering
 
 > Velocity is easy to measure and easy to misread. AI raises the bar for what "moving fast" even means.
 
-## Table of Contents
+## Table of contents
 
 1. [The Measurement Problem](#the-measurement-problem)
 2. [The DORA Foundation](#the-dora-foundation)
@@ -28,7 +28,7 @@ tags: [guide, metrics, dora, space, team, observability, ai-augmented]
 
 ---
 
-## The Measurement Problem
+## The measurement problem
 
 AI-assisted development changes delivery speed fast enough to break most existing benchmarks. A team shipping 2 features per sprint in 2022 might now ship 6, with AI generating 70-90% of the code. That looks like a win on every traditional scorecard, and it might genuinely be one, or the velocity is hiding shallow reviews, skill atrophy, and a growing pile of AI-generated technical debt that nobody fully understands.
 
@@ -38,13 +38,13 @@ This page gives engineering managers, tech leads, and CTOs a practical measureme
 
 ---
 
-## The DORA Foundation
+## The DORA foundation
 
 DORA (DevOps Research and Assessment) measures the health of a software delivery system, not individual contributors. The [current DORA guide](https://dora.dev/guides/dora-metrics/), updated January 5, 2026, defines five metrics grouped into throughput and instability. Apply them to one application or service at a time and use them to improve the delivery system, not to rank people or unlike teams.
 
 The five current metrics are Change Lead Time, Deployment Frequency, Failed Deployment Recovery Time, Change Fail Rate, and Deployment Rework Rate.
 
-### Deployment Frequency
+### Deployment frequency
 
 **What it measures**: How often you deploy to production (or release to end users).
 
@@ -54,7 +54,7 @@ The five current metrics are Change Lead Time, Deployment Frequency, Failed Depl
 
 ---
 
-### Change Lead Time
+### Change lead time
 
 **What it measures**: Time from a code commit to that code running in production.
 
@@ -64,7 +64,7 @@ The five current metrics are Change Lead Time, Deployment Frequency, Failed Depl
 
 ---
 
-### Change Failure Rate
+### Change failure rate
 
 **What it measures**: Percentage of deployments that cause a production incident or require a rollback.
 
@@ -74,7 +74,7 @@ The five current metrics are Change Lead Time, Deployment Frequency, Failed Depl
 
 ---
 
-### Failed Deployment Recovery Time
+### Failed deployment recovery time
 
 **What it measures**: How long it takes to recover from a failed deployment that requires immediate intervention.
 
@@ -84,7 +84,7 @@ The five current metrics are Change Lead Time, Deployment Frequency, Failed Depl
 
 ---
 
-### Deployment Rework Rate
+### Deployment rework rate
 
 **What it measures**: The ratio of deployments that are unplanned work caused by a production incident.
 
@@ -94,7 +94,7 @@ The five current metrics are Change Lead Time, Deployment Frequency, Failed Depl
 
 ---
 
-### From Four Keys to Five Metrics
+### From four keys to five metrics
 
 The [official metric history](https://dora.dev/insights/dora-metrics-history/) records two changes that many dashboards still miss. DORA replaced MTTR with Failed Deployment Recovery Time in 2023, then added Deployment Rework Rate in 2024. The current model therefore has five metrics, not four.
 
@@ -102,11 +102,11 @@ The 2025 DORA report also moved away from the old Elite, High, Medium, and Low p
 
 ---
 
-## DORA in an AI-Augmented Context
+## DORA in an AI-augmented context
 
 Each DORA metric reacts differently when AI enters the development workflow. Understanding those effects helps you set the right targets and spot the right warning signs.
 
-### Deployment Frequency
+### Deployment frequency
 
 AI accelerates feature development, so your deployment cadence should increase, provided your pipeline can keep up. If deployment frequency stays flat after widespread AI adoption, the bottleneck is downstream: staging environments, manual QA gates, or review throughput, not coding speed. AI gives you more PRs to merge; it doesn't automatically improve the rest of the pipeline.
 
@@ -114,27 +114,27 @@ Anthropic's own CI reports one shape of that downstream bottleneck: tests across
 
 Watch for: deployment frequency climbing while change failure rate also climbs. That's AI-accelerated code that isn't being reviewed carefully.
 
-### Change Lead Time
+### Change lead time
 
 AI cuts coding time but has limited effect on the non-coding segments of lead time. PR review, staging validation, context-switching delays, and deployment windows are largely unchanged by AI assistance. If your lead time isn't improving alongside AI adoption, the constraint is in review velocity or pipeline automation, not coding. Map your lead time stages explicitly (code time, review wait, staging wait, deploy window) to know where the leverage is.
 
-### Change Failure Rate
+### Change failure rate
 
 This is the metric most at risk when AI adoption outpaces review discipline. AI generates syntactically correct, structurally plausible code that can still have subtle behavioral errors. Teams that treat AI-generated PRs as "lower risk" and rubber-stamp reviews tend to see CFR creep up over 6-12 months. The failure mode is gradual: each individual AI PR looks fine, but the cumulative effect of reduced scrutiny shows up in production.
 
 Track CFR separately for AI-generated code versus manually written code (most AI coding tools can tag commits). If AI-generated CFR is materially higher, your review process needs reinforcement, not your AI tooling.
 
-### Failed Deployment Recovery Time
+### Failed deployment recovery time
 
 AI-assisted diagnosis can reduce recovery time when the model has access to deployment metadata, error logs, traces, and codebase context. The claim must be measured rather than inferred from a demo. Track the recovery-time distribution, false diagnoses, human intervention time, and whether the failed deployment was actually the cause. Instrument first, then compare the same service against its pre-adoption baseline.
 
-### Deployment Rework Rate
+### Deployment rework rate
 
 Generation speed can hide corrective work. Track whether AI-assisted changes produce more hotfix, rollback, and follow-up deployments, then attach token cost and human review time to that rework. A higher deployment frequency with a rising rework rate is not a throughput improvement.
 
 ---
 
-## Beyond DORA: The SPACE Framework
+## Beyond DORA: The SPACE framework
 
 DORA measures the delivery system. SPACE measures the people inside it. Both are necessary; neither is sufficient alone.
 
@@ -160,33 +160,33 @@ Measure with: Deployment Frequency, throughput (features shipped per cycle), PR 
 
 Critical note: Activity is the easiest dimension to measure and the easiest to game. High commit count, high PR volume, high deployment frequency can all coexist with low actual value delivered. Activity metrics are inputs, not outcomes.
 
-### Communication and Collaboration
+### Communication and collaboration
 
 Is knowledge flowing? Are teams unblocked and connected?
 
 Measure with: PR review latency (time from PR open to first review), cross-team dependency resolution time, onboarding time for new contributors.
 
-### Efficiency and Flow
+### Efficiency and flow
 
 Are developers able to do deep work without constant interruption? How much friction exists in the development process?
 
 Measure with: self-reported flow state frequency (in your developer survey), context-switching frequency, ratio of unplanned work to planned work.
 
-### The Velocity Trap
+### The velocity trap
 
 Teams can hit "High" on DORA deployment frequency while simultaneously scoring poorly on satisfaction, well-being, and efficiency. More deployments, but developers working nights to hit sprint commitments, skipping design discussions because AI makes coding fast enough to skip planning, accumulating cognitive debt from reviewing AI code they don't fully understand. SPACE catches this. DORA doesn't. Running both frameworks gives you the full picture.
 
-### SPACE + DORA Together
+### SPACE + DORA together
 
 Use DORA for your monthly leadership review: system health, delivery system performance. Use SPACE (specifically the satisfaction and efficiency dimensions) quarterly: human health, sustainable pace, skill development. Treat a divergence (strong DORA, weak SPACE) as a leading indicator of future DORA degradation. Burnt-out teams ship slower.
 
 ---
 
-## AI-Specific Metrics
+## AI-specific metrics
 
 Standard frameworks weren't designed with AI-assisted development in mind. These metrics fill the gap.
 
-### % AI-Assisted Code
+### % AI-assisted code
 
 The proportion of committed code that was AI-generated or AI-assisted. Available in Anthropic Contribution Metrics (Team and Enterprise plans), GitHub Copilot metrics dashboard, and similar tools for other AI coding assistants.
 
@@ -194,25 +194,25 @@ The proportion of committed code that was AI-generated or AI-assisted. Available
 
 **Watch for**: This number typically climbs over time as adoption increases. Benchmark it quarterly.
 
-### AI Code vs Human Code Quality
+### AI code vs human code quality
 
 Split your Change Failure Rate by code origin: AI-generated commits versus manually written commits. Most enterprise AI coding tools can tag commits or PRs.
 
 If AI-generated CFR is within 2-3 percentage points of manual CFR, your review process is working. If AI-generated CFR is materially higher, review discipline has dropped. If it's lower, AI tooling may genuinely be improving code quality in your domain.
 
-### Review Time: AI PRs vs Manual PRs
+### Review time: AI PRs vs manual PRs
 
 Compare average review time (open to merge) for AI-generated PRs versus manually written PRs. If AI PRs are getting merged significantly faster than manual ones, you may have a rubber-stamping problem.
 
 AI-generated code requires at least as much review scrutiny as manually written code, arguably more, because it can be confidently wrong in non-obvious ways. A 30% faster review cycle for AI PRs is a yellow flag worth investigating.
 
-### Developer Code Comprehension
+### Developer code comprehension
 
 A qualitative, binary signal: during PR review, can the author explain their AI-generated code in their own words, not just what it does, but why it does it that way?
 
 Track this informally through your code review culture. If reviewers start noticing that authors cannot explain their AI-generated submissions, that loss of understanding can later appear as higher CFR and longer failed deployment recovery time.
 
-### Time-to-Understand a PR
+### Time-to-understand a PR
 
 A rough proxy for code clarity and maintainability: ask reviewers to self-report how long it took them to understand what a PR does (before they could evaluate whether it was correct). Track the median across your team.
 
@@ -238,7 +238,7 @@ Use the [admission worksheet](../../examples/workflows/review-admission.md) to d
 
 ---
 
-## Agentic Metrics: What DORA Doesn't Measure
+## Agentic metrics: What DORA doesn't measure
 
 DORA and SPACE were designed for deterministic software systems. Agents introduce non-determinism, probabilistic quality, and failure modes that fall through every existing metric category. Three groups of metrics fill that gap.
 
@@ -306,19 +306,19 @@ Standard pass@1 is insufficient for agent-generated code. A test that passes onc
 
 Engineering metrics measure how code gets built. Product metrics measure whether the code is actually solving the right problems. Most engineering teams track the former and leave the latter entirely to product managers. That creates a gap where a team can be shipping fast, with high DORA scores, while the product drifts away from user needs. Agentic delivery widens that gap, because it raises throughput without improving the decision about what to build; see [the constraint that moves upstream](../workflows/agentic-software-factories.md#the-constraint-moves-upstream-to-what-is-worth-building) in the software factories map.
 
-### Time-to-Value
+### Time-to-value
 
 How long does it take a new user to reach their first success with your product? Define "first success" concretely: first completed task, first saved item, first report generated, whatever makes sense in your context.
 
 Track this as a median across your user cohorts, and watch for regressions after major feature releases. AI can accelerate your feature shipping without improving, or even while degrading, the new user experience.
 
-### Feature Adoption Rate
+### Feature adoption rate
 
 Of users who could use feature X, what percentage actually use it within 14 days of release? A feature shipped on time with clean DORA metrics that nobody uses is still a failed feature.
 
 Segment by user cohort (new vs. returning users, different pricing tiers) to distinguish adoption problems from discoverability problems.
 
-### Bug Escape Rate
+### Bug escape rate
 
 Bugs found in production divided by total bugs (pre-production bugs + production bugs). Formula: `bugs_in_prod / (bugs_before_prod + bugs_in_prod)`.
 
@@ -332,11 +332,11 @@ NPS is useful for brand-level sentiment but too lagging and too broad to steer d
 
 ---
 
-## By Team Size
+## By team size
 
 Different team sizes have different measurement overhead tolerances. A 5-person team that spends 20% of its time on metrics infrastructure is making a poor trade-off. A 25-person team without automated DORA tracking is flying blind. Here's a practical baseline for two common scales.
 
-### 5-Person Team
+### 5-person team
 
 **Metrics to track:**
 
@@ -352,7 +352,7 @@ Different team sizes have different measurement overhead tolerances. A 5-person 
 
 The instinct at this size is often to skip metrics entirely ("we're too small, we know each other, we talk daily"). Resist it. The value of metrics at 5 people is discipline, not visibility. Naming a north star metric and checking it monthly forces conversations that daily standups don't.
 
-### 25-Person Team
+### 25-person team
 
 **Metrics to track:**
 
@@ -375,7 +375,7 @@ PR review time is a friction metric worth watching closely at this scale. When m
 
 ---
 
-## Vanity Metrics to Drop
+## Vanity metrics to drop
 
 | Drop This | Replace With | Why |
 |-----------|-------------|-----|
@@ -390,7 +390,7 @@ Story points deserve a specific note in an AI context: if AI is generating boile
 
 ---
 
-## The 4-Question Test
+## The 4-question test
 
 Before adding any metric to your tracking stack, run it through these four questions:
 
@@ -430,7 +430,7 @@ No tool automatically surfaces the AI-specific metrics described earlier (CFR by
 
 Avoid tool sprawl. A team with LinearB, Jira, GitHub Insights, and two separate analytics tools will spend more time reconciling numbers than acting on them. Pick one DORA tool, one product analytics tool, and use GitHub Analytics for AI-specific data.
 
-### Broader Delivery Intelligence Platforms
+### Broader delivery intelligence platforms
 
 The table above covers the tools most teams reach for first. The 2026 market is wider than that, and worth a second look if the starter table doesn't fit your org's size or constraints.
 
@@ -444,7 +444,7 @@ The table above covers the tools most teams reach for first. The 2026 market is 
 | Oobeya (oobeya.io) | Aggregates 20+ existing DevOps tools into a single layer, rather than being a standalone data source itself | Fits teams already running several disconnected DevOps tools who want one pane of glass instead of another data collector |
 | Hatica (hatica.io) | Markets "gen AI-driven engineering analytics" | Thinner on documented specifics than the other entries in this table: the underlying LLM mechanism behind its analytics claims isn't publicly detailed. Worth a direct vendor conversation before committing, don't take the marketing framing at face value |
 
-### AI-Generated Board Narratives
+### AI-Generated board narratives
 
 A genuinely new 2026 capability: some of these platforms now generate a written narrative from the metrics they already compute, rather than leaving that translation to a human. Two concrete examples.
 
@@ -456,7 +456,7 @@ In both cases, the generative AI's role is explanation and prioritization of wha
 
 ---
 
-## Probabilistic Delivery Forecasting
+## Probabilistic delivery forecasting
 
 Every benchmark table on this page so far answers "how are we doing." This section answers a different question: "when will this ship," and it answers it with a probability distribution instead of a single date.
 
@@ -478,23 +478,23 @@ Monte Carlo forecasting is not a fix for an unstable or unpredictable delivery s
 
 ---
 
-## Implementation Roadmap
+## Implementation roadmap
 
 The most common failure mode in metrics programs is trying to instrument everything at once. Three phases:
 
-### Phase 1 (Weeks 1-2): Instrument DORA
+### Phase 1 (weeks 1-2): Instrument DORA
 
 Connect your CI/CD pipeline to a metrics tool. For most teams this means connecting GitHub Actions (or equivalent) to LinearB, Faros, or Sleuth. Get Deployment Frequency and Change Lead Time automated first. They require the least manual work to configure. Change Fail Rate, Failed Deployment Recovery Time, and Deployment Rework Rate require deployment-to-incident linkage, which takes longer to set up.
 
 Output: a live dashboard showing at minimum Deployment Frequency and Lead Time for Changes. Your first baseline numbers.
 
-### Phase 2 (Weeks 3-4): Baseline and Set Targets
+### Phase 2 (weeks 3-4): Baseline and set targets
 
 Once you have 2-4 weeks of data, establish your actual baseline. The temptation here is to compare to industry benchmarks immediately. Resist it. Set internal improvement targets first: "reduce Lead Time by 20% over the next quarter" is more actionable than "get to High tier." Your context (tech stack, deployment environment, team size, product type) affects what's achievable more than any benchmark.
 
 Run your first developer satisfaction pulse (5 questions, anonymous, takes 10 minutes to build in Google Forms or Typeform). This is your SPACE baseline.
 
-### Phase 3 (Month 2 and Beyond): Layer in Product and AI Metrics
+### Phase 3 (month 2 and beyond): Layer in product and AI metrics
 
 Once DORA is stable and automated, add the product metrics (time-to-value, feature CSAT) and AI-specific signals (% AI-assisted code, CFR by code origin). These require more setup (product analytics instrumentation, PR tagging conventions), but they're worth the investment once your DORA foundation is solid.
 
@@ -502,7 +502,7 @@ Review the full metric stack quarterly and prune ruthlessly. Any metric that has
 
 ---
 
-## Reporting Delivery Capacity to a Skeptical Board
+## Reporting delivery capacity to a skeptical board
 
 Everything above this section assumes the audience is your own team or your engineering leadership chain. A board that has watched past estimates slip needs a different approach, because the problem it's raising usually isn't the one a dashboard answers.
 
@@ -542,7 +542,7 @@ Neither substitutes for the harder work above. A better forecast and a better-wr
 
 ---
 
-## See Also
+## See also
 
 - [Session Observability & Monitoring](./observability.md): Claude Code session monitoring, cost tracking, usage patterns
 - [AI Traceability](./ai-traceability.md): Auditing AI-generated code contributions, attribution, and compliance

@@ -3,7 +3,7 @@ name: learning-path
 description: Run the local Claude Code learning path, record evidence, and schedule evidence-based reviews.
 ---
 
-# Claude Code Learning Path
+# Claude Code learning path
 
 Use this skill to follow a bounded, local progression through the existing seven-module guide. The engine selects only modules whose prerequisites are complete, saves nothing outside the current project's `.claude/learning/` directory, requires a non-empty evidence note, and rejects corrupt state.
 

@@ -1,4 +1,4 @@
-# CI Commands
+# CI commands
 
 Slash commands for CI/CD workflows. Auto-detect stack (Python/Node/Rust) and support both GitLab CI and GitHub Actions.
 

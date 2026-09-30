@@ -4,9 +4,9 @@ description: Comprehensive security checklist for web applications
 effort: medium
 ---
 
-# Security Checklist Skill
+# Security checklist skill
 
-## Quick Security Audit
+## Quick security audit
 
 ### Authentication
 - [ ] Passwords hashed with bcrypt/argon2 (cost factor >= 10)
@@ -21,13 +21,13 @@ effort: medium
 - [ ] Role-based access control implemented
 - [ ] Sensitive operations require re-authentication
 
-### Input Validation
+### Input validation
 - [ ] All user input validated server-side
 - [ ] File uploads restricted by type and size
 - [ ] SQL queries use parameterized statements
 - [ ] HTML output encoded to prevent XSS
 
-### Data Protection
+### Data protection
 - [ ] Sensitive data encrypted at rest
 - [ ] HTTPS enforced everywhere
 - [ ] Secure cookies (HttpOnly, Secure, SameSite)
@@ -40,9 +40,9 @@ effort: medium
 - [ ] Strict-Transport-Security enabled
 - [ ] CORS properly restricted
 
-## Code Patterns
+## Code patterns
 
-### SQL Injection Prevention
+### SQL injection prevention
 ```javascript
 // VULNERABLE
 db.query(`SELECT * FROM users WHERE id = ${userId}`);
@@ -51,7 +51,7 @@ db.query(`SELECT * FROM users WHERE id = ${userId}`);
 db.query('SELECT * FROM users WHERE id = $1', [userId]);
 ```
 
-### XSS Prevention
+### XSS prevention
 ```javascript
 // VULNERABLE
 element.innerHTML = userInput;
@@ -63,7 +63,7 @@ element.textContent = userInput;
 element.innerHTML = DOMPurify.sanitize(userInput);
 ```
 
-### CSRF Protection
+### CSRF protection
 ```javascript
 // Generate token
 const csrfToken = crypto.randomBytes(32).toString('hex');
@@ -75,7 +75,7 @@ if (req.body.csrf !== session.csrfToken) {
 }
 ```
 
-### Secrets Management
+### Secrets management
 ```javascript
 // NEVER in code
 const API_KEY = 'sk-abc123...';
@@ -87,7 +87,7 @@ const API_KEY = process.env.API_KEY;
 const secret = await secretsManager.getSecret('api-key');
 ```
 
-## Security Headers Example
+## Security headers example
 
 ```javascript
 // Express middleware
@@ -101,7 +101,7 @@ app.use((req, res, next) => {
 });
 ```
 
-## Dependency Security
+## Dependency security
 
 ```bash
 # Check for vulnerabilities
@@ -117,7 +117,7 @@ npm outdated
 npm update
 ```
 
-## Logging Security Events
+## Logging security events
 
 ```javascript
 // Events to log
@@ -136,7 +136,7 @@ logger.security({
 // - Personal data (in production)
 ```
 
-## Pre-Deployment Checklist
+## Pre-deployment checklist
 
 1. [ ] Run `npm audit` - no critical vulnerabilities
 2. [ ] All secrets in environment variables

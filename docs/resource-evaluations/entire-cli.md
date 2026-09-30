@@ -1,4 +1,4 @@
-# Resource Evaluation: Entire CLI
+# Resource evaluation: Entire CLI
 
 **Date**: February 12, 2026
 **Evaluator**: Claude Sonnet 4.5 (via eval-resource skill)
@@ -6,7 +6,7 @@
 
 ---
 
-## Resource Details
+## Resource details
 
 | Attribute | Value |
 |-----------|-------|
@@ -19,7 +19,7 @@
 
 ---
 
-## Executive Summary
+## Executive summary
 
 Entire CLI is an **agent-native platform** that captures AI agent sessions (Claude Code, Gemini CLI) as versioned checkpoints in Git repositories. Launched February 10-12, 2026 with $60M funding by former GitHub CEO Thomas Dohmke, it provides:
 
@@ -37,7 +37,7 @@ Entire CLI is an **agent-native platform** that captures AI agent sessions (Clau
 
 ## Scoring (1-5 scale)
 
-### 1. Technical Accuracy (5/5)
+### 1. Technical accuracy (5/5)
 
 **Score: 5**: Verified through multiple sources
 
@@ -51,7 +51,7 @@ Entire CLI is an **agent-native platform** that captures AI agent sessions (Clau
 - GitHub README: [entireio/cli](https://github.com/entireio/cli)
 - Press coverage: Futurum Group, RCP Mag, Silicon Angle
 
-### 2. Practical Value (5/5)
+### 2. Practical value (5/5)
 
 **Score: 5**: Solves 3 critical documented gaps
 
@@ -85,7 +85,7 @@ Entire CLI is an **agent-native platform** that captures AI agent sessions (Clau
 | session-search.sh | ❌ | ❌ | ❌ | ❌ |
 | **Entire CLI** | ✅ | ✅ | ✅ | ✅ |
 
-### 4. Integration Effort (3/5)
+### 4. Integration effort (3/5)
 
 **Score: 3**: Moderate setup, but clear ROI for target users
 
@@ -103,7 +103,7 @@ Entire CLI is an **agent-native platform** that captures AI agent sessions (Clau
 **Target users:** Enterprise/compliance teams, multi-agent workflows
 **Not for:** Solo devs, personal projects (overhead not justified)
 
-### 5. Community Validation (2/5)
+### 5. Community validation (2/5)
 
 **Score: 2**: Too new for significant adoption data
 
@@ -115,7 +115,7 @@ Entire CLI is an **agent-native platform** that captures AI agent sessions (Clau
 
 **Expected trajectory:** Given founder + funding, likely to become category leader. Reassess Q2 2026 for adoption data.
 
-### 6. Guide Alignment (5/5)
+### 6. Guide alignment (5/5)
 
 **Score: 5**: Perfect fit, critical correction
 
@@ -136,7 +136,7 @@ Entire CLI is an **agent-native platform** that captures AI agent sessions (Clau
 
 ---
 
-## Overall Score: **5/5** (Critical)
+## Overall score: **5/5** (Critical)
 
 **Formula:**
 - Technical: 5/5 (verified, accurate)
@@ -150,7 +150,7 @@ Entire CLI is an **agent-native platform** that captures AI agent sessions (Clau
 
 ---
 
-## Decision: **INTEGRATE** (Priority: CRITICAL)
+## Decision: **INTEGRATE** (priority: CRITICAL)
 
 ### Rationale
 
@@ -160,7 +160,7 @@ Entire CLI is an **agent-native platform** that captures AI agent sessions (Clau
 4. **Timing**: Launched 2-3 days ago (ultra-relevant)
 5. **Unique value**: Only tool providing governance + replay
 
-### Integration Plan
+### Integration plan
 
 **Phase 1 (CRITICAL + HIGH):**
 - ✅ ai-traceability.md → Replace git-ai section
@@ -181,9 +181,9 @@ Entire CLI is an **agent-native platform** that captures AI agent sessions (Clau
 
 ---
 
-## Limitations & Caveats
+## Limitations & caveats
 
-### Early Stage Risk
+### Early stage risk
 
 - **Very new** (2-3 days old) — limited production feedback
 - **No case studies** yet (expected Q2 2026)
@@ -191,14 +191,14 @@ Entire CLI is an **agent-native platform** that captures AI agent sessions (Clau
 
 **Mitigation:** Documented with "Early stage" disclaimers throughout guide.
 
-### Target Audience Mismatch
+### Target audience mismatch
 
 - **Overhead** (~5-10% storage) not justified for solo devs
 - **Governance model** adds complexity for simple workflows
 
 **Mitigation:** Clear "When to use" / "When NOT to use" guidance in each section.
 
-### Platform Lock-in
+### Platform lock-in
 
 - **Dependency** on Entire CLI platform
 - **Alternative**: Manual Git workflows + session-search.sh
@@ -207,22 +207,22 @@ Entire CLI is an **agent-native platform** that captures AI agent sessions (Clau
 
 ---
 
-## Follow-Up Actions
+## Follow-up actions
 
-### Immediate (Completed)
+### Immediate (completed)
 
 - [x] Integrate across 9 files (7 content + 2 meta)
 - [x] Create formal evaluation (this file)
 - [x] Update CHANGELOG.md
 
-### 3-Month Review (May 2026)
+### 3-month review (May 2026)
 
 - [ ] Check adoption metrics (GitHub stars, case studies)
 - [ ] Verify API stability (breaking changes?)
 - [ ] Update "Community Validation" score (2/5 → ?/5)
 - [ ] Add production case studies if available
 
-### 6-Month Review (August 2026)
+### 6-month review (August 2026)
 
 - [ ] Reassess category landscape (competitors emerged?)
 - [ ] Validate compliance claims (SOC2, HIPAA field data)
@@ -230,7 +230,7 @@ Entire CLI is an **agent-native platform** that captures AI agent sessions (Clau
 
 ---
 
-## Related Evaluations
+## Related evaluations
 
 - **git-ai** (deprecated) — 404 repo, replaced by Entire CLI
 - **claude-code-viewer** (evaluated separately) — Read-only history, no replay

@@ -155,7 +155,7 @@ An overloaded term with two current uses. In optimizer research, it is a system 
 
 An open standard for connecting AI tools to external data sources and services. MCP servers give Claude new tools for Slack, Jira, databases, browsers, and hundreds of other integrations. Connect servers via `/mcp` or by adding them to `.mcp.json`. See [§8 MCP](../ultimate-guide.md#8-mcp).
 
-### MCP Tool Search
+### MCP tool search
 
 A context-saving mechanism that defers MCP tool schemas until needed. Only tool names load at startup; Claude fetches the full schema on demand when it decides to use a specific tool. This keeps idle MCP servers from consuming context. See [§8 MCP](../ultimate-guide.md#8-mcp).
 

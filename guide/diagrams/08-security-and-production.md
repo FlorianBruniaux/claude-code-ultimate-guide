@@ -4,13 +4,13 @@ description: "3-layer defense, sandbox decision, verification paradox, CI/CD pip
 tags: [security, production, sandbox, ci-cd, defense]
 ---
 
-# Security & Production
+# Security & production
 
 Patterns for safely running Claude Code in sensitive and production environments.
 
 ---
 
-### Security 3-Layer Defense Model
+### Security 3-layer defense model
 
 Defense in depth for Claude Code: prevention stops most threats, detection catches what slips through, and response limits blast radius. No single layer is sufficient.
 
@@ -92,7 +92,7 @@ Contained
 
 ---
 
-### Sandbox Decision Tree
+### Sandbox decision tree
 
 Sandboxing adds overhead. Use this tree to decide when it's mandatory, recommended, or optional for your situation.
 
@@ -167,7 +167,7 @@ Rule: When in doubt, sandbox it.
 
 ---
 
-### The Verification Paradox
+### The verification paradox
 
 Asking Claude to verify its own work is circular. The same model that produced the bug will often miss it during review. This anti-pattern causes production incidents.
 
@@ -233,7 +233,7 @@ GOOD: Claude writes → Human reviews (critical sections)
 
 ---
 
-### CI/CD Integration Pipeline
+### CI/CD integration pipeline
 
 Claude Code can run in non-interactive mode inside CI/CD pipelines for automated code review, documentation, and quality checks on every PR.
 

@@ -1,4 +1,4 @@
-# Evaluation: obra/superpowers: Agentic Skills Framework for Claude Code
+# Evaluation: obra/superpowers: Agentic skills framework for Claude Code
 
 **Resource Type**: GitHub Repository (Claude Code Plugin)
 **Author**: Jesse Vincent, Prime Radiant
@@ -8,7 +8,7 @@
 
 ---
 
-## 1. Content Summary
+## 1. Content summary
 
 Superpowers is a complete software development methodology packaged as a Claude Code plugin — a suite of composable skills that enforces structured workflows from idea to merged branch. Skills trigger automatically based on context (no manual invocation needed).
 
@@ -50,7 +50,7 @@ At 95k stars on a Claude Code tool (verified), this is the dominant community me
 
 ---
 
-## 3. Comparative Analysis
+## 3. Comparative analysis
 
 | Aspect | Superpowers | Current guide |
 |--------|-------------|---------------|
@@ -65,7 +65,7 @@ At 95k stars on a Claude Code tool (verified), this is the dominant community me
 
 ---
 
-## 4. Fact-Check
+## 4. Fact-check
 
 | Claim | Verified | Source |
 |-------|----------|--------|
@@ -103,9 +103,9 @@ At 95k stars on a Claude Code tool (verified), this is the dominant community me
 
 ---
 
-## 6. Integration Plan
+## 6. Integration plan
 
-### Decision: **INTEGRATE** ✅ — Score 5/5, Priority: High
+### Decision: **INTEGRATE** ✅ — score 5/5, priority: High
 
 ### Where to integrate
 
@@ -140,7 +140,7 @@ Add: "Superpowers' `brainstorming` skill enforces spec-first as a mandatory gate
 
 ---
 
-## 7. Final Metadata
+## 7. Final metadata
 
 **Initial Score**: 4/5
 **Score after challenge + fact-check**: **5/5**

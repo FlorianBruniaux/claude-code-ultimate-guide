@@ -1,4 +1,4 @@
-# Evaluation: Rob Zolkos - Deep Dive: How Claude Code's /insights Command Works
+# Evaluation: Rob Zolkos - deep dive: How Claude Code's /insights command works
 
 **Resource Type**: Blog Article (Technical Deep Dive)
 **Author**: Rob Zolkos (@zolkos)
@@ -9,7 +9,7 @@
 
 ---
 
-## 1. Content Summary
+## 1. Content summary
 
 Technical deep dive documenting the architecture and implementation of Claude Code's `/insights` command. Comprehensive coverage of the analysis pipeline, facets classification system, and technical specifications.
 
@@ -24,7 +24,7 @@ Technical deep dive documenting the architecture and implementation of Claude Co
 
 ---
 
-## 2. Initial Scoring: 4/5 (High Value)
+## 2. Initial scoring: 4/5 (High value)
 
 | Score | Signification | Action |
 |-------|---------------|--------|
@@ -59,7 +59,7 @@ Technical deep dive documenting the architecture and implementation of Claude Co
 
 ---
 
-## 3. Comparative Analysis
+## 3. Comparative analysis
 
 ### Comparison avec notre guide (v3.23.1, post-documentation)
 
@@ -81,7 +81,7 @@ Technical deep dive documenting the architecture and implementation of Claude Co
 
 ---
 
-## 4. Fact-Check
+## 4. Fact-check
 
 | Claim | Verified | Source | Notes |
 |-------|----------|--------|-------|
@@ -106,7 +106,7 @@ Technical deep dive documenting the architecture and implementation of Claude Co
 
 ## 5. Technical Challenge (by technical-writer agent)
 
-### Challenge Questions
+### Challenge questions
 
 **Q1**: "Score 4/5 pour un article technique complet sur un sujet non-documenté. Pourquoi pas 5/5?"
 
@@ -183,7 +183,7 @@ Source: [Zolkos Technical Deep Dive](url)
 
 **Pas bloquant**: La valeur reste identique (architecture compréhensible), juste précision à affiner.
 
-### Adjusted Score After Challenge
+### Adjusted score after challenge
 
 **Score maintenu**: **4/5** (High Value)
 
@@ -195,7 +195,7 @@ Source: [Zolkos Technical Deep Dive](url)
 
 ---
 
-## 6. Integration Decision
+## 6. Integration decision
 
 ### Decision: **INTEGRATE** ✅ (avec hybrid approach)
 
@@ -206,7 +206,7 @@ Source: [Zolkos Technical Deep Dive](url)
 4. **Credible source** - Technical deep dive, pas marketing fluff
 5. **Complementary not redundant** - Architecture (Zolkos) + Usage (notre guide) = complet
 
-### Integration Strategy
+### Integration strategy
 
 **Phase 1: Architecture Overview dans guide (< 1 week)**
 
@@ -290,7 +290,7 @@ This focuses the report on meaningful interactions. To ensure sessions are inclu
 
 ---
 
-## 7. Implementation Notes
+## 7. Implementation notes
 
 ### What to integrate
 
@@ -329,7 +329,7 @@ Integration adds ~800 tokens to guide (facets tables + architecture overview).
 
 ---
 
-## 8. Related Resources
+## 8. Related resources
 
 | Resource | Priority | Status | Estimated Score |
 |----------|----------|--------|-----------------|
@@ -339,7 +339,7 @@ Integration adds ~800 tokens to guide (facets tables + architecture overview).
 
 ---
 
-## 9. Final Metadata
+## 9. Final metadata
 
 **Initial Score**: 4/5
 **Final Score**: 4/5

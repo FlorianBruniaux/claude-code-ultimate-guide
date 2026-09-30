@@ -8,11 +8,11 @@ metadata:
   version: 1.0.0
 ---
 
-# Cyber Defense Team Skill
+# Cyber defense team skill
 
 Orchestrate a 4-agent pipeline that analyzes log files for security threats and produces an incident report.
 
-## Pipeline Architecture
+## Pipeline architecture
 
 ```
 [You] -> Team Lead (this skill)
@@ -29,13 +29,13 @@ Orchestrate a 4-agent pipeline that analyzes log files for security threats and 
 
 Stages 2 and 3 are sequential (each depends on previous output). Stage 4 runs after all data is ready.
 
-## Execution Steps
+## Execution steps
 
-### Step 1: Validate Input
+### Step 1: Validate input
 
 Check that the log file exists (or that log content was provided inline). If the path doesn't exist, tell the user immediately and don't proceed.
 
-### Step 2: Spawn Log Ingestor
+### Step 2: Spawn log ingestor
 
 Use the Agent tool to spawn the `log-ingestor` agent:
 
@@ -46,7 +46,7 @@ Log path: [log_path]
 
 Wait for completion. Confirm `cyber-defense-events.json` was created.
 
-### Step 3: Spawn Anomaly Detector
+### Step 3: Spawn anomaly detector
 
 Use the Agent tool to spawn the `anomaly-detector` agent:
 
@@ -56,7 +56,7 @@ Task: Read cyber-defense-events.json and detect anomalies. Write results to cybe
 
 Wait for completion. If `anomalies_found: 0`, skip to Step 5 (reporter still runs).
 
-### Step 4: Spawn Risk Classifier
+### Step 4: Spawn risk classifier
 
 Use the Agent tool to spawn the `risk-classifier` agent:
 
@@ -64,7 +64,7 @@ Use the Agent tool to spawn the `risk-classifier` agent:
 Task: Read cyber-defense-anomalies.json and classify overall risk. Write result to cyber-defense-risk.json.
 ```
 
-### Step 5: Spawn Threat Reporter
+### Step 5: Spawn threat reporter
 
 Use the Agent tool to spawn the `threat-reporter` agent:
 
@@ -72,7 +72,7 @@ Use the Agent tool to spawn the `threat-reporter` agent:
 Task: Read cyber-defense-events.json, cyber-defense-anomalies.json, and cyber-defense-risk.json. Generate a complete incident report and save it to cyber-defense-report.md.
 ```
 
-### Step 6: Summarize for User
+### Step 6: Summarize for user
 
 Read `cyber-defense-risk.json` and present:
 
@@ -88,13 +88,13 @@ Primary threat: Brute force attack from 192.168.1.105
 Immediate action required: [first recommended_action]
 ```
 
-## Error Handling
+## Error handling
 
 - Agent fails at step 2: Tell user, stop pipeline, show raw error.
 - Agent fails at step 3+: Show partial results, note which stage failed.
 - Log file not found: "File [path] not found. Provide a valid path or paste log content."
 
-## Cost Estimate
+## Cost estimate
 
 | Stage | Model | Typical tokens |
 |-------|-------|----------------|
@@ -106,7 +106,7 @@ Immediate action required: [first recommended_action]
 
 For large log files (>10K lines), log-ingestor may use up to 20K tokens.
 
-## Example Usage
+## Example usage
 
 ```
 /cyber-defense-team /var/log/nginx/access.log

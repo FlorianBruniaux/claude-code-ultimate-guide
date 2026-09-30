@@ -10,7 +10,7 @@ keywords:
   - "judgment allocation"
 ---
 
-# Loop & Graph Engineering
+# Loop & graph engineering
 
 > **Status:** Loop engineering is practitioner vocabulary, not a formal standard. Graph engineering is an emerging research label, not a settled discipline. The underlying mechanisms, such as state machines, workflow graphs, checkpoints, and review gates, are mature engineering techniques.
 >

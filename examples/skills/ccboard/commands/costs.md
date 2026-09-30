@@ -4,7 +4,7 @@ description: Open ccboard costs analysis tab
 category: analytics
 ---
 
-# Costs Analysis Command
+# Costs analysis command
 
 Launch ccboard and jump directly to the costs tracking and analytics tab.
 
@@ -33,7 +33,7 @@ Launch ccboard and jump directly to the costs tracking and analytics tab.
 ccboard --tab costs
 ```
 
-## Costs Tab Navigation
+## Costs tab navigation
 
 - `1` : Overview view
 - `2` : By Model view
@@ -41,7 +41,7 @@ ccboard --tab costs
 - `Tab` : Switch between views
 - `↑/↓` : Scroll through data
 
-## Example Output
+## Example output
 
 ```
 Total Tokens: 17.32M

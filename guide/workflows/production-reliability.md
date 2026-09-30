@@ -4,7 +4,7 @@ description: "Escalation design, circuit breakers, structured error propagation,
 tags: [workflow, reliability, production, escalation, circuit-breaker, error-handling]
 ---
 
-# Production Reliability Patterns
+# Production reliability patterns
 
 > **Confidence**: Tier 2. Patterns derived from production deployments. Core design principles are stable; specific thresholds and field names will vary by system.
 
@@ -12,7 +12,7 @@ Claude-powered systems fail in ways that differ from traditional software. The m
 
 ---
 
-## Table of Contents
+## Table of contents
 
 1. [Escalation Design](#escalation-design)
 2. [Circuit Breaker Pattern](#circuit-breaker-pattern)
@@ -25,11 +25,11 @@ Claude-powered systems fail in ways that differ from traditional software. The m
 
 ---
 
-## Escalation Design
+## Escalation design
 
 The single most common reliability mistake is using LLM confidence scores as the primary escalation signal. Confidence scores are not calibrated probabilities: a model can output a high confidence value while being factually wrong. Production escalation should be driven by programmatic signals, not by numeric confidence values.
 
-### The Three Canonical Escalation Triggers
+### The three canonical escalation triggers
 
 In a well-designed system, escalation occurs when exactly one of three conditions is met.
 
@@ -39,7 +39,7 @@ In a well-designed system, escalation occurs when exactly one of three condition
 
 **3. Inability to make progress:** After a defined number of attempts or tool calls, the system has not produced a valid result. This is measured programmatically: retry budget exhausted, circuit breaker open, or validation loop failed.
 
-### Programmatic Escalation Signals
+### Programmatic escalation signals
 
 ```python
 from enum import Enum
@@ -101,7 +101,7 @@ def contains_explicit_escalation_request(message: str) -> bool:
     return any(phrase in message_lower for phrase in explicit_phrases)
 ```
 
-### Frustration vs Explicit Escalation
+### Frustration vs explicit escalation
 
 These are two completely different signals that require opposite responses. Frustration (angry tone, repeated questions, "this is useless") is a signal to acknowledge empathetically and try a different approach. An explicit escalation request ("I want to talk to a person") is a signal to hand off immediately.
 
@@ -135,7 +135,7 @@ elif signals["frustrated"]:
     adjust_response_approach()        # more empathetic, different angle
 ```
 
-### Rule-Based Routing from Structured Output
+### Rule-Based routing from structured output
 
 Where possible, derive escalation decisions from structured output fields rather than from model-level confidence. If the model produces a structured result with `policy_gap: true` or `requires_human_review: true`, those fields are deterministic routing signals, with no confidence score interpretation needed.
 
@@ -158,7 +158,7 @@ def route_from_structured_output(decision: AgentDecision) -> str:
 
 ---
 
-## Circuit Breaker Pattern
+## Circuit breaker pattern
 
 A circuit breaker prevents a failing dependency (API, tool, external service) from creating cascading failures. Without it, every agent call that touches a failing service will hang until timeout, consuming resources and degrading the entire pipeline.
 
@@ -233,7 +233,7 @@ class CircuitOpenError(Exception):
     pass
 ```
 
-### Per-Document Isolation in Batch Pipelines
+### Per-Document isolation in batch pipelines
 
 In batch processing pipelines, each document should have its own error boundary. One document's failure should not abort the remaining batch.
 
@@ -266,7 +266,7 @@ The circuit breaker closes at the batch level, not the document level. When it o
 
 ---
 
-## Structured Error Propagation
+## Structured error propagation
 
 In multi-agent systems, errors passed as generic exception strings lose the context needed for recovery. Structured errors carry the information the upstream orchestrator needs to decide whether to retry, reroute, or escalate.
 
@@ -343,7 +343,7 @@ The key field is `is_retryable`. An orchestrator that cannot tell whether to ret
 
 ---
 
-## Partial Results and Coverage Annotations
+## Partial results and coverage annotations
 
 When a pipeline cannot fully complete a task, returning partial results with explicit coverage annotations is more useful than returning nothing. The consumer can then decide whether the partial result is actionable without needing to understand the internals of what failed.
 
@@ -394,7 +394,7 @@ This pattern applies anywhere a pipeline may produce incomplete output: document
 
 ---
 
-## Structured Human Handoff
+## Structured human handoff
 
 When escalation occurs, the human agent receives a structured payload rather than raw conversation history. The goal is that the human can begin working within 30 seconds, without reading back through an entire conversation log.
 
@@ -436,7 +436,7 @@ def build_handoff(
     )
 ```
 
-### Handoff Display Format
+### Handoff display format
 
 What the human agent actually sees should read as a structured brief, not a data dump:
 
@@ -469,7 +469,7 @@ The `recommended_next_action` field is the most valuable part. A human agent who
 
 ---
 
-## Source Conflict Resolution
+## Source conflict resolution
 
 When multiple sources disagree, the resolution strategy depends on why they disagree. Temporal differences (one source is newer than another) call for a different approach than factual conflicts (sources about the same time period disagree on the facts).
 
@@ -516,7 +516,7 @@ def resolve_conflict(sources: list[Source], field: str) -> dict:
 
 Always include `publication_date` in source metadata. Without it, temporal disambiguation is impossible and what looks like a factual conflict may simply be an outdated source that hasn't been retired.
 
-### Surfacing Conflicts in Output
+### Surfacing conflicts in output
 
 When a genuine conflict cannot be resolved automatically, surface it explicitly rather than silently picking one source:
 
@@ -534,7 +534,7 @@ This is better than returning a single answer without attribution. A consumer wh
 
 ---
 
-## Anti-Patterns
+## Anti-patterns
 
 **Using confidence scores as routing logic.** Confidence scores from LLMs are not calibrated probabilities. Use programmatic signals instead: retry count, circuit state, structured output fields.
 
@@ -550,7 +550,7 @@ This is better than returning a single answer without attribution. A consumer wh
 
 ---
 
-## See Also
+## See also
 
 - [Agent Teams](agent-teams.md): orchestrator/subagent architecture and tool routing
 - [Event-Driven Agents](event-driven-agents.md): trigger-based automation and retry loops

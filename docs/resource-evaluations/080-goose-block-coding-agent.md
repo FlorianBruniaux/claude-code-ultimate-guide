@@ -1,4 +1,4 @@
-# Resource Evaluation #080: Goose (Block): Open-Source AI Coding Agent
+# Resource evaluation #080: Goose (block): Open-Source AI coding agent
 
 **Source:** [block.github.io/goose](https://block.github.io/goose) / [github.com/block/goose](https://github.com/block/goose)
 **Type:** Open source tool (Apache 2.0) — on-machine AI coding agent
@@ -21,7 +21,7 @@
 
 ---
 
-## Status in the Guide
+## Status in the guide
 
 **Already documented**: `guide/ecosystem/ai-ecosystem.md` §11.1 "Goose: Open-Source Alternative (Block)"
 
@@ -29,7 +29,7 @@
 
 ---
 
-## Relevance Score
+## Relevance score
 
 | Score | Meaning |
 |-------|---------|
@@ -45,7 +45,7 @@
 
 ---
 
-## What Needs Updating in §11.1
+## What needs updating in §11.1
 
 ### 1. Stats (outdated)
 
@@ -92,7 +92,7 @@ Key points:
 
 ---
 
-## Fact-Check
+## Fact-check
 
 | Claim | Verified | Source |
 |-------|----------|--------|
@@ -112,7 +112,7 @@ Key points:
 
 ---
 
-## Final Decision
+## Final decision
 
 - **Final score**: 4/5
 - **Action**: Update existing `guide/ecosystem/ai-ecosystem.md` §11.1 — stats refresh + Recipes paragraph + subagent orchestration paragraph

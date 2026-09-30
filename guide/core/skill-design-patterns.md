@@ -4,7 +4,7 @@ description: "Architectural patterns for designing robust, token-efficient Claud
 tags: [skills, architecture, multi-agent, patterns, design]
 ---
 
-# Skill Design Patterns
+# Skill design patterns
 
 > **Related**: [Development Methodologies](./methodologies.md) | [Multi-Agent Coordination](../ultimate-guide.md#920-agent-teams-multi-agent-coordination)
 
@@ -12,7 +12,7 @@ Practical patterns for skills that go beyond a single-agent, single-file prompt.
 
 ---
 
-## Shared Ground Truth Injection
+## Shared ground truth injection
 
 **Problem**: When you launch N parallel sub-agents to audit or analyze a set of artifacts, each agent independently discovers the same baseline facts (file list, nav structure, CLI commands, schema). That is N redundant reads, N independent facts to trust, and N chances for one agent to see a stale file state.
 
@@ -47,7 +47,7 @@ Orchestrator (Phase 2)
 
 ---
 
-## Pre-filtered References via Frontmatter Paths
+## Pre-filtered references via frontmatter paths
 
 **Problem**: You have a set of rules files (coding standards, security policies, style guides). Each one applies to a specific subset of files in the codebase. If you pass all rules to a review agent, the agent applies rules to files they were not written for, producing false positives and wasting context.
 
@@ -92,7 +92,7 @@ Orchestrator logic (plain steps):
 
 ---
 
-## Detection-Only Scope Boundary
+## Detection-Only scope boundary
 
 **Problem**: A skill that both detects issues and fixes them has two failure modes: false positives (detected and fixed something that was not a problem) and incomplete fixes (detected correctly but fixed wrong). Mixing the two makes both worse, and gives the user no review checkpoint.
 
@@ -114,7 +114,7 @@ Then enforce it: no file writes, no edits, no git commits inside the skill. Outp
 
 ---
 
-## Input-Handler Dispatch
+## Input-handler dispatch
 
 **Problem**: A skill that handles two or more heterogeneous input types (images vs text, GitHub issues vs design mockups) either grows a complex branching main file or becomes too rigid for varied entry points.
 
@@ -147,7 +147,7 @@ Each handler file contains the full parsing instructions for that input type, in
 
 ---
 
-## Versioned Sub-directories for Tool-Version Coupling
+## Versioned sub-directories for tool-version coupling
 
 **Problem**: A skill wraps a CLI tool that changes behavior between versions. The skill needs to detect which version the user has and adapt its instructions accordingly.
 
@@ -186,7 +186,7 @@ Run: `my-cli --version`
 
 ---
 
-## Two-Tier Standards
+## Two-tier standards
 
 **Problem**: A comprehensive coding standard is long (1,000-5,000 words). Loading the full standard into context for every file review inflates token cost and dilutes attention.
 
@@ -212,7 +212,7 @@ The full canonical standard lives outside `.claude/rules/` so it does not auto-l
 
 ---
 
-## Plans and Specs as Committed Artifacts
+## Plans and specs as committed artifacts
 
 **Problem**: Session-scoped plans (`/plan` mode, scratchpad files) disappear when the session ends. The next session has no searchable record of why a design decision was made, which options were considered, or which implementation step was last completed.
 
@@ -266,7 +266,7 @@ Both files are committed together and stay in the repo indefinitely.
 
 ---
 
-## Runtime Prompt Logging
+## Runtime prompt logging
 
 **Problem**: When an AI provider call times out or crashes, the exact prompt that was sent is gone. If you are building a skill or evaluation pipeline with multiple agents running in parallel, you lose the ability to diagnose what each agent was told. The `--debug` flag only helps when you remember to pass it.
 
@@ -299,7 +299,7 @@ Three constraints make this pattern work:
 
 ---
 
-## Adaptive Unified/Parallel Mode
+## Adaptive unified/parallel mode
 
 **Problem**: You have N files to evaluate and need to decide: send all files to one agent (better for cross-file issues, higher context cost) or send each file to its own parallel agent (cheaper, faster, but blind to contradictions across files)?
 
@@ -338,7 +338,7 @@ estimateTokens(all files)
 
 ---
 
-## Multi-Directory Skill Discovery for Cross-CLI Compatibility
+## Multi-Directory skill discovery for cross-CLI compatibility
 
 **Problem**: A repository is worked on with more than one AI coding CLI (Claude Code, plus Codex, Amp, or another harness). Each CLI expects skills or environment config in its own conventional directory. Consolidating everything into one directory means most CLIs never discover it; three near-duplicate directories look, at first glance, like disorganization.
 
@@ -361,7 +361,7 @@ estimateTokens(all files)
 
 ---
 
-## See Also
+## See also
 
 - [Development Methodologies](./methodologies.md): TDD, SDD, BDD, multi-agent orchestration
 - [§9.20 Agent Teams](../ultimate-guide.md#920-agent-teams-multi-agent-coordination): Agent Teams including Skeptical Reviewer Pattern

@@ -1,4 +1,4 @@
-# Resource Evaluation: MDMA (MobileReality)
+# Resource evaluation: MDMA (MobileReality)
 
 **URL (trigger)**: https://github.com/MobileReality/mdma
 **Primary Sources**: [MDMA source repository](https://github.com/MobileReality/mdma), including its README, documentation, evaluations, and implementation
@@ -8,7 +8,7 @@
 
 ---
 
-## Executive Summary
+## Executive summary
 
 MDMA is an open-source project that defines a Markdown-with-embedded-YAML dialect for interactive UI (forms, buttons, tables, approval gates), designed to be produced reliably by small or fine-tuned LLMs and validated deterministically before rendering. Three independent audit agents examined the source tree and reached a consistent picture: the core engineering (parser, validator, fixer pipeline, eval methodology) is genuinely solid, but several marketing claims don't survive contact with the code, and there's a real functional bug in the shipped form component.
 
@@ -16,9 +16,9 @@ MDMA is an open-source project that defines a Markdown-with-embedded-YAML dialec
 
 ---
 
-## Content Analysis
+## Content analysis
 
-### Key Facts (Verified)
+### Key facts (verified)
 
 1. **Deterministic validator/fixer pipeline**: single pass, no additional LLM call, regex-based extraction tolerant of malformed markdown, 22 rule files under `packages/validator/src/rules` (19 documented in the README, 22 counted in the source at audit time), ordered fixers for field-type inference, YAML key typo correction, and binding repair.
 2. **Standard parsing**: built on remark/unified as a proper plugin, with explicit handling of streaming state (distinguishes a block still generating from one that's genuinely malformed).
@@ -27,7 +27,7 @@ MDMA is an open-source project that defines a Markdown-with-embedded-YAML dialec
 5. **CI hygiene**: GitHub Actions pinned by commit SHA in `.github/workflows/ci.yml` and `release.yml` (e.g. `actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6`), changesets-based per-package versioning, a `turbo run test` test suite spanning all packages.
 6. **Package structure**: 10 packages (`spec`, `parser`, `validator`, `runtime`, `attachables-core`, `renderer-react`, `cli`, `mcp`, `agui`, `prompt-pack`), each independently versioned and published under the `@mobile-reality` npm org.
 
-### Fact-Check: Claims vs. Code
+### Fact-Check: Claims vs. code
 
 | Claim | Status | Evidence |
 |-------|--------|----------|
@@ -44,7 +44,7 @@ MDMA is an open-source project that defines a Markdown-with-embedded-YAML dialec
 
 ---
 
-## The Form Validation Bug (Independently Found by Two Audit Agents)
+## The form validation bug (independently found by two audit agents)
 
 This is the most consequential finding, because it contradicts the project's own documentation rather than a marketing tagline.
 
@@ -58,7 +58,7 @@ This is the most consequential finding, because it contradicts the project's own
 
 ---
 
-## Gap Analysis (vs. Our Guide)
+## Gap analysis (vs. our guide)
 
 | Aspect | Our Guide (before this integration) | Gap? |
 |--------|---------------------------------------|------|
@@ -70,20 +70,20 @@ This is the most consequential finding, because it contradicts the project's own
 
 ---
 
-## Integration Recommendation
+## Integration recommendation
 
 ### Where
 
 **Section 7.1** in `guide/ecosystem/ai-ecosystem.md`, immediately after Section 7 (UI Prototypers) and before Section 8 (Workflow Orchestration).
 
-### What Was Included
+### What was included
 
 1. Why the generative-UI category exists (agent needs interactive output inside a single chat turn, not a separate artifact)
 2. Comparison table: A2UI vs. MCP Apps vs. Vercel AI SDK generative UI vs. MDMA
 3. MDMA case study: what holds up, what's overstated, the form validation bug, the hash security note
 4. An honest note that the category is young (2025-2026), no standard has won, and distribution (who has a vendor behind them) matters as much as technical merit
 
-### What Was NOT Included
+### What was NOT included
 
 - No tutorial or "how to adopt MDMA" walkthrough. This guide documents Claude Code, not a recommendation to build on a specific third-party DSL.
 - No deep dive into the MDMA-AG-UI integration plan (`mdma-agui-integration-plan.md`), too speculative and pre-implementation to cite as fact.
@@ -95,7 +95,7 @@ This is the most consequential finding, because it contradicts the project's own
 
 ---
 
-## Challenge (Technical-Writer)
+## Challenge (technical-writer)
 
 - **Score justified**: 3/5 is correct, not 4/5, because the actionable takeaway for a Claude Code user is limited (MDMA is a third-party library for a specific rendering stack, React-only, not something most readers will adopt directly). Not 2/5, because the validator/fixer architecture and the honest small-model eval methodology are a genuinely useful reference pattern, and the wider generative-UI comparison itself (A2UI vs. MCP Apps vs. Vercel AI SDK vs. MDMA) was a real gap worth covering regardless of MDMA's own flaws.
 - **Risk of over-crediting**: the initial pass from the audit agents leaned toward praising the validator engineering without weighing the form-validation bug heavily enough. That bug is corrected to first billing in the Case Study text precisely because it contradicts documented behavior, which is a more serious category of problem than an aspirational marketing line.

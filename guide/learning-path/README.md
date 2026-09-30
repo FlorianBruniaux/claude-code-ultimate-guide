@@ -1,4 +1,4 @@
-# Claude Code Learning Path
+# Claude Code learning path
 
 **Master Claude Code in 8-11 hours. Go deep on what matters to you with optional deep dives.**
 
@@ -6,7 +6,7 @@ This is your structured entry point. Follow the modules in order, then jump into
 
 ---
 
-## The 7-Module Path
+## The 7-module path
 
 | Module | Time | Focus | Complexity |
 |--------|------|-------|------------|
@@ -22,9 +22,9 @@ This is your structured entry point. Follow the modules in order, then jump into
 
 ---
 
-## How to Use This Path
+## How to use this path
 
-### Step 1: Assess Your Level
+### Step 1: Assess your level
 
 **Beginner** (day 1 of Claude Code):
 - Take the quick path: 01 → 02 → 03 (2 hours)
@@ -38,7 +38,7 @@ This is your structured entry point. Follow the modules in order, then jump into
 - Skim 01-03, deep-dive 04-07
 - Jump to guide Part 9: Advanced Patterns for orchestration
 
-### Step 2: Choose Your Track
+### Step 2: Choose your track
 
 **Track A: Master the Fundamentals** (11 hours)
 - Follow modules 01-07 in order
@@ -59,14 +59,14 @@ This is your structured entry point. Follow the modules in order, then jump into
 - Run `/self-assessment` across team, identify gaps
 - Create follow-up training plan from gaps
 
-### Step 3: Learn & Validate
+### Step 3: Learn & validate
 
 Each module includes:
 - 📖 **Reading** (10-30 min): Concepts and mental models
 - 🔨 **Hands-on practice** (20-45 min): Real examples from `examples/`
 - 📝 **Validation**: `/lesson-quiz [topic]` to verify understanding
 
-### Step 4: Go Deeper
+### Step 4: Go deeper
 
 After this path, you have options:
 
@@ -82,7 +82,7 @@ After this path, you have options:
 **Option D: Self-Assess**
 → Run `/self-assessment comprehensive` to identify remaining gaps
 
-### Step 5: Keep Progress in the Project
+### Step 5: Keep progress in the project
 
 The [installable learning-path skill](../../examples/skills/learning-path/SKILL.md) turns the seven modules into a local progression. It selects only modules whose prerequisites are complete, requires a non-empty evidence note, and writes state to `.claude/learning/claude-code-guide-progress.json` in the learner's project.
 
@@ -92,7 +92,7 @@ The [Proofpack companion project](../../examples/learning-project/README.md) car
 
 The [learning path slides](../../docs/distribution/claude-code-learning-path-slides.pptx) provide a short workshop version. The [video production briefs](../../docs/distribution/quick-win-video-series.md) connect individual exercises to observable checks.
 
-### Current Product Surfaces
+### Current product surfaces
 
 The path also routes to focused pages for product surfaces that sit outside the seven-module sequence:
 
@@ -104,7 +104,7 @@ The path also routes to focused pages for product surfaces that sit outside the 
 
 ---
 
-## Module Details
+## Module details
 
 ### Module 01: Installation & Setup (15 min)
 **Goal:** Get Claude Code running and confirm it works
@@ -204,7 +204,7 @@ The path also routes to focused pages for product surfaces that sit outside the 
 
 ---
 
-## After the Learning Path
+## After the learning path
 
 ### Assessment
 Take `/self-assessment comprehensive` to:
@@ -232,7 +232,7 @@ Try one of the practice projects from `/self-assessment` results:
 
 ---
 
-## Time Estimates
+## Time estimates
 
 **For different goals:**
 
@@ -244,7 +244,7 @@ Try one of the practice projects from `/self-assessment` results:
 
 ---
 
-## What You'll Be Able to Do
+## What you'll be able to do
 
 After this learning path, you'll:
 
@@ -257,7 +257,7 @@ After this learning path, you'll:
 
 ---
 
-## Common Questions
+## Common questions
 
 **Q: Can I skip modules?**
 A: Yes, but 01-03 are prerequisites. If you know basics, start at 04.
@@ -273,7 +273,7 @@ A: `guide/ultimate-guide.md` (25K lines) is your reference. This path gets you t
 
 ---
 
-## Ready? Start Here
+## Ready? start here
 
 **First time:** → [Module 01: Installation](01-installation.md)
 **Already using Claude Code:** → Assess your level, jump to relevant module

@@ -4,7 +4,7 @@ description: "How far the persona/agent pattern goes when applied to named execu
 tags: [ecosystem, multi-agent, orchestration, personas]
 ---
 
-# AI Executive Agents: Virtual C-Suites and Board Simulators
+# AI executive agents: Virtual C-suites and board simulators
 
 > **Confidence**: Mixed. OpenExecutive, Gstack, and crewAI are Tier 1/2 (verified against source repos, active development). Most other open-source projects listed here are Tier 3 (single-digit to low-hundreds GitHub stars, early-stage, verify before adopting). Commercial products are cited from vendor-published claims, not independently audited.
 
@@ -27,13 +27,13 @@ AI executive     →  an agent explicitly named after a C-suite/board role, with
 
 ---
 
-## Gstack Is Not This Category
+## Gstack is not this category
 
 Before going further: [Gstack](../workflows/gstack-workflow.md) (Garry Tan, 124.8K+ stars) is a 6-skill workflow suite for **software engineering** (`/plan-ceo-review`, `/plan-eng-review`, `/review`, `/ship`, `/browse`, `/retro`). The `/plan-ceo-review` command name invites confusion, but it is a pre-implementation product gate inside a coding session, not a persona that simulates a Chief Executive Officer for business decisions. If you came here looking for Gstack because of that command name, see [Cognitive Mode Switching](../workflows/gstack-workflow.md) instead. What Gstack does share with the projects below is the underlying architecture: role definitions + shared context + slash-command workflows inside a single repo. That pattern is the throughline of this page, applied to a different domain.
 
 ---
 
-## OpenExecutive: Reference Architecture
+## OpenExecutive: Reference architecture
 
 [OpenExecutive](https://github.com/SenteLabsAI/OpenExecutive) (SenteLabsAI, Apache 2.0, 838 stars as of 2026-08-27) is the most explicit mapping of the persona/agent pattern onto a standard executive committee. Eight specialist Claude agents sit behind one coherent "Executive" persona, never exposed individually to the user:
 
@@ -55,7 +55,7 @@ Two things are worth flagging rather than taking at face value. First, the tagli
 
 ---
 
-## Open-Source Alternatives to OpenExecutive
+## Open-Source alternatives to OpenExecutive
 
 Verified directly against the GitHub API on 2026-08-27, not against secondary write-ups (an earlier research pass for this page cited inflated or wrong numbers from blog posts; treat any AI-executive-agent claim you read elsewhere the same way until you check the repo yourself).
 
@@ -72,7 +72,7 @@ Read the star counts as a maturity signal, not a quality signal: a project with 
 
 ---
 
-## Routing Table: Which Project for Which Role
+## Routing table: Which project for which role
 
 | Looking for | Open source | Commercial | Note |
 |---|---|---|---|
@@ -89,7 +89,7 @@ Read the star counts as a maturity signal, not a quality signal: a project with 
 
 ---
 
-## Augmentation, Not Replacement (So Far)
+## Augmentation, not replacement (so far)
 
 Across every project surveyed here, the marketing language ranges from cautious to aggressive ("no full-time CFO required"), but not one claims legal personhood, fiduciary duty, or final decision authority. The closest thing to a theoretical exception is the **Synthetic Director** concept proposed by law firm Stirling & Rose in 2023: an AI system registered with a regulator, assigned a unique identifier, and subject to a "functional competence test" against real directorial duties (preventing insolvent trading, complying with constitutional obligations), with power to suspend or terminate it for aberrant behavior. That framework does not exist in any jurisdiction's law today. It is worth knowing about because it is the only serious attempt to define what accountability would even look like if one of these agents were ever given real authority, not because any product here is close to qualifying.
 
@@ -99,7 +99,7 @@ For the general Claude Code framing of augmentation versus replacement (a differ
 
 ---
 
-## When to Actually Use One of These
+## When to actually use one of these
 
 - **You want to see the pattern implemented end-to-end**: read [OpenExecutive](https://github.com/SenteLabsAI/OpenExecutive)'s source. It is the most complete reference architecture in this list, and Apache 2.0 permits forking it for your own domain.
 - **You want a narrow, cheap, single-role agent**: AI CFO Agent (CFO) or a comparable narrow commercial tool is a smaller bet than adopting a full virtual executive team.

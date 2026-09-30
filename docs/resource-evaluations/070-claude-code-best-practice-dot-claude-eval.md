@@ -1,4 +1,4 @@
-# Resource Evaluation: `.claude/` Config — `shanraisshan/claude-code-best-practice`
+# Resource evaluation: `.claude/` config — `shanraisshan/claude-code-best-practice`
 
 **Date**: 2026-02-26
 **Evaluator**: Claude (Sonnet 4.6)
@@ -21,7 +21,7 @@ Points clés:
 
 ---
 
-## Evaluation Scoring
+## Evaluation scoring
 
 | Criterion | Score | Notes |
 |-----------|-------|-------|
@@ -35,7 +35,7 @@ Points clés:
 
 ---
 
-## Gap Analysis
+## Gap analysis
 
 ### Absents du guide (`ultimate-guide.md`)
 
@@ -84,7 +84,7 @@ Points clés:
 
 ---
 
-## Fact-Check
+## Fact-check
 
 | Affirmation | Vérifiée | Source |
 |-------------|----------|--------|

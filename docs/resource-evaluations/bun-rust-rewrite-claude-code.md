@@ -1,4 +1,4 @@
-# Rewriting Bun in Rust (Jarred Sumner, Jul 2026)
+# Rewriting Bun in Rust (jarred sumner, jul 2026)
 
 ## Evaluation metadata
 

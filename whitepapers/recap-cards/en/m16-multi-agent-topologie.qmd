@@ -72,7 +72,7 @@ Each agent can receive distinct context and a tool whitelist. Limiting an agent 
 | Implementer | Read, Edit, Bash, Write |
 | Reviewer | Read, Glob, Grep |
 
-## Enabling Agent Teams
+## Enabling agent teams
 
 ```bash
 # Environment variable (current session)
@@ -89,7 +89,7 @@ claude
 
 Prerequisites: Claude Code v2.1.32+, a model available to the account (teammates may differ); a Git repository is required for worktree isolation, not for task messaging itself. Navigate between agents with `Shift+Down` in in-process mode.
 
-## Loop Controls
+## Loop controls
 
 Define a budget, stop condition, recovery state, and synthesis owner before launch. Add an independent reviewer when the change is consequential or when the same agent cannot credibly produce and verify the result.
 

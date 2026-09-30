@@ -62,6 +62,6 @@ Si Claude part dans une direction problématique, `/rewind` permet de revenir à
            # Choisir quoi restaurer puis vérifier le résultat
 ```
 
-## Pattern Amplification
+## Pattern amplification
 
 Claude reproduit les patterns qu'il trouve. Dans une codebase bien structurée, il produit du code cohérent et idiomatique. Dans une codebase désordonnée, il amplifie le désordre. Si votre code manque de patterns clairs, fournissez-les explicitement dans `CLAUDE.md` plutôt que d'espérer que Claude les inférera.

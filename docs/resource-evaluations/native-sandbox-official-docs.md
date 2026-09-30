@@ -1,4 +1,4 @@
-# Resource Evaluation: Native Sandboxing Official Documentation
+# Resource evaluation: Native sandboxing official documentation
 
 **URL**: https://code.claude.com/docs/en/sandboxing
 **Type**: Official Anthropic Documentation
@@ -15,7 +15,7 @@ Official documentation for Claude Code's native sandboxing feature (v2.1.0+), co
 
 ## Score: 5/5 (CRITICAL)
 
-### Scoring Breakdown
+### Scoring breakdown
 
 | Criterion | Score | Notes |
 |-----------|-------|-------|
@@ -29,7 +29,7 @@ Official documentation for Claude Code's native sandboxing feature (v2.1.0+), co
 
 ---
 
-## Key Points Extracted
+## Key points extracted
 
 1. **OS Primitives**:
    - macOS: Seatbelt (built-in)
@@ -58,15 +58,15 @@ Official documentation for Claude Code's native sandboxing feature (v2.1.0+), co
 
 ---
 
-## Gap Analysis
+## Gap analysis
 
-### What We Had
+### What we had
 
 - `guide/security/sandbox-isolation.md` - Detailed Docker Sandboxes (microVM), cloud sandboxes (E2B, Fly.io, Vercel, Cloudflare)
 - `guide/core/architecture.md:390` - Brief mention of native sandbox (<50 words)
 - `machine-readable/reference.yaml` - Single entry: `sandbox_native_cc: "guide/core/architecture.md:390"`
 
-### What Was Missing
+### What was missing
 
 | Topic | Guide Coverage (words) | Official Docs (words) | Gap |
 |-------|------------------------|----------------------|-----|
@@ -88,7 +88,7 @@ Official documentation for Claude Code's native sandboxing feature (v2.1.0+), co
 
 ---
 
-## Fact-Check
+## Fact-check
 
 **Methodology**: Re-fetched official documentation, verified each claim
 
@@ -110,9 +110,9 @@ Official documentation for Claude Code's native sandboxing feature (v2.1.0+), co
 
 ---
 
-## Technical Writer Challenge
+## Technical writer challenge
 
-### Initial Score: 3/5 → Revised: 5/5
+### Initial score: 3/5 → Revised: 5/5
 
 **Challenge feedback** (technical-writer agent):
 
@@ -144,7 +144,7 @@ Official documentation for Claude Code's native sandboxing feature (v2.1.0+), co
 
 ---
 
-## Integration Actions Taken
+## Integration actions taken
 
 ### ✅ Completed (2026-02-02)
 
@@ -164,7 +164,7 @@ Official documentation for Claude Code's native sandboxing feature (v2.1.0+), co
 
 2. **Created this evaluation** (`docs/resource-evaluations/native-sandbox-official-docs.md`)
 
-### 🔄 In Progress
+### 🔄 In progress
 
 3. **Update `guide/security/sandbox-isolation.md`** (add Native vs Docker comparison)
 4. **Create templates** (sandbox-native.json, sandbox-status.md, sandbox-validation.sh)
@@ -173,7 +173,7 @@ Official documentation for Claude Code's native sandboxing feature (v2.1.0+), co
 
 ---
 
-## Risks of NOT Integrating
+## Risks of NOT integrating
 
 1. **Security Incidents** (High)
    - Users run `--dangerously-skip-permissions` with Native sandbox believing they're fully protected
@@ -204,7 +204,7 @@ Official documentation for Claude Code's native sandboxing feature (v2.1.0+), co
 
 ---
 
-## Recommendations for Similar Resources
+## Recommendations for similar resources
 
 1. **Official docs = automatic 4-5/5 consideration** (Tier 0 reliability)
 2. **Security features = elevate priority** (production safety impact)

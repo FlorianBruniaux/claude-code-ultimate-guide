@@ -1,4 +1,4 @@
-# Watch List
+# Watch list
 
 Resources monitored but not yet integrated into the guide. Event-driven re-evaluation (not time-based).
 
@@ -12,7 +12,7 @@ New resource → /eval-resource
 Trigger reached → re-evaluation → Integrate (Graduated) / Drop (Dropped)
 ```
 
-## Active Watch
+## Active watch
 
 | Resource | Type | Added | Why Watching | Re-eval Trigger |
 |----------|------|-------|--------------|-----------------|

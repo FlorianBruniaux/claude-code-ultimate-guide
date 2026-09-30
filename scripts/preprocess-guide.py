@@ -54,13 +54,13 @@ def strip_inline_toc(content: str) -> str:
         ("Table of Contents", "See the Table of Contents at the beginning of this document."),
         ("Table des matières", "Consultez la table des matières au début de ce document."),
     ):
-        heading = re.search(r"^## " + re.escape(title) + r"\s*$", content, re.MULTILINE)
+        heading = re.search(r"^## " + re.escape(title) + r"\s*$", content, re.MULTILINE | re.IGNORECASE)
         if heading is None:
             continue
         end = re.search(r"^## 1\.1 Installation\s*$", content[heading.end():], re.MULTILINE)
         if end is None:
             return content
-        replacement = f"## {title}\n\n_{note}_\n\n"
+        replacement = f"{heading.group(0).rstrip()}\n\n_{note}_\n\n"
         return content[:heading.start()] + replacement + content[heading.end() + end.start():]
     return content
 

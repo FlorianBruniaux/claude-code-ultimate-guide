@@ -5,11 +5,11 @@ effort: low
 version: 1.0.0
 ---
 
-# PDF Generator Skill
+# PDF generator skill
 
 Generate professional PDFs with modern typography using Quarto + Typst.
 
-## Skill Purpose
+## Skill purpose
 
 This skill assists with:
 - Setting up Quarto/Typst projects
@@ -54,7 +54,7 @@ This skill assists with:
   └──────────────────────┴────────────────────────┴──────────────────┘
 ```
 
-## Quick Start
+## Quick start
 
 ### Installation
 
@@ -83,7 +83,7 @@ quarto render *.qmd
 quarto preview document.qmd
 ```
 
-## YAML Frontmatter Template
+## YAML frontmatter template
 
 ```yaml
 ---
@@ -101,7 +101,7 @@ lang: en
 ---
 ```
 
-### Available Parameters
+### Available parameters
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
@@ -115,7 +115,7 @@ lang: en
 | `section-numbering` | string | Format (`1.1`, `1.a`) |
 | `lang` | string | Language (`fr`, `en`) |
 
-## Project Structure
+## Project structure
 
 ```
 project/
@@ -128,15 +128,15 @@ project/
 └── document.pdf                # Generated output
 ```
 
-## Markdown Syntax
+## Markdown syntax
 
-### Page Breaks
+### Page breaks
 
 ```markdown
 {{< pagebreak >}}
 ```
 
-### Code Blocks
+### Code blocks
 
 Standard fenced blocks with syntax highlighting:
 
@@ -160,9 +160,9 @@ npm install
 ![Caption](path/to/image.png){width=50%}
 ```
 
-## Custom Template
+## Custom template
 
-### Extension Configuration
+### Extension configuration
 
 Create `_extensions/mytemplate/_extension.yml`:
 
@@ -178,7 +178,7 @@ contributes:
         - typst-show.typ
 ```
 
-### Design System (Typst)
+### Design system (Typst)
 
 ```typst
 // Colors (Slate + Indigo palette)
@@ -215,7 +215,7 @@ contributes:
 }
 ```
 
-### Callout Boxes
+### Callout boxes
 
 ```typst
 #let info(title: "Note", body) = {
@@ -257,7 +257,7 @@ contributes:
 
 ## Troubleshooting
 
-### Quick Validation
+### Quick validation
 
 ```bash
 # Check Quarto version
@@ -273,7 +273,7 @@ grep -c '^```' document.qmd
 file -i document.qmd  # Must show utf-8
 ```
 
-### Common Issues
+### Common issues
 
 | Issue | Cause | Fix |
 |-------|-------|-----|
@@ -283,7 +283,7 @@ file -i document.qmd  # Must show utf-8
 | Font warnings | Fonts not installed | Normal; uses fallbacks |
 | Characters broken | Wrong encoding | Convert to UTF-8 |
 
-### Nested Code Blocks
+### Nested code blocks
 
 Use more backticks for outer block:
 
@@ -299,7 +299,7 @@ Outer continues...
 ````
 `````
 
-### Validation Script
+### Validation script
 
 ```bash
 #!/bin/bash
@@ -311,7 +311,7 @@ for f in *.qmd; do
 done
 ```
 
-### Full Validation Pipeline
+### Full validation pipeline
 
 ```bash
 #!/bin/bash
@@ -339,9 +339,9 @@ echo "=== Validation complete: $errors errors ==="
 exit $errors
 ```
 
-## Example Use Cases
+## Example use cases
 
-### Technical Documentation
+### Technical documentation
 
 ```yaml
 ---
@@ -360,7 +360,7 @@ format:
 All requests require an API key...
 ```
 
-### Whitepaper Series
+### Whitepaper series
 
 ```yaml
 ---
@@ -375,7 +375,7 @@ format:
 ---
 ```
 
-### Internal Report
+### Internal report
 
 ```yaml
 ---

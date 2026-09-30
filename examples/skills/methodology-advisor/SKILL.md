@@ -5,7 +5,7 @@ effort: medium
 allowed-tools: Read Grep Glob
 ---
 
-# Methodology Advisor
+# Methodology advisor
 
 Analyze this project and recommend the best AI-assisted development methodology stack. Read what you can from the codebase first, then ask only what you cannot infer.
 
@@ -142,7 +142,7 @@ Output the recommendation in this structure:
 
 ---
 
-### Your Stack: [Stack Name] [icon]
+### Your stack: [Stack name] [icon]
 
 **Why this fits your project:**
 - [Finding from Phase 1] -> [explains this stack choice]

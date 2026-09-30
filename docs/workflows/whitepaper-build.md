@@ -1,8 +1,8 @@
-# Whitepaper & Guide Export Build Reference
+# Whitepaper & guide export build reference
 
 Commands and stack details for generating PDFs, EPUBs, and recap cards from source `.qmd` files.
 
-## Whitepaper Generation (PDF + EPUB)
+## Whitepaper generation (PDF + EPUB)
 
 ```bash
 # --- PDF (default format: whitepaper-typst → Typst → PDF) ---
@@ -41,7 +41,7 @@ cd whitepapers && ./render-epub.sh en   # English only
 
 **Whitepaper format**: use `--to whitepaper-typst` to select the project template. Recap cards and cheatsheets use their own formats.
 
-## Recap Cards (Thematic Memo Sheets)
+## Recap cards (thematic memo sheets)
 
 Printable A4 1-page sheets, midway between cheatsheet and whitepapers.
 
@@ -128,7 +128,7 @@ Full-guide wrappers are `whitepapers/guide-export.qmd` and
 `whitepapers/guide-export-fr.qmd`. Preprocessed Markdown is generated and ignored.
 See [translation maintenance](translations.md) for the evidence registry.
 
-## Typst Templates — 3 Copies, Always Sync
+## Typst templates — 3 copies, always sync
 
 `whitepapers/fr/_extensions/whitepaper/typst-template.typ` (used for FR rendering)
 `whitepapers/en/_extensions/whitepaper/typst-template.typ` (used for EN rendering)
@@ -136,7 +136,7 @@ See [translation maintenance](translations.md) for the evidence registry.
 
 **Quarto uses the `_extensions/` closest to the .qmd**: patching the root copy has no effect on fr/ or en/.
 
-## PDF Deployment Checklist — 3 Files to Update
+## PDF deployment checklist — 3 files to update
 
 When pushing updated PDFs to the landing/portfolio, **3 files must always be updated together**. Missing any one of them causes old files to be served.
 
@@ -155,7 +155,7 @@ grep "08-agent-teams.en" florian-portfolio/api/guides.mjs    # should show new v
 ls florian-portfolio/public/guides/ | grep "v3.40.0" | wc -l # should show 18+ files
 ```
 
-## Ebook Versioning
+## Ebook versioning
 
 Each ebook has its own version, independent from the guide version.
 

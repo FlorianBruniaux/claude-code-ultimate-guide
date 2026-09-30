@@ -4,7 +4,7 @@ description: "Build an internal Claude Code agent that helps support and CSM tea
 tags: [workflow, agents, support, csm, mcp, hubspot, zendesk, linear]
 ---
 
-# Support & CSM Agent: Internal Ticket Triage and Account Diagnosis
+# Support & CSM agent: Internal ticket triage and account diagnosis
 
 > **Confidence**: Tier 3 (emerging pattern). Early-stage adoption reports positive results, but the maturity levels beyond L2 are largely undocumented in the field.
 
@@ -16,7 +16,7 @@ Buy-side deflection tools and this pattern are not competitors. A team can run I
 
 ---
 
-## Table of Contents
+## Table of contents
 
 1. [Core Concept](#core-concept)
 2. [Maturity Model](#maturity-model)
@@ -31,7 +31,7 @@ Buy-side deflection tools and this pattern are not competitors. A team can run I
 
 ---
 
-## Core Concept
+## Core concept
 
 Keep the boundary explicit from day one: this is an agent-assist pattern, not an autonomous client-facing chatbot. The distinction matters for two reasons.
 
@@ -41,7 +41,7 @@ Second, tooling. A client-facing chatbot needs a channel (web widget, WhatsApp, 
 
 ---
 
-## Maturity Model
+## Maturity model
 
 Six levels, each buildable independently. Most teams get real value by L1 or L2 and stop there for months before pushing further; there's no requirement to reach L5.
 
@@ -102,7 +102,7 @@ The human-review step (H) is not optional and should not get automated away, eve
 
 ---
 
-## MCP Servers for This Pattern
+## MCP servers for this pattern
 
 None of the servers below are published by Anthropic, HubSpot, or Zendesk themselves. Treat them as community tooling and re-verify maintenance status before depending on one in production. The official MCP Registry (`registry.modelcontextprotocol.io`) does list several self-published HubSpot/Zendesk entries, but registry presence just means someone submitted it, not that the vendor endorses it; see the [Customer Support & CRM section](../ecosystem/mcp-servers-ecosystem.md#customer-support--crm) for the full reasoning. The servers picked here were chosen by GitHub star count and commit recency instead.
 
@@ -117,7 +117,7 @@ For the product database (L2), there is no generic MCP server to point at, since
 
 ---
 
-## Building the L0 Skill
+## Building the L0 skill
 
 A minimal skill structure, generic enough to adapt to any team's tone and case catalog:
 
@@ -153,7 +153,7 @@ The recurring-cases section is where most of the value lives, and it has to come
 
 ---
 
-## Security & Guardrails
+## Security & guardrails
 
 - **Read-only, always, for L1 through L3.** No write access to the CRM, database, or issue tracker at these levels. If the agent needs to *update* a ticket status or CRM field, that's a deliberate, separate decision with its own review, not a default.
 - **DB access via replica, not primary.** See [L2](#l2-read-only-database-access-for-technical-diagnosis) above. A replica bounds the blast radius of a bad query to a non-production system.
@@ -163,7 +163,7 @@ The recurring-cases section is where most of the value lives, and it has to come
 
 ---
 
-## Metrics to Track
+## Metrics to track
 
 This pattern doesn't produce a "deflection rate," since there's no client-facing surface being deflected. The metrics that matter are internal team throughput and quality, not volume avoided:
 
@@ -174,7 +174,7 @@ This pattern doesn't produce a "deflection rate," since there's no client-facing
 
 ---
 
-## Anti-Patterns
+## Anti-patterns
 
 | Anti-Pattern | Problem | Solution |
 |-------------|---------|----------|
@@ -187,23 +187,23 @@ This pattern doesn't produce a "deflection rate," since there's no client-facing
 
 ---
 
-## Tools & Resources
+## Tools & resources
 
-### MCP Servers
+### MCP servers
 
 - [`shinzo-labs/hubspot-mcp`](https://github.com/shinzo-labs/hubspot-mcp): broadest HubSpot object coverage among community servers
 - [`baryhuang/mcp-hubspot`](https://github.com/baryhuang/mcp-hubspot): highest-adoption HubSpot server (formerly `peakmojo/mcp-hubspot`)
 - [`reminia/zendesk-mcp-server`](https://github.com/reminia/zendesk-mcp-server): tickets, comments, Help Center articles
 - [Linear MCP](../ecosystem/mcp-servers-ecosystem.md#linear-mcp): already documented, reuse for L3
 
-### Related Reading
+### Related reading
 
 - [MCP Servers Ecosystem](../ecosystem/mcp-servers-ecosystem.md): evaluation framework to apply to any new server before adoption
 - [MCP vs CLI Decision Guide](../ecosystem/mcp-vs-cli.md): whether a given integration should be an MCP server or a simpler CLI/script
 
 ---
 
-## See Also
+## See also
 
 - [event-driven-agents.md](./event-driven-agents.md): trigger tracker updates from support signals, the reverse integration direction
 - [mcp-servers-ecosystem.md](../ecosystem/mcp-servers-ecosystem.md): evaluation framework and Linear MCP setup

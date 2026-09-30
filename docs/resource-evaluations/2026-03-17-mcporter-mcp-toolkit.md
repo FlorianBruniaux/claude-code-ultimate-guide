@@ -10,13 +10,13 @@
 
 ---
 
-## Executive Summary
+## Executive summary
 
 MCPorter is a TypeScript runtime and CLI toolkit for MCP servers: it calls any MCP server programmatically, generates CLI wrappers, and emits typed TypeScript clients. Peter Steinberger (already referenced in the guide for practitioner insights) built it as a developer companion for testing and integrating MCP servers outside IDE environments. At 2,966 stars and 12+ contributors with a 2-week track record, it is meaningfully more mature than mcp2cli. The tool has genuine utility for power users writing hooks or scripts that need MCP server access without a running Claude Code session, but it is not a Claude Code workflow tool in the primary sense.
 
 ---
 
-## Content Summary
+## Content summary
 
 - **Three operating modes**:
   - Runtime calling: call any MCP server tool programmatically from TypeScript/Node
@@ -31,7 +31,7 @@ MCPorter is a TypeScript runtime and CLI toolkit for MCP servers: it calls any M
 
 ---
 
-## Gap Analysis vs. Guide
+## Gap analysis vs. guide
 
 | Area | MCPorter | Guide coverage |
 |------|----------|----------------|
@@ -46,7 +46,7 @@ MCPorter is a TypeScript runtime and CLI toolkit for MCP servers: it calls any M
 
 ---
 
-## Steinberger Context
+## Steinberger context
 
 Peter Steinberger is the founder of PSPDFKit (now Nutrient), a well-known iOS/macOS SDK vendor. He is already cited in the guide for sharing operational insights on Claude Code usage in production (multi-agent workflows, cost management). His building MCPorter is a signal that MCP server access from non-IDE contexts is a real workflow need among practitioners — he would not build and publish this if the use case were marginal. The 12-contributor count and mcporter.dev website suggest this is not a weekend experiment.
 
@@ -68,7 +68,7 @@ The tool is solid and the author is credible. The limiting factor is that it is 
 
 ---
 
-## Fact-Check
+## Fact-check
 
 | Claim | Verified | Source |
 |-------|----------|--------|

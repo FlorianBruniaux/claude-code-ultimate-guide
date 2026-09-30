@@ -1,4 +1,4 @@
-# compound-engineering (Every.to) - Resource Evaluation
+# compound-engineering (every.to) - resource evaluation
 
 **Evaluated**: 2026-03-04
 **Source**: https://github.com/EveryInc/every-marketplace (plugin compound-engineering)
@@ -9,7 +9,7 @@
 
 ---
 
-## Executive Summary
+## Executive summary
 
 **Final Score**: **4/5 (HIGH VALUE)**
 
@@ -17,9 +17,9 @@ Compound Engineering is a production-tested engineering philosophy from Every.to
 
 ---
 
-## Resource Overview
+## Resource overview
 
-### Plugin Structure
+### Plugin structure
 
 | Component | Count | Examples |
 |-----------|-------|---------|
@@ -28,7 +28,7 @@ Compound Engineering is a production-tested engineering philosophy from Every.to
 | Skills | 20 | security, performance, architecture, accessibility |
 | Directory structure | 4 | docs/brainstorms/, docs/plans/, docs/solutions/, todos/ |
 
-### Core Concepts
+### Core concepts
 
 - **Plan → Work → Review → Compound loop**: 40% plan, 10% implement, 40% review, 10% compound
 - **50/50 rule**: Half time building features, half improving the system
@@ -37,7 +37,7 @@ Compound Engineering is a production-tested engineering philosophy from Every.to
 - **Brainstorm-before-planning**: Check existing brainstorms before creating a plan, avoid re-solving solved problems
 - **Docs-as-memory**: Structured directory hierarchy replaces ad-hoc CLAUDE.md sprawl
 
-### Production Context
+### Production context
 
 Compound Engineering runs in production at Every.to on Cora, their AI-native note-taking and knowledge product. Kieran Klaassen is a founding engineer. The patterns described come from a live codebase, not a theoretical framework.
 
@@ -74,9 +74,9 @@ Compound Engineering runs in production at Every.to on Cora, their AI-native not
 
 ---
 
-## Portable Patterns
+## Portable patterns
 
-### 1. Named Perspective Agents
+### 1. Named perspective agents
 
 Instead of generic "reviewer" agents, name agents after engineers whose views you want represented:
 
@@ -91,7 +91,7 @@ The name serves as a compressed prompt — it bundles a recognizable set of opin
 
 **Constraint**: Only works for engineers whose views Claude has been trained on and whose opinions map to a distinct, stable style.
 
-### 2. Swarm Mode
+### 2. Swarm mode
 
 On-demand parallel review across multiple specialists, without predefined coordination:
 
@@ -102,7 +102,7 @@ On-demand parallel review across multiple specialists, without predefined coordi
 
 Unlike Agent Teams (which have a persistent lead + member structure), swarm is stateless: each reviewer gets the PR/diff independently, reports findings, and the human synthesizes. Best for: final review before merge, unfamiliar codebase areas, thoroughness over coordination.
 
-### 3. Skill Quality Gates
+### 3. Skill quality gates
 
 Beyond frontmatter validation, Compound Engineering defines explicit content quality criteria for skills:
 
@@ -129,9 +129,9 @@ Agent instruction: "Before creating a plan for X, check docs/brainstorms/ for ex
 
 ---
 
-## Gap Analysis
+## Gap analysis
 
-### Current Guide Coverage (Before Integration)
+### Current guide coverage (before integration)
 
 | Pattern | Coverage |
 |---------|---------|
@@ -142,7 +142,7 @@ Agent instruction: "Before creating a plan for X, check docs/brainstorms/ for ex
 | Brainstorm-before-planning workflow | Not documented |
 | Docs directory hierarchy (brainstorms/plans/) | Partial (solutions/ mentioned, not the full hierarchy) |
 
-### Post-Integration Target
+### Post-integration target
 
 - Named Perspective Agents: subsection after Pat Cullen Multi-Agent Code Review example
 - Swarm vs Sequential: comparison table after Agent Teams decision tree
@@ -151,7 +151,7 @@ Agent instruction: "Before creating a plan for X, check docs/brainstorms/ for ex
 
 ---
 
-## Integration Details
+## Integration details
 
 ### Placement
 

@@ -7,7 +7,7 @@ when_to_use: "Use when adding test coverage for a function, module, or feature."
 disable-model-invocation: true
 ---
 
-# Generate Tests
+# Generate tests
 
 Generate comprehensive tests for specified code.
 
@@ -18,46 +18,46 @@ Generate comprehensive tests for specified code.
 3. Generate tests following project conventions
 4. Ensure high coverage of edge cases
 
-## Test Generation Process
+## Test generation process
 
-### 1. Analyze Target
+### 1. Analyze target
 - Identify public interfaces
 - Understand dependencies
 - Note edge cases and boundaries
 
-### 2. Detect Test Framework
+### 2. Detect test framework
 Check for:
 - `jest.config.js` → Jest
 - `vitest.config.ts` → Vitest
 - `pytest.ini` → pytest
 - `mocha` in package.json → Mocha
 
-### 3. Generate Tests
+### 3. Generate tests
 Follow the detected framework conventions.
 
-## Test Categories
+## Test categories
 
-### Happy Path
+### Happy path
 Normal expected behavior with valid input.
 
-### Edge Cases
+### Edge cases
 - Empty inputs
 - Null/undefined values
 - Boundary values (0, -1, MAX_INT)
 - Single item vs multiple items
 
-### Error Cases
+### Error cases
 - Invalid input types
 - Missing required parameters
 - Network/IO failures
 - Timeout scenarios
 
-### Integration Points
+### Integration points
 - Database interactions
 - External API calls
 - File system operations
 
-## Output Format
+## Output format
 
 ```typescript
 describe('[ComponentName]', () => {

@@ -4,17 +4,17 @@ description: "Keep brand-book.html and ui-kit.html at project root as permanent 
 tags: [design-system, frontend, web, ui, consistency, brand, color-palette, tailwind]
 ---
 
-# Design Reference File: CLAUDE.md Pattern
+# Design reference file: CLAUDE.md pattern
 
 Keep `brand-book.html` and `ui-kit.html` at the project root as permanent context files. Claude Code reads them before generating any UI — every new page inherits your design system automatically.
 
 Inspired by Boris Paillard's workflow (mixt.care, March 2026): once the design system is in place, new pages take 5 minutes instead of 30.
 
-## The Problem
+## The problem
 
 When building a website with Claude Code across multiple sessions, every new page risks drifting from the design — wrong colors, inconsistent typography, new component variants. Re-stating design constraints in each prompt is repetitive and unreliable.
 
-## The Solution
+## The solution
 
 Two HTML files at the project root act as a design memory Claude can read at any time:
 
@@ -23,7 +23,7 @@ Two HTML files at the project root act as a design memory Claude can read at any
 
 One CLAUDE.md instruction makes Claude reference them before every UI task.
 
-## Project Structure
+## Project structure
 
 ```
 project/
@@ -53,7 +53,7 @@ Rules:
 - If a requested design element is not in the UI kit, document it in ui-kit.html after creating it
 ```
 
-## Step 1 — Generate brand-book.html
+## Step 1 — generate brand-book.html
 
 ```
 Create a brand-book.html file at the project root.
@@ -80,7 +80,7 @@ At the bottom, output a copyable <style> block with all CSS variables (:root { .
 Style brand-book.html itself using these variables — it should demonstrate the design system.
 ```
 
-## Step 2 — Generate ui-kit.html
+## Step 2 — generate ui-kit.html
 
 ```
 Build ui-kit.html documenting my base components using Tailwind and the CSS variables from brand-book.html.
@@ -124,7 +124,7 @@ Apply only to elements with [data-animate] attribute — opt-in, not global.
 Do not use any animation library — vanilla JS only.
 ```
 
-## Example — mixt.care Color Palette
+## Example — mixt.care color palette
 
 Well-structured palette with semantic roles and CSS variables:
 
@@ -162,7 +162,7 @@ Well-structured palette with semantic roles and CSS variables:
 - Copper on white: ~3.1:1 — AA FAIL for normal text (use only for UI components or darken to #9B5F20)
 - Violet on cream: ~4.8:1 — AA PASS
 
-## When to Use This Pattern
+## When to use this pattern
 
 - Building a marketing site, landing page, or product website with Claude Code
 - When you need consistent design across multiple pages generated in different sessions

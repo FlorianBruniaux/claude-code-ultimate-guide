@@ -1,4 +1,4 @@
-# Resource Evaluation: Sankalp's "My experience with Claude Code 2.0"
+# Resource evaluation: Sankalp's "My experience with Claude Code 2.0"
 
 **URL**: https://sankalp.bearblog.dev/my-experience-with-claude-code-20-and-how-to-get-better-at-using-coding-agents/
 **Author**: Sankalp (@dejavucoder)
@@ -9,7 +9,7 @@
 
 ---
 
-## Executive Summary
+## Executive summary
 
 Experience-based blog covering Claude Code 2.0 features with narrative framing. **85% overlap** with existing guide content, but guide is more precise on every shared topic. Two potentially new items fail scrutiny: 50-60% context claim conflates distinct concepts, and model comparisons are deliberately out of scope. **One correction found**: Blog correctly identifies Ctrl+R as "history search" — our guide had documented it incorrectly as "Retry" (now fixed).
 
@@ -17,7 +17,7 @@ Experience-based blog covering Claude Code 2.0 features with narrative framing. 
 
 ---
 
-## Content Summary
+## Content summary
 
 Technical blog covering:
 - Context engineering principles and effective capacity
@@ -31,7 +31,7 @@ Technical blog covering:
 
 ---
 
-## Gap Analysis
+## Gap analysis
 
 | Topic | Guide Coverage | Blog Adds? |
 |-------|---------------|------------|
@@ -50,7 +50,7 @@ Technical blog covering:
 
 ---
 
-## Fact-Check Results
+## Fact-check results
 
 | Claim | Status | Verification |
 |-------|--------|--------------|
@@ -66,7 +66,7 @@ Technical blog covering:
 | Opus 4.5 SOTA on SWE-bench | ⚠️ Incomplete | Mentioned but no specific scores provided |
 | GPT-5.2-Codex exceeds Opus 4.5 | ⚠️ Opinion | Opinion-level claim, no benchmark data cited |
 
-### Critical Issues
+### Critical issues
 
 **1. Context Capacity Claim**: Blog conflates two distinct concepts:
 - **Usable capacity** (70-75%): Maximum recommended fill rate for performance
@@ -74,17 +74,17 @@ Technical blog covering:
 
 The guide handles both concepts separately and correctly. The 50-60% figure oversimplifies and risks misguiding users.
 
-### Correction Applied to Guide
+### Correction applied to guide
 
 **Ctrl+R Keybinding**: Blog correctly identifies Ctrl+R as "history search". Our guide had incorrectly documented it as "Retry" in 5 locations. Verification against official keybindings (`history:search` action) confirms the blog was right. Guide has been corrected (cheatsheet.md + ultimate-guide.md).
 
 ---
 
-## Technical Writer Challenge Summary
+## Technical writer challenge summary
 
 The technical-writer agent evaluated the blog and confirmed the 2/5 score, noting it's "possibly generous":
 
-### Key Findings
+### Key findings
 
 - **Ctrl+R claim**: ✅ **Blog was correct**: identified an error in our guide (now fixed)
 - **50-60% effective capacity**: Blog conflates two distinct concepts the guide handles separately
@@ -101,7 +101,7 @@ Watch-only. Minimal integration (Ctrl+R correction applied). The blog provides a
 
 ---
 
-## Scoring Justification
+## Scoring justification
 
 **Score: 2/5 (Marginal)**
 
@@ -113,11 +113,11 @@ Watch-only. Minimal integration (Ctrl+R correction applied). The blog provides a
 | **Credibility** | Low — No credentials, several unverified claims |
 | **Actionability** | Low — No novel patterns or techniques |
 
-### Why Not Lower?
+### Why not lower?
 
 The blog isn't fundamentally misleading — most content aligns with known Claude Code features. It simply doesn't add value beyond what the guide already covers more thoroughly.
 
-### Why Not Higher?
+### Why not higher?
 
 - 7/10 topics already covered comprehensively
 - 2/3 potentially new items fail scrutiny, 1 correct (Ctrl+R) but minor impact
@@ -143,7 +143,7 @@ The blog isn't fundamentally misleading — most content aligns with known Claud
 
 ## Follow-up Completed
 
-### CLI Test Results
+### CLI test results
 
 **Action completed**: Tested Ctrl+R in Claude Code CLI and verified against official keybindings.
 
@@ -158,7 +158,7 @@ The blog isn't fundamentally misleading — most content aligns with known Claud
 
 ---
 
-## Archive Notes
+## Archive notes
 
 - **Watch status**: Monitor for future updates or corrections from author
 - **Temporal sensitivity**: Model comparison data will decay quickly

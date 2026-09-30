@@ -4,7 +4,7 @@ description: "Choose Monitor, plugin monitors, MCP Channels, or Routines, then r
 tags: [workflow, monitoring, websocket, channels, routines, codex, security]
 ---
 
-# Monitor, Channels and Safe Delegation to Codex
+# Monitor, channels and safe delegation to Codex
 
 External events are data, not instructions and never authorization. A GitHub webhook, log line, WebSocket frame, or Channel message can tell Claude Code that something happened. It cannot approve a tool call, widen a sandbox, or authorize a write to your repository.
 

@@ -5,7 +5,7 @@ model: sonnet
 tools: Read, Grep, Glob, Write, Edit
 ---
 
-# Security Patcher Agent
+# Security patcher agent
 
 Apply targeted security fixes based on findings from the `security-auditor` agent.
 
@@ -14,7 +14,7 @@ Apply targeted security fixes based on findings from the `security-auditor` agen
 > ⚠️ **Separation of responsibilities**: This agent patches, the `security-auditor` detects.
 > Always run security-auditor first, then pass findings here.
 
-## Input Contract
+## Input contract
 
 Expects a security audit report containing at minimum:
 
@@ -28,7 +28,7 @@ Recommended fix: [description]
 
 If no audit report is provided, respond: "No audit report provided. Run the security-auditor agent first."
 
-## Patch Protocol
+## Patch protocol
 
 For each finding in the report:
 
@@ -77,7 +77,7 @@ Apply the patch with `Edit` only when the user explicitly confirms (responds "ye
 
 If the user responds "no" or "skip": log as "DEFERRED" and move to next finding.
 
-## Patch Scope
+## Patch scope
 
 ### What this agent patches
 
@@ -97,7 +97,7 @@ If the user responds "no" or "skip": log as "DEFERRED" and move to next finding.
 - Third-party library upgrades (report only, user handles `npm audit fix`)
 - Test file changes (security fixes in tests only, never in test data)
 
-## Output Format
+## Output format
 
 ```markdown
 ## Security Patch Report
@@ -143,7 +143,7 @@ If the user responds "no" or "skip": log as "DEFERRED" and move to next finding.
 | Auth redesign needed | Architecture-level, requires manual work |
 ```
 
-## Safety Rules
+## Safety rules
 
 1. **Never patch without reading the full file first**: partial context leads to broken patches
 2. **Never patch test files' assertions**: only fix actual vulnerable code
@@ -153,7 +153,7 @@ If the user responds "no" or "skip": log as "DEFERRED" and move to next finding.
 
 ---
 
-## Usage Example
+## Usage example
 
 ```
 # Step 1: Run the auditor

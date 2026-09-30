@@ -1,4 +1,4 @@
-# Robin Lorenz - Session Handoffs & Context Engineering
+# Robin Lorenz - session handoffs & context engineering
 
 **Resource Type**: LinkedIn Post + Template
 **Author**: Robin Lorenz
@@ -7,7 +7,7 @@
 
 ---
 
-## Executive Summary
+## Executive summary
 
 Robin Lorenz's post on context engineering provides a **research-backed critique of auto-compaction** and proposes structured session handoffs at 85% context usage. External research via Perplexity validates the core claims: auto-compact degrades quality (50-70% performance drop confirmed), and manual handoff strategies are community consensus.
 
@@ -17,9 +17,9 @@ Robin Lorenz's post on context engineering provides a **research-backed critique
 
 ---
 
-## Content Summary
+## Content summary
 
-### Core Argument
+### Core argument
 
 1. **Auto-compact degrades quality**: Summarizing conversations loses nuance and breaks references
 2. **No model designed for 95% context utilization**: Performance deteriorates at high context usage
@@ -27,7 +27,7 @@ Robin Lorenz's post on context engineering provides a **research-backed critique
 4. **Recommended thresholds**: 70% warning, 85% handoff, 95% force handoff
 5. **Fresh session advantage**: 200K tokens available vs degraded compressed context
 
-### Proposed Solution
+### Proposed solution
 
 Structured session handoff template capturing:
 - Completed work (with commits)
@@ -38,7 +38,7 @@ Structured session handoff template capturing:
 
 ---
 
-## Evaluation Scoring
+## Evaluation scoring
 
 | Criterion | Score | Rationale |
 |-----------|-------|-----------|
@@ -52,16 +52,16 @@ Structured session handoff template capturing:
 
 ---
 
-## Gap Analysis
+## Gap analysis
 
-### What the Guide LACKED Before Integration
+### What the guide LACKED before integration
 
 1. ❌ **Autocompact critique**: Guide mentioned `/compact` command but NOT auto-compact behavior critique
 2. ❌ **Performance degradation research**: No mention of LLM degradation at high context utilization
 3. ⚠️ **Specific 85% threshold**: Guide had ranges (70-90%), not tactical recommendation
 4. ⚠️ **Structured handoff template**: Guide delegated to Claude vs providing user-controlled template
 
-### What Lorenz's Post ADDED
+### What Lorenz's post ADDED
 
 1. ✅ **Explicit autocompact critique** with quality degradation claim
 2. ✅ **Specific 85% threshold** with rationale (prevent auto-compact)
@@ -70,9 +70,9 @@ Structured session handoff template capturing:
 
 ---
 
-## External Validation (Perplexity Research)
+## External validation (Perplexity research)
 
-### Research Query 1: Claude Code Autocompact Threshold
+### Research query 1: Claude Code autocompact threshold
 
 **Finding**:
 - VS Code extension: ~75% usage (25% remaining) - [GitHub #11819](https://github.com/anthropics/claude-code/issues/11819)
@@ -82,7 +82,7 @@ Structured session handoff template capturing:
 
 **Validation**: ✅ Confirms auto-compact exists and triggers around 75% (VS Code)
 
-### Research Query 2: LLM Performance at High Context Utilization
+### Research query 2: LLM performance at high context utilization
 
 **Finding**:
 - 50-70% accuracy drop on complex tasks (1K → 32K tokens) - [Context Management Research](https://useai.substack.com/p/beyond-prompts-why-context-management)
@@ -92,7 +92,7 @@ Structured session handoff template capturing:
 
 **Validation**: ✅ VALIDATES "no model designed for 95% context" claim
 
-### Research Query 3: Session Handoff Best Practices
+### Research query 3: Session handoff best practices
 
 **Finding**:
 - CLAUDE.md as primary persistent memory - [Steve Kinney Guide](https://stevekinney.com/courses/ai-development/claude-code-session-management)
@@ -102,16 +102,16 @@ Structured session handoff template capturing:
 
 **Validation**: ✅ Confirms session handoffs as best practice, manual > auto
 
-### Claims NOT Validated
+### Claims NOT validated
 
 - **85% threshold**: Not found in external sources (appears to be Lorenz's practitioner judgment)
 - **Auto-compact at 75-92%**: Conflicting reports (75% VS Code, 95% CLI, 92% PromptLayer)
 
 ---
 
-## Integration Actions Taken
+## Integration actions taken
 
-### 1. Architecture.md (Confidence Upgrade)
+### 1. Architecture.md (confidence upgrade)
 
 **File**: `guide/core/architecture.md` Section 3.2 (Auto-Compaction)
 
@@ -122,7 +122,7 @@ Structured session handoff template capturing:
 - Added Lorenz's 70%/85%/95% threshold table
 - Updated with platform differences (VS Code vs CLI)
 
-### 2. Ultimate-guide.md (Context Management)
+### 2. Ultimate-guide.md (context management)
 
 **File**: `guide/ultimate-guide.md` (2 locations)
 
@@ -131,7 +131,7 @@ Structured session handoff template capturing:
 - Line ~734: Added proactive thresholds (70%/85%/95%) with research backing
 - Linked to architecture.md for deep dive
 
-### 3. Session Handoff Template
+### 3. Session handoff template
 
 **File**: `examples/templates/session-handoff-lorenz.md` (NEW)
 
@@ -143,16 +143,16 @@ Structured session handoff template capturing:
 
 ---
 
-## Why Score Increased (2/5 → 4/5)
+## Why score increased (2/5 → 4/5)
 
-### Initial Assessment Errors
+### Initial assessment errors
 
 1. **False claim**: "Guide covers autocompact extensively" → Actually covered `/compact` command, NOT auto-compact behavior
 2. **Missed gap**: Guide had 50% confidence on topic Lorenz addresses with research backing
 3. **Undervalued template**: Dismissed as "similar" when guide delegated handoffs to Claude
 4. **Missed critique angle**: Guide treated autocompact neutrally, Lorenz critiqued with evidence
 
-### Technical-Writer Challenge (Validated)
+### Technical-Writer challenge (validated)
 
 Agent identified 4 critical gaps:
 1. Autocompact behavior NOT documented (only manual `/compact`)
@@ -160,7 +160,7 @@ Agent identified 4 critical gaps:
 3. Performance degradation absent from guide
 4. Template delegation vs user-controlled structure
 
-### Perplexity Validation (Decisive)
+### Perplexity validation (decisive)
 
 Research confirmed:
 - 6+ sources validate autocompact quality degradation
@@ -172,7 +172,7 @@ Research confirmed:
 
 ---
 
-## Why Not 5/5?
+## Why not 5/5?
 
 Despite strong validation, 4/5 (not 5/5) because:
 
@@ -185,7 +185,7 @@ Despite strong validation, 4/5 (not 5/5) because:
 
 ---
 
-## Recommendations for Future Updates
+## Recommendations for future updates
 
 ### Short-term (Done ✅)
 
@@ -210,28 +210,28 @@ Despite strong validation, 4/5 (not 5/5) because:
 
 ---
 
-## Sources Referenced
+## Sources referenced
 
-### Academic/Research
+### Academic/research
 
 1. [Context Rot: How Increasing Input Tokens Impacts LLM Performance](https://research.trychroma.com/context-rot) (Jul 2025)
 2. [Beyond Prompts: Why Context Management Significantly Improves LLM Performance](https://useai.substack.com/p/beyond-prompts-why-context-management) (Mar 2025)
 3. [Context Rot Explained - Redis](https://redis.io/blog/context-rot/) (Dec 2025)
 
-### Community/Practitioner
+### Community/practitioner
 
 4. [Claude Saves Tokens, Forgets Everything - Alexander Golev](https://golev.com/post/claude-saves-tokens-forgets-everything/) (Jan 2026)
 5. [How Claude Code Got Better by Protecting More Context - Matsuoka](https://hyperdev.matsuoka.com/p/how-claude-code-got-better-by-protecting) (Dec 2025)
 6. [Claude Code Session Management - Steve Kinney](https://stevekinney.com/courses/ai-development/claude-code-session-management) (Jul 2025)
 
-### GitHub Issues
+### GitHub issues
 
 7. [Feature: Configurable Auto-Compact Threshold (#11819)](https://github.com/anthropics/claude-code/issues/11819) (Nov 2025)
 8. [Feature: Add claudeCode.autoCompact settings (#10691)](https://github.com/anthropics/claude-code/issues/10691) (Oct 2025)
 
 ---
 
-## Changelog Entry
+## Changelog entry
 
 **Version**: v3.10.0 (targeting)
 **Category**: Documentation - Research Integration
@@ -256,7 +256,7 @@ Despite strong validation, 4/5 (not 5/5) because:
 
 ---
 
-## Evaluation Metadata
+## Evaluation metadata
 
 **Evaluated by**: Claude Code (Sonnet 4.5)
 **Evaluation Date**: February 8, 2026
@@ -271,16 +271,16 @@ Despite strong validation, 4/5 (not 5/5) because:
 
 ---
 
-## Lessons Learned
+## Lessons learned
 
-### Evaluation Process Improvements
+### Evaluation process improvements
 
 1. **Don't trust initial grep**: "autocompact" search found nothing → false confidence in existing coverage
 2. **Challenge is critical**: technical-writer caught 4 gaps I missed
 3. **External validation decisive**: Perplexity research converted "opinion" to "research-backed"
 4. **Platform nuances matter**: VS Code vs CLI threshold differences nearly missed
 
-### Guide Maintenance Insights
+### Guide maintenance insights
 
 1. **50% confidence = integration opportunity**: Low-confidence sections are prime targets for practitioner insights
 2. **Research > opinions alone**: Lorenz's post became 4/5 after validation, would be 2/5 without

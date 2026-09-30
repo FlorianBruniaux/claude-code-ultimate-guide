@@ -1,4 +1,4 @@
-# DevOps Pipeline Plugin
+# DevOps pipeline plugin
 
 CI/CD automation, deployment, and infrastructure management.
 
@@ -14,7 +14,7 @@ bash install.sh
 - **/ship command**: Full deployment workflow
 - **GitHub Actions workflow**: Automated CI/CD in your repo
 
-## Quick Start
+## Quick start
 
 ```bash
 # Deploy to production

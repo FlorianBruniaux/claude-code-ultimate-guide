@@ -5,7 +5,7 @@ effort: medium
 disable-model-invocation: true
 ---
 
-# /plan-pipeline:ceo-review: Strategic Product Gate
+# /plan-pipeline:ceo-review: Strategic product gate
 
 Pre-implementation command. Inserts an explicit gate between "I have a request" and "I start coding". Challenges the literal request and asks what the real product should be.
 
@@ -13,13 +13,13 @@ Pre-implementation command. Inserts an explicit gate between "I have a request" 
 
 ---
 
-## The Problem This Solves
+## The problem this solves
 
 Claude Code is optimized to build what you ask. If you say "add X", it builds X. It will not ask whether X is actually the right product. This command corrects that by explicitly switching into product-thinking mode before the implementation instinct kicks in.
 
 ---
 
-## When to Use
+## When to use
 
 - Before implementing any significant feature request
 - Especially when the request is specific ("add photo upload"), since specificity often signals the requester has already collapsed the solution space
@@ -27,7 +27,7 @@ Claude Code is optimized to build what you ask. If you say "add X", it builds X.
 
 ---
 
-## Three Modes
+## Three modes
 
 The command asks the user to choose one before proceeding:
 
@@ -41,7 +41,7 @@ The assistant commits to the selected mode and does not drift mid-review.
 
 ---
 
-## Prompt Template
+## Prompt template
 
 ```markdown
 # /plan-pipeline:ceo-review
@@ -120,7 +120,7 @@ Do NOT make any code changes. This is a review, not an implementation.
 
 ---
 
-## Pipeline Position
+## Pipeline position
 
 ```
 /plan-pipeline:ceo-review    -> lock product direction   <- you are here

@@ -5,7 +5,7 @@ model: opus
 tools: Read, Grep, Glob, WebFetch
 ---
 
-# Integration Reviewer Agent
+# Integration reviewer agent
 
 Read-only validation of runtime integration correctness in implementation plans. Catches issues that compile cleanly but fail at runtime: wrong ports, async/sync mismatches, missing env vars, incorrect library API usage, broken OTEL pipelines.
 
@@ -15,7 +15,7 @@ Read-only validation of runtime integration correctness in implementation plans.
 
 ---
 
-## What This Review Catches
+## What this review catches
 
 | Category | Examples |
 |----------|---------|
@@ -29,9 +29,9 @@ Read-only validation of runtime integration correctness in implementation plans.
 
 ---
 
-## Review Process
+## Review process
 
-### Step 1: Identify Integration Points
+### Step 1: Identify integration points
 
 Read the plan file. Extract every integration point:
 - New external services (databases, queues, caches, third-party APIs)
@@ -42,7 +42,7 @@ Read the plan file. Extract every integration point:
 
 Use Glob to find existing integration patterns for each service type.
 
-### Step 2: Validate Connection Parameters
+### Step 2: Validate connection parameters
 
 For each service connection the plan adds or modifies:
 
@@ -58,7 +58,7 @@ For each service connection the plan adds or modifies:
 - Service hostname correct for local but wrong for containerized environment
 - TLS enabled in prod config but connection code doesn't handle TLS
 
-### Step 3: Validate Library API Correctness
+### Step 3: Validate library API correctness
 
 For each new library in the plan:
 
@@ -72,7 +72,7 @@ For each new library in the plan:
 - Methods deprecated in the installed version
 - Configuration options that changed names across versions
 
-### Step 4: Validate Async/Sync Consistency
+### Step 4: Validate async/sync consistency
 
 Read the plan's task descriptions and any code snippets. Identify the call chains that cross sync/async boundaries.
 
@@ -82,7 +82,7 @@ Check:
 - Event handlers that should not block don't use synchronous I/O
 - Database query methods are consistently awaited across the codebase (use Grep to check existing patterns)
 
-### Step 5: Validate Env Var Completeness
+### Step 5: Validate env var completeness
 
 For each new env var the plan introduces:
 1. Is it added to `.env.example`?
@@ -92,7 +92,7 @@ For each new env var the plan introduces:
 
 Use Grep to find existing env var patterns: `grep -r "process.env\." src/` (or equivalent for the project's language).
 
-### Step 6: Validate OTEL Pipeline
+### Step 6: Validate OTEL pipeline
 
 *Only if the plan touches observability config.*
 
@@ -106,7 +106,7 @@ Use Grep to find existing OTEL setup patterns in the codebase. Check that new in
 
 ---
 
-## Output Format
+## Output format
 
 For each issue found:
 
@@ -152,7 +152,7 @@ Do not fabricate validation results for things you cannot verify statically.
 
 ---
 
-## See Also
+## See also
 
 - [Plan-Validate Command](../commands/plan-validate.md)
 - [Security Analyst Agent](./security-auditor.md)

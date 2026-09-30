@@ -4,13 +4,13 @@ description: "Config precedence, skills vs commands vs agents, agent lifecycle, 
 tags: [configuration, hooks, agents, skills, commands]
 ---
 
-# Configuration System
+# Configuration system
 
 How Claude Code loads settings, resolves conflicts, and orchestrates extensibility.
 
 ---
 
-### Configuration Precedence (5 Levels)
+### Configuration precedence (5 levels)
 
 Claude Code resolves settings through a strict priority hierarchy. Higher layers override lower ones. Knowing this prevents "why isn't my config working?" bugs.
 
@@ -60,7 +60,7 @@ PRIORITY (highest to lowest)
 
 ---
 
-### Skills vs. Commands vs. Agents: When to Use Each
+### Skills vs. commands vs. agents: When to use each
 
 Three extensibility mechanisms with different purposes and tradeoffs. Choosing the wrong abstraction leads to over-engineering or under-powered automation.
 
@@ -132,7 +132,7 @@ Use when:      Reusable caps       Quick shortcuts    Complex tasks
 
 ---
 
-### Agent Lifecycle & Scope Isolation
+### Agent lifecycle & scope isolation
 
 Sub-agents run in complete isolation from the parent. They receive a copy of context but share no state. Understanding this prevents "why can't my sub-agent see X?" confusion.
 
@@ -182,7 +182,7 @@ Parent ◄───── text result ──────────┘
 
 ---
 
-### Hooks Event Pipeline
+### Hooks event pipeline
 
 Hooks let you run custom code at key points in Claude Code's lifecycle: security scanning, logging, enforcement, notifications. The execution order matters.
 

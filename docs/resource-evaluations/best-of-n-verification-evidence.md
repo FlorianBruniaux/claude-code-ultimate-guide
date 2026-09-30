@@ -4,7 +4,7 @@ description: "Primary research and local practitioner-evidence coverage for the 
 tags: [evaluation, verification, best-of-n, evidence]
 ---
 
-# Best-of-N and Verification Evidence
+# Best-of-N and verification evidence
 
 This record supports the bounded claims in [Best-of-N: Generate, Select, and Verify](../../guide/workflows/best-of-n.md). It distinguishes primary research from local practitioner evidence and does not treat either as proof that a workflow will work in every repository.
 

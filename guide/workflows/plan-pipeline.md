@@ -4,7 +4,7 @@ description: "Production-grade 3-command workflow with dynamic agent teams, ADR 
 tags: [workflow, agents, architecture, advanced]
 ---
 
-# Plan-Validate-Execute Pipeline
+# Plan-validate-execute pipeline
 
 > **Confidence**: Tier 2, battle-tested by production teams shipping AI-first products at scale. Extends native `/plan` mode with structured agent orchestration and institutional memory.
 
@@ -16,7 +16,7 @@ A complete development workflow in 3 commands: plan with a dynamic research team
 
 ---
 
-## Table of Contents
+## Table of contents
 
 1. [TL;DR](#tldr)
 2. [Philosophy](#philosophy)
@@ -51,7 +51,7 @@ A complete development workflow in 3 commands: plan with a dynamic research team
 
 ## Philosophy
 
-### Non-Prescriptive AI-First
+### Non-prescriptive AI-first
 
 Tell Claude **what** to achieve, never **how** to implement it. The moment you prescribe implementation details, you're using your knowledge as a ceiling instead of Claude's as a floor.
 
@@ -62,7 +62,7 @@ How should I use you most effectively to build this platform?
 
 Let Claude propose the architecture. Your job is to validate decisions, not dictate them.
 
-### No Bandaids, No Workarounds
+### No bandaids, no workarounds
 
 Hard rule for every agent in the pipeline:
 
@@ -78,15 +78,15 @@ Build time and effort are irrelevant to architectural decisions. Never factor im
 
 If any answer is yes: stop, fix at the correct level.
 
-### Why Independent Validation?
+### Why independent validation?
 
 Validators that didn't write the plan are not anchored to its assumptions. Research shows multi-agent review with adversarial framing catches significantly more issues than self-review. The average plan produces ~18 issues when challenged by an independent team. ~95% auto-resolve from existing ADRs and first principles.
 
 ---
 
-## The Three Commands
+## The three commands
 
-### `/plan-start`: 5-Phase Planning
+### `/plan-start`: 5-phase planning
 
 **Phase 1: PRD & Design Analysis** *(interactive, no agents)*
 
@@ -132,7 +132,7 @@ Output: `docs/plans/plan-{name}.md` + `docs/adr/ADR-XXXX.md` + `docs/plans/metri
 
 ---
 
-### `/plan-validate`: 2-Layer Validation
+### `/plan-validate`: 2-layer validation
 
 **Layer 1: Structural** *(inline, instant)*
 
@@ -170,7 +170,7 @@ Every issue must be resolved, no skipping. Triage:
 
 ---
 
-### `/plan-execute`: Execution to Merged PR
+### `/plan-execute`: Execution to merged PR
 
 Single command handles everything:
 
@@ -188,11 +188,11 @@ If quality gate fails: up to 3 auto-fix attempts by dedicated debug agents. Stil
 
 ---
 
-## Dynamic Agent Pool
+## Dynamic agent pool
 
 Agents are **not** hardcoded in CLAUDE.md. They are defined at invocation time: description, trigger criteria, and model selection embedded in the plan phase where they're spawned. This keeps CLAUDE.md lightweight while giving each agent full context for its role.
 
-### Research Pool (`/plan-start`)
+### Research pool (`/plan-start`)
 
 | Agent | Trigger | Model |
 |-------|---------|-------|
@@ -214,17 +214,17 @@ Agents are **not** hardcoded in CLAUDE.md. They are defined at invocation time: 
 - Sonnet for standard research (good quality, lower cost)
 - `planning-coordinator` only spawned when 2+ agents are selected: it synthesizes, it doesn't research
 
-### Validation Pool (`/plan-validate`)
+### Validation pool (`/plan-validate`)
 
 See Layer 2 table above. These are different agents from the research pool, because validators are not biased by the creation process.
 
 ---
 
-## ADR Learning Loop
+## ADR learning loop
 
 Every significant architectural decision generates an ADR. Over time, ADRs compound into institutional memory that reduces human interruptions.
 
-### What Triggers an ADR
+### What triggers an ADR
 
 **Always create an ADR for:**
 - Choice between multiple valid interaction patterns (overlay vs page, drawer vs modal)
@@ -239,7 +239,7 @@ Every significant architectural decision generates an ADR. Over time, ADRs compo
 - Minor layout choices within established patterns
 - Obvious state catalog entries (standard empty/loading/error states)
 
-### Maturity Levels
+### Maturity levels
 
 ```
 1 ADR  → Watching   — tracked, not yet prescriptive
@@ -248,7 +248,7 @@ Every significant architectural decision generates an ADR. Over time, ADRs compo
           → Candidate for promotion to CLAUDE.md as hard rule
 ```
 
-### The Loop
+### The loop
 
 ```
 /plan-start Phase 2     →  ADR created
@@ -270,7 +270,7 @@ Run `/adr-review` every 10-15 plans to batch-analyze patterns and propose CLAUDE
 
 ## CLAUDE.md Discipline
 
-### Hard Limit: 120 Lines
+### Hard limit: 120 lines
 
 Every line in CLAUDE.md costs context on every request. A 300-line CLAUDE.md is overhead that runs before every single prompt. Set and enforce a hard limit.
 
@@ -285,7 +285,7 @@ Every line in CLAUDE.md costs context on every request. A 300-line CLAUDE.md is 
 - Rules that apply to <10% of tasks
 - Explanations and rationale (write those in ADRs)
 
-### Pointer Strategy
+### Pointer strategy
 
 Instead of loading all context into CLAUDE.md, use pointers:
 
@@ -299,29 +299,29 @@ Instead of loading all context into CLAUDE.md, use pointers:
 
 Agents load only what their task requires. A backend task never loads the design system. Context stays clean.
 
-### Regular Trimming
+### Regular trimming
 
 Review CLAUDE.md every 10-15 plans alongside `/adr-review`. Promote confirmed patterns, remove rules that have become obvious through codebase conventions, trim anything that hasn't been referenced.
 
 ---
 
-## Context Management
+## Context management
 
-### `/clear` Between Steps
+### `/clear` between steps
 
 Run `/clear` between `/plan-start`, `/plan-validate`, and `/plan-execute`. Each command is self-contained: the plan file on disk is the handoff artifact, not in-memory context.
 
 Without `/clear`: context accumulates across all phases, compacting triggers earlier, agents inherit irrelevant context from previous phases, and token costs increase significantly.
 
-### Why This Works
+### Why this works
 
 Each command reads its inputs from disk (plan files, ADRs, codebase). There's no state that needs to live in the context window between steps. The discipline of clearing between steps is what makes the pipeline scale to large projects without hitting context limits mid-execution.
 
 ---
 
-## When to Use
+## When to use
 
-### ✅ Use This Pipeline When
+### ✅ Use this pipeline when
 
 - Feature requires multiple files and layers (API + DB + UI)
 - Security-sensitive changes (auth, payments, PII)
@@ -330,20 +330,20 @@ Each command reads its inputs from disk (plan files, ADRs, codebase). There's no
 - Anything where a planning mistake would be expensive to undo
 - Team projects where decision history matters
 
-### ❌ Don't Use When
+### ❌ Don't use when
 
 - Typo fix, trivial refactor (use standard `/plan` mode)
 - Exploratory prototyping where requirements are unknown
 - Hotfix under time pressure (use dual-instance planning instead)
 - Changes touching ≤2 files with no architectural decisions
 
-### ⚡ Tier 0 Shortcut
+### ⚡ Tier 0 shortcut
 
 For small but non-trivial changes, still run the pipeline but the system will detect Tier 0 scope and skip agent spawning: research happens inline, validation is Layer 1 only, execution is single-agent. Same commands, lower overhead.
 
 ---
 
-## Cost Profile
+## Cost profile
 
 | Phase | Cost Driver | Approximate Range |
 |-------|-------------|-------------------|
@@ -360,7 +360,7 @@ Use `/plan-metrics` periodically to review historical cost trends and calibrate 
 
 ---
 
-## See Also
+## See also
 
 - [Plan-Driven Development](./plan-driven.md): native `/plan` mode, lighter alternative
 - [Dual-Instance Planning](./dual-instance-planning.md): simpler 2-instance pattern

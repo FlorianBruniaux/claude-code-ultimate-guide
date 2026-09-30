@@ -33,7 +33,7 @@ rtk init
 
 Comparer des commandes équivalentes sur le même état du dépôt, inspecter les échecs et utiliser `rtk gain` pour les estimations locales. Réduire la sortie du shell ne couvre qu'une partie de la consommation de tokens ; cela ne prouve pas une réduction identique de la facture totale. RTK estime les tokens sans exécuter le tokenizer du modèle. Voir [le calcul des économies RTK](https://github.com/rtk-ai/rtk#how-savings-work).
 
-## Commandes RTK Essentielles
+## Commandes RTK essentielles
 
 ```bash
 rtk git status        # Git condensé

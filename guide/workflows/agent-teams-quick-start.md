@@ -4,7 +4,7 @@ description: "Practical 5-minute setup guide with copy-paste patterns for agent 
 tags: [workflow, agents, tutorial]
 ---
 
-# Agent Teams Quick Start Guide
+# Agent teams quick start guide
 
 > **Practical guide for using agent teams in your projects**
 > **Reading time**: 8-10 min | **Full documentation**: [Agent Teams](./agent-teams.md) (30 min overview)
@@ -24,7 +24,7 @@ This guide gives you:
 
 ---
 
-## Table of Contents
+## Table of contents
 
 1. [5-Minute Setup](#1-5-minute-setup)
 2. [Patterns for Your Projects](#2-patterns-for-your-projects)
@@ -39,9 +39,9 @@ This guide gives you:
 
 ---
 
-## 1. 5-Minute Setup
+## 1. 5-minute setup
 
-### Step 1: Prerequisites Check
+### Step 1: Prerequisites check
 
 ```bash
 # Check Claude Code version (v2.1.32+ required)
@@ -58,7 +58,7 @@ claude
 - A model available to your account; Opus is optional and teammates may use different models
 - Git repository (agent teams use git for coordination)
 
-### Step 2: Enable Feature
+### Step 2: Enable feature
 
 ```bash
 # Set environment variable (add to ~/.bashrc or ~/.zshrc for persistence)
@@ -106,9 +106,9 @@ of agents to work in parallel on complex tasks using:
 
 ---
 
-## 2. Patterns for Your Projects
+## 2. Patterns for your projects
 
-### 2.1 Claude Code Guide - Pre-Release Review
+### 2.1 Claude Code guide - pre-release review
 
 **Use case**: Systematic audit before version bump to catch consistency issues (broken links, desync counts, wrong versions)
 
@@ -154,7 +154,7 @@ Verdict: ✅ High value, found 3 criticals that would've shipped
 
 ---
 
-### 2.2 Claude Code Guide - Landing Sync
+### 2.2 Claude Code guide - landing sync
 
 **Use case**: Verify guide/landing synchronization (version, counts, content) without running manual script
 
@@ -193,7 +193,7 @@ Team: landing-sync (2 agents)
 
 ---
 
-### 2.3 Claude Code Guide - Multi-File Doc Update
+### 2.3 Claude Code guide - multi-file doc update
 
 **Use case**: Add new feature documentation across multiple files (ultimate-guide.md, reference.yaml, README.md) with cross-reference consistency
 
@@ -250,7 +250,7 @@ Savings: 40% time + zero manual cross-ref checks
 
 ---
 
-### 2.4 RTK - Security PR Review
+### 2.4 RTK - security PR review
 
 **Use case**: Review external contributor PR for security issues (injection, token leaks), Rust idioms, and performance
 
@@ -318,7 +318,7 @@ Verdict: ✅ Critical security issues caught, PR requires revision
 
 ---
 
-## 3. Decision Matrix: When to Use
+## 3. Decision matrix: When to use
 
 | Situation | Agent Teams ? | Raison |
 |-----------|---------------|--------|
@@ -333,7 +333,7 @@ Verdict: ✅ Critical security issues caught, PR requires revision
 | **Architecture design** | ✅ YES | Multiple perspectives (frontend, backend, infra, security) reveal blind spots |
 | **Bug investigation** | ⚠️ MAYBE | Simple bugs → NO, complex multi-component failures → YES |
 
-### Rule of Thumb
+### Rule of thumb
 
 **Use Agent Teams when**:
 - ✅ You'd naturally think "I should check X, Y, and Z"
@@ -350,7 +350,7 @@ Verdict: ✅ Critical security issues caught, PR requires revision
 
 ---
 
-## 4. Minimal Workflow Template
+## 4. Minimal workflow template
 
 ### Bash Template (reusable)
 
@@ -381,7 +381,7 @@ claude
 
 ### Example Prompts (copy-paste ready)
 
-#### Pre-Release Guide Audit
+#### Pre-Release guide audit
 
 ```
 > Create a pre-release audit team:
@@ -390,7 +390,7 @@ claude
 > - Breaking: Identify breaking changes vs v3.23.0 by analyzing CHANGELOG.md [Unreleased] section
 ```
 
-#### Security PR Review (RTK)
+#### Security PR review (RTK)
 
 ```
 > Review PR #42 with scope-focused analysis:
@@ -399,7 +399,7 @@ claude
 > - Performance Scope: Review allocations, async patterns, compiled regex (context: hot paths, loops)
 ```
 
-#### Multi-File Doc Update
+#### Multi-File doc update
 
 ```
 > Update documentation for new "Agent Teams Quick Start" feature:
@@ -408,7 +408,7 @@ claude
 > - Consistency Scope: Verify all cross-refs work, line numbers match, no broken links (context: all modified files)
 ```
 
-#### Landing Sync Validation
+#### Landing sync validation
 
 ```
 > Validate guide/landing synchronization:
@@ -418,9 +418,9 @@ claude
 
 ---
 
-## 5. Success Metrics
+## 5. Success metrics
 
-### How to Measure Agent Teams ROI
+### How to measure agent teams ROI
 
 | Metric | Target | How to Measure |
 |--------|--------|----------------|
@@ -430,7 +430,7 @@ claude
 | **Time saving** | 60-70% | Compare agent teams time vs sequential (estimate 3x single-agent time for 3 tasks). |
 | **Bug catch rate** | >80% | Count critical bugs found by agents / total bugs found post-ship. High = effective prevention. |
 
-### Real Example: Pre-Release Review Test (2026-02-08)
+### Real example: Pre-Release review test (2026-02-08)
 
 ```
 Task: Pre-release audit for v3.23.1
@@ -465,7 +465,7 @@ Metrics:
 Verdict: ✅ High value for pre-release audits
 ```
 
-### How to Track Your Metrics
+### How to track your metrics
 
 **After each agent teams task**:
 
@@ -491,9 +491,9 @@ Verdict: ✅ High value for pre-release audits
 
 ---
 
-## 6. Limitations & Red Flags
+## 6. Limitations & red flags
 
-### What Agent Teams DON'T Do
+### What agent teams DON'T do
 
 | Limitation | What It Means | Mitigation |
 |------------|---------------|-----------|
@@ -503,7 +503,7 @@ Verdict: ✅ High value for pre-release audits
 | **Coordination overhead** | 3-5 agents max, not 10 (coordination complexity grows) | Stick to 2-4 agents, avoid "team of 10" prompts |
 | **Context isolation** | Agents don't see each other's discoveries (work independently) | Claude synthesizes findings, but agents can't build on each other's work mid-task |
 
-### Red Flags: When NOT to Use
+### Red flags: When NOT to use
 
 ❌ **Simple task** (<5 files, <100 lines, 1 domain)
 - Example: Fix typo in README.md
@@ -535,7 +535,7 @@ Verdict: ✅ High value for pre-release audits
 
 ---
 
-## Summary: Quick Reference
+## Summary: Quick reference
 
 ### Setup (5 min once)
 
@@ -577,7 +577,7 @@ claude
 
 ---
 
-## Next Steps
+## Next steps
 
 1. **Try first test** (5 min setup + simple 2-agent task)
 2. **Pick 1 pattern** from your project (Guide or RTK)

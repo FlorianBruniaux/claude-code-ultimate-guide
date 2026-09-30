@@ -1,4 +1,4 @@
-# Module 06: Hooks and Events
+# Module 06: Hooks and events
 
 **Time:** 1 hour | **Complexity:** Intermediate
 

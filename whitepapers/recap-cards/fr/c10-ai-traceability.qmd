@@ -72,7 +72,7 @@ Pas besoin de déclarer : autocomplete trivial,
 correction grammaticale, helpers IDE.
 ```
 
-## AI Code Halflife
+## AI code Halflife
 
 La traçabilité permet des études longitudinales de maintenance. Comparer des cohortes, périodes d’observation et pratiques de revue équivalentes avant d’attribuer la survie du code à l’assistance IA. Cette fiche n’établit ni durée de vie mesurée ni effet causal.
 

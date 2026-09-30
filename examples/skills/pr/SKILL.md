@@ -7,7 +7,7 @@ when_to_use: "Use when ready to open a PR: analyzes changes and drafts the PR de
 disable-model-invocation: true
 ---
 
-# Create Pull Request
+# Create pull request
 
 Analyze changes, detect scope issues, and create a well-structured PR following project conventions.
 
@@ -21,7 +21,7 @@ Analyze changes, detect scope issues, and create a well-structured PR following 
 6. **Create PR**: Execute `gh pr create` with proper formatting
 7. **Remind Follow-up**: Display post-PR checklist (SonarQube, Claude Review)
 
-## Complexity Score
+## Complexity score
 
 Calculate PR complexity to detect if split is needed:
 
@@ -35,7 +35,7 @@ Calculate PR complexity to detect if split is needed:
 
 **Thresholds**: 0-15 ✅ Normal | 16-25 ⚠️ Large | 26+ 🔴 Split recommended
 
-## Scope Coherence
+## Scope coherence
 
 | Pattern | Verdict |
 |---------|---------|
@@ -45,7 +45,7 @@ Calculate PR complexity to detect if split is needed:
 | feat + fix same scope | ✅ OK |
 | feat + fix different scopes | 🔴 Split |
 
-## Split Suggestion Format
+## Split suggestion format
 
 When split is recommended, display:
 
@@ -78,14 +78,14 @@ git cherry-pick abc1234 def5678
 git push -u origin feature/payments-stripe
 ```
 
-## Questions to Ask
+## Questions to ask
 
 1. **Type**: feature | fix | tech | docs | security
 2. **Target Branch**: Show recent branches (develop, main, others)
 3. **Draft**: Yes (WIP) | No (ready for review)
 4. **Labels**: Based on type + optional (breaking-change, security)
 
-## PR Title Format
+## PR title format
 
 ```
 <type>(<scope>): <description>
@@ -95,7 +95,7 @@ Examples:
 - `feat(payments): add Stripe checkout integration`
 - `fix(sessions): resolve timezone calculation bug`
 
-## PR Body Template
+## PR body template
 
 ```markdown
 ## TLDR
@@ -128,7 +128,7 @@ Examples:
 Co-Authored-By: Claude <noreply@anthropic.com>
 ```
 
-## Available Labels
+## Available labels
 
 | Label | Color | Use When |
 |-------|-------|----------|
@@ -140,7 +140,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 | `breaking-change` | ⚫ | Breaking changes |
 | `WIP` | 🟡 | Work in progress (draft) |
 
-## Commands to Execute
+## Commands to execute
 
 ```bash
 # 1. Get base branch (usually develop)
@@ -168,7 +168,7 @@ gh pr create \
   --draft  # if WIP
 ```
 
-## Post-PR Output
+## Post-PR output
 
 After PR creation, ALWAYS display:
 
@@ -183,7 +183,7 @@ After PR creation, ALWAYS display:
    Si des problèmes sont détectés, corrigez-les avant de demander une review humaine.
 ```
 
-## Edge Cases
+## Edge cases
 
 | Situation | Behavior |
 |-----------|----------|

@@ -10,7 +10,7 @@ Generate a structured handoff document from our current conversation and save it
 
 Create the `claudedocs/handoffs/` directory if it does not exist.
 
-## Document Structure
+## Document structure
 
 Include exactly these sections:
 

@@ -1,4 +1,4 @@
-# Évaluation Ressource: Anthropic 2026 Agentic Coding Trends Report
+# Évaluation ressource: Anthropic 2026 agentic coding trends report
 
 **Source**: https://resources.anthropic.com/hubfs/2026%20Agentic%20Coding%20Trends%20Report.pdf
 **Type**: Rapport prospectif officiel Anthropic (Feb 2026, 17 pages)
@@ -160,7 +160,7 @@ Rapport Anthropic = **contexte business + validation industrie**, pas tutoriel r
 
 ---
 
-## 🔥 Challenge (Technical-Writer)
+## 🔥 Challenge (technical-writer)
 
 **Corrections appliquées après challenge**:
 
@@ -205,7 +205,7 @@ Rapport Anthropic = **contexte business + validation industrie**, pas tutoriel r
 
 ---
 
-## ✅ Fact-Check
+## ✅ Fact-check
 
 | Affirmation | Vérifiée | Source PDF |
 |-------------|----------|-----------|

@@ -70,7 +70,7 @@ Les agent teams étendent les sous-agents avec deux apports clés : messagerie b
 | **Contexte isolé** | Chaque agent dispose d’une fenêtre indépendante ; capacité selon le modèle et le fournisseur |
 | **Intensif en tokens** | Appels modèle simultanés multiples = coût élevé |
 
-## Quand Utiliser les Agent Teams ?
+## Quand utiliser les agent teams ?
 
 Décision rapide --- pour l'arbre de décision complet, voir -> **#6 Cadre de Décision** (`08-agent-teams.qmd#decision-framework`).
 
@@ -100,7 +100,7 @@ Additionnez les tokens d’entrée et de sortie de chaque participant, le cache,
 | **Commencer par** | **Oui** | Non (escalader si nécessaire) |
 :::
 
-# Architecture Agent Teams
+# Architecture agent teams
 
 ## Runtime et orchestrateur: deux responsabilités
 
@@ -108,7 +108,7 @@ Un runtime harness reçoit un objectif, utilise des outils, observe leurs résul
 
 Le choix dépend donc du problème. Pour une tâche de code bornée, tester un runtime et son contrat de dépôt suffit souvent. Ajouter un orchestrateur devient pertinent lorsque la coordination, l'isolement des espaces de travail ou la reprise entre tâches constituent le vrai problème. Le [panorama des harnesses](https://cc.bruniaux.com/guide/agent-harness-landscape/) maintient cette séparation; [Agent Tools](https://cc.bruniaux.com/guide/agentic-tools/) couvre les outils adjacents.
 
-## Architecture Lead-Teammate
+## Architecture lead-teammate
 
 L'architecture des agent teams repose sur un modèle hiérarchique avec communication latérale. Le *team lead* joue le rôle d'orchestrateur : il décompose la tâche, lance les *teammates*, puis synthétise leurs résultats. Mais contrairement à un modèle purement hiérarchique, les *teammates* peuvent aussi communiquer directement entre eux via le système de *mailbox*, ce qui leur permet de se challenger mutuellement sans repasser par le *lead*.
 
@@ -228,7 +228,7 @@ Les tâches ont les états `pending`, `in_progress` et `completed`. Les dépenda
 - **Contexte NON partagé** : le contexte complet de l'Agent 1 est invisible pour l'Agent 2
 - **Messages partagés** : les agents s'envoient des messages explicites via *mailbox* (découvertes, questions, débats)
 
-## Navigation Entre Agents
+## Navigation entre agents
 
 **Navigation intégrée** :
 
@@ -333,7 +333,7 @@ cat ~/.claude/settings.json | grep CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS
 
 Ces cas d'usage illustrent un dénominateur commun : les agent teams brillent quand la tâche se décompose en domaines indépendants avec peu de chevauchement de fichiers. Le cas Fountain repose sur l'analyse parallèle de couches distinctes (sécurité, API, frontend), tandis que le compilateur C s'appuie sur des phases bien définies avec des interfaces claires entre elles.
 
-## Revue de Code Multi-Couche (Fountain)
+## Revue de code multi-couche (fountain)
 
 **Organisation** : Fountain (plateforme de gestion de la main-d'œuvre de première ligne)
 
@@ -417,7 +417,7 @@ Pour les équipes qui veulent une review multi-agents sans orchestrer manuelleme
 
 **Source** : [2026 Agentic Coding Trends Report](https://resources.anthropic.com/hubfs/2026%20Agentic%20Coding%20Trends%20Report.pdf), Anthropic, Jan 2026
 
-## Compilateur C Autonome (Recherche Anthropic)
+## Compilateur C autonome (recherche Anthropic)
 
 Anthropic a construit un compilateur C complet de manière autonome, en pipeline séquentiel : lexer → parser → AST → codegen → optimisation → tests. Chaque phase a des interfaces claires, ce qui rend la coordination entre agents naturelle. Résultat : projet finalisé sans intervention humaine, tests passants.
 
@@ -620,7 +620,7 @@ Les coéquipiers peuvent utiliser des modèles différents. Le modèle demandé 
 
 Les patterns précédents couvrent la décomposition de base et la coordination des tâches. À l'échelle, sept modes de défaillance récurrents apparaissent : un coordinateur qui fait le travail à la place des agents, des agents qui démarrent sans que les prérequis soient réunis, des chercheurs qui piétinent sur le même terrain, des pipelines qui repartent de zéro après un crash, des boucles sans critère d'arrêt, et des sous-tâches trop vagues pour être validées. Sept patterns y répondent.
 
-## Coordinateur Hub-and-Spoke
+## Coordinateur Hub-and-spoke
 
 Le pattern hub-and-spoke sépare strictement coordination et exécution. Le coordinateur décompose la tâche, sélectionne les sous-agents, distribue le travail, surveille les résultats et agrège --- il ne fait aucun travail de domaine lui-même : pas de recherche, pas d'analyse, pas de génération de contenu. Cette séparation est ce qui rend le coordinateur réutilisable d'une tâche à l'autre.
 
@@ -665,7 +665,7 @@ Certaines tâches demandent plusieurs passes pour atteindre une qualité accepta
 
 "Continue jusqu'à ce que ce soit parfait" n'est pas un critère d'arrêt. Il faut un seuil de qualité numérique (`target_quality`, basé sur un jeu de validation) et un budget dur d'itérations (`max_iterations`). Sans les deux, la boucle termine trop tôt ou tourne indéfiniment. Ce pattern répond à un besoin différent de la règle des 3 cycles vue plus haut dans ce document : celle-ci gère le manque de contexte d'un agent, celui-ci gère la convergence vers une qualité cible.
 
-## Décomposition à Grain Fin (Test SPEC)
+## Décomposition à grain fin (test SPEC)
 
 Une décomposition trop large produit des sous-agents avec des critères de succès flous. Le test SPEC valide chaque sous-tâche avant de la distribuer : **S**pécifique (aucune ambiguïté sur le livrable), **P**rogrammatiquement évaluable (succès ou échec vérifiable sans jugement humain), **E**xplicite sur le périmètre (ce qui est inclus ou exclu est énoncé, pas implicite), **C**ontraint (format de sortie, longueur ou schéma définis).
 
@@ -679,9 +679,9 @@ Une décomposition trop large produit des sous-agents avec des critères de succ
 
 Quand une sous-tâche ne peut pas être formulée pour passer le test SPEC, c'est en général le signal que le coordinateur n'a pas encore assez d'information pour décomposer cette portion du travail. Mieux vaut rassembler du contexte supplémentaire avant de décomposer plus loin.
 
-# Boucles Autonomes
+# Boucles autonomes
 
-## Clarification : Le Pattern "Ralph Loop"
+## Clarification : Le pattern "Ralph Loop"
 
 Le terme "Ralph loop" circule dans la communauté avec deux significations distinctes. Les confondre mène à des implémentations incorrectes.
 
@@ -776,7 +776,7 @@ Dépendances strictes ?
 
 # Limitations et Pièges
 
-## Compromis Read-Heavy vs Write-Heavy
+## Compromis read-heavy vs write-heavy
 
 **Limitation fondamentale** : les agent teams excellent en *read-heavy*, peinent en *write-heavy*. Les tâches d'analyse sont naturellement parallélisables ; les modifications de fichiers partagés génèrent des conflits de merge qui annulent les gains.
 
@@ -805,7 +805,7 @@ Dépendances strictes ?
 
 # Cadre de Décision
 
-## Teams vs Multi-Instance vs Dual-Instance vs Cross-Session Messaging
+## Teams vs multi-instance vs dual-instance vs cross-session messaging
 
 Avant de déployer des agent teams, il faut évaluer si la tâche nécessite réellement une coordination intégrée. Trois alternatives plus simples existent : le multi-instance (plusieurs terminaux indépendants), le dual-instance (split plan/execution), et la messagerie cross-session (`ListAgents`/`SendMessage` entre sessions déjà lancées indépendamment). Chaque approche a ses cas d'usage légitimes, et choisir la mauvaise augmente les coûts sans bénéfice réel.
 
@@ -851,7 +851,7 @@ Tâche simple (<5 fichiers) ?
 
 **Exemple de mauvais fit** : Mettre à jour la logique d'auth dans un seul fichier `auth.ts` partagé --- une seule zone d'écriture, aucun bénéfice de parallélisation, conflit de merge assuré.
 
-## Teams vs Framework Beads
+## Teams vs framework beads
 
 | Aspect | Framework Beads (Steve Yegge) | Agent Teams (Anthropic) |
 |--------|-------------------------------|-------------------------|
@@ -863,7 +863,7 @@ Tâche simple (<5 fichiers) ?
 
 **Question ouverte** (fév. 2026) : Anthropic n'a pas publié de guide officiel sur ce choix. Les praticiens sont invités à partager leurs expériences dans les [GitHub Discussions](https://github.com/anthropics/claude-code/discussions).
 
-# Bonnes Pratiques
+# Bonnes pratiques
 
 ## Assurance Qualité et Métriques
 
@@ -884,7 +884,7 @@ npm test && npm run lint            # Tests + style de code
 
 > Voir `guide/agent-evaluation.md` + template `examples/agents/analytics-with-eval/`.
 
-## Anti-Patterns : Before / After
+## Anti-Patterns : Before / after
 
 ::: {.callout-warning title="Anti-pattern #1 : L'équipe inutile (Over-engineering)"}
 **Symptôme** : Lancer 4 agents pour une tâche de 50 lignes
@@ -1088,7 +1088,7 @@ Flag d’activation : `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`.
 
 **Critères de succès** : Convergence >50%, Insights uniques 3/3, Faux positifs <20%
 
-## Template : Mise à Jour de Documentation Multi-Fichiers
+## Template : Mise à jour de documentation multi-fichiers
 
 ```markdown
 # Prompt Agent Teams : Mise à Jour de Doc
@@ -1134,7 +1134,7 @@ Flag d’activation : `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`.
 
 **Critères de succès** : Zéro liens cassés, 40%+ gain de temps, couverture complète
 
-## Template : Agent Loop-Monitor
+## Template : Agent loop-monitor
 
 Template disponible dans `examples/agents/loop-monitor.md`. Surveille les sessions autonomes non supervisées et détecte trois types de dérive :
 
@@ -1152,9 +1152,9 @@ Template disponible dans `examples/agents/loop-monitor.md`. Surveille les sessio
 
 **Utilisation typique** : lancer le loop-monitor en parallèle d'une session autonome longue (refactoring, migration), laisser tourner sans supervision, intervenir uniquement sur alerte.
 
-## Pour Aller Plus Loin
+## Pour aller plus loin
 
-### Sources Officielles Anthropic
+### Sources officielles Anthropic
 
 1. **[Introducing Claude Opus 4.6](https://www.anthropic.com/news/claude-opus-4-6)**
    Anthropic, Fév 2026
@@ -1168,7 +1168,7 @@ Template disponible dans `examples/agents/loop-monitor.md`. Surveille les sessio
    Anthropic, Jan 2026
    Métriques de production : Fountain (50% plus rapide screening candidats, cas gestion de main-d'œuvre), CRED (temps de livraison divisé par 2, source : planify.in sept. 2025)
 
-### Sources Communautaires
+### Sources communautaires
 
 4. **[Claude Opus 4.6 for Developers: Agent Teams, 1M Context](https://dev.to/thegdsks/claude-opus-46-for-developers-agent-teams-1m-context-and-what-actually-matters-4h8c)**
    dev.to, Fév 2026
@@ -1178,7 +1178,7 @@ Template disponible dans `examples/agents/loop-monitor.md`. Surveille les sessio
    dev.to, Jan 2026
    Patterns d'intégration : Claude Code + plugins (Conductor, Superpowers, Context7)
 
-### Outils Communautaires
+### Outils communautaires
 
 6. **[Claude Agent Teams UI](https://github.com/777genius/claude_agent_teams_ui)**
    Application desktop open-source (Electron + React + TypeScript) pour piloter les agent teams Claude Code. Tableau kanban avec suivi des tâches en temps réel, diffs de revue de code, communication inter-équipe, analyse de session détaillée, monitoring du contexte. 100% gratuit, fonctionne en local.

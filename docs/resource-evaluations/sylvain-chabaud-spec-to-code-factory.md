@@ -1,4 +1,4 @@
-# Resource Evaluation: Spec-to-Code Factory
+# Resource evaluation: Spec-to-Code factory
 
 **Resource**: https://github.com/SylvainChabaud/spec-to-code-factory
 **LinkedIn**: https://www.linkedin.com/posts/sylvain-chabaud-831415aa_ia-claudecode-ai-activity-7430257228928163840-jOxD
@@ -28,7 +28,7 @@ Pipeline multi-agents open-source entièrement construit sur Claude Code, qui tr
 
 ---
 
-## Scoring Breakdown
+## Scoring breakdown
 
 ### 1. Relevance to Claude Code (5/5)
 
@@ -36,14 +36,14 @@ Pipeline multi-agents open-source entièrement construit sur Claude Code, qui tr
 ✅ **Patterns directs** : Utilise skills + hooks + agents exactement comme le guide les documente
 ✅ **Implémentation référence** : Repo clonable illustrant les concepts du guide en situation réelle
 
-### 2. Technical Accuracy (4/5)
+### 2. Technical accuracy (4/5)
 
 ✅ **Phases vérifiées** : BREAK→MODEL→ACT→DEBRIEF confirmées dans le README
 ✅ **Gates vérifiées** : Gate 0-5 via scripts Node.js (requirements, structure, secrets/PII, planning, code quality, release)
 ✅ **Invariants réels** : Enforcement via tools/validate-commit-msg.js — pas juste des suggestions
 ⚠️ **Maturité limitée** : 4 semaines, architecture encore en évolution
 
-### 3. Novelty/Uniqueness (3/5)
+### 3. Novelty/uniqueness (3/5)
 
 ✅ **Enforcement outillé** : Scripts Node.js qui *bloquent* si gates non passées — pattern non documenté dans le guide
 ✅ **Budget token par phase** : Estimation concrète ~900K avec breakdown — unique dans l'écosystème
@@ -57,7 +57,7 @@ Pipeline multi-agents open-source entièrement construit sur Claude Code, qui tr
 ⚠️ **JavaScript uniquement** : Clean Architecture React — pas polyglot
 ⚠️ **Complexité setup** : Git hooks + scripts Node.js à configurer
 
-### 5. Source Credibility (3/5)
+### 5. Source credibility (3/5)
 
 ✅ **Présenté en public** : Talk à l'IA CAFE CLUB (Paris), validé par communauté
 ⚠️ **Adoption limitée** : 8 stars, 2 forks, 2 contributeurs (auteur + Claude)
@@ -65,7 +65,7 @@ Pipeline multi-agents open-source entièrement construit sur Claude Code, qui tr
 
 ---
 
-## Comparative Analysis
+## Comparative analysis
 
 | Aspect | Spec-to-Code Factory | Notre Guide |
 |--------|---------------------|-------------|
@@ -94,7 +94,7 @@ Pipeline multi-agents open-source entièrement construit sur Claude Code, qui tr
 
 ---
 
-## Fact-Check
+## Fact-check
 
 | Affirmation | Vérifiée | Source |
 |-------------|----------|--------|

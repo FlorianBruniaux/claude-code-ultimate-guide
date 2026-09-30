@@ -3,7 +3,7 @@ title: "Module 04: Agents & Specialization"
 description: "Learning Path Module 04: create specialized Claude Code agents with AGENT.md, restrict their capabilities, and decide when to use an agent versus asking Claude directly. 1.5 hours, intermediate."
 ---
 
-# Module 04: Agents & Specialization
+# Module 04: Agents & specialization
 
 **Time**: 1.5 hours | **Complexity**: ⭐⭐ Intermediate
 
@@ -15,7 +15,7 @@ Create specialized agents for specific tasks. Learn how to focus AI capabilities
 
 ---
 
-## What You'll Learn
+## What you'll learn
 
 - What agents are and why they're useful
 - Creating custom agents with AGENT.md
@@ -25,11 +25,11 @@ Create specialized agents for specific tasks. Learn how to focus AI capabilities
 
 ---
 
-## What Are Agents?
+## What are agents?
 
 An **agent** is a specialized version of Claude Code configured for one specific task.
 
-### Example: Code Reviewer Agent
+### Example: Code reviewer agent
 
 Instead of asking regular Claude for code reviews (which takes mental context-switching), you use:
 
@@ -44,7 +44,7 @@ The code-reviewer agent:
 - Knows security vulnerability patterns
 - Doesn't get distracted by other tasks
 
-### Normal Claude vs Agents
+### Normal Claude vs agents
 
 | Aspect | Normal Claude | Agent |
 |--------|---------------|-------|
@@ -56,11 +56,11 @@ The code-reviewer agent:
 
 ---
 
-## Creating Your First Agent
+## Creating your first agent
 
 Agents are defined in `.claude/agents/AGENT.md` files.
 
-### Basic Structure
+### Basic structure
 
 ```markdown
 ---
@@ -100,7 +100,7 @@ When reviewing:
 Review src/auth.js for security issues
 ```
 
-### File Location
+### File location
 
 Place it in your project:
 
@@ -111,7 +111,7 @@ my-project/
         └── code-reviewer.md
 ```
 
-### Making It Available
+### Making it available
 
 In your project CLAUDE.md, reference it:
 
@@ -128,9 +128,9 @@ Run agents with: /agent [name]
 
 ---
 
-## Agent Design Patterns
+## Agent design patterns
 
-### Pattern 1: Quality Checker
+### Pattern 1: Quality checker
 
 ```markdown
 ---
@@ -161,7 +161,7 @@ Check code for:
 Score /100 based on all metrics.
 ```
 
-### Pattern 2: Security Specialist
+### Pattern 2: Security specialist
 
 ```markdown
 ---
@@ -192,7 +192,7 @@ Find security vulnerabilities:
 - LOW: Consider fixing
 ```
 
-### Pattern 3: Documentation Writer
+### Pattern 3: Documentation writer
 
 ```markdown
 ---
@@ -224,9 +224,9 @@ Create or improve:
 
 ---
 
-## Agent Capabilities & Restrictions
+## Agent capabilities & restrictions
 
-### Default Capabilities
+### Default capabilities
 
 All agents can:
 - Read files (git-aware)
@@ -235,7 +235,7 @@ All agents can:
 - Check syntax
 - Run tests
 
-### Restricting Capabilities
+### Restricting capabilities
 
 Use `capabilities` to sandbox an agent:
 
@@ -254,7 +254,7 @@ capabilities:
 
 This agent can review but can't accidentally push broken code.
 
-### Common Restrictions
+### Common restrictions
 
 ```markdown
 # Analyzer (read-only)
@@ -280,9 +280,9 @@ capabilities:
 
 ---
 
-## Using Agents in Your Workflow
+## Using agents in your workflow
 
-### Calling an Agent
+### Calling an agent
 
 ```bash
 /agent code-reviewer
@@ -291,7 +291,7 @@ Review the changes I just made to src/auth.js
 
 Claude switches to the code-reviewer agent and responds.
 
-### Chaining Agents
+### Chaining agents
 
 Use agents sequentially:
 
@@ -309,7 +309,7 @@ Review the tests that were just written
 Check the tests and code for vulnerabilities
 ```
 
-### Agent with Plan Mode
+### Agent with plan mode
 
 For risky operations, use `/plan` within an agent:
 
@@ -321,9 +321,9 @@ Refactor the payment processing module to use async/await
 
 ---
 
-## Exercise: Create a Test-Writer Agent
+## Exercise: Create a test-writer agent
 
-### Step 1: Create the Agent File
+### Step 1: Create the agent file
 
 ```bash
 cat > .claude/agents/test-writer.md << 'EOF'
@@ -371,7 +371,7 @@ EOF
   Usage: /agent test-writer <file path>
 ```
 
-### Step 3: Use It
+### Step 3: Use it
 
 ```bash
 /agent test-writer
@@ -393,9 +393,9 @@ Check the tests before accepting:
 
 ---
 
-## When to Use Agents
+## When to use agents
 
-### Use Agents When:
+### Use agents when:
 
 ✅ You do the same task repeatedly (code review, testing, security audit)
 ✅ You want focused AI for one job
@@ -403,7 +403,7 @@ Check the tests before accepting:
 ✅ You're building team workflows
 ✅ The task has clear success criteria
 
-### Use Regular Claude When:
+### Use regular Claude when:
 
 ✅ You're exploring/learning
 ✅ The task is novel
@@ -413,7 +413,7 @@ Check the tests before accepting:
 
 ---
 
-## Best Practices
+## Best practices
 
 ### DO
 
@@ -439,7 +439,7 @@ Check the tests before accepting:
 
 ---
 
-## Validation: You're Ready If...
+## Validation: You're ready if...
 
 ✓ You've created at least one custom agent
 
@@ -453,7 +453,7 @@ Check the tests before accepting:
 
 ---
 
-## What's Next?
+## What's next?
 
 **Module 05: Skills & Automation** covers:
 - Creating reusable skills (knowledge modules)

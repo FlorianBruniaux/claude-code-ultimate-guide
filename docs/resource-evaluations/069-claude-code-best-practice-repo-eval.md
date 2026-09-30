@@ -1,4 +1,4 @@
-# Resource Evaluation: `shanraisshan/claude-code-best-practice` — Claude Code Best Practices Repo
+# Resource evaluation: `shanraisshan/claude-code-best-practice` — Claude Code best practices repo
 
 **Date**: 2026-02-26
 **Evaluator**: Claude (Sonnet 4.6)
@@ -25,7 +25,7 @@ Reference repository for Claude Code best practices. Continuously updated as Cla
 
 ---
 
-## Evaluation Scoring
+## Evaluation scoring
 
 | Criterion | Score | Notes |
 |-----------|-------|-------|
@@ -39,7 +39,7 @@ Reference repository for Claude Code best practices. Continuously updated as Cla
 
 ---
 
-## Gap Analysis — Critical Finding
+## Gap analysis — critical finding
 
 ### CRITICAL BUG in our guide (line 5646)
 
@@ -61,7 +61,7 @@ Current text in `guide/ultimate-guide.md:5646`:
 | `hooks` | ✅ OFFICIAL | Partially covered |
 | `color` | ✅ OFFICIAL | Not mentioned |
 
-### Already Covered in Guide
+### Already covered in guide
 
 | Resource Topic | Guide Coverage | Location |
 |----------------|----------------|----------|
@@ -71,7 +71,7 @@ Current text in `guide/ultimate-guide.md:5646`:
 | Skills context:fork | ✅ Covered | quiz/questions/05-skills.yaml |
 | Boris Cherny tips | ✅ Integrated | (previous session) |
 
-### Not Well Covered
+### Not well covered
 
 | Topic | Gap Level | Notes |
 |-------|-----------|-------|
@@ -99,7 +99,7 @@ Current text in `guide/ultimate-guide.md:5646`:
 
 ---
 
-## Fact-Check
+## Fact-check
 
 | Affirmation | Vérifiée | Source |
 |-------------|----------|--------|

@@ -10,13 +10,13 @@ keywords:
   - "anthropic api data usage privacy"
 ---
 
-# Claude Code Data Privacy: What the Official Docs Don't Cover
+# Claude Code data privacy: What the official docs don't cover
 
 The Anthropic privacy page documents retention tiers (Consumer 5 years, ZDR 0 days, etc.). That's useful background, but it doesn't cover the risks that are specific to Claude Code as a local CLI tool. This guide focuses on those: the six data exposure vectors that exist because Claude Code runs with filesystem access, spawns subprocesses, and calls MCP servers, and how to block each one.
 
 > **Quick reference**: Anthropic retention tiers are summarized in the table below. Full official policy at [claude.ai/settings/data-privacy-controls](https://claude.ai/settings/data-privacy-controls).
 
-## TL;DR - Retention Summary
+## TL;DR - retention summary
 
 | Configuration | Retention Period | Training | How to Enable |
 |---------------|------------------|----------|---------------|
@@ -29,9 +29,9 @@ The Anthropic privacy page documents retention tiers (Consumer 5 years, ZDR 0 da
 
 ---
 
-## 1. Understanding the Data Flow
+## 1. Understanding the data flow
 
-### What Leaves Your Machine
+### What leaves your machine
 
 When you use Claude Code, the following data is sent to Anthropic:
 
@@ -60,7 +60,7 @@ When you use Claude Code, the following data is sent to Anthropic:
                        TELEMETRY=1)     REPORTING=1)
 ```
 
-### What This Means in Practice
+### What this means in practice
 
 | Scenario | Data Sent to Anthropic |
 |----------|------------------------|
@@ -72,9 +72,9 @@ When you use Claude Code, the following data is sent to Anthropic:
 
 ---
 
-## 2. Known Risks
+## 2. Known risks
 
-### Risk 1: Automatic File Reading
+### Risk 1: Automatic file reading
 
 Claude Code reads files to understand context. By default, this includes:
 
@@ -85,7 +85,7 @@ Claude Code reads files to understand context. By default, this includes:
 
 **Mitigation**: Configure `excludePatterns` (see Section 4).
 
-### Risk 2: MCP Database Access
+### Risk 2: MCP database access
 
 When you configure database MCP servers (Neon, Supabase, PlanetScale):
 
@@ -101,7 +101,7 @@ Stored at Anthropic: According to your retention tier
 
 **Mitigation**: Never connect production databases. Use dev/staging with anonymized data.
 
-### Risk 3: Shell Command Output
+### Risk 3: Shell command output
 
 Bash commands and their output are included in context:
 
@@ -114,7 +114,7 @@ STRIPE_SECRET_KEY=sk_live_...
 
 **Mitigation**: Use hooks to filter sensitive command outputs.
 
-### Risk 4: The `/bug` Command Sends Everything (Retained 5 Years)
+### Risk 4: The `/bug` command sends everything (retained 5 years)
 
 When you run `/bug` in Claude Code, your **full conversation history** (including all code, file contents, and potentially secrets) is sent to Anthropic for bug triage. This data is retained for **5 years**, regardless of your training opt-out setting.
 
@@ -137,7 +137,7 @@ export DISABLE_BUG_COMMAND=1
 
 If you work on multiple machines or share dotfiles via a repo, adding this to your profile is the only way to keep it off across environments. Environment variables set in `.claude/settings.json` do not persist across shell sessions.
 
-### Risk 5: Documented Community Incidents
+### Risk 5: Documented community incidents
 
 | Incident | Source |
 |----------|--------|
@@ -146,7 +146,7 @@ If you work on multiple machines or share dotfiles via a repo, adding this to yo
 | Credentials exposed via environment variables | GitHub issues |
 | Prompt injection via malicious MCP servers | r/programming |
 
-### Risk 6: Claude Desktop Browser Integration: Silent Native Messaging Host Installation
+### Risk 6: Claude Desktop browser integration: Silent native messaging host installation
 
 Claude Desktop installs native messaging host manifest files into browsers' `NativeMessagingHosts` directories to enable its "Claude in Chrome" feature. As of April 2026, this happens without an explicit opt-in prompt from the user.
 
@@ -201,7 +201,7 @@ If you don't use the browser integration feature, you can safely delete the mani
 
 ---
 
-### Risk 7: The Local-Looking Network Client
+### Risk 7: The local-looking network client
 
 A CLI or MCP server can advertise "zero dependencies, no signup, no telemetry" and still send every input you give it to a server you do not control. Those three claims are about the *package*, not about the *data*. A thin HTTP client genuinely has zero dependencies, because it contains nothing.
 
@@ -233,11 +233,11 @@ For any hosted MCP server, ask whether there is a local execution path at all. I
 
 ---
 
-## 3. Protective Measures
+## 3. Protective measures
 
-### Immediate Actions
+### Immediate actions
 
-#### 3.1 Configure File Exclusions
+#### 3.1 Configure file exclusions
 
 In `.claude/settings.json`, use `permissions.deny` to block access to sensitive files:
 
@@ -264,7 +264,7 @@ In `.claude/settings.json`, use `permissions.deny` to block access to sensitive 
 
 > **Warning**: `permissions.deny` has [known limitations](./security-hardening.md#known-limitations-of-permissionsdeny). For defense-in-depth, combine with security hooks and external secrets management.
 
-#### 3.2 Use Security Hooks
+#### 3.2 Use security hooks
 
 Create `.claude/hooks/PreToolUse.sh`:
 
@@ -284,7 +284,7 @@ if [[ "$TOOL_NAME" == "Read" ]]; then
 fi
 ```
 
-#### 3.3 Opt-Out of Telemetry and Error Reporting
+#### 3.3 Opt-Out of telemetry and error reporting
 
 Claude Code connects to third-party services for operational metrics (Statsig) and error logging (Sentry). These do not include your code or file paths, but you can disable them entirely:
 
@@ -307,7 +307,7 @@ export DISABLE_BUG_COMMAND=1
 
 > **Note**: When using Bedrock, Vertex, or Foundry providers, all non-essential traffic (telemetry, error reporting, bug command, surveys) is disabled by default.
 
-### MCP Best Practices
+### MCP best practices
 
 | Rule | Rationale |
 |------|-----------|
@@ -317,7 +317,7 @@ export DISABLE_BUG_COMMAND=1
 | **Create minimal test datasets** | Less data = less risk |
 | **Audit MCP server sources** | Third-party MCPs may have vulnerabilities |
 
-### Reversible Tokenization at the Model Boundary
+### Reversible tokenization at the model boundary
 
 A privacy gateway can replace recognized values with placeholders before a model request and restore them locally when a tool needs the original value. For example, a synthetic target `10.42.1.5` might become `IP_PRIVATE_001` in a model-visible tool result. The local mapping remains sensitive because it can reverse the transformation.
 
@@ -325,7 +325,7 @@ Coverage depends on the detector, input format, and integration path. A filter t
 
 The [DarkMoon case study and Strix comparison](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/security/agentic-pentesting.md) explain these boundaries. Treat reversible tokenization as a reduction in exposure. To assess a particular run, inspect the actual outbound model requests with synthetic canary values, including tool outputs, retries, and error paths. Tokenization logs alone do not establish what crossed the provider boundary.
 
-### For Teams
+### For teams
 
 | Environment | Recommendation |
 |-------------|----------------|
@@ -335,7 +335,7 @@ The [DarkMoon case study and Strix comparison](https://github.com/FlorianBruniau
 
 ---
 
-## 4. Comparison with Other Tools
+## 4. Comparison with other tools
 
 | Feature | Claude Code + MCP | Cursor | GitHub Copilot |
 |---------|-------------------|--------|----------------|
@@ -348,9 +348,9 @@ The [DarkMoon case study and Strix comparison](https://github.com/FlorianBruniau
 
 ---
 
-## 5. Enterprise Considerations
+## 5. Enterprise considerations
 
-### When to Use Enterprise API (ZDR)
+### When to use enterprise API (ZDR)
 
 - Handling PII (names, emails, addresses)
 - Regulated industries (HIPAA, GDPR, PCI-DSS)
@@ -358,7 +358,7 @@ The [DarkMoon case study and Strix comparison](https://github.com/FlorianBruniau
 - Government contracts
 - Financial services
 
-### Evaluation Checklist
+### Evaluation checklist
 
 - [ ] Data classification policy exists for your organization
 - [ ] API tier matches data sensitivity requirements
@@ -378,7 +378,7 @@ An alternate endpoint using the same model may diversify hosting without removin
 
 ---
 
-## 6. Quick Reference
+## 6. Quick reference
 
 ### Links
 
@@ -402,7 +402,7 @@ claude /status
 ./examples/scripts/audit-scan.sh
 ```
 
-### Quick Audit Checklist
+### Quick audit checklist
 
 Run these checks today. Each takes under two minutes.
 

@@ -5,7 +5,7 @@ argument-hint: "[topic]"
 effort: low
 ---
 
-# Show Alternatives
+# Show alternatives
 
 Compare different approaches to solve the same problem.
 
@@ -29,7 +29,7 @@ Compare different approaches to solve the same problem.
 4. Provide a **recommendation** based on context
 5. Optionally show code examples for top choices
 
-## Response Format
+## Response format
 
 ```markdown
 ## Problem: [What we're trying to solve]
@@ -68,7 +68,7 @@ Compare different approaches to solve the same problem.
 **Consider instead if**: [Alternative scenarios]
 ```
 
-## Comparison Criteria
+## Comparison criteria
 
 Standard criteria to evaluate (adjust based on problem):
 
@@ -83,7 +83,7 @@ Standard criteria to evaluate (adjust based on problem):
 | **Testing** | How easy to test |
 | **Type safety** | TypeScript support quality |
 
-## Depth Modes
+## Depth modes
 
 ### Default
 - 3-4 alternatives
@@ -103,7 +103,7 @@ Standard criteria to evaluate (adjust based on problem):
 - One-line each
 - Quick recommendation
 
-## Example Session
+## Example session
 
 ```
 User: I'm using useState for form state. /learn:alternatives
@@ -183,7 +183,7 @@ Claude: ## Problem: Managing Form State in React
 **Consider useReducer if**: You need undo/redo, complex state machines, or want reducer-style testing.
 ```
 
-## Common Alternative Comparisons
+## Common alternative comparisons
 
 | Topic | Typical Alternatives |
 |-------|---------------------|

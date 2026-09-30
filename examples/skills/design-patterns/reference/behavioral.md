@@ -4,22 +4,22 @@ description: "Reference for Observer, Strategy, Command, Chain of Responsibility
 tags: [reference, design-patterns, architecture]
 ---
 
-# Behavioral Design Patterns
+# Behavioral design patterns
 
 Patterns concerned with algorithms and the assignment of responsibilities between objects, focusing on communication patterns.
 
-## Chain of Responsibility
+## Chain of responsibility
 
 ### Definition
 Passes requests along a chain of handlers, where each handler decides either to process the request or pass it to the next handler.
 
-### When to Use
+### When to use
 - [x] More than one object may handle a request, and handler isn't known a priori
 - [x] Want to issue request without specifying receiver explicitly
 - [x] Set of handlers can be specified dynamically
 - [x] Processing order matters
 
-### TypeScript Signature
+### TypeScript signature
 ```typescript
 interface Handler {
   setNext(handler: Handler): Handler;
@@ -68,7 +68,7 @@ handlerA.setNext(handlerB);
 console.log(handlerA.handle('B')); // HandlerB processed B
 ```
 
-### Stack-Native Alternatives
+### Stack-native alternatives
 
 **Express Middleware**:
 ```typescript
@@ -83,7 +83,7 @@ app.use(errorMiddleware);
 @UseInterceptors(LoggingInterceptor)
 ```
 
-### Code Smells It Fixes
+### Code smells it fixes
 - **Tight coupling to request handler**: Client doesn't know which handler processes request
 - **Complex conditional logic**: Each handler has simple logic
 
@@ -94,13 +94,13 @@ app.use(errorMiddleware);
 ### Definition
 Encapsulates a request as an object, letting you parameterize clients with different requests, queue or log requests, and support undoable operations.
 
-### When to Use
+### When to use
 - [x] Parameterize objects with operations
 - [x] Queue, specify, and execute requests at different times
 - [x] Support undo/redo operations
 - [x] Log changes for system crash recovery
 
-### TypeScript Signature
+### TypeScript signature
 ```typescript
 // Command interface
 interface Command {
@@ -169,7 +169,7 @@ remote.execute(new TurnOffCommand(light)); // Light is off
 remote.undo();                             // Light is on
 ```
 
-### Stack-Native: Redux Actions
+### Stack-Native: Redux actions
 ```typescript
 const incrementAction = { type: 'INCREMENT', payload: 1 };
 dispatch(incrementAction); // Command pattern
@@ -182,12 +182,12 @@ dispatch(incrementAction); // Command pattern
 ### Definition
 Provides a way to access elements of a collection sequentially without exposing its underlying representation.
 
-### When to Use
+### When to use
 - [x] Need to access collection's contents without exposing internal structure
 - [x] Support multiple traversals of collections
 - [x] Provide uniform interface for traversing different structures
 
-### TypeScript Signature
+### TypeScript signature
 ```typescript
 // Iterator interface
 interface Iterator<T> {
@@ -228,7 +228,7 @@ class NumberCollection implements Iterable<number> {
 }
 ```
 
-### JavaScript Native Support
+### JavaScript native support
 ```typescript
 // Symbol.iterator
 const collection = {
@@ -269,12 +269,12 @@ for (const num of numberGenerator()) {
 ### Definition
 Defines an object that encapsulates how a set of objects interact, promoting loose coupling by keeping objects from referring to each other explicitly.
 
-### When to Use
+### When to use
 - [x] Set of objects communicate in complex ways
 - [x] Reusing object is difficult because it refers to many others
 - [x] Behavior distributed between classes should be customizable without subclassing
 
-### TypeScript Signature
+### TypeScript signature
 ```typescript
 // Mediator interface
 interface Mediator {
@@ -349,7 +349,7 @@ c1.doA();
 // Component 2 does C
 ```
 
-### Stack-Native: React Context
+### Stack-Native: React context
 ```typescript
 const ChatContext = createContext<ChatMediator>(null!);
 
@@ -367,7 +367,7 @@ function ChatRoom({ children }: Props) {
 }
 ```
 
-### Code Smells It Fixes
+### Code smells it fixes
 - **Complex web of interactions**: Centralized in mediator
 - **God object with many responsibilities**: Mediator focuses on coordination only
 
@@ -378,12 +378,12 @@ function ChatRoom({ children }: Props) {
 ### Definition
 Captures and externalizes an object's internal state without violating encapsulation, so the object can be restored to this state later.
 
-### When to Use
+### When to use
 - [x] Need to save/restore object snapshots (undo/redo)
 - [x] Direct interface to state would expose implementation
 - [x] Want to preserve encapsulation boundaries
 
-### TypeScript Signature
+### TypeScript signature
 ```typescript
 // Memento
 class Memento {
@@ -449,7 +449,7 @@ editor.restore(history.pop()!);
 console.log(editor.getContent()); // Hello World
 ```
 
-### Code Smells It Fixes
+### Code smells it fixes
 - **Exposing internal state for undo**: Memento encapsulates state
 - **Complex undo logic**: History manages snapshots
 
@@ -460,13 +460,13 @@ console.log(editor.getContent()); // Hello World
 ### Definition
 Defines a one-to-many dependency between objects so that when one object changes state, all its dependents are notified automatically.
 
-### When to Use
+### When to use
 - [x] Change to one object requires changing others (unknown number)
 - [x] Object should notify others without knowing who they are
 - [x] Event-driven architectures
 - [x] Reactive programming
 
-### TypeScript Signature
+### TypeScript signature
 ```typescript
 // Observer interface
 interface Observer {
@@ -541,7 +541,7 @@ subject.setState(5);
 // ObserverB: State is now 5
 ```
 
-### Stack-Native Alternatives
+### Stack-native alternatives
 
 **React**:
 ```typescript
@@ -564,11 +564,11 @@ private data$ = new BehaviorSubject<Data>(initial);
 getData() { return this.data$.asObservable(); }
 ```
 
-### Code Smells It Fixes
+### Code smells it fixes
 - **Scattered notification logic**: Centralized in subject
 - **Tight coupling**: Observers don't know about each other
 
-### Common Mistakes
+### Common mistakes
 - **Memory leaks**: Forgetting to unsubscribe/detach
 - **Notification storms**: Too many updates triggering cascades
 - **Order dependency**: Observers should be independent
@@ -580,12 +580,12 @@ getData() { return this.data$.asObservable(); }
 ### Definition
 Allows an object to alter its behavior when its internal state changes, appearing to change its class.
 
-### When to Use
+### When to use
 - [x] Object behavior depends on its state
 - [x] Operations have large conditional statements that depend on state
 - [x] State transitions are well-defined
 
-### TypeScript Signature
+### TypeScript signature
 ```typescript
 // State interface
 interface State {
@@ -631,7 +631,7 @@ context.request(); // StateA handles request, transitions to StateB
 context.request(); // StateB handles request, transitions to StateA
 ```
 
-### Real-World: Document States
+### Real-World: Document states
 ```typescript
 interface DocumentState {
   publish(doc: Document): void;
@@ -697,7 +697,7 @@ const reducer = (state: State, action: Action) => {
 const [state, dispatch] = useReducer(reducer, { status: 'draft' });
 ```
 
-### Code Smells It Fixes
+### Code smells it fixes
 - **Complex conditionals on state**: Each state is a separate class
 - **Scattered state-dependent behavior**: Localized in state classes
 
@@ -708,13 +708,13 @@ const [state, dispatch] = useReducer(reducer, { status: 'draft' });
 ### Definition
 Defines a family of algorithms, encapsulates each one, and makes them interchangeable, letting the algorithm vary independently from clients.
 
-### When to Use
+### When to use
 - [x] Many related classes differ only in behavior
 - [x] Need different variants of an algorithm
 - [x] Algorithm uses data clients shouldn't know about
 - [x] Class has multiple conditional statements for selecting behavior
 
-### TypeScript Signature
+### TypeScript signature
 ```typescript
 // Strategy interface
 interface Strategy {
@@ -755,7 +755,7 @@ calculator.setStrategy(new MultiplyStrategy());
 console.log(calculator.calculate(5, 3)); // 15
 ```
 
-### Stack-Native: React Hooks
+### Stack-Native: React hooks
 ```typescript
 // Strategies as hooks
 const useCreditPayment = () => ({ process: async (amount) => { /* ... */ } });
@@ -776,28 +776,28 @@ const PaymentForm = ({ type }: Props) => {
 };
 ```
 
-### Code Smells It Fixes
+### Code smells it fixes
 - **Switch on type**: `switch (type) { case 'A': ... case 'B': ... }`
   → Replace with strategy selection
 - **Hardcoded algorithms**: Strategies are interchangeable
 
-### Common Mistakes
+### Common mistakes
 - **Strategy explosion**: Too many small strategies
 - **Client awareness**: Client shouldn't know strategy details
 
 ---
 
-## Template Method
+## Template method
 
 ### Definition
 Defines the skeleton of an algorithm in a method, deferring some steps to subclasses, letting subclasses redefine certain steps without changing structure.
 
-### When to Use
+### When to use
 - [x] Implement invariant parts of algorithm once, leave varying parts to subclasses
 - [x] Common behavior among subclasses should be factored and localized
 - [x] Control subclass extensions (hook operations)
 
-### TypeScript Signature
+### TypeScript signature
 ```typescript
 abstract class AbstractClass {
   // Template method
@@ -857,7 +857,7 @@ const classA = new ConcreteClassA();
 classA.templateMethod();
 ```
 
-### Code Smells It Fixes
+### Code smells it fixes
 - **Duplicated algorithm structure**: Template defines common steps
 - **Inconsistent step order**: Template enforces order
 
@@ -868,12 +868,12 @@ classA.templateMethod();
 ### Definition
 Represents an operation to be performed on elements of an object structure, letting you define new operations without changing classes of elements.
 
-### When to Use
+### When to use
 - [x] Object structure contains many classes with differing interfaces
 - [x] Many distinct operations need to be performed on objects
 - [x] Object structure rarely changes but operations on it often do
 
-### TypeScript Signature
+### TypeScript signature
 ```typescript
 // Element interface
 interface Element {
@@ -930,11 +930,11 @@ for (const element of elements) {
 }
 ```
 
-### Code Smells It Fixes
+### Code smells it fixes
 - **Adding new operations requires modifying elements**: Visitor externalizes operations
 - **Operations scattered across classes**: Visitor groups related operations
 
-### Common Mistakes
+### Common mistakes
 - **Adding new element types**: Requires modifying all visitors (rigid)
 - **Breaking encapsulation**: Visitor may need access to internals
 
@@ -945,12 +945,12 @@ for (const element of elements) {
 ### Definition
 Defines a representation for a grammar along with an interpreter that uses the representation to interpret sentences in the language.
 
-### When to Use
+### When to use
 - [x] Grammar is simple (for complex grammars, use parser generators)
 - [x] Efficiency is not critical
 - [x] Building a simple domain-specific language (DSL)
 
-### TypeScript Signature
+### TypeScript signature
 ```typescript
 // Context
 class Context {
@@ -1001,13 +1001,13 @@ const expression = new MultiplyExpression(
 console.log(expression.interpret(context)); // 16
 ```
 
-### Code Smells It Fixes
+### Code smells it fixes
 - **Complex parsing logic**: Grammar rules are explicit classes
 - **Hardcoded language interpretation**: Extensible grammar
 
 ---
 
-## Summary Table
+## Summary table
 
 | Pattern | Complexity | Use Frequency | Main Benefit |
 |---------|------------|---------------|--------------|
@@ -1023,7 +1023,7 @@ console.log(expression.interpret(context)); // 16
 | Visitor | High | Low | Operations on object structure |
 | Interpreter | High | Very Low | Simple DSL interpretation |
 
-## Best Practices
+## Best practices
 
 1. **Observer**: Always unsubscribe to prevent memory leaks
 2. **Strategy vs State**: Strategy changes behavior externally; State changes internally

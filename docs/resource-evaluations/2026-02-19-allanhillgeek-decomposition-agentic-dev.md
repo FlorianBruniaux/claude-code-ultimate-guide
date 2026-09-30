@@ -1,4 +1,4 @@
-# Resource Evaluation: Allan Hill - "The Real Secret to Agentic Development is Small PRDs and Vertical Slices"
+# Resource evaluation: Allan Hill - "The Real Secret to Agentic Development is Small PRDs and Vertical Slices"
 
 **Source**: https://www.linkedin.com/pulse/real-secret-agentic-development-small-prds-vertical-slices-allan-hill-puihc/
 **LinkedIn post**: https://www.linkedin.com/posts/allanhillgeek_ai-is-the-easy-part-decomposition-is-the-activity-7430210715606556672-HHa6/
@@ -42,7 +42,7 @@ Allan Hill describes a production agentic development pipeline built around the 
 
 ---
 
-## ⚖️ Gap Analysis vs. Claude Code Ultimate Guide
+## ⚖️ Gap analysis vs. Claude Code Ultimate Guide
 
 | Aspect | This resource | Guide (grep-verified) |
 |--------|--------------|----------------------|
@@ -98,7 +98,7 @@ ATDD is genuinely absent. Add a section explaining how ATDD extends TDD for agen
 
 ---
 
-## 🔥 Challenge Verdict
+## 🔥 Challenge verdict
 
 **Challenger (ac79d16) conclusions:**
 - **Score 3/5 confirmed**: "storytelling architecturel, pas case study validé"
@@ -113,7 +113,7 @@ ATDD is genuinely absent. Add a section explaining how ATDD extends TDD for agen
 
 ---
 
-## ✅ Fact-Check
+## ✅ Fact-check
 
 | Claim | Verified | Source |
 |-------|----------|--------|
@@ -133,7 +133,7 @@ ATDD is genuinely absent. Add a section explaining how ATDD extends TDD for agen
 
 ---
 
-## 🎯 Final Decision
+## 🎯 Final decision
 
 - **Score**: **3/5**: Pertinent, intégration ciblée
 - **Action**: Intégrer 2 éléments spécifiques dans fichiers existants (PRD checklist + ATDD)

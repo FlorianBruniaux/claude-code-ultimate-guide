@@ -4,7 +4,7 @@ description: "Complete guide to memory in Claude Code: native stack, cross-sessi
 tags: [memory, claude-md, auto-memory, auto-dream, mcp, cross-session, team, multi-agent, architecture, security]
 ---
 
-# Memory Systems
+# Memory systems
 
 > **Confidence**: Tier 1 (native stack, well-documented tools) / Tier 2 (newer tools, vendor benchmarks) / Tier 3 (emerging patterns, unverified claims)
 >
@@ -16,7 +16,7 @@ Memory in Claude Code has no single canonical source. It spans native CC feature
 
 ---
 
-## Table of Contents
+## Table of contents
 
 1. [TL;DR: Three-Track Model](#1-tldr-three-track-model)
 2. [Native Claude Code Memory Stack](#2-native-claude-code-memory-stack)
@@ -53,7 +53,7 @@ Memory in Claude Code has no single canonical source. It spans native CC feature
 
 ---
 
-## 1. TL;DR: Three-Track Model
+## 1. TL;DR: Three-track model
 
 Memory for Claude Code splits into three tracks. The **native stack** (CLAUDE.md, MEMORY.md, Auto Memory, Auto Dream) covers 80% of solo-dev needs with zero external tooling. **Cross-session tools** (claude-mem, agentmemory, ICM) handle compression, semantic recall, and multi-tool portability for individuals. **Team sharing** has no dominant solution. The gap is structural, not a maturity question, because every leading tool was built single-user-first.
 
@@ -92,9 +92,9 @@ Hybrid retrieval (BM25 + Vector + Graph via RRF fusion) delivers 9 percentage po
 
 ---
 
-## 2. Native Claude Code Memory Stack
+## 2. Native Claude Code memory stack
 
-### 2.1 CLAUDE.md: Three Levels of Memory
+### 2.1 CLAUDE.md: Three levels of memory
 
 CLAUDE.md files are persistent instructions Claude reads at the start of every session, long-term memory of your preferences, conventions, and project context.
 
@@ -165,7 +165,7 @@ CLAUDE.md is the right home only for corrections that cannot be enforced mechani
 
 ---
 
-### 2.2 Auto Memory (v2.1.59+)
+### 2.2 Auto memory (v2.1.59+)
 
 > **Not to be confused with Claude.ai memory**: Claude.ai's memory feature (Aug 2025 for Teams, Oct 2025 for Pro/Max) stores preferences in your claude.ai account. Claude Code's auto-memory is a local, per-project feature managed via `/memory`.
 
@@ -199,7 +199,7 @@ Line truncation applies first; byte truncation applies afterward if still over 2
 
 ---
 
-### 2.3 Auto Dream: Memory Consolidation
+### 2.3 Auto Dream: Memory consolidation
 
 > **Community-discovered feature**, not in official Anthropic release notes. Sourced from reverse-engineering by [Piebald-AI/claude-code-system-prompts](https://github.com/Piebald-AI/claude-code-system-prompts/blob/main/system-prompts/agent-prompt-dream-memory-consolidation.md). Controlled by a server-side feature flag (`tengu_onyx_plover`). Rolling out gradually as of v2.1.83+.
 
@@ -253,7 +253,7 @@ A lock file prevents concurrent runs on the same project.
 
 ---
 
-### 2.4 Agent Memory Frontmatter
+### 2.4 Agent memory frontmatter
 
 Introduced in Claude Code v2.1.33 (February 2026), the `memory` frontmatter field gives subagents persistent, markdown-based knowledge that survives across sessions.
 
@@ -290,7 +290,7 @@ When an agent starts, Claude Code reads the first 200 lines of `MEMORY.md` in th
 
 ---
 
-### 2.5 Session vs Persistent Memory
+### 2.5 Session vs persistent memory
 
 | Aspect | Session Memory | Auto-Memory | Persistent Memory |
 |--------|----------------|-------------|-------------------|
@@ -316,7 +316,7 @@ Two mitigation paths:
 
 ---
 
-### 2.6 Limits of the Native Stack
+### 2.6 Limits of the native stack
 
 Five gaps that external tooling addresses:
 
@@ -328,9 +328,9 @@ Five gaps that external tooling addresses:
 
 ---
 
-## 3. Cross-Session Tools (Single User)
+## 3. Cross-Session tools (single user)
 
-### 3.1 claude-mem
+### 3.1 Claude-mem
 
 **Repo**: github.com/thedotmack/claude-mem | **Stars**: ~88.7K (2026-07-27) | **License**: Apache-2.0
 
@@ -379,7 +379,7 @@ Layer 3: Details (full context)   → complete tool call + result
 
 ---
 
-### 3.2 agentmemory
+### 3.2 Agentmemory
 
 **Repo**: github.com/rohitg00/agentmemory | **Stars**: 25,872 (2026-07-27, was 16,167 in May 2026) | **License**: Apache 2.0 | **Language**: TypeScript
 
@@ -418,7 +418,7 @@ The corpus and adapter code are published so numbers can be verified independent
 
 ---
 
-### 3.3 ICM (Infinite Context Memory)
+### 3.3 ICM (infinite context memory)
 
 **Install**: `brew tap rtk-ai/tap && brew install icm` | **Version**: 0.10.49 (May 2026) | **License**: Source-Available (free for teams ≤20)
 
@@ -492,7 +492,7 @@ pip install kairn
 
 ---
 
-### 3.5 doobidoo mcp-memory-service
+### 3.5 Doobidoo mcp-memory-service
 
 **Repo**: github.com/doobidoo/mcp-memory-service | **Version**: v10.0.2 | **Stars**: [UNVERIFIED, the `doobidoo` GitHub account no longer resolves as of the 2026-07-27 check (API returns 404). Last confirmed count: ~1.6K, May 2026. Verify before citing.] | **License**: MIT
 
@@ -546,7 +546,7 @@ The 4-tool surface is the correct architectural answer to the "53-tool memory MC
 
 ---
 
-### 3.7 File-Based Experience Playbooks (ORF, DiffMem)
+### 3.7 File-Based experience playbooks (ORF, DiffMem)
 
 The tools above store memory in a database (SQLite, vectors, a graph). A separate track keeps everything in plain files committed to Git, with no server and no embedding API. It trades semantic-vector recall for zero infrastructure and version-controllable memory. Two projects define this track, and they made opposite retrieval choices. That contrast is the most useful lesson in this whole section.
 
@@ -572,7 +572,7 @@ The retrieval side is where the query-shape lesson pays off. A separate BM25 eng
 
 ---
 
-### 3.8 Other Notable Tools
+### 3.8 Other notable tools
 
 | Tool | Stars | Key feature | Limitation |
 |------|-------|-------------|------------|
@@ -594,7 +594,7 @@ The retrieval side is where the query-shape lesson pays off. A separate BM25 eng
 
 ---
 
-### 3.9 Master Comparison Table
+### 3.9 Master comparison table
 
 | Tool | Storage | Search | Auto hooks | Team | Token cost/yr |
 |------|---------|--------|------------|------|---------------|
@@ -613,7 +613,7 @@ The retrieval side is where the query-shape lesson pays off. A separate BM25 eng
 
 ---
 
-## 4. Team Sharing
+## 4. Team sharing
 
 The native CLAUDE.md provides shared static context (versioned, zero infra). For shared dynamic memory that evolves during sessions, no single dominant solution exists as of May 2026.
 
@@ -637,7 +637,7 @@ This covers shared standards and conventions with zero infrastructure. For share
 
 ---
 
-### 4.2 doobidoo + Cloudflare (Team Mode)
+### 4.2 Doobidoo + Cloudflare (team mode)
 
 The recommended production path for teams using doobidoo is the Cloudflare backend (Vectorize + D1 + Workers AI), which requires a Cloudflare account with appropriate access enabled.
 
@@ -665,7 +665,7 @@ The recommended production path for teams using doobidoo is the Cloudflare backe
 
 ---
 
-### 4.3 Mem0 Cloud MCP
+### 4.3 Mem0 cloud MCP
 
 **Repo**: github.com/mem0ai/mem0 | **Stars**: ~61.9K (full repo, 2026-07-27) | **Free tier**: yes
 
@@ -709,7 +709,7 @@ This is Pattern B (Option 1) from the implementation patterns: no additional con
 
 ---
 
-### 4.6 Team-Native Tools (2026)
+### 4.6 Team-native tools (2026)
 
 Three tools designed specifically for multi-user scenarios, all released in 2026. Insufficient community feedback for confident recommendations.
 
@@ -723,7 +723,7 @@ Memlord has the clearest multi-user model from available information. Artel targ
 
 ---
 
-### 4.7 Why the Team Gap Is Structural
+### 4.7 Why the team gap is structural
 
 Section 10 documents the gap explicitly. The conventional read is "the market will mature." Six architectural barriers explain why iteration on existing tools will not close it:
 
@@ -745,9 +745,9 @@ Section 10 documents the gap explicitly. The conventional read is "the market wi
 
 ---
 
-## 5. Multi-Agent Shared Memory
+## 5. Multi-Agent shared memory
 
-### 5.1 MCP as Blackboard
+### 5.1 MCP as blackboard
 
 Classical AI blackboard architecture applied to agent swarms. Multiple agents read and write a shared semantic store via MCP tool calls: each agent deposits observations, other agents query by semantic search or tag.
 
@@ -784,7 +784,7 @@ The architecture is a correct direction: distributed locks + pub/sub. Real conce
 
 ---
 
-### 5.4 ICM Memoirs for Inter-Agent Graphs
+### 5.4 ICM memoirs for inter-agent graphs
 
 In a local multi-agent setup where all sub-agents share the same host, ICM Memoirs create a persistent, typed relationship graph that survives session boundaries:
 
@@ -802,7 +802,7 @@ This works because ICM's SQLite database is shared across all 17 configured tool
 
 ---
 
-### 5.5 A2A Protocol
+### 5.5 A2A protocol
 
 > **Source**: developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability
 
@@ -812,11 +812,11 @@ Adoption accelerated across frameworks in 2025-2026. The relationship: MCP handl
 
 ---
 
-## 6. Architecture Patterns
+## 6. Architecture patterns
 
 Five patterns crystallize from this survey. They don't compose well together, and most tools implement exactly one.
 
-### 6.1 Hook-Driven Lifecycle Compression
+### 6.1 Hook-Driven lifecycle compression
 
 **Tools**: claude-mem, claude-memory-compiler, agentmemory
 
@@ -826,7 +826,7 @@ The winning pattern in 2026 because it requires zero agent cooperation: the agen
 
 ---
 
-### 6.2 MCP as Blackboard
+### 6.2 MCP as blackboard
 
 **Tools**: shared-memory-mcp, Agent-MCP, agentmemory, Mem0 cloud
 
@@ -834,7 +834,7 @@ Multiple agents read and write a shared semantic store via MCP tool calls. Class
 
 ---
 
-### 6.3 Hierarchical Episodic + Permanent Graph
+### 6.3 Hierarchical episodic + permanent graph
 
 **Tools**: ICM (Memories + Memoirs), Neo4j Agent Memory (3-layer: short-term / long-term / reasoning)
 
@@ -842,7 +842,7 @@ Two-tier or three-tier separation: ephemeral data decays on importance and recen
 
 ---
 
-### 6.4 Temporal Knowledge Graph
+### 6.4 Temporal knowledge graph
 
 **Tools**: Zep / Graphiti (only)
 
@@ -852,7 +852,7 @@ The bitemporal model from data warehousing (Snodgrass, 1999) applied to agent me
 
 ---
 
-### 6.5 Hybrid Retrieval Fusion (RRF)
+### 6.5 Hybrid retrieval fusion (RRF)
 
 **Tools**: agentmemory (BM25 + Vector + Graph)
 
@@ -862,7 +862,7 @@ RRF is ~20 lines of code. The cost is maintaining three indexes in sync. Most to
 
 ---
 
-### 6.6 What's Missing Architecturally
+### 6.6 What's missing architecturally
 
 No tool implements write-ahead conflict resolution for multi-writer scenarios. No tool implements memory provenance (which agent wrote this, based on what evidence, linked to which session). No tool implements causal consistency across distributed agents. The field is at "shared key-value with timestamps" sophistication.
 
@@ -870,7 +870,7 @@ The tools winning in 2026 (claude-mem, agentmemory) won because they solved life
 
 ---
 
-### 6.7 Storage Backend Right-Sizing
+### 6.7 Storage backend right-sizing
 
 | Scenario | Correct backend | Avoid |
 |----------|----------------|-------|
@@ -897,9 +897,9 @@ Single dedicated writer connection, N read connections pooled. `busy_timeout=300
 
 ---
 
-## 7. Risks and Security
+## 7. Risks and security
 
-### 7.1 Memory Poisoning via Prompt Injection
+### 7.1 Memory poisoning via prompt injection
 
 > ⚠️ **This risk is not documented by any tool in this survey.**
 
@@ -928,7 +928,7 @@ Controls, in order of leverage:
 
 ---
 
-### 7.2 Stale Memory Driving Wrong Decisions
+### 7.2 Stale memory driving wrong decisions
 
 LongMemEval and LoCoMo measure retention; they don't measure staleness detection. ICM's `superseded_by` relation is the only typed mechanism for marking memories as outdated, and it requires manual annotation. In practice, agents will confidently retrieve outdated memories and act on them.
 
@@ -936,7 +936,7 @@ The doobidoo ChromaDB-to-SQLite-vec migration is a real-world case: all pre-migr
 
 ---
 
-### 7.3 Context Budget Exhaustion
+### 7.3 Context budget exhaustion
 
 Memory retrieval compounds the MCP schema tax. The guide documents the schema problem at ~77,000 tokens (all tools loaded) vs. ~8,700 tokens with dynamic tool discovery (§5.1 in the ultimate guide). Add memory retrieval returning 20 results at 500 tokens each, plus CLAUDE.md and MEMORY.md. Before the first user message, the context window may already hold 30K-90K tokens of overhead.
 
@@ -944,13 +944,13 @@ No surveyed tool exposes a token budget as a first-class parameter for retrieval
 
 ---
 
-### 7.4 Reasoning Trace Exfiltration
+### 7.4 Reasoning trace exfiltration
 
 Neo4j Agent Memory's reasoning memory layer stores tool call traces, decision steps, and intermediate reasoning. This is the information an attacker who breaches the memory server wants most: the *why* behind every action. No tool documents encryption-at-rest for reasoning traces specifically, and none require authentication for the local HTTP endpoints that expose this data.
 
 ---
 
-### 7.5 SAMEP Protocol
+### 7.5 SAMEP protocol
 
 > **arXiv**: 2507.10562v1 [NOTE: this paper ID corresponds to July 2025. It appears plausible but the specific arXiv ID has not been independently verified. Treat as UNVERIFIED until confirmed.]
 
@@ -958,7 +958,7 @@ SAMEP (Secure Agent Memory Exchange Protocol) proposes: AES-256-GCM encryption p
 
 ---
 
-### 7.6 Risk Matrix
+### 7.6 Risk matrix
 
 | Risk | Likelihood | Impact | Documented? | Mitigation |
 |------|-----------|--------|------------|------------|
@@ -974,9 +974,9 @@ SAMEP (Secure Agent Memory Exchange Protocol) proposes: AES-256-GCM encryption p
 
 ---
 
-## 8. Decision Frameworks
+## 8. Decision frameworks
 
-### 8.1 Decision Flowchart
+### 8.1 Decision flowchart
 
 ```mermaid
 flowchart TD
@@ -1009,7 +1009,7 @@ flowchart TD
 
 ---
 
-### 8.2 Decision Matrix
+### 8.2 Decision matrix
 
 | Scenario | Recommended tool | Notes |
 |----------|-----------------|-------|
@@ -1034,7 +1034,7 @@ flowchart TD
 
 ---
 
-### 8.3 Implementation Patterns
+### 8.3 Implementation patterns
 
 **Pattern A: Solo Developer, Local Only**
 
@@ -1092,7 +1092,7 @@ Activate hook mode by adding `~/.claude/hooks/icm-post-tool.sh` to `PostToolUse`
 
 ---
 
-## 9. Benchmarks and Evaluation
+## 9. Benchmarks and evaluation
 
 ### Keep history distinct from compaction
 
@@ -1104,7 +1104,7 @@ In [The Log Is The Agent, 04:57](https://www.youtube.com/watch?v=UPwGaM2MKHY&t=2
 
 Record the writer model, extraction prompt, schema, reader and embedding/index version. Change one component at a time, replay fixed questions, and compare retrieval and answers before replacing the old store. Re-embed retained source material when changing embedding spaces; test the resulting index before promotion.
 
-### Academic Evaluation Frameworks
+### Academic evaluation frameworks
 
 | Benchmark | What it measures |
 |-----------|-----------------|
@@ -1117,7 +1117,7 @@ Numbers reported by tool vendors against these benchmarks should be read skeptic
 
 Supermemory illustrates this concretely: its own site publishes two different Recall@15 figures for the same benchmark (LongMemEval_s), 95% on its research page and 85.4% on a blog post comparing itself to Pinecone. Both are self-published, and neither has been reproduced by a third party.
 
-### Representative Results (May 2026)
+### Representative results (May 2026)
 
 | System | R@5 (LongMemEval-S) | Source | Reproducible? |
 |--------|---------------------|--------|--------------|
@@ -1132,7 +1132,7 @@ SimpleMem (arXiv:2601.02553) reports 43.24% F1 on LoCoMo with 30x fewer tokens. 
 
 **ReasoningBank** (Google, arXiv 2509.25140) is the academic anchor for the success-and-failure memory the file-based playbook track (§3.7) implements. It distills generalizable strategies from both successful and failed trajectories, then retrieves a few relevant items at test time via embedding search. The paper is the credible source ORF cites; the practical divergence (ORF and this guide's retex drop the embeddings for lexical or LLM-read retrieval) is a deployment tradeoff, not a disagreement with the paper.
 
-### Memory Decay Models
+### Memory decay models
 
 Three documented approaches with different theoretical grounding:
 
@@ -1152,7 +1152,7 @@ Keep the source event, interpretation, candidate lesson and active rule separate
 
 The [AutoHarness inspection](../../docs/resource-evaluations/autoharness-2026.md) reproduced fabricated evidence accepted without transcript association and a candidate overwriting an existing user skill. These are version-specific observations. Test source mismatch, foreign-file preservation and the complete candidate, then evaluate usefulness before distribution. Rare mandatory protections cannot be removed on frequency alone.
 
-## 10. Open Problems
+## 10. Open problems
 
 These gaps have no tooling answer as of May 2026:
 

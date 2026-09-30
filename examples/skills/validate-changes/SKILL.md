@@ -5,21 +5,21 @@ effort: medium
 disable-model-invocation: true
 ---
 
-# Validate Changes Before Commit
+# Validate changes before commit
 
 Evaluate staged git changes using the output-evaluator agent to catch issues before committing.
 
 ## Process
 
-### Step 1: Check for Staged Changes
+### Step 1: Check for staged changes
 
 Run `git diff --cached --stat` to see what's staged. If nothing is staged, inform the user and exit.
 
-### Step 2: Get the Full Diff
+### Step 2: Get the full diff
 
 Run `git diff --cached` to get the complete diff of all staged changes.
 
-### Step 3: Invoke the Evaluator
+### Step 3: Invoke the evaluator
 
 Use the Task tool to launch the `output-evaluator` agent with the diff:
 
@@ -31,7 +31,7 @@ Changes:
 [paste the git diff here]
 ```
 
-### Step 4: Parse and Act on Verdict
+### Step 4: Parse and act on verdict
 
 Based on the evaluation result:
 
@@ -58,7 +58,7 @@ Based on the evaluation result:
 
 If user confirms, create the commit using the standard commit flow.
 
-## Usage Examples
+## Usage examples
 
 ```
 /validate-changes
@@ -90,27 +90,27 @@ How would you like to proceed?
   3. Abort
 ```
 
-## Cost Awareness
+## Cost awareness
 
 This command invokes an LLM evaluation, which uses API tokens:
 - **Typical cost**: $0.01-0.05 per evaluation (using Haiku)
 - **Larger diffs**: May cost more due to increased token usage
 
-## When to Use
+## When to use
 
 - After significant code changes before committing
 - When working on unfamiliar parts of the codebase
 - For changes that affect security-sensitive code
 - Before pushing to shared branches
 
-## When to Skip
+## When to skip
 
 - Trivial changes (typos, formatting)
 - Documentation-only changes
 - When you've already manually reviewed thoroughly
 - When iterating quickly on a feature branch
 
-## Integration with Git Hooks
+## Integration with git hooks
 
 For automatic evaluation on every commit, see `pre-commit-evaluator.sh` hook.
 This command is the manual alternative when you want control over when evaluation runs.

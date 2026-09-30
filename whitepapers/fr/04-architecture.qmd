@@ -40,9 +40,9 @@ lang: fr
 
 > **En 5 lignes :** Comprendre l'architecture interne de Claude Code change la façon dont vous l'utilisez. Cet ebook expose le master loop (le cycle fondamental réaction-action-observation), les 9 outils natifs avec leurs trade-offs, et la répartition du contexte selon le modèle. Avec ce modèle mental, vous anticipez les comportements au lieu de les subir.
 
-# Philosophie : Less Scaffolding, More Model
+# Philosophie : Less scaffolding, more model
 
-## La Philosophie Anthropic
+## La philosophie Anthropic
 
 > "Do more with less. Smart architecture choices, better training efficiency, and focused problem-solving can compete with raw scale."
 >
@@ -116,7 +116,7 @@ Source : postmortem officiel Anthropic + Boris Cherny HN, avril 2026.
 
 {{< pagebreak >}}
 
-# Le Master Loop
+# Le master loop
 
 ## Le Cœur de Claude Code
 
@@ -148,7 +148,7 @@ Claude raisonne sous les contrôles du runtime
 
 Ce schéma simplifie l’exécution. Les décisions d’outils restent soumises aux permissions, hooks et autres contrôles du runtime. Des modes de planification, sous-agents et workflows peuvent ajouter une décomposition explicite.
 
-## Ce Que Cela Signifie
+## Ce que cela signifie
 
 Le modèle lui-même décide :
 
@@ -184,7 +184,7 @@ Chaque aller-retour vers l'API Claude consomme des tokens (input + output). Un t
 
 {{< pagebreak >}}
 
-# Les Outils Natifs
+# Les outils natifs
 
 Le master loop décide quand agir ; les outils natifs sont ce avec quoi il agit. Chaque outil a un coût token et un scope précis. Comprendre ce que chaque outil fait (et coûte) permet de calibrer vos attentes et de diagnostiquer les sessions lentes.
 
@@ -204,7 +204,7 @@ Ces 9 outils constituent l'interface entre le raisonnement du modèle et le syst
 | **TodoWrite** | Suivre progression | Gestion tâches structurée ; désactivé par défaut sur Sonnet 5/Opus 4.8/Fable 5 et modèles plus récents depuis v2.1.233, réactivable via `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` |
 | **LSP Tool** (v2.0.74+) | Intelligence de code | Symboles, références, diagnostics |
 
-## Bash : L'Adaptateur Universel
+## Bash : L'Adaptateur universel
 
 Parmi tous les outils natifs, Bash occupe une place à part : il est l'interface entre Claude et l'ensemble de l'écosystème Unix. Le modèle a été entraîné sur d'énormes quantités de données shell, ce qui le rend particulièrement efficace pour composer des commandes complexes.
 
@@ -299,7 +299,7 @@ Tester son corpus avec questions vérifiables, citations attendues et distracteu
 
 Sources : [Configuration](https://code.claude.com/docs/en/model-config), [spécifications](https://platform.claude.com/docs/en/models/overview), [tarifs](https://platform.claude.com/docs/en/about-claude/pricing).
 
-## Auto-Compaction
+## Auto-compaction
 
 L’auto-compaction résume l’historique lorsque la place restante l’exige, selon le modèle et la configuration. `/compact` permet une compaction manuelle et `/autocompact` donne accès aux réglages disponibles. Aucun seuil universel de 70%, 85% ou 92% ne prouve une dégradation de qualité.
 
@@ -348,7 +348,7 @@ Besoin d'accéder à une ressource externe ?
                     └─ Non → Outils Natifs (suffisant)
 ```
 
-## Context Engineering : Mental Model
+## Context engineering : Mental model
 
 Claude Code = 4 couches de contexte hiérarchiques :
 
@@ -421,7 +421,7 @@ Inspectez et corrigez la mémoire avec `/memory`. Voir la [référence mémoire]
 
 {{< pagebreak >}}
 
-# Sub-Agents : L'Agent Tool
+# Sub-Agents : L'Agent tool
 
 Les outils natifs opèrent dans le contexte de l'agent principal. Mais certaines tâches (exploration large, recherche parallèle, analyse risquée) bénéficient d'un contexte isolé. C'est le rôle de l'Agent tool (anciennement nommé Task) : spawner un sub-agent avec son propre context window, qui renvoie un résumé sans polluer le contexte principal.
 
@@ -460,7 +460,7 @@ Depuis la v2.1.172 (juin 2026), un sub-agent peut spawner ses propres sub-agents
 | `Bash` | Exécution commandes | Bash seulement |
 | `general-purpose` | Multi-étapes complexes | Tous les outils |
 
-## Quand Utiliser des Sub-Agents
+## Quand utiliser des sub-agents
 
 | Cas d'Usage | Pourquoi Sub-Agent Aide |
 |-------------|------------------------|
@@ -475,13 +475,13 @@ Leïla debug un problème de performance sur l'API de paiement. Plutôt que lire
 
 {{< pagebreak >}}
 
-# Agent Teams : Coordination Autonome
+# Agent teams : Coordination autonome
 
 **Status** : Expérimental (v2.1.32+, modèles choisis par coéquipier)
 
 Les sub-agents résolvent le problème de l'isolation contexte, peuvent fonctionner au premier plan ou en arrière-plan, avec une profondeur configurée. Pour les tâches nécessitant une coordination réelle entre plusieurs agents autonomes (chacun avec une fenêtre de contexte selon le modèle), les Agent Teams représentent l'étape suivante.
 
-## Architecture Lead-Teammate
+## Architecture lead-teammate
 
 ```
 [ Team Lead: Session principale ]
@@ -528,7 +528,7 @@ Ou dans `~/.claude/settings.json` :
 - Refactoring shared files → merge conflicts
 - Coordinated migrations → timing issues
 
-## Quand Utiliser
+## Quand utiliser
 
 Utilisez une team lorsque les sous-tâches peuvent avancer indépendamment et que la messagerie bilatérale facilite une validation observable. Fixez des responsabilités de fichiers et un responsable d’intégration. Les verrous de prise de tâche ne verrouillent pas le code source et ne fusionnent pas automatiquement les branches.
 
@@ -536,7 +536,7 @@ Mesurez coûts, reprises et résultats acceptés face à un agent unique. Les é
 
 {{< pagebreak >}}
 
-# Background Agents : Async Tasks
+# Background agents : Async tasks
 
 **Introduit** : v2.0.60 | **Status** : Stable
 
@@ -551,7 +551,7 @@ Agents qui s'exécutent en arrière-plan sans bloquer session main.
 - Database migrations
 - Long-running scripts
 
-## Lancement Background
+## Lancement background
 
 Demandez un sous-agent en arrière-plan pour une tâche indépendante, ou utilisez `Ctrl+B` lorsqu’une exécution éligible peut être envoyée en arrière-plan. `/tasks` affiche les travaux suivis dans la session. Le préfixe `&` sert au transfert vers le cloud lorsqu’il est disponible ; ce n’est pas une syntaxe générique de tâche locale.
 
@@ -580,7 +580,7 @@ L’outil Agent peut travailler au premier plan ou en arrière-plan. Définissez
 
 **Suivi** : ouvrir `/tasks`, inspecter le statut et les résultats, puis intégrer explicitement les changements.
 
-## Quand Utiliser Background
+## Quand utiliser background
 
 | Scénario | Background | Synchrone |
 |----------|-----------|-----------|
@@ -619,7 +619,7 @@ claude --worktree --base head  # Crée depuis HEAD local (commits non poussés i
 
 Le Model Context Protocol (MCP) étend les capacités de Claude Code au-delà de ses outils natifs. Là où les outils natifs couvrent les opérations fichiers et shell, MCP permet de connecter des serveurs externes spécialisés (documentation, semantic search, browser automation) sans modifier le core de Claude Code.
 
-## Comment MCP Fonctionne
+## Comment MCP fonctionne
 
 ```
 [ CLAUDE CODE ]
@@ -726,7 +726,7 @@ Les commandes destructrices ne produisent pas systématiquement un prompt dans t
 
 L’outil Edit remplace une chaîne dans un fichier. Pour diagnostiquer un échec, vérifiez le chemin, le contenu courant et l’unicité de la chaîne. Les détails de correspondance tolérante ne constituent pas un contrat public stable ; ne fondez pas un workflow sur un algorithme interne supposé.
 
-## Validation Edit
+## Validation edit
 
 | Check | But |
 |-------|-----|
@@ -749,9 +749,9 @@ Antoine constate que Claude échoue à éditer un fichier avec "old_string not f
 
 {{< pagebreak >}}
 
-# Claude Code vs Alternatives
+# Claude Code vs alternatives
 
-## Comparaison Architecturale (2026)
+## Comparaison architecturale (2026)
 
 Comparez les outils sur votre travail réel : modèles accessibles, intégration éditeur, outils, permissions, contexte, reprise de session, coût facturé et qualité des changements acceptés. Copilot Workspace était une ancienne preview ; elle ne décrit pas tout le produit Copilot actuel. Les capacités de Cursor et Copilot ont évolué, notamment pour MCP et les modèles de raisonnement.
 
@@ -781,7 +781,7 @@ Un orchestrateur peut lancer plusieurs harnesses sans devenir leur runtime. Inve
 
 # Ressources
 
-## Ce Qu'On NE Sait PAS
+## Ce Qu'On NE sait PAS
 
 Malgré la transparence croissante d'Anthropic, plusieurs aspects internes de Claude Code restent non documentés publiquement. Ces zones d'ombre n'empêchent pas l'utilisation efficace de Claude Code, mais elles limitent la capacité à optimiser finement les sessions ou à prédire certains comportements.
 
@@ -804,7 +804,7 @@ Malgré la transparence croissante d'Anthropic, plusieurs aspects internes de Cl
 | Opus 4.6 | Mai 2025 |
 | Haiku 4.5 | Février 2025 |
 
-## Sources Officielles
+## Sources officielles
 
 La documentation officielle d'Anthropic est la source primaire pour les détails d'implémentation. Les liens ci-dessous pointent vers les pages les plus utiles pour approfondir l'architecture et la configuration de Claude Code.
 
@@ -819,7 +819,7 @@ La documentation officielle d'Anthropic est la source primaire pour les détails
 | **Architecture Internals** | Master loop, tool arsenal, sub-agents (ce repo) | [guide/core/architecture.md](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md) |
 | **MCP Ecosystem Guide** | Répertoire et évaluation des serveurs MCP | [guide/ecosystem/mcp-servers-ecosystem.md](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ecosystem/mcp-servers-ecosystem.md) |
 
-## Parcours Recommandé
+## Parcours recommandé
 
 Chaque whitepaper de la série est autonome, mais ils se complètent mutuellement. Selon votre priorité immédiate (sécuriser un déploiement, onboarder une équipe, ou affiner vos prompts), voici les lectures suivantes les plus pertinentes.
 

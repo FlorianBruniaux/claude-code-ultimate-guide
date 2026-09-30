@@ -12,7 +12,7 @@ Test-Driven Development with Claude requires explicit prompting. Claude naturall
 
 ---
 
-## Table of Contents
+## Table of contents
 
 1. [TL;DR](#tldr)
 2. [The Problem](#the-problem)
@@ -36,7 +36,7 @@ But you MUST prompt Claude explicitly:
 
 ---
 
-## The Problem
+## The problem
 
 Without explicit instruction, Claude will:
 1. Write implementation code
@@ -67,7 +67,7 @@ Add to your project's CLAUDE.md:
 - Only after tests are written, implement minimal code to pass
 ```
 
-### Hook for Auto-Run Tests (Optional)
+### Hook for auto-run tests (optional)
 
 Create `.claude/hooks/test-on-save.sh`:
 
@@ -81,9 +81,9 @@ fi
 
 ---
 
-## The Red-Green-Refactor Cycle
+## The red-green-refactor cycle
 
-### Phase 1: Red (Write Failing Test)
+### Phase 1: Red (write failing test)
 
 **Prompt**:
 ```
@@ -109,7 +109,7 @@ Do NOT implement the function yet.
 npm test  # Should fail with "calculateCartTotal is not defined"
 ```
 
-### Phase 2: Green (Minimal Implementation)
+### Phase 2: Green (minimal implementation)
 
 **Prompt**:
 ```
@@ -127,7 +127,7 @@ Only write enough code to pass the current tests, nothing more.
 npm test  # Should pass
 ```
 
-### Phase 3: Refactor (Clean Up)
+### Phase 3: Refactor (clean up)
 
 **Prompt**:
 ```
@@ -143,7 +143,7 @@ Focus on: [readability / performance / removing duplication]
 
 ---
 
-## Integration with Claude Code Features
+## Integration with Claude Code features
 
 ### With TodoWrite
 
@@ -161,7 +161,7 @@ Claude creates todos:
 - [ ] REFACTOR: Clean up
 ```
 
-### With Plan Mode
+### With plan mode
 
 Use planning for test strategy:
 
@@ -174,7 +174,7 @@ Plan the test cases before we start writing any code.
 
 Claude will explore codebase in read-only mode, then propose test plan before any implementation.
 
-### With Hooks
+### With hooks
 
 Auto-run tests after edits using a PostToolUse hook:
 
@@ -197,7 +197,7 @@ Auto-run tests after edits using a PostToolUse hook:
 }
 ```
 
-### With Sub-Agents
+### With sub-agents
 
 Delegate test writing to scope-focused agent:
 
@@ -209,9 +209,9 @@ Then I'll implement to pass those tests.
 
 ---
 
-## Anti-Patterns
+## Anti-patterns
 
-### The Verification Gap
+### The verification gap
 
 The Verification Gap is the failure mode where an agent reports a feature complete before the verification suite confirms it. It is the most common reliability failure in multi-session agent work, and it is entirely preventable with the right harness design.
 
@@ -241,7 +241,7 @@ The WIP=1 rule connects here: keeping only one feature `active` at a time means 
 | Skipping refactor phase | Accumulates technical debt | Always refactor after green |
 | Multiple features at once | Loses focus | One feature per TDD cycle |
 
-### Common Mistakes
+### Common mistakes
 
 **Mistake**: Asking Claude to "test" existing code.
 ```
@@ -266,9 +266,9 @@ Then we'll verify the existing implementation passes."
 
 ---
 
-## Advanced Patterns
+## Advanced patterns
 
-### Property-Based Testing
+### Property-based testing
 
 ```
 Write property-based tests for the sort function.
@@ -279,7 +279,7 @@ Properties to test:
 Use fast-check or similar library.
 ```
 
-### Mutation Testing
+### Mutation testing
 
 ```
 After tests pass, run mutation testing to find weak spots.
@@ -288,7 +288,7 @@ Identify tests that don't catch mutations.
 
 > **Going further**: JiTTesting applies mutation testing automatically at PR time: LLM-generated, ephemeral, zero maintenance. Meta deployed this at scale with 4x regression catch improvement over traditional tests. See [Just-in-Time Catching Test Generation at Meta](https://arxiv.org/abs/2601.22832) and the [methodologies guide](../core/methodologies.md#jittesting-just-in-time-testing) for the approximation pattern with Claude Code today.
 
-### TDD with Legacy Code
+### TDD with legacy code
 
 ```
 I need to refactor legacyFunction.
@@ -310,9 +310,9 @@ A `PreToolUse` hook that denies `Edit` and `Write` on the characterization direc
 
 ---
 
-## Example Session
+## Example session
 
-### User Request
+### User request
 ```
 Implement a URL shortener service with TDD.
 ```
@@ -346,7 +346,7 @@ Run tests after each change to ensure they stay green.
 
 ---
 
-## See Also
+## See also
 
 - [../core/methodologies.md](../core/methodologies.md): full methodology reference
 - [Tight Feedback Loops](../ultimate-guide.md): Section 9.5

@@ -4,13 +4,13 @@ description: "MCP server map, architecture, rug pull attack chain, config hierar
 tags: [mcp, security, architecture, configuration]
 ---
 
-# MCP Ecosystem
+# MCP ecosystem
 
 The Model Context Protocol (MCP) extends Claude Code with external tool servers.
 
 ---
 
-### MCP Server Ecosystem Map
+### MCP server ecosystem map
 
 The MCP ecosystem has 4 categories of servers: official, community-dev, community-ops, and local. Knowing what's available prevents building what already exists.
 
@@ -97,7 +97,7 @@ Claude Code
 
 ---
 
-### MCP Architecture: Client-Server Protocol
+### MCP architecture: Client-Server protocol
 
 MCP is a JSON-RPC protocol running over stdio or SSE. Claude Code acts as the client, MCP servers as tool providers. This shows the full request-response cycle.
 
@@ -166,7 +166,7 @@ Use result       ←  JSON-RPC Response  ←  Return result
 
 ---
 
-### MCP Rug Pull Attack Chain
+### MCP rug pull attack chain
 
 The most dangerous MCP attack vector: malicious tool descriptions containing hidden prompt injection. This is why you should only install vetted MCP servers.
 
@@ -213,7 +213,7 @@ DEFENSE: Read MCP source before installing. Especially check tool descriptions.
 
 ---
 
-### MCP Config Hierarchy
+### MCP config hierarchy
 
 MCP server configurations can live in 4 priority levels (3 actual files). The resolution order determines which servers are available and who can override what.
 

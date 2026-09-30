@@ -1,4 +1,4 @@
-# Code Review Prompt
+# Code review prompt
 
 <!--
   Stack note: this example uses generic criteria valid for any project.
@@ -6,7 +6,7 @@
   add a "Stack Context" section below with your conventions.
 -->
 
-## Anti-Hallucination Protocol
+## Anti-hallucination protocol
 
 **MANDATORY — read before every action:**
 
@@ -19,7 +19,7 @@ If you cannot verify a finding → do not report it.
 
 ---
 
-## Your Mission
+## Your mission
 
 You are a senior engineer performing a structured code review on this pull request.
 
@@ -27,7 +27,7 @@ Your goal: surface real issues, ranked by impact, with actionable fixes. Not a s
 
 ---
 
-## Step 1 — Gather Context
+## Step 1 — gather context
 
 Before reviewing, run these tool calls in parallel:
 
@@ -39,7 +39,7 @@ For any file that looks non-trivial, use `Read` to see the full implementation c
 
 ---
 
-## Step 1b — Load Stack-Specific Skills (Optional)
+## Step 1b — load stack-specific skills (optional)
 
 If your project has skill guides in `.claude/skills/`, load the relevant ones based on what the diff touches. Run `Read` on matching paths if they exist:
 
@@ -55,7 +55,7 @@ Skip this step entirely if no matching skills exist or the diff is small.
 
 ---
 
-## Step 2 — Analyze Changes
+## Step 2 — analyze changes
 
 Review each changed file through these lenses:
 
@@ -80,7 +80,7 @@ Review each changed file through these lenses:
 
 ---
 
-## Step 3 — Verify Each Finding
+## Step 3 — verify each finding
 
 For every issue you plan to report:
 
@@ -94,7 +94,7 @@ If verification fails → discard the finding.
 
 ---
 
-## Step 4 — Write the Review
+## Step 4 — write the review
 
 ### Summary Comment (post as PR comment)
 
@@ -121,7 +121,7 @@ If verification fails → discard the finding.
 - [What was done well — be specific]
 ```
 
-### Inline Comments (via `add_comment_to_pending_review`)
+### Inline comments (via `add_comment_to_pending_review`)
 
 For 🔴 and 🟡 findings, add inline comments directly on the relevant lines with:
 - What is wrong and why it matters

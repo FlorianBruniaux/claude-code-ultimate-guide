@@ -10,7 +10,7 @@ Core concepts that explain what Claude Code is and how it fundamentally operates
 
 ---
 
-### "Chatbot to Context System": 4-Layer Model
+### "Chatbot to Context System": 4-layer model
 
 Claude Code is a context system, not a chatbot. It transforms your message into a rich multi-layer prompt before calling the API. This diagram shows the 4-layer augmentation that happens invisibly with every request.
 
@@ -80,7 +80,7 @@ User Message
 
 ---
 
-### 9-Step Workflow Pipeline
+### 9-step workflow pipeline
 
 Every request to Claude Code goes through this pipeline, from parsing your intent to displaying the final response. Understanding this loop helps you write better instructions and diagnose issues faster.
 
@@ -142,7 +142,7 @@ User Message → Parse Intent → Load Context → Plan Actions
 
 ---
 
-### Quick Decision Tree: "Should I use Claude Code?"
+### Quick decision tree: "Should I use Claude Code?"
 
 Not every task needs Claude Code. This decision tree helps you route the right tasks to the right tool (Claude Code CLI vs Claude.ai vs clipboard-based approaches).
 
@@ -206,7 +206,7 @@ Task involves codebase?
 
 ---
 
-### Permission Modes Comparison
+### Permission modes comparison
 
 Claude Code has 5 permission modes that control what it can do automatically vs. what requires your approval. Choosing the wrong mode is the #1 safety mistake.
 

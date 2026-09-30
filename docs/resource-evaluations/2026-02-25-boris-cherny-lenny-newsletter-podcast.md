@@ -1,4 +1,4 @@
-# Resource Evaluation: Boris Cherny - Lenny's Newsletter Podcast
+# Resource evaluation: Boris Cherny - Lenny's Newsletter podcast
 
 **Date**: 2026-02-25
 **Evaluator**: Claude (Sonnet 4.6)
@@ -6,7 +6,7 @@
 
 ---
 
-## Resource Details
+## Resource details
 
 **Source**: Lenny's Newsletter Podcast
 **URL**: https://www.lennysnewsletter.com/p/head-of-claude-code-what-happens
@@ -165,7 +165,7 @@ Arguments clés du challenge :
 
 ---
 
-## ✅ Fact-Check
+## ✅ Fact-check
 
 | Affirmation | Vérifiée | Source |
 |-------------|----------|--------|

@@ -1,4 +1,4 @@
-# Brownfield Agentic Engineering (Addy Osmani, Sep 2026)
+# Brownfield agentic engineering (Addy Osmani, sep 2026)
 
 ## Evaluation metadata
 

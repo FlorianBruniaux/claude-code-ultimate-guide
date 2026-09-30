@@ -4,21 +4,21 @@ description: "Diagnostic steps and solutions for common Agent Vibes TTS issues"
 tags: [guide, tts, debugging, integration]
 ---
 
-# Agent Vibes - Troubleshooting Guide
+# Agent Vibes - troubleshooting guide
 
 **Common Issues**: 7 scenarios with step-by-step solutions
 **Diagnostic Tools**: Commands and scripts for problem identification
 
 ---
 
-## Issue 1: No Audio Output
+## Issue 1: No audio output
 
 ### Symptom
 ```
 Claude responds but no TTS audio plays
 ```
 
-### Diagnostic Steps
+### Diagnostic steps
 
 ```bash
 # 1. Check if muted
@@ -81,7 +81,7 @@ piper --help
 
 ---
 
-## Issue 2: libespeak-ng.1.dylib Not Found
+## Issue 2: libespeak-ng.1.dylib not found
 
 ### Symptom
 ```
@@ -90,7 +90,7 @@ dyld[xxx]: Library not loaded: @rpath/libespeak-ng.1.dylib
   Reason: tried: '/usr/local/lib/libespeak-ng.1.dylib' (no such file)
 ```
 
-### Root Cause
+### Root cause
 Piper binary requires `espeak-ng` library which is not installed.
 
 ### Solution
@@ -120,7 +120,7 @@ Always install `espeak-ng` **before** installing Piper TTS.
 
 ---
 
-## Issue 3: Voice Sounds Robotic or Low Quality
+## Issue 3: Voice sounds robotic or low quality
 
 ### Symptom
 ```
@@ -252,7 +252,7 @@ echo "ENABLED=false" > .claude/config/background-music.cfg
 
 ---
 
-## Issue 5: Agent Vibes Commands Clutter Palette
+## Issue 5: Agent Vibes commands clutter palette
 
 ### Symptom
 ```
@@ -271,7 +271,7 @@ echo "ENABLED=false" > .claude/config/background-music.cfg
 /agent-vibes:show
 ```
 
-### Alternative: Remove Agent Vibes Completely
+### Alternative: Remove Agent Vibes completely
 
 ```bash
 npx agentvibes uninstall --yes
@@ -279,14 +279,14 @@ npx agentvibes uninstall --yes
 
 ---
 
-## Issue 6: Audio Plays Multiple Times (Echo/Repeat)
+## Issue 6: Audio plays multiple times (echo/repeat)
 
 ### Symptom
 ```
 Same audio plays 2-3 times in rapid succession
 ```
 
-### Root Cause
+### Root cause
 `flock` (file locking) not available, causing race condition with rapid messages.
 
 ### Diagnostic
@@ -318,7 +318,7 @@ flock --version
 
 ---
 
-## Issue 7: Installation Hangs or Exits
+## Issue 7: Installation hangs or exits
 
 ### Symptom
 ```
@@ -326,7 +326,7 @@ npx agentvibes install exits with:
 ExitPromptError: User force closed the prompt
 ```
 
-### Root Cause
+### Root cause
 Interactive installer requires terminal input, can't be automated.
 
 ### Solution
@@ -341,7 +341,7 @@ npx agentvibes install
 npx --yes agentvibes@latest install
 ```
 
-### Alternative: Manual Installation
+### Alternative: Manual installation
 
 ```bash
 # If installer fails repeatedly, install components manually
@@ -364,7 +364,7 @@ echo "fr_FR-tom-medium" > .claude/tts-voice.txt
 
 ---
 
-## Diagnostic Script
+## Diagnostic script
 
 Create comprehensive diagnostic script:
 
@@ -420,7 +420,7 @@ chmod +x /tmp/agent-vibes-diagnostic.sh
 
 ---
 
-## Getting Help
+## Getting help
 
 If issues persist:
 
@@ -431,7 +431,7 @@ If issues persist:
 
 ---
 
-## Known Limitations
+## Known limitations
 
 | Limitation | Impact | Workaround |
 |------------|--------|------------|

@@ -1,4 +1,4 @@
-# Slack Announcement Template
+# Slack announcement template
 
 Use this template for generating product-focused Slack messages.
 
@@ -61,7 +61,7 @@ Questions? Contact @[team-lead] or the dev team
 - "Complete refactoring of the permissions system with scope ANY/ASSIGNED"
 - "Migration from webpack to Turbopack"
 
-### Tech -> Product Transformation
+### Tech -> product transformation
 
 | Technical | Product |
 |-----------|---------|
@@ -72,7 +72,7 @@ Questions? Contact @[team-lead] or the dev team
 | Fix DB connection with retry logic | Better database connection stability |
 | Add error monitoring for orphan records | Automatic detection of orphan records |
 
-### Optional Sections
+### Optional sections
 
 If the release contains important items, add:
 

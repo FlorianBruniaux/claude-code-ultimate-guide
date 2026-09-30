@@ -4,11 +4,11 @@ description: "CLAUDE.md configuration for projects using Agent Vibes text-to-spe
 tags: [claude-md, template, tts]
 ---
 
-# Project with TTS Enabled
+# Project with TTS enabled
 
 This is a template `CLAUDE.md` file for projects using Agent Vibes TTS.
 
-## TTS Configuration
+## TTS configuration
 
 **Provider**: Piper TTS
 **Voice**: fr_FR-tom-medium (French male)
@@ -16,9 +16,9 @@ This is a template `CLAUDE.md` file for projects using Agent Vibes TTS.
 **Effects**: Light reverb
 **Background Music**: Disabled
 
-## Project-Specific TTS Settings
+## Project-Specific TTS settings
 
-### Mute During Focus Work
+### Mute during focus work
 
 When working on tasks requiring deep concentration, mute TTS:
 
@@ -30,7 +30,7 @@ When working on tasks requiring deep concentration, mute TTS:
 /agent-vibes:unmute
 ```
 
-### Selective TTS (Errors Only)
+### Selective TTS (errors only)
 
 For this project, TTS speaks only error messages:
 
@@ -40,7 +40,7 @@ For this project, TTS speaks only error messages:
 
 **Reason**: This is a critical production system where audio alerts for errors are valuable, but constant narration is distracting.
 
-## Voice Preferences
+## Voice preferences
 
 | Task Type | Recommended Voice | Reason |
 |-----------|-------------------|--------|
@@ -48,7 +48,7 @@ For this project, TTS speaks only error messages:
 | Documentation | fr_FR-siwis-medium | Warm, educational tone |
 | Debugging | fr_FR-tom-medium (low verbosity) | Critical alerts only |
 
-## Commands Reference
+## Commands reference
 
 Quick reference for team members:
 
@@ -70,23 +70,23 @@ Quick reference for team members:
 /agent-vibes:effects off
 ```
 
-## Team Guidelines
+## Team guidelines
 
-### When to Mute
+### When to mute
 
 - Pair programming sessions (speaker explains, TTS distracts)
 - Video meetings (avoid audio conflicts)
 - Deep focus work (flow state priority)
 - Public spaces (avoid disturbing others)
 
-### When to Enable
+### When to enable
 
 - Solo code reviews (listen while reviewing diffs)
 - Long-running tasks (audio completion notifications)
 - Background monitoring (alerts for errors)
 - Learning mode (dual-language practice)
 
-## Installation for Team Members
+## Installation for team members
 
 New team members should follow:
 

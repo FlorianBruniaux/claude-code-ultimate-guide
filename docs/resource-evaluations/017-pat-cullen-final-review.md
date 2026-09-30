@@ -1,4 +1,4 @@
-# Pat Cullen - Multi-Agent PR Review (Final Review)
+# Pat Cullen - multi-agent PR review (final review)
 
 ## Métadonnées
 
@@ -23,7 +23,7 @@ Workflow multi-agent de code review production-ready développé par Pat Cullen.
 
 ## Scoring
 
-### Score Initial: 5/5
+### Score initial: 5/5
 
 | Critère | Note | Justification |
 |---------|------|---------------|
@@ -119,7 +119,7 @@ review_anti_hallucination: "examples/agents/code-reviewer.md:75"
 review_auto_fix_loop: "guide/workflows/iterative-refinement.md:395"
 ```
 
-## Challenge Critique (Technical Writer Agent)
+## Challenge critique (technical writer agent)
 
 **Question**: Score 5/5 justifié ? Workflow testé ou théorique ?
 
@@ -141,7 +141,7 @@ review_auto_fix_loop: "guide/workflows/iterative-refinement.md:395"
 
 Action: Mentionner SE-CoVe comme alternative dans section anti-hallucination.
 
-## Fact-Check
+## Fact-check
 
 | Claim | Vérification | Résultat |
 |-------|--------------|----------|

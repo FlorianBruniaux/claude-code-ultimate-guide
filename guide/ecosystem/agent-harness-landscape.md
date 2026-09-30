@@ -4,7 +4,7 @@ description: "An evidence-backed map of coding-agent runtimes, repository harnes
 tags: [agents, harness, comparison, runtimes, orchestrators, agent-tools, deepseek-harness, codex, claude-code]
 ---
 
-# Agent Harness Landscape
+# Agent harness landscape
 
 Use this map to separate four questions that product lists often merge: which model generates, which runtime owns the tool loop, which repository configuration controls local behavior, and which orchestrator coordinates multiple runs. A project can be valuable without being a runtime harness.
 
@@ -30,7 +30,7 @@ This page answers *which layer and which project*. [Agent Harness Engineering](.
 
 These pages are linked but deliberately not merged. The engineering reference explains stable mechanisms. This map is a dated evidence snapshot whose projects, licences, features, and GitHub signals need a separate refresh cycle.
 
-## Interface, Execution, and Loop Ownership Are Separate
+## Interface, execution, and loop ownership are separate
 
 `IDE`, `ADE`, `CLI`, and `web agent` describe how a person reaches a product. They do not establish where the code runs or which component owns the agent loop. `ADE`, short for agentic development environment, is useful vendor language but not a stable comparison category: one product can expose an editor, a terminal agent, a desktop application, and a cloud control surface at the same time.
 
@@ -47,7 +47,7 @@ This catalog therefore uses a controlled interface vocabulary:
 
 Treat these as multi-value labels, not mutually exclusive product classes. Then evaluate two independent axes: execution location (`local`, `remote`, or `hybrid`) and loop ownership (`runtime`, `orchestrator`, or `no loop`). For example, [Warp Agent](./agentic-tools.md#19-warp-agent-cli) is reachable as a standalone CLI with an interactive terminal UI and optional cloud handoff. Its interface does not by itself prove locality, autonomy, sandboxing, or provider independence.
 
-## 160 Projects Does Not Mean 160 Runtime Harnesses
+## 160 projects does not mean 160 runtime harnesses
 
 The upstream catalog mixes ready-to-run coding agents with SDKs, frameworks, memory systems, sandboxes, evaluation tools, observability products, prompt libraries, and multi-agent control planes. Treating all 160 as interchangeable runtimes produces invalid comparisons. The strict map retains projects with evidence that they own an agent loop; adjacent products remain in the directory under their actual job.
 
@@ -55,7 +55,7 @@ The upstream catalog mixes ready-to-run coding agents with SDKs, frameworks, mem
 
 *The 160-project and 12-category figures come from Best of Agent Harnesses, snapshot 2026-08-23. Catalog size is not runtime count.*
 
-## The Twelve-Category Map
+## The twelve-category map
 
 The category names come from the pinned upstream snapshot. `Usually`, `Sometimes`, and `No` describe the category's typical relation to a loop. They do not assign one answer to every project inside it.
 
@@ -76,7 +76,7 @@ The category names come from the pinned upstream snapshot. `Usually`, `Sometimes
 | [Research and task-specific harnesses](#research-task) | 5 | Domain-specific agents and research systems | Sometimes | Runtime / task-specific |
 <!-- END GENERATED: category-summary -->
 
-## Core Coding Harnesses
+## Core coding harnesses
 
 The strict map contains 42 runtimes. Every name links to its official product page or canonical repository. Open-source rows include GitHub stars when a canonical repository was available. Stars are a dated popularity signal, not a quality score. Entries with detailed coverage in this guide keep that internal profile in the role cell.
 
@@ -142,7 +142,7 @@ Official documentation and canonical repositories remain the source of truth for
 
 These interviews do not upgrade a generated evidence state on their own. They are dated testimony, so current availability, licence, and feature behavior still require a direct official source. The [practitioner video evidence ledger](../core/agent-harness.md#10-practitioner-video-evidence) records the short verbatim, timestamp, and boundary for each source.
 
-## Orchestrators: Products Above the Runtime
+## Orchestrators: Products above the runtime
 
 The adjacent map contains 15 control planes. An orchestrator coordinates queues, isolated workspaces, or multiple agent sessions. Use one after a single runtime is no longer the bottleneck. Parallel runs multiply throughput, context drift, and review load at the same time.
 
@@ -193,7 +193,7 @@ The evidence is no longer limited to the maintainer. An [Ippon practitioner repo
 
 This responsibility-boundary reading was prompted by private comparison notes shared by Liza maintainer [Tangi Vass](https://github.com/liza-mas). The published claims above are independently tied to the pinned repository rather than to those notes.
 
-## Harness Optimizers and Meta-Harnesses
+## Harness optimizers and meta-harnesses
 
 Harness optimizers are adjacent to the strict runtime map. They do not primarily execute user tasks or coordinate a fleet. They change a target harness, evaluate candidates, and decide which version should govern later runs. Most entries below are research systems, not production products.
 
@@ -209,7 +209,7 @@ Harness optimizers are adjacent to the strict runtime map. They do not primarily
 
 Do not fold these systems into the 42-runtime count. A runtime owns the task loop. An optimizer owns a search loop over candidate harnesses. [Agent Harness Engineering §11](../core/agent-harness.md#11-harness-optimizers-and-meta-harnesses) documents the evidence and the minimum evaluation protocol.
 
-## Four Layers, Four Responsibilities
+## Four layers, four responsibilities
 
 ![A four-layer stack separates the model, repository harness, runtime harness, and orchestrator, with control flowing down and evidence flowing up.](../images/agent-harness-four-layers.webp)
 
@@ -224,7 +224,7 @@ Frameworks, SDKs, sandboxes, memory systems, evaluation tools, observability pla
 
 The term *meta-harness* has two incompatible uses. Optimizer research uses it for a system that changes one or more harness layers under evaluation. Products such as Omnigent use it for a common interface that dispatches tasks to existing harnesses. Keep the roles separate: this guide classifies a dispatcher as an orchestrator or control plane, while a harness optimizer changes the system that will perform future runs. The generated directory below preserves each pinned source's wording, so Omnigent's row retains its upstream *meta-harness* label even though the guide layer is orchestration. See the [Databricks cost-management resource evaluation](../../docs/resource-evaluations/databricks-managing-ai-coding-costs-scale.md) for the terminology boundary.
 
-## Complete Project Directory
+## Complete project directory
 
 The directory preserves every upstream project and lists the 33 guide supplements separately. <abbr title="Not established from the pinned sources">?</abbr> means the pinned source did not support a conclusion. `N/A` means the field does not apply to that category. Archived projects remain visible and marked, because removal would hide the history behind current comparisons.
 
@@ -517,7 +517,7 @@ These official products and researched candidates are absent from the pinned ups
 | [Warp Agent](https://www.warp.dev/blog/introducing-the-warp-agent-cli-coding-agent) | Warp Agent is a standalone terminal coding agent with interactive PTY support and optional cloud handoff. | <abbr title="Not established from the pinned sources">?</abbr> | <abbr title="Not established from the pinned sources">?</abbr> | <abbr title="Not established from the pinned sources">?</abbr> / <abbr title="Not established from the pinned sources">?</abbr> | Proprietary |
 <!-- END GENERATED: project-catalog -->
 
-## How to Pick a Harness
+## How to pick a harness
 
 ![A five-step selection flow defines the job, checks loop ownership, verifies evidence, pilots 8 to 12 real tasks, and ends in adopt, adjacent layer, or reject.](../images/agent-harness-selection-funnel.webp)
 
@@ -532,7 +532,7 @@ Start at the lowest layer that solves the problem. A new framework, runtime, and
 
 Feature count and GitHub popularity cannot answer those questions for a specific codebase.
 
-## How to Test-Drive the Shortlist
+## How to test-drive the shortlist
 
 Test two or three candidates on 8 to 12 representative tasks from the same repositories. Use the same model, repository instructions, tool permissions, and resource budget where the products allow it. Repeat critical tasks because one successful run does not establish reliability. Give each run an isolated worktree and write pass criteria before execution.
 
@@ -556,7 +556,7 @@ Record the following measurements for every task:
 
 Review the produced diff and tests, not the agent's self-report. A green test suite is necessary but may not cover every requirement. Simon Willison's [captured command-and-output workflow](https://www.youtube.com/watch?v=owmJyKVu5f8&t=461s) is one way to preserve a human-reviewable proof artifact, while Shachar Azriel's [executable-spec pattern](https://www.youtube.com/watch?v=aWrGSM5vVyc&t=861s) maps verification to individual requirements. Keep consequential actions behind a human or policy gate during the trial. Use the [Agent Evaluation](../roles/agent-evaluation.md) framework to define acceptance evidence, [Observability](../ops/observability.md) to capture traces and interventions, and [Security Hardening](../security/security-hardening.md) to test the execution boundary rather than trusting a product label. Apply the [Agentic Benchmark Checklist](https://arxiv.org/abs/2507.02825) before treating a score change as a product result: task setup and grader defects can exceed the claimed improvement.
 
-## Machine-Readable Access
+## Machine-readable access
 
 - [Normalized dataset on GitHub](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/machine-readable/agent-harnesses.json): four explicit sets, provenance, loop ownership, feature evidence, official URLs, and dated GitHub metadata.
 - [Machine-readable reference guide](../../machine-readable/README.md): dataset contract, evidence states, rebuild commands, and maintenance rules.
@@ -570,7 +570,7 @@ Review the produced diff and tests, not the agent's self-report. A green test su
 
 The refresh pipeline validates counts, URLs, evidence states, repository metadata, and deterministic output before it replaces the committed dataset. README extraction treats repository content as untrusted data and never publishes model output automatically.
 
-## Related Reading
+## Related reading
 
 - [Agent Harness Engineering](../core/agent-harness.md): stable architecture, Claude Code implementation checkpoint, [meta-harness evidence](../core/agent-harness.md#11-harness-optimizers-and-meta-harnesses), and [timestamped practitioner video evidence](../core/agent-harness.md#10-practitioner-video-evidence)
 - [Architecture](../core/architecture.md): the master loop, tool arsenal, context, subagents, permissions, and MCP
@@ -582,7 +582,7 @@ The refresh pipeline validates counts, URLs, evidence states, repository metadat
 - [Agent Teams](../workflows/agent-teams.md) and [Agentic Software Factories](../workflows/agentic-software-factories.md): coordination above a single runtime loop
 - [Glossary](../core/glossary.md): runtime, repository, evaluation harness, and orchestrator terminology
 
-## Limits of This Map
+## Limits of this map
 
 - The pinned source contains 160 projects and 86 deep-dive profiles. A light record does not support the same feature claims as a deep profile.
 - In the upstream snapshot, autonomy is not applicable for 65 entries and recovery for 64. Missing values must not be rewritten as absent features.

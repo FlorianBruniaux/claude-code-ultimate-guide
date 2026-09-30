@@ -5,7 +5,7 @@ argument-hint: <concept>
 effort: low
 ---
 
-# Teach Me
+# Teach me
 
 Step-by-step explanation of a concept with progressive depth.
 
@@ -28,7 +28,7 @@ Step-by-step explanation of a concept with progressive depth.
 6. Highlight **common mistakes** beginners make
 7. Suggest **next concepts** to learn
 
-## Response Format
+## Response format
 
 ```markdown
 ## [Concept Name]
@@ -79,7 +79,7 @@ Step-by-step explanation of a concept with progressive depth.
 **Practice challenge**: [Small exercise to reinforce the concept]
 ```
 
-## Depth Modes
+## Depth modes
 
 ### Default
 - One-sentence definition
@@ -100,27 +100,27 @@ Step-by-step explanation of a concept with progressive depth.
 - Single example
 - No extras
 
-## Adaptation Rules
+## Adaptation rules
 
-### For Beginners
+### For beginners
 - Use analogies from everyday life
 - Avoid jargon (or explain it immediately)
 - More comments in code
 - Smaller code examples
 
-### For Intermediates
+### For intermediates
 - Assume basic syntax knowledge
 - Focus on "why" over "what"
 - Include trade-offs
 - Show idiomatic patterns
 
-### For Advanced Topics
+### For advanced topics
 - Reference official documentation
 - Discuss internal implementation when relevant
 - Include performance implications
 - Mention related patterns
 
-## Example Session
+## Example session
 
 ```
 User: /learn:teach useEffect
@@ -170,7 +170,7 @@ function Timer() {
 **Practice challenge**: Add a pause button that stops and resumes the timer.
 ```
 
-## Topics Well-Suited for /learn:teach
+## Topics well-suited for /learn:teach
 
 | Category | Examples |
 |----------|----------|

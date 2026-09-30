@@ -1,4 +1,4 @@
-# Resource Evaluation: Vitals: Codebase Health Plugin
+# Resource evaluation: Vitals: Codebase health plugin
 
 **Date**: 2026-03-06
 **Evaluator**: Claude (Sonnet 4.6) via /eval-resource
@@ -23,7 +23,7 @@ Vitals is a Claude Code plugin (v0.1 alpha, MIT, Python stdlib + git) that ident
 
 ---
 
-## Evaluation Scoring
+## Evaluation scoring
 
 | Criterion | Score | Notes |
 |-----------|-------|-------|
@@ -37,9 +37,9 @@ Vitals is a Claude Code plugin (v0.1 alpha, MIT, Python stdlib + git) that ident
 
 ---
 
-## Gap Analysis
+## Gap analysis
 
-### Already Covered in Guide
+### Already covered in guide
 
 | Concept | Guide Coverage | Location |
 |---------|----------------|----------|
@@ -47,7 +47,7 @@ Vitals is a Claude Code plugin (v0.1 alpha, MIT, Python stdlib + git) that ident
 | Plugin system | Full section 8.5 | ultimate-guide.md:12015 |
 | SE-CoVe plugin example | Full documentation | examples/plugins/se-cove.md |
 
-### What's New
+### What's new
 
 - **Hotspot identification methodology**: `churn × complexity × coupling centrality` as a composite metric — not in guide
 - **Concrete tool** that maps the "AI code debt" problem to actionable file-level output
@@ -56,7 +56,7 @@ Vitals is a Claude Code plugin (v0.1 alpha, MIT, Python stdlib + git) that ident
 
 ---
 
-## Fact-Check Results
+## Fact-check results
 
 | Claim | Verified | Note |
 |-------|----------|------|
@@ -71,7 +71,7 @@ Vitals is a Claude Code plugin (v0.1 alpha, MIT, Python stdlib + git) that ident
 
 ---
 
-## Integration Actions
+## Integration actions
 
 1. ✅ Added "Featured Community Plugins" subsection to `guide/ultimate-guide.md` §8.5 (~line 12385)
    - Vitals section with install commands, use cases

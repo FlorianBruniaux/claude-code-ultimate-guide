@@ -15,7 +15,7 @@ format:
   recap-card-typst: default
 ---
 
-## Contexte > Longueur
+## Contexte > longueur
 
 Un prompt de 3 lignes avec le bon contexte produit de meilleurs résultats qu'un prompt de 30 lignes vague. Claude a besoin de savoir où il se trouve dans le projet, quel est l'objectif précis, et ce qu'il ne doit pas toucher.
 

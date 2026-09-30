@@ -1,4 +1,4 @@
-# Resource Evaluation: "Beyond Vibe Coding" - Addy Osmani
+# Resource evaluation: "Beyond Vibe Coding" - Addy Osmani
 
 **Date**: 2026-02-01
 **Evaluator**: Claude (Sonnet 4.5)
@@ -35,7 +35,7 @@ Comprehensive book guiding developers from "vibe coding" (rapid AI-assisted prot
 
 ---
 
-## Evaluation Scoring
+## Evaluation scoring
 
 | Criterion | Score | Notes |
 |-----------|-------|-------|
@@ -50,9 +50,9 @@ Comprehensive book guiding developers from "vibe coding" (rapid AI-assisted prot
 
 ---
 
-## Comparative Analysis
+## Comparative analysis
 
-### Overlap with Guide (14 Aspects Analyzed)
+### Overlap with guide (14 aspects analyzed)
 
 | Aspect | Beyond Vibe Coding | Claude Code Ultimate Guide |
 |--------|-------------------|----------------------------|
@@ -75,9 +75,9 @@ Comprehensive book guiding developers from "vibe coding" (rapid AI-assisted prot
 
 ---
 
-## Gap Analysis
+## Gap analysis
 
-### Net-New Content (Potentially Valuable)
+### Net-New content (potentially valuable)
 
 | Gap | Priority | Action Recommended |
 |-----|----------|-------------------|
@@ -86,7 +86,7 @@ Comprehensive book guiding developers from "vibe coding" (rapid AI-assisted prot
 | **Cost-Benefit Framework** | Low | Interesting but needs research validation |
 | **"Context as RAM" metaphor** | Low | Add pedagogical note in methodologies.md:192 |
 
-### Already Documented (No Action Needed)
+### Already documented (no action needed)
 
 - Vibe coding (Karpathy 2025 source)
 - 70/80% Problem (Osmani Substack article evaluated)
@@ -97,9 +97,9 @@ Comprehensive book guiding developers from "vibe coding" (rapid AI-assisted prot
 
 ---
 
-## Cross-Validation with Existing Osmani Evaluations
+## Cross-Validation with existing Osmani evaluations
 
-### Previous Evaluations
+### Previous evaluations
 
 1. **"How to write a good spec for AI agents"** (Jan 13, 2026)
    - **Score**: 4/5 (High Value - Integrated)
@@ -111,7 +111,7 @@ Comprehensive book guiding developers from "vibe coding" (rapid AI-assisted prot
    - **Integration**: 30 lines in ai-ecosystem.md:2024
    - **Status**: ✅ COMPLETED
 
-### Book vs Articles Comparison
+### Book vs articles comparison
 
 | Source | Format | Score | Integration |
 |--------|--------|-------|-------------|
@@ -123,11 +123,11 @@ Comprehensive book guiding developers from "vibe coding" (rapid AI-assisted prot
 
 ---
 
-## Integration Decision
+## Integration decision
 
 **Action**: **Minimal integration** (tracking mention + cross-ref citations)
 
-### Primary Integration: ai-ecosystem.md:2024
+### Primary integration: ai-ecosystem.md:2024
 
 **Add after "80% Problem" section** (3-5 lines):
 
@@ -139,7 +139,7 @@ Comprehensive book guiding developers from "vibe coding" (rapid AI-assisted prot
 **"Beyond Vibe Coding"** (O'Reilly, 2025) — Comprehensive book expanding on 70% problem framework, context engineering, and AI-assisted workflows. Covers Claude Code, Cursor, Copilot. Significant overlap with this guide's methodologies (TDD, spec-first, context management). External reference for cross-validation. [Book site](https://beyond.addy.ie)
 ```
 
-### Secondary: Cross-Reference Citations
+### Secondary: Cross-Reference citations
 
 **Add brief notes in overlapping sections** (1-2 lines each, 4-5 locations):
 
@@ -167,9 +167,9 @@ Comprehensive book guiding developers from "vibe coding" (rapid AI-assisted prot
 
 ---
 
-## Rationale for Minimal Integration
+## Rationale for minimal integration
 
-### Why NOT Full Integration
+### Why NOT full integration
 
 1. **Paid resource**: Guide is open-source, privilege free/open-access sources
 2. **90% overlap**: 10/14 topics already covered 100% with primary sources
@@ -179,7 +179,7 @@ Comprehensive book guiding developers from "vibe coding" (rapid AI-assisted prot
 4. **Guide already more comprehensive**: 11K lines vs book's generalist approach (multi-tool coverage)
 5. **Book = consolidation**: Synthesis of existing articles + moderate expansion, not fundamentally new research
 
-### Why Tracking Mention IS Valuable
+### Why tracking mention IS valuable
 
 1. **External validation**: O'Reilly publication = practitioner credibility for guide's patterns
 2. **Cross-reference utility**: Users familiar with book can map to guide sections
@@ -188,7 +188,7 @@ Comprehensive book guiding developers from "vibe coding" (rapid AI-assisted prot
 
 ---
 
-## Risks of NOT Integrating
+## Risks of NOT integrating
 
 **Low Impact**:
 1. No unique technical content lost (90% already documented)
@@ -204,7 +204,7 @@ Comprehensive book guiding developers from "vibe coding" (rapid AI-assisted prot
 
 ---
 
-## New Gaps to Address (Separate from Book)
+## New gaps to address (separate from book)
 
 Based on book analysis, these topics warrant research via **primary sources** (not book):
 
@@ -218,7 +218,7 @@ Based on book analysis, these topics warrant research via **primary sources** (n
 
 ---
 
-## Fact-Check Results
+## Fact-check results
 
 | Claim | Verified | Source/Notes |
 |-------|----------|--------------|

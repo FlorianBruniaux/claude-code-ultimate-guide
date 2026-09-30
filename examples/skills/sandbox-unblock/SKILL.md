@@ -201,7 +201,7 @@ The `.idea` scoping matters more than it looks. The refusal applies to the
 current project, so an audit run from a neighbouring repository will report that
 nothing is blocked, and be wrong.
 
-## See Also
+## See also
 
 - [Native Sandboxing Guide](../../../guide/security/sandbox-native.md) - configuration keys and measured behavior
 - [/sandbox-status](../sandbox-status/SKILL.md) - inspect the active configuration

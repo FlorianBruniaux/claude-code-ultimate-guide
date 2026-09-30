@@ -4,7 +4,7 @@ description: "Prompt, observe, and reprompt until satisfied: the core loop of AI
 tags: [workflow, guide, design-patterns]
 ---
 
-# Iterative Refinement
+# Iterative refinement
 
 > **Confidence**: Tier 2 (validated pattern observed across many Claude Code users).
 
@@ -12,7 +12,7 @@ Prompt, observe, reprompt until satisfied. The core loop of effective AI-assiste
 
 ---
 
-## Table of Contents
+## Table of contents
 
 1. [TL;DR](#tldr)
 2. [The Loop](#the-loop)
@@ -41,9 +41,9 @@ Key insight: **Specific feedback > vague feedback**
 
 ---
 
-## The Loop
+## The loop
 
-### Step 1: Initial Prompt
+### Step 1: Initial prompt
 
 Start with clear intent and constraints:
 
@@ -55,7 +55,7 @@ Create a React component for a user profile card.
 - Mobile-responsive
 ```
 
-### Step 2: Evaluate Output
+### Step 2: Evaluate output
 
 Claude produces code. Evaluate:
 - Does it meet requirements?
@@ -63,7 +63,7 @@ Claude produces code. Evaluate:
 - What's wrong?
 - What could be better?
 
-### Step 3: Specific Feedback
+### Step 3: Specific feedback
 
 Provide targeted corrections:
 
@@ -85,9 +85,9 @@ Better. One more thing:
 
 ---
 
-## Feedback Patterns
+## Feedback patterns
 
-### Effective Feedback
+### Effective feedback
 
 | Pattern | Example |
 |---------|---------|
@@ -96,7 +96,7 @@ Better. One more thing:
 | **Reason given** | "Remove the console.log because it leaks user data" |
 | **Priority marked** | "Critical: fix the SQL injection. Nice-to-have: add pagination." |
 
-### Ineffective Feedback
+### Ineffective feedback
 
 | Anti-Pattern | Why It Fails | Better Alternative |
 |--------------|--------------|-------------------|
@@ -107,7 +107,7 @@ Better. One more thing:
 
 ---
 
-## Autonomous Loops
+## Autonomous loops
 
 Claude can self-iterate with clear completion criteria.
 
@@ -123,7 +123,7 @@ For an illustrative bug fix, first identify a check that fails because of the re
 
 The [goal reference](../ultimate-guide.md#goal-autonomous-completion-mode-v21139) explains evaluator and resume limits. The [loop and graph guide](../core/loop-graph-engineering.md#compose-recurring-triage-with-bounded-work) describes admission from a recurring trigger. Start with one of these mechanisms; a recurring prompt containing a built-in command is not, by itself, verified orchestration.
 
-### The Ralph Wiggum Pattern
+### The Ralph Wiggum pattern
 
 Named after the self-improvement loop pattern:
 
@@ -137,7 +137,7 @@ After each iteration, run the checks and fix any issues.
 Stop when all criteria are met.
 ```
 
-### Completion Criteria Examples
+### Completion criteria examples
 
 ```
 Iterate until:
@@ -147,7 +147,7 @@ Iterate until:
 - Bundle size < 200KB
 ```
 
-### Iteration Limits
+### Iteration limits
 
 Always set limits to prevent infinite loops:
 
@@ -161,7 +161,7 @@ Stop early if improvement < 5% between iterations.
 
 ## Integration with Claude Code
 
-### With Task Tool
+### With task tool
 
 Track refinement iterations using `TaskCreate` and `TaskUpdate`:
 
@@ -173,7 +173,7 @@ TaskCreate: "Optimization: memoize expensive calculations"
 # Mark completed as you progress with TaskUpdate
 ```
 
-### With Hooks
+### With hooks
 
 Auto-validate after each change using Claude Code hooks (configured via `/hooks` command or `settings.json`). For example, a `PostToolUse` hook on the `Edit` tool can run linting and tests automatically. Claude sees failures and can self-correct.
 
@@ -201,11 +201,11 @@ Good progress. Let's checkpoint:
 
 ---
 
-## Script Generation Workflow
+## Script generation workflow
 
 Script and automation generation delivers the highest ROI for iterative refinement, with 70-90% time savings in practitioner reports. Scripts are self-contained, testable in isolation, and yield immediate value.
 
-### The 3-7 Iteration Pattern
+### The 3-7 iteration pattern
 
 Most production-ready scripts emerge after 3-7 iterations:
 
@@ -216,7 +216,7 @@ Most production-ready scripts emerge after 3-7 iterations:
 | 4-5 | Hardening | "Add error handling, logging, input validation" |
 | 6-7 | Polish | "Optimize for [metric]. Add usage docs." |
 
-### Example: Kubernetes Pod Manager (PowerShell)
+### Example: Kubernetes pod manager (PowerShell)
 
 **Iteration 1: Basic**
 ```
@@ -247,7 +247,7 @@ Add: dry-run mode, output to JSON for piping, help documentation.
 Ensure: works on Windows, Linux, macOS.
 ```
 
-### Common Pitfalls
+### Common pitfalls
 
 | Pitfall | Example | Mitigation |
 |---------|---------|------------|
@@ -257,7 +257,7 @@ Ensure: works on Windows, Linux, macOS.
 | Context drift | Forgets requirements after iteration 5 | Checkpoint prompt: "Recap current requirements before next change" |
 | Platform assumptions | Assumes bash features in sh | Specify: "POSIX-compliant" or "bash 4+" |
 
-### Script Iteration Template
+### Script iteration template
 
 ```
 Current script: [paste or reference]
@@ -274,9 +274,9 @@ Success criteria: [how to verify this iteration works]
 
 ---
 
-## Iteration Strategies
+## Iteration strategies
 
-### Breadth-First
+### Breadth-first
 
 Fix all issues at same level before going deeper:
 
@@ -287,7 +287,7 @@ Third pass: Improve test coverage
 Fourth pass: Optimize performance
 ```
 
-### Depth-First
+### Depth-first
 
 Complete one area fully before moving on:
 
@@ -297,7 +297,7 @@ Complete one area fully before moving on:
 3. Then move to settings
 ```
 
-### Priority-Based
+### Priority-based
 
 Address by importance:
 
@@ -311,9 +311,9 @@ Iterate in this order:
 
 ---
 
-## Anti-Patterns
+## Anti-patterns
 
-### Moving Target
+### Moving target
 
 ```
 # Wrong
@@ -325,7 +325,7 @@ Commit to an approach, iterate within it.
 If approach is wrong, explicitly restart.
 ```
 
-### Perfectionism Loop
+### Perfectionism loop
 
 ```
 # Wrong
@@ -339,7 +339,7 @@ Set clear "good enough" criteria:
 → Ship it, improve later
 ```
 
-### Lost Context
+### Lost context
 
 ```
 # Wrong
@@ -354,7 +354,7 @@ Next: add Redis backend."
 
 ---
 
-## Review Auto-Correction Loop
+## Review auto-correction loop
 
 Specialized iterative pattern where Claude reviews, fixes and re-reviews within a fixed budget. Acceptance requires evidence; stopping the loop does not establish success.
 
@@ -376,7 +376,7 @@ Specialized iterative pattern where Claude reviews, fixes and re-reviews within 
 └─────────────────────────────────────────┘
 ```
 
-### Prompt Template
+### Prompt template
 
 ```
 Review this PR with auto-correction:
@@ -406,7 +406,7 @@ Keep FAILED, TIMEOUT, ABORTED and UNKNOWN distinct from acceptance.
 | **Progress check** | Bound unproductive work | Track resolved blocking findings and new verification evidence; no progress is a stop reason, not acceptance |
 | **Recovery capability** | Preserve a recoverable state | Record a checkpoint before fixes; code rollback does not restore mutated data or external effects |
 
-### Example Session
+### Example session
 
 Illustrative transcript, not a measured review result. Each resolution claim needs a linked check or adjudication in an actual run.
 
@@ -440,7 +440,7 @@ Only explicitly deferred optional improvements remain.
 Outcome: ACCEPTED within the stated criteria and evidence boundary.
 ```
 
-### Comparison: One-Pass vs Convergence Loop
+### Comparison: One-Pass vs convergence loop
 
 | Aspect | One-Pass Review | Convergence Loop |
 |--------|-----------------|------------------|
@@ -455,7 +455,7 @@ Outcome: ACCEPTED within the stated criteria and evidence boundary.
 - **One-pass**: Simple PRs, experienced team, time-sensitive
 - **Bounded loop**: Changes needing several correction passes; sensitive paths still follow their owner and sign-off policy
 
-### Integration with Multi-Agent Review
+### Integration with multi-agent review
 
 Assign reviewers distinct scopes and evaluate their findings; adding agents alone does not establish independence or quality:
 
@@ -474,7 +474,7 @@ Each iteration:
   Accept with evidence, or repeat within budget and stop with an explicit reason
 ```
 
-### Convergence Criteria
+### Convergence criteria
 
 Record acceptance separately from execution and stop reason:
 
@@ -486,7 +486,7 @@ Record acceptance separately from execution and stop reason:
 
 If review uncovers an incomplete requirement, version the criteria with the reason and authorized decision, then re-run affected verification. Do not silently weaken a criterion to reach green. See [allocation of judgment](../core/loop-graph-engineering.md#5-allocate-judgment-explicitly).
 
-### Anti-Patterns in Review Loops
+### Anti-Patterns in review loops
 
 | Anti-Pattern | Problem | Solution |
 |--------------|---------|----------|
@@ -498,9 +498,9 @@ If review uncovers an incomplete requirement, version the criteria with the reas
 
 ---
 
-## Example Session
+## Example session
 
-### Initial Request
+### Initial request
 ```
 Create a debounce function in TypeScript.
 ```
@@ -534,11 +534,11 @@ Perfect. Commit this as "feat: add debounce utility with full TypeScript support
 
 ---
 
-## Community Patterns & Known Limitations
+## Community patterns & known limitations
 
 The community has built several patterns on top of Claude Code's iterative loop. Some solve real pain points, others expose current limitations worth knowing about.
 
-### Ralph Loop (Test-Driven Autonomous Iteration)
+### Ralph loop (test-driven autonomous iteration)
 
 Source: nathanonn.com, February 2026.
 
@@ -565,7 +565,7 @@ The state file is the key innovation here. It survives context resets, `/compact
 
 The 3-attempt limit prevents the infinite loop trap that plagues naive autonomous loops. Rather than burning tokens on a stubborn test case, the agent moves forward and flags the issue for human review later.
 
-### Auto-Continue Skill
+### Auto-continue skill
 
 Source: mcpmarket.com.
 
@@ -584,7 +584,7 @@ A confidence-based continuation system that decides whether the agent should kee
 
 This pairs well with Claude Code's Stop hooks. The skill can trigger post-task verification and decide whether to resume based on the results.
 
-### Stop Hooks for Automatic Verification
+### Stop hooks for automatic verification
 
 A pattern that turns Claude Code's hook system into an automatic quality gate between iterations:
 
@@ -609,7 +609,7 @@ A pattern that turns Claude Code's hook system into an automatic quality gate be
 
 The hook fires every time Claude marks a task as done. If the verification catches something, Claude sees the output and can self-correct before moving to the next task.
 
-### Escalation Strategy
+### Escalation strategy
 
 What to do when 3 iterations fail on the same problem. Instead of looping forever or giving up, follow a structured escalation path:
 
@@ -640,7 +640,7 @@ fi
 
 The goal is never to silently drop work. Every failure either gets resolved, escalated, or explicitly tracked.
 
-### Known Limitations
+### Known limitations
 
 Being honest about what doesn't work yet, so you don't waste time reinventing solutions that don't exist.
 
@@ -652,7 +652,7 @@ Being honest about what doesn't work yet, so you don't waste time reinventing so
 
 ---
 
-## See Also
+## See also
 
 - [exploration-workflow.md](./exploration-workflow.md): explore alternatives before iterating
 - [tdd-with-claude.md](./tdd-with-claude.md): TDD is iterative refinement with tests

@@ -1,4 +1,4 @@
-# Review Comment Template
+# Review comment template
 
 Use this template to generate GitHub PR review comments. Fill in each section based on the code-reviewer agent output. Comments are posted in **English** (international audience).
 
@@ -47,7 +47,7 @@ Use this template to generate GitHub PR review comments. Fill in each section ba
 
 ---
 
-## Formatting Rules
+## Formatting rules
 
 **Citation format**: `file:42` or `` `code snippet` `` for inline references
 

@@ -6,18 +6,18 @@ license: MIT
 research: arXiv:2309.11495 (ACL 2024 Findings)
 ---
 
-# SE-CoVe: Chain-of-Verification
+# SE-CoVe: Chain-of-verification
 
 Software Engineering adaptation of Meta's Chain-of-Verification methodology for Claude Code.
 
-## Research Foundation
+## Research foundation
 
 **Paper**: "Chain-of-Verification Reduces Hallucination in Large Language Models"
 **Authors**: Dhuliawala et al. (Meta AI)
 **Published**: ACL 2024 Findings
 **Sources**: [arXiv:2309.11495](https://arxiv.org/abs/2309.11495) | [ACL Anthology](https://aclanthology.org/2024.findings-acl.212/)
 
-## How It Works
+## How it works
 
 5-stage pipeline ensuring independent verification:
 
@@ -29,7 +29,7 @@ Software Engineering adaptation of Meta's Chain-of-Verification methodology for 
 
 **Critical innovation**: Verifier operates without access to draft code, preventing confirmation bias.
 
-## Performance Metrics
+## Performance metrics
 
 Results from Meta's research paper (Llama 65B model):
 
@@ -43,7 +43,7 @@ Results from Meta's research paper (Llama 65B model):
 
 **Key insight**: Higher accuracy comes at cost of increased computation and reduced output volume.
 
-## When to Use
+## When to use
 
 ### ✅ Recommended
 
@@ -52,7 +52,7 @@ Results from Meta's research paper (Llama 65B model):
 - **API/library integration**: When correctness > speed
 - **Acceptable 2x cost**: Token budget allows for quality premium
 
-### ❌ Not Recommended
+### ❌ Not recommended
 
 - **Trivial changes**: Simple fixes, formatting, typos
 - **Exploratory coding**: Rapid prototyping, experimentation
@@ -92,7 +92,7 @@ From the research paper (Section 6):
 5. **Task dependency**: Performance varies significantly by task type (23-112%)
 6. **Factual hallucinations only**: Does not address incorrect reasoning steps or opinions
 
-## Source Code
+## Source code
 
 - **GitHub**: [vertti/se-cove-claude-plugin](https://github.com/vertti/se-cove-claude-plugin)
 - **Version**: 1.1.1 (2026-01-23)

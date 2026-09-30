@@ -1,4 +1,4 @@
-# Resource Evaluation: Awesome Claude Skills (BehiSecc)
+# Resource evaluation: Awesome Claude skills (BehiSecc)
 
 **URL**: https://github.com/BehiSecc/awesome-claude-skills
 **Maintainer**: BehiSecc
@@ -8,7 +8,7 @@
 
 ---
 
-## Executive Summary
+## Executive summary
 
 | Criterion | Value |
 |-----------|-------|
@@ -20,13 +20,13 @@
 
 ---
 
-## Content Summary
+## Content summary
 
 GitHub repository curating Claude Code skills across 12 categories:
 
 **Actual skill count**: 62 skills (not 125+ as initially observed)
 
-### Category Breakdown
+### Category breakdown
 
 | Category | Skills | Notable Items |
 |----------|--------|---------------|
@@ -46,9 +46,9 @@ GitHub repository curating Claude Code skills across 12 categories:
 
 ---
 
-## Fact-Check Results
+## Fact-check results
 
-### Claims Verified Against Repository
+### Claims verified against repository
 
 | Claim | Reality | Status |
 |-------|---------|--------|
@@ -62,7 +62,7 @@ GitHub repository curating Claude Code skills across 12 categories:
 | LICENSE file | ❌ None present | Verified |
 | 0 open issues, 5 open PRs | ✅ Confirmed | Verified |
 
-### Repository Quality Indicators
+### Repository quality indicators
 
 | Aspect | Assessment |
 |--------|------------|
@@ -75,7 +75,7 @@ GitHub repository curating Claude Code skills across 12 categories:
 
 ---
 
-## Gap Analysis
+## Gap analysis
 
 ### What awesome-claude-skills Covers
 
@@ -85,7 +85,7 @@ GitHub repository curating Claude Code skills across 12 categories:
 - Recent curation (reflects 2025-2026 ecosystem)
 - Strong community traction (5.5k stars in 3 months, now 9,842 as of 2026-07-28)
 
-### What Claude Code Ultimate Guide Already Has
+### What Claude Code Ultimate Guide already has
 
 ✅ **Existing coverage**:
 - awesome-claude-code (20k stars) - general ecosystem curation
@@ -93,11 +93,11 @@ GitHub repository curating Claude Code skills across 12 categories:
 - Plugin ecosystem documentation (Section 8.5)
 - 66+ examples in `examples/` directory
 
-### Estimated Overlap
+### Estimated overlap
 
 **~30-40%** with awesome-claude-code (partial duplication)
 
-### True Gap Identified
+### True gap identified
 
 ❌ **Research/Science skills NOT substantially covered**:
 - BehiSecc has only **4 scientific skills** directly
@@ -108,7 +108,7 @@ GitHub repository curating Claude Code skills across 12 categories:
 
 ## Challenge Results (technical-writer agent)
 
-### Agent Critique Summary
+### Agent critique summary
 
 **Initial proposal**: Score should be 4/5 (agent's position)
 
@@ -129,7 +129,7 @@ GitHub repository curating Claude Code skills across 12 categories:
 - Phase 2: Research section (500-1000 lines) ← **Deferred** (evaluate K-Dense-AI separately)
 - Phase 3: Example skills ← **Deferred**
 
-### Final Agent Assessment
+### Final agent assessment
 
 **Score maintained at 3/5** after fact-check revealed:
 - Actual content (62 skills) < claimed content (125+)
@@ -138,7 +138,7 @@ GitHub repository curating Claude Code skills across 12 categories:
 
 ---
 
-## Comparison Matrix
+## Comparison matrix
 
 | Aspect | awesome-claude-skills (BehiSecc) | Claude Code Ultimate Guide |
 |--------|----------------------------------|----------------------------|
@@ -155,11 +155,11 @@ GitHub repository curating Claude Code skills across 12 categories:
 
 ---
 
-## Integration Plan
+## Integration plan
 
-### Primary Integration Points
+### Primary integration points
 
-#### 1. `guide/ultimate-guide.md` (Section 8.5 - Line ~9720)
+#### 1. `guide/ultimate-guide.md` (section 8.5 - line ~9720)
 
 **Context**: Community Resources & Ecosystem
 
@@ -170,7 +170,7 @@ GitHub repository curating Claude Code skills across 12 categories:
 
 **Rationale**: Positioned after awesome-claude-code (general) and awesome-claude-code-plugins (specialized), following the progression: general → specialized by component type.
 
-#### 2. `guide/ultimate-guide.md` (Appendix - Line ~17521)
+#### 2. `guide/ultimate-guide.md` (appendix - line ~17521)
 
 **Context**: External Resources table
 
@@ -207,7 +207,7 @@ GitHub repository curating Claude Code skills across 12 categories:
 | [awesome-claude-skills](https://github.com/BehiSecc/awesome-claude-skills) | Skills taxonomy | 62 skills across 12 categories |
 ```
 
-### CHANGELOG Entry
+### CHANGELOG entry
 
 **Section**: Unreleased → Documentation
 
@@ -221,16 +221,16 @@ GitHub repository curating Claude Code skills across 12 categories:
 
 ---
 
-## Positioning Strategy
+## Positioning strategy
 
-### Value Proposition
+### Value proposition
 
 awesome-claude-skills serves as a **specialized taxonomy** for users who want:
 - Skills-only filtering (not mixed with agents/commands/hooks)
 - 12-category organization for discovery
 - Community-curated collection with active maintenance
 
-### Differentiation from Existing Resources
+### Differentiation from existing resources
 
 | Resource | Scope | Best For |
 |----------|-------|----------|
@@ -240,7 +240,7 @@ awesome-claude-skills serves as a **specialized taxonomy** for users who want:
 | **skills.sh marketplace** | Installation-focused | Installing via CLI |
 | **Ultimate Guide examples/** | Educational | Learning with documentation |
 
-### Risks of Non-Integration
+### Risks of non-integration
 
 **Low-to-moderate risk**:
 - Partial overlap with existing resources (~30-40%)
@@ -254,9 +254,9 @@ awesome-claude-skills serves as a **specialized taxonomy** for users who want:
 
 ---
 
-## Deferred Actions
+## Deferred actions
 
-### Evaluate K-Dense-AI Separately
+### Evaluate K-dense-AI separately
 
 **Rationale**: The "125+ scientific skills" claim refers to an external repository. If research/science audience is a priority, K-Dense-AI should receive its own evaluation.
 
@@ -266,7 +266,7 @@ awesome-claude-skills serves as a **specialized taxonomy** for users who want:
 - Overlap with existing scientific tools
 - Integration feasibility (dependencies, prerequisites)
 
-### Research/Science Section (Future)
+### Research/science section (future)
 
 If K-Dense-AI scores 4/5 or higher, consider:
 - `guide/workflows/research-science.md` (500-1000 lines)
@@ -276,7 +276,7 @@ If K-Dense-AI scores 4/5 or higher, consider:
 
 ---
 
-## Lessons Learned
+## Lessons learned
 
 1. **Verify skill counts manually** - Repository descriptions can be misleading (125+ vs 62)
 2. **Distinguish direct vs external content** - Links to other repos ≠ integrated content
@@ -286,7 +286,7 @@ If K-Dense-AI scores 4/5 or higher, consider:
 
 ---
 
-## Related Evaluations
+## Related evaluations
 
 - [agentskills-io-specification.md](./agentskills-io-specification.md) - Skills open standard (4/5)
 - [self-improve-skill.md](./self-improve-skill.md) - Skill lifecycle automation (3/5)

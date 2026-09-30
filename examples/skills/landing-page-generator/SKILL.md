@@ -5,18 +5,18 @@ allowed-tools: Read Bash Write
 effort: medium
 ---
 
-# Landing Page Generator
+# Landing page generator
 
 Generate a complete, deploy-ready landing page from any repository by analyzing its documentation and structure.
 
-## When to Use This Skill
+## When to use this skill
 
 - Creating a landing page for a GitHub repository
 - Generating static sites from existing documentation
 - Standardizing landing pages across multiple projects
 - Converting README content to marketing/showcase pages
 
-## What This Skill Does
+## What this skill does
 
 1. **Analyze Repository**: Read README.md, CHANGELOG.md, package.json/VERSION, docs/, assets/
 2. **Extract Content**: Identify title, tagline, features, installation, screenshots
@@ -24,21 +24,21 @@ Generate a complete, deploy-ready landing page from any repository by analyzing 
 4. **Generate Landing**: Create complete static site (HTML + CSS + JS)
 5. **Deploy-Ready Output**: Include GitHub Actions workflow for GitHub Pages
 
-## How to Use
+## How to use
 
-### Basic Usage
+### Basic usage
 
 ```
 /landing-page-generator from ~/path/to/repo
 ```
 
-### With Options
+### With options
 
 ```
 /landing-page-generator from ~/path/to/repo --risk-banner --pricing-table
 ```
 
-### Available Options
+### Available options
 
 | Option | Description | Default |
 |--------|-------------|---------|
@@ -51,7 +51,7 @@ Generate a complete, deploy-ready landing page from any repository by analyzing 
 
 ## Workflow
 
-### Step 1: Repository Analysis
+### Step 1: Repository analysis
 
 Read and analyze these files from the source repo:
 
@@ -65,7 +65,7 @@ assets/          → Screenshots, images
 LICENSE          → License type for badge
 ```
 
-### Step 2: Content Extraction Map
+### Step 2: Content extraction map
 
 | Source | Target Section | Extraction Method |
 |--------|---------------|-------------------|
@@ -78,7 +78,7 @@ LICENSE          → License type for badge
 | CHANGELOG | What's New | Latest 1-3 releases |
 | assets/*.png | Screenshots | Gallery section |
 
-### Step 3: Section Generation
+### Step 3: Section generation
 
 Generate these sections in order:
 
@@ -137,7 +137,7 @@ Generate these sections in order:
     - Version info
     - Author/repo links
 
-### Step 4: Output Structure
+### Step 4: Output structure
 
 ```
 [project-name]-landing/
@@ -156,7 +156,7 @@ Generate these sections in order:
         └── static.yml      # GitHub Pages deployment
 ```
 
-### Step 5: Validation Checkpoint
+### Step 5: Validation checkpoint
 
 Before finalizing, verify:
 - All sections render correctly in a browser
@@ -164,7 +164,7 @@ Before finalizing, verify:
 - Responsive layout works at mobile (375px), tablet (768px), and desktop (1280px) widths
 - Accessibility: skip links present, ARIA labels on interactive elements, color contrast passes WCAG AA
 
-## Tech Stack
+## Tech stack
 
 - **No build step**: Pure HTML + CSS + JS
 - **Search**: MiniSearch lazy-loaded from CDN with fallback
@@ -174,7 +174,7 @@ Before finalizing, verify:
 
 ## CSS Patterns (from established landings)
 
-### Component Classes
+### Component classes
 
 ```css
 /* Buttons */
@@ -190,7 +190,7 @@ Before finalizing, verify:
 .visually-hidden, .skip-link
 ```
 
-### CSS Variables
+### CSS variables
 
 ```css
 :root {

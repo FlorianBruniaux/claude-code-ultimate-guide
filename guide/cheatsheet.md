@@ -4,7 +4,7 @@ description: "One-page printable daily essentials for maximum Claude Code produc
 tags: [cheatsheet, reference]
 ---
 
-# Claude Code Cheatsheet
+# Claude Code cheatsheet
 
 **Daily reference**. For compact printable editions, use the [English and French cheatsheets](../whitepapers/README.md).
 
@@ -16,7 +16,7 @@ tags: [cheatsheet, reference]
 
 ---
 
-## Essential Commands
+## Essential commands
 
 These are selected daily commands. Availability depends on your version, provider, and plan: the complete list is in [§10.1 of the guide](./ultimate-guide.md#101-commands-table), and the always-current official reference is [code.claude.com/docs/en/commands](https://code.claude.com/docs/en/commands).
 
@@ -64,7 +64,7 @@ These are selected daily commands. Availability depends on your version, provide
 
 ---
 
-## Keyboard Shortcuts
+## Keyboard shortcuts
 
 | Shortcut | Action |
 |----------|--------|
@@ -84,7 +84,7 @@ These are selected daily commands. Availability depends on your version, provide
 
 ---
 
-## File References
+## File references
 
 ```
 @path/to/file.ts    → Reference a file
@@ -127,7 +127,7 @@ These are selected daily commands. Availability depends on your version, provide
 
 ---
 
-## Permission Modes
+## Permission modes
 
 | Mode | Editing | Execution |
 |------|---------|-----------|
@@ -160,7 +160,7 @@ These are selected daily commands. Availability depends on your version, provide
 
 ---
 
-## .claude/ Folder Structure
+## .claude/ folder structure
 
 ```
 .claude/
@@ -175,7 +175,7 @@ These are selected daily commands. Availability depends on your version, provide
 
 ---
 
-## Typical Workflow
+## Typical workflow
 
 ```
 1. Start session      → claude
@@ -191,7 +191,7 @@ These are selected daily commands. Availability depends on your version, provide
 
 ---
 
-## Context Management (CRITICAL)
+## Context management (CRITICAL)
 
 ### Statusline
 
@@ -205,7 +205,7 @@ Model: Sonnet | Ctx: 89.5k | Cost: $2.11 | Ctx(u): 56.0%
 { "statusLine": { "type": "command", "command": "npx -y ccstatusline@latest", "padding": 0 } }
 ```
 
-### Context Thresholds
+### Context thresholds
 
 | Context % | Status | Action |
 |-----------|--------|--------|
@@ -214,7 +214,7 @@ Model: Sonnet | Ctx: 89.5k | Cost: $2.11 | Ctx(u): 56.0%
 | 70-90% | Orange | `/compact` now |
 | 90%+ | Red | `/clear` required |
 
-### Actions by Symptom
+### Actions by symptom
 
 | Sign | Action |
 |------|--------|
@@ -223,7 +223,7 @@ Model: Sonnet | Ctx: 89.5k | Cost: $2.11 | Ctx(u): 56.0%
 | >70% context | `/compact` |
 | Task complete | `/clear` |
 
-### Context Recovery Commands
+### Context recovery commands
 
 | Command | Usage |
 |---------|-------|
@@ -235,7 +235,7 @@ Model: Sonnet | Ctx: 89.5k | Cost: $2.11 | Ctx(u): 56.0%
 
 ---
 
-## Under the Hood (Quick Facts)
+## Under the hood (quick facts)
 
 | Concept | Key Point |
 |---------|-----------|
@@ -249,7 +249,7 @@ Model: Sonnet | Ctx: 89.5k | Cost: $2.11 | Ctx(u): 56.0%
 
 ---
 
-## Harness Choice in Four Layers
+## Harness choice in four layers
 
 | Layer | Owns | Start here |
 |-------|------|------------|
@@ -264,7 +264,7 @@ Evaluate the exact model-harness pair for a bounded coding task. Introduce orche
 
 ---
 
-## Plan Mode & Thinking
+## Plan mode & thinking
 
 | Feature | Activation | Usage |
 |---------|------------|-------|
@@ -290,7 +290,7 @@ Evaluate the exact model-harness pair for a bounded coding task. Introduce orche
 
 **Required for**: features >3 files, architecture, complex debugging
 
-### Quick Model Selection
+### Quick model selection
 
 | Task | Model | Effort |
 |------|-------|--------|
@@ -300,7 +300,7 @@ Evaluate the exact model-harness pair for a bounded coding task. Introduce orche
 
 > Full decision table and pricing boundaries: [Section 2.5 Model Selection & Thinking Guide](ultimate-guide.md#25-model-selection--thinking-guide)
 
-### Dynamic Model Switching (Mid-Session)
+### Dynamic model switching (mid-session)
 
 **Pattern**: Start Sonnet (speed) → swap Opus (complexity) → back Sonnet
 
@@ -341,7 +341,7 @@ On the direct Anthropic service, the account default and `opus` select Opus 5.5;
 
 ---
 
-## MCP Servers
+## MCP servers
 
 | Server | Purpose |
 |--------|---------|
@@ -371,7 +371,7 @@ Check status: `/mcp`
 
 ---
 
-## Creating Custom Components
+## Creating custom components
 
 ### Agent (`.claude/agents/my-agent.md`)
 ```yaml
@@ -396,7 +396,7 @@ Instructions for what to do...
 $ARGUMENTS[0] $ARGUMENTS[1] (or $0 $1) - user args
 ```
 
-### Dynamic Workflow (`.claude/workflows/name.js`)
+### Dynamic workflow (`.claude/workflows/name.js`)
 
 ```js
 export const meta = {
@@ -461,7 +461,7 @@ exit 0  # 0=continue, 2=block
 
 ---
 
-## Quick Prompting Formula
+## Quick prompting formula
 
 ```
 WHAT: [Concrete deliverable]
@@ -480,7 +480,7 @@ VERIFY: Empty email shows error, invalid format shows error
 
 ---
 
-## CLI Flags Quick Reference
+## CLI flags quick reference
 
 | Flag | Usage |
 |------|-------|
@@ -506,7 +506,7 @@ VERIFY: Empty email shows error, invalid format shows error
 
 > Use the [official CLI reference](https://code.claude.com/docs/en/cli-reference) for the full flag list. Self-hosted runners and command hooks must use the file-based system-prompt flags.
 
-## Key CLI Subcommands
+## Key CLI subcommands
 
 | Command | Description |
 |---------|-------------|
@@ -519,7 +519,7 @@ VERIFY: Empty email shows error, invalid format shows error
 
 ---
 
-## Debug Commands
+## Debug commands
 
 ```bash
 claude --version     # Version
@@ -532,7 +532,7 @@ claude --debug='mcp' # Debug MCP connections
 
 ---
 
-## CI/CD Mode (Headless)
+## CI/CD mode (headless)
 
 ```bash
 # Non-interactive execution
@@ -550,7 +550,7 @@ claude -p "fix typos" --dangerously-skip-permissions
 
 ---
 
-## Remote Control: Mobile Access
+## Remote Control: Mobile access
 
 Available with Pro, Max, Team, and Enterprise subscriptions. Team and Enterprise owners must enable it first. API keys and third-party provider connections are not supported.
 
@@ -568,7 +568,7 @@ Open the displayed URL or scan the QR code from a browser or the Claude mobile a
 
 ---
 
-## Task Management (v2.1.16+)
+## Task management (v2.1.16+)
 
 **Availability**: newer models, including Opus 5.5, Sonnet 5, and Fable, do not receive task-tracking tools by default. Start with `CLAUDE_CODE_ENABLE_TODO_TOOLS=1 claude` to opt in. `CLAUDE_CODE_ENABLE_TASKS=0` selects legacy TodoWrite only where task tools are enabled. [Official tool availability](https://code.claude.com/docs/en/tools-reference#task-tool-availability).
 
@@ -579,7 +579,7 @@ Open the displayed URL or scan the QR code from a browser or the Claude mobile a
 | **Tasks API** (v2.1.16+) | Multi-session projects, dependencies | ✅ Disk (`~/.claude/tasks/`) |
 | **TodoWrite** (Legacy) | Simple single-session | ❌ Session only |
 
-### Tasks API Commands
+### Tasks API commands
 
 ```bash
 # Enable persistence across sessions
@@ -616,7 +616,7 @@ CLAUDE_CODE_ENABLE_TODO_TOOLS=1 CLAUDE_CODE_ENABLE_TASKS=0 claude
 
 ---
 
-## The Golden Rules
+## The golden rules
 
 1. **Always review diffs** before accepting
 2. **Use `/compact`** before context gets critical (>70%)
@@ -628,7 +628,7 @@ CLAUDE_CODE_ENABLE_TODO_TOOLS=1 CLAUDE_CODE_ENABLE_TASKS=0 claude
 
 ---
 
-## Quick Decision Tree
+## Quick decision tree
 
 ```
 Simple task       → Just ask Claude
@@ -642,7 +642,7 @@ Deep analysis     → Use Opus (thinking on by default)
 
 ---
 
-## Common Issues Quick Fix
+## Common issues quick fix
 
 | Problem | Solution |
 |---------|----------|
@@ -664,7 +664,7 @@ where.exe claude; claude doctor; claude mcp list
 
 ---
 
-## Cost Optimization
+## Cost optimization
 
 | Model | Use For | Cost |
 |-------|---------|------|
@@ -677,7 +677,7 @@ where.exe claude; claude doctor; claude mcp list
 
 ---
 
-## Community Tools
+## Community tools
 
 | Tool | Purpose | Install |
 |------|---------|---------|
@@ -690,7 +690,7 @@ where.exe claude; claude doctor; claude mcp list
 
 ---
 
-## Search Tools Quick Reference
+## Search tools quick reference
 
 Quick decision (5 seconds): exact text → `rg` | exact name → `rg`/Serena | concept → grepai | structure → ast-grep
 

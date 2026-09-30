@@ -93,7 +93,7 @@ no merge conflicts because each works in its own copy.
 
 ---
 
-## ✅ Fact-Check
+## ✅ Fact-check
 
 | Affirmation | Vérifiée | Source |
 |-------------|----------|--------|

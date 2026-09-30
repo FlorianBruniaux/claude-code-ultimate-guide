@@ -1,4 +1,4 @@
-# Resource Evaluation: ShipTypes.com
+# Resource evaluation: ShipTypes.com
 
 **Evaluated**: 2026-02-02
 **Evaluator**: Claude Sonnet 4.5 (eval-resource skill)
@@ -9,7 +9,7 @@
 
 ---
 
-## Executive Summary
+## Executive summary
 
 **Score: 2/5 (Marginal)**
 
@@ -19,9 +19,9 @@ Schema-first design essay with compelling argument (documentation drift, types a
 
 ---
 
-## Content Summary
+## Content summary
 
-### Key Points
+### Key points
 
 1. **Documentation Drift Inevitability**: Prose docs and code diverge without constant manual effort
 2. **Types as Executable Contracts**: Zod, tRPC, Protocol Buffers enforce correctness at compile-time
@@ -29,15 +29,15 @@ Schema-first design essay with compelling argument (documentation drift, types a
 4. **AI Agent Efficiency Claim**: "Agent with types → 1st call correct, agent without types → 3-4 attempts"
 5. **Practical Implementation**: 5-step pattern (define schemas → validate → RPC → generate SDKs → enforce via CI)
 
-### Central Argument
+### Central argument
 
 Types eliminate redundancy of maintaining separate documentation and code. Compiler becomes documentation reviewer, preventing runtime surprises while improving codebase navigability for humans and AI systems.
 
 ---
 
-## Gap Analysis
+## Gap analysis
 
-### Current Guide Coverage
+### Current guide coverage
 
 | Topic | Guide Status | Location |
 |-------|-------------|----------|
@@ -54,9 +54,9 @@ Types eliminate redundancy of maintaining separate documentation and code. Compi
 
 ---
 
-## Fact-Check Results
+## Fact-check results
 
-### WebFetch Verification
+### WebFetch verification
 
 | Claim | Verification | Source |
 |-------|-------------|--------|
@@ -67,7 +67,7 @@ Types eliminate redundancy of maintaining separate documentation and code. Compi
 | "4x tokens, 4x latency, 4x errors" | ❌ **Invented** | No data provided |
 | Tool references (Zod, tRPC, gRPC) | ✅ Verified | Links to official docs |
 
-### Perplexity Deep Research (4 Searches)
+### Perplexity deep research (4 searches)
 
 **Search 1**: "Zod tRPC schema-first AI agents token consumption benchmarks"
 - ❌ **No data on AI agent token consumption**
@@ -103,18 +103,18 @@ Types eliminate redundancy of maintaining separate documentation and code. Compi
 
 ---
 
-## Technical Writer Challenge
+## Technical writer challenge
 
 **Score Adjustment**: 3/5 → 2/5
 
-### Arguments for Downgrade
+### Arguments for downgrade
 
 1. **No empirical evidence**: Claims "4x tokens" without data
 2. **Niche use case**: <30% Claude Code users (complex APIs, teams >3)
 3. **Overlap high**: 70%+ concepts already covered (CDD, Spec-First, Zod)
 4. **Philosophical conflict**: Schema-first violates YAGNI in MVP phase
 
-### Conflicts with Guide Philosophy
+### Conflicts with guide philosophy
 
 - **YAGNI vs Schema-First**: Guide promotes "MVP first", schema-first implies upfront design
 - **Evidence-Based Claims**: Guide rule "No invented percentages" violated by "4x tokens"
@@ -128,9 +128,9 @@ Types eliminate redundancy of maintaining separate documentation and code. Compi
 
 ---
 
-## Comparative Analysis
+## Comparative analysis
 
-### vs Existing Resources
+### vs existing resources
 
 | Aspect | shiptypes.com | Guide Coverage |
 |--------|---------------|----------------|
@@ -144,7 +144,7 @@ Types eliminate redundancy of maintaining separate documentation and code. Compi
 
 ---
 
-## Integration Plan
+## Integration plan
 
 ### Recommended: Micro-Integration (128 words)
 
@@ -159,7 +159,7 @@ Types eliminate redundancy of maintaining separate documentation and code. Compi
 - ✅ Provides trade-off analysis (upfront investment vs iteration speed)
 - ✅ Cites 3 sources (2 verified + 1 anecdotal with caveat)
 
-### Alternative: Simple Mention
+### Alternative: Simple mention
 
 If micro-integration rejected, add to `guide/resources.md`:
 
@@ -169,23 +169,23 @@ If micro-integration rejected, add to `guide/resources.md`:
 
 ---
 
-## Decision Rationale
+## Decision rationale
 
-### Why 2/5 (Marginal)
+### Why 2/5 (marginal)
 
 1. **No empirical support**: Core thesis (types → AI efficiency) unverified
 2. **High overlap**: 70%+ already covered in guide
 3. **Niche applicability**: Complex APIs only (<30% users)
 4. **Guide violations**: "No invented stats" rule violated
 
-### Why Not 1/5 (Reject)
+### Why not 1/5 (reject)
 
 1. **Author credible**: Cloudflare team lead, real-world experience
 2. **Problem valid**: Documentation drift confirmed (80% detectable)
 3. **Human benefits proven**: tRPC 35-40% faster (separate from AI claims)
 4. **Future potential**: If benchmarks emerge, upgrade to 3-4/5
 
-### Why Not 3/5 (Useful)
+### Why not 3/5 (useful)
 
 1. **Zero AI agent data**: Primary differentiator unproven
 2. **No new techniques**: All tools already known (Zod, tRPC, OpenAPI)

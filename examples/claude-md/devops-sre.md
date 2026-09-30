@@ -4,7 +4,7 @@ description: "CLAUDE.md configuration for infrastructure projects and SRE workfl
 tags: [claude-md, template, devops, ci-cd, observability]
 ---
 
-# DevOps/SRE CLAUDE.md Template
+# DevOps/SRE CLAUDE.md template
 
 A CLAUDE.md configuration optimized for infrastructure projects and SRE workflows.
 
@@ -108,7 +108,7 @@ Use the FIRE framework for all infrastructure issues:
 
 ### Runbook Format
 ```
-# [Runbook Title]
+# [Runbook title]
 ## Symptoms
 ## Prerequisites
 ## Steps
@@ -120,9 +120,9 @@ Use the FIRE framework for all infrastructure issues:
 
 ---
 
-## Customization Guide
+## Customization guide
 
-### For Kubernetes-Heavy Teams
+### For Kubernetes-heavy teams
 
 Add to "Common Contexts":
 ```markdown
@@ -136,7 +136,7 @@ Add to "Common Contexts":
 - auth-service: min 2, max 5, scale on connections
 ```
 
-### For Terraform-Heavy Teams
+### For terraform-heavy teams
 
 Add section:
 ```markdown
@@ -152,7 +152,7 @@ Add section:
 - Outputs: Always export ARN, ID, name
 ```
 
-### For Multi-Cloud Teams
+### For multi-cloud teams
 
 Add to "Environment":
 ```markdown
@@ -169,7 +169,7 @@ Add to "Environment":
 
 ---
 
-## Integration with Agents
+## Integration with agents
 
 Pair this CLAUDE.md with the DevOps/SRE agent:
 
@@ -188,7 +188,7 @@ Then invoke with: `@sre investigate this pod crash`
 
 ---
 
-## See Also
+## See also
 
 - [DevOps & SRE Guide](../../guide/ops/devops-sre.md): Complete FIRE framework documentation
 - [DevOps Agent](../agents/devops-sre.md): Agent persona for infrastructure tasks

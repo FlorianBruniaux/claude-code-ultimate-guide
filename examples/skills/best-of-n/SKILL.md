@@ -6,7 +6,7 @@ effort: high
 disable-model-invocation: true
 ---
 
-# Best-of-N Selection and Proof
+# Best-of-N selection and proof
 
 Use this skill when a task has several plausible solutions, a wrong choice is costly, and a deterministic check or independent reviewer can evaluate the selected result. Do not use it for mechanical work with one clear implementation and a direct acceptance test.
 

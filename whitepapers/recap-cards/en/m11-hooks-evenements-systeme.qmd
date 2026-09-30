@@ -80,7 +80,7 @@ Team gates can request further work before completion. `ConfigChange` audits con
 
 For `PreToolUse` hooks, exit 2 prevents the tool from executing. Claude reads the stderr message and can adapt its behavior.
 
-## Synchronous vs Asynchronous
+## Synchronous vs asynchronous
 
 Keep validation synchronous. `async: true` runs a command hook in the background and cannot stop the action; use it for notifications or logging. Formatting in the background can race with subsequent edits.
 

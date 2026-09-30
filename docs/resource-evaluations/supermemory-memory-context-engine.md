@@ -1,4 +1,4 @@
-# Resource Evaluation: Supermemory
+# Resource evaluation: Supermemory
 
 **Resource**: supermemoryai/supermemory - Memory API and Context Engine
 **URL**: https://supermemory.ai/ | https://github.com/supermemoryai/supermemory
@@ -8,7 +8,7 @@
 
 ---
 
-## Quick Summary
+## Quick summary
 
 **Score**: **3/5** (Moderate - integrate when time available)
 
@@ -16,7 +16,7 @@ Supermemory is a VC-backed ($29M seed, Oct 2025) memory API and context engine w
 
 ---
 
-## Content Summary
+## Content summary
 
 **What Supermemory does**: a hosted memory API (REST + MCP) that ingests documents, conversations, and connector data (Google Drive, Notion, Gmail, OneDrive, cloud-only) and serves them back via semantic retrieval, scoped by "container tags." Three distinct products share the name:
 
@@ -32,9 +32,9 @@ Supermemory is a VC-backed ($29M seed, Oct 2025) memory API and context engine w
 
 ---
 
-## Relevance Score: 3/5
+## Relevance score: 3/5
 
-### Why 3/5 (Moderate)?
+### Why 3/5 (moderate)?
 
 **Strengths**:
 
@@ -50,7 +50,7 @@ Supermemory is a VC-backed ($29M seed, Oct 2025) memory API and context engine w
 4. **Zero independently reproduced benchmark numbers, plus an internal contradiction**: every headline claim is self-reported, and the vendor's own site publishes two different values (95% vs 85.4%) for the same benchmark on two different pages. This is worse verification standing than agentmemory, mem0, or Letta, which at least appear together in a third-party-adjacent harness cited in the guide's existing §9 Representative Results table.
 5. **Unresolved open issues on the exact concern a security-conscious reader would check**: multi-user privacy and E2E encryption, both flagged as open on the tracker with no fix at the time of research.
 
-### Comparison to Existing Coverage
+### Comparison to existing coverage
 
 | Aspect | Supermemory | Guide's existing coverage (§3-4, v3.42.0) |
 |--------|-------------|---------------------------------------------|
@@ -65,7 +65,7 @@ Supermemory is a VC-backed ($29M seed, Oct 2025) memory API and context engine w
 
 ---
 
-## Fact-Check Results
+## Fact-check results
 
 | Claim | Source | Status | Notes |
 |-------|--------|--------|-------|
@@ -85,7 +85,7 @@ Supermemory is a VC-backed ($29M seed, Oct 2025) memory API and context engine w
 
 ---
 
-## Limitations & Considerations
+## Limitations & considerations
 
 1. **Pricing friction on the named Claude Code integration**: `claude-supermemory` is not usable below $19/mo. A reader who wants "the Supermemory Claude Code plugin" specifically, not the generic MCP, hits a paywall on first real use.
 2. **No independent benchmark verification, plus a self-published inconsistency**: treat every performance number on supermemory.ai as marketing until reproduced. The 95%/85.4% conflict is worth citing verbatim as a caution, not summarizing away.

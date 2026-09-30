@@ -4,7 +4,7 @@ description: "Prepare reviewable contributions with Claude Code: project policy,
 tags: [guide, workflow, community, code-review]
 ---
 
-# AI-Assisted Open Source Contributions
+# AI-Assisted open source contributions
 
 A maintainer needs enough evidence to decide whether a change belongs in the project. Generating a patch does not supply that evidence or commit its author to maintaining it. Use this workflow when Claude Code helps prepare a contribution to someone else's repository.
 

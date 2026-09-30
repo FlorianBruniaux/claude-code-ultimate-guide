@@ -1,4 +1,4 @@
-# Resource Evaluation: Sandcastle: Programmatic Agent Orchestration Library
+# Resource evaluation: Sandcastle: Programmatic agent orchestration library
 
 **Date**: 2026-05-03
 **Evaluator**: Claude (Sonnet 4.6)
@@ -23,7 +23,7 @@ TypeScript library for orchestrating AI coding agents in isolated sandboxes. Pro
 
 ---
 
-## Evaluation Scoring
+## Evaluation scoring
 
 | Criterion | Score | Notes |
 |-----------|-------|-------|
@@ -37,9 +37,9 @@ TypeScript library for orchestrating AI coding agents in isolated sandboxes. Pro
 
 ---
 
-## Gap Analysis
+## Gap analysis
 
-### Not Covered in Guide
+### Not covered in guide
 
 | Sandcastle Capability | Guide Coverage | Notes |
 |----------------------|----------------|-------|
@@ -50,7 +50,7 @@ TypeScript library for orchestrating AI coding agents in isolated sandboxes. Pro
 | Session capture/resume | Partial | `claude --resume` documented, not via library |
 | parallel-planner workflow template | Partial | Ruflo covers parallel swarms, different model |
 
-### Already Covered
+### Already covered
 
 | Sandcastle Feature | Guide Coverage | Location |
 |-------------------|----------------|----------|
@@ -60,7 +60,7 @@ TypeScript library for orchestrating AI coding agents in isolated sandboxes. Pro
 
 ---
 
-## Technical Writer Challenge
+## Technical writer challenge
 
 Challenge agent (Sonnet) recommended **downgrade to 3/5** based on:
 
@@ -76,7 +76,7 @@ Challenge agent (Sonnet) recommended **downgrade to 3/5** based on:
 
 ---
 
-## Fact-Check
+## Fact-check
 
 | Claim | Verified | Source |
 |-------|----------|--------|
@@ -92,7 +92,7 @@ Challenge agent (Sonnet) recommended **downgrade to 3/5** based on:
 
 ---
 
-## Integration Decision
+## Integration decision
 
 **Action**: Watch — add to Known Gaps table in `third-party-tools.md`
 

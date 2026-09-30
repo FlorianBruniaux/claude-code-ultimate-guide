@@ -1,4 +1,4 @@
-# Distribution Assets
+# Distribution assets
 
 These assets turn one part of the Claude Code Ultimate Guide into a bounded teaching format. Publication remains separate from production: a ready file still needs approval, a destination, and a dated channel record.
 

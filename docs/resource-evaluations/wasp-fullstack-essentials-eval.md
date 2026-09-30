@@ -1,4 +1,4 @@
-# Resource Evaluation: Wasp Blog - Claude Code Fullstack Development Essentials
+# Resource evaluation: Wasp blog - Claude Code fullstack development essentials
 
 **Date**: 2026-02-09
 **Evaluator**: Claude (Sonnet 4.5)
@@ -6,7 +6,7 @@
 
 ---
 
-## Resource Details
+## Resource details
 
 **Source**: Blog post (DevRel content)
 **URL**: https://wasp.sh/blog/2026/01/29/claude-code-fullstack-development-essentials
@@ -33,7 +33,7 @@ Includes quotes from Chris McCord (Phoenix creator), Andrej Karpathy, and refere
 
 ---
 
-## Evaluation Score: 3/5
+## Evaluation score: 3/5
 
 **Rating**: Moderate — Useful addition but not urgent
 
@@ -54,7 +54,7 @@ Includes quotes from Chris McCord (Phoenix creator), Andrej Karpathy, and refere
 - Chris McCord quote unverifiable independently
 - Comparison "~10x context reduction llms.txt vs MCP" is biased (compares index file vs tool definitions)
 
-### Gap Analysis
+### Gap analysis
 
 | Content | Status in Guide | Action |
 |---------|----------------|--------|
@@ -64,7 +64,7 @@ Includes quotes from Chris McCord (Phoenix creator), Andrej Karpathy, and refere
 | Convention-over-config for AI | Section 9.18 (AX framework) covers partially | **LOW PRIORITY**: Reinforce existing section |
 | Wasp framework specifics | Not covered | **EXCLUDED**: Promotional content |
 
-### Fact-Check
+### Fact-check
 
 | Claim | Verified | Notes |
 |-------|----------|-------|
@@ -87,13 +87,13 @@ Includes quotes from Chris McCord (Phoenix creator), Andrej Karpathy, and refere
 
 ---
 
-## Integration Decision
+## Integration decision
 
 **Score**: 3/5 — Integrate framework-agnostic concepts only
 
 **Confidence**: Moderate (promotional content, non-generalizable stats, but real gaps identified)
 
-### Integrated Content
+### Integrated content
 
 | Content | File | Location | Priority | Source Used |
 |---------|------|----------|----------|-------------|
@@ -102,7 +102,7 @@ Includes quotes from Chris McCord (Phoenix creator), Andrej Karpathy, and refere
 | Chrome DevTools MCP | `guide/ecosystem/mcp-servers-ecosystem.md` | Browser & Debug section | Low | npm package readme |
 | Convention-over-config reinforcement | `guide/ultimate-guide.md` | Section 9.18.1 (existing AX) | Low | Marmelab/AX (existing) |
 
-### Excluded Content
+### Excluded content
 
 - Wasp framework specifics
 - Wasp plugin setup walkthrough
@@ -115,7 +115,7 @@ Includes quotes from Chris McCord (Phoenix creator), Andrej Karpathy, and refere
 
 ### Score Adjustment: 3/5 (unchanged)
 
-### Points Missed in Initial Evaluation
+### Points missed in initial evaluation
 
 1. **False dichotomy llms.txt vs MCP**: Article presents them as opposed, but they're complementary. Context7 = runtime lookup, llms.txt = pre-optimized docs. Guide should present complementarity.
 
@@ -125,22 +125,22 @@ Includes quotes from Chris McCord (Phoenix creator), Andrej Karpathy, and refere
 
 4. **Section 9.18 (AX framework) already partially covered**: Initial eval said "zero coverage" for convention-over-config, but Marmelab/AX framework already covers concept. Correction needed.
 
-### Risks of Non-Integration
+### Risks of non-integration
 
 **Low to moderate**. Gaps are real but fixable independently:
 - llms.txt: Most embarrassing (repo has file without explaining it)
 - Background tasks workflow: Real UX gap but not critical
 - Chrome DevTools MCP: Niche, no risk
 
-### Challenger Recommendation
+### Challenger recommendation
 
 > "The 3 action items are valid but should be sourced from better references than this promotional article. llms.txt from llmstxt.org, background tasks from official docs, Chrome DevTools MCP from npm repo."
 
 ---
 
-## Integration Plan
+## Integration plan
 
-### 1. llms.txt Conceptual Documentation (High Priority)
+### 1. llms.txt conceptual documentation (high priority)
 
 **File**: `guide/ultimate-guide.md`
 **Location**: Section 9.18, new subsection after 9.18.3 (Code Discoverability)
@@ -158,7 +158,7 @@ Includes quotes from Chris McCord (Phoenix creator), Andrej Karpathy, and refere
 
 ---
 
-### 2. Background Tasks Workflow Strategy (Medium Priority)
+### 2. Background tasks workflow strategy (medium priority)
 
 **File**: `guide/ultimate-guide.md`
 **Location**: Section 9.18 or existing background tasks section
@@ -174,7 +174,7 @@ Includes quotes from Chris McCord (Phoenix creator), Andrej Karpathy, and refere
 
 ---
 
-### 3. Chrome DevTools MCP Mention (Low Priority)
+### 3. Chrome DevTools MCP mention (low priority)
 
 **File**: `guide/ecosystem/mcp-servers-ecosystem.md`
 **Location**: "Browser & Debug" section (next to Playwright/Browserbase)
@@ -189,7 +189,7 @@ Includes quotes from Chris McCord (Phoenix creator), Andrej Karpathy, and refere
 
 ---
 
-### 4. Convention-over-Config Reinforcement (Low Priority)
+### 4. Convention-over-Config reinforcement (low priority)
 
 **File**: `guide/ultimate-guide.md`
 **Location**: Section 9.18.1 (existing AX Framework)
@@ -204,7 +204,7 @@ Includes quotes from Chris McCord (Phoenix creator), Andrej Karpathy, and refere
 
 ---
 
-## Revision History
+## Revision history
 
 - 2026-02-09: Initial evaluation completed
 - 2026-02-09: Challenge review completed (score unchanged, corrections applied)

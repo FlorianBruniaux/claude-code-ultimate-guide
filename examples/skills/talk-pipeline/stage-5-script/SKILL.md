@@ -5,19 +5,19 @@ allowed-tools: Write Read
 effort: high
 ---
 
-# Talk Stage 5: Script
+# Talk stage 5: Script
 
 Produces the complete talk in 3 deliverables: the 5-act narrative with speaker notes, the slide specification, and the Kimi prompt ready to copy-paste.
 
 **Prerequisite**: The user has validated angle + title at the Stage 4 CHECKPOINT. Do not run this stage without that confirmation.
 
-## When to Use This Skill
+## When to use this skill
 
 - After Stage 4 CHECKPOINT is confirmed
 - When you have a validated angle + title
 - To produce the complete script and slide spec
 
-## What This Skill Does
+## What this skill does
 
 1. **Verifies inputs**: all upstream files + angle/title confirmation
 2. **Loads the Kimi template**: from `templates/kimi-prompt-template.md`
@@ -165,7 +165,7 @@ Required sections to complete:
 
 **Verify no `{PLACEHOLDER}` remains in the final file** before handing to the user.
 
-## Script Construction Rules
+## Script construction rules
 
 - **1 idea per slide**: never more, never less
 - **Speaker notes = what you say, not what you read**: minimal slides, conversational notes
@@ -182,7 +182,7 @@ Required sections to complete:
 - Omitting screenshot placeholders from the Kimi prompt
 - Generating more slides than the duration allows (2-3 min/slide for REX)
 
-## Validation Checklist
+## Validation checklist
 
 - [ ] Pitch covers 5 acts with coherent timing (within 10% of target duration)
 - [ ] Each slide has visual + text + speaker notes
@@ -193,7 +193,7 @@ Required sections to complete:
 - [ ] No `{PLACEHOLDER}` remaining in kimi-prompt.md
 - [ ] 3 files saved
 
-## Using the Kimi Prompt
+## Using the Kimi prompt
 
 1. Open `{slug}-kimi-prompt.md`
 2. Verify no `{PLACEHOLDER}` remains (search the file)

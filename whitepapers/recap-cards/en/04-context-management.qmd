@@ -29,7 +29,7 @@ Inspect `/context` for current capacity and the largest consumers. Compact when 
 5. @file                     Explicit inline import (in session)
 ```
 
-## Management Commands
+## Management commands
 
 ```bash
 /compact        # Summarize earlier context; reduction varies
@@ -38,7 +38,7 @@ Inspect `/context` for current capacity and the largest consumers. Compact when 
 /context        # Detailed context state
 ```
 
-## Adding Context Intelligently
+## Adding context intelligently
 
 ```
 # In the prompt
@@ -51,7 +51,7 @@ Always read package.json before working on deps.
 Rules scoped by path (paths:) or global
 ```
 
-## Strategies by Scenario
+## Strategies by scenario
 
 **Long session (refactor)**: Make checkpoints at meaningful task boundaries. Save important decisions in `CLAUDE.md`.
 
@@ -59,7 +59,7 @@ Rules scoped by path (paths:) or global
 
 **Multi-file**: Ask Claude to delegate through the Agent tool. `--agent` instead chooses the main session agent.
 
-## What Consumes the Most
+## What consumes the most
 
 | Source | Impact |
 |--------|--------|

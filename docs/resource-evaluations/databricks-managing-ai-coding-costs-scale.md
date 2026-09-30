@@ -1,4 +1,4 @@
-# Resource Evaluation: Managing AI Coding Costs at Scale
+# Resource evaluation: Managing AI coding costs at scale
 
 **Resource**: [Managing AI Coding Costs at Scale](https://www.databricks.com/blog/managing-ai-coding-costs-scale)  
 **Authors**: Patrick Wendell, Akshat Bhatia, Vinay Gaba, Erich Elsen, and Ivan Zhou  

@@ -14,7 +14,7 @@ format:
   recap-card-typst: default
 ---
 
-## Context Is Model-Specific
+## Context is model-specific
 
 | Direct API model | Context | Maximum output |
 |------------------|---------|----------------|
@@ -25,13 +25,13 @@ format:
 
 Verified September 24, 2026. Provider settings can expose different limits. Inspect `/context` for the active session.
 
-## No Native-1M Premium
+## No native-1M premium
 
 Current native 1M models use standard rates beyond 200K input tokens. They do not need the old long-context beta header. Sonnet 5 has no 200K variant on the direct API.
 
 Older Opus 4.6 and Sonnet 4.6 have `[1m]` variants with plan/provider restrictions. Do not transfer their access rules to current models.
 
-## Price a Complete Request
+## Price a complete request
 
 Illustrative USD totals without caching or retries:
 
@@ -47,7 +47,7 @@ Use separate input, output, cache-read, and cache-write counts. A context-window
 #colbreak()
 ```
 
-## Control Accumulation
+## Control accumulation
 
 `/context` shows the token breakdown. `/compact` summarizes the conversation; `/clear` starts fresh. Save decisions and verification commands before resetting context.
 
@@ -55,7 +55,7 @@ Use separate input, output, cache-read, and cache-write counts. A context-window
 
 Load relevant files rather than filling the available window. Split independent tasks when separate contexts help. No fixed percentage guarantees reliable recall.
 
-## Evaluate Retrieval
+## Evaluate retrieval
 
 Older MRCR results for Opus 4.6 or Sonnet 4.5 remain results for those models and benchmark conditions. They do not establish retrieval quality for Sonnet 5 or Opus 5.5.
 

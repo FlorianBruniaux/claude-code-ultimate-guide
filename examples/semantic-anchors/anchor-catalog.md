@@ -4,13 +4,13 @@ description: "Curated vocabulary of precise technical terms that improve Claude 
 tags: [reference, semantic-anchors, architecture]
 ---
 
-# Semantic Anchors Catalog
+# Semantic anchors catalog
 
 > **Concept**: Alexandre Soyer
 > **Source**: [github.com/LLM-Coding/Semantic-Anchors](https://github.com/LLM-Coding/Semantic-Anchors) (Apache-2.0)
 > **Adapted for**: Claude Code workflows
 
-## What Are Semantic Anchors?
+## What are semantic anchors?
 
 LLMs are statistical pattern matchers. When you use **precise technical vocabulary**, you help Claude access the right patterns from its training data. Generic terms produce generic code; specific terms produce specific, well-structured code.
 
@@ -18,9 +18,9 @@ LLMs are statistical pattern matchers. When you use **precise technical vocabula
 
 ---
 
-## Testing & Quality Assurance
+## Testing & quality assurance
 
-### Test Methodologies
+### Test methodologies
 
 | Vague | Semantic Anchor | What It Activates |
 |-------|-----------------|-------------------|
@@ -30,7 +30,7 @@ LLMs are statistical pattern matchers. When you use **precise technical vocabula
 | "thorough testing" | "Mutation Testing (Stryker/PIT)" | Kill mutants, measure test effectiveness |
 | "behavior tests" | "BDD Gherkin syntax (Given/When/Then)" | Cucumber-style, living documentation |
 
-### Test Quality
+### Test quality
 
 | Vague | Semantic Anchor | Effect |
 |-------|-----------------|--------|
@@ -42,9 +42,9 @@ LLMs are statistical pattern matchers. When you use **precise technical vocabula
 
 ---
 
-## Architecture & Design
+## Architecture & design
 
-### Architectural Patterns
+### Architectural patterns
 
 | Vague | Semantic Anchor | When to Use |
 |-------|-----------------|-------------|
@@ -54,7 +54,7 @@ LLMs are statistical pattern matchers. When you use **precise technical vocabula
 | "event-driven" | "CQRS with Event Sourcing" | Read/write separation, audit trail |
 | "scalable" | "Event-Driven Architecture with message broker" | Async processing, decoupling |
 
-### Domain-Driven Design (Evans)
+### Domain-Driven design (evans)
 
 | Vague | Semantic Anchor | Purpose |
 |-------|-----------------|---------|
@@ -65,7 +65,7 @@ LLMs are statistical pattern matchers. When you use **precise technical vocabula
 | "business rules" | "DDD Domain Services" | Stateless operations |
 | "integration" | "DDD Anti-Corruption Layer (ACL)" | External system isolation |
 
-### SOLID Principles
+### SOLID principles
 
 | Vague | Semantic Anchor | Specific Guidance |
 |-------|-----------------|-------------------|
@@ -77,9 +77,9 @@ LLMs are statistical pattern matchers. When you use **precise technical vocabula
 
 ---
 
-## Code Quality & Refactoring
+## Code quality & refactoring
 
-### Refactoring Catalog (Fowler)
+### Refactoring catalog (Fowler)
 
 | Vague | Semantic Anchor | Trigger |
 |-------|-----------------|---------|
@@ -89,7 +89,7 @@ LLMs are statistical pattern matchers. When you use **precise technical vocabula
 | "remove duplication" | "Extract Class / Extract Superclass" | Similar classes |
 | "improve naming" | "Rename Method/Variable (intention-revealing names)" | Unclear names |
 
-### Code Smells (Fowler/Beck)
+### Code smells (Fowler/Beck)
 
 | Smell | Semantic Anchor | Solution |
 |-------|-----------------|----------|
@@ -99,7 +99,7 @@ LLMs are statistical pattern matchers. When you use **precise technical vocabula
 | "primitive obsession" | "Replace Primitive with Value Object" | Type safety |
 | "shotgun surgery" | "Move Field/Method to consolidate changes" | Centralize logic |
 
-### Clean Code (Martin)
+### Clean code (Martin)
 
 | Vague | Semantic Anchor | Application |
 |-------|-----------------|-------------|
@@ -111,9 +111,9 @@ LLMs are statistical pattern matchers. When you use **precise technical vocabula
 
 ---
 
-## Error Handling
+## Error handling
 
-### Functional Patterns
+### Functional patterns
 
 | Vague | Semantic Anchor | Benefits |
 |-------|-----------------|----------|
@@ -122,7 +122,7 @@ LLMs are statistical pattern matchers. When you use **precise technical vocabula
 | "error accumulation" | "Validation applicative functor" | Collect all errors |
 | "async errors" | "Task/Future monad with error channel" | Async error flow |
 
-### Exception Strategies
+### Exception strategies
 
 | Vague | Semantic Anchor | Use Case |
 |-------|-----------------|----------|
@@ -133,9 +133,9 @@ LLMs are statistical pattern matchers. When you use **precise technical vocabula
 
 ---
 
-## API Design
+## API design
 
-### REST Maturity
+### REST maturity
 
 | Vague | Semantic Anchor | Level |
 |-------|-----------------|-------|
@@ -144,7 +144,7 @@ LLMs are statistical pattern matchers. When you use **precise technical vocabula
 | "HATEOAS" | "REST Level 3: Hypermedia controls" | Full REST |
 | "API versioning" | "URL path versioning (/v1/) or header versioning" | Evolution |
 
-### API Quality
+### API quality
 
 | Vague | Semantic Anchor | Application |
 |-------|-----------------|-------------|
@@ -157,7 +157,7 @@ LLMs are statistical pattern matchers. When you use **precise technical vocabula
 
 ## Documentation
 
-### Architecture Documentation
+### Architecture documentation
 
 | Vague | Semantic Anchor | Output |
 |-------|-----------------|--------|
@@ -166,7 +166,7 @@ LLMs are statistical pattern matchers. When you use **precise technical vocabula
 | "design decisions" | "ADR (Architecture Decision Records) - Nygard format" | Decision log |
 | "system overview" | "4+1 View Model (Kruchten)" | Multiple perspectives |
 
-### Code Documentation
+### Code documentation
 
 | Vague | Semantic Anchor | Format |
 |-------|-----------------|--------|
@@ -177,9 +177,9 @@ LLMs are statistical pattern matchers. When you use **precise technical vocabula
 
 ---
 
-## Requirements & Specifications
+## Requirements & specifications
 
-### Requirements Syntax
+### Requirements syntax
 
 | Vague | Semantic Anchor | Format |
 |-------|-----------------|--------|
@@ -188,7 +188,7 @@ LLMs are statistical pattern matchers. When you use **precise technical vocabula
 | "acceptance criteria" | "BDD Gherkin: Given/When/Then" | Testable criteria |
 | "use cases" | "Cockburn's use case template (brief/casual/fully dressed)" | Interaction flows |
 
-### Discovery & Mapping
+### Discovery & mapping
 
 | Vague | Semantic Anchor | Technique |
 |-------|-----------------|-----------|
@@ -201,7 +201,7 @@ LLMs are statistical pattern matchers. When you use **precise technical vocabula
 
 ## Security
 
-### OWASP & Common Vulnerabilities
+### OWASP & common vulnerabilities
 
 | Vague | Semantic Anchor | Protection |
 |-------|-----------------|------------|
@@ -210,7 +210,7 @@ LLMs are statistical pattern matchers. When you use **precise technical vocabula
 | "authentication" | "OWASP ASVS Level 2 requirements" | Auth standards |
 | "secrets management" | "HashiCorp Vault or cloud KMS" | Secret storage |
 
-### Security Patterns
+### Security patterns
 
 | Vague | Semantic Anchor | Implementation |
 |-------|-----------------|----------------|
@@ -223,7 +223,7 @@ LLMs are statistical pattern matchers. When you use **precise technical vocabula
 
 ## Performance
 
-### Optimization Patterns
+### Optimization patterns
 
 | Vague | Semantic Anchor | Application |
 |-------|-----------------|-------------|
@@ -243,9 +243,9 @@ LLMs are statistical pattern matchers. When you use **precise technical vocabula
 
 ---
 
-## Prompting Patterns
+## Prompting patterns
 
-### Anti-Anchoring Techniques
+### Anti-anchoring techniques
 
 LLMs can fixate on their first suggestion, narrowing your solution space. These patterns combat anchoring bias:
 
@@ -257,7 +257,7 @@ LLMs can fixate on their first suggestion, narrowing your solution space. These 
 | Devil's advocate | "What are the strongest arguments against your recommendation?" | Surface hidden costs |
 | Constraint flip | "Now solve with [opposite constraint]" | Expand solution space |
 
-### Exploration Prompts
+### Exploration prompts
 
 Use these when you need multiple approaches before committing:
 
@@ -268,7 +268,7 @@ Use these when you need multiple approaches before committing:
 | Team fit | "Evaluate learning curve, debugging difficulty, and ecosystem maturity (1-10 scale)" |
 | Risk assessment | "For each option: what's the worst-case failure mode and recovery cost?" |
 
-### Iteration Prompts
+### Iteration prompts
 
 For progressive refinement of scripts and automation:
 
@@ -282,7 +282,7 @@ For progressive refinement of scripts and automation:
 
 ---
 
-## CLAUDE.md Template with Semantic Anchors
+## CLAUDE.md template with semantic anchors
 
 ```markdown
 # Project Architecture
@@ -322,9 +322,9 @@ For progressive refinement of scripts and automation:
 
 ---
 
-## Quick Reference
+## Quick reference
 
-### Before/After Examples
+### Before/after examples
 
 | Before (Vague) | After (Anchored) |
 |----------------|------------------|
@@ -338,7 +338,7 @@ For progressive refinement of scripts and automation:
 
 ---
 
-## Usage Tips
+## Usage tips
 
 1. **Combine anchors**: "Apply Hexagonal Architecture with DDD tactical patterns and Railway Oriented error handling"
 

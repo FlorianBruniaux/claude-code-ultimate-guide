@@ -4,7 +4,7 @@ description: Browse Claude Code sessions history
 category: exploration
 ---
 
-# Sessions Browser Command
+# Sessions browser command
 
 Launch ccboard and jump directly to the sessions exploration tab.
 
@@ -32,7 +32,7 @@ Launch ccboard and jump directly to the sessions exploration tab.
 ccboard --tab sessions
 ```
 
-## Sessions Tab Navigation
+## Sessions tab navigation
 
 - `←/→` : Switch between project tree and session list
 - `↑/↓` : Navigate items
@@ -41,7 +41,7 @@ ccboard --tab sessions
 - `e` : Edit selected session JSONL file
 - `o` : Reveal session file
 
-## Session Metadata
+## Session metadata
 
 Each session shows:
 - **ID**: Unique session identifier
@@ -52,7 +52,7 @@ Each session shows:
 - **Models**: AI models used (e.g., opus-4.5, sonnet-4.5)
 - **Preview**: First user message (200 chars)
 
-## Search Examples
+## Search examples
 
 ```
 # Search by project name

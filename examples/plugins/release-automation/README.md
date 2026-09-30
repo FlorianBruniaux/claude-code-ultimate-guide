@@ -1,4 +1,4 @@
-# Release Automation Plugin
+# Release automation plugin
 
 Semantic versioning, changelog generation, and release management.
 
@@ -15,7 +15,7 @@ bash install.sh
 - **release-notes-generator skill**: Automated release documentation
 - **version-sync hook**: Keep version consistent across files
 
-## Quick Start
+## Quick start
 
 ```bash
 # Bump version and create release

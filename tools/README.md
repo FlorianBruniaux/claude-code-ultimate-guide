@@ -1,4 +1,4 @@
-# Interactive Tools
+# Interactive tools
 
 Prompts and utilities for Claude Code setup and optimization.
 
@@ -24,7 +24,7 @@ Prompts and utilities for Claude Code setup and optimization.
 | Can I safely delegate work to an agent here? | `spec-completeness-audit.md` |
 | Are there secrets or injection surfaces in this repo? | `/security-audit` (slash command) |
 
-## Quick Audit
+## Quick audit
 
 For a fast automated scan, use the script instead:
 

@@ -1,4 +1,4 @@
-# Resource Evaluation: "The 80% Problem in Agentic Coding"
+# Resource evaluation: "The 80% Problem in Agentic Coding"
 
 **Date**: 2026-01-30
 **Evaluator**: Claude (Sonnet 4.5)
@@ -21,7 +21,7 @@ Article synthesizing the challenges when AI generates 80%+ of code. Introduces "
 
 ---
 
-## Evaluation Scoring
+## Evaluation scoring
 
 | Criterion | Score | Notes |
 |-----------|-------|-------|
@@ -35,9 +35,9 @@ Article synthesizing the challenges when AI generates 80%+ of code. Introduces "
 
 ---
 
-## Gap Analysis
+## Gap analysis
 
-### Already Covered in Guide
+### Already covered in guide
 
 | Osmani Concept | Guide Coverage | Location |
 |----------------|----------------|----------|
@@ -47,7 +47,7 @@ Article synthesizing the challenges when AI generates 80%+ of code. Introduces "
 | Productivity paradox | Productivity curves | learning-with-ai.md:100-153 |
 | Orchestrator role | Plan Mode workflows | Implicit throughout |
 
-### What's New
+### What's new
 
 - **"80% problem" framework**: Memorable mental model
 - **Vocabulary**: "Comprehension debt" more explicit than "verification debt"
@@ -56,7 +56,7 @@ Article synthesizing the challenges when AI generates 80%+ of code. Introduces "
 
 ---
 
-## Fact-Check Results
+## Fact-check results
 
 | Claim | Verified | Source/Notes |
 |-------|----------|--------------|
@@ -72,7 +72,7 @@ Article synthesizing the challenges when AI generates 80%+ of code. Introduces "
 
 ---
 
-## Technical Writer Challenge
+## Technical writer challenge
 
 Agent challenged initial score of 4/5, recommending downgrade to 3/5:
 
@@ -88,7 +88,7 @@ Agent challenged initial score of 4/5, recommending downgrade to 3/5:
 
 ---
 
-## Integration Decision
+## Integration decision
 
 **Action**: Minimal integration (30 lines)
 
@@ -112,7 +112,7 @@ Agent challenged initial score of 4/5, recommending downgrade to 3/5:
 
 ---
 
-## Key Quotes
+## Key quotes
 
 **Andrej Karpathy**:
 > "The models make wrong assumptions on your behalf and run with them without checking."
@@ -124,7 +124,7 @@ Agent challenged initial score of 4/5, recommending downgrade to 3/5:
 
 ---
 
-## Lessons Learned
+## Lessons learned
 
 1. **Secondary sources need rigorous fact-checking**: Even respected authors may aggregate/interpret data imprecisely
 2. **Check for overlap before scoring**: Initial 4/5 was overestimated due to vocabulary mismatch

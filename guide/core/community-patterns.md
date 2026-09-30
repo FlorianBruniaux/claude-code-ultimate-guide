@@ -4,7 +4,7 @@ description: "Community-coined patterns, AI engineering concepts, workflow terms
 tags: [reference, community, patterns, ai-engineering]
 ---
 
-# Community Patterns & Reference
+# Community patterns & reference
 
 Quick-reference for Claude Code community patterns, workflow terms, and AI engineering vocabulary. Standard CS/DevOps terms (JWT, CI/CD, REST) are excluded; look those up elsewhere.
 

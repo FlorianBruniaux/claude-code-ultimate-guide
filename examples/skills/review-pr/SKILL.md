@@ -6,7 +6,7 @@ effort: high
 disable-model-invocation: true
 ---
 
-# Review Pull Request
+# Review pull request
 
 Perform a comprehensive code review of a pull request.
 
@@ -16,9 +16,9 @@ Perform a comprehensive code review of a pull request.
 2. Review each changed file
 3. Provide structured feedback
 
-## Review Checklist
+## Review checklist
 
-### Code Quality
+### Code quality
 - [ ] Code is readable and well-organized
 - [ ] Functions are appropriately sized
 - [ ] No code duplication
@@ -46,7 +46,7 @@ Perform a comprehensive code review of a pull request.
 - [ ] README updated if needed
 - [ ] API changes documented
 
-## Output Format
+## Output format
 
 ```markdown
 ## PR Review: #[number] - [title]
@@ -86,7 +86,7 @@ Perform a comprehensive code review of a pull request.
 
 ---
 
-## Advanced: Multi-Agent Review
+## Advanced: Multi-Agent review
 
 For production-grade reviews requiring specialized perspectives and anti-hallucination safeguards.
 
@@ -101,7 +101,7 @@ git log --oneline -10 | grep "Co-Authored-By: Claude"
 
 If detected, note: "This appears to be a follow-up pass. I'll focus on new issues and avoid repeating previous suggestions."
 
-### Scope Drift Detection
+### Scope drift detection
 
 Cross-reference the PR diff against the original plan to catch unintended changes.
 
@@ -133,7 +133,7 @@ Verdict:       IN SCOPE / DRIFT DETECTED
 
 If no plan file exists: note "No plan file found for this branch, skipping scope drift check."
 
-### Multi-Agent Specialization
+### Multi-agent specialization
 
 Launch 3 parallel specialized agents (see [Split Role Sub-Agents](../../../guide/ultimate-guide.md#split-role-sub-agents)):
 
@@ -174,7 +174,7 @@ LLM Output Trust Boundary (especially relevant in AI-assisted codebases):
 - AI-generated SQL or code strings executed without sanitization
 ```
 
-### Anti-Hallucination Rules
+### Anti-hallucination rules
 
 **Verify before asserting**:
 - Use `Grep` or `Glob` to verify patterns before recommending them
@@ -200,7 +200,7 @@ After agents report findings:
 3. **Mark skipped suggestions**: "Skipping [suggestion] because project uses [alternative pattern]"
 4. **Track reasoning**: Document why suggestion was kept or skipped
 
-### Severity Classification
+### Severity classification
 
 ```
 🔴 Must Fix (Blockers)
@@ -222,7 +222,7 @@ After agents report findings:
 - Documentation gaps (if code self-documenting)
 ```
 
-### Fix-First Heuristic
+### Fix-first heuristic
 
 Determine whether to auto-fix each finding or surface it for user decision.
 
@@ -243,7 +243,7 @@ After agents report findings:
 1. Apply all AUTO-FIX items immediately with minimal targeted edits
 2. Batch all ASK items into a single user decision (not one question per item)
 
-### Auto-Fix Loop (Optional)
+### Auto-Fix loop (optional)
 
 For automated convergence:
 
@@ -266,7 +266,7 @@ Review this PR with auto-fix enabled:
 5. Stop when only 🟢 Can Skip remain
 ```
 
-### Conditional Context Loading
+### Conditional context loading
 
 Load additional context based on diff content (stack-agnostic):
 
@@ -280,7 +280,7 @@ Load additional context based on diff content (stack-agnostic):
 | External API calls | Timeout configs, retry logic, error handling |
 | Environment variables | Presence in .env.example, validation at startup |
 
-### Integration with Existing Tools
+### Integration with existing tools
 
 **SE-CoVe Plugin**: Use for general fact-checking of review claims (complementary to anti-hallucination rules above)
 

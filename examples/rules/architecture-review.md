@@ -2,11 +2,11 @@
 description: "Architecture review criteria for plan and code reviews"
 ---
 
-# Architecture Review Criteria
+# Architecture review criteria
 
 When reviewing architecture (plans or code), evaluate these dimensions:
 
-## System Design
+## System design
 - Are component boundaries clear and well-defined?
 - Does each component have a single, well-understood responsibility?
 - Are interfaces between components minimal and well-documented?
@@ -16,7 +16,7 @@ When reviewing architecture (plans or code), evaluate these dimensions:
 - Are there circular dependencies that need breaking?
 - Are external dependencies justified and up-to-date?
 
-## Data Flow
+## Data flow
 - Is data ownership clear (which component is source of truth)?
 - Are there potential bottlenecks in the data pipeline?
 - Is data transformation happening at the right layer?

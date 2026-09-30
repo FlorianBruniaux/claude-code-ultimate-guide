@@ -1,4 +1,4 @@
-# Resource Evaluation: "You're probably using Claude Code wrong" - Alex Ischenko
+# Resource evaluation: "You're probably using Claude Code wrong" - Alex Ischenko
 
 ## Metadata
 
@@ -27,9 +27,9 @@ LinkedIn article arguing that Claude Code quality is an engineering system quest
 
 Claims "20-30% quality improvement" from these workflow changes.
 
-## Scoring Rationale
+## Scoring rationale
 
-### Overlap with Guide (75-85%)
+### Overlap with guide (75-85%)
 
 | Pattern | Guide Coverage | Location |
 |---|---|---|
@@ -41,17 +41,17 @@ Claims "20-30% quality improvement" from these workflow changes.
 | Small tasks | Scattered | `spec-first.md` L62-93, L1529, L1733 |
 | Human elevation | Thin | L17458, L15725, L3216 |
 
-### What's Unique
+### What's unique
 
 The 7 copy-paste prompt templates are the only non-redundant element. These are practical formatting convenience but not structural insight. The guide's existing workflow files and skill templates serve the same purpose.
 
-### Credibility Assessment
+### Credibility assessment
 
 - No GitHub repo, no production artifact, no tooling behind the article
 - "20-30% quality improvement" has no methodology, no baseline, no control group
 - Compare to higher-scored resources: Cullen (shipped working slash command, 5/5), Chabaud (clonable repo, 3/5), Rusitschka (repo with working code, 4/5)
 
-### Accumulation Risk
+### Accumulation risk
 
 The guide already integrates Chabaud, Rusitschka, Cullen, and paddo.dev team tips covering adjacent workflow territory. Adding Ischenko without new substance dilutes the signal-to-noise ratio.
 
@@ -62,7 +62,7 @@ Two gaps surfaced during analysis that the guide could address independently:
 1. **Multi-model review pattern** (near zero coverage): deliberately using different models to review each other's work. Ischenko mentions it briefly but provides no template.
 2. **Consolidated task sizing section**: currently scattered across multiple files with no single reference point.
 
-## Fact-Check
+## Fact-check
 
 | Claim | Status | Notes |
 |---|---|---|

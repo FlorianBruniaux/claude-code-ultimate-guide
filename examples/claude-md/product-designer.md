@@ -4,7 +4,7 @@ description: "CLAUDE.md configuration for design-to-code workflows using Figma M
 tags: [claude-md, template, design-patterns, mcp]
 ---
 
-# Product Designer CLAUDE.md Template
+# Product designer CLAUDE.md template
 
 A CLAUDE.md configuration optimized for design-to-code workflows using Figma MCP.
 
@@ -222,9 +222,9 @@ Each component should document:
 
 ---
 
-## Customization Guide
+## Customization guide
 
-### For React + Tailwind Projects
+### For React + Tailwind projects
 
 Add to "Technology Stack":
 ```markdown
@@ -271,7 +271,7 @@ export function PrimaryButton({ size = 'md', disabled, children }: ButtonProps) 
 ```
 ```
 
-### For Design System with Tokens Studio
+### For design system with tokens Studio
 
 Add section:
 ```markdown
@@ -308,7 +308,7 @@ Add section:
 - Platforms: CSS, Tailwind, iOS, Android
 ```
 
-### For Teams Using Storybook
+### For teams using storybook
 
 Add to "Response Preferences":
 ```markdown
@@ -354,7 +354,7 @@ export const Small: Story = {
 
 ---
 
-## Integration with Workflows
+## Integration with workflows
 
 This CLAUDE.md pairs with the Design-to-Code workflow:
 
@@ -364,9 +364,9 @@ This CLAUDE.md pairs with the Design-to-Code workflow:
 
 ---
 
-## Example Prompts
+## Example prompts
 
-### Implement Component from Figma
+### Implement component from Figma
 ```
 Implement the "Card/Product" component from our Figma design system:
 [Figma URL]
@@ -376,7 +376,7 @@ Use our token conventions from this CLAUDE.md.
 Generate TypeScript component with all variants.
 ```
 
-### Audit Design System Drift
+### Audit design system drift
 ```
 Audit src/components against our Figma design system:
 [Figma URL]
@@ -388,7 +388,7 @@ Report:
 4. Propose fixes
 ```
 
-### Update Component After Design Change
+### Update component after design change
 ```
 The Button component was updated in Figma:
 [Figma URL → Button frame]
@@ -400,7 +400,7 @@ Update Storybook stories if needed.
 
 ---
 
-## See Also
+## See also
 
 - [Design-to-Code Workflow](../../guide/workflows/design-to-code.md): Complete Figma MCP workflow guide
 - [Figma MCP Section](../../guide/ultimate-guide.md#figma-mcp-integration): Technical details

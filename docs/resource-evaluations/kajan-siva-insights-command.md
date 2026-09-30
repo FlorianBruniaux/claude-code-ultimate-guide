@@ -1,4 +1,4 @@
-# Evaluation: Post LinkedIn Kajan Siva - /insights command
+# Evaluation: Post LinkedIn kajan siva - /insights command
 
 **Resource Type**: LinkedIn Post
 **Author**: Kajan Siva (@kajan-siva)
@@ -9,7 +9,7 @@
 
 ---
 
-## 1. Content Summary
+## 1. Content summary
 
 Post LinkedIn court (~4 lignes) recommandant la commande `/insights` de Claude Code:
 - Analyse les sessions récentes
@@ -29,7 +29,7 @@ Post LinkedIn court (~4 lignes) recommandant la commande `/insights` de Claude C
 
 ---
 
-## 2. Initial Scoring: 2/5 (Marginal)
+## 2. Initial scoring: 2/5 (Marginal)
 
 | Score | Signification | Action |
 |-------|---------------|--------|
@@ -59,7 +59,7 @@ Post LinkedIn court (~4 lignes) recommandant la commande `/insights` de Claude C
 
 ---
 
-## 3. Comparative Analysis
+## 3. Comparative analysis
 
 ### Comparison avec notre guide
 
@@ -86,7 +86,7 @@ Post LinkedIn court (~4 lignes) recommandant la commande `/insights` de Claude C
 
 ---
 
-## 4. Fact-Check
+## 4. Fact-check
 
 | Claim | Verified | Source |
 |-------|----------|--------|
@@ -104,7 +104,7 @@ Post LinkedIn court (~4 lignes) recommandant la commande `/insights` de Claude C
 
 ## 5. Technical Challenge (by technical-writer agent)
 
-### Challenge Questions
+### Challenge questions
 
 **Q1**: "Score 2/5 semble élevé pour un post de 3 lignes sans contenu technique. Pourquoi ne pas scorer 1/5?"
 
@@ -147,13 +147,13 @@ Citer un post de 3 lignes comme source dans un guide de 11K lignes diluerait la 
 
 Le pattern: 2/5 = mention anecdotique sans profondeur technique. Cohérent.
 
-### Adjusted Score After Challenge
+### Adjusted score after challenge
 
 **Score confirmé**: **2/5** (voire 1/5, mais on garde 2/5 pour le signal communautaire)
 
 ---
 
-## 6. Integration Decision
+## 6. Integration decision
 
 ### Decision: **DO NOT INTEGRATE** ❌
 
@@ -163,7 +163,7 @@ Le pattern: 2/5 = mention anecdotique sans profondeur technique. Cohérent.
 3. **Dilution de crédibilité** - Citer des posts de 3 lignes affaiblit le guide
 4. **Feature importante ≠ Post important** - Documenter `/insights` sans citer ce post
 
-### Alternative Action
+### Alternative action
 
 **À la place, faire**:
 1. **Évaluer le deep dive de Zolkos** (priorité haute)
@@ -176,7 +176,7 @@ Le pattern: 2/5 = mention anecdotique sans profondeur technique. Cohérent.
    - Check CHANGELOG officiel GitHub
    - Update `guide/core/claude-code-releases.md` si nécessaire
 
-### Implementation Steps
+### Implementation steps
 
 Si on devait documenter `/insights` (basé sur Zolkos, pas sur ce post):
 
@@ -205,7 +205,7 @@ Analyze your recent Claude Code sessions to identify patterns, friction points, 
 
 ---
 
-## 7. Related Resources to Evaluate
+## 7. Related resources to evaluate
 
 | Resource | Priority | Estimated Score |
 |----------|----------|-----------------|
@@ -215,7 +215,7 @@ Analyze your recent Claude Code sessions to identify patterns, friction points, 
 
 ---
 
-## 8. Final Metadata
+## 8. Final metadata
 
 **Initial Score**: 2/5
 **Final Score**: 2/5

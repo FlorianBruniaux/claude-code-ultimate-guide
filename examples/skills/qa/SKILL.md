@@ -6,7 +6,7 @@ effort: high
 disable-model-invocation: true
 ---
 
-# QA: Web Application Testing
+# QA: Web application testing
 
 Systematically test a web application for bugs, then fix and verify each issue found.
 
@@ -14,7 +14,7 @@ Three tiers of thoroughness. Diff-aware scoping tests what actually changed.
 
 ## Instructions
 
-### Step 1: Scope Detection
+### Step 1: Scope detection
 
 Determine which pages and features to test.
 
@@ -35,7 +35,7 @@ git diff --name-only origin/main...HEAD 2>/dev/null || git diff --name-only HEAD
 
 ---
 
-### Step 2: Tier Selection
+### Step 2: Tier selection
 
 | Tier | Flag | Scope | Use when |
 |------|------|-------|----------|
@@ -45,7 +45,7 @@ git diff --name-only origin/main...HEAD 2>/dev/null || git diff --name-only HEAD
 
 ---
 
-### Step 3: Clean Working Tree
+### Step 3: Clean working tree
 
 Before testing, ensure you can commit fixes atomically.
 
@@ -104,7 +104,7 @@ For each page, cover:
 
 ---
 
-### Step 5: Document Findings
+### Step 5: Document findings
 
 Track each issue with a unique ID.
 
@@ -121,7 +121,7 @@ ISSUE-001
 
 ---
 
-### Step 6: Fix and Verify Loop
+### Step 6: Fix and verify loop
 
 For each Critical and High issue (and Medium/Low in Standard/Exhaustive tiers):
 
@@ -140,7 +140,7 @@ Do not batch multiple fixes in one commit. Each fix must be individually reverta
 
 ---
 
-## Output Format
+## Output format
 
 ```
 QA REPORT
@@ -207,7 +207,7 @@ VERDICT: [READY TO SHIP / NOT READY: address critical and high issues first]
 4. **Screenshot evidence**: always capture before/after for critical fixes
 5. **Check mobile**: most visual bugs appear at 375px width
 
-## Related Commands
+## Related commands
 
 - `/investigate`: root-cause analysis when QA finds a complex bug
 - `/ship`: pre-deploy checklist (run after QA passes)

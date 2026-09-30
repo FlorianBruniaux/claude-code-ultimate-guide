@@ -15,7 +15,7 @@ format:
   recap-card-typst: default
 ---
 
-## Comparison Table
+## Comparison table
 
 | Mechanism | Scope | Invocation | Resources | Use Case |
 |-----------|-------|-----------|-----------|----------|
@@ -46,7 +46,7 @@ disable-model-invocation: true
 
 **When to choose:** You have a sequence of instructions you trigger intentionally several times a week.
 
-## Model-Invocable Skills
+## Model-invocable skills
 
 A skill without `disable-model-invocation` may be invoked by the model when its description fits the task.
 
@@ -62,7 +62,7 @@ Analyze code for OWASP Top 10 vulnerabilities...
 
 **When to choose:** Multiple agents need the same specialized knowledge, or you want Claude to automatically load the right expertise.
 
-## Plugins: Third-Party Integrations
+## Plugins: Third-Party integrations
 
 Plugins come from the marketplace and add external capabilities. Add a catalog with `/plugin marketplace add <source>`, then install a selected plugin with `/plugin install <name>@<marketplace>`.
 
@@ -70,7 +70,7 @@ Plugins come from the marketplace and add external capabilities. Add a catalog w
 
 `${CLAUDE_PLUGIN_DATA}` (v2.1.78+): Persistent directory for storing state between sessions.
 
-## Agents: Complex Task Delegation
+## Agents: Complex task delegation
 
 An agent is a specialized Claude with its own tools and scope. It isolates context, not simulates a human role.
 
@@ -87,6 +87,6 @@ Analyze code for OWASP vulnerabilities...
 
 **When to choose:** A long task that would pollute the main context, or parallelizable work.
 
-## Quick Decision Rule
+## Quick decision rule
 
 Manually triggered workflow = **User-invocable Skill**. Knowledge to share across agents = **Model-invocable Skill**. Third-party integration = **Plugin**. Task to delegate with isolated context = **Agent**.

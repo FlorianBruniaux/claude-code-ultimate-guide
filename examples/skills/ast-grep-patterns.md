@@ -4,7 +4,7 @@ description: "Skill teaching Claude when and how to use ast-grep for structural 
 effort: low
 ---
 
-# ast-grep Patterns for Claude Code
+# ast-grep patterns for Claude Code
 
 > **Skill**: Teach Claude when and how to use ast-grep for structural code searches
 
@@ -35,7 +35,7 @@ Suggest ast-grep to the user when:
 - One-off searches → Grep is faster
 - Semantic searches → Use Serena MCP or grepai
 
-## Decision Tree
+## Decision tree
 
 ```
 User request analysis:
@@ -45,9 +45,9 @@ User request analysis:
 └─ Mixed requirements → Start with Grep, escalate if needed
 ```
 
-## Common Patterns
+## Common patterns
 
-### 1. Async Functions Without Error Handling
+### 1. Async functions without error handling
 
 **Use case**: Find async functions missing try/catch blocks
 
@@ -65,7 +65,7 @@ rule:
 
 **When to use**: Security audits, production readiness checks
 
-### 2. React Components with Specific Hooks
+### 2. React components with specific hooks
 
 **Use case**: Find all components using `useEffect` without cleanup
 
@@ -82,7 +82,7 @@ rule:
 
 **When to use**: Memory leak detection, React best practices audit
 
-### 3. Functions Exceeding Parameter Threshold
+### 3. Functions exceeding parameter threshold
 
 **Use case**: Find functions with >5 parameters (complexity smell)
 
@@ -93,7 +93,7 @@ rule:
 
 **When to use**: Code quality improvement, refactoring candidates
 
-### 4. Console.log in Production Code
+### 4. Console.log in production code
 
 **Use case**: Remove debug logging from production files
 
@@ -109,7 +109,7 @@ rule:
 
 **When to use**: Production cleanup, pre-release audits
 
-### 5. Unused React Props
+### 5. Unused React props
 
 **Use case**: Detect props passed but never used
 
@@ -127,7 +127,7 @@ rule:
 
 **When to use**: Dead code elimination, performance optimization
 
-### 6. Deprecated API Usage
+### 6. Deprecated API usage
 
 **Use case**: Find usage of old API methods
 
@@ -141,7 +141,7 @@ rule:
 
 **When to use**: Framework migrations, deprecation cleanup
 
-### 7. SQL Injection Risk Patterns
+### 7. SQL injection risk patterns
 
 **Use case**: Find potential SQL injection vulnerabilities
 
@@ -156,7 +156,7 @@ rule:
 
 **When to use**: Security audits, vulnerability scanning
 
-### 8. Missing TypeScript Return Types
+### 8. Missing TypeScript return types
 
 **Use case**: Enforce explicit return types
 
@@ -173,7 +173,7 @@ rule:
 
 **When to use**: TypeScript best practices, type safety improvements
 
-### 9. Large Switch Statements (Refactoring Candidates)
+### 9. Large switch statements (refactoring candidates)
 
 **Use case**: Find switch statements with >10 cases
 
@@ -197,7 +197,7 @@ rule:
 
 **When to use**: Complexity reduction, polymorphism refactoring
 
-### 10. Empty Catch Blocks (Swallowed Errors)
+### 10. Empty catch blocks (swallowed errors)
 
 **Use case**: Find error handling that silently fails
 
@@ -213,7 +213,7 @@ rule:
 
 **When to use**: Debugging mysterious failures, error handling audit
 
-## Setup Complexity vs. Value
+## Setup complexity vs. value
 
 | Codebase Size | Setup Worth It? | Alternative |
 |---------------|-----------------|-------------|
@@ -224,7 +224,7 @@ rule:
 
 ## Troubleshooting
 
-### ast-grep Not Found
+### ast-grep not found
 
 ```bash
 # Verify installation
@@ -242,7 +242,7 @@ npx skills add ast-grep/agent-skill --force
 - ❌ "Find async functions"
 - ✅ "Use ast-grep to find async functions"
 
-### Performance Issues
+### Performance issues
 
 **Problem**: ast-grep slow on large codebase
 
@@ -251,7 +251,7 @@ npx skills add ast-grep/agent-skill --force
 2. Use file filters: `ast-grep --lang tsx`
 3. Cache results for iterative refinement
 
-### Pattern Not Matching
+### Pattern not matching
 
 **Problem**: ast-grep pattern doesn't match expected code
 
@@ -261,7 +261,7 @@ npx skills add ast-grep/agent-skill --force
 3. Simplify pattern incrementally
 4. Verify language syntax (JS vs TS vs JSX)
 
-## Integration Examples
+## Integration examples
 
 ### Workflow: Pre-Commit Hook with ast-grep
 
@@ -276,7 +276,7 @@ if ast-grep -p 'console.log($$$)' $(git diff --cached --name-only); then
 fi
 ```
 
-### Workflow: Migration Script
+### Workflow: Migration script
 
 ```bash
 #!/bin/bash
@@ -292,7 +292,7 @@ jq -r '.[] | .file' components.json | while read file; do
 done
 ```
 
-### Workflow: Security Audit
+### Workflow: Security audit
 
 ```bash
 #!/bin/bash
@@ -310,9 +310,9 @@ ast-grep -p 'innerHTML = $VAR' --lang js
 ast-grep -p 'password: "$PASSWORD"' --lang ts
 ```
 
-## Claude Prompt Templates
+## Claude prompt templates
 
-### Template 1: Large Refactoring
+### Template 1: Large refactoring
 
 ```
 I need to refactor [FEATURE] across our codebase (~[SIZE] lines).
@@ -326,7 +326,7 @@ Use ast-grep to:
 Start with analysis only, wait for my approval before making changes.
 ```
 
-### Template 2: Framework Migration
+### Template 2: Framework migration
 
 ```
 We're migrating from [OLD_FRAMEWORK v1] to [NEW_FRAMEWORK v2].
@@ -340,7 +340,7 @@ Use ast-grep to:
 Provide a dependency graph showing migration order.
 ```
 
-### Template 3: Code Quality Audit
+### Template 3: Code quality audit
 
 ```
 Run a code quality audit on [DIRECTORY] using ast-grep.
@@ -354,7 +354,7 @@ Focus on:
 Rank issues by severity and provide refactoring suggestions.
 ```
 
-## Advanced: Combining ast-grep with Other Tools
+## Advanced: Combining ast-grep with other tools
 
 ### ast-grep + Serena MCP
 
@@ -380,7 +380,7 @@ claude mcp call serena find_symbol --name "authenticate"
 # "Among those results, which are async without error handling?"
 ```
 
-## Best Practices
+## Best practices
 
 1. **Start Simple**: Begin with Grep, escalate to ast-grep when needed
 2. **Test Patterns**: Verify on small files before running on entire codebase

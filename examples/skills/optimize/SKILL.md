@@ -7,7 +7,7 @@ when_to_use: "Use when a function or module needs performance analysis or improv
 disable-model-invocation: true
 ---
 
-# Performance Optimizer
+# Performance optimizer
 
 Analyze and suggest performance improvements for code, queries, or systems.
 
@@ -22,7 +22,7 @@ Identify optimization opportunities:
 
 ## Instructions
 
-### Step 1: Scope Identification
+### Step 1: Scope identification
 
 Determine optimization target:
 - **Function**: Single function performance
@@ -31,9 +31,9 @@ Determine optimization target:
 - **Bundle**: Frontend bundle analysis
 - **System**: Architecture-level optimization
 
-### Step 2: Performance Analysis
+### Step 2: Performance analysis
 
-#### Runtime Analysis
+#### Runtime analysis
 
 ```bash
 # Find potentially slow patterns
@@ -46,7 +46,7 @@ grep -rn "for.*for\|\.forEach.*\.forEach\|\.map.*\.map" --include="*.{ts,js}" . 
 grep -rn "readFileSync\|writeFileSync\|execSync" --include="*.{ts,js}" . | head -10
 ```
 
-#### Memory Analysis
+#### Memory analysis
 
 ```bash
 # Large array operations
@@ -56,7 +56,7 @@ grep -rn "new Array\|Array\.from\|\.concat\|spread" --include="*.{ts,js}" . | he
 grep -rn "addEventListener\|setInterval\|setTimeout" --include="*.{ts,js}" . | head -10
 ```
 
-#### Database Query Analysis
+#### Database query analysis
 
 ```bash
 # N+1 query patterns
@@ -66,7 +66,7 @@ grep -rn "await.*find\|await.*query" --include="*.{ts,js}" . | head -15
 grep -rn "WHERE\|ORDER BY\|GROUP BY" --include="*.{ts,js,sql}" . | head -15
 ```
 
-#### Bundle Analysis
+#### Bundle analysis
 
 ```bash
 # Check bundle size (if applicable)
@@ -83,11 +83,11 @@ Rank findings by:
 2. **Effort**: How hard is the fix?
 3. **Risk**: What could break?
 
-## Output Format
+## Output format
 
 ---
 
-### ⚡ Performance Analysis
+### ⚡ Performance analysis
 
 **Target**: [file/module/system]
 **Analysis Date**: [timestamp]
@@ -100,9 +100,9 @@ Rank findings by:
 | Memory usage | XMB | <YMB | -Z% needed |
 | Bundle size | XKB | <YKB | -Z% needed |
 
-### 🔴 Critical Issues
+### 🔴 Critical issues
 
-#### 1. [Issue Title] - [Location]
+#### 1. [Issue title] - [location]
 
 **Problem**: [What's slow and why]
 
@@ -130,25 +130,25 @@ users.forEach(user => {
 **Effort**: Low (5 min)
 **Risk**: Low
 
-### 🟠 High Priority
+### 🟠 High priority
 
 | Issue | Location | Impact | Effort |
 |-------|----------|--------|--------|
 | [description] | file:line | [estimate] | [time] |
 
-### 🟡 Medium Priority
+### 🟡 Medium priority
 
 | Issue | Location | Impact | Effort |
 |-------|----------|--------|--------|
 | [description] | file:line | [estimate] | [time] |
 
-### 💡 Quick Wins
+### 💡 Quick wins
 
 1. [Small change with good impact]
 2. [Another quick optimization]
 3. [Low-hanging fruit]
 
-### 📈 Optimization Roadmap
+### 📈 Optimization roadmap
 
 ```
 Week 1: Critical fixes (items 1-3)
@@ -158,9 +158,9 @@ Week 3: Measure and validate improvements
 
 ---
 
-## Common Patterns
+## Common patterns
 
-### Array Operations
+### Array operations
 
 | Pattern | Issue | Fix |
 |---------|-------|-----|
@@ -176,7 +176,7 @@ Week 3: Measure and validate improvements
 | `SELECT *` | Over-fetching | Select only needed columns |
 | Missing WHERE index | Full table scan | Add composite index |
 
-### React/Frontend
+### React/frontend
 
 | Pattern | Issue | Fix |
 |---------|-------|-----|

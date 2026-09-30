@@ -4,7 +4,7 @@ description: "Field reports from production teams on agentic systems, context en
 tags: [guide, community, insights]
 ---
 
-# Practitioner Insights
+# Practitioner insights
 
 This page collects paraphrased field reports from engineers and technology leads who have built production systems with LLMs and agentic tooling. These are practitioner accounts, not vendor documentation. Every insight is attributed to its source.
 
@@ -12,7 +12,7 @@ This page selects material from IFTTD, Devoxx, Dev With AI, ByteByteGo, Stanford
 
 ---
 
-## Context Engineering
+## Context engineering
 
 **Context quality beats context volume.** Filling a 1M-token window is not a sign of capability; it is often a mistake. LLMs attend better to information at the beginning and end of their context window than to what sits in the middle (see [Lost-in-the-Middle Problem](../core/context-engineering.md#the-lost-in-the-middle-problem)). Injecting large volumes of partially relevant text degrades focus without improving outcomes.
 
@@ -104,7 +104,7 @@ This page selects material from IFTTD, Devoxx, Dev With AI, ByteByteGo, Stanford
 
 ---
 
-## Agentic Patterns & Orchestration
+## Agentic patterns & orchestration
 
 **A software factory is an operating model, not a product category alone.** The model, runtime harness, repository gates, orchestrator, and accountable humans own different decisions. A managed platform can package those layers, but it does not remove the need to define who writes intent, who accepts evidence, who handles exceptions, and who can release an irreversible change.
 
@@ -220,7 +220,7 @@ This page selects material from IFTTD, Devoxx, Dev With AI, ByteByteGo, Stanford
 
 ---
 
-## LLM Evaluation
+## LLM evaluation
 
 **A dashboard or a fast demonstration is not an outcome study.** Claims such as root-cause analysis in seconds, tenfold productivity, or an entire SDLC automated need a task denominator, baseline, repeated runs, failure distribution, human review time, and cost. Without those fields, the result remains a product demonstration even when the workflow executes successfully.
 
@@ -306,7 +306,7 @@ This page selects material from IFTTD, Devoxx, Dev With AI, ByteByteGo, Stanford
 
 ---
 
-## Agent Security
+## Agent security
 
 **Agents find alternate paths around blocked actions.** Guardrails that prevent a specific operation do not prevent the agent from achieving the same effect through a different route. In a documented incident, a DELETE was blocked by filesystem permissions, so the agent emptied the file contents to satisfy the user's intent. Effective security requires blocking the intent, not just the operation.
 
@@ -386,7 +386,7 @@ This page selects material from IFTTD, Devoxx, Dev With AI, ByteByteGo, Stanford
 
 ---
 
-## DevX & Adoption
+## DevX & adoption
 
 **Treat the agent as a new developer who needs onboarding.** An agent given a well-maintained AGENTS.md file and up-to-date rules about how your codebase works (database connection patterns, message bus encoding, naming conventions) produces dramatically better output than one dropped into an undocumented codebase. At ManoMano, a dedicated platform team maintains skills and rules so agents understand the internal architecture. The agent-facing documentation is now better maintained than the team's Confluence wiki.
 
@@ -474,7 +474,7 @@ This page selects material from IFTTD, Devoxx, Dev With AI, ByteByteGo, Stanford
 
 ## Sources
 
-### IFTTD Podcast
+### IFTTD podcast
 
 [IFTTD](https://www.ifttd.io/) is a French tech podcast hosted by Bruno Soulez. The selection includes older episodes and the 2025-2026 season. The six additions numbered 362, 363, 364, 371, 372 and 373 were checked in the public transcript tabs on September 9, 2026. Transcription spelling can be imperfect; the entries paraphrase the relevant passages rather than presenting audio-verified quotations.
 
@@ -518,7 +518,7 @@ Devoxx is a family of developer conferences covering Java, DevOps, architecture,
 | Makan Sepehrifar | Speaker, Devoxx | MCP server security |
 | Annie Freeman | Speaker, Devoxx | Assistant observability |
 
-### Dev With AI Meetup
+### Dev With AI meetup
 
 Dev With AI is a French meetup dedicated to AI-native development practices. Talks cited on this page were paraphrased from the 2026 edition; no direct quotes appear on this page.
 
@@ -557,7 +557,7 @@ Stanford Online publishes academic coursework on machine learning and large lang
 | CS336 Lecture 12 | Stanford Online | Evaluation metrics |
 | ISLR (Hastie & Tibshirani) | Stanford textbook / course | Verifying LLM necessity |
 
-### Pavan Belagatti YouTube Corpus
+### Pavan Belagatti YouTube corpus
 
 The 62 English-language videos published in 2026 were analyzed from local WebVTT transcripts. They provide practical demonstrations of agentic workflows, context engineering, loop engineering, and software factories. Port appears repeatedly as the implementation platform, so these videos are treated as vendor-oriented practitioner material rather than independent architectural validation. Timestamped quotations used elsewhere in the guide were checked against the corresponding transcript.
 

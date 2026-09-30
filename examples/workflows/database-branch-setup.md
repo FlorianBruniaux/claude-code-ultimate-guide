@@ -4,7 +4,7 @@ description: "Guide for isolated feature development using database branches wit
 tags: [workflow, git, devops]
 ---
 
-# Database Branch Setup with Worktrees
+# Database branch setup with worktrees
 
 Complete guide for isolated feature development with database branches.
 
@@ -12,7 +12,7 @@ Complete guide for isolated feature development with database branches.
 
 ---
 
-## TL;DR (90% Use Case)
+## TL;DR (90% use case)
 
 **Using Neon:**
 ```bash
@@ -27,9 +27,9 @@ Done. Skip to [workflow examples](#workflow-examples).
 
 ---
 
-## Provider Setup
+## Provider setup
 
-### Neon (Recommended)
+### Neon (recommended)
 
 **Install CLI:**
 ```bash
@@ -107,7 +107,7 @@ pscale branch delete <database-name> <branch-name>
 
 ---
 
-### Local Postgres (Schema-based)
+### Local Postgres (schema-based)
 
 For projects without cloud DB:
 
@@ -141,9 +141,9 @@ psql $DATABASE_URL -c "DROP SCHEMA <schema-name> CASCADE;"
 
 ---
 
-## When to Use Database Branches
+## When to use database branches
 
-### Decision Tree
+### Decision tree
 
 ```
 Does feature touch database schema?
@@ -154,7 +154,7 @@ Does feature touch database schema?
     └─ Other provider? → Consider Docker or shared DB with caution
 ```
 
-### Scenario Table
+### Scenario table
 
 | Scenario | Use DB Branch? | Rationale |
 |----------|---------------|-----------|
@@ -167,9 +167,9 @@ Does feature touch database schema?
 
 ---
 
-## Workflow Examples
+## Workflow examples
 
-### Example 1: Schema Migration Feature
+### Example 1: Schema migration feature
 
 ```bash
 # 1. Create worktree + DB branch
@@ -198,7 +198,7 @@ pnpm test
 
 ---
 
-### Example 2: Data Model Experimentation
+### Example 2: Data model experimentation
 
 ```bash
 # Try different schemas without commitment
@@ -218,7 +218,7 @@ neonctl branches create --name experiment-normalize-addresses --parent main
 
 ---
 
-### Example 3: Parallel Feature Development
+### Example 3: Parallel feature development
 
 ```bash
 # Terminal 1
@@ -289,7 +289,7 @@ npx prisma migrate deploy
 
 ---
 
-## Security Notes
+## Security notes
 
 ⚠️ **Remember:**
 - Database branches are NOT in `.gitignore` by default
@@ -310,9 +310,9 @@ npx prisma migrate deploy
 
 ---
 
-## Advanced Patterns
+## Advanced patterns
 
-### Pattern: Progressive Schema Migration
+### Pattern: Progressive schema migration
 
 ```bash
 # 1. Create worktree + DB branch
@@ -332,7 +332,7 @@ pnpm prisma migrate deploy
 # 5. Apply to main DB after deploy
 ```
 
-### Pattern: Performance Benchmarking
+### Pattern: Performance benchmarking
 
 ```bash
 # Create worktree with isolated DB

@@ -1,4 +1,4 @@
-# Evaluation: "Claude Code Hidden Feature" Social Media Post
+# Evaluation: "Claude Code Hidden Feature" social media post
 
 **Date**: 2026-01-27
 **Evaluator**: Claude Sonnet 4.5
@@ -13,7 +13,7 @@ Social media post claiming Claude Code has a "hidden feature" for parallel agent
 
 ---
 
-## Content Summary
+## Content summary
 
 - **Main claim**: "Hidden feature" enables automatic spawning of parallel agents like a "team"
 - **Mechanism described**: Feature flag that automatically creates agents for each task
@@ -23,7 +23,7 @@ Social media post claiming Claude Code has a "hidden feature" for parallel agent
 
 ---
 
-## Fact-Check Results
+## Fact-check results
 
 | Claim | Verified | Official Source | Verdict |
 |-------|----------|-----------------|---------|
@@ -33,7 +33,7 @@ Social media post claiming Claude Code has a "hidden feature" for parallel agent
 | "Team coordination" | ⚠️ **PARTIALLY TRUE** | [TeammateTool gist](https://gist.github.com/kieranklaassen/4f2aba89594a4aea4ad64d753984b2ea) | Real but experimental, not "hidden" |
 | "Retourne internet" / "Prendre de l'avance" | ❌ **MARKETING LIES** | N/A | Unverifiable hyperbole |
 
-### Factual Corrections
+### Factual corrections
 
 **What is TRUE (and already officially documented):**
 
@@ -51,7 +51,7 @@ Social media post claiming Claude Code has a "hidden feature" for parallel agent
 
 ---
 
-## Scoring & Decision
+## Scoring & decision
 
 ### Score: 1/5 ❌ - REJECT
 
@@ -67,7 +67,7 @@ Social media post claiming Claude Code has a "hidden feature" for parallel agent
 
 This guide has 15K+ lines and 66+ templates built on rigorous sourcing. **One low-quality source can contaminate credibility.** Readers must trust 100% of cited sources.
 
-### What Would Have Justified Score 3+:
+### What would have justified score 3+:
 
 - ✅ Cite official CHANGELOG
 - ✅ Professional, factual tone
@@ -77,7 +77,7 @@ This guide has 15K+ lines and 66+ templates built on rigorous sourcing. **One lo
 
 ---
 
-## Comparative Analysis
+## Comparative analysis
 
 | Aspect | This Source | Our Guide (v3.15.0) | Gap? |
 |--------|-------------|---------------------|------|
@@ -88,7 +88,7 @@ This guide has 15K+ lines and 66+ templates built on rigorous sourcing. **One lo
 | **Swarm mode** | ❌ Not mentioned | ❌ **GAP IDENTIFIED** | ✅ **YES** |
 | **Professional tone** | ❌ Marketing hyperbole | ✅ Factual & sourced | - |
 
-### Real Gaps Identified (Independent of Source)
+### Real gaps identified (independent of source)
 
 Despite this source's low quality, it revealed two real gaps in our guide:
 
@@ -102,7 +102,7 @@ Despite this source's low quality, it revealed two real gaps in our guide:
 
 ---
 
-## Technical Writer Agent Challenge
+## Technical writer agent challenge
 
 **Score adjustment**: 3/5 → 1/5 (challenge accepted)
 
@@ -120,15 +120,15 @@ Despite this source's low quality, it revealed two real gaps in our guide:
 
 ---
 
-## Actions Taken
+## Actions taken
 
-### ❌ Not Integrated
+### ❌ Not integrated
 
 - Did NOT cite this source in guide
 - Did NOT create "Hidden Features" section (reinforces myth)
 - Did NOT legitimize low-quality social media content
 
-### ✅ Improvements Made (Independent of Source)
+### ✅ Improvements made (independent of source)
 
 1. **Added TeammateTool documentation**
    - Location: `guide/ultimate-guide.md` line 3294
@@ -157,7 +157,7 @@ Despite this source's low quality, it revealed two real gaps in our guide:
 
 ---
 
-## Research Sources Used
+## Research sources used
 
 ### Official
 
@@ -165,7 +165,7 @@ Despite this source's low quality, it revealed two real gaps in our guide:
 - [Claude Code CHANGELOG v2.1.19](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md#2119---2026-01-25)
 - [Claude Code Docs - Sub-Agents](https://code.claude.com/docs/en/sub-agents)
 
-### Community (Reliable)
+### Community (reliable)
 
 - [kieranklaassen - TeammateTool Complete Guide (Gist)](https://gist.github.com/kieranklaassen/4f2aba89594a4aea4ad64d753984b2ea)
 - [GitHub Issue #3013 - Parallel Agent Execution](https://github.com/anthropics/claude-code/issues/3013)
@@ -173,7 +173,7 @@ Despite this source's low quality, it revealed two real gaps in our guide:
 - [Tim Dietrich - Parallel Subagents](https://timdietrich.me/blog/claude-code-parallel-subagents/)
 - [Medium - Multi-agent parallel coding](https://medium.com/@codecentrevibe/claude-code-multi-agent-parallel-coding-83271c4675fa)
 
-### Search Engines Used
+### Search engines used
 
 - **Perplexity Search**: "Claude Code CLAUDE_CODE_ENABLE_TASKS feature flag parallel agents 2026"
 - **Google WebSearch**: "site:github.com anthropics/claude-code TeammateTool"
@@ -181,7 +181,7 @@ Despite this source's low quality, it revealed two real gaps in our guide:
 
 ---
 
-## Final Decision
+## Final decision
 
 - **Score**: 1/5 ❌
 - **Action**: **REJECT** - Do not integrate
@@ -189,7 +189,7 @@ Despite this source's low quality, it revealed two real gaps in our guide:
 - **Documentary value**: Zero
 - **Gaps identified**: TeammateTool + Swarm mode (worth documenting with **official sources only**)
 
-### Principle Applied
+### Principle applied
 
 From RULES.md line ~350:
 
@@ -199,7 +199,7 @@ This source violates our core editorial principle. Rejection maintains guide int
 
 ---
 
-## Recommendation for Future
+## Recommendation for future
 
 **Red flags checklist** (signs of misinformation):
 

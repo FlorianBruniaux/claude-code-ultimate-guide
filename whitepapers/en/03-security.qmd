@@ -40,7 +40,7 @@ lang: en
 
 > **In 5 lines:** As of February 2026, more than one-third of available agent skills contain security vulnerabilities. Claude Code introduces 5 new attack vectors that most teams haven't addressed. This whitepaper documents each vector with a concrete exploitation example and a precise countermeasure, from the 17 security hooks to permissions.deny rules that block destructive actions.
 
-# The 5 Attack Vectors
+# The 5 attack vectors
 
 ## Overview
 
@@ -54,9 +54,9 @@ In February 2026, 36.82% of Agent Skills available on marketplaces contain secur
 | **.claude/ Attack Surface** | Backdoors in config | High | Emerging | Repository pre-scan → [Section 1.2](#claude-attack-surface) |
 | **Destructive Commands** | Data/secrets loss | High | Frequent | `dangerous-actions-blocker.sh` → [Layer 2](#layer-2-hooks-pretooluse) |
 
-## 1.1 Prompt Injection
+## 1.1 Prompt injection
 
-### The Mechanism
+### The mechanism
 
 An attacker inserts instructions into files that Claude reads automatically, hijacking its behavior.
 
@@ -72,7 +72,7 @@ An attacker inserts instructions into files that Claude reads automatically, hij
 └─────────────────────────────────────────────────┘
 ```
 
-### Injection Vectors
+### Injection vectors
 
 Injections can originate from any file that Claude reads automatically at startup or during a session. The danger is that some sources -- like `README.md` or `package.json` -- are considered harmless by most developers, which makes them all the more effective as attack vectors.
 
@@ -83,7 +83,7 @@ Injections can originate from any file that Claude reads automatically at startu
 | `package.json` | Malicious npm scripts | Audit scripts |
 | Code comments | Invisible instructions | Unicode scanner |
 
-### Evasion Techniques
+### Evasion techniques
 
 Attackers do not limit themselves to plaintext instructions -- they use encoding techniques and special characters to bypass basic scanners. These techniques exploit the fact that terminals and text editors do not display these characters, making the payload invisible to the naked eye.
 
@@ -96,7 +96,7 @@ Attackers do not limit themselves to plaintext instructions -- they use encoding
 | Base64 | `# SGlkZGVuOg==` | Encoded payload |
 | Homoglyphs | Cyrillic `а` vs Latin `a` | Filter bypass |
 
-### Walkthrough: Prompt Injection in Action
+### Walkthrough: Prompt injection in action
 
 This illustrative attack asks the agent to treat a README comment as an instruction:
 
@@ -108,11 +108,11 @@ Whether the agent attempts the action depends on its behavior and controls. A `R
 
 A PreToolUse detector sees the pending tool input. It does not automatically see malicious text in a README that was read earlier, and a resulting `cat` command may contain no injection phrase. Pattern detection is an additional signal, not a guarantee that the chain is blocked.
 
-## 1.2 .claude/ Attack Surface
+## 1.2 .claude/ attack surface
 
 **New vector (2026)**: Repositories can ship a `.claude/` folder with pre-configured agents, commands, and hooks. Accepting workspace trust can enable project configuration, so review these files before trusting an unfamiliar repository.
 
-### Attack Vectors
+### Attack vectors
 
 Each component can influence behavior after the applicable trust and permission checks. An agent with `tools: Bash` can request shell execution; actual authorization still depends on the active permission mode and rules.
 
@@ -124,7 +124,7 @@ Each component can influence behavior after the applicable trust and permission 
 | **Malicious CLAUDE.md** | Prompt injection instructions in memory file | Global behavior hijacking |
 | **Malicious settings.json** | Hooks config pointing to malicious external scripts | Code execution at session start |
 
-### Defense: Repository Pre-Scan
+### Defense: Repository pre-scan
 
 **Before opening an unknown repo**:
 
@@ -147,7 +147,7 @@ find .claude/hooks/ -name "*.sh" -exec head -20 {} \;
 
 **Automated protection**: Use the `repo-integrity-scanner.sh` hook (SessionStart); see [The 17 Security Hooks](#the-17-security-hooks).
 
-### 1.6 Third-Party Command Wrappers & Shell Interceptors
+### 1.6 Third-Party command wrappers & shell interceptors
 
 Any binary or function that sits between Claude Code and the actual CLI tool can read all command arguments and outputs: diffs, credentials printed by `gh auth status`, env vars echoed during builds, database URLs in connection strings. This includes token-saving wrappers like RTK, but also shell plugins and completion frameworks that get installed once and forgotten.
 
@@ -179,9 +179,9 @@ RTK is open-source with a well-contained attack surface, but the same audit appl
 
 {{< pagebreak >}}
 
-## 1.3 MCP Supply Chain: Rug Pull & Tool Shadowing
+## 1.3 MCP supply chain: Rug pull & tool shadowing
 
-### The Rug Pull Attack
+### The rug pull attack
 
 ```
 ┌─────────────────────────────────────────────────┐
@@ -231,7 +231,7 @@ Three vulnerabilities fixed in v2.1.78:
 Upgrade to v2.1.78+ if you use enterprise `deny` rules or the sandbox in production.
 :::
 
-### MCP Attack Patterns
+### MCP attack patterns
 
 Beyond individual CVEs, four recurring attack patterns target the MCP ecosystem. Understanding these patterns helps anticipate future threats, even on MCP servers that have not yet been audited.
 
@@ -242,11 +242,11 @@ Beyond individual CVEs, four recurring attack patterns target the MCP ecosystem.
 | Confused Deputy | Trusted name, untrusted server | Namespace verification |
 | Slopsquatting (T009) | Packages named after LLM hallucinations | Verify package name before install |
 
-## 1.4 Destructive Commands
+## 1.4 Destructive commands
 
 > **Mitigation:** `dangerous-actions-blocker.sh` blocks all categories below at `PreToolUse` level; see [Layer 2: Hooks](#layer-2-hooks-pretooluse) and [The 17 Hooks](#the-17-security-hooks).
 
-### Blocked Commands
+### Blocked commands
 
 Claude Code can execute any bash command if the user approves it -- or if an autonomous agent has the `Bash` permission. The commands below are those that cause irreversible damage in a single execution, with no possibility of rollback.
 
@@ -259,7 +259,7 @@ Claude Code can execute any bash command if the user approves it -- or if an aut
 | Force push | `git push --force main/master` | Code |
 | Publishing | `npm publish`, `pnpm publish` | Supply chain |
 
-### Sensitive Files
+### Sensitive files
 
 These files contain secrets that, once exposed in session history or in a git commit, require immediate rotation. The mere act of Claude reading one of these files is enough to expose its contents in the session logs.
 
@@ -284,11 +284,11 @@ The 5 vectors above are not theoretical: the listed research includes vulnerabil
 
 {{< pagebreak >}}
 
-# Defense in Depth: The Protection Layers
+# Defense in depth: The protection layers
 
 Claude Code security does not rely on a single mechanism but on a stack of independent layers. If one layer is bypassed -- and every layer *can* be -- the next one takes over. This model, inspired by classic network security (perimeter, host, application, data), is adapted to the specific context of AI agents where the primary attack vector is semantic manipulation, not binary exploitation.
 
-## Defense Architecture
+## Defense architecture
 
 ```
 ┌─────────────────────────────────────────────────┐
@@ -320,7 +320,7 @@ Claude Code security does not rely on a single mechanism but on a stack of indep
 
 ## Layer 1: permissions.deny
 
-### Recommended Configuration
+### Recommended configuration
 
 The `settings.json` file (project or global) defines the `permissions.deny` rules that block access to specific files or commands. This first layer is declarative and requires no external scripts -- it is the minimum to configure from the very first session on any project containing secrets.
 
@@ -343,7 +343,7 @@ The `settings.json` file (project or global) defines the `permissions.deny` rule
 }
 ```
 
-### Known Limitations
+### Known limitations
 
 Despite its usefulness, `permissions.deny` has documented gaps that make it insufficient as the sole defense layer. These limitations are not bugs but architectural constraints tied to Claude Code's internal operation.
 
@@ -376,7 +376,7 @@ Despite its usefulness, `permissions.deny` has documented gaps that make it insu
 
 > 📖 **Learn more:** [§1.4 Permission Modes](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#14-permission-modes): the 5 permission modes in detail
 
-### Auto Mode: Delegation and Real Limits (v2.1.114+)
+### Auto mode: Delegation and real limits (v2.1.114+)
 
 Auto mode delegates permission decisions to a dedicated classifier model (Sonnet 5) that evaluates every tool call before it executes. It is an alternative to `--dangerously-skip-permissions`, designed to reduce friction without removing all verification.
 
@@ -399,7 +399,7 @@ The `PermissionDenied` hook (v2.1.88) fires on every classifier block: ideal for
 
 > 📖 Full configuration (hard\_deny, autoMode.allow/soft\_deny/environment, \$defaults sentinel): [§1.4 Auto Mode](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#auto-mode-all-plans-v21114) in the guide.
 
-## Layer 1.5: Native Sandbox (v2.1.0+)
+## Layer 1.5: Native sandbox (v2.1.0+)
 
 **Introduced v2.0.24+ (Nov 2025)**: Claude Code includes native sandboxing using OS primitives to isolate bash commands.
 
@@ -493,7 +493,7 @@ Hooks are declared in `settings.json` (project or global) and run as standard sh
 }
 ```
 
-### Exit Codes
+### Exit codes
 
 Hooks communicate with Claude Code through standardized exit codes. This is the mechanism that allows blocking or authorizing an action in real time, without human intervention. Exit 0 may supply event-specific JSON. Exit 2 blocks only on events that support blocking; other nonzero codes normally report a non-blocking hook error.
 
@@ -507,7 +507,7 @@ Hooks communicate with Claude Code through standardized exit codes. This is the 
 
 **Preferred method for PreToolUse**: the guide now documents a JSON response with `hookSpecificOutput.permissionDecision: "deny"` on `exit 0` as the preferred way to block a `PreToolUse` call, with `exit 2` remaining a valid, simpler fallback for stderr-only blocking.
 
-### Hook Profiles: Environment-Based Hook Gating (v3.38.0)
+### Hook profiles: Environment-Based hook gating (v3.38.0)
 
 New pattern for scaling security hooks across teams without one-size-fits-all enforcement. Each hook declares the minimum level required to activate, and each environment sets its level via an environment variable.
 
@@ -523,7 +523,7 @@ CURRENT_LEVEL="${HOOK_LEVEL:-minimal}"
 
 Result: dev machines use `minimal`, CI uses `standard`, production uses `strict`, without maintaining multiple `settings.json` files.
 
-### Conditional `if` Filter on Hooks (v2.1.85+)
+### Conditional `if` filter on hooks (v2.1.85+)
 
 Hooks now support an `if` field using permission rule syntax to reduce subprocess overhead. The hook command only runs when the condition matches.
 
@@ -533,15 +533,15 @@ Hooks now support an `if` field using permission rule syntax to reduce subproces
 
 Security benefit: high-sensitivity hooks only run on write operations, reducing the attack surface from hook invocations.
 
-### PermissionDenied Hook Event (v2.1.88)
+### PermissionDenied hook event (v2.1.88)
 
 Fires for supported denied tool calls. A command hook may return `{"hookSpecificOutput":{"hookEventName":"PermissionDenied","retry":true}}` to request the documented retry behavior; it does not override a policy denial by itself. Security benefit: continuous audit trail of all blocked operations without manual intervention. Denied actions also appear in `/permissions` under the Recent tab.
 
 {{< pagebreak >}}
 
-## Layer 3: MCP Vetting
+## Layer 3: MCP vetting
 
-### 5-Minute Audit
+### 5-minute audit
 
 Before adding an MCP to your configuration, these five checks help filter out abandoned, unsigned, or dangerously-flagged servers. The goal is an optimal effort-to-security ratio: the checklist starts a review; elapsed time and popularity do not establish safety.
 
@@ -573,7 +573,7 @@ For each server, verify the exact repository/package, version, exposed tools, cr
 
 Do not label a package safe solely by name or publisher. Record the reviewed version, exposed capabilities, credential scope and unresolved risks. Documentation retrieval, local memory and filesystem servers each have different access paths to assess. Check current scanner installation instructions at [Snyk Agent Scan](https://github.com/snyk/agent-scan); a scan is additional evidence, not certification.
 
-### Agent Skills Supply Chain Risks
+### Agent Skills supply chain risks
 
 **New risk (Feb 2026)**: Third-party Agent Skills (installed via `npx add-skill` or plugin marketplaces) introduce supply chain risks similar to npm packages.
 
@@ -603,7 +603,7 @@ Do not label a package safe solely by name or publisher. Record the reviewed ver
 skills-ref validate ./skill-directory
 ```
 
-### Threat Intelligence Database
+### Threat intelligence database
 
 **New (v3.26)**: Community database of known threats (malicious skills/MCPs).
 
@@ -709,7 +709,7 @@ A complementary approach to manual vetting is starting to emerge: compiling MCP 
 
 Worth watching, not yet mature: Wassette is at v0.4.0 and explicitly labels itself "not production-ready." For a threat model that includes third-party or compromised MCP servers with unpredictable filesystem access, this is the right long-term architectural direction, but the practical path today remains the 5-minute MCP audit above combined with container-level isolation.
 
-## Kill Switch: Autonomous Agent Containment (v3.27.4)
+## Kill switch: Autonomous agent containment (v3.27.4)
 
 **New**: Containment architecture for autonomous agents that go off the rails (runaway agents).
 
@@ -727,7 +727,7 @@ For unattended work, use a supervisor that owns the process lifecycle. A heartbe
 
 Test stop, recovery and credential revocation on a disposable workload before relying on them. See the [security hardening guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/security/security-hardening.md) for the broader containment discussion.
 
-## Layer 4: Human Review
+## Layer 4: Human review
 
 The last line of defense: **you**.
 
@@ -740,7 +740,7 @@ The last line of defense: **you**.
 
 {{< pagebreak >}}
 
-# The 17 Security Hooks
+# The 17 security hooks
 
 ## Overview
 
@@ -766,7 +766,7 @@ The table below selects repository examples across several lifecycle events, inc
 | [`rtk-baseline.sh`](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/examples/hooks/bash/rtk-baseline.sh) | SessionStart | RTK baseline for delta tracking |
 | [`session-summary.sh`](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/examples/hooks/bash/session-summary.sh) | SessionEnd | Auto session summary |
 
-## Top 5 Essentials to Get Started
+## Top 5 essentials to get started
 
 ### 1. dangerous-actions-blocker.sh
 
@@ -828,7 +828,7 @@ Detects in outputs:
 
 {{< pagebreak >}}
 
-## One-Liner Installation
+## One-liner installation
 
 The installation copies scripts to the global `~/.claude/hooks/` directory, making them available across all projects. Hooks only become active once referenced in the project or global `settings.json`.
 
@@ -838,7 +838,7 @@ cp examples/hooks/bash/*.sh ~/.claude/hooks/
 chmod +x ~/.claude/hooks/*.sh
 ```
 
-## Complete Configuration
+## Complete configuration
 
 This configuration groups the essential hooks across the three critical events. PreToolUse hooks block before execution, PostToolUse hooks inspect results, and SessionStart hooks verify environment integrity at startup.
 
@@ -916,11 +916,11 @@ A team deploys reviewed hooks through its configuration process. `output-secrets
 
 {{< pagebreak >}}
 
-# Incident Response
+# Incident response
 
-## Exposed Secret
+## Exposed secret
 
-### First 15 Minutes
+### First 15 minutes
 
 **Stop the bleeding**:
 
@@ -939,7 +939,7 @@ git log -p | grep -E "(AKIA|sk_live_|ghp_|xoxb-)"
 gitleaks detect --source . --report-format json > exposure-report.json
 ```
 
-### First Hour
+### First hour
 
 If the secret was pushed to the remote, revocation alone is not enough -- git history retains the content indefinitely. History rewriting is necessary but destructive: it invalidates all existing clones and requires coordination with the team.
 
@@ -949,7 +949,7 @@ git filter-repo --invert-paths --path <file-with-secret>
 # WARNING: Coordinate with the team
 ```
 
-### First 24 Hours
+### First 24 hours
 
 1. Rotate ALL related credentials
 2. Notify team/compliance (GDPR, SOC2, HIPAA)
@@ -969,7 +969,7 @@ Use the scope shown by the configuration: project entries are in `.mcp.json`, us
 On a Friday evening, Julien noticed that Claude had displayed a Stripe token in the output of a debug command. The scanner raised a warning; preventing a commit requires a separate gate. He followed the "Exposed Secret" runbook: revocation in 8 minutes, Gitleaks scan to confirm no leak in history, team notification. Total: 20 minutes. Without the hook and the runbook, the discovery would have happened Monday -- after a weekend of potential exposure.
 :::
 
-## Post-Incident Protocol for Claude Code
+## Post-incident protocol for Claude Code
 
 ::: {.callout-important title="Post-incident protocol in 5 steps"}
 If you suspect a data leak via Claude Code:
@@ -987,9 +987,9 @@ If you suspect a data leak via Claude Code:
 
 {{< pagebreak >}}
 
-# The Verification Paradox
+# The verification paradox
 
-## The Problem
+## The problem
 
 When reviewers become accustomed to plausible outputs, rare defects can receive less scrutiny.
 
@@ -1001,7 +1001,7 @@ When reviewers become accustomed to plausible outputs, rare defects can receive 
 
 **Source**: Alan Engineering (Charles Gorintin, CTO), Intelligence Humaine Newsletter (Feb 2026)
 
-## The Solution
+## The solution
 
 **Paradox**: You can't rely on humans to catch rare errors in near-perfect AI output.
 
@@ -1061,9 +1061,9 @@ echo "✅ All checks passed"
 
 {{< pagebreak >}}
 
-# What Security Level for Your Context?
+# What security level for your context?
 
-## Decision Tree
+## Decision tree
 
 ```
 What security level does my context require?
@@ -1082,7 +1082,7 @@ My Claude Code project
             └─ All Hardened + RBAC | Full audit trail | Compliance review
 ```
 
-## Security Level Comparison
+## Security level comparison
 
 | Configuration | Minimal (personal) | Standard (startup) | Hardened (team) | Enterprise |
 |---------------|-------------------|-------------------|-----------------|------------|
@@ -1099,9 +1099,9 @@ My Claude Code project
 | Quarterly security review | No | No | No | Yes |
 | **Setup effort** | 10 min | 30 min | 1 hour | Half day |
 
-# Production Security Checklist
+# Production security checklist
 
-## Basic Level (Solo Dev)
+## Basic level (solo dev)
 
 | # | Action | Done |
 |---|--------|------|
@@ -1110,7 +1110,7 @@ My Claude Code project
 | 3 | `.env*` in permissions.deny | ☐ |
 | 4 | Secrets outside the project (external vault) | ☐ |
 
-## Standard Level (Team)
+## Standard level (team)
 
 | # | Action | Done |
 |---|--------|------|
@@ -1121,7 +1121,7 @@ My Claude Code project
 | 9 | Database credentials read-only | ☐ |
 | 10 | `repo-integrity-scanner.sh` for unknown repos | ☐ |
 
-## Hardened Level (Enterprise)
+## Hardened level (enterprise)
 
 | # | Action | Done |
 |---|--------|------|
@@ -1142,7 +1142,7 @@ The checklist above is your starting point. For deeper coverage, the resources b
 
 # Resources
 
-## CVE References & Security Research
+## CVE references & security research
 
 The CVEs and advisories below are the primary sources referenced throughout this whitepaper. Each link points to the original researcher report or official advisory, allowing verification of technical details and affected versions.
 
@@ -1165,7 +1165,7 @@ The CVEs and advisories below are the primary sources referenced throughout this
 | **Cisco DefenseClaw** | Open-source scanners for Skills + MCP + a2a |
 | **Ferrok** | Maps to OWASP MCP Top 10 2026 |
 
-## Secrets Tools
+## Secrets tools
 
 Three tools dominate secrets detection in git repositories, each with a different recall/precision profile. The choice depends on context: pre-commit (speed + recall) vs CI (precision to avoid false positives) vs continuous monitoring (enterprise coverage).
 
@@ -1177,7 +1177,7 @@ Three tools dominate secrets detection in git repositories, each with a differen
 
 No comparative recall/precision benchmark is established here. Test the selected version on representative secrets and benign fixtures.
 
-## Recommended Path
+## Recommended path
 
 Depending on your level and needs, the companion whitepapers in this series go deeper into security-adjacent topics. The privacy whitepaper notably covers GDPR and data retention, often the first subject raised by compliance teams.
 
@@ -1200,7 +1200,7 @@ Depending on your level and needs, the companion whitepapers in this series go d
 
 *Version 3.43.0 | September 2026*
 
-# The Series
+# The series
 
 This whitepaper is part of the **Claude Code Ultimate Guide** series, a complete resource for mastering Claude Code, from installation to production deployment.
 

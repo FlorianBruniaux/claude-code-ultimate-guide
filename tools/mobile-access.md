@@ -1,4 +1,4 @@
-# Claude Code Mobile Access
+# Claude Code mobile access
 
 > **⚠️ STATUS: WIP / UNTESTED**
 >
@@ -7,7 +7,7 @@
 
 ---
 
-## The Problem
+## The problem
 
 Claude Code CLI is a **local interactive process**, not a service with a session API. Each instance is autonomous. Even `claude --remote` only offloads execution—it doesn't create a relay system.
 
@@ -36,9 +36,9 @@ YOUR COMPUTER                     YOUR PHONE
 
 ---
 
-## Architecture Comparison
+## Architecture comparison
 
-### ttyd + Tailscale (Self-hosted)
+### ttyd + Tailscale (self-hosted)
 
 ```
 YOUR COMPUTER                     YOUR PHONE
@@ -85,9 +85,9 @@ REMOTO CLOUD                      YOUR PHONE
 
 ---
 
-## Why This Approach?
+## Why this approach?
 
-### ToS Considerations
+### ToS considerations
 
 Some third-party wrappers (like OpenCode) have been blocked by Anthropic for ToS violations. This approach is **ToS-safe** because:
 
@@ -108,7 +108,7 @@ Some third-party wrappers (like OpenCode) have been blocked by Anthropic for ToS
 
 ## Installation
 
-### Quick Setup Script
+### Quick setup script
 
 ```bash
 #!/bin/bash
@@ -182,7 +182,7 @@ echo "  3. Run: claude-mobile"
 echo ""
 ```
 
-### Manual Installation
+### Manual installation
 
 ```bash
 # macOS
@@ -198,7 +198,7 @@ curl -fsSL https://tailscale.com/install.sh | sh
 
 ## Usage
 
-### First Time Setup
+### First time setup
 
 ```bash
 # 1. Connect to Tailscale (one-time)
@@ -226,7 +226,7 @@ claude-mobile
 ══════════════════════════════════
 ```
 
-### On Your Phone
+### On your phone
 
 1. Open Safari/Chrome
 2. Go to `http://100.78.42.15:7681` (use your actual Tailscale IP)
@@ -237,7 +237,7 @@ claude-mobile
 
 ## Configuration
 
-### Change Password
+### Change password
 
 ```bash
 export CLAUDE_MOBILE_PASS="your-secure-password"
@@ -250,7 +250,7 @@ Or add to your shell config:
 echo 'export CLAUDE_MOBILE_PASS="your-secure-password"' >> ~/.zshrc
 ```
 
-### Change Port
+### Change port
 
 Edit `~/.local/bin/claude-mobile` and change `PORT=7681` to your preferred port.
 
@@ -309,7 +309,7 @@ sudo snap install ttyd --classic
 
 ---
 
-## Alternatives Comparison
+## Alternatives comparison
 
 | Solution | Type | Pros | Cons | ToS | Stars |
 |----------|------|------|------|-----|-------|
@@ -326,7 +326,7 @@ We chose ttyd + Tailscale because:
 
 ---
 
-### Happy Coder - Alternative Recommandée
+### Happy Coder - alternative recommandée
 
 Si vous préférez une **app native** plutôt qu'un terminal web :
 
@@ -353,7 +353,7 @@ npm i -g happy-coder && happy
 
 ---
 
-## Related Resources
+## Related resources
 
 - [ttyd GitHub](https://github.com/tsl0922/ttyd) - Terminal web server
 - [Tailscale](https://tailscale.com/) - Zero-config VPN

@@ -4,7 +4,7 @@ description: "Step-by-step setup for claude-code-action in GitHub Actions: PR co
 tags: [workflow, ci-cd, github-actions, automation]
 ---
 
-# GitHub Actions Workflows with Claude Code
+# GitHub Actions workflows with Claude Code
 
 > **Confidence**: Tier 1, official Anthropic action (`anthropics/claude-code-action`, 8.5K stars as of 2026-07-27, was 6.2k, v1.0).
 
@@ -12,7 +12,7 @@ Automate code reviews, issue triage, and quality gates by connecting Claude dire
 
 ---
 
-## Table of Contents
+## Table of contents
 
 1. [TL;DR](#tldr)
 2. [Two Models](#two-models)
@@ -56,7 +56,7 @@ Comment `@claude review this PR` on any PR → Claude reads the diff and posts a
 
 ---
 
-## Two Models
+## Two models
 
 | Model | Trigger | Use case |
 |-------|---------|----------|
@@ -79,7 +79,7 @@ In your Claude Code terminal, inside any project connected to a GitHub repo:
 
 This guides you through creating the GitHub App, adding `ANTHROPIC_API_KEY` to your repo secrets, and generating the base `claude.yml` workflow.
 
-### Manual Setup
+### Manual setup
 
 1. Add `ANTHROPIC_API_KEY` to your GitHub repository secrets
 2. Create `.github/workflows/claude.yml` (see patterns below)
@@ -87,7 +87,7 @@ This guides you through creating the GitHub App, adding `ANTHROPIC_API_KEY` to y
 
 ---
 
-## Pattern 1: PR Code Review on @claude Mention
+## Pattern 1: PR code review on @claude mention
 
 Human-initiated. A developer comments `@claude review this PR` and Claude responds inline.
 
@@ -125,7 +125,7 @@ jobs:
 
 ---
 
-## Pattern 2: Automatic PR Review on Push
+## Pattern 2: Automatic PR review on push
 
 Every PR gets a review the moment it opens or updates. No mention required.
 
@@ -174,7 +174,7 @@ jobs:
 
 ---
 
-## Pattern 3: Issue Triage and Labeling
+## Pattern 3: Issue triage and labeling
 
 Claude reads new issues, assigns labels, and posts a structured triage comment.
 
@@ -210,7 +210,7 @@ jobs:
 
 ---
 
-## Pattern 4: Security-Focused Review
+## Pattern 4: Security-Focused review
 
 Runs specifically for PRs touching sensitive paths (auth, payments, config).
 
@@ -254,7 +254,7 @@ jobs:
 
 ---
 
-## Pattern 5: Scheduled Repo Maintenance
+## Pattern 5: Scheduled repo maintenance
 
 Weekly health check: runs without any human trigger.
 
@@ -292,7 +292,7 @@ jobs:
 
 ---
 
-## Authentication Alternatives
+## Authentication alternatives
 
 The examples above use `ANTHROPIC_API_KEY` directly. For teams using cloud providers:
 
@@ -323,7 +323,7 @@ Cloud providers benefit from data residency compliance and can use existing IAM 
 
 ---
 
-## Cost Control
+## Cost control
 
 Automated workflows run without a human in the loop: set explicit limits.
 
@@ -364,7 +364,7 @@ jobs:
 
 ---
 
-## Security Checklist
+## Security checklist
 
 Before deploying to a team repo:
 
@@ -384,7 +384,7 @@ jobs:
 
 ---
 
-## See Also
+## See also
 
 - [Monitor, Channels and Safe Delegation to Codex](./monitor-event-delegation.md): secure split-job Codex pattern and why a hosted runner is separate from a local Monitor
 

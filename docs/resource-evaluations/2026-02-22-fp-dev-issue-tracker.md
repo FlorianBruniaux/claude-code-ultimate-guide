@@ -1,4 +1,4 @@
-# Resource Evaluation: fp.dev: Agent-Native Issue Tracking
+# Resource evaluation: fp.dev: Agent-native issue tracking
 
 **Evaluated**: 2026-02-22
 **Evaluator**: Claude Sonnet 4.6 + technical-writer agent challenge
@@ -7,7 +7,7 @@
 
 ---
 
-## Executive Summary
+## Executive summary
 
 **Resource**: fp.dev — "Agent-native issue tracking for ambitious Claude Code users"
 **URL**: https://fp.dev/
@@ -77,7 +77,7 @@ Arguments pour descendre à 2/5 :
 
 ---
 
-## ✅ Fact-Check
+## ✅ Fact-check
 
 | Affirmation | Vérifiée | Source |
 |-------------|----------|--------|

@@ -55,7 +55,7 @@ Les règles du niveau inférieur **complètent** et ne remplacent pas les niveau
 }
 ```
 
-## CLAUDE.md : Bonnes Pratiques
+## CLAUDE.md : Bonnes pratiques
 
 ```markdown
 # Conventions Projet
@@ -81,7 +81,7 @@ Les règles du niveau inférieur **complètent** et ne remplacent pas les niveau
 
 **settings.local.json** : overrides perso qui ne doivent pas affecter l'équipe.
 
-## .gitignore Obligatoire
+## .gitignore obligatoire
 
 ```
 # Dans .gitignore du projet

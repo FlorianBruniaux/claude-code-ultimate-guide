@@ -15,7 +15,7 @@ format:
   recap-card-typst: default
 ---
 
-## Context & Memory
+## Context & memory
 
 **Pasting raw logs into the prompt**
 Dumps the entire file to Claude instead of isolating the relevant part. The context fills up within a few exchanges.
@@ -59,6 +59,6 @@ Passing API keys in the prompt or reading them via `@file`. Use environment vari
 **--dangerously-skip-permissions without sandbox**
 Running in full bypass on a shared machine or in production. Reserve for ephemeral environments only.
 
-## Golden Rules
+## Golden rules
 
 Give clear and concise instructions, then let Claude work. Come back to validate in small increments rather than letting everything happen at once. Document important decisions in `CLAUDE.md` for future sessions.

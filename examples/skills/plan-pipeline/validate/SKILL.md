@@ -5,7 +5,7 @@ effort: medium
 disable-model-invocation: true
 ---
 
-# /plan-pipeline:validate: 2-Layer Validation
+# /plan-pipeline:validate: 2-layer validation
 
 Independently validate the plan produced by `/plan-pipeline:start`. No code is written. Run `/clear` after this command before running `/plan-pipeline:execute`.
 
@@ -19,7 +19,7 @@ A committed plan file must exist at `docs/plans/plan-{name}.md`. If multiple pla
 
 ---
 
-## Layer 1: Structural Validation
+## Layer 1: Structural validation
 
 Run immediately, no agents required. Check the plan document for:
 
@@ -52,7 +52,7 @@ Record all Layer 1 issues with severity (BLOCKER / WARNING / INFO) before procee
 
 ---
 
-## Layer 2: Specialist Review
+## Layer 2: Specialist review
 
 Select agents by applying trigger rules to the plan content. No user input needed; triggers are objective.
 
@@ -84,7 +84,7 @@ Suggestion: [specific fix or alternative]
 
 ---
 
-## Auto-Fix Phase
+## Auto-fix phase
 
 Merge Layer 1 structural issues + Layer 2 specialist findings into a single issue list. Every issue must be resolved. No skipping.
 
@@ -106,7 +106,7 @@ For Bucket B items: present the issue, explain why it can't be auto-resolved, pr
 
 ---
 
-## Issue Persistence
+## Issue persistence
 
 Record every issue in `docs/plans/metrics/{name}.json` under `validation.issues`:
 
@@ -126,7 +126,7 @@ Record every issue in `docs/plans/metrics/{name}.json` under `validation.issues`
 
 ---
 
-## Auto-Transition
+## Auto-transition
 
 If all issues are auto-resolved (Bucket A only): auto-start `/plan-pipeline:execute` without asking.
 
@@ -176,11 +176,11 @@ All 3 issues resolved. Plan updated.
 → Auto-starting /plan-pipeline:execute
 ```
 
-## When to Use
+## When to use
 
 Always run before any `/plan-pipeline:execute` call. The cost of validation ($0.20-3.00) is negligible against the cost of discovering issues mid-execution.
 
-## Pipeline Position
+## Pipeline position
 
 ```
 /plan-pipeline:ceo-review    → product direction locked

@@ -7,7 +7,7 @@ when_to_use: "Use when removing a specific worktree by name."
 disable-model-invocation: true
 ---
 
-# Git Worktree Remove
+# Git worktree remove
 
 Safely remove a single git worktree with branch cleanup, merge verification, and database branch teardown.
 
@@ -27,9 +27,9 @@ Safely remove a single git worktree with branch cleanup, merge verification, and
 8. **Database Cleanup Reminder**: Suggest DB branch deletion if applicable
 9. **Prune References**: `git worktree prune`
 
-## Safety Checks
+## Safety checks
 
-### Protected Branches
+### Protected branches
 
 ```bash
 # Never remove worktrees for these branches (configurable)
@@ -42,7 +42,7 @@ if echo "$PROTECTED_BRANCHES" | grep -qw "$BRANCH"; then
 fi
 ```
 
-### Uncommitted Changes
+### Uncommitted changes
 
 ```bash
 cd "$WORKTREE_PATH"
@@ -58,7 +58,7 @@ if [ -n "$(git status --porcelain)" ]; then
 fi
 ```
 
-### Merge Status
+### Merge status
 
 ```bash
 # Check if branch is merged into main
@@ -74,7 +74,7 @@ else
 fi
 ```
 
-## Removal Steps
+## Removal steps
 
 ```bash
 # 1. Remove the worktree
@@ -102,7 +102,7 @@ fi
 git worktree prune
 ```
 
-## Database Branch Cleanup
+## Database branch cleanup
 
 **After worktree removal, remind about associated database branches:**
 
@@ -121,7 +121,7 @@ elif [ -f ".env" ] && grep -q "postgresql" ".env"; then
 fi
 ```
 
-## Report Format
+## Report format
 
 **Successful removal (merged branch):**
 
@@ -156,7 +156,7 @@ Last commit: a1b2c3d "WIP: experimental auth flow"
 | `--keep-branch` | Remove worktree but keep the branch |
 | `--keep-remote` | Don't delete remote branch |
 
-## Quick Reference
+## Quick reference
 
 | Situation | Action |
 |-----------|--------|
@@ -168,7 +168,7 @@ Last commit: a1b2c3d "WIP: experimental auth flow"
 | DB branch detected | Remind with exact command |
 | Stale references | Auto-prune |
 
-## Common Mistakes
+## Common mistakes
 
 **Removing worktree for main/develop**
 - Always blocked by safety check. Reconfigure protected branches if needed.

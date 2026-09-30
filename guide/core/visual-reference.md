@@ -4,7 +4,7 @@ description: "ASCII diagrams consolidating key Claude Code concepts in one visua
 tags: [reference, architecture, cheatsheet]
 ---
 
-# Claude Code: Visual Reference
+# Claude Code: Visual reference
 
 All diagrams in one place. Quick visual overview of Claude Code's key concepts.
 For detailed docs → [Ultimate Guide](../ultimate-guide.md) | [Cheatsheet](../cheatsheet.md)
@@ -15,13 +15,13 @@ For detailed docs → [Ultimate Guide](../ultimate-guide.md) | [Cheatsheet](../c
 
 ---
 
-## Harness Map Reading Guide
+## Harness map reading guide
 
 These ASCII diagrams cover selected Claude Code concepts. For the harness taxonomy, use the three figures on the [Agent Harness Map](../ecosystem/agent-harness-landscape.md): strict and broad scope, the four layers, and the selection funnel. [Agent Harness Engineering](./agent-harness.md) explains the model, runtime harness, repository harness, and orchestrator. [Agent Tools: Beyond Claude Code](../ecosystem/agentic-tools.md) covers frameworks and control planes. Use [Agent Evaluation](../roles/agent-evaluation.md), [Session Observability](../ops/observability.md), and [Security Hardening](../security/security-hardening.md) to test, inspect, and constrain the chosen design. Definitions are in the [glossary](./glossary.md).
 
 ---
 
-## Table of Contents
+## Table of contents
 
 **New diagrams:**
 1. [Context Management Zones](#1-context-management-zones)
@@ -59,7 +59,7 @@ These ASCII diagrams cover selected Claude Code concepts. For the harness taxono
 
 ---
 
-## 1. Context Management Zones
+## 1. Context management zones
 
 How to react based on context window usage (check with `/status`):
 
@@ -88,7 +88,7 @@ Context Usage
 
 ---
 
-## 2. Permission Modes Cycle
+## 2. Permission modes cycle
 
 Cycle through modes with `Shift+Tab`:
 
@@ -121,7 +121,7 @@ Cycle through modes with `Shift+Tab`:
 
 ---
 
-## 3. Workflow Pipeline (9 Steps)
+## 3. Workflow pipeline (9 steps)
 
 The recommended workflow for every task:
 
@@ -152,7 +152,7 @@ The recommended workflow for every task:
 
 ---
 
-## 4. Quick Decision Tree
+## 4. Quick decision tree
 
 What to do based on your situation:
 
@@ -184,7 +184,7 @@ What do you need?
 
 ---
 
-## 5. Master Loop
+## 5. Master loop
 
 The entire architecture is a simple `while` loop: no DAG, no classifier, no RAG.
 
@@ -239,7 +239,7 @@ The entire architecture is a simple `while` loop: no DAG, no classifier, no RAG.
 
 ---
 
-## 6. Hook Event Flow
+## 6. Hook event flow
 
 How hooks intercept Claude Code's execution pipeline:
 
@@ -278,7 +278,7 @@ How hooks intercept Claude Code's execution pipeline:
 
 ---
 
-## 7. Data Privacy Flow
+## 7. Data privacy flow
 
 What data leaves your machine when using Claude Code:
 
@@ -307,7 +307,7 @@ What data leaves your machine when using Claude Code:
 
 ---
 
-## 8. MCP Rug Pull Attack
+## 8. MCP rug pull attack
 
 How a malicious MCP server can exploit the one-time approval model:
 
@@ -330,7 +330,7 @@ MITIGATION: Version pinning + hash verification + monitoring
 
 ---
 
-## 9. Docker Sandbox Architecture
+## 9. Docker sandbox architecture
 
 Full isolation for autonomous Claude Code sessions:
 
@@ -365,7 +365,7 @@ Full isolation for autonomous Claude Code sessions:
 
 ---
 
-## 10. Search Tool Selection
+## 10. Search tool selection
 
 3-level decision tree for choosing the right search tool:
 
@@ -419,7 +419,7 @@ Found too many results?
 
 ---
 
-## 11. Trust Calibration Flow
+## 11. Trust calibration flow
 
 How much to review AI-generated code based on risk level:
 
@@ -460,7 +460,7 @@ How much to review AI-generated code based on risk level:
 
 ---
 
-## 12. Adoption Decision Tree
+## 12. Adoption decision tree
 
 How to choose your Claude Code adoption strategy:
 
@@ -484,7 +484,7 @@ Starting Claude Code?
 
 ---
 
-## 13. Methodology Selection
+## 13. Methodology selection
 
 Which development methodology to use:
 
@@ -504,7 +504,7 @@ Which development methodology to use:
 
 ---
 
-## 14. Research → Spec → Code
+## 14. Research → spec → code
 
 Using Perplexity for research, then Claude Code for implementation:
 
@@ -532,7 +532,7 @@ Using Perplexity for research, then Claude Code for implementation:
 
 ---
 
-## 15. Review Auto-Correction Loop
+## 15. Review auto-correction loop
 
 Iterative code review pattern where Claude reviews, fixes, and re-reviews:
 
@@ -556,7 +556,7 @@ Iterative code review pattern where Claude reviews, fixes, and re-reviews:
 
 ---
 
-## 16. PDF Pipeline Stack
+## 16. PDF pipeline stack
 
 Quarto + Typst stack for generating professional PDFs:
 
@@ -596,7 +596,7 @@ Quarto + Typst stack for generating professional PDFs:
 
 ---
 
-## 17. TDD Red-Green-Refactor Cycle
+## 17. TDD red-green-refactor cycle
 
 The iterative loop at the heart of Test-Driven Development:
 
@@ -649,7 +649,7 @@ Key rules:
 
 ---
 
-## 18. UVAL Protocol Flow
+## 18. UVAL protocol flow
 
 Systematic framework for learning with AI without losing your edge:
 
@@ -687,7 +687,7 @@ Systematic framework for learning with AI without losing your edge:
 
 ---
 
-## 19. Security 3-Layer Defense
+## 19. Security 3-layer defense
 
 The full security document (security-hardening.md) organized as 3 defense layers:
 
@@ -731,7 +731,7 @@ The full security document (security-hardening.md) organized as 3 defense layers
 
 ---
 
-## 20. Secret Exposure Timeline
+## 20. Secret exposure timeline
 
 Emergency response when a secret (API key, token, password) is exposed:
 

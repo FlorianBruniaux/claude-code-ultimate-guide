@@ -1,4 +1,4 @@
-# Evaluation: Gur Sannikov - Claude Code as Embedded OS
+# Evaluation: Gur Sannikov - Claude Code as embedded OS
 
 **Resource Type**: LinkedIn Post
 **Author**: Gur Sannikov
@@ -9,7 +9,7 @@
 
 ---
 
-## Executive Summary
+## Executive summary
 
 LinkedIn post proposing "embedded OS" metaphor for Claude Code architecture, listing 11 native capabilities, and demonstrating ADR-driven development workflow for embedded engineering.
 
@@ -34,9 +34,9 @@ LinkedIn post proposing "embedded OS" metaphor for Claude Code architecture, lis
 
 ---
 
-## Content Summary
+## Content summary
 
-### Main Claims
+### Main claims
 
 1. **Architecture Metaphor**: Claude Code as "embedded OS" with hardware parallels (DMA transfers, boot sequences, interrupt handlers)
 2. **11 Native Capabilities**: Hooks, skill-scoped hooks, background agents, /explore, /plan, Task Tool, agent swarm, per-task model selection, MCP protocol, permission modes, session memory
@@ -44,7 +44,7 @@ LinkedIn post proposing "embedded OS" metaphor for Claude Code architecture, lis
 4. **Community Convergence**: Claude Code, GitHub Copilot CLI, OpenCode converging on Agent Skills standard
 5. **Embedded Engineering Use Case**: Firmware dev, simulation, code reviews, bus data capture
 
-### Notable Context
+### Notable context
 
 - **Jacob Beningo** (embedded engineering) challenges "OS" term, prefers "embedded engineering assistant"
 - **Gist reference**: https://gist.github.com/gsannikov/92cf8ca50407458b605756508a20fe18
@@ -52,9 +52,9 @@ LinkedIn post proposing "embedded OS" metaphor for Claude Code architecture, lis
 
 ---
 
-## Gap Analysis
+## Gap analysis
 
-### Gaps Addressed by This Resource
+### Gaps addressed by this resource
 
 | Topic | Status in Guide (Pre-Integration) | Gap Severity |
 |-------|-----------------------------------|--------------|
@@ -64,7 +64,7 @@ LinkedIn post proposing "embedded OS" metaphor for Claude Code architecture, lis
 | **Community Validation** | ⚠️ Agent Skills documented, convergence not cited | **LOW** |
 | **Embedded Engineering** | ❌ Not covered | **LOW** (niche) |
 
-### What the Guide Already Covered
+### What the guide already covered
 
 - ✅ All 11 capabilities documented individually (hooks, subagents, Task Tool, etc.)
 - ✅ Architecture philosophy ("less scaffolding, more model")
@@ -73,9 +73,9 @@ LinkedIn post proposing "embedded OS" metaphor for Claude Code architecture, lis
 
 ---
 
-## Integration Actions Taken
+## Integration actions taken
 
-### 1. ADR-Driven Development → `guide/core/methodologies.md` ⭐ **HIGH PRIORITY**
+### 1. ADR-driven development → `guide/core/methodologies.md` ⭐ **HIGH PRIORITY**
 
 **Location**: After "Multi-Agent Orchestration" (Tier 5)
 **Content Added**:
@@ -87,7 +87,7 @@ LinkedIn post proposing "embedded OS" metaphor for Claude Code architecture, lis
 **Lines Added**: ~60 lines
 **Impact**: Fills methodological gap, provides actionable workflow
 
-### 2. Native Capabilities Audit → `guide/core/architecture.md` ⭐ **HIGH PRIORITY**
+### 2. Native capabilities audit → `guide/core/architecture.md` ⭐ **HIGH PRIORITY**
 
 **Location**: After "Why This Design?" (Section 1)
 **Content Added**:
@@ -98,7 +98,7 @@ LinkedIn post proposing "embedded OS" metaphor for Claude Code architecture, lis
 **Lines Added**: ~50 lines
 **Impact**: Onboarding tool, comprehension audit
 
-### 3. Dynamic Model Switching → `guide/cheatsheet.md` 🟡 **MEDIUM PRIORITY**
+### 3. Dynamic model switching → `guide/cheatsheet.md` 🟡 **MEDIUM PRIORITY**
 
 **Location**: Under "Plan Mode & Thinking" section
 **Content Added**:
@@ -110,7 +110,7 @@ LinkedIn post proposing "embedded OS" metaphor for Claude Code architecture, lis
 **Lines Added**: ~40 lines
 **Impact**: Cost optimization pattern, workflow clarity
 
-### 4. Community Validation → `guide/core/architecture.md` 🟢 **LOW PRIORITY**
+### 4. Community validation → `guide/core/architecture.md` 🟢 **LOW PRIORITY**
 
 **Location**: After "The Trade-offs" (Section 9 Philosophy)
 **Content Added**:
@@ -123,9 +123,9 @@ LinkedIn post proposing "embedded OS" metaphor for Claude Code architecture, lis
 
 ---
 
-## Fact-Check Results
+## Fact-check results
 
-### Verified Claims ✅
+### Verified claims ✅
 
 | Claim | Verification Method | Result |
 |-------|---------------------|--------|
@@ -135,7 +135,7 @@ LinkedIn post proposing "embedded OS" metaphor for Claude Code architecture, lis
 | **Background Agents** | Multiple guide files | ✅ Async task execution documented |
 | **Hooks, /explore, /plan, Task Tool** | Guide sections 4.2, 5.10, etc. | ✅ All documented |
 
-### Partially Verified ⚠️
+### Partially verified ⚠️
 
 | Claim | Status | Notes |
 |-------|--------|-------|
@@ -143,7 +143,7 @@ LinkedIn post proposing "embedded OS" metaphor for Claude Code architecture, lis
 | **GitHub Copilot "4 agents"** | ⚠️ Out of scope | External product, not verified |
 | **OpenCode "70+ providers"** | ⚠️ Out of scope | External product, not verified |
 
-### Unverifiable (Qualitative)
+### Unverifiable (qualitative)
 
 - **"80% coverage with 20% setup"**: Qualitative claim, not fact-checkable
 
@@ -151,9 +151,9 @@ LinkedIn post proposing "embedded OS" metaphor for Claude Code architecture, lis
 
 ---
 
-## Challenge Results (Technical-Writer Agent)
+## Challenge results (technical-writer agent)
 
-### Initial Score: 3/5 → **Adjusted: 4/5**
+### Initial score: 3/5 → **Adjusted: 4/5**
 
 **Biases Detected**:
 1. **Familiarity Bias**: "Already documented → not relevant" (missed checklist format value)
@@ -204,7 +204,7 @@ LinkedIn post proposing "embedded OS" metaphor for Claude Code architecture, lis
 
 ---
 
-## Files Modified
+## Files modified
 
 1. `guide/core/architecture.md` — 2 additions (Native Capabilities Audit + Community Validation)
 2. `guide/core/methodologies.md` — 1 addition (ADR-Driven Development)
@@ -214,7 +214,7 @@ LinkedIn post proposing "embedded OS" metaphor for Claude Code architecture, lis
 
 ---
 
-## Lessons Learned
+## Lessons learned
 
 1. **Format Matters**: Even when content exists, presentation format (checklist, workflow) adds pedagogical value
 2. **Universal Patterns**: Domain-specific resources (embedded) can contain universal patterns (ADR workflow)

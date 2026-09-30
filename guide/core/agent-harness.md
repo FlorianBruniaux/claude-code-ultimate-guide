@@ -12,7 +12,7 @@ keywords:
   - "2605.18747"
 ---
 
-# Agent Harness Engineering
+# Agent harness engineering
 
 > **Confidence**: Tier 1 for the architecture framing; Tier 2 for cross-product performance claims. Controlled studies show measurable harness effects, but do not establish that the harness always matters more than the model.
 >
@@ -54,7 +54,7 @@ The pages remain separate on purpose. Engineering concepts change more slowly th
 
 ---
 
-## Table of Contents
+## Table of contents
 
 0. [Four Layers, Four Responsibilities](#0-four-layers-four-responsibilities)
 1. [Three Foundational Properties](#1-three-foundational-properties)
@@ -71,7 +71,7 @@ The pages remain separate on purpose. Engineering concepts change more slowly th
 
 ---
 
-## 0. Four Layers, Four Responsibilities
+## 0. Four layers, four responsibilities
 
 The word *harness* is overloaded. This guide uses four layers so a model, a runtime, a repository setup, and a fleet manager are not treated as interchangeable products.
 
@@ -105,7 +105,7 @@ A loop can be encoded as a graph. A graph can coordinate several loops. A harnes
 
 ---
 
-## 1. Three Foundational Properties
+## 1. Three foundational properties
 
 arXiv 2605.18747 ("Code as Agent Harness", May 2026) formalizes three properties that distinguish a harness from a simple LLM wrapper:
 
@@ -117,11 +117,11 @@ arXiv 2605.18747 ("Code as Agent Harness", May 2026) formalizes three properties
 
 ---
 
-## 2. The Nine Components
+## 2. The nine components
 
 These nine components appear across Claude Code, Anthropic SDK, OpenAI Agents SDK, LangGraph, AWS Bedrock AgentCore, and Factory.ai Missions. No single tool implements all nine in exactly the same way, but the structure is consistent enough to use as an evaluation checklist when assessing a harness against a new tool or framework.
 
-### 2.1 While-Loop Engine
+### 2.1 While-loop engine
 
 The main loop: perceive (read context, tool outputs, latest user instruction), plan (call LLM with assembled prompt), act (execute tools). This is the heartbeat. Anthropic SDK, OpenAI Agents SDK, and LangGraph implement it differently (Anthropic is streaming-first, LangGraph is graph-based), but all three have this loop as the core abstraction.
 
@@ -143,7 +143,7 @@ Build one bounded loop before adding autonomous layers. In a [2026 context-engin
 
 The meta loop can now be automated. [Meta-Harness](https://arxiv.org/abs/2603.28052) searches harness code using prior source, scores, and execution traces. [Agentic Harness Engineering](https://arxiv.org/abs/2604.25850) represents editable components as files and couples every change to a prediction that the next evaluation can falsify. Automation does not remove the need for held-out tests or budgets. It makes those boundaries more important.
 
-### 2.2 Context Management
+### 2.2 Context management
 
 What goes into the prompt on each loop iteration: conversation history, tool outputs, retrieved memory, current task state, rules from CLAUDE.md. The challenge is that context is finite and expensive. Strategies:
 
@@ -167,7 +167,7 @@ Repository files are only one source of truth. Product decisions may live in Lin
 
 Record the source, retrieval time, and freshness expectation for external context. If an agent cannot tell whether a design decision is current, the context builder has moved uncertainty into the prompt instead of resolving it.
 
-### 2.3 Tool Registry
+### 2.3 Tool registry
 
 The catalog of available tools: name, schema, description, permissions, cost estimate. A static tool registry loads all tool schemas on every call. A dynamic registry ("tool search on demand") loads only what the current task plausibly needs.
 
@@ -175,7 +175,7 @@ Anthropic's internal data (cited in the Fowler article, source: practitioner pos
 
 For sensitive MCP (Model Context Protocol) tools, put authentication and authorization at the execution boundary. An identity-aware gateway is one production pattern, but it is not a default property of MCP or Claude Code. The required control depends on the tool's data, side effects, and deployment model. See [MCP Servers Ecosystem](../ecosystem/mcp-servers-ecosystem.md) and [Security Hardening](../security/security-hardening.md).
 
-### 2.4 Sub-Agent Management
+### 2.4 Sub-agent management
 
 Delegation to specialized sub-agents with their own context windows and task scope. The orchestrator spawns a worker, provides a bounded task description, and receives a structured result. The worker does not share the orchestrator's full context; it receives only what it needs.
 
@@ -183,19 +183,19 @@ Factory.ai Missions formalizes this: an orchestrator agent decomposes requiremen
 
 Claude Code subagents inherit the parent session's permission mode by default. That is runtime behavior, not proof of least privilege. Narrow each agent with `tools`, `disallowedTools`, and `permissionMode`, and use `isolation: worktree` when parallel writers must not share a checkout. See [Tools Reference](./tools-reference.md), [Agent Teams](../workflows/agent-teams.md), and the [worktree isolation definition](./glossary.md#worktree-isolation).
 
-### 2.5 Native Tools and Loadable Skills
+### 2.5 Native tools and loadable skills
 
 Claude Code exposes native tools for file access, search, shell execution, web access, delegation, and other runtime operations. Skills are different: they are loadable instruction and resource modules invoked through the `Skill` tool. A skill can include scripts and deterministic checks, but the skill itself is not inherently deterministic because the model still interprets its instructions and chooses actions.
 
 Test deterministic scripts and validators with ordinary assertions. Test the model-mediated part of a skill with behavioral tasks, expected boundaries, and human or calibrated evaluator review. The [Tools Reference](./tools-reference.md) documents the runtime tool surface; the [skills examples](../../examples/skills/) show the separate packaging model.
 
-### 2.6 Session Persistence
+### 2.6 Session persistence
 
 State that survives context resets and session interruptions. Not the same as long-term memory (which is a higher-level concept). Persistence at the harness level means: the agent can reconstruct its current task state from externalized artifacts rather than from the in-context conversation history.
 
 Factory.ai Missions uses a shared artifact layer (validation contracts, feature lists, skill definitions) to survive the context limits of multi-day missions. E2B and Northflank provide this at the infrastructure level via persistent sandbox state. Anthropic Claude Managed Agents provide it as a product feature with checkpointing.
 
-### 2.7 Dynamic Prompt Assembly
+### 2.7 Dynamic prompt assembly
 
 The step that turns the current state (task description + relevant context + tool definitions + memory + rules) into the actual prompt sent to the LLM. This is not standardized across frameworks. LangChain, LangGraph, and the Anthropic SDK each have different abstractions.
 
@@ -203,13 +203,13 @@ The places where assembly goes wrong: rule injection that conflicts with the use
 
 Ryan Lopopolo's [2026 harness-engineering talk](https://www.youtube.com/watch?v=c8bE0cj7vHY&t=674s) frames the repository as an environment that must make the team's standard of good work legible and surface the right context just in time. The operational test is simple: if the same review feedback appears twice, decide whether it belongs in a formatter, linter, test, architecture decision record, skill, or verifier. Prompt text is only one possible control.
 
-### 2.8 Lifecycle Hooks
+### 2.8 Lifecycle hooks
 
 Injection points that fire at defined runtime events. Claude Code does not expose generic `pre-LLM` and `post-LLM` hooks. Its event model includes instruction loading, permission requests, tool use, compaction, subagent and teammate lifecycle, worktree changes, session lifecycle, and failure events. The exact list and blocking semantics live in [Hooks Events Reference](./hooks-events-reference.md).
 
 Hooks are where you insert observability instrumentation, permission validation, rate limiting, output sanitization, and audit logging. Only events with documented blocking semantics can stop an action. Async hooks are appropriate for telemetry that does not need to interrupt the loop.
 
-### 2.9 Permission Enforcement
+### 2.9 Permission enforcement
 
 Every consequential action needs an enforcement boundary before execution. Depending on risk, that boundary can combine explicit approval, permission rules, sandboxing, network policy, scoped credentials, and post-execution verification. Human review remains useful for high-impact decisions, but repeated approval prompts are not a complete isolation strategy.
 
@@ -240,7 +240,7 @@ Use the [human-readable release history](./claude-code-releases.md) for interpre
 
 ---
 
-## 3. The Lethal Trifecta: Security Model
+## 3. The Lethal Trifecta: Security model
 
 Simon Willison coined this term in 2025 (see [martinfowler.com/articles/202508-ai-thoughts.html](https://martinfowler.com/articles/202508-ai-thoughts.html)):
 
@@ -270,11 +270,11 @@ The defense that scales: structural isolation (makes certain actions impossible)
 
 ---
 
-## 4. CI/CD Agentic Patterns
+## 4. CI/CD agentic patterns
 
 Three platforms have productized agents as a CI/CD primitive. The choice between them is an architectural decision, not a feature comparison.
 
-### Test Selection as an Agent Primitive
+### Test selection as an agent primitive
 
 Before any of the three platforms below, one layer decides what those agents actually run: deterministic test selection, a service that picks which tests run on a given change based on past results and package relevance, instead of running the full suite on every PR. This is not specific to any platform; it is infrastructure the three CI/CD agent patterns below sit on top of.
 
@@ -284,7 +284,7 @@ Anthropic's own service illustrates the failure mode to design around. Its v0 sp
 
 The limits: no product is named in the source, no latency SLO is published, and the distributed design is explicitly more expensive to run in exchange for being easier to scale and to profile. Treat this as a pattern to plan for, not a specific tool to adopt.
 
-### GitHub Agentic Workflows
+### GitHub agentic workflows
 
 The central concept: `gh aw compile` takes an agent workflow definition in Markdown and produces a `.lock.yml`, a hardened GitHub Actions file that executes the workflow with enforced isolation. The compilation step is where security properties are baked in, not added later.
 
@@ -312,7 +312,7 @@ Fix CI/CD Pipeline reached General Availability in GitLab 18.8. When a pipeline 
 
 ---
 
-## 5. Digital Twin Testing
+## 5. Digital twin testing
 
 Agents cannot be tested safely in production on the first pass. The standard practice for testing non-AI software is staging environments. For agents that call external services (Slack, Jira, Okta, Google Drive), staging means either burning real API quota or using behavioral mocks that simulate the service accurately enough to surface integration bugs.
 
@@ -334,7 +334,7 @@ LangWatch Scenario SDK ([langwatch.ai/scenario](https://langwatch.ai/scenario)) 
 
 ---
 
-## 6. Observability Stack
+## 6. Observability stack
 
 The open-source baseline that works in production, documented by independent organizations:
 
@@ -392,7 +392,7 @@ The working solution: use LLM-as-judge for qualitative dimensions that cannot be
 
 ---
 
-## 7. Test Distribution and Component-Stacking Anti-patterns
+## 7. Test distribution and component-stacking anti-patterns
 
 An empirical study across 39 open-source agent frameworks and 439 agentic applications (arXiv 2509.19185) found that more than 70% of testing effort in agentic systems targets the deterministic components (tools, APIs, workflow logic), while less than 5% targets the Plan Body, the LLM reasoning core. Adoption of dedicated LLM evaluation tools (DeepEval) was below 1% despite those tools' high marketing visibility.
 
@@ -434,7 +434,7 @@ Keep viewed, invoked, executed successfully and useful as separate observations.
 
 *Each observation needs its own evidence; none implies the next. Open the image for full size. Acceptance also requires policy authority. [French version and sources](../images/harness-review/README.md).*
 
-## 8. Creator-Verifier Pattern
+## 8. Creator-verifier pattern
 
 The creator-verifier pattern assigns production and evaluation to separate steps or agents. It is a useful design candidate, not a guaranteed accuracy multiplier.
 
@@ -495,7 +495,7 @@ This does not eliminate hallucination; it catches the subset of hallucinations t
 
 Human oversight needs enough information and capacity to challenge or resume the work. A compact decision dossier should retain sources, unknowns and disagreements; approval speed alone cannot establish its quality. [Learning with AI](../roles/learning-with-ai.md#supervision-needs-capacity-and-a-usable-interface) owns the proposed human exercise and its evidence limits.
 
-## 9. Reference Architecture
+## 9. Reference architecture
 
 ```
 User instruction
@@ -533,7 +533,7 @@ User instruction
 
 ---
 
-## 10. Practitioner Video Evidence
+## 10. Practitioner video evidence
 
 This ledger connects the architecture to dated practitioner and product-creator testimony. Every quoted sentence below was checked against the local WebVTT transcript and links to the corresponding YouTube timestamp. Capitalization and punctuation are normalized; wording is preserved. The transcript proves what was said at that point in the video. It does not prove that a product still behaves that way, that a reported outcome generalizes, or that an interview claim was independently measured.
 
@@ -569,7 +569,7 @@ The source list is selective. It includes videos that add a distinct mechanism, 
 
 ---
 
-## 11. Harness Optimizers and Meta-Harnesses
+## 11. Harness optimizers and meta-harnesses
 
 A runtime harness improves one agent run. A harness optimizer improves the code and configuration that govern future runs. The optimizer can edit prompts, context policies, tools, middleware, memory, control flow, verification, or routing, then use an external evaluator to decide which candidate survives.
 
@@ -600,7 +600,7 @@ The practical conclusion is not “self-improving agents solve harness engineeri
 
 ---
 
-## See Also
+## See also
 
 - [Agent Harness Landscape](../ecosystem/agent-harness-landscape.md): dated product map, evidence states, and selection protocol
 - [Architecture](./architecture.md): Claude Code's master loop, tools, context, agents, permissions, and MCP integration

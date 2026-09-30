@@ -82,13 +82,13 @@ def generate_report(all_reviews: List[Dict]) -> str:
     warning_count = sum(1 for r in all_reviews for i in r['issues'] if i['severity'] == 'warning')
     info_count = sum(1 for r in all_reviews for i in r['issues'] if i['severity'] == 'info')
 
-    lines.append("## Executive Summary")
+    lines.append("## Executive summary")
     lines.append("")
     lines.append(f"**Total Questions Reviewed**: {total_questions}")
     lines.append(f"**Pass**: {total_pass} ({total_pass/total_questions*100:.1f}%)")
     lines.append(f"**Issues Found**: {total_issues} ({total_issues/total_questions*100:.1f}%)")
     lines.append("")
-    lines.append("### Issue Breakdown")
+    lines.append("### Issue breakdown")
     lines.append("")
     lines.append(f"- **Critical**: {critical_count} (wrong answer, major factual error)")
     lines.append(f"- **Warning**: {warning_count} (ambiguous, outdated, misleading)")
@@ -98,7 +98,7 @@ def generate_report(all_reviews: List[Dict]) -> str:
     lines.append("")
 
     # Critical issues
-    lines.append("## Critical Issues (Immediate Fix Required)")
+    lines.append("## Critical issues (immediate fix required)")
     lines.append("")
     critical_issues = [i for r in all_reviews for i in r['issues'] if i['severity'] == 'critical']
 
@@ -183,7 +183,7 @@ def generate_report(all_reviews: List[Dict]) -> str:
     lines.append("")
 
     # Next steps
-    lines.append("## Recommended Actions")
+    lines.append("## Recommended actions")
     lines.append("")
     lines.append("1. **Fix Critical Issues** (Priority 1)")
     lines.append("   - Review each critical issue")

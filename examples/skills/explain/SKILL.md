@@ -6,7 +6,7 @@ effort: low
 when_to_use: "Use when asking Claude to explain code, a function, an algorithm, or a concept."
 ---
 
-# Code Explainer
+# Code explainer
 
 Explain code, concepts, or system behavior with adjustable depth levels.
 
@@ -20,7 +20,7 @@ Get clear explanations of:
 
 ## Instructions
 
-### Step 1: Determine Scope
+### Step 1: Determine scope
 
 Identify what needs explanation:
 - **File**: Entire file structure and purpose
@@ -28,7 +28,7 @@ Identify what needs explanation:
 - **Concept**: Architectural pattern or design decision
 - **Flow**: How data/control moves through the system
 
-### Step 2: Assess Complexity
+### Step 2: Assess complexity
 
 ```
 Simple (1-2 min read)     → Quick summary, key points only
@@ -36,7 +36,7 @@ Standard (3-5 min read)   → Purpose, how it works, key decisions
 Deep (10+ min read)       → Full breakdown, alternatives, trade-offs
 ```
 
-### Step 3: Gather Context
+### Step 3: Gather context
 
 ```bash
 # For file explanations
@@ -50,9 +50,9 @@ ls -la "$DIR"
 cat "$DIR/index.ts" 2>/dev/null || cat "$DIR/__init__.py" 2>/dev/null
 ```
 
-### Step 4: Structure the Explanation
+### Step 4: Structure the explanation
 
-## Output Format
+## Output format
 
 ---
 
@@ -61,27 +61,27 @@ cat "$DIR/index.ts" 2>/dev/null || cat "$DIR/__init__.py" 2>/dev/null
 **Scope**: [file/function/concept/flow]
 **Depth**: [simple/standard/deep]
 
-### What It Does
+### What it does
 
 [1-3 sentences describing the purpose]
 
-### How It Works
+### How it works
 
 [Step-by-step breakdown appropriate to depth level]
 
-### Key Decisions
+### Key decisions
 
 | Decision | Why | Alternative |
 |----------|-----|-------------|
 | [choice made] | [reasoning] | [what else could work] |
 
-### Example Usage
+### Example usage
 
 ```typescript
 // How to use this correctly
 ```
 
-### Related Code
+### Related code
 
 - `path/to/related.ts` - [relationship]
 - `path/to/dependency.ts` - [relationship]
@@ -92,7 +92,7 @@ cat "$DIR/index.ts" 2>/dev/null || cat "$DIR/__init__.py" 2>/dev/null
 
 ---
 
-## Depth Levels
+## Depth levels
 
 ### Simple (`/explain --simple`)
 
@@ -136,7 +136,7 @@ cat "$DIR/index.ts" 2>/dev/null || cat "$DIR/__init__.py" 2>/dev/null
 - Class-validator: Better for decorators but OOP-heavy
 ```
 
-## Usage Examples
+## Usage examples
 
 **Explain a file:**
 ```

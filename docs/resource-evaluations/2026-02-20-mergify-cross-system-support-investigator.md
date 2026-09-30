@@ -1,4 +1,4 @@
-# Resource Evaluation: Mergify: Cross-System Support Investigator
+# Resource evaluation: Mergify: Cross-System support investigator
 
 **Date**: 2026-02-20
 **Evaluator**: Claude (eval-resource skill)
@@ -46,7 +46,7 @@ Key results (self-reported): triage time reduced from ~15 min → <5 min; 75% fi
 
 ---
 
-## Fact-Check
+## Fact-check
 
 | Claim | Status | Notes |
 |-------|--------|-------|

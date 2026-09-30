@@ -1,4 +1,4 @@
-# Resource Evaluation: 10 Tips from Inside the Claude Code Team
+# Resource evaluation: 10 tips from inside the Claude Code team
 
 **Date**: 2026-02-01
 **Evaluator**: Claude (Opus 4.5)
@@ -6,7 +6,7 @@
 
 ---
 
-## Resource Details
+## Resource details
 
 **Source**: Blog post (thread synthesis)
 **URL**: https://paddo.dev/blog/claude-code-team-tips/
@@ -25,7 +25,7 @@ Synthesis of 10 tips from the Claude Code team (Boris Cherny and colleagues at A
 
 ---
 
-## Evaluation Score: 4/5
+## Evaluation score: 4/5
 
 **Rating**: High Value — 3 novel patterns + complements to existing sections
 
@@ -49,7 +49,7 @@ Synthesis of 10 tips from the Claude Code team (Boris Cherny and colleagues at A
 - Blog post is a synthesis, not primary source (original is a Twitter thread)
 - Some tips lack implementation detail (e.g., Opus security gate is conceptual)
 
-### Gap Analysis
+### Gap analysis
 
 | Tip | Status in Guide | Action |
 |-----|----------------|--------|
@@ -64,7 +64,7 @@ Synthesis of 10 tips from the Claude Code team (Boris Cherny and colleagues at A
 | 9. Claude replaces SQL | **NEW detail**: BigQuery skill example | Added to team patterns |
 | 10. Learning with Claude | Learning guide exists | No action |
 
-### Fact-Check
+### Fact-check
 
 - Boris Cherny is confirmed creator of Claude Code (verified in existing case study)
 - Thread is from verified @bcherny account
@@ -74,7 +74,7 @@ Synthesis of 10 tips from the Claude Code team (Boris Cherny and colleagues at A
 
 ---
 
-## Integration Decision
+## Integration decision
 
 **Score**: 4/5 — Integrate within 1 week
 

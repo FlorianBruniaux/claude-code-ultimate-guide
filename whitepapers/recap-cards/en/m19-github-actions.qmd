@@ -29,7 +29,7 @@ This pattern separates review logic from workflow mechanics. The YAML file orche
 
 This separation allows iterating on review quality without risking breaking the pipeline.
 
-## Authentication: OAuth vs API Key
+## Authentication: OAuth vs API key
 
 | Method | Cost per review | Prerequisites |
 |--------|----------------|--------------|

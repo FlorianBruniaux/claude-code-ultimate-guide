@@ -1,4 +1,4 @@
-# Verification Proof Log
+# Verification proof log
 
 Copy this file into a work item before testing a change, an agent workflow, or a Best-of-N selection. Fill in fields with evidence. Use `UNKNOWN` when a check has not run, cannot run, or has incomplete coverage. Do not replace it with a passing conclusion.
 

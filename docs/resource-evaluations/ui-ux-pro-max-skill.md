@@ -1,4 +1,4 @@
-# Resource Evaluation: UI UX Pro Max Skill
+# Resource evaluation: UI UX Pro max skill
 
 **Date**: 2026-02-23
 **Evaluator**: Claude Code (Sonnet 4.6) + technical-writer agent challenge
@@ -29,7 +29,7 @@ Skill multi-plateforme (15 assistants AI) fournissant un moteur de design intell
 
 ---
 
-## Fact-Check Results
+## Fact-check results
 
 | Claim | Status | Source |
 |-------|--------|--------|
@@ -47,7 +47,7 @@ Skill multi-plateforme (15 assistants AI) fournissant un moteur de design intell
 
 ---
 
-## Gap Analysis
+## Gap analysis
 
 | Aspect | Cette ressource | Guide (avant intégration) |
 |--------|----------------|--------------------------|

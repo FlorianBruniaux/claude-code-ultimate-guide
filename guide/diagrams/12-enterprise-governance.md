@@ -12,7 +12,7 @@ Org-level patterns for teams deploying Claude Code at scale: usage tiers, MCP ap
 
 ---
 
-### Governance Risk Tiers: What to Control and When
+### Governance risk tiers: What to control and when
 
 Not everything needs heavy governance. This decision tree routes your context to the right control level based on actual risk, from personal dev workflow (minimal) to regulated environments (full compliance stack).
 
@@ -77,7 +77,7 @@ You CANNOT control: personal ~/.claude, personal API key model choice, personal 
 
 ---
 
-### MCP Governance Workflow
+### MCP governance workflow
 
 Individual MCP vetting takes 5 minutes. Organizational MCP governance is the 5-step pipeline that ensures approved servers stay approved, versions are pinned, and risk is classified before deployment.
 
@@ -142,7 +142,7 @@ Monitor every 30 days:
 
 ---
 
-### Data Classification & Claude Code Access Rules
+### Data classification & Claude Code access rules
 
 Data classification determines what Claude Code is allowed to read and process. Getting this wrong is the highest-impact governance failure. Four levels, clear rules, no exceptions for RESTRICTED.
 

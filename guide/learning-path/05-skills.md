@@ -3,7 +3,7 @@ title: "Module 05: Skills & Automation"
 description: "Learning Path Module 05: build scoped Claude Code skills with SKILL.md, progressive disclosure, invocation controls, evals, and retirement criteria. 1.5 hours, intermediate."
 ---
 
-# Module 05: Skills & Automation
+# Module 05: Skills & automation
 
 **Time**: 1.5 hours | **Complexity**: ⭐⭐ Intermediate
 
@@ -15,7 +15,7 @@ Create a project skill that gives Claude relevant knowledge or a reusable proced
 
 ---
 
-## What You'll Learn
+## What you'll learn
 
 - What skills load, and when
 - How to create a valid `SKILL.md`
@@ -27,13 +27,13 @@ Create a project skill that gives Claude relevant knowledge or a reusable proced
 
 ---
 
-## What Are Skills?
+## What are skills?
 
 A **skill** is a directory containing a `SKILL.md` file and optional supporting files. Its description is advertised to Claude. The full instructions load only when you or Claude invoke the skill.
 
 This makes skills useful for repeated procedures, checklists, and reference material that would be too costly or distracting in an always-loaded `CLAUDE.md`.
 
-### Example: Testing Skill
+### Example: Testing skill
 
 Instead of explaining your testing approach in each session, create a project skill whose description says when it applies:
 
@@ -53,7 +53,7 @@ description: Apply this project's Jest and Testing Library conventions when crea
 
 Claude sees the name and description during the session. It loads the body when the current request matches the description, or when you type `/testing-standards`.
 
-### Skills vs CLAUDE.md vs Agents vs Workflows
+### Skills vs CLAUDE.md vs agents vs workflows
 
 | Mechanism | Best for | Loading or execution |
 |-----------|----------|----------------------|
@@ -66,7 +66,7 @@ Numbered steps are not automatically a reason to leave the skill format. Move an
 
 ---
 
-## Choose the Ownership Scope First
+## Choose the ownership scope first
 
 Sharing a skill does not require co-maintaining one universal copy. Frédéric Camblor's article [Un Skill n'est pas une librairie](https://devx.writizzy.blog/p/un-skill-nest-pas-une-lib) provides a useful warning: appropriation, local context, and silent behavioral drift can cost more than copying the file and specializing it.
 
@@ -83,11 +83,11 @@ For security, treat any downloaded skill as an executable dependency because it 
 
 ---
 
-## Creating Your First Skill
+## Creating your first skill
 
 Skills live in directories named `.claude/skills/{skill-name}/`. The required file is `SKILL.md`.
 
-### File Location
+### File location
 
 ```text
 my-project/
@@ -97,7 +97,7 @@ my-project/
             └── SKILL.md
 ```
 
-### Basic Structure
+### Basic structure
 
 ```markdown
 ---
@@ -129,9 +129,9 @@ Run the changed test file, then the relevant package suite.
 
 ---
 
-## Skill Discovery and Invocation
+## Skill discovery and invocation
 
-### Write the Description as a Routing Rule
+### Write the description as a routing rule
 
 Claude uses `description` to decide whether the skill is relevant. Include:
 
@@ -143,7 +143,7 @@ Claude uses `description` to decide whether the skill is relevant. Include:
 description: Review PostgreSQL schema and query changes for indexes, locking, and migration safety. Use for SQL migrations and slow-query investigations; do not use for application-level API design.
 ```
 
-### Control Who Can Invoke It
+### Control who can invoke it
 
 By default, both you and Claude can invoke a skill.
 
@@ -159,7 +159,7 @@ user-invocable: false
 
 There is no `auto_invoke: true` session-start mode. In a regular session, Claude receives available skill descriptions and loads a skill body only when invoked. An invoked body remains in the conversation; tool grants from `allowed-tools` last only for the invoking turn.
 
-### Keep Tool Grants Narrow
+### Keep tool grants narrow
 
 `allowed-tools` pre-approves matching tools for the turn that invokes the skill. It does not remove other tools from Claude's toolset.
 
@@ -171,7 +171,7 @@ Review this field before using a third-party skill. A broad Bash grant can mater
 
 ---
 
-## Progressive Disclosure
+## Progressive disclosure
 
 Keep `SKILL.md` focused and move detailed material into supporting files:
 
@@ -189,9 +189,9 @@ Link each supporting file from `SKILL.md` and say when to open or execute it. Th
 
 ---
 
-## Common Skill Patterns
+## Common skill patterns
 
-### Pattern 1: Project Conventions
+### Pattern 1: Project conventions
 
 Use a project skill when the advice depends on repository architecture, team decisions, or local tooling.
 
@@ -209,7 +209,7 @@ description: Apply this repository's Python typing, import, packaging, and pytes
 - Verify with the narrowest relevant pytest target first.
 ```
 
-### Pattern 2: Domain Knowledge
+### Pattern 2: Domain knowledge
 
 ```markdown
 ---
@@ -226,7 +226,7 @@ user-invocable: false
 - Verify state transitions against the canonical state machine.
 ```
 
-### Pattern 3: Manual Workflow
+### Pattern 3: Manual workflow
 
 ```markdown
 ---
@@ -247,7 +247,7 @@ The model can adapt these steps. If publishing must never happen before a specif
 
 ---
 
-## Bundling and Sharing Skills
+## Bundling and sharing skills
 
 Project skills can be committed with the repository:
 
@@ -275,13 +275,13 @@ Use public catalogs to discover patterns. Before adopting a third-party skill:
 
 ---
 
-## Exercise: Create a Domain Skill
+## Exercise: Create a domain skill
 
 ### Scenario
 
 You are building an e-commerce site. Claude needs the project's product model when changing catalog and inventory code.
 
-### Step 1: Create the Directory
+### Step 1: Create the directory
 
 ```bash
 mkdir -p .claude/skills/product-data-model
@@ -317,7 +317,7 @@ Use for catalog, SKU, pricing, and inventory changes.
 - Exercise out-of-stock and concurrent-order cases.
 ```
 
-### Step 2: Test Discovery and Output Separately
+### Step 2: Test discovery and output separately
 
 Open fresh sessions for each case:
 
@@ -330,7 +330,7 @@ For the positive case, inspect the result too: the skill should route correctly 
 
 ---
 
-## Evaluation and Iteration
+## Evaluation and iteration
 
 Test two independent properties:
 
@@ -345,7 +345,7 @@ Choose acceptance thresholds from the risk and failure cost of the specific skil
 
 ---
 
-## Skill Lifecycle
+## Skill lifecycle
 
 1. **Scope**: choose personal, project/team, tool/vendor, or marketplace/global ownership.
 2. **Baseline**: collect representative prompts before adding the skill.
@@ -361,7 +361,7 @@ Do not archive a retired skill under `.claude/skills/`, because nested discovery
 
 ---
 
-## Best Practices
+## Best practices
 
 ### Do
 
@@ -384,7 +384,7 @@ Do not archive a retired skill under `.claude/skills/`, because nested discovery
 
 ---
 
-## Validation: You're Ready If...
+## Validation: You're ready if...
 
 ✓ Your skill is stored at `.claude/skills/{name}/SKILL.md`
 
@@ -410,7 +410,7 @@ Do not archive a retired skill under `.claude/skills/`, because nested discovery
 
 ---
 
-## What's Next?
+## What's next?
 
 **Module 06: Hooks & Events** covers:
 

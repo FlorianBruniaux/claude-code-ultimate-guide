@@ -1,4 +1,4 @@
-# Template Metadata Schema
+# Template metadata schema
 
 Complete metadata specification for all templates in `examples/`.
 
@@ -14,7 +14,7 @@ Template metadata enables:
 
 ---
 
-## YAML Frontmatter Format
+## YAML frontmatter format
 
 All templates (`agents/`, `commands/`, `skills/`, `hooks/`, `workflows/`, `scripts/`) should include metadata in YAML frontmatter:
 
@@ -31,7 +31,7 @@ keywords: [tag1, tag2, tag3]
 ---
 ```
 
-### File Format Rules
+### File format rules
 
 **Markdown** (`.md`):
 ```markdown
@@ -60,7 +60,7 @@ Content starts here...
 
 ---
 
-## Field Specifications
+## Field specifications
 
 ### `name` (Required)
 
@@ -272,7 +272,7 @@ keywords: [testing, jest, unit-test, tdd, bdd, coverage]
 
 ---
 
-## Validation Rules
+## Validation rules
 
 The `scripts/generate-template-catalog.py --validate` tool enforces:
 
@@ -284,7 +284,7 @@ The `scripts/generate-template-catalog.py --validate` tool enforces:
 
 ---
 
-## Minimal Template
+## Minimal template
 
 Every template MUST include at minimum:
 
@@ -299,7 +299,7 @@ time: 30 min
 
 ---
 
-## Complete Example
+## Complete example
 
 ```yaml
 ---
@@ -320,7 +320,7 @@ Agent definition and content follows...
 
 ---
 
-## Automated Generation
+## Automated generation
 
 The catalog is auto-generated from metadata:
 
@@ -342,9 +342,9 @@ Integration points:
 
 ---
 
-## Migration Guide
+## Migration guide
 
-### Existing Templates
+### Existing templates
 
 If updating an existing template:
 
@@ -352,7 +352,7 @@ If updating an existing template:
 2. Run validation: `python3 scripts/generate-template-catalog.py --validate`
 3. Commit with message: `docs: add metadata to [template-name]`
 
-### Batch Updates
+### Batch updates
 
 Update multiple templates at once:
 
@@ -383,7 +383,7 @@ A: Choose the primary/strongest domain. If truly multi-domain, consider splittin
 
 ---
 
-## Related Files
+## Related files
 
 - `examples/CATALOG.md` — Auto-generated template index
 - `scripts/generate-template-catalog.py` — Catalog generation tool

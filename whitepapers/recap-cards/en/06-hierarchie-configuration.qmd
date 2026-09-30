@@ -15,7 +15,7 @@ format:
   recap-card-typst: default
 ---
 
-## Configuration Levels
+## Configuration levels
 
 | Level | File | Scope | Git |
 |-------|------|-------|-----|
@@ -26,7 +26,7 @@ format:
 | Project rules | `CLAUDE.md` (root) | Team | Yes |
 | Subfolder | `subfolder/CLAUDE.md` | Folder | Yes |
 
-## Conflict Resolution
+## Conflict resolution
 
 ```
 ~/.claude/CLAUDE.md          (1 - global base)
@@ -55,7 +55,7 @@ Rules at a lower level **supplement** rather than replace higher levels.
 }
 ```
 
-## CLAUDE.md: Best Practices
+## CLAUDE.md: Best practices
 
 ```markdown
 # Project Conventions
@@ -71,7 +71,7 @@ Rules at a lower level **supplement** rather than replace higher levels.
 - Never modify package-lock.json
 ```
 
-## What Goes Where
+## What goes where
 
 **Global CLAUDE.md**: personal preferences, code style, universal conventions.
 

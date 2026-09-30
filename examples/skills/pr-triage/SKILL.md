@@ -5,11 +5,11 @@ allowed-tools: Bash Read
 effort: medium
 ---
 
-# PR Triage
+# PR triage
 
 4-phase workflow for maintainers: automated audit of all open PRs, opt-in deep review via parallel agents, validated comment posting, and optional worktree setup for local review.
 
-## When to Use This Skill
+## When to use this skill
 
 | Skill | Usage | Output |
 |-------|-------|--------|
@@ -119,7 +119,7 @@ _External, Problematic_: any of:
 - OR CI dirty (statusCheckRollup contains failures)
 - OR overlap with another open PR (>50% shared files)
 
-### Output: Triage Table
+### Output: Triage table
 
 ```
 ## Open PRs ({count})
@@ -146,7 +146,7 @@ _External, Problematic_: any of:
 
 0 PRs → display `No open PRs.` and stop.
 
-### Navigation Post-Phase 1
+### Navigation post-phase 1
 
 After displaying the triage table, ask via `AskUserQuestion`:
 
@@ -164,7 +164,7 @@ options:
 
 Note: Phase 3 (posting comments) is NOT offered here, as it requires the drafts generated in Phase 2. If the user picks "Phase 4", Phase 2 → Phase 3 remains accessible afterward.
 
-### Automatic Copy
+### Automatic copy
 
 After displaying the triage table, copy to clipboard using platform-appropriate command:
 
@@ -189,7 +189,7 @@ Confirm: `Triage table copied to clipboard.` (EN) / `Tableau copié dans le pres
 
 ## Phase 2: Deep Review (opt-in)
 
-### PR Selection
+### PR selection
 
 **If argument passed**:
 - `"all"` → all external PRs
@@ -220,7 +220,7 @@ options:
 
 If "Skip" → end workflow.
 
-### Executing Reviews
+### Executing reviews
 
 For each selected PR, launch a `code-reviewer` agent via **Task tool in parallel**:
 
@@ -265,7 +265,7 @@ Aggregate all reports. Display a summary after all reviews complete.
 
 ## Phase 3: Comments (mandatory validation)
 
-### Draft Generation
+### Draft generation
 
 For each reviewed PR, generate a GitHub comment using the template `templates/review-comment.md`.
 
@@ -275,7 +275,7 @@ For each reviewed PR, generate a GitHub comment using the template `templates/re
 - Always include at least 1 positive point
 - Quote code lines when relevant (format `file:42`)
 
-### Display and Validation
+### Display and validation
 
 **Display ALL drafted comments** in format:
 
@@ -321,7 +321,7 @@ If "None" → `No comments posted. Workflow complete.`
 
 ---
 
-## Project-Specific Checklist
+## Project-specific checklist
 
 Add your stack's checklist to the agent prompt in Phase 2. Examples by stack:
 
@@ -580,7 +580,7 @@ config/local.json
 
 ---
 
-## Edge Cases
+## Edge cases
 
 | Situation | Behavior |
 |-----------|----------|

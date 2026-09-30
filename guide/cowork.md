@@ -4,7 +4,7 @@ description: "Summary of Claude's agentic desktop feature for non-technical know
 tags: [guide, agents, workflows]
 ---
 
-# Claude Cowork: Agentic Desktop for Knowledge Work
+# Claude Cowork: Agentic desktop for knowledge work
 
 > **Complete documentation migrated to dedicated repository**
 > This file is a summary. For full documentation, see:
@@ -12,11 +12,11 @@ tags: [guide, agents, workflows]
 
 ---
 
-## Quick Overview
+## Quick overview
 
 **Cowork** is Claude's agentic desktop feature that extends autonomous AI capabilities to non-technical users through the Claude Desktop app. Instead of terminal commands, Cowork accesses local folders and files directly.
 
-### Key Facts
+### Key facts
 
 | Aspect | Details |
 |--------|---------|
@@ -27,7 +27,7 @@ tags: [guide, agents, workflows]
 
 ---
 
-## Three Claude Tools: Which One for You?
+## Three Claude tools: Which one for you?
 
 Three tools, one subscription ($20/mo Pro). They're complementary, not competing.
 
@@ -54,7 +54,7 @@ Three tools, one subscription ($20/mo Pro). They're complementary, not competing
 
 ---
 
-## Use Cases
+## Use cases
 
 - **File Organization**: Messy folders → organized structure
 - **Expense Tracking**: Receipts → Excel reports
@@ -65,7 +65,7 @@ Three tools, one subscription ($20/mo Pro). They're complementary, not competing
 
 ---
 
-## Security Summary
+## Security summary
 
 No official security documentation exists yet. Essential practices:
 

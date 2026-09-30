@@ -4,7 +4,7 @@ description: "Automated multi-agent PR review for Teams and Enterprise: setup, t
 tags: [feature, teams, enterprise, github, code-review]
 ---
 
-# Code Review
+# Code review
 
 > **Availability**: Research preview, Teams and Enterprise plans only. Not available on Free/Pro accounts, nor for organizations with Zero Data Retention (ZDR) enabled.
 > **Launched**: March 9, 2026
@@ -46,11 +46,11 @@ An admin enables Code Review once for the organization and selects which reposit
 
 Go to [claude.ai/admin-settings/claude-code](https://claude.ai/admin-settings/claude-code) and find the **Code Review** section. Requires admin access to both your Claude organization and permission to install GitHub Apps in your GitHub organization.
 
-### 2. Click Setup
+### 2. Click setup
 
 This begins the GitHub App installation flow.
 
-### 3. Install the Claude GitHub App
+### 3. Install the Claude GitHub app
 
 Follow the prompts to install the Claude GitHub App on your GitHub organization. The app requests:
 

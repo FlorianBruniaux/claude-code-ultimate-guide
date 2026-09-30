@@ -5,17 +5,17 @@ allowed-tools: Write Read AskUserQuestion
 effort: medium
 ---
 
-# Talk Stage 1: Extract
+# Talk stage 1: Extract
 
 Transforms raw material (article, transcript, notes, or a mix) into a structured summary ready for the pipeline's downstream stages. Auto-detects source type.
 
-## When to Use This Skill
+## When to use this skill
 
 - Starting a new talk from any source material
 - First step of the talk pipeline (always run before other stages)
 - Auditing existing source material before committing to a talk
 
-## What This Skill Does
+## What this skill does
 
 1. **Collects metadata** by asking for slug, event, date, duration, audience, mode if not provided
 2. **Reads the source** and loads the source file or inline content
@@ -38,7 +38,7 @@ If metadata is missing -> `AskUserQuestion` before proceeding.
 
 `talks/{YYYY}-{slug}-summary.md`
 
-## Source Type Detection
+## Source type detection
 
 | REX signals | Concept signals |
 |-------------|-----------------|
@@ -50,7 +50,7 @@ If metadata is missing -> `AskUserQuestion` before proceeding.
 
 If hybrid -> note both components in the summary.
 
-## Output Format
+## Output format
 
 ```markdown
 # Talk Summary: {Provisional Title}
@@ -112,7 +112,7 @@ If no obvious gaps -> "No major gaps identified."
 *Source: {source path}*
 ```
 
-## Metric Extraction Rules
+## Metric extraction rules
 
 - Do not round without indicating it
 - Always include the metric's source
@@ -128,7 +128,7 @@ If no obvious gaps -> "No major gaps identified."
 - Changing the detected type without justification
 - Inventing a narrative arc not present in the source
 
-## Validation Checklist
+## Validation checklist
 
 - [ ] Source type detected and justified
 - [ ] Narrative arc in 3-5 clear sentences

@@ -80,7 +80,7 @@ En solo ou à deux, la configuration reste volontairement minimale. Un seul `CLA
 ~/.claude/CLAUDE.md            # Préférences perso
 ```
 
-### Équipe Moyenne (4-10)
+### Équipe moyenne (4-10)
 
 Dès 4 développeurs, les hooks partagés deviennent nécessaires pour garantir une cohérence minimale. Le fichier `.claude/settings.json` commité dans le repo permet de standardiser les garde-fous (sécurité, format) sans toucher aux préférences individuelles de chaque dev.
 
@@ -147,7 +147,7 @@ Les valeurs simples suivent cet ordre : politiques gérées, options de ligne de
 
 Inspectez `/status` pour les sources chargées et `/hooks` pour les hooks enregistrés. Testez l’événement attendu au lieu de supposer qu’un fichier a supprimé les hooks d’un autre. Voir les [règles de fusion des settings](https://code.claude.com/docs/en/settings#lists-merge-instead-of-overriding).
 
-## Hook Profiles : Niveaux par Environnement (v3.38.0)
+## Hook profiles : Niveaux par environnement (v3.38.0)
 
 Pour les équipes qui veulent des niveaux de rigueur différents selon l'environnement (dev, staging, prod), le préfixe `HOOK_REQUIRED_LEVEL` permet de conditionner l'activation des hooks par variable d'environnement. Source : Everything Claude Code (Affaan Mustafa).
 
@@ -172,7 +172,7 @@ HOOK_REQUIRED_LEVEL=strict   # Tous les hooks actifs
 
 # Observabilité
 
-## Pourquoi Monitorer
+## Pourquoi monitorer
 
 Sans monitoring, les équipes découvrent leurs coûts réels à la réception de la facture API, souvent trop tard pour ajuster les comportements. Les outils présentés dans cette section permettent de quantifier l'usage en continu, par développeur et par projet.
 
@@ -182,9 +182,9 @@ Sans monitoring, les équipes découvrent leurs coûts réels à la réception d
 - **Suivre par projet** : Comparer l'usage entre codebases
 - **Visibilité équipe** : Agréger pour budget team
 
-## Session Search & Resume
+## Session search & resume
 
-### Commandes Natives
+### Commandes natives
 
 La reprise de session évite de reconstruire le contexte depuis zéro après une interruption. Claude Code fournit trois niveaux de reprise de session en natif. La reprise rapide (`-c`) convient au cas le plus courant (continuer la dernière session interrompue), tandis que le sélecteur interactif (`--resume`) est utile quand plusieurs sessions coexistent sur un même projet.
 
@@ -194,7 +194,7 @@ La reprise de session évite de reconstruire le contexte depuis zéro après une
 | `claude -r <id>` | Reprendre session spécifique |
 | `claude --resume` | Sélecteur interactif |
 
-### Script Recommandé : session-search.sh
+### Script recommandé : session-search.sh
 
 **Installation** :
 
@@ -227,7 +227,7 @@ cs --json "api" | jq .      # Sortie JSON pour scripts
   claude --resume 1340c42e-eac5-4181-8407-cc76e1a76219
 ```
 
-## Session Logging
+## Session logging
 
 ### Installation
 
@@ -362,7 +362,7 @@ cp examples/hooks/bash/session-summary.sh ~/.claude/hooks/
 
 **Utile en équipe** : Chaque dev voit son coût + impact par session → visibilité naturelle sans dashboard.
 
-## Optimisation Tokens : RTK (v3.27.1)
+## Optimisation tokens : RTK (v3.27.1)
 
 **RTK** filtre les sorties des commandes prises en charge avant leur entrée dans le contexte. Mesurez les résultats sur votre dépôt et conservez l’accès aux sorties brutes pour les diagnostics.
 
@@ -396,7 +396,7 @@ L’exemple de logger collecte des métadonnées d’outils, pas une trace compl
 
 > 📖 **Pour aller plus loin :** [Observability Guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ops/observability.md) (session search, logging, cost tracking)
 
-## Team-level Log Aggregation
+## Team-level log aggregation
 
 Les outils ci-dessus couvrent le monitoring individuel. Pour une équipe de 10+ développeurs, il faut faire converger les logs vers un stockage central afin de suivre le spend total, repérer les patterns anormaux, et répondre aux questions de compliance. Deux options, non exclusives.
 
@@ -425,7 +425,7 @@ Détails complets (config OTel Collector, requêtes Grafana additionnelles) : [g
 
 {{< pagebreak >}}
 
-# CI/CD Integration
+# CI/CD integration
 
 ## Mode Headless en CI/CD (v2.1.81+)
 
@@ -454,7 +454,7 @@ L'action officielle `anthropics/claude-code-action` s'intègre directement dans 
 | `claude-security-review.yml` | PR | Audit sécurité |
 | `claude-issue-triage.yml` | Issue opened | Triage automatique |
 
-## PR Auto-Review
+## PR auto-review
 
 **Fichier** : `.github/workflows/claude-pr-auto-review.yml`
 
@@ -519,7 +519,7 @@ jobs:
 
 {{< pagebreak >}}
 
-## Security Review
+## Security review
 
 **Fichier** : `.github/workflows/claude-security-review.yml`
 
@@ -547,7 +547,7 @@ jobs:
           comment-pr: true
 ```
 
-## Issue Triage
+## Issue triage
 
 **Schéma à compléter** : `.github/workflows/claude-issue-triage.yml`. Le bloc suivant décrit les étapes ; il n’est pas un workflow exécutable tel quel.
 
@@ -594,7 +594,7 @@ jobs:
 This appears to be a security-related bug...
 ````
 
-## Secrets Requis
+## Secrets requis
 
 Un seul secret suffit pour activer toutes les GitHub Actions ci-dessus. La clé API doit être stockée dans les secrets du repository (ou de l'organisation pour un déploiement multi-repos), jamais en dur dans les fichiers de workflow.
 
@@ -606,7 +606,7 @@ Un seul secret suffit pour activer toutes les GitHub Actions ci-dessus. La clé 
 
 > 📖 **Pour aller plus loin :** [§9.12 Git Best Practices](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#912-git-best-practices--workflows) (worktrees, branching strategies, pre-commit hooks)
 
-## Code Review Natif (Research Preview, v3.36.0+)
+## Code review natif (research preview, v3.36.0+)
 
 ::: {.callout-note title="Code Review: Teams/Enterprise uniquement"}
 Depuis mars 2026, Anthropic propose une fonctionnalité **Code Review** intégrée à `claude.ai` (Research Preview). Elle est disponible exclusivement sur les plans Teams et Enterprise.
@@ -683,9 +683,9 @@ claude project purge --all
 
 # Stratégies d'Adoption
 
-## Turnkey Quickstart
+## Turnkey quickstart
 
-### Étape 1 : Config Minimale
+### Étape 1 : Config minimale
 
 ```bash
 mkdir -p .claude
@@ -725,7 +725,7 @@ claude "Review the README and suggest improvements"
 
 **Ajoutez plus de config uniquement quand vous rencontrez des frictions.**
 
-## Champions Program
+## Champions program
 
 L'adoption organique fonctionne mieux qu'un déploiement top-down imposé par le management. Le programme Champions s'appuie sur 2-3 développeurs reconnus par leurs pairs pour démontrer la valeur de l'outil sur des cas concrets avant d'élargir à toute l'équipe.
 
@@ -811,7 +811,7 @@ Stop hook
 
 **Pertinence équipe** : les instincts sont partagés via `AGENTS.md` ou un fichier dédié `.claude/instincts.md`, ce qui crée un apprentissage persistant accessible à tous les membres.
 
-## Dual-Instance Planning (Jon Williams, 2026)
+## Dual-instance planning (Jon Williams, 2026)
 
 **Pattern** : 2 sessions Claude avec rôles distincts.
 
@@ -847,11 +847,11 @@ Claude Zero:
 
 {{< pagebreak >}}
 
-# Agent Teams : Coordination Multi-Instance
+# Agent teams : Coordination multi-instance
 
 **Status** : Expérimental (v2.1.32+, Opus 5.5 disponible selon le compte et le fournisseur)
 
-## Architecture Lead-Teammate
+## Architecture lead-teammate
 
 Plusieurs instances Claude travaillent en parallèle sur une codebase partagée.
 
@@ -935,7 +935,7 @@ TaskCompleted → Reviewer (modèle choisi, read-only)
 
 **Ratio 1:4** : au-delà, le reviewer devient le bottleneck. En dessous de 4 agents actifs, une review manuelle est souvent plus rapide.
 
-## Loop Guardrails (v3.38.0)
+## Loop guardrails (v3.38.0)
 
 Pour les workflows CI/CD non-surveillés, les boucles d'agents sans condition d'arrêt explicite peuvent consommer des budgets importants. Trois garde-fous recommandés :
 
@@ -968,7 +968,7 @@ Si low : vérification rapide de style et bugs évidents.
 
 Utile pour les équipes qui alternent entre reviews rapides (commits fréquents) et reviews approfondies (PRs critiques).
 
-## Workflow Background Agents
+## Workflow background agents
 
 **Use case** : Tests longs, builds CI/CD sans bloquer session.
 
@@ -993,7 +993,7 @@ Opus 5.5 est le modèle par défaut couvert par cet audit. Choisir Sonnet pour m
 
 ## Stratégies d'Économie
 
-### 1. Model Switching
+### 1. Model switching
 
 ```bash
 /model haiku    # Tâches simples
@@ -1001,7 +1001,7 @@ Opus 5.5 est le modèle par défaut couvert par cet audit. Choisir Sonnet pour m
 /model opus     # Architecture complexe
 ```
 
-### 2. OpusPlan Pattern
+### 2. OpusPlan pattern
 
 OpusPlan utilise Opus pour planifier et Sonnet pour implémenter. Sélectionner Haiku relève d’un routage distinct.
 
@@ -1020,7 +1020,7 @@ OpusPlan utilise Opus pour planifier et Sonnet pour implémenter. Sélectionner 
 | Orange | 70%+ | Agir : `/compact` pour libérer de l'espace |
 | Rouge | 90%+ | Sauvegarder les décisions, puis compacter ou préparer une passation |
 
-### 4. Budget Alerts
+### 4. Budget alerts
 
 ```bash
 # Dans ~/.zshrc
@@ -1047,7 +1047,7 @@ claude_budget_check  # Au démarrage shell
 
 Ces fourchettes sont des exemples de politique budgétaire, pas des dépenses mesurées ni des prévisions. Calibrez-les sur les modèles choisis, les tokens réellement consommés, les reprises et les résultats acceptés. Le `session-summary.sh` (section Observabilité) permet à chaque dev de calibrer son propre budget sur données réelles plutôt que sur des estimations.
 
-### API Gateway & Budgets Centralisés
+### API gateway & budgets centralisés
 
 Les scripts locaux comme `claude_budget_check()` ci-dessus restent utiles pour la visibilité individuelle, mais ils reposent sur la discipline de chaque dev : rien n'empêche un développeur de désactiver le script ou d'appeler un modèle plus cher que prévu. Pour une équipe qui dépasse 10 personnes, le contrôle des coûts doit se déplacer côté plateforme, avant que la requête n'atteigne l'API Anthropic.
 
@@ -1076,7 +1076,7 @@ Détails complets (configuration, Docker Compose de production, alternative mana
 
 # Governance
 
-## Enterprise Features (Claude for Teams)
+## Enterprise features (Claude for teams)
 
 **Disponible** : Anthropic Teams/Enterprise plans
 
@@ -1108,9 +1108,9 @@ La frontière entre ce qui est partagé et ce qui reste personnel est une source
 | Format commits | Flags par défaut |
 | Hooks sécurité | Extensions optionnelles |
 
-## Audit Trail
+## Audit trail
 
-### Configuration Logging
+### Configuration logging
 
 → Voir configuration section Observabilité
 
@@ -1131,7 +1131,7 @@ cat /tmp/team-logs/*/activity-*.jsonl | \
   })'
 ```
 
-### Log Rotation
+### Log rotation
 
 ```bash
 # Nettoyer logs >30 jours
@@ -1217,7 +1217,7 @@ Cette checklist synthétise les actions couvertes dans ce whitepaper. Elle sert 
 
 # Ressources
 
-## Commandes Utiles
+## Commandes utiles
 
 Ces commandes intégrées couvrent les opérations de maintenance les plus fréquentes en cours de session. Elles ne nécessitent aucune installation et sont disponibles dans toutes les versions de Claude Code.
 
@@ -1229,7 +1229,7 @@ Ces commandes intégrées couvrent les opérations de maintenance les plus fréq
 | `/plan` | Mode planification |
 | `/model` | Changer de modèle |
 
-## Scripts Fournis
+## Scripts fournis
 
 Trois scripts complémentaires sont fournis dans le repository du guide. Ils couvrent la recherche de sessions passées, l'analyse d'usage, et le logging d'activité : les trois piliers de l'observabilité en équipe.
 
@@ -1252,7 +1252,7 @@ Trois scripts complémentaires sont fournis dans le repository du guide. Ils cou
 | **Scripts observabilité** | session-search.sh, session-stats.sh | [examples/scripts/](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/tree/main/examples/scripts/) |
 | **Third-party Tools Guide** | RTK, cc-sessions et autres outils communautaires | [guide/ecosystem/third-party-tools.md](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ecosystem/third-party-tools.md) |
 
-## Parcours Recommandé
+## Parcours recommandé
 
 Ce whitepaper couvre le déploiement opérationnel en équipe. Les whitepapers suivants approfondissent les dimensions complémentaires : sécurité des hooks en production, compréhension de l'architecture interne, et conformité données pour les entreprises réglementées.
 

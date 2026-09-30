@@ -1,8 +1,8 @@
-# Commit Categorization Rules
+# Commit categorization rules
 
 This document defines how to categorize commits based on Conventional Commits format.
 
-## Primary Categories
+## Primary categories
 
 ### Features (`feat:`)
 **CHANGELOG**: New Features
@@ -12,7 +12,7 @@ This document defines how to categorize commits based on Conventional Commits fo
 - `feat(search): add fuzzy matching`
 - `feat(api): add batch operations endpoint`
 
-### Bug Fixes (`fix:`)
+### Bug fixes (`fix:`)
 **CHANGELOG**: Bug Fixes
 **Slack**: Yes - if user-facing; No - if internal
 **Examples**:
@@ -70,7 +70,7 @@ This document defines how to categorize commits based on Conventional Commits fo
 - `style: apply prettier formatting`
 - `style(eslint): fix linting errors`
 
-## Scope Patterns
+## Scope patterns
 
 Common scopes:
 
@@ -88,7 +88,7 @@ Common scopes:
 | `permissions` | Permission system |
 | `admin` | Admin panel |
 
-## Breaking Changes
+## Breaking changes
 
 Indicated by `!` after type/scope or `BREAKING CHANGE:` in footer:
 - `feat(api)!: change status enum`
@@ -97,21 +97,21 @@ Indicated by `!` after type/scope or `BREAKING CHANGE:` in footer:
 **CHANGELOG**: Breaking Changes section
 **Slack**: Yes - with migration instructions
 
-## PR Number Extraction
+## PR number extraction
 
 Extract PR numbers from:
 1. Commit message: `(#123)`
 2. Merge commit: `Merge pull request #123`
 3. GitHub API: cross-reference with commit SHA
 
-## Error Tracker Issue Linking
+## Error tracker issue linking
 
 Match patterns:
 - `[error-tracker]: PROJECT-XX`
 - `fixes PROJECT-XX`
 - `closes #XX` (GitHub issue)
 
-## Statistics Calculation
+## Statistics calculation
 
 Count for release stats:
 - **PRs**: Unique PR numbers

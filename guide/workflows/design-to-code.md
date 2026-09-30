@@ -4,7 +4,7 @@ description: "Automated design system implementation using Figma MCP Server for 
 tags: [workflow, mcp, integration]
 ---
 
-# Design-to-Code Workflow with Figma MCP
+# Design-to-code workflow with Figma MCP
 
 > **Confidence**: Tier 2, based on documented production case studies (Parallel HQ, builder.io), MCP server specifications, and community workflows.
 
@@ -12,7 +12,7 @@ Automated design system implementation using Figma MCP Server enables Product De
 
 ---
 
-## Table of Contents
+## Table of contents
 
 1. [TL;DR](#tldr)
 2. [Documented Impact](#documented-impact)
@@ -41,7 +41,7 @@ Implementation maintains design parity automatically
 
 ---
 
-## Documented Impact
+## Documented impact
 
 Based on production case studies from January 2026:
 
@@ -62,9 +62,9 @@ Based on production case studies from January 2026:
 
 ---
 
-## Architecture Overview
+## Architecture overview
 
-### Full Stack
+### Full stack
 
 ```
 [Figma Design File]
@@ -82,7 +82,7 @@ Based on production case studies from January 2026:
 [Claude Code + Figma MCP]
 ```
 
-### MCP Integration Point
+### MCP integration point
 
 Claude Code accesses Figma through the Figma MCP Server:
 
@@ -112,7 +112,7 @@ Figma File (Dev Mode data)
 
 ---
 
-## 3-Tier Token Hierarchy
+## 3-tier token hierarchy
 
 Modern design systems use a hierarchical token structure. Claude Code understands this hierarchy when consuming Figma data.
 
@@ -122,7 +122,7 @@ Modern design systems use a hierarchical token structure. Claude Code understand
 | **Composite** | Combined primitives | Component fills referencing variables | Tailwind config or CSS classes |
 | **Semantic** | Contextual meaning | Contextual variable aliases (e.g., `color-interactive-primary` → `blue-600`) | Component props or theme tokens |
 
-### Example Hierarchy
+### Example hierarchy
 
 ```
 Base:
@@ -149,7 +149,7 @@ Semantic:
 
 ## Prerequisites
 
-### For Designers
+### For designers
 
 | Requirement | Details |
 |-------------|---------|
@@ -158,7 +158,7 @@ Semantic:
 | **Component Structure** | Auto Layout, named layers, consistent naming conventions |
 | **Frame Naming** | Descriptive frame names (Claude uses these for component names) |
 
-### For Developers
+### For developers
 
 | Requirement | Details |
 |-------------|---------|
@@ -167,7 +167,7 @@ Semantic:
 | **Personal Access Token** | Generated from Figma account settings → Tokens |
 | **MCP Configuration** | Token configured in Claude Code settings |
 
-### MCP Configuration
+### MCP configuration
 
 Add to your Claude Code MCP settings (`.claude/mcp.json` or settings UI):
 
@@ -198,9 +198,9 @@ Then export in your shell: `export FIGMA_TOKEN="figd_..."`
 
 ---
 
-## Core Workflows
+## Core workflows
 
-### Workflow A: Single Frame → Production Component
+### Workflow A: Single frame → production component
 
 **Timing**: 2-3 minutes per component
 
@@ -260,7 +260,7 @@ export function PrimaryButton({ size = 'md', disabled, children }: ButtonProps) 
 
 ---
 
-### Workflow B: Design System Drift Audit
+### Workflow B: Design system drift audit
 
 **Timing**: 3 weeks manual review → 3 minutes automated
 
@@ -305,7 +305,7 @@ Then propose fixes with token replacements.
 
 ---
 
-### Workflow C: Token Automation Pipeline
+### Workflow C: Token automation pipeline
 
 **Goal**: Figma variable changes automatically propagate to code.
 
@@ -361,7 +361,7 @@ Generate migration guide if breaking changes exist.
 
 ---
 
-### Workflow D: Visual Iteration Loop (Figma + Playwright)
+### Workflow D: Visual iteration loop (Figma + Playwright)
 
 **Goal**: Automated visual regression testing against Figma designs.
 
@@ -414,17 +414,17 @@ Report any visual differences (color, spacing, typography).
 
 ---
 
-## Code Connect Setup
+## Code connect setup
 
 **Code Connect** is Figma's no-code tool for linking design components to code snippets. This enhances Claude's ability to generate correct code.
 
-### What It Does
+### What it does
 
 - Designers annotate Figma components with code examples
 - Claude reads these annotations via MCP
 - Generated code matches team conventions automatically
 
-### Setup (for Designers)
+### Setup (for designers)
 
 1. In Figma Dev Mode → Select component → Code Connect panel
 2. Add code snippet showing how component is used:
@@ -450,7 +450,7 @@ Report any visual differences (color, spacing, typography).
 
 ---
 
-## Alternative: Pencil (IDE-Native Canvas)
+## Alternative: Pencil (IDE-native canvas)
 
 **Overview**: [Pencil](https://pencil.dev) brings infinite design canvas directly into Claude Code/Cursor/VSCode, eliminating external tool switching and enabling design-as-code workflows.
 
@@ -488,7 +488,7 @@ IDE Canvas (design + AI agents + code) → Git commit → Continuous alignment
 | **Maturity** | Emerging (launched Jan 2026) | Mature (2024+) |
 | **Pricing** | Currently free, TBD future | Freemium (free tier available) |
 
-### When to Use Pencil
+### When to use pencil
 
 ✅ **Good Fit**:
 - Team uses Cursor or VSCode + Claude Code as primary environment
@@ -529,7 +529,7 @@ IDE Canvas (design + AI agents + code) → Git commit → Continuous alignment
    - Prompt: "Implement the Button component from design/components.pen"
    - Claude extracts design specs and generates code
 
-### Example Prompt
+### Example prompt
 
 ```
 Read the "Hero Section" from design/homepage.pen.
@@ -543,7 +543,7 @@ Implement as React component with:
 Ensure pixel-perfect match with design specs.
 ```
 
-### Founder & Backing
+### Founder & backing
 
 **Tom Krcha** (CEO, Pencil):
 - Co-founder Adobe XD (2014-2018), 10 years at Adobe
@@ -554,7 +554,7 @@ Ensure pixel-perfect match with design specs.
 
 **Traction**: 1M+ views on launch, thousands of signups including Microsoft, Shopify, Uber executives.
 
-### Maturity Note
+### Maturity note
 
 **⚠️ Status**: Launched January 2026 (very recent). Strong early signals but documentation and ecosystem still maturing.
 
@@ -567,9 +567,9 @@ Ensure pixel-perfect match with design specs.
 
 ---
 
-## Example Prompts
+## Example prompts
 
-### Component Implementation
+### Component implementation
 ```
 Implement the "Card/Product" component from our Figma design system:
 [Figma URL]
@@ -581,7 +581,7 @@ Requirements:
 - Add TypeScript types for all props
 ```
 
-### Design System Expansion
+### Design system expansion
 ```
 Our design team added a new "Badge" component to Figma:
 [Figma URL → Badge frame]
@@ -593,7 +593,7 @@ Generate:
 4. Update design system docs
 ```
 
-### Token Validation
+### Token validation
 ```
 Compare the color tokens in our Tailwind config against
 Figma variables from: [Figma URL]
@@ -601,7 +601,7 @@ Figma variables from: [Figma URL]
 Report any mismatches and generate update script.
 ```
 
-### Responsive Implementation
+### Responsive implementation
 ```
 Implement the "Hero" section from Figma with exact responsive behavior:
 [Figma URL → Hero/Responsive frame]
@@ -609,7 +609,7 @@ Implement the "Hero" section from Figma with exact responsive behavior:
 Figma has 3 breakpoints configured. Match these precisely.
 ```
 
-### Accessibility Audit
+### Accessibility audit
 ```
 Review the "Modal" component implementation against Figma specs:
 [Figma URL]
@@ -620,7 +620,7 @@ Check:
 - Keyboard navigation (Figma annotations specify tab order)
 ```
 
-### Design QA Before Handoff
+### Design QA before handoff
 ```
 Review the "Checkout Flow" frames for implementation readiness:
 [Figma URL → Checkout Flow page]
@@ -632,7 +632,7 @@ Check:
 - Missing anything needed for production code?
 ```
 
-### Multi-Component Atomic Implementation
+### Multi-Component atomic implementation
 ```
 Implement the atomic design system components in order:
 
@@ -651,9 +651,9 @@ Ensure each level only imports from lower levels.
 
 ---
 
-## Team Adoption Patterns
+## Team adoption patterns
 
-### For Product Designers
+### For product designers
 
 **New workflow**:
 1. Design in Figma with proper variable structure
@@ -665,7 +665,7 @@ Ensure each level only imports from lower levels.
 
 **Key insight**: Designers don't need to learn code. They review implementation by visual comparison against Figma.
 
-### For Developers
+### For developers
 
 **New workflow**:
 1. Receive Figma URL from designer
@@ -676,7 +676,7 @@ Ensure each level only imports from lower levels.
 
 **Time saved**: Skip manual pixel-perfect implementation. Focus on logic, not layout matching.
 
-### For Product Managers
+### For product managers
 
 **New capability**: Request design implementation estimates based on Figma frames.
 
@@ -721,7 +721,7 @@ Claude output:
 
 ---
 
-## Anti-Patterns
+## Anti-patterns
 
 | ❌ Anti-Pattern | Why It Fails | ✅ Correct Approach |
 |----------------|-------------|-------------------|
@@ -738,9 +738,9 @@ Claude output:
 
 ---
 
-## Implementation Roadmap
+## Implementation roadmap
 
-### Phase 1: Foundation (Week 1-2)
+### Phase 1: Foundation (week 1-2)
 
 **Goal**: Basic Figma → Claude → Code pipeline
 
@@ -758,7 +758,7 @@ Claude output:
 
 ---
 
-### Phase 2: Scaling (Week 3-4)
+### Phase 2: Scaling (week 3-4)
 
 **Goal**: Full design system implementation + automation
 
@@ -776,7 +776,7 @@ Claude output:
 
 ---
 
-### Phase 3: Orchestration (Week 5+)
+### Phase 3: Orchestration (week 5+)
 
 **Goal**: Multi-MCP workflows + continuous sync
 
@@ -796,14 +796,14 @@ Claude output:
 
 ## Resources
 
-### Official Documentation
+### Official documentation
 
 - **Figma MCP Server**: [Figma MCP server documentation](https://developers.figma.com/docs/figma-mcp-server/)
 - **Figma Developer Docs**: [figma.com/developers](https://www.figma.com/developers)
 - **Style Dictionary**: [styledictionary.com](https://styledictionary.com/)
 - **Tokens Studio Plugin**: [tokens.studio](https://tokens.studio/)
 
-### Case Studies & Tutorials
+### Case studies & tutorials
 
 - **builder.io**: "Claude Code + Figma MCP Server: AI Design-to-Code Workflow" (January 2026)
   - [builder.io/blog/claude-code-figma-mcp-server](https://www.builder.io/blog/claude-code-figma-mcp-server)
@@ -821,13 +821,13 @@ Claude output:
   - [composio.dev/blog/how-to-use-figma-mcp-with-claude-code](https://composio.dev/)
   - Token hierarchy patterns, setup guide
 
-### Community Resources
+### Community resources
 
 - **Figma Community**: Search "Design System Tokens" for starter templates
 - **MCP Registry**: [mcp.run](https://mcp.run/) → Figma server examples
 - **Discord**: Anthropic Discord → #mcp-servers channel
 
-### Related Workflows
+### Related workflows
 
 - [Working with Images](#working-with-images-and-screenshots): Claude Code image analysis
 - [ASCII Art & Wireframing](#wireframing-tools-for-ai-development): low-fidelity design iteration
@@ -835,7 +835,7 @@ Claude output:
 
 ---
 
-## See Also
+## See also
 
 - [Figma MCP section](#figma-mcp-integration): main guide Figma MCP section
 - [examples/claude-md/product-designer.md](../../examples/claude-md/product-designer.md): Product Designer CLAUDE.md template

@@ -1,4 +1,4 @@
-# Resource Evaluation: Mastering Claude Code Hooks
+# Resource evaluation: Mastering Claude Code hooks
 
 **Resource**: [Mastering Claude Code Hooks: Automation, Validation, and Logging](https://www.mikul.me/blog/mastering-claude-code-hooks-automation-validation-logging)
 **Author**: Mikul Gohil
@@ -8,7 +8,7 @@
 
 ---
 
-## Executive Summary
+## Executive summary
 
 **Score**: 1/5 (Low - Reject)
 **Decision**: Do NOT integrate or link this article
@@ -16,21 +16,21 @@
 
 ---
 
-## Evaluation Process
+## Evaluation process
 
-### Phase 1: Initial Assessment (Score: 3/5)
+### Phase 1: Initial assessment (score: 3/5)
 - WebFetch article content
 - Identified 8 hook events vs guide's 7
 - Noted multi-formatter chaining example
 - Preliminary recommendation: Integrate subsection + improve logging
 
-### Phase 2: Fact-Check (Score: 2/5)
+### Phase 2: Fact-Check (score: 2/5)
 - Deep WebFetch for complete technical details
 - Line-by-line comparison with guide Section 7 (5949-6850+)
 - Verification against claude-code-releases.md
 - Discovered: Multi-formatter is trivial bash, not advanced pattern
 
-### Phase 3: Brutal Challenge (Score: 1/5)
+### Phase 3: Brutal challenge (score: 1/5)
 - Technical-writer agent challenge exposed confirmation bias
 - Root cause identified: Article copies official CHANGELOG, adds no original value
 - Recommendation changed from "integrate" to "reject + fix from source"
@@ -39,7 +39,7 @@
 
 ## Findings
 
-### What the Article Covers
+### What the article covers
 
 1. **8 Hook Events**: PreToolUse, PostToolUse, PermissionRequest, UserPromptSubmit, Notification, Stop, SubagentStop, Setup
 2. **Multi-formatter chaining**: `prettier; black; rustfmt; exit 0` (sequential commands)
@@ -47,7 +47,7 @@
 4. **Audit logging**: Daily JSONL files with UTC timestamps
 5. **Configuration**: Standard JSON settings (global vs project-specific)
 
-### What the Guide Already Has (Superior)
+### What the guide already has (superior)
 
 1. **7 Hook Events** documented (missing Setup, PermissionRequest, SubagentStop)
 2. **4 Windows templates** (PowerShell + Batch) - Article has ZERO
@@ -55,7 +55,7 @@
 4. **Log rotation** with 7-day pruning vs article's basic daily files
 5. **18 hook templates** in examples/hooks/bash/
 
-### Critical Discovery
+### Critical discovery
 
 **ALL meaningful information in the article originates from the official Claude Code CHANGELOG, not from original research by the author.**
 
@@ -65,16 +65,16 @@
 
 ---
 
-## Why Score 1/5 (Reject)
+## Why score 1/5 (reject)
 
-### 1. No Original Technical Value
+### 1. No original technical value
 
 - **Multi-formatter chaining**: Trivial bash pattern (`cmd1; cmd2; cmd3`) - any developer knows this
 - **Security patterns**: Incomplete subset (3 vs guide's 13+)
 - **Log rotation**: No pruning logic (dangerous - disk will fill)
 - **Windows coverage**: Zero (guide has complete PowerShell/Batch templates)
 
-### 2. Secondary Source, Not Primary
+### 2. Secondary source, not primary
 
 The article is a **tier-3 blog post** that copies information from official sources without attribution. Integrating it would create dependency on a secondary source when we can document directly from:
 
@@ -82,7 +82,7 @@ The article is a **tier-3 blog post** that copies information from official sour
 - Official Documentation: https://code.claude.com/docs/en/hooks
 - Official Repository: https://github.com/anthropics/claude-code
 
-### 3. Maintenance Burden
+### 3. Maintenance burden
 
 - **Link rot risk**: Author can delete blog anytime
 - **Accuracy drift**: Article won't track future Claude Code updates
@@ -90,9 +90,9 @@ The article is a **tier-3 blog post** that copies information from official sour
 
 ---
 
-## Actions Taken (Instead of Integration)
+## Actions taken (instead of integration)
 
-### 1. Updated Section 7.1 Event Types Table
+### 1. Updated section 7.1 event types table
 
 **File**: `guide/ultimate-guide.md` (line 5986)
 
@@ -120,7 +120,7 @@ understanding before tool execution.
 
 **Source**: Official CHANGELOG v2.1.9 (releases.md:111)
 
-### 3. Created 3 New Hook Templates
+### 3. Created 3 new hook templates
 
 **Files created**:
 - `examples/hooks/bash/setup-init.sh` - Startup initialization with project checks
@@ -135,7 +135,7 @@ understanding before tool execution.
 
 ---
 
-## Fact-Check Results
+## Fact-check results
 
 | Claim | Verified | Source |
 |-------|----------|--------|
@@ -148,9 +148,9 @@ understanding before tool execution.
 
 ---
 
-## Process Improvement
+## Process improvement
 
-### Root Cause: Reactive Documentation
+### Root cause: Reactive documentation
 
 **Problem**: Guide reacts to external blog posts instead of proactively syncing with official sources.
 

@@ -13,7 +13,7 @@ Production patterns from the Méthode Aristote EdTech platform (5 developers, Cl
 
 ---
 
-## Scoring Grid
+## Scoring grid
 
 | Criterion | Score | Notes |
 |-----------|-------|-------|
@@ -37,9 +37,9 @@ Production patterns from the Méthode Aristote EdTech platform (5 developers, Cl
 
 ---
 
-## Gaps Identified and Fixed
+## Gaps identified and fixed
 
-### 1. AI Code Disclosure Policy
+### 1. AI code disclosure policy
 **Gap**: No team governance pattern for AI-generated code visibility.
 **Fix**: Added section "AI Code Disclosure Policy" at end of Section 3.5.
 **Content**: >10 lines threshold, PR template, graduated enforcement by level, anti-pattern warning.
@@ -60,7 +60,7 @@ Production patterns from the Méthode Aristote EdTech platform (5 developers, Cl
 
 ---
 
-## What Was Not Integrated
+## What was not integrated
 
 - Aristote-specific architecture (3-tier Router/Service/Repository) — too project-specific
 - SSE real-time pattern — too domain-specific

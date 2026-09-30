@@ -30,7 +30,7 @@ Digest agregateur couvrant Sonnet 4.6, Claude Code Security, CC v2.1.49-v2.1.50,
 | `claude agents` CLI command | guide/ultimate-guide.md (agents section) | P2 |
 | Worktree hooks `WorktreeCreate`/`WorktreeRemove` | guide/ultimate-guide.md (worktree section) | P3 |
 
-## Fact-Check
+## Fact-check
 
 | Affirmation | Statut | Source |
 |-------------|--------|--------|

@@ -4,7 +4,7 @@ description: Launch ccboard web interface
 category: monitoring
 ---
 
-# Web Interface Command
+# Web interface command
 
 Launch the ccboard web UI for browser-based monitoring and visualization.
 
@@ -53,7 +53,7 @@ ccboard supports 3 execution modes:
    ```
    Runs TUI in terminal + web server on port 3333
 
-## Web UI Features
+## Web UI features
 
 - Dashboard with real-time stats
 - Sessions browser with pagination

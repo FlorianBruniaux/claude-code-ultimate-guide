@@ -1,4 +1,4 @@
-# ICM Session Starter
+# ICM session starter
 > Paste this at the beginning of any Claude Code session to activate ICM context.
 > Requires ICM installed and configured: `brew tap rtk-ai/tap && brew install icm`
 > then `icm init --mode mcp && icm init --mode hook && icm init --mode skill`

@@ -41,7 +41,7 @@ citeproc: false
 
 > **En 5 lignes :** La qualité de vos outputs Claude Code dépend directement de la qualité de vos prompts. Cet ebook décortique la mécanique du prompt efficace : pourquoi un prompt structuré bat un prompt vague, comment les XML tags changent le niveau de précision, et quels anti-patterns sabotent vos sessions sans que vous le réalisiez. Applicable dès la prochaine interaction.
 
-# Le Problème : Prompts Vagues
+# Le problème : Prompts vagues
 
 ## Le Coût Caché des Itérations
 
@@ -71,7 +71,7 @@ Ce prompt échoue car Claude ne sait pas :
 
 Le modèle va deviner, et ses suppositions ne correspondent pas forcément à vos attentes.
 
-## Le Cercle Vicieux
+## Le cercle Vicieux
 
 Le problème n'est pas ponctuel : c'est un mécanisme auto-entretenu qui se dégrade à chaque itération. Comprendre ce cycle est la première étape pour en sortir.
 
@@ -83,7 +83,7 @@ Ce cycle n'est pas qu'un inconvénient mineur : chaque itération consomme du co
 
 {{< pagebreak >}}
 
-# La Formule WHAT/WHERE/HOW/VERIFY
+# La formule WHAT/WHERE/HOW/VERIFY
 
 ## Principe
 
@@ -96,7 +96,7 @@ Une formule en 4 éléments pour des réponses précises du premier coup. L'idé
 | **HOW** | Comment procéder ? | Contraintes techniques, approche |
 | **VERIFY** | Comment savoir si c'est bon ? | Critères de succès mesurables |
 
-## Exemple Complet
+## Exemple complet
 
 La formule en action sur un cas réel : de gauche à droite, un prompt vague se transforme en prompt actionnable que Claude peut exécuter du premier coup.
 
@@ -146,7 +146,7 @@ WHERE:
 - src/types/user.ts (type definitions)
 ```
 
-### HOW : Les Contraintes
+### HOW : Les contraintes
 
 HOW est l'élément que les développeurs oublient le plus souvent, car ils supposent que Claude connaît les conventions du projet. En réalité, sans directive explicite, Claude choisira la librairie ou le pattern qu'il juge le plus courant -- pas forcément celui utilisé dans votre codebase. Précisez l'approche technique, y compris la librairie exacte à utiliser.
 
@@ -186,7 +186,7 @@ Un prompt du type "Fix the payment validation" fait typiquement modifier `paymen
 
 {{< pagebreak >}}
 
-# XML Prompting Avancé
+# XML prompting avancé
 
 ## Quand l'Utiliser
 
@@ -222,7 +222,7 @@ La structure minimale repose sur quatre balises qui correspondent aux questions 
 </output>
 ```
 
-## Tags Courants
+## Tags courants
 
 Au-delà de la structure de base, Claude reconnaît un ensemble de balises spécialisées. Chaque catégorie ci-dessous regroupe les tags par intention : décrire la tâche, fournir du contexte, montrer du code, ou poser des limites.
 
@@ -322,7 +322,7 @@ async function authenticate(req, res, next) {
 </output>
 ```
 
-## Exemple Complet : Bug Investigation
+## Exemple complet : Bug investigation
 
 L'investigation de bug est le cas d'usage où le XML apporte le plus de valeur. Les balises `<problem>`, `<state>` et `<context>` séparent clairement les symptômes observés, l'état du système, et les changements récents -- trois informations que Claude a besoin de distinguer pour formuler une hypothèse pertinente.
 
@@ -496,11 +496,11 @@ Currently full table scan, target < 200ms
 **Verifier** : Si la reponse manque de profondeur en effort bas, montez de palier ou ajoutez du contexte au prompt.
 :::
 
-## Context Engineering : Les Couches de Contexte
+## Context engineering : Les couches de contexte
 
 **Context Engineering** = Gérer ce que Claude "voit" pour maximiser pertinence.
 
-### Couche 1 : CLAUDE.md (Instructions Durables)
+### Couche 1 : CLAUDE.md (instructions durables)
 
 CLAUDE.md est chargé automatiquement à chaque session. Tout ce que vous y placez s'applique sans que vous ayez à le répéter, ce qui réduit la taille de vos prompts quotidiens et garantit la cohérence des conventions.
 
@@ -514,7 +514,7 @@ CLAUDE.md est chargé automatiquement à chaque session. Tout ce que vous y plac
 
 **Effet** : Claude applique ces règles automatiquement, sans les répéter.
 
-### Couche 2 : Skills (Workflows Réutilisables)
+### Couche 2 : Skills (workflows Réutilisables)
 
 Prompt réutilisable encapsulé dans un skill.
 
@@ -534,7 +534,7 @@ prompt: |
 
 **Champ `effort` (Claude Code v2.1.80+)** : le frontmatter d’un skill peut remplacer l’effort de session pendant son exécution, puis le restaurer. Choisissez un niveau compatible avec le modèle. `${CLAUDE_EFFORT}` est disponible dans le corps du skill pour les instructions qui se réfèrent au niveau actif.
 
-### Couche 3 : Hooks (Validation Automatique)
+### Couche 3 : Hooks (validation automatique)
 
 Valider les prompts AVANT exécution.
 
@@ -552,7 +552,7 @@ fi
 
 **Effet** : Impossible d'envoyer un prompt sans WHERE.
 
-### Couche 4 : Project Memory (Contexte Conversationnel)
+### Couche 4 : Project memory (contexte conversationnel)
 
 Claude se souvient des décisions passées.
 
@@ -570,7 +570,7 @@ Claude: I'll use Zod as per our earlier decision.
 
 **Astuce** : Rappeler les décisions importantes en début de session.
 
-### Couche 5 : Review-Driven Optimization (crit)
+### Couche 5 : Review-driven optimization (crit)
 
 Les 4 couches précédentes capturent le contexte de façon déclarative (CLAUDE.md, Skills) ou passive (Memory retient ce qui est mentionné en conversation). La cinquième couche capture activement les corrections humaines pendant la revue de code, via l'outil [crit](https://github.com/tomasz-tomczyk/crit).
 
@@ -587,11 +587,11 @@ Après plusieurs cycles de revue, on extrait les patterns récurrents dans les c
 
 > 📖 **Pour aller plus loin :** [§9.26 Review-Driven Context Optimization](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#926-review-driven-context-optimization)
 
-## Les 3 Provocation Patterns
+## Les 3 provocation patterns
 
 **Provocation** = Forcer Claude à justifier ses choix. Ces patterns exploitent la tendance du modèle à proposer la première solution plausible. En exigeant une justification, vous activez un raisonnement plus profond et obtenez des réponses mieux calibrées.
 
-### 1. Gatekeeper Pattern
+### 1. Gatekeeper pattern
 
 Le Gatekeeper est le pattern le plus utile au moment de choisir une librairie, un pattern d'architecture, ou une stratégie d'optimisation. Il empêche Claude de s'engager sur la première option sans analyse comparative.
 
@@ -606,7 +606,7 @@ Show benchmarks vs alternatives.
 
 **Effet** : Claude analyse plus profondément.
 
-### 2. Proof Demand Pattern
+### 2. Proof demand pattern
 
 Le Proof Demand intervient après l'implémentation. Il force Claude à démontrer que sa solution fonctionne réellement, plutôt que de simplement affirmer que "ça devrait marcher".
 
@@ -622,7 +622,7 @@ You: Prove it works. Show before/after metrics.
 
 **Effet** : Claude ajoute benchmarks/tests automatiquement.
 
-### 3. Reset Pattern
+### 3. Reset pattern
 
 Le Reset combat l'effet d'ancrage : une fois que Claude a proposé une solution, il a tendance à la défendre même face à des alternatives meilleures. En demandant explicitement d'oublier la première idée, vous libérez le modèle de cet ancrage.
 
@@ -689,7 +689,7 @@ Si vous constatez que Claude ignore vos instructions inline, vérifiez que votre
 
 Même en connaissant la formule WHAT/WHERE/HOW/VERIFY, certains réflexes récurrents dégradent la qualité des réponses. Les cinq patterns ci-dessous sont les plus fréquents en équipe, et les plus faciles à corriger une fois identifiés.
 
-## 1. Prompt Trop Long
+## 1. Prompt trop long
 
 **Problème** : Plus de 200-300 mots hors code → Claude perd le fil.
 
@@ -770,7 +770,7 @@ Pattern: Follow existing loginSchema in same file.
 
 {{< pagebreak >}}
 
-## 5. Plusieurs Tâches Sans Structure
+## 5. Plusieurs Tâches sans structure
 
 **Problème** : Claude mélange tout ou en oublie.
 
@@ -816,7 +816,7 @@ Les cinq anti-patterns ci-dessous partagent une cause commune : le manque de sp�
 
 {{< pagebreak >}}
 
-# Decision Tree : Quel Style de Prompt
+# Decision tree : Quel style de prompt
 
 Vous connaissez maintenant les techniques (WHAT/WHERE/HOW/VERIFY, XML, provocation patterns). La question suivante est : quand utiliser laquelle ? Cet arbre de décision vous guide vers le bon format selon la nature de votre tâche.
 
@@ -891,7 +891,7 @@ API abuse detected from specific IPs
 </constraints>
 ```
 
-### Bug Investigation
+### Bug investigation
 
 ```xml
 <task>Debug cart total calculation</task>
@@ -978,7 +978,7 @@ Si vous écrivez ces phrases, reformulez :
 | "Clean up the code" | Quoi nettoyer ? | "Extract duplicated fetch logic" |
 | "Whatever you think" | Choix non contrôlé | "Use pattern X from file Y" |
 
-## Template Rapide
+## Template rapide
 
 Ce template est le format minimal à mémoriser. Il couvre les 4 éléments de la formule en 4 lignes, et convient à la majorité des tâches quotidiennes.
 
@@ -1000,7 +1000,7 @@ VERIFY: XSS payload "<script>alert(1)</script>" is escaped
 
 {{< pagebreak >}}
 
-# Review Plan : Valider Avant de Coder (v3.27.4)
+# Review plan : Valider avant de Coder (v3.27.4)
 
 **Nouveau workflow** (inspiré Garry Tan, CEO YC) : avant d'implémenter, déclencher `/review-plan` pour une revue structurée sur 4 axes.
 
@@ -1042,11 +1042,11 @@ Avant d'ecrire une ligne de code, `/review-plan` passe l'architecture en revue. 
 
 {{< pagebreak >}}
 
-# Nouveaux Workflows v3.37+
+# Nouveaux workflows v3.37+
 
 Ces commandes et mécanismes enrichissent directement les workflows de prompting décrits plus haut.
 
-## Nouvelles Commandes Slash
+## Nouvelles commandes slash
 
 | Commande | Usage |
 |----------|-------|
@@ -1140,7 +1140,7 @@ Quoi / Où / Comment / Test
 
 > 📖 **Pour aller plus loin :** [§2.9 Semantic Anchors](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#29-semantic-anchors) + [Catalogue d'ancres](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/tree/main/examples/semantic-anchors/)
 
-## Parcours Recommandé
+## Parcours recommandé
 
 Chaque whitepaper de la série est autonome, mais la lecture dans l'ordre renforce la progression. Choisissez selon votre niveau actuel :
 

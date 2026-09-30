@@ -7,11 +7,11 @@ metadata:
   version: 1.0.0
 ---
 
-# MCP Integration Reference Pattern
+# MCP integration reference pattern
 
 > This is a template skill. It shows how to structure a skill that wraps an MCP server. Replace `sentry` with your MCP server name and adapt the reference file at `references/sentry-mcp.md`.
 
-## What This Pattern Solves
+## What this pattern solves
 
 When a skill calls an MCP server without prior context, Claude guesses at the query syntax. This works for simple calls but breaks on anything with non-obvious behavior: pagination quirks, required parameter combinations, rate limits, or subtle format restrictions.
 
@@ -24,7 +24,7 @@ Three types of content go in the reference file:
 
 ---
 
-## Step 1: Read the MCP Reference File
+## Step 1: Read the MCP reference file
 
 **Before doing anything else**, read the full MCP reference:
 
@@ -36,7 +36,7 @@ This file contains query syntax, known gotchas, and working examples for the Sen
 
 ---
 
-## Step 2: Gather Scope from User
+## Step 2: Gather scope from user
 
 Ask the user:
 
@@ -51,7 +51,7 @@ If the user says "just run it with defaults", use:
 
 ---
 
-## Step 3: Fetch Error Data
+## Step 3: Fetch error data
 
 Using the tool knowledge from Step 1, fetch:
 
@@ -62,7 +62,7 @@ Cap results at 50 issues. If more exist, note the count and focus on the highest
 
 ---
 
-## Step 4: Group and Analyze
+## Step 4: Group and analyze
 
 Group issues by root cause, not by error message. Two issues with different messages can share the same underlying cause (shared code path, same external dependency, same config).
 
@@ -75,7 +75,7 @@ For each group:
 
 ---
 
-## Step 5: Generate Report
+## Step 5: Generate report
 
 Output a markdown report with this structure:
 
@@ -117,7 +117,7 @@ Output a markdown report with this structure:
 
 ---
 
-## Scope Rules
+## Scope rules
 
 - This skill detects and describes issues. It does not modify code or create tickets.
 - If an issue is ambiguous, flag it as "needs investigation" rather than guessing.
@@ -125,7 +125,7 @@ Output a markdown report with this structure:
 
 ---
 
-## Adapting This Template
+## Adapting this template
 
 To fork this skill for a different MCP:
 

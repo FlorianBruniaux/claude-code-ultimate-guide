@@ -5,7 +5,7 @@ effort: medium
 allowed-tools: Read Grep Glob Bash
 ---
 
-# /token-audit: Context Token Audit
+# /token-audit: Context token audit
 
 **Purpose**: Measure how many tokens your Claude Code configuration consumes before any user task begins. Identify the biggest sources of overhead. Produce a concrete action plan with savings estimates.
 
@@ -17,7 +17,7 @@ allowed-tools: Read Grep Glob Bash
 
 ---
 
-## What You Will Measure
+## What you will measure
 
 | Component | Loaded when | Typical range |
 |-----------|-------------|---------------|
@@ -33,7 +33,7 @@ Key insight: `.claude/rules/` loads every `.md` file at session start, regardles
 
 ---
 
-## Step 1 — Run the Measurement
+## Step 1 — run the measurement
 
 Execute these commands from the project root:
 
@@ -73,7 +73,7 @@ echo "% of 200K window   : $(( TOTAL / 4 * 100 / 200000 ))%"
 
 ---
 
-## Step 2 — Classify Rules Files
+## Step 2 — classify rules files
 
 For each file in `.claude/rules/`, classify it:
 
@@ -98,7 +98,7 @@ RARELY and NEVER files were excluded. Convert to tokens (÷ 4).
 
 ---
 
-## Step 3 — Audit Hook Overhead
+## Step 3 — audit hook overhead
 
 Hooks on `PreToolUse` and `PostToolUse` fire on every tool call. Each invocation injects its stdout into context. A hook outputting 500 chars on 150 tool calls per session = 75K chars ≈ 19K extra tokens.
 
@@ -130,7 +130,7 @@ For each `PreToolUse` or `PostToolUse` hook, estimate its stdout size by running
 
 ---
 
-## Step 4 — Build the Action Plan
+## Step 4 — build the action plan
 
 Produce a prioritized table. Rule of thumb: only include actions achievable without external infrastructure (no RAG, no vector databases, no custom MCP servers).
 
@@ -144,7 +144,7 @@ Produce a prioritized table. Rule of thumb: only include actions achievable with
 
 ---
 
-## Step 5 — The RAG Question
+## Step 5 — the RAG question
 
 Lazy-loading via a vector database (RAG) is sometimes pitched as the solution. Assess it honestly before committing:
 
@@ -154,7 +154,7 @@ Lazy-loading via a vector database (RAG) is sometimes pitched as the solution. A
 
 ---
 
-## Output Format
+## Output format
 
 After running the audit, produce this report:
 
@@ -202,7 +202,7 @@ estimated setup cost vs savings.]
 
 ---
 
-## Interpreting Results
+## Interpreting results
 
 | Fixed context | Assessment |
 |---------------|------------|

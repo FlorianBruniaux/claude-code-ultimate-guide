@@ -4,7 +4,7 @@ description: "Distribute Claude Code plugins through marketplaces and use offici
 tags: [plugins, marketplace, distribution, security, guide]
 ---
 
-# Plugin Distribution and Recommendation Hints
+# Plugin distribution and recommendation hints
 
 A plugin packages reusable Claude Code skills, agents, hooks, MCP servers, LSP servers, monitors, and settings. Use standalone `.claude/` configuration for local or project-specific iteration; use a plugin when the same extension needs a versioned, shareable distribution unit. [Anthropic's plugin documentation](https://code.claude.com/docs/en/plugins) is the authority for supported structure and loading behavior.
 

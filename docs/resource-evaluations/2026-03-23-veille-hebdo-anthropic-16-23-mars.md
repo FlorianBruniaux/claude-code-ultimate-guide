@@ -21,7 +21,7 @@ Perplexity synthesis covering five event clusters in the March 16-23 window: Cla
 
 **Justification**: Secondary source (Perplexity synthesis, not primary docs). CC 2.1.81 is already tracked in our releases YAML/MD. The real value is two undocumented API platform features (`thinking.display: "omitted"` + model capabilities fields) that belong in the extended thinking section. Python SDK changes are out of scope for a Claude Code CLI guide. The 81k study is too far from the guide's technical audience.
 
-## Gap Analysis
+## Gap analysis
 
 | Item | Status in guide | Priority |
 |------|----------------|----------|
@@ -32,9 +32,9 @@ Perplexity synthesis covering five event clusters in the March 16-23 window: Cla
 | Python SDK v0.85.0/v0.86.0 (413/529 handling, filesystem memory tools) | Out of scope (CC CLI guide) | Skip |
 | "What 81,000 people want from AI" | Out of scope (adoption context, not technical) | Skip |
 
-## Integration Recommendations
+## Integration recommendations
 
-### P1 — `thinking.display: "omitted"` (Platform API, March 16)
+### P1 — `thinking.display: "omitted"` (platform API, March 16)
 
 **Where**: `guide/ultimate-guide.md` — Extended Thinking section (search for "extended_thinking" or "thinking budget")
 
@@ -56,7 +56,7 @@ Perplexity synthesis covering five event clusters in the March 16-23 window: Cla
 
 **What to add**: `--bare` vs standard `-p` tradeoff table. `--bare` skips hooks, LSP, plugin sync, and skill directory walks; requires `ANTHROPIC_API_KEY` or `apiKeyHelper` (no OAuth). Fast and minimal for CI scripts, but loses all observability that hooks provide. Team environments needing audit trails should use standard `-p` instead.
 
-## Fact-Check
+## Fact-check
 
 | Claim | Status | Source |
 |-------|--------|--------|

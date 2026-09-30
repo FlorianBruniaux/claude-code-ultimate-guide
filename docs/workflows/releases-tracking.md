@@ -1,4 +1,4 @@
-# Claude Code Releases Tracking
+# Claude Code releases tracking
 
 This repo maintains a condensed history of official Claude Code releases.
 
@@ -14,7 +14,7 @@ This repo maintains a condensed history of official Claude Code releases.
 
 Anthropic's official Claude Code changelog is the upstream source. The local YAML is a reviewed condensation, so local consistency does not prove that upstream tracking is current or complete.
 
-## Check for New Versions
+## Check for new versions
 
 ```bash
 ./scripts/update-cc-releases.sh
@@ -25,7 +25,7 @@ The script:
 2. Compares against our tracked version
 3. Displays new releases to condense
 
-## Update Workflow
+## Update workflow
 
 1. **Verify**: `./scripts/update-cc-releases.sh`
 2. **Update YAML**: Add new entry in `claude-code-releases.yaml`
@@ -48,7 +48,7 @@ The script:
 
 The MCP test first requires the three `llms.txt` files to be byte-identical, then parses `machine-readable/claude-code-releases.yaml` and compares its `latest` value with the version announced in `llms.txt`. `npm run release:check` executes this test in the `index-integrity` CI workflow. The check proves repository and package consistency. It does not fetch Anthropic's changelog or prove release-summary completeness.
 
-## YAML Entry Format
+## YAML entry format
 
 ```yaml
 - version: "2.1.13"

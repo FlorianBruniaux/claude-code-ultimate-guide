@@ -1,8 +1,8 @@
-# Knowledge Feeding Protocol
+# Knowledge feeding protocol
 
 Context engineering is not a one-time setup — it accumulates value over time as Claude learns what works for your project. This file defines when and how to capture that learning back into your `CLAUDE.md`.
 
-## When to Feed Knowledge
+## When to feed knowledge
 
 Run this protocol at the end of any session that:
 
@@ -14,7 +14,7 @@ Run this protocol at the end of any session that:
 
 Skip it for trivial sessions (typo fixes, doc edits, minor config changes).
 
-## The Knowledge Feed Prompt
+## The knowledge feed prompt
 
 Paste this into Claude at the end of qualifying sessions:
 
@@ -30,7 +30,7 @@ Output only high-signal items (3-5 max). Use the knowledge feed format below.
 Skip anything obvious or already covered.
 ```
 
-## Knowledge Feed Output Format
+## Knowledge feed output format
 
 Claude should output discoveries in this structure:
 
@@ -60,7 +60,7 @@ Claude should output discoveries in this structure:
 **Why remove**: [What changed that makes this obsolete]
 ```
 
-## Integration Workflow
+## Integration workflow
 
 After receiving the knowledge feed:
 
@@ -79,7 +79,7 @@ git commit -m "context: [short description of what was learned]"
 # context: document payment webhook idempotency pattern
 ```
 
-## Quality Filter
+## Quality filter
 
 Before adding any rule to `CLAUDE.md`, check:
 

@@ -1,4 +1,4 @@
-# Resource Evaluations
+# Resource evaluations
 
 Ce dossier contient les évaluations de ressources externes (articles, vidéos, discussions) pour déterminer leur pertinence pour le Claude Code Ultimate Guide.
 
@@ -29,7 +29,7 @@ Format: `[topic-slug].md` (date supprimée pour stabilité des liens)
 
 Exemple: `remotion-claude-code-video.md`
 
-## Working Documents
+## Working documents
 
 Les documents de travail bruts (prompts Perplexity, audits clients) restent dans `claudedocs/resource-evaluations/` (gitignored).
 
@@ -112,7 +112,7 @@ Les documents de travail bruts (prompts Perplexity, audits clients) restent dans
 | **Switch** (Flint AI / SandboxAQ, agent-human chat bridge) | 3/5 | **3/5** | ✅ Known Gaps line only: third-party-tools.md (cross-platform agent-human chat bridge with governance, no comparable peer found); watch-list, pre-1.0 (0.21.0), 252 stars/6 weeks, bus factor close to 1 (80%) | [switch-agent-human-chat-bridge.md](./switch-agent-human-chat-bridge.md) |
 | **Multica** (multica-ai/multica) | 3/5 | **3/5** | ✅ Integrated as an adjacent control plane with deployment, data, permission, Git, licence, and runtime-evidence boundaries | [2026-09-05-multica.md](./2026-09-05-multica.md) |
 
-## Watch List
+## Watch list
 
 Ressources surveillées mais pas encore intégrées : [watch-list.md](./watch-list.md)
 

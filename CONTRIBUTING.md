@@ -2,7 +2,7 @@
 
 **Welcome!** Whether you're fixing a typo or adding a new section, every contribution helps developers worldwide master Claude Code.
 
-## Quick Links
+## Quick links
 
 - [Report an Issue](../../issues/new)
 - [Start a Discussion](../../discussions)
@@ -10,7 +10,7 @@
 
 ---
 
-## Ways to Contribute
+## Ways to contribute
 
 | Type | Examples | Effort |
 |------|----------|--------|
@@ -24,7 +24,7 @@
 
 ---
 
-## Reporting Issues
+## Reporting issues
 
 Found something wrong or have a suggestion?
 
@@ -37,16 +37,16 @@ Found something wrong or have a suggestion?
 
 ---
 
-## Pull Request Process
+## Pull request process
 
-### 1. Fork & Clone
+### 1. Fork & clone
 
 ```bash
 git clone https://github.com/YOUR_USERNAME/claude-code-ultimate-guide.git
 cd claude-code-ultimate-guide
 ```
 
-### 2. Create a Branch
+### 2. Create a branch
 
 ```bash
 git checkout -b fix/typo-in-section-3
@@ -54,7 +54,7 @@ git checkout -b fix/typo-in-section-3
 git checkout -b feature/add-debugging-guide
 ```
 
-### 2.5. Install Pre-commit Hooks
+### 2.5. Install pre-commit hooks
 
 This repository uses pre-commit hooks to enforce quality gates (markdown lint, YAML validation, version consistency, etc.). Set them up once:
 
@@ -80,11 +80,11 @@ pre-commit run --all-files
 - ✓ VERSION file consistency across the repo
 - ✓ No broken symlinks or sensitive files
 
-### 3. Make Changes
+### 3. Make changes
 
 Follow [Content Guidelines](#content-guidelines) below.
 
-### 4. Test Your Changes
+### 4. Test your changes
 
 - Preview markdown rendering
 - Test code snippets on your platform
@@ -99,16 +99,16 @@ Include:
 
 ---
 
-## Content Guidelines
+## Content guidelines
 
-### Writing Style
+### Writing style
 
 - **Concise**: Bullet points > long paragraphs
 - **Practical**: Include examples for every concept
 - **Cross-platform**: Support macOS/Linux AND Windows
 - **Accurate**: Test all code before submitting
 
-### Documentation Structure
+### Documentation structure
 
 ```markdown
 ## Section Title
@@ -127,7 +127,7 @@ code example here
 ```
 ```
 
-### Platform-Specific Code
+### Platform-specific code
 
 Always provide both when commands differ:
 
@@ -141,7 +141,7 @@ Always provide both when commands differ:
 
 ---
 
-## Quality Checklist
+## Quality checklist
 
 Before submitting:
 
@@ -154,7 +154,7 @@ Before submitting:
 
 ---
 
-## Windows Contributions (Especially Welcome!)
+## Windows contributions (especially welcome!)
 
 The maintainer works on macOS. If you're a Windows user:
 
@@ -167,7 +167,7 @@ The maintainer works on macOS. If you're a Windows user:
 
 ---
 
-## What We Don't Accept
+## What we don't accept
 
 - Marketing language or promotional content
 - Unverified or speculative claims

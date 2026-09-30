@@ -1,4 +1,4 @@
-# Resource Evaluation: Anthropic System Prompts Release Notes (Opus 4.6 Update)
+# Resource evaluation: Anthropic system prompts release notes (Opus 4.6 update)
 
 **Evaluated**: 2026-02-13
 **Evaluator**: Claude Opus 4.6 + technical-writer agent challenge
@@ -6,7 +6,7 @@
 
 ---
 
-## Executive Summary
+## Executive summary
 
 **Resource**: Anthropic System Prompts Release Notes (Opus 4.6 entry, 5 Feb 2026)
 **URL**: https://platform.claude.com/docs/en/release-notes/system-prompts
@@ -20,9 +20,9 @@
 
 ---
 
-## Resource Description
+## Resource description
 
-### Content Summary
+### Content summary
 
 **Type**: Official Anthropic system prompt documentation
 
@@ -34,7 +34,7 @@
 5. **Systeme de reminders internes**: `image_reminder`, `cyber_warning`, `system_warning`, `ethics_reminder`, `ip_reminder`, `long_conversation_reminder`
 6. **Knowledge cutoff dates**: End of May 2025 (Opus 4.5/Sonnet 4.5)
 
-### Prior Art
+### Prior art
 
 **Evaluation precedente**: [`system-prompts-official-vs-community.md`](./system-prompts-official-vs-community.md) (2026-01-26, score final 2/5)
 
@@ -46,7 +46,7 @@ Cette evaluation avait:
 
 ---
 
-## Evaluation Score: 2/5 (Marginal)
+## Evaluation score: 2/5 (Marginal)
 
 ### Justification
 
@@ -63,7 +63,7 @@ Le contenu specifique (formatting rules, safety rules, evenhandedness) concerne 
 
 ---
 
-## Comparative Analysis
+## Comparative analysis
 
 | Aspect | Cette ressource (Feb 2026 update) | Notre guide |
 |--------|-----------------------------------|-------------|
@@ -99,7 +99,7 @@ Quasi nuls. Le seul vrai risque serait de rater une publication future du system
 
 ---
 
-## Fact-Check
+## Fact-check
 
 | Affirmation | Verifiee | Source |
 |-------------|----------|--------|

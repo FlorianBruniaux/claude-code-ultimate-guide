@@ -40,7 +40,7 @@ lang: fr
 
 > **En 5 lignes :** Avant de déployer Claude Code avec des données client, identifiez les données transmises, le fournisseur, les conditions du compte et les contrôles locaux. Ce livre blanc explique les options de rétention et propose une revue de configuration. Il ne délivre pas de verdict juridique de conformité.
 
-# Ce Qui Est Envoyé à Anthropic
+# Ce qui est envoyé à Anthropic
 
 ## Vue d'Ensemble
 
@@ -66,7 +66,7 @@ En une session Claude Code standard, un développeur partage des dizaines de fic
   • Peut utiliser pour training (si opt-in)
 ```
 
-## Ce que Contient Votre Contexte Claude Code
+## Ce que contient votre contexte Claude Code
 
 Chaque session Claude Code construit un contexte cumulatif : tout ce que le modèle lit, exécute ou reçoit via MCP s'ajoute à la fenêtre de conversation envoyée à Anthropic. La taille de ce contexte varie de quelques milliers de tokens (session légère) à plus de 100K tokens (session intensive avec lectures multiples). Comprendre ce qui compose ce contexte est la première étape pour contrôler ce qui quitte votre machine.
 
@@ -126,7 +126,7 @@ Les appels directs et les diagnostics peuvent utiliser les destinations ci-desso
 Variables d'opt-out disponibles : `DISABLE_TELEMETRY=1`, `DISABLE_ERROR_REPORTING=1`, `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1`, `CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY=1`
 :::
 
-## Exemples Concrets
+## Exemples concrets
 
 Les scénarios ci-dessous illustrent des situations quotidiennes de développement et les données qui transitent effectivement vers Anthropic dans chaque cas. Ce ne sont pas des cas limites : ce sont les interactions les plus courantes d'une session Claude Code standard.
 
@@ -144,7 +144,7 @@ Les scénarios ci-dessous illustrent des situations quotidiennes de développeme
 
 # Politique de Rétention
 
-## Les 4 Niveaux
+## Les 4 niveaux
 
 Les conditions dépendent du type de compte, du choix d’entraînement et du contrat. Référence : [utilisation des données Claude Code](https://code.claude.com/docs/en/data-usage).
 
@@ -184,7 +184,7 @@ Code local → Claude Code CLI
                   └─ MCP Servers → Résultats SQL/API → Envoi Anthropic API
 ```
 
-## Risque 1 : Lecture Automatique de Fichiers
+## Risque 1 : Lecture automatique de fichiers
 
 Claude Code lit des fichiers pour comprendre le contexte. Ce comportement est **par design** : le modèle a besoin de contexte pour être utile. Le problème survient quand des fichiers sensibles se trouvent dans le workspace sans protection explicite.
 
@@ -225,7 +225,7 @@ Stocké chez Anthropic: Selon votre tier de rétention
 
 **Mitigation** : Ne JAMAIS connecter de bases de données production. Utiliser des dumps anonymisés pour le développement.
 
-## Risque 3 : Output des Commandes Shell
+## Risque 3 : Output des commandes shell
 
 Toute commande exécutée par Claude envoie son output complet à Anthropic. Les variables d'environnement sont particulièrement dangereuses car elles concentrent les secrets au même endroit, et des commandes comme `env` ou `printenv` les exposent toutes en une seule requête.
 
@@ -269,7 +269,7 @@ Ces incidents, rapportés par la communauté, ne sont pas des failles de sécuri
 
 > La leçon commune : Claude Code est **sécurisable**, pas **sécurisé par défaut**. La protection est une responsabilité de configuration explicite.
 
-## Risque 6 : Intégration Navigateur, Installation Silencieuse du Native Messaging Host
+## Risque 6 : Intégration navigateur, installation Silencieuse du native messaging host
 
 Claude Desktop installe des fichiers de manifeste native messaging dans les répertoires des navigateurs Chromium pour activer sa fonctionnalité "Claude in Chrome". Cette installation se produit **sans invite d'opt-in explicite** de la part de l'utilisateur.
 
@@ -351,7 +351,7 @@ Dans `.claude/settings.json` :
 }
 ```
 
-## Limitations Connues
+## Limitations connues
 
 Le système `permissions.deny` repose sur du pattern matching textuel, pas sur une analyse sémantique des intentions. Cela signifie qu'un développeur (ou le modèle lui-même) peut involontairement contourner les restrictions en utilisant une variante de commande non couverte par les patterns. Ces limitations justifient l'ajout de hooks de sécurité comme couche de défense complémentaire.
 
@@ -489,7 +489,7 @@ Les modèles sont entraînés sur du code open-source, incluant des licences vir
 | **MIT/BSD** | Faible : permissif | Attribution recommandée |
 | **Apache 2.0** | Faible : inclut patent grant | Attribution + notice NOTICE |
 
-### Indemnification Enterprise
+### Indemnification enterprise
 
 | Plan | Couverture IP | Notes |
 |------|---------------|-------|
@@ -499,7 +499,7 @@ Les modèles sont entraînés sur du code open-source, incluant des licences vir
 
 **Recommandation** : Pour code critique/commercial, exiger clause d'indemnification IP explicite.
 
-### Bonnes Pratiques IP
+### Bonnes pratiques IP
 
 En attendant que le cadre juridique se stabilise, ces quatre pratiques permettent de réduire l'exposition au risque IP tout en continuant à utiliser Claude Code efficacement.
 
@@ -508,7 +508,7 @@ En attendant que le cadre juridique se stabilise, ces quatre pratiques permetten
 3. **Scan licences** : Utiliser des outils de détection (FOSSA, Snyk, etc.)
 4. **Policy interne** : Définir règles d'utilisation AI dans le handbook développeur
 
-## GDPR/Conformité EU
+## GDPR/conformité EU
 
 Identifiez les données personnelles traitées, les rôles des parties, la base légale, les destinataires et les transferts éventuels. Un fournisseur américain n’implique pas à lui seul que chaque requête suit le même chemin de traitement. Le contrat, la région et les sous-traitants doivent être examinés.
 
@@ -549,13 +549,13 @@ Cet arbre prépare la revue ; aucune branche ne délivre un verdict de conformit
 Des emails conservés dans un jeu prétendument anonymisé peuvent permettre d’identifier des patients. Suspendez leur transmission, vérifiez l’anonymisation et faites examiner le traitement, les contrats et les garanties par les responsables compétents. Un DPA ou une option ZDR ne résout pas seul toutes ces obligations.
 :::
 
-## Quand Examiner une Option ZDR
+## Quand examiner une option ZDR
 
 Examinez le ZDR lorsque la politique de conservation, les engagements clients ou l’analyse de risque le justifient. Confirmez l’éligibilité, l’activation pour l’organisation et les fonctionnalités couvertes. Vérifiez séparément les accords nécessaires, tels qu’un BAA si applicable. Le RGPD n’impose pas universellement le ZDR ; celui-ci ne supprime pas les journaux locaux et les exceptions contractuelles doivent être lues.
 
 {{< pagebreak >}}
 
-# Checklist Compliance Enterprise
+# Checklist compliance enterprise
 
 Cette checklist transforme les principes des sections précédentes en actions vérifiables. Les contrôles techniques produisent des indices de configuration ; ils ne valident pas à eux seuls la conformité juridique.
 
@@ -634,7 +634,7 @@ Anthropic construit Claude (et Claude Code) sur un cadre de valeurs hiérarchis�
 
 # Ressources
 
-## Liens Officiels Anthropic
+## Liens officiels Anthropic
 
 Ces ressources sont les points d'entrée officiels d'Anthropic pour la gestion de la confidentialité et de la conformité. Le Trust Center (`trust.anthropic.com`) est particulièrement utile pour les équipes compliance qui ont besoin d'artifacts vérifiables (DPA, rapports SOC2, documentation GDPR).
 
@@ -659,7 +659,7 @@ Ces ressources sont les points d'entrée officiels d'Anthropic pour la gestion d
 | **Data Privacy Guide** | Guide data privacy Claude Code (ce repo) | [guide/security/data-privacy.md](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/security/data-privacy.md) |
 | **AI Traceability Guide** | Attribution, disclosure, politique d'équipe | [guide/ops/ai-traceability.md](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ops/ai-traceability.md) |
 
-## Commandes Utiles
+## Commandes utiles
 
 Ces commandes permettent de vérifier rapidement l'état de votre configuration privacy sans quitter le terminal. Les commandes `/config`, `/status` et `/context` ne sont disponibles que dans une session Claude Code active : elles interrogent l'état réel de la session en cours.
 
@@ -674,7 +674,7 @@ Ces commandes permettent de vérifier rapidement l'état de votre configuration 
 ./examples/scripts/audit-scan.sh  # Lancer audit privacy
 ```
 
-## Parcours Recommandé
+## Parcours recommandé
 
 La confidentialité est un prérequis, pas une fin en soi. Ce whitepaper couvre le "quoi" et le "pourquoi" de la protection des données ; les whitepapers suivants traitent du "comment" opérationnel pour sécuriser, déployer et configurer Claude Code en équipe.
 

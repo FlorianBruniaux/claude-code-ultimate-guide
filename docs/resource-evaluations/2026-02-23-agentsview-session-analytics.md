@@ -1,4 +1,4 @@
-# Resource Evaluation: AgentsView: Local Session Analytics for Claude Code
+# Resource evaluation: AgentsView: Local session analytics for Claude Code
 
 **Evaluated**: 2026-02-23
 **Evaluator**: Claude Sonnet 4.6 + technical-writer agent challenge
@@ -6,7 +6,7 @@
 
 ---
 
-## Executive Summary
+## Executive summary
 
 **Resource**: AgentsView — Local web app for browsing, searching, and analyzing AI coding sessions
 **URL**: https://www.agentsview.io/
@@ -21,7 +21,7 @@
 
 ---
 
-## 📄 Resource Summary
+## 📄 Resource summary
 
 **Type**: Local-first web application (Go + Svelte 5 + SQLite FTS5)
 
@@ -52,7 +52,7 @@ AgentsView fills this gap. However, the repo was created on February 19, 2026 (4
 
 ---
 
-## ⚖️ Comparative Analysis
+## ⚖️ Comparative analysis
 
 | Feature | AgentsView | Guide (current) |
 |---------|-----------|-----------------|
@@ -71,9 +71,9 @@ AgentsView fills this gap. However, the repo was created on February 19, 2026 (4
 
 ---
 
-## 📍 Integration Recommendations
+## 📍 Integration recommendations
 
-### Primary: `guide/ops/observability.md` — External Monitoring Tools
+### Primary: `guide/ops/observability.md` — external monitoring tools
 
 Add row to the comparison table (after ccboard):
 
@@ -86,7 +86,7 @@ Add to Decision Guide:
 Want search + visual analytics in one local UI?  → AgentsView
 ```
 
-### Secondary: `guide/ecosystem/third-party-tools.md` — Session Management
+### Secondary: `guide/ecosystem/third-party-tools.md` — session management
 
 Add short entry after `claude-code-viewer` with explicit differentiation:
 
@@ -115,7 +115,7 @@ The challenge agent recommended **3/5** (vs initial 4/5) for the following reaso
 
 ---
 
-## ✅ Fact-Check
+## ✅ Fact-check
 
 | Claim | Verified | Source |
 |-------|----------|--------|
@@ -138,7 +138,7 @@ The challenge agent recommended **3/5** (vs initial 4/5) for the following reaso
 
 ---
 
-## 🎯 Final Decision
+## 🎯 Final decision
 
 - **Final score**: **3/5**
 - **Action**: **Integrate**: `observability.md` + mention in `third-party-tools.md`

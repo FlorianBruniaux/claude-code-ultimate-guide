@@ -6,7 +6,7 @@
 
 ---
 
-## 📄 Content Summary
+## 📄 Content summary
 
 - **TUI dashboard** (Rust + Ratatui) for monitoring multiple Claude Code agents running across git worktrees in parallel
 - **One swim lane per agent**: lead repo first, then each worktree — sorted and visually separated
@@ -77,7 +77,7 @@ The challenge agent lowered the initial proposed score from 4 to 3, citing:
 
 ---
 
-## ✅ Fact-Check
+## ✅ Fact-check
 
 | Claim | Status | Source |
 |-------|--------|--------|
@@ -95,7 +95,7 @@ The challenge agent lowered the initial proposed score from 4 to 3, citing:
 
 ---
 
-## 🎯 Final Decision
+## 🎯 Final decision
 
 - **Score**: 3/5
 - **Action**: Watch-list (not integrated yet)

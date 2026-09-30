@@ -1,4 +1,4 @@
-# Resource Evaluation: "Echoes of AI: Investigating the Downstream Effects of AI Assistants on Software Maintainability"
+# Resource evaluation: "Echoes of AI: Investigating the Downstream Effects of AI Assistants on Software Maintainability"
 
 **Date:** 2026-02-19
 **Evaluator:** Claude Code (eval-resource skill)
@@ -6,7 +6,7 @@
 
 ---
 
-## Resource Details
+## Resource details
 
 | Field | Value |
 |-------|-------|
@@ -39,7 +39,7 @@ Two-phase controlled experiment investigating whether AI-assisted code creation 
 
 ## Evaluation Score: **4/5** (Très pertinent — amélioration significative)
 
-### Scoring Breakdown
+### Scoring breakdown
 
 | Criterion | Score | Justification |
 |-----------|-------|---------------|
@@ -53,7 +53,7 @@ Two-phase controlled experiment investigating whether AI-assisted code creation 
 
 ---
 
-## Gap Analysis
+## Gap analysis
 
 ### What the guide already covers
 
@@ -105,9 +105,9 @@ Two-phase controlled experiment investigating whether AI-assisted code creation 
 
 ---
 
-## Fact-Check
+## Fact-check
 
-### LinkedIn Post Claims
+### LinkedIn post claims
 
 | Claim (Olivier LOVERDE's post) | Verified | Source | Notes |
 |--------------------------------|----------|--------|-------|
@@ -120,7 +120,7 @@ Two-phase controlled experiment investigating whether AI-assisted code creation 
 | 50% pour ceux qui maîtrisent | ⚠️ | arXiv: 55.9% | Slight underestimate — actual is 55.9% |
 | Devs n'ont pas débranché leur cerveau (qualifier) | ✅ | Study design | Phase 1 participants guided AI, did not use autopilot |
 
-### arXiv Paper Claims
+### arXiv paper claims
 
 | Claim | Verified | Source |
 |-------|----------|--------|
@@ -147,7 +147,7 @@ Two-phase controlled experiment investigating whether AI-assisted code creation 
 
 ---
 
-## Integration Log
+## Integration log
 
 **Date integrated**: 2026-02-19
 **Post-audit corrections applied**: 2026-02-19 (technical-writer audit + Perplexity v2 check)

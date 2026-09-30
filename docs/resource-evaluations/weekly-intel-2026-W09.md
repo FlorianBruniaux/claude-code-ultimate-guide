@@ -1,4 +1,4 @@
-# Évaluation Ressource: Veille hebdomadaire Anthropic/Claude Code: Semaine W09 2026
+# Évaluation ressource: Veille hebdomadaire Anthropic/Claude Code: Semaine W09 2026
 
 **Source**: Texte copié (rapport de veille interne)
 **Type**: Rapport de veille structuré — 6 sujets, sources multi-canaux
@@ -94,7 +94,7 @@
 
 ---
 
-## ✅ Fact-Check
+## ✅ Fact-check
 
 | Affirmation | Vérifiée | Source |
 |-------------|----------|--------|

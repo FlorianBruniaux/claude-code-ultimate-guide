@@ -1,4 +1,4 @@
-# Git MCP Server (Official Anthropic) - Resource Evaluation
+# Git MCP server (official Anthropic) - resource evaluation
 
 **Evaluated**: 2026-02-03
 **Source**: https://github.com/modelcontextprotocol/servers/tree/main/src/git
@@ -8,7 +8,7 @@
 
 ---
 
-## Executive Summary
+## Executive summary
 
 **Final Score**: **5/5 (CRITICAL)**
 
@@ -16,9 +16,9 @@ The Git MCP Server is an official Anthropic MCP server providing programmatic Gi
 
 ---
 
-## Resource Overview
+## Resource overview
 
-### Key Features
+### Key features
 
 | Feature | Details |
 |---------|---------|
@@ -30,7 +30,7 @@ The Git MCP Server is an official Anthropic MCP server providing programmatic Gi
 | **Token Efficiency** | context_lines parameter (git_diff), structured output vs text parsing |
 | **Parent Repo** | 77,908+ stars (now 88,958 as of 2026-07-28) (modelcontextprotocol/servers) |
 
-### Use Cases
+### Use cases
 
 1. **Automated commit workflows**: AI generates commit messages, stages changes, commits
 2. **Log analysis**: Filter commits by date, author, branch with structured output
@@ -40,9 +40,9 @@ The Git MCP Server is an official Anthropic MCP server providing programmatic Gi
 
 ---
 
-## Evaluation Process
+## Evaluation process
 
-### Initial Assessment (3/5)
+### Initial assessment (3/5)
 
 **Score**: 3/5 (Pertinent - Complément utile)
 
@@ -52,7 +52,7 @@ The Git MCP Server is an official Anthropic MCP server providing programmatic Gi
 - ❌ No use case examples
 - ⚠️ Confusion: "git" MCP ≠ "github" MCP (2 different servers)
 
-### Technical-Writer Challenge
+### Technical-writer challenge
 
 **Agent**: technical-writer (a4f5e49)
 **Challenge Prompt**: Critique initial evaluation, identify gaps, recommend alternatives
@@ -95,7 +95,7 @@ The Git MCP Server is an official Anthropic MCP server providing programmatic Gi
 
 ---
 
-## Fact-Check Results
+## Fact-check results
 
 | Claim | Verified | Source |
 |-------|----------|--------|
@@ -110,9 +110,9 @@ The Git MCP Server is an official Anthropic MCP server providing programmatic Gi
 
 ---
 
-## Gap Analysis
+## Gap analysis
 
-### Current State (Before Integration)
+### Current state (before integration)
 
 | Aspect | Guide Coverage |
 |--------|---------------|
@@ -124,7 +124,7 @@ The Git MCP Server is an official Anthropic MCP server providing programmatic Gi
 | **Git vs GitHub vs Bash** | ❌ 0% clarified (confusion on tool selection) |
 | **Advanced features** | ❌ 0% documented (date filtering, context_lines, multi-repo) |
 
-### Gap Quantification
+### Gap quantification
 
 - **Words missing**: ~1600 words (comprehensive Git MCP section)
 - **Tables missing**: 3 (tools, decision matrix, workflow examples)
@@ -133,9 +133,9 @@ The Git MCP Server is an official Anthropic MCP server providing programmatic Gi
 
 ---
 
-## Integration Details
+## Integration details
 
-### Where Documented
+### Where documented
 
 **Primary**: `guide/ecosystem/mcp-servers-ecosystem.md`
 - **Section**: "Version Control (Official Servers)" (lines 102-255)
@@ -150,7 +150,7 @@ The Git MCP Server is an official Anthropic MCP server providing programmatic Gi
 - **Section**: [Unreleased] > Added
 - **Details**: ~350 words documenting integration, gap filled, impact, sources, credits
 
-### Content Structure
+### Content structure
 
 1. **Intro** (1 paragraph): Official Anthropic server, version control automation
 2. **Use Cases** (5 bullet points): Automated commits, log analysis, branch mgmt, diffs, multi-repo
@@ -167,16 +167,16 @@ The Git MCP Server is an official Anthropic MCP server providing programmatic Gi
 
 ---
 
-## Impact Assessment
+## Impact assessment
 
-### Developer Experience
+### Developer experience
 
 - **Clarity**: Decision tree prevents tool selection confusion (git/github/bash)
 - **Efficiency**: context_lines parameter reduces token usage in diffs
 - **Safety**: Structured MCP output vs Bash text parsing (cross-platform)
 - **Automation**: AI-assisted commits, branch creation without manual Bash
 
-### Workflow Automation
+### Workflow automation
 
 **New Capabilities**:
 1. **Feature branch workflow**: Git MCP (create_branch + commit) → GitHub MCP (PR)
@@ -184,13 +184,13 @@ The Git MCP Server is an official Anthropic MCP server providing programmatic Gi
 3. **Code review prep**: git_diff with context_lines: 3 (focused context)
 4. **Automated releases**: Git MCP (commit + tag) → GitHub MCP (create release)
 
-### Token Efficiency
+### Token efficiency
 
 - **Structured output**: Git MCP returns JSON vs Bash text → less parsing
 - **context_lines control**: git_diff parameter reduces irrelevant context
 - **Advanced filtering**: git_log timestamps reduce need for post-processing
 
-### Multi-Tool Composition
+### Multi-tool composition
 
 - **Git MCP + GitHub MCP**: Local commits → remote PR creation (atomic workflow)
 - **Git MCP + Semgrep MCP**: Commit → security scan (CI/CD integration)
@@ -198,7 +198,7 @@ The Git MCP Server is an official Anthropic MCP server providing programmatic Gi
 
 ---
 
-## Recommendations Implemented
+## Recommendations implemented
 
 ### Content
 
@@ -219,7 +219,7 @@ The Git MCP Server is an official Anthropic MCP server providing programmatic Gi
 - ✅ **After "Ecosystem Evolution"** (maintains document flow)
 - ❌ **NOT placed after DevOps line 380** (rejected as sub-optimal)
 
-### Machine-Readable Index
+### Machine-readable index
 
 - ✅ **11 entries added** to reference.yaml
 - ✅ **Timestamp updated** (2026-02-03)
@@ -227,9 +227,9 @@ The Git MCP Server is an official Anthropic MCP server providing programmatic Gi
 
 ---
 
-## Alternative Placements Considered
+## Alternative placements considered
 
-### Option A: "Version Control (Official)" Section (IMPLEMENTED)
+### Option A: "Version Control (Official)" section (IMPLEMENTED)
 
 **Pros**:
 - Official servers get top-level visibility
@@ -239,7 +239,7 @@ The Git MCP Server is an official Anthropic MCP server providing programmatic Gi
 **Cons**:
 - Adds new top-level section (document structure change)
 
-### Option B: "Quick Start Stack" Item 0
+### Option B: "Quick Start Stack" item 0
 
 **Pros**:
 - Maximum visibility (MVP essentials)
@@ -249,7 +249,7 @@ The Git MCP Server is an official Anthropic MCP server providing programmatic Gi
 - Quick Start Stack currently community servers only (Playwright, Semgrep)
 - Mixing official/community in same section
 
-### Option C: Extend "Official vs Community Servers" Table
+### Option C: Extend "Official vs Community Servers" table
 
 **Pros**:
 - Minimal structure change
@@ -263,9 +263,9 @@ The Git MCP Server is an official Anthropic MCP server providing programmatic Gi
 
 ---
 
-## Comparison with Other Resources
+## Comparison with other resources
 
-### Similar Resources
+### Similar resources
 
 | Resource | Coverage | Strengths | Weaknesses |
 |----------|----------|-----------|------------|
@@ -273,7 +273,7 @@ The Git MCP Server is an official Anthropic MCP server providing programmatic Gi
 | **MCP Protocol Spec** | Abstract protocol | Comprehensive spec | No Git-specific guidance |
 | **Cursor/Cody Docs** | Basic Git MCP mention | Alternative IDE context | Less detail than this guide |
 
-### Unique Value in This Guide
+### Unique value in this guide
 
 1. **Decision Matrix**: Git MCP vs GitHub MCP vs Bash tool (11 operations) — not in official docs
 2. **Workflow Examples**: 7 real-world scenarios with justifications — not in official docs
@@ -283,9 +283,9 @@ The Git MCP Server is an official Anthropic MCP server providing programmatic Gi
 
 ---
 
-## Maintenance Notes
+## Maintenance notes
 
-### Update Triggers
+### Update triggers
 
 - **Quarterly review**: Check GitHub repo for new tools, API changes (early development warning)
 - **Version milestones**: v1.0 release (exit early development) → update status, score
@@ -310,7 +310,7 @@ The Git MCP Server is an official Anthropic MCP server providing programmatic Gi
 
 ---
 
-## Appendix: Decision Matrix (Extracted)
+## Appendix: Decision matrix (extracted)
 
 | Operation | Git MCP | GitHub MCP | Bash Tool | Justification |
 |-----------|---------|------------|-----------|---------------|

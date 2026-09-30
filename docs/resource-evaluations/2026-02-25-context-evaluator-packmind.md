@@ -1,4 +1,4 @@
-# Evaluation: Context-Evaluator (context-evaluator.ai)
+# Evaluation: Context-evaluator (context-evaluator.ai)
 
 **Date**: 2026-02-25
 **Type**: URL + texte (LinkedIn post de Cédric Teyton, CTO Packmind)
@@ -59,7 +59,7 @@
 
 ---
 
-## Fact-Check
+## Fact-check
 
 | Affirmation | Vérifiée | Source |
 |-------------|----------|--------|

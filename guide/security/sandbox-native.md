@@ -4,7 +4,7 @@ description: "Understanding and configuring native process-level sandboxing in C
 tags: [security, sandbox, guide]
 ---
 
-# Native Sandboxing in Claude Code
+# Native sandboxing in Claude Code
 
 > **Confidence**: Tier 1, official Anthropic documentation
 > **Reading time**: ~15 minutes
@@ -50,9 +50,9 @@ flowchart TD
 
 ---
 
-## 1. Why Native Sandboxing?
+## 1. Why native sandboxing?
 
-### The Autonomy-Safety Tension
+### The autonomy-safety tension
 
 Claude Code's permission system creates a fundamental tension:
 
@@ -69,7 +69,7 @@ Claude Code's permission system creates a fundamental tension:
 4. **Dependency safety** - Compromised npm packages contained within workspace
 5. **Transparent operation** - Sandbox violations trigger immediate notifications
 
-### Why Sandboxing Matters: Field Incidents
+### Why sandboxing matters: Field incidents
 
 The risks of running agents with broad permissions are not theoretical. Production teams have documented incidents that illustrate why the sandbox perimeter matters more than per-operation guardrails.
 
@@ -85,7 +85,7 @@ The sandbox addresses both failure modes: it limits what the agent can reach reg
 
 ---
 
-## 2. OS Primitives
+## 2. OS primitives
 
 Native sandboxing uses operating system security mechanisms to enforce isolation:
 
@@ -214,9 +214,9 @@ The profile applies to `bwrap` itself, not to the commands it runs inside the sa
 
 ---
 
-## 3. Filesystem Isolation
+## 3. Filesystem isolation
 
-### Default Behavior
+### Default behavior
 
 - **Read access**: Entire computer (except explicitly denied directories)
 - **Write access**: Current working directory (CWD) and subdirectories, **plus the session temp directory**
@@ -249,7 +249,7 @@ This asymmetric policy balances usability and security:
 - **Read all**: Claude needs to search/analyze entire codebase, read system configs, inspect dependencies
 - **Write CWD**: Most development work happens within project directory; restricting writes prevents accidental/malicious system modifications
 
-### Configuring Filesystem Restrictions
+### Configuring filesystem restrictions
 
 Filesystem restrictions use both **permission rules** (for read blocking) and the **`sandbox.filesystem` settings block** (for write expansion and fine-grained read overrides).
 
@@ -301,9 +301,9 @@ Write access is inherently restricted to CWD by the sandbox. To block reads to s
 
 ---
 
-## 4. Network Isolation
+## 4. Network isolation
 
-### Proxy Architecture
+### Proxy architecture
 
 All network connections from sandboxed commands are routed through a SOCKS5 proxy running **outside** the sandbox. The proxy restricts which domains processes can connect to, but **does not inspect the content of traffic** passing through it (privacy note: no deep packet inspection).
 
@@ -330,7 +330,7 @@ All network connections from sandboxed commands are routed through a SOCKS5 prox
 └──────────────────────────────────────────────────────────┘
 ```
 
-### Domain Filtering
+### Domain filtering
 
 **Two modes**, selected by [`strictAllowlist`](../core/settings-reference.md#sandboxnetworkstrictallowlist):
 
@@ -370,7 +370,7 @@ Enable strict mode only once the list has survived a week of real work, since it
 
 **⚠️ Default blocked ranges**: Private CIDRs (`10.0.0.0/8`, `127.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`, `169.254.0.0/16`)
 
-### Custom Proxy
+### Custom proxy
 
 For advanced use cases (HTTPS inspection, enterprise proxies):
 
@@ -387,9 +387,9 @@ For advanced use cases (HTTPS inspection, enterprise proxies):
 
 ---
 
-## 5. Sandbox Modes
+## 5. Sandbox modes
 
-### Auto-Allow Mode
+### Auto-allow mode
 
 **Behavior**:
 
@@ -421,7 +421,7 @@ There is **no built-in command blocklist**. `curl` and `wget` are not blocked in
 
 [Subagents](../ultimate-guide.md) run in the same process as the parent session and inherit its sandbox configuration. Bash commands inside a subagent are sandboxed whenever the parent session is. There is no per-subagent sandbox setting, and a subagent cannot widen the boundary.
 
-### Regular Permissions Mode
+### Regular permissions mode
 
 **Behavior**:
 
@@ -431,7 +431,7 @@ There is **no built-in command blocklist**. `curl` and `wget` are not blocked in
 
 **When to use**: High-security environments, untrusted codebases, learning Claude Code behavior
 
-### Switching Modes
+### Switching modes
 
 ```bash
 # Interactive menu
@@ -447,7 +447,7 @@ There is **no built-in command blocklist**. `curl` and `wget` are not blocked in
 
 ---
 
-## 6. Escape Hatch
+## 6. Escape hatch
 
 ### `dangerouslyDisableSandbox` Parameter
 
@@ -467,7 +467,7 @@ Some tools are **incompatible** with sandboxing (e.g., `docker`, `watchman`). Cl
 - `watchman` (needs filesystem watch APIs)
 - `jest` with watchman (use `jest --no-watchman` instead)
 
-### Disabling the Escape Hatch
+### Disabling the escape hatch
 
 For maximum security, disable the escape hatch entirely:
 
@@ -544,9 +544,9 @@ Taken together with the two traps above, `excludedCommands` has three independen
 
 ---
 
-## 7. Security Limitations
+## 7. Security limitations
 
-### Domain Fronting
+### Domain fronting
 
 **Risk**: CDNs (Cloudflare, Akamai) allow hosting user content on trusted domains.
 
@@ -565,7 +565,7 @@ Taken together with the two traps above, `excludedCommands` has three independen
 
 **Impossibility of perfect blocking**: Domain fronting is [hard to prevent](https://en.wikipedia.org/wiki/Domain_fronting) without HTTPS inspection.
 
-### Unix Sockets Privilege Escalation
+### Unix sockets privilege escalation
 
 **Risk**: Unix-socket exceptions can grant a sandboxed command access to powerful system services.
 
@@ -597,7 +597,7 @@ The socket setting matters only when a Bash child connects directly to its own s
 
 Socket access changes whether the Bash child can reach the inbox. Claude Code still applies the [cross-session inbound controls and own-child rules](../workflows/cross-session-messaging.md#the-sessions-inbox-socket) to the resulting message. The sandbox also does not validate the message or constrain built-in `Read`, `Edit`, and `Write` tools. Use the [cross-session threat model](./security-hardening.md#cross-session-messaging-threat-model) for sender trust and inbound policy, and the [Agent Harness creator-verifier pattern](../core/agent-harness.md#8-creator-verifier-pattern) for current-commit evidence and independent review.
 
-### Filesystem Permission Escalation
+### Filesystem permission escalation
 
 **Risk**: Overly broad write permissions enable privilege escalation.
 
@@ -621,7 +621,7 @@ Socket access changes whether the Bash child can reach the inbox. Claude Code st
 - ✅ **Use permission deny rules to block sensitive reads**
 - ✅ **Monitor sandbox violation logs**
 
-### Linux: Nested Sandbox Weakness
+### Linux: Nested sandbox weakness
 
 **Risk**: `enableWeakerNestedSandbox` mode weakens isolation.
 
@@ -637,7 +637,7 @@ Socket access changes whether the Bash child can reach the inbox. Claude Code st
 
 ---
 
-## 8. Open-Source Runtime
+## 8. Open-source runtime
 
 The sandbox runtime is available as an **open-source npm package**:
 
@@ -661,7 +661,7 @@ npx @anthropic-ai/sandbox-runtime node mcp-server.js
 
 ---
 
-## 9. Platform Support
+## 9. Platform support
 
 | Platform | Support | Notes |
 |----------|---------|-------|
@@ -673,7 +673,7 @@ npx @anthropic-ai/sandbox-runtime node mcp-server.js
 
 ---
 
-## 10. Decision Tree: Native vs Docker Sandboxes
+## 10. Decision tree: Native vs Docker Sandboxes
 
 ```mermaid
 flowchart TD
@@ -701,7 +701,7 @@ flowchart TD
     E --> E4[Docs: guide/security/sandbox-isolation.md]
 ```
 
-### Comparison Matrix
+### Comparison matrix
 
 | Aspect | Native Sandbox | Docker Sandboxes |
 |--------|---------------|------------------|
@@ -720,9 +720,9 @@ flowchart TD
 
 ---
 
-## 11. Configuration Examples
+## 11. Configuration examples
 
-### Strict Security (Denylist Mode)
+### Strict security (denylist mode)
 
 ```json
 // settings.json: sandbox settings
@@ -752,7 +752,7 @@ flowchart TD
 }
 ```
 
-### Balanced (Allowlist Mode + Escape Hatch)
+### Balanced (allowlist mode + escape hatch)
 
 ```json
 {
@@ -776,7 +776,7 @@ flowchart TD
 }
 ```
 
-### Development (Permissive)
+### Development (permissive)
 
 ```json
 {
@@ -793,7 +793,7 @@ flowchart TD
 
 ---
 
-## 12. Best Practices
+## 12. Best practices
 
 1. **Start restrictive, expand as needed** - Begin with denylist mode, whitelist domains/paths incrementally
 2. **Monitor sandbox violations** - Review logs to understand Claude's access patterns
@@ -976,7 +976,7 @@ which bubblewrap socat
 
 ---
 
-## 14. See Also
+## 14. See also
 
 - [Cross-Session Messaging](../workflows/cross-session-messaging.md) - peer discovery, transport, inbound controls, and correlated-drift safeguards
 - [Cross-Session Messaging Threat Model](./security-hardening.md#cross-session-messaging-threat-model) - sender trust, cross-machine exposure, permissions, and execution boundaries

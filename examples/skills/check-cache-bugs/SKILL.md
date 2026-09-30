@@ -5,7 +5,7 @@ effort: low
 disable-model-invocation: true
 ---
 
-# Check Cache Bugs (CC#40524)
+# Check cache bugs (CC#40524)
 
 Audit your Claude Code setup for cache and cost bugs discovered in March-April 2026.
 
@@ -204,7 +204,7 @@ Note stale binaries that could be mistakenly invoked.
 
 ---
 
-## Output Format
+## Output format
 
 ```
 ## Claude Code Cache Bug Audit: CC#40524

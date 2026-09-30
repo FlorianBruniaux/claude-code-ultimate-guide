@@ -54,7 +54,7 @@ En février 2026, 36.82% des Agent Skills disponibles sur les marketplaces conti
 | **.claude/ Attack Surface** | Backdoors dans config | Élevé | Émergent | Repository pre-scan → [Section 1.2](#claude-attack-surface) |
 | **Commandes Destructrices** | Perte de données/secrets | Élevé | Fréquent | `dangerous-actions-blocker.sh` → [Layer 2](#layer-2-hooks-pretooluse) |
 
-## 1.1 Prompt Injection
+## 1.1 Prompt injection
 
 ### Le Mécanisme
 
@@ -96,7 +96,7 @@ Les attaquants ne se contentent pas d'instructions en clair -- ils utilisent des
 | Base64 | `# SGlkZGVuOg==` | Payload encodé |
 | Homoglyphes | Cyrillic `а` vs Latin `a` | Bypass filtres |
 
-### Walkthrough : Prompt Injection en Action
+### Walkthrough : Prompt injection en action
 
 Un README non fiable peut contenir une instruction demandant de lire une clé SSH et de l’envoyer à un serveur externe. Le modèle peut tenter de suivre cette instruction ; l’attaque n’est pas déterministe.
 
@@ -104,7 +104,7 @@ Une règle `Read(./**/*.key)` ne vise ni `~/.ssh/id_ed25519` ni les lectures eff
 
 Un scanner PreToolUse inspecte les paramètres de l’appel imminent. Il ne voit pas automatiquement le texte d’un README déjà lu : une commande d’exfiltration peut ne contenir aucun des mots détectés dans le document initial. Les scanners de motifs constituent une couche partielle ; testez leurs limites avec des données témoins sans secrets.
 
-## 1.2 .claude/ Attack Surface
+## 1.2 .claude/ attack surface
 
 **Nouveau vecteur (2026)** : Repositories peuvent embarquer un dossier `.claude/` avec agents, commands, hooks pré-configurés. Claude Code affiche une demande de confiance pour un espace de travail inconnu. Examinez les configurations avant de l’accepter ; cette revue est distincte de celle des marketplaces.
 
@@ -120,7 +120,7 @@ Les instructions, hooks et serveurs déclarés dans un dépôt représentent des
 | **Malicious CLAUDE.md** | Instructions prompt injection dans memory file | Détournement comportement global |
 | **Malicious settings.json** | Hooks config pointant vers scripts externes malveillants | Exécution code au session start |
 
-### Défense : Repository Pre-Scan
+### Défense : Repository pre-scan
 
 **Avant d'ouvrir un repo inconnu** :
 
@@ -145,9 +145,9 @@ find .claude/hooks/ -name "*.sh" -exec head -20 {} \;
 
 {{< pagebreak >}}
 
-## 1.3 MCP Supply Chain : Rug Pull & Tool Shadowing
+## 1.3 MCP supply chain : Rug pull & tool shadowing
 
-### L'Attaque Rug Pull
+### L'Attaque rug pull
 
 ```
 ┌─────────────────────────────────────────────────┐
@@ -231,7 +231,7 @@ Les commandes ci-dessous causent des dégâts irréversibles en une seule exécu
 | Force push | `git push --force main` | Code |
 | Publishing | `npm publish`, `pnpm publish` | Supply chain |
 
-### Fichiers Sensibles
+### Fichiers sensibles
 
 Ces fichiers contiennent des secrets qui, une fois exposes dans l'historique de session ou dans un commit git, necessitent une rotation immediate. Le simple fait que Claude lise un de ces fichiers suffit a exposer son contenu dans les logs de la session.
 
@@ -256,7 +256,7 @@ Les 5 vecteurs ci-dessus ne sont pas theoriques : chaque CVE liste dans ce docum
 
 {{< pagebreak >}}
 
-# Defense in Depth : Les Couches de Protection
+# Defense in depth : Les couches de protection
 
 La securite de Claude Code ne repose pas sur un mecanisme unique mais sur un empilement de couches independantes. Si une couche est contournee -- et chaque couche *peut* l'etre -- la suivante prend le relais. Ce modele, inspire de la securite reseau classique (perimeter, host, application, data), est adapte au contexte specifique des agents IA ou le vecteur d'attaque principal est la manipulation semantique, pas l'exploitation binaire.
 
@@ -315,7 +315,7 @@ Le fichier `settings.json` (projet ou global) definit les regles `permissions.de
 }
 ```
 
-### Limitations Connues
+### Limitations connues
 
 Les règles sont propres aux outils concernés. Un refus Read ne bloque pas toutes les lectures possibles via Bash ou un serveur MCP. Le bac à sable ajoute des contrôles de système de fichiers et de réseau : examinez `sandbox.filesystem.denyRead`, `allowRead` et les options `sandbox.credentials` disponibles.
 
@@ -348,7 +348,7 @@ Le hook `PermissionDenied` (v2.1.88) se déclenche sur chaque blocage du classif
 
 > 📖 Configuration complète (hard\_deny, autoMode.allow/soft\_deny/environment, sentinel \$defaults) : [§1.4 Auto Mode](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#auto-mode-all-plans-v21114) dans le guide.
 
-## Layer 1.5 : Native Sandbox (v2.1.0+)
+## Layer 1.5 : Native sandbox (v2.1.0+)
 
 **Introduit v2.0.24+ (Nov 2025)** : Claude Code inclut sandboxing natif utilisant primitives OS pour isoler commandes bash.
 
@@ -442,7 +442,7 @@ Les hooks sont declares dans `settings.json` (projet ou global) et s'executent c
 }
 ```
 
-### Exit Codes
+### Exit codes
 
 Les codes de sortie ont un sens propre à chaque événement.
 
@@ -454,7 +454,7 @@ Les codes de sortie ont un sens propre à chaque événement.
 
 Pour PreToolUse, un refus structuré utilise `hookSpecificOutput.permissionDecision: "deny"` et `hookEventName: "PreToolUse"` sur `exit 0`. Pour laisser les autres contrôles décider, ne renvoyez pas de décision. Un hook PostToolUse ne peut pas annuler l’effet d’un outil déjà exécuté. Voir la [référence des hooks](https://code.claude.com/docs/en/hooks).
 
-### Hook Profiles: Gating par Environnement (v3.38.0)
+### Hook profiles: Gating par environnement (v3.38.0)
 
 Nouveau pattern pour scaler les hooks de sécurité sans configuration one-size-fits-all. L'idée : chaque hook déclare le niveau minimum requis pour s'activer, et chaque environnement définit son niveau via une variable d'environnement.
 
@@ -480,7 +480,7 @@ Se déclenche quand le classificateur auto-mode refuse un tool call. Retourner `
 
 {{< pagebreak >}}
 
-## Layer 3 : MCP Vetting
+## Layer 3 : MCP vetting
 
 ### Revue avant Activation
 
@@ -496,7 +496,7 @@ Une revue courte peut repérer des défauts, sans garantir l’absence de compro
 
 Le nombre d’étoiles et l’activité récente ne sont pas des garanties de sécurité. Ne classez pas un serveur comme sûr à partir de son seul nom. Conservez la date, la version, le périmètre et les limites de chaque évaluation.
 
-### Agent Skills Supply Chain Risks
+### Agent Skills supply chain risks
 
 **Nouveau risque (Feb 2026)** : Third-party Agent Skills (installés via `npx add-skill` ou plugin marketplaces) introduisent des risques supply chain similaires aux packages npm.
 
@@ -523,7 +523,7 @@ Le nombre d’étoiles et l’activité récente ne sont pas des garanties de s�
 skills-ref validate ./skill-directory
 ```
 
-### Threat Intelligence Database
+### Threat intelligence database
 
 **Nouveau (v3.26)** : Base de données communautaire de menaces connues (skills/MCPs malicieux).
 
@@ -629,7 +629,7 @@ Une approche complémentaire au vetting manuel commence à émerger : compiler l
 
 Cette piste vaut d'être surveillée mais n'est pas mûre : Wassette est en v0.4.0 et se déclare lui-même "not production-ready". Pour un threat model incluant des serveurs MCP tiers ou compromis avec un accès filesystem imprévisible, c'est la bonne direction architecturale à long terme, mais aujourd'hui le chemin pratique reste l'audit MCP en 5 minutes ci-dessus combiné à l'isolation par conteneur.
 
-## Kill Switch : Containment d'Agents Autonomes (v3.27.4)
+## Kill switch : Containment d'Agents autonomes (v3.27.4)
 
 **Nouveau** : Architecture de containment pour agents autonomes qui "s'emballent" (runaway agents).
 
@@ -649,7 +649,7 @@ Un watchdog fiable exige un identifiant de session stable, une écriture atomiqu
 
 Les contrôles de configuration et les prompts d’arrêt ne remplacent pas une supervision externe lorsqu’un plafond doit être imposé. Voir le [guide de durcissement](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/security/security-hardening.md).
 
-## Layer 4 : Revue Humaine
+## Layer 4 : Revue humaine
 
 Le dernier rempart : **vous**.
 
@@ -831,7 +831,7 @@ Cette configuration regroupe les hooks essentiels sur les trois events critiques
 
 # Réponse aux Incidents
 
-## Secret Exposé
+## Secret exposé
 
 ### Premières 15 Minutes
 
@@ -870,7 +870,7 @@ git filter-repo --invert-paths --path <file-with-secret>
 2. Notification équipe/compliance (GDPR, SOC2, HIPAA)
 3. Documentation timeline incident
 
-## MCP Compromis
+## MCP compromis
 
 Si un serveur MCP est compromis, chaque minute de délai augmente la surface d'exposition. Le séquencement ci-dessous est optimisé pour limiter les dégâts : désactivation d'abord, investigation ensuite.
 
@@ -882,7 +882,7 @@ claude mcp remove NOM_DU_SERVEUR --scope project
 
 Arrêtez aussi le processus ou service suspect si nécessaire. Préservez les preuves et comparez la configuration au dernier état approuvé avant restauration. Les configurations peuvent être dans `.mcp.json` ou `~/.claude.json` selon la portée ; les transcriptions natives sont sous `~/.claude/projects/`. Révoquez les identifiants potentiellement exposés sans attendre qu’un scanner confirme une fuite.
 
-## Protocole Post-Incident Claude Code
+## Protocole post-incident Claude Code
 
 ::: {.callout-important title="Protocole post-incident en 5 etapes"}
 Si vous suspectez une fuite de données via Claude Code :
@@ -914,7 +914,7 @@ Une succession de résultats acceptables peut réduire l’attention portée aux
 
 **Source** : Alan Engineering (Charles Gorintin, CTO), Newsletter Intelligence Humaine (Feb 2026)
 
-## La Solution
+## La solution
 
 **Paradoxe** : Vous ne pouvez pas compter sur humains pour attraper erreurs rares dans output IA quasi-parfait.
 
@@ -1014,7 +1014,7 @@ Mon projet Claude Code
 
 # Checklist Sécurité Production
 
-## Niveau Basic (Solo Dev)
+## Niveau basic (solo dev)
 
 | # | Action | Fait |
 |---|--------|------|
@@ -1034,7 +1034,7 @@ Mon projet Claude Code
 | 9 | Database credentials read-only | ☐ |
 | 10 | `repo-integrity-scanner.sh` pour repos inconnus | ☐ |
 
-## Niveau Hardened (Enterprise)
+## Niveau hardened (enterprise)
 
 | # | Action | Fait |
 |---|--------|------|
@@ -1079,7 +1079,7 @@ Les CVE et advisories ci-dessous sont les sources primaires referenciees dans ce
 | **Cisco DefenseClaw** | Open-source, scanners Skills + MCP + a2a |
 | **Ferrok** | Mappé sur OWASP MCP Top 10 2026 |
 
-## Outils Secrets
+## Outils secrets
 
 Gitleaks, TruffleHog et GitGuardian couvrent des usages de détection de secrets différents. Comparez-les sur un corpus témoin représentatif et examinez les faux positifs comme les secrets manqués ; aucun classement chiffré universel n’est établi ici.
 
@@ -1099,7 +1099,7 @@ Gitleaks, TruffleHog et GitGuardian couvrent des usages de détection de secrets
 | **Security Hardening Guide** | Guide dédié sécurité Claude Code (ce repo) | [guide/security/security-hardening.md](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/security/security-hardening.md) |
 | **38 templates hooks** | Hooks de sécurité prêts à déployer | [examples/hooks/](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/tree/main/examples/hooks/) |
 
-## Parcours Recommandé
+## Parcours recommandé
 
 Selon votre niveau et votre besoin, les whitepapers complementaires de cette serie approfondissent les sujets connexes a la securite. Le whitepaper privacy couvre notamment le RGPD et la retention de donnees, souvent le premier sujet souleve par les equipes compliance.
 

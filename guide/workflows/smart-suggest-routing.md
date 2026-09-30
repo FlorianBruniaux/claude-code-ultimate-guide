@@ -4,7 +4,7 @@ description: "A Codex and Claude Code UserPromptSubmit routing system using rege
 tags: [workflow, hooks, guide, reference]
 ---
 
-# Smart-Suggest Routing: Regex + BM25 Skill Hints
+# Smart-Suggest routing: Regex + BM25 skill hints
 
 `UserPromptSubmit` hooks can add advisory context before a model handles a prompt. Regex works for fixed enforcement rules. Okapi BM25 works for natural-language variations backed by a reviewed skill corpus.
 

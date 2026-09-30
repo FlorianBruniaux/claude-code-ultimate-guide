@@ -1,4 +1,4 @@
-# Resource Evaluation: Google Antigravity (Agent-First IDE)
+# Resource evaluation: Google Antigravity (agent-first IDE)
 
 **URL (trigger)**: https://www.linkedin.com/posts/prajwal-tomar-9472081a5_claude-code-antigravity-is-the-most-slept-on-activity-7428808594835558400-pui4
 **Primary Sources**: Google Codelabs, Google Cloud Blog, Bind AI, XDA Developers, npm (antigravity-claude-proxy)
@@ -8,7 +8,7 @@
 
 ---
 
-## Executive Summary
+## Executive summary
 
 Google Antigravity is an **agent-first IDE** (VS Code fork) launched late 2025 that shifts development from traditional code editing to autonomous agent-driven workflows. It represents a fundamentally different philosophy from Claude Code: maximum agent autonomy vs explicit developer control.
 
@@ -16,9 +16,9 @@ Google Antigravity is an **agent-first IDE** (VS Code fork) launched late 2025 t
 
 ---
 
-## Content Analysis
+## Content analysis
 
-### Key Facts (Verified)
+### Key facts (verified)
 
 1. **Architecture**: Agent-first IDE (VS Code fork) with three surfaces — Editor, Agent Manager, Browser integration
 2. **Multi-model**: Uses Gemini 3 Pro, Claude 4.5, Liquid AI simultaneously for different tasks
@@ -26,7 +26,7 @@ Google Antigravity is an **agent-first IDE** (VS Code fork) launched late 2025 t
 4. **Pricing**: $20/month (bundled) or $80-90/month
 5. **Claude bridge**: `antigravity-claude-proxy` npm package — proxy server exposing Anthropic-compatible API backed by Antigravity's Cloud Code
 
-### Philosophy Comparison
+### Philosophy comparison
 
 | Dimension | Claude Code | Google Antigravity |
 |-----------|-------------|-------------------|
@@ -41,7 +41,7 @@ Google Antigravity is an **agent-first IDE** (VS Code fork) launched late 2025 t
 
 ---
 
-## Fact-Check
+## Fact-check
 
 | Claim | Status | Source |
 |-------|--------|--------|
@@ -56,7 +56,7 @@ Google Antigravity is an **agent-first IDE** (VS Code fork) launched late 2025 t
 
 ---
 
-## Gap Analysis
+## Gap analysis
 
 | Aspect | Our Guide | Gap? |
 |--------|-----------|------|
@@ -69,7 +69,7 @@ Google Antigravity is an **agent-first IDE** (VS Code fork) launched late 2025 t
 
 ---
 
-## Integration Recommendation
+## Integration recommendation
 
 ### Where
 
@@ -77,7 +77,7 @@ Google Antigravity is an **agent-first IDE** (VS Code fork) launched late 2025 t
 
 Title: `## 6.1 Google Antigravity (Agent-First IDE)`
 
-### What to Include
+### What to include
 
 1. **What it is** (3 lines): Agent-first IDE, VS Code fork, multi-agent orchestration
 2. **Philosophy comparison**: Terminal-first vs agent-first (table)
@@ -85,7 +85,7 @@ Title: `## 6.1 Google Antigravity (Agent-First IDE)`
 4. **Trade-offs**: Autonomy vs predictability, CI/CD maturity, cognitive overhead
 5. **When to consider**: Vibe coding, rapid prototyping, non-CLI workflows
 
-### What NOT to Include
+### What NOT to include
 
 - No tutorial (out of scope — we document Claude Code, not competitors)
 - No skills migration guide (different ecosystems)
@@ -97,7 +97,7 @@ Title: `## 6.1 Google Antigravity (Agent-First IDE)`
 
 ---
 
-## Challenge (Technical-Writer)
+## Challenge (technical-writer)
 
 - **Score justified**: 3/5 correct. Not 4/5 because Antigravity is a separate tool, not a Claude Code integration. Not 2/5 because the philosophical contrast is genuinely educational.
 - **Risk of non-integration**: Readers comparing tools won't find Antigravity in our guide. The AI Coding Agents Matrix (Section 11) partially covers this, but lacks the nuanced comparison we can provide.

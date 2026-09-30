@@ -59,7 +59,7 @@ fi
 
 Pour GitHub, le trigger `@claude review` dans un commentaire de PR est le pattern le plus documenté : il déclenchement on-demand sans polluer le workflow automatique.
 
-## Exemple concret : Linear Agent Loop
+## Exemple concret : Linear agent loop
 
 Le pattern le plus documenté (Damian Galarza, février 2026) : Linear comme source de vérité unique, Claude Code comme implémenteur.
 

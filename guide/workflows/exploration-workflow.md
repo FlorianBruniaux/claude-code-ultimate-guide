@@ -4,7 +4,7 @@ description: "Ask Claude for multiple approaches with trade-offs before coding t
 tags: [workflow, architecture, design-patterns]
 ---
 
-# Exploration Before Implementation
+# Exploration before implementation
 
 > **Confidence**: Tier 2, validated by practitioner studies (+20-30% decision quality, +40% alternatives identified).
 > **Source**: [MetalBear Engineering Blog](https://metalbear.com/blog/engineering-ai-use/), arXiv practitioner studies
@@ -13,7 +13,7 @@ Before coding, ask Claude for multiple approaches with trade-offs. This prevents
 
 ---
 
-## Table of Contents
+## Table of contents
 
 1. [TL;DR](#tldr)
 2. [The Pattern](#the-pattern)
@@ -39,9 +39,9 @@ Key insight: **Once a model proposes a concrete solution, it can unintentionally
 
 ---
 
-## The Pattern
+## The pattern
 
-### Step 1: Problem Statement Only
+### Step 1: Problem statement only
 
 Start with the problem, not a solution direction:
 
@@ -58,7 +58,7 @@ Requirements:
 I'm thinking of using Redis for sessions. How should I implement it?
 ```
 
-### Step 2: Request Multiple Approaches
+### Step 2: Request multiple approaches
 
 ```
 Give me 4 different approaches to solve this.
@@ -69,7 +69,7 @@ For each, include:
 - Complexity to implement
 ```
 
-### Step 3: Quantified Comparison
+### Step 3: Quantified comparison
 
 ```
 Now rank these approaches on a 1-10 scale for:
@@ -79,7 +79,7 @@ Now rank these approaches on a 1-10 scale for:
 - Development time
 ```
 
-### Step 4: Choose, Then Implement
+### Step 4: Choose, then implement
 
 ```
 I'll go with approach B (JWT + Redis hybrid).
@@ -88,7 +88,7 @@ Now implement it following our existing patterns in src/auth/.
 
 ---
 
-## Anti-Anchoring Prompts
+## Anti-anchoring prompts
 
 LLMs can fixate on their first suggestion. These prompts combat that:
 
@@ -100,7 +100,7 @@ LLMs can fixate on their first suggestion. These prompts combat that:
 | **Devil's advocate** | "What are the strongest arguments against your recommendation?" | Surface hidden trade-offs |
 | **Constraint variation** | "Now solve the same problem with [opposite constraint]" | Expand solution space |
 
-### Example: Anti-Anchoring Prompt
+### Example: Anti-Anchoring prompt
 
 ```
 I need pagination for a REST API with 1M+ records.
@@ -117,7 +117,7 @@ unconventional approach. For each:
 Then recommend one, explaining why it beats the others for my use case.
 ```
 
-### Reflection Loop Prompt
+### Reflection loop prompt
 
 ```
 For implementing real-time notifications:
@@ -131,9 +131,9 @@ Show your reasoning for each phase.
 
 ---
 
-## When to Use
+## When to use
 
-### Use Exploration
+### Use exploration
 
 | Scenario | Why |
 |----------|-----|
@@ -143,7 +143,7 @@ Show your reasoning for each phase.
 | Unfamiliar domain | Don't know what you don't know |
 | Team disagreement | Get neutral analysis of options |
 
-### Skip Exploration
+### Skip exploration
 
 | Scenario | Why |
 |----------|-----|
@@ -157,7 +157,7 @@ Show your reasoning for each phase.
 
 ## Integration with Claude Code
 
-### With Plan Mode
+### With plan mode
 
 Exploration happens **before** entering Plan Mode:
 
@@ -191,7 +191,7 @@ Use quantified comparison (1-10 scale) for:
 - Time to implement
 ```
 
-### With Task Tool
+### With task tool
 
 Track exploration as tasks:
 
@@ -205,9 +205,9 @@ TaskCreate: "Add cache headers to responses"
 
 ---
 
-## Anti-Patterns
+## Anti-patterns
 
-### Premature Anchoring
+### Premature anchoring
 
 ```
 # Wrong
@@ -219,7 +219,7 @@ TaskCreate: "Add cache headers to responses"
 
 You've eliminated 90% of solutions before exploring.
 
-### Shallow Comparison
+### Shallow comparison
 
 ```
 # Wrong
@@ -244,7 +244,7 @@ Include latency, memory overhead, and operational complexity."
 What scenarios would make me regret this choice?"
 ```
 
-### Analysis Paralysis
+### Analysis paralysis
 
 ```
 # Wrong
@@ -257,9 +257,9 @@ Make a decision and iterate if needed
 
 ---
 
-## Example Session
+## Example session
 
-### Initial Exploration
+### Initial exploration
 
 ```
 User: I need to implement real-time updates in our React dashboard.
@@ -315,7 +315,7 @@ User: Let's go with SSE. Now implement it.
 
 ---
 
-## See Also
+## See also
 
 - [plan-driven.md](./plan-driven.md): for codebase exploration (/plan mode)
 - [iterative-refinement.md](./iterative-refinement.md): refine after choosing approach

@@ -1,4 +1,4 @@
-# Evaluation: Skill Doctor (GitHub Action)
+# Evaluation: Skill doctor (GitHub Action)
 
 **Date**: 2026-02-01
 **Source**: [github.com/tcarac/skill-doctor](https://github.com/tcarac/skill-doctor) | [LinkedIn post](https://www.linkedin.com/posts/tomascaraccia_github-tcaracskill-doctor-a-github-activity-7422266051263995904-Ue60)
@@ -71,7 +71,7 @@ Le score 2/5 tient. Le gap CI/CD pour skills est réel mais ne justifie pas d'in
 ### Risques de non-intégration:
 **Faibles.** Si l'outil explose en popularité, on l'intègre plus tard. Le guide ne perd rien à attendre. Le pattern "attendre l'adoption" a été validé pour d'autres évaluations (Remotion: score 2/5, même logique).
 
-## Fact-Check
+## Fact-check
 
 | Affirmation | Vérifiée | Source |
 |-------------|----------|--------|

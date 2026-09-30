@@ -126,7 +126,7 @@ Only merge into it from parallel worktrees — never develop directly there.
 
 ---
 
-## ✅ Fact-Check
+## ✅ Fact-check
 
 | Affirmation | Vérifiée | Source |
 |-------------|----------|--------|

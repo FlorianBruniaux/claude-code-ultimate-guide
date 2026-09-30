@@ -7,7 +7,7 @@ metadata:
   version: 0.1.0
 ---
 
-# ccboard - Claude Code Dashboard
+# ccboard - Claude Code dashboard
 
 Comprehensive TUI/Web dashboard for monitoring and managing your Claude Code usage.
 
@@ -26,7 +26,7 @@ ccboard provides a unified interface to visualize and explore all your Claude Co
 
 ## Installation
 
-### Via Cargo (Recommended)
+### Via cargo (recommended)
 
 ```bash
 # Using Claude Code command
@@ -54,9 +54,9 @@ cargo install ccboard
 
 ## Features
 
-### 8 Interactive Tabs
+### 8 interactive tabs
 
-#### 1. Dashboard (Press `1`)
+#### 1. Dashboard (press `1`)
 - Token usage statistics
 - Session count
 - Messages sent
@@ -65,13 +65,13 @@ cargo install ccboard
 - 7-day activity sparkline
 - Top 5 models usage gauges
 
-#### 2. Sessions (Press `2`)
+#### 2. Sessions (press `2`)
 - Dual-pane: Project tree + Session list
 - Metadata: timestamps, duration, tokens, models
 - Search: Filter by project, message, or model (press `/`)
 - File operations: `e` to edit JSONL, `o` to reveal in finder
 
-#### 3. Config (Press `3`)
+#### 3. Config (press `3`)
 - 4-column cascading view: Global | Project | Local | Merged
 - Settings inheritance visualization
 - MCP servers configuration
@@ -79,31 +79,31 @@ cargo install ccboard
 - Permissions, hooks, environment variables
 - Edit config with `e` key
 
-#### 4. Hooks (Press `4`)
+#### 4. Hooks (press `4`)
 - Event-based hook browsing (PreToolUse, UserPromptSubmit)
 - Hook bash script preview
 - Match patterns and conditions
 - File path tracking for easy editing
 
-#### 5. Agents (Press `5`)
+#### 5. Agents (press `5`)
 - 3 sub-tabs: Agents (12) | / Commands (5) | ★ Skills (0)
 - Frontmatter metadata extraction
 - File preview and editing
 - Recursive directory scanning
 
-#### 6. Costs (Press `6`)
+#### 6. Costs (press `6`)
 - 3 views: Overview | By Model | Daily Trend
 - Token breakdown: input, output, cache read/write
 - Pricing: total estimated costs
 - Model distribution breakdown
 
-#### 7. History (Press `7`)
+#### 7. History (press `7`)
 - Full-text search across all sessions
 - Activity by hour histogram (24h)
 - 7-day sparkline
 - All messages searchable
 
-#### 8. MCP (Press `8`) **NEW**
+#### 8. MCP (press `8`) **NEW**
 - Dual-pane: Server list (35%) | Details (65%)
 - Live status detection: ● Running, ○ Stopped, ? Unknown
 - Full server details: command, args, environment vars
@@ -137,7 +137,7 @@ ccboard includes a file watcher that monitors `~/.claude/` for changes:
 - **Config updates**: Settings changes reflected in UI
 - **500ms debounce**: Prevents excessive updates
 
-### File Editing
+### File editing
 
 Press `e` on any item to open in your preferred editor:
 
@@ -146,7 +146,7 @@ Press `e` on any item to open in your preferred editor:
 - Terminal state preserved (alternate screen mode)
 - Cross-platform (macOS, Linux, Windows)
 
-### MCP Server Management
+### MCP server management
 
 The MCP tab provides comprehensive server monitoring:
 
@@ -170,9 +170,9 @@ The MCP tab provides comprehensive server monitoring:
 - `o` : Reveal config in finder
 - `r` : Refresh server status
 
-## Usage Examples
+## Usage examples
 
-### Daily Monitoring
+### Daily monitoring
 
 ```bash
 # Launch dashboard
@@ -184,7 +184,7 @@ The MCP tab provides comprehensive server monitoring:
 # Press '7' for recent history
 ```
 
-### MCP Troubleshooting
+### MCP troubleshooting
 
 ```bash
 # Open MCP tab
@@ -197,7 +197,7 @@ The MCP tab provides comprehensive server monitoring:
 # Press 'r' to refresh status after changes
 ```
 
-### Session Analysis
+### Session analysis
 
 ```bash
 # Browse sessions
@@ -209,7 +209,7 @@ The MCP tab provides comprehensive server monitoring:
 # Press 'e' on session to view full JSONL
 ```
 
-### Cost Tracking
+### Cost tracking
 
 ```bash
 # View costs
@@ -223,7 +223,7 @@ The MCP tab provides comprehensive server monitoring:
 # Track cache efficiency (99.9% hit rate)
 ```
 
-## Web Interface
+## Web interface
 
 Launch browser-based interface for remote monitoring:
 
@@ -305,7 +305,7 @@ ccboard --project ~/path/to/project
 - Check file permissions on `~/.claude/`
 - Restart ccboard if file system events missed
 
-## Advanced Usage
+## Advanced usage
 
 ### Command-line Options
 
@@ -318,7 +318,7 @@ ccboard web --port 8080     # Web UI on port 8080
 ccboard both                # TUI + Web simultaneously
 ```
 
-### Environment Variables
+### Environment variables
 
 ```bash
 # Editor preference

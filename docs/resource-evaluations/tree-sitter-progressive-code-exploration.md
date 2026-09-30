@@ -1,4 +1,4 @@
-# Resource Evaluation: Tree-Sitter & AST-Based Progressive Code Exploration
+# Resource evaluation: Tree-Sitter & AST-based progressive code exploration
 
 **Resource**: Ecosystem of tools (Alex Newman's "smart explore" concept + implementations)
 **Type**: Pattern + MCP Servers + CLI Tool
@@ -8,7 +8,7 @@
 
 ---
 
-## Quick Summary
+## Quick summary
 
 **Score: 4/5** (High Value — Integrate within 1 week)
 
@@ -18,7 +18,7 @@ No single "official" implementation exists — Alex Newman's skill is private. B
 
 ---
 
-## The Pattern: Progressive Code Exploration
+## The pattern: Progressive code exploration
 
 Three layers, executed in order:
 
@@ -45,7 +45,7 @@ Same pattern that Aider (40k+ stars) uses for its repo map, validated at scale.
 
 ---
 
-## Tools Evaluated (March 2026)
+## Tools evaluated (March 2026)
 
 ### 1. jCodeMunch-MCP
 
@@ -161,7 +161,7 @@ claude plugin marketplace add tirth8205/code-review-graph
 
 ---
 
-## Comparison Table
+## Comparison table
 
 | Tool | Stars | Install | Token Claims | License | Use Case |
 |---|---|---|---|---|---|
@@ -173,7 +173,7 @@ claude plugin marketplace add tirth8205/code-review-graph
 
 ---
 
-## Relevance Assessment: 4/5
+## Relevance assessment: 4/5
 
 ### Why 4/5?
 
@@ -192,7 +192,7 @@ claude plugin marketplace add tirth8205/code-review-graph
 3. **grepai already does this partially**: The guide already recommends grepai for semantic code search. Tree-sitter adds structural awareness (not just semantic), but overlap is real.
 4. **MCP servers are early-stage**: mcp-server-tree-sitter has no benchmarks, CodeRLM has a known autonomy problem, jCodeMunch charges for commercial use.
 
-### Comparison with Existing Coverage
+### Comparison with existing coverage
 
 | Aspect | This pattern | Guide (v3.37.2) |
 |---|---|---|
@@ -206,9 +206,9 @@ claude plugin marketplace add tirth8205/code-review-graph
 
 ---
 
-## Integration Recommendations
+## Integration recommendations
 
-### What to Create
+### What to create
 
 **1. Skill file**: `examples/skills/smart-explore.md`
 
@@ -223,7 +223,7 @@ Content: Pattern explanation, decision matrix (when to use each tool), compariso
 
 **3. CHANGELOG entry** (this eval, not guide section yet)
 
-### Where in the Guide
+### Where in the guide
 
 The natural location is near the RTK and grepai sections. The guide uses RTK for command savings and grepai for semantic search — tree-sitter adds the structural layer between the two.
 
@@ -231,7 +231,7 @@ Draft section title: **"9.X.X Progressive Code Exploration (AST-Based)"** or add
 
 ---
 
-## Technical Notes (for Guide Writers)
+## Technical notes (for guide writers)
 
 ### What tree-sitter IS and ISN'T
 
@@ -257,7 +257,7 @@ Real-world reduction for typical feature work: **70-90%**. The 97% figures requi
 
 ---
 
-## Fact-Check
+## Fact-check
 
 | Claim | Source | Status | Notes |
 |---|---|---|---|

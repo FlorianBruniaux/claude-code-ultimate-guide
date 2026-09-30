@@ -4,13 +4,13 @@ description: "Master loop, tool categories, system prompt assembly, sub-agent is
 tags: [architecture, internals, master-loop, tools]
 ---
 
-# Architecture Internals
+# Architecture internals
 
 What happens under the hood when Claude Code runs.
 
 ---
 
-### The Master Loop
+### The master loop
 
 Claude Code's core execution is two nested loops: an **inner agent loop** that keeps calling the API as long as tool calls are returned, and an **outer conversation loop** that starts a new turn when the user responds.
 
@@ -83,7 +83,7 @@ Build prompt (system + context + tools)
 
 ---
 
-### Tool Categories & Selection
+### Tool categories & selection
 
 Claude Code has 6 tool categories, each optimized for different operations. Understanding which tool Claude chooses (and why) helps you write instructions that guide better tool selection.
 
@@ -188,7 +188,7 @@ CONTROL:  EnterPlanMode/ExitPlanMode, EnterWorktree/ExitWorktree, AskUserQuestio
 
 ---
 
-### System Prompt Assembly
+### System prompt assembly
 
 Before every API call, Claude Code assembles a system prompt from multiple sources in a specific order. The prompt is split into two cache zones separated by a boundary marker.
 
@@ -243,7 +243,7 @@ DYNAMIC zone (per-session cache):
 
 ---
 
-### Sub-Agent Context Isolation
+### Sub-Agent context isolation
 
 Sub-agents are completely isolated from the parent: they can't read the parent's conversation or modify parent state. This isolation is a feature (safety) and a constraint (intentional design).
 

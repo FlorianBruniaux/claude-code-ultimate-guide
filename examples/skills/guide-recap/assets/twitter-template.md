@@ -1,12 +1,12 @@
-# Twitter/X Template
+# Twitter/X template
 
 Two modes: single tweet (280 chars) or thread (2-3 tweets).
 
-## Single Tweet
+## Single tweet
 
 Use when: 1-2 highlights, simple version update.
 
-### FR Template
+### FR template
 
 ```
 {hook_line_fr}
@@ -16,7 +16,7 @@ Use when: 1-2 highlights, simple version update.
 {link}
 ```
 
-### EN Template
+### EN template
 
 ```
 {hook_line_en}
@@ -38,7 +38,7 @@ Use when: 1-2 highlights, simple version update.
 
 Use when: 3+ highlights, rich version/week.
 
-### FR Template
+### FR template
 
 ```
 Tweet 1/N:
@@ -63,7 +63,7 @@ Tweet 3/N (optional):
 {link}
 ```
 
-### EN Template
+### EN template
 
 ```
 Tweet 1/N:
@@ -88,7 +88,7 @@ Tweet 3/N (optional):
 {link}
 ```
 
-## Field Rules
+## Field rules
 
 ### hook_line (max 100 chars)
 
@@ -126,7 +126,7 @@ EN: "All open source"
 
 GitHub repo URL. Counts toward 280 char limit (23 chars for t.co).
 
-## Decision: Single vs Thread
+## Decision: Single vs thread
 
 | Condition | Format |
 |-----------|--------|

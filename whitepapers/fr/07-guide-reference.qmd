@@ -65,7 +65,7 @@ Ces cinq principes ont émergé de milliers de sessions d'utilisation en product
 
 Ces cinq règles forment le socle sur lequel repose tout le reste de ce guide. Les Parties I à IV les déclinent en pratiques concrètes : la Partie I vous apprend à formuler vos demandes (règle 3) et à gérer le contexte (règle 2), la Partie II à configurer votre mémoire projet (règle 4), la Partie III à structurer vos workflows Git (règle 5), et la Partie IV à maîtriser les risques (règle 1).
 
-## Comment Utiliser Ce Guide
+## Comment utiliser ce guide
 
 Ce guide de référence **synthétise plusieurs sujets de la série de 13 livres blancs** et **ajoute des chapitres inédits** sur la migration, l'IDE, Git, les patterns avancés, et les méthodologies.
 
@@ -94,13 +94,13 @@ Mon niveau ?
 
 # PARTIE I : MAÎTRISER LES BASES
 
-# Chapitre 1 : Prompts Efficaces
+# Chapitre 1 : Prompts efficaces
 
 *→ Pour approfondir : WP01 "Prompts qui Marchent"*
 
 Avant de configurer quoi que ce soit, il faut savoir parler à Claude Code. La qualité de vos prompts détermine directement la qualité des réponses et le nombre d'itérations nécessaires.
 
-## Le Problème : Prompts Vagues
+## Le problème : Prompts vagues
 
 Un développeur moyen passe **une part significative de son temps avec Claude Code** à reformuler des demandes (source : retour d'expérience communautaire). Pourquoi ? Des prompts trop vagues génèrent des réponses hors-sujet.
 
@@ -110,7 +110,7 @@ Un développeur moyen passe **une part significative de son temps avec Claude Co
 | "Add validation" | Validation trop basique ou trop complexe | 2-4 |
 | "Make it faster" | Optimisation du mauvais composant | 4-6 |
 
-## La Formule WHAT/WHERE/HOW/VERIFY
+## La formule WHAT/WHERE/HOW/VERIFY
 
 Une formule en 4 éléments pour des réponses précises du premier coup.
 
@@ -121,7 +121,7 @@ Une formule en 4 éléments pour des réponses précises du premier coup.
 | **HOW** | Comment procéder ? | Contraintes techniques, approche |
 | **VERIFY** | Comment savoir si c'est bon ? | Critères de succès mesurables |
 
-### Exemple Complet
+### Exemple complet
 
 **Avant** (vague) :
 
@@ -184,7 +184,7 @@ Analyse le code de paiement étape par étape :
 3. Propose des améliorations
 ```
 
-### Few-Shot Learning
+### Few-shot learning
 
 ```
 Renomme les variables selon ce pattern :
@@ -196,7 +196,7 @@ Applique à src/utils/helpers.ts
 
 {{< pagebreak >}}
 
-# Chapitre 2 : Migrer depuis Autres Outils
+# Chapitre 2 : Migrer depuis autres outils
 
 *Section inédite, non couverte dans les whitepapers*
 
@@ -216,7 +216,7 @@ Claude Code, GitHub Copilot et Cursor proposent des modes d’interaction et des
 
 Vous pouvez conserver un éditeur pour les complétions et utiliser un agent de terminal pour l’analyse ou les modifications, si le pilote le justifie. Consultez les documentations de [Claude Code](https://code.claude.com/docs/en/overview), [Copilot](https://docs.github.com/en/copilot) et [Cursor](https://docs.cursor.com/).
 
-## Migration Checklist
+## Migration checklist
 
 Les trois premières semaines sont la phase critique d'adoption. Cette checklist séquence les actions dans l'ordre optimal : fondamentaux d'abord, personnalisation ensuite, intégration avancée en dernier.
 
@@ -281,7 +281,7 @@ La fenêtre dépend du modèle et du fournisseur. Les modèles adaptatifs actuel
 
 Des pourcentages de remplissage peuvent servir de repères personnels ; ils ne prouvent pas un seuil universel de dégradation. Avant de compacter ou repartir, sauvegardez l’objectif, les décisions, les fichiers modifiés, les tests et le travail restant.
 
-## Commandes Qualité Code (v2.1.63)
+## Commandes qualité code (v2.1.63)
 
 Deux commandes bundlées ajoutées en v2.1.63 couvrent la qualité de code post-implémentation et les refactors massifs.
 
@@ -319,7 +319,7 @@ Deux commandes bundlées ajoutées en v2.1.63 couvrent la qualité de code post-
 | Workflow sur mesure avec coordination fine | Agent teams manuelles |
 :::
 
-## Auto-Compaction
+## Auto-compaction
 
 L’auto-compaction se déclenche selon l’espace restant et la configuration. Utilisez `/autocompact` pour les réglages pris en charge et `/compact` pour agir manuellement. N’ajoutez pas un objet `autoCompact.enabled/threshold` supposé dans les settings sans contrat documenté.
 
@@ -414,7 +414,7 @@ Les conventions Git (Conventional Commits, feature branches, pré-commit checks)
 
 → Voir **Chapitre 7 : Git Best Practices** pour le template complet et les exemples.
 
-## Erreurs Courantes
+## Erreurs courantes
 
 Les trois erreurs ci-dessous reviennent systématiquement dans les retours de la communauté. Elles sont toutes évitables avec un minimum de discipline dès la première semaine d'utilisation.
 
@@ -426,13 +426,13 @@ Les trois erreurs ci-dessous reviennent systématiquement dans les retours de la
 
 {{< pagebreak >}}
 
-# Chapitre 5 : Agents, Skills
+# Chapitre 5 : Agents, skills
 
 *→ Pour approfondir : WP02 "Personnalisation"*
 
 Le CLAUDE.md définit *ce que* Claude Code sait de votre projet. Les extensions (Commands, Skills, Agents) définissent *comment* il agit. C'est la différence entre donner des instructions à un collaborateur et lui donner des outils dédiés.
 
-## Quand Utiliser Quoi
+## Quand utiliser quoi
 
 Le choix entre skill user-invocable, skill model-invocable et agent dépend de la façon dont le comportement doit être déclenché et du besoin en isolation de contexte. Un skill user-invocable est un prompt réutilisable déclenché manuellement ; un skill model-invocable embarque ses propres fichiers de référence et s'active automatiquement ; un agent incarne une persona spécialisée avec des instructions comportementales dédiées.
 
@@ -442,7 +442,7 @@ Le choix entre skill user-invocable, skill model-invocable et agent dépend de l
 | **Skill (model-invocable)** | Connaissance chargée selon le contexte | `security-guardian`, TDD |
 | **Agent** | Persona spécialisé pour un domaine | Security Auditor, DBA Expert |
 
-## Slash Commands
+## Slash commands
 
 ### Anatomie d'un Skill user-invocable
 
@@ -523,7 +523,7 @@ effort: high
 
 Les modèles adaptatifs actuels acceptent les niveaux documentés dans la section modèles ; Haiku 4.5 ne prend pas en charge ce paramètre. `${CLAUDE_EFFORT}` peut être référencé dans le corps du skill, mais n’est pas une valeur de remplacement à mettre dans le champ `effort`.
 
-### Bundled Resources
+### Bundled resources
 
 Les skills peuvent inclure des fichiers :
 
@@ -535,7 +535,7 @@ Les skills peuvent inclure des fichiers :
     └── patterns.json
 ```
 
-## Agents Custom
+## Agents custom
 
 Les agents custom définissent un persona spécialisé avec un comportement dédié à un domaine précis. Contrairement aux Commands qui encapsulent une action, un agent incarne une expertise : il a une méthodologie propre, des outils autorisés spécifiques, et un format de sortie standardisé.
 
@@ -603,11 +603,11 @@ Dans le terminal intégré, lancez `claude` depuis le dépôt puis inspectez la 
 
 Un panneau d’éditeur et un terminal côte à côte permettent de relire le code, les différences et les résultats de tests dans le même espace de travail.
 
-## Terminal Integration
+## Terminal integration
 
 Pour un workflow natif terminal :
 
-### macOS/Linux (Bash/Zsh)
+### macOS/Linux (bash/zsh)
 
 ```bash
 # Ajouter à .bashrc ou .zshrc
@@ -639,7 +639,7 @@ function cq {
 }
 ```
 
-## Workflow Split Terminal
+## Workflow split terminal
 
 Le split terminal est le setup le plus adopté par les utilisateurs avancés de Claude Code. Il élimine le changement de fenêtre et permet de voir simultanément le code modifié et la conversation avec Claude. Cette configuration fonctionne avec n'importe quel éditeur disposant d'un terminal intégré ou avec un multiplexeur comme tmux.
 
@@ -669,13 +669,13 @@ Le split terminal est le setup le plus adopté par les utilisateurs avancés de 
 
 Les Parties I et II vous ont donné les bases et les outils de personnalisation. La Partie III entre dans les workflows concrets : comment Claude Code s'intègre dans vos pratiques Git, quels patterns avancés exploiter, et quelle méthodologie choisir selon votre contexte.
 
-# Chapitre 7 : Git Best Practices
+# Chapitre 7 : Git best practices
 
 *Section inédite, non couverte dans les whitepapers*
 
 Claude Code interagit directement avec Git : il crée des commits, gère des branches, et peut même amender l'historique. Ces capacités sont puissantes, mais nécessitent des garde-fous clairs pour éviter les accidents.
 
-## Commit Messages
+## Commit messages
 
 Claude Code génère les commit messages automatiquement. Guidez-le avec un contexte clair.
 
@@ -723,7 +723,7 @@ Une branche organise l’historique ; elle ne sauvegarde pas automatiquement les
 
 Rewind n’annule pas les effets Bash, les appels API, les écritures externes ou tous les changements manuels. Le choix ne se réduit donc pas à « avant commit / après commit ».
 
-## Git Worktrees
+## Git worktrees
 
 Les worktrees permettent de travailler sur plusieurs branches simultanément. C'est une fonctionnalité Git souvent méconnue qui prend tout son sens avec Claude Code : vous pouvez lancer une session Claude par worktree et avancer sur plusieurs fronts en parallèle.
 
@@ -778,7 +778,7 @@ claude                    # Continuer la feature
 
 Les patterns de ce chapitre sont le fruit de retours d'expérience de la communauté Claude Code. Ils couvrent deux axes : accélérer les boucles de feedback (pour détecter les erreurs plus tôt) et structurer les interactions avec Claude (pour des résultats plus prévisibles).
 
-## Tight Feedback Loops
+## Tight feedback loops
 
 Les boucles de feedback rapides accélèrent l'apprentissage et détectent les problèmes tôt.
 
@@ -838,11 +838,11 @@ fi
 
 PostToolUse intervient après l’édition ; son retour informe Claude mais n’annule pas l’écriture. Adaptez la commande aux scripts et à la structure de votre projet.
 
-## Todo as Instruction Mirrors
+## Todo as instruction mirrors
 
 TodoWrite dépasse le simple tracking : c'est un mécanisme d'instruction. Des todos bien écrits guident l'exécution de Claude.
 
-### Le Principe Mirror
+### Le principe mirror
 
 ```
 ❌ Todo Vague → Exécution Vague
@@ -871,7 +871,7 @@ TodoWrite dépasse le simple tracking : c'est un mécanisme d'instruction. Des t
 | Feature | 3-5 todos | Auth flow steps |
 | Epic | 10+ todos | Full feature avec tests |
 
-## Output Styles
+## Output styles
 
 Contrôlez comment Claude répond pour matcher vos préférences workflow.
 
@@ -906,9 +906,9 @@ Explain each step. Include alternatives considered.
 Link to documentation for concepts used.
 ````
 
-## Vibe Coding & Skeleton Projects
+## Vibe coding & skeleton projects
 
-### Vibe Coding
+### Vibe coding
 
 "Vibe Coding" = prototypage rapide via conversation naturelle, explorer des idées avant de s'engager.
 
@@ -925,7 +925,7 @@ Link to documentation for concepts used.
 3. **Focus apprentissage** : Comprendre l'approche
 4. **Signal clair** : "This is vibe code, not for production"
 
-### Skeleton Projects
+### Skeleton projects
 
 Templates minimaux et fonctionnels qui établissent les patterns avant implémentation complète.
 
@@ -936,11 +936,11 @@ Templates minimaux et fonctionnels qui établissent les patterns avant implémen
 3. **Patterns, pas features** : Montre COMMENT, pas QUOI
 4. **Dépendances minimales** : Seulement le nécessaire
 
-## Batch Operations
+## Batch operations
 
 Les opérations batch améliorent l'efficacité et réduisent l'usage contexte pour des changements similaires.
 
-### Quand Batcher
+### Quand batcher
 
 | Scénario | Batch? | Pourquoi |
 |----------|--------|----------|
@@ -949,7 +949,7 @@ Les opérations batch améliorent l'efficacité et réduisent l'usage contexte p
 | Fixes non liés | Non | Risque d'erreurs |
 | Refactoring complexe | Peut-être | Dépend du pattern |
 
-### Pattern Import Updates
+### Pattern import updates
 
 ````markdown
 Update all imports in src/components/:
@@ -968,7 +968,7 @@ Apply to all .tsx files in the directory.
 
 Les patterns du Ch.8 couvrent le "comment interagir" avec Claude Code au quotidien. Ce chapitre prend du recul pour aborder le "comment structurer" un projet entier avec Claude Code. Le choix de méthodologie détermine si vous exploitez pleinement les capacités de l'outil ou si vous passez à côté de son potentiel.
 
-## Decision Tree : Quelle Méthodologie ?
+## Decision tree : Quelle Méthodologie ?
 
 Le choix d'une méthodologie dépend de votre objectif principal, pas de la taille du projet. Un même projet peut combiner plusieurs méthodologies (TDD pour le code critique, SDD pour les APIs, Iterative Refinement pour le prototypage). L'arbre ci-dessous donne le point d'entrée le plus naturel selon votre besoin immédiat.
 
@@ -1007,7 +1007,7 @@ Les 15 méthodologies sont organisées en 6 tiers selon leur niveau d'abstractio
 
 **SDD (Spec-Driven Development)** : spécifications AVANT code. Définissez les critères d’acceptation et gardez les spécifications synchronisées. CLAUDE.md porte les instructions du dépôt ; il ne remplace pas automatiquement une spécification fonctionnelle.
 
-### Tier 3 : Behavior & Acceptance
+### Tier 3 : Behavior & acceptance
 
 | Nom | Quoi | Pour | Claude Fit |
 |-----|------|------|------------|
@@ -1025,7 +1025,7 @@ Feature: Order Management
     Then system refuses with error message
 ```
 
-### Tier 4 : Feature Delivery
+### Tier 4 : Feature delivery
 
 | Nom | Quoi | Pour | Claude Fit |
 |-----|------|------|------------|
@@ -1055,7 +1055,7 @@ Avec Claude : Soyez explicite. "Write FAILING tests that don't exist yet."
 | **Iterative Loops** | Raffinement autonome | Optimisation | Core |
 | **Prompt Engineering** | Foundation technique | Tout | Prérequis |
 
-## SDD Tools Reference
+## SDD tools reference
 
 Plusieurs outils open-source se sont structurés autour du SDD pour automatiser la génération et la validation de spécifications avec Claude Code. Spec Kit cible les projets greenfield avec gouvernance intégrée, OpenSpec les projets existants qui évoluent par incréments, et Specmatic la validation de contrats API.
 
@@ -1065,11 +1065,11 @@ Plusieurs outils open-source se sont structurés autour du SDD pour automatiser 
 | **OpenSpec** | Brownfield, changes | `/openspec:proposal`, `/openspec:apply` |
 | **Specmatic** | API contract testing | MCP agent available |
 
-## Writing Effective Specs
+## Writing effective specs
 
 > Basé sur l'analyse de fichiers de configuration d'agents issus de la communauté.
 
-### Les 6 Composants Essentiels
+### Les 6 composants essentiels
 
 | Composant | Quoi Inclure | Exemple |
 |-----------|--------------|---------|
@@ -1080,7 +1080,7 @@ Plusieurs outils open-source se sont structurés autour du SDD pour automatiser 
 | **Git workflow** | Branch, commit, PR format | `feat/name`, conventional commits |
 | **Boundaries** | Tiers de permission | Always / Ask / Never |
 
-### Curse of Instructions
+### Curse of instructions
 
 ::: {.callout-warning title="Curse of Instructions"}
 La recherche montre que **plus d'instructions = moins d'adhérence** à chacune. Au-delà d'un certain seuil, chaque instruction ajoutée dilue l'attention portée aux autres.
@@ -1254,7 +1254,7 @@ claude mcp list
 
 Vérifiez `/mcp`, les permissions, les identifiants et les destinations réseau. Les champs arbitraires `required` et `recommended` ne constituent pas une configuration MCP native.
 
-## Adoption Progressive
+## Adoption progressive
 
 L'adoption imposée par le haut échoue presque systématiquement. Le déploiement progressif en trois phases permet à l'équipe de s'approprier l'outil sur des cas concrets avant la généralisation.
 
@@ -1302,7 +1302,7 @@ Mesurer l'adoption sans métriques concrètes mène à des décisions subjective
 
 # ANNEXES
 
-# Annexe A : Features v2.x Essentielles
+# Annexe A : Features v2.x essentielles
 
 *Features clés introduites avec Claude Code v2.0+*
 
@@ -1310,7 +1310,7 @@ Mesurer l'adoption sans métriques concrètes mène à des décisions subjective
 
 **But** : suivi persistant avec dépendances. Sur les modèles récents, activer `CLAUDE_CODE_ENABLE_TODO_TOOLS=1`. Les états sont `pending`, `in_progress` et `completed`.
 
-### Usage Basique
+### Usage basique
 
 ```bash
 # Créer une tâche
@@ -1332,7 +1332,7 @@ You: "Mark task #1 as done"
 | Travail en équipe | Partager todo list avec collègues |
 | Projets longs | Tracking progression sur semaines/mois |
 
-### Exemple Avancé
+### Exemple avancé
 
 ```
 You: Create 3 tasks with dependencies:
@@ -1401,7 +1401,7 @@ Workflow:
 3. Security reviews both for vulnerabilities
 ```
 
-### Quand Utiliser
+### Quand utiliser
 
 - Projets full-stack (frontend + backend + infra) | Revues multi-perspectives | Refactoring complexe
 
@@ -1429,7 +1429,7 @@ Workflow:
 
 Nommez les sessions avec `claude --name auth-feature` et reprenez-les avec `--continue` ou `--resume`. Les notes mémoire et les transcriptions sont deux mécanismes distincts.
 
-## Session Forking
+## Session forking
 
 `/branch` crée une branche de conversation. `/fork` copie la conversation vers une session en arrière-plan tout en conservant la session courante. Ces opérations ne créent pas automatiquement une isolation du système de fichiers ou des effets externes ; utilisez des worktrees et des responsabilités distinctes pour comparer des implémentations concurrentes.
 
@@ -1498,7 +1498,7 @@ Claude génère un lien temporaire. En scannant ce lien depuis votre téléphone
 
 {{< pagebreak >}}
 
-# Annexe B : Commandes & Raccourcis
+# Annexe B : Commandes & raccourcis
 
 ## Arbre de Décision : Quel Outil pour Ce Problème ?
 
@@ -1552,7 +1552,7 @@ Cette liste regroupe les commandes et raccourcis qui couvrent plus de 90% des in
 | 19 | `Ctrl+R` | Rechercher dans l'historique des prompts |
 | 20 | `Tab` | Autocomplete commandes et chemins |
 
-## Commandes Essentielles
+## Commandes essentielles
 
 Ces huit commandes forment le vocabulaire de base de toute session Claude Code. Elles couvrent la gestion du contexte (`/compact`, `/clear`), la planification (`/plan`, puis l'approbation du plan pour sortir du mode), la récupération d'erreurs (`/rewind`), et le monitoring (`/help`, `/status`, `/context`).
 
@@ -1680,7 +1680,7 @@ Sources : [Configuration des modèles](https://code.claude.com/docs/en/model-con
 
 Dates de connaissance fiables : juin 2026 pour Opus 5.5 et Fable 5.1, janvier 2026 pour Sonnet 5, février 2025 pour Haiku 4.5.
 
-## Raccourcis Clavier
+## Raccourcis clavier
 
 `Shift+Tab` parcourt les modes disponibles dans la session. Les modes documentés incluent `default`, `acceptEdits`, `plan`, `auto`, `dontAsk` et `bypassPermissions`, sous réserve du compte et des politiques. Le mode plan permet l’exploration avec des restrictions ; il n’interdit pas toute exécution de lecture.
 
@@ -1759,9 +1759,9 @@ Cela accélère significativement la création de worktrees sur les dépôts ave
 
 {{< pagebreak >}}
 
-# Annexe C : Checklists par Profil
+# Annexe C : Checklists par profil
 
-## Junior Developer (Semaine 1)
+## Junior developer (semaine 1)
 
 L'objectif de la première semaine est d'acquérir les réflexes fondamentaux : toujours review les diffs, surveiller le contexte, et comprendre que Claude propose mais ne décide pas. Ne cherchez pas à tout maîtriser -- concentrez-vous sur les 6 points ci-dessous.
 
@@ -1774,7 +1774,7 @@ L'objectif de la première semaine est d'acquérir les réflexes fondamentaux : 
 □ Créer un CLAUDE.md projet basique
 ````
 
-## Intermediate Developer (Semaine 2-4)
+## Intermediate developer (semaine 2-4)
 
 À ce stade, vous devriez être à l'aise avec les interactions de base. L'enjeu des semaines 2 à 4 est de passer de l'usage ponctuel à un workflow structuré : commandes custom, hooks de validation, et un premier agent spécialisé pour vos tâches récurrentes.
 
@@ -1787,7 +1787,7 @@ L'objectif de la première semaine est d'acquérir les réflexes fondamentaux : 
 □ Au moins un agent custom créé
 ````
 
-## Power User (Mois 1+)
+## Power user (mois 1+)
 
 Le cap du Power User se franchit quand Claude Code s'intègre naturellement dans votre workflow quotidien sans friction. Les MCP servers, les hooks de sécurité, et une méthodologie choisie (TDD, SDD) transforment l'outil d'un assistant occasionnel en partenaire de développement permanent.
 
@@ -1800,7 +1800,7 @@ Le cap du Power User se franchit quand Claude Code s'intègre naturellement dans
 □ Contribution au CLAUDE.md équipe
 ````
 
-## Tech Lead / Architect
+## Tech lead / architect
 
 Le rôle du Tech Lead est de transformer l'usage individuel en pratique d'équipe cohérente. Cela implique de standardiser la configuration (CLAUDE.md projet), d'enforcer les garde-fous (hooks de sécurité), et de mesurer l'impact réel sur la productivité et la qualité du code.
 
@@ -1815,7 +1815,7 @@ Le rôle du Tech Lead est de transformer l'usage individuel en pratique d'équip
 
 {{< pagebreak >}}
 
-# Annexe D : Index des Whitepapers
+# Annexe D : Index des whitepapers
 
 Treize livres blancs sont disponibles sur la [page de la série](https://cc.bruniaux.com/whitepapers/). Leur pagination dépend de la version rendue.
 
@@ -1852,7 +1852,7 @@ Selon votre objectif immédiat, vous n'avez pas besoin de lire les 13 livres bla
 
 # Annexe E : Ressources
 
-## Documentation Officielle
+## Documentation officielle
 
 | Ressource | Contenu | Lien |
 |-----------|---------|------|

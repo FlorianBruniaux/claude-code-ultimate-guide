@@ -1,4 +1,4 @@
-# Moved to Skills
+# Moved to skills
 
 This command was migrated to a skill in Claude Code 2.1.3. See: [`examples/skills/commit/SKILL.md`](../skills/commit/SKILL.md)
 

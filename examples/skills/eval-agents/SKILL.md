@@ -6,13 +6,13 @@ effort: medium
 argument-hint: "[path to agents dir, default: .claude/agents/ and .codex/agents/]"
 ---
 
-# Agent Evaluator
+# Agent evaluator
 
 Discover every custom agent in scope, validate it against the native schema of its host, score it, then review it with the user one agent at a time.
 
 Agents are selected by the parent agent from their `description`. A vague or overlapping description makes delegation unpredictable, so overlap is a correctness defect, not a style issue. The goal is to leave every agent loadable, distinct, correctly modeled, and safe to delegate to.
 
-## When to Use
+## When to use
 
 - Auditing an agent fleet before wiring it into a delegation or orchestration workflow
 - The parent agent keeps delegating to the wrong agent, or never delegates
@@ -22,7 +22,7 @@ Agents are selected by the parent agent from their `description`. A vague or ove
 
 Not for: skills (`eval-skills`), hooks (`eval-hooks`), Claude Code rules (`eval-rules`), or a cross-host configuration health report (`eval-agent-config`).
 
-## Host Reference
+## Host reference
 
 ### Claude Code: where agents load
 
@@ -108,7 +108,7 @@ The runtime removes these tools from every non-fork subagent, even when listed i
 
 A Markdown agent with YAML frontmatter, or a TOML file using `prompt` instead of `developer_instructions`, is a Claude-shaped definition and does not satisfy the Codex schema.
 
-## Scoring Criteria
+## Scoring criteria
 
 ### Claude Code agents (15 pts)
 
@@ -146,7 +146,7 @@ Flag both directions: an under-powered model for judgment work, and an over-powe
 
 Subagents do not get `AskUserQuestion` or plan-mode tools, and by default they run in the background. Any system prompt instruction such as "ask the user", "confirm before deleting", or "wait for approval" cannot be carried out. Safe alternative: "If context is insufficient, return `{ "status": "needs_context", "missing": [...] }` and stop."
 
-## Execution Instructions
+## Execution instructions
 
 ### Step 1: Discovery
 
@@ -252,7 +252,7 @@ End with a change summary: files edited, agents flagged stale (not deleted witho
 
 Done when: the report lists every scanned file, including skipped ones.
 
-## Edge Cases
+## Edge cases
 
 - **`tools` omitted**: the agent inherits the subagent tool pool. Not a load error; flag it for review when the agent does not need write or shell access.
 - **`model` omitted**: resolution falls through to `CLAUDE_CODE_SUBAGENT_MODEL` or the main conversation's model. Report the effective source.

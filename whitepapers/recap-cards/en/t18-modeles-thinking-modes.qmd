@@ -14,7 +14,7 @@ format:
   recap-card-typst: default
 ---
 
-## Current Models
+## Current models
 
 Standard API rates, verified September 24, 2026. USD per million input/output tokens, excluding caching.
 
@@ -27,7 +27,7 @@ Standard API rates, verified September 24, 2026. USD per million input/output to
 
 Sonnet's published rate remains $2/$10 after the launch promotion. Opus 5.5 is the direct-service default; account policy can override it. Model choice does not establish a typical task cost.
 
-## Select and Save
+## Select and save
 
 `/model` opens the picker. **Enter** saves a default; **s** applies it to this session only. `claude --model sonnet` applies to the launched session. Project and managed settings can reapply at the next launch.
 
@@ -39,7 +39,7 @@ Aliases depend on the provider. `opus` maps to 5.5 on most providers, but 4.6 on
 #colbreak()
 ```
 
-## Thinking and Effort
+## Thinking and effort
 
 Opus 5.5, Sonnet 5, and Fable 5.1 use adaptive thinking. Haiku 4.5 supports extended thinking but has **no effort parameter**.
 
@@ -51,7 +51,7 @@ Current adaptive models support `low`, `medium`, `high`, `xhigh`, and `max`. Opu
 
 `ultrathink` adds a reasoning instruction without changing API effort. `think hard` is ordinary prompt text.
 
-## Choose by Measured Results
+## Choose by measured results
 
 Evaluate Haiku on bounded tasks, Sonnet on routine work, and Opus or Fable on harder tasks. Compare accepted outcomes, retries, latency, and total cost on the same task set. Teammates can use different models.
 

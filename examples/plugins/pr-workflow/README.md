@@ -1,4 +1,4 @@
-# PR Workflow Plugin
+# PR workflow plugin
 
 Automated pull request review and validation system.
 
@@ -15,7 +15,7 @@ bash install.sh
 - **/pr command**: Quick PR preparation workflow
 - **pre-pr-check hook**: Validate changes before PR creation
 
-## Quick Start
+## Quick start
 
 ```bash
 # Review an existing PR
@@ -37,7 +37,7 @@ bash install.sh
 ✓ Automated suggestions
 ✓ Team notifications
 
-## See Also
+## See also
 
 - `guide/workflows/code-review.md` — Full review workflow documentation
 - `/security-check` — Security-specific PR review

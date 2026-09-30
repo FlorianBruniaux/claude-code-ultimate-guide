@@ -14,7 +14,7 @@ format:
   recap-card-typst: default
 ---
 
-## Fast Mode on Opus 5.5
+## Fast mode on Opus 5.5
 
 Fast mode uses faster serving of the same model. Anthropic advertises **up to 2.5 times faster output**, not a guarantee for every request. Claude Code selects Opus 5.5 for fast mode from v2.1.280.
 
@@ -25,7 +25,7 @@ Fast mode uses faster serving of the same model. Anthropic advertises **up to 2.
 
 Opus 5 and Opus 4.8 also support fast mode at $10/$50. Sonnet and Haiku do not. Opus 4.7 is no longer supported in fast mode.
 
-## Activation and Billing
+## Activation and billing
 
 Use `/fast` or `Option+O` / `Alt+O`. The choice normally persists between sessions; organization settings and availability still apply. Subscription fast mode uses usage credits, not the included subscription allowance.
 
@@ -35,7 +35,7 @@ Compare observed latency and cost on the same task. Faster output does not remov
 #colbreak()
 ```
 
-## API Integration
+## API integration
 
 Use the current [API fast-mode instructions](https://platform.claude.com/docs/en/build-with-claude/fast-mode) for supported model IDs, headers, request fields, and fallback behavior. Do not copy an older beta example without checking SDK compatibility.
 
@@ -53,7 +53,7 @@ response = client.messages.create(
 
 This is a standard-speed example. Opus 5.5 defaults to medium effort in Claude Code; the example explicitly asks for high.
 
-## Migrating Older Examples
+## Migrating older examples
 
 Opus 4.6 removed assistant prefill. For schema-constrained JSON, use `output_config.format`; for strict tool inputs, put `strict: true` on the tool definition. A system instruction alone does not guarantee valid JSON.
 

@@ -4,7 +4,7 @@ description: "Scale CLAUDE.md across a multi-developer team using Profile-Based 
 tags: [workflow, team, claude-md, configuration]
 ---
 
-# Team AI Instructions Management
+# Team AI instructions management
 
 Manage AI instructions (CLAUDE.md, .cursorrules) across a team without fragmentation.
 
@@ -41,7 +41,7 @@ Week 12: 5 developers, 5 different CLAUDE.md files, nobody knows what's canonica
 
 ---
 
-## Architecture Overview
+## Architecture overview
 
 ```
 profiles/                    modules/
@@ -70,7 +70,7 @@ output/
 
 ---
 
-## Phase 1: Audit Your Current CLAUDE.md
+## Phase 1: Audit your current CLAUDE.md
 
 **Goal**: Classify every line as universal, conditional, or personal.
 
@@ -103,7 +103,7 @@ wc -l CLAUDE.md  # Total lines before modularization
 
 ---
 
-## Phase 2: Extract Modules
+## Phase 2: Extract modules
 
 **Goal**: One `.md` file per thematic group.
 
@@ -141,7 +141,7 @@ modules/
 
 ---
 
-## Phase 3: Create Developer Profiles
+## Phase 3: Create developer profiles
 
 **Goal**: One YAML per developer, listing their modules.
 
@@ -175,7 +175,7 @@ preferences:
 
 ---
 
-## Phase 4: Write the Assembler Script
+## Phase 4: Write the assembler script
 
 **Goal**: Script that reads profile, injects modules, outputs CLAUDE.md.
 
@@ -218,7 +218,7 @@ Full template: [sync-script.ts](../../examples/team-config/sync-script.ts)
 
 ---
 
-## Phase 5: CI Drift Detection
+## Phase 5: CI drift detection
 
 **Goal**: Catch when output files are out of sync with profiles/modules.
 
@@ -260,7 +260,7 @@ jobs:
 
 ---
 
-## Phase 6: Onboarding New Developers
+## Phase 6: Onboarding new developers
 
 **Goal**: New dev gets their CLAUDE.md in under 5 minutes.
 
@@ -297,7 +297,7 @@ cp output/dave/CLAUDE.md .claude/CLAUDE.md
 
 ---
 
-## Scaling Thresholds
+## Scaling thresholds
 
 | Team size | Approach |
 |-----------|----------|
@@ -308,7 +308,7 @@ cp output/dave/CLAUDE.md .claude/CLAUDE.md
 
 ---
 
-## Measured Results
+## Measured results
 
 From a production team (5 developers, 3 tools, 2 OS):
 

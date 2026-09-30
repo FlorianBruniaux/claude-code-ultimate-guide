@@ -4,7 +4,7 @@ description: "Define specifications in CLAUDE.md before implementation for struc
 tags: [workflow, architecture, config]
 ---
 
-# Spec-First Development with Claude
+# Spec-First development with Claude
 
 > **Confidence**: Tier 2, validated by multiple production teams and aligns with official SDD guidance.
 
@@ -12,7 +12,7 @@ Define what you want in CLAUDE.md BEFORE asking Claude to build. One well-struct
 
 ---
 
-## Table of Contents
+## Table of contents
 
 1. [TL;DR](#tldr)
 2. [The Pattern](#the-pattern)
@@ -39,7 +39,7 @@ CLAUDE.md IS your spec file. Treat it as a contract.
 
 ---
 
-## The Pattern
+## The pattern
 
 Spec-First Development inverts the typical AI coding flow:
 
@@ -72,13 +72,13 @@ intent.md → spec.md → plan.md
 
 ---
 
-## Task Granularity: Sizing Work for Agents
+## Task granularity: Sizing work for agents
 
 Before writing the spec, verify the task is the right size. Agents work best with **vertical slices**: thin, end-to-end units that cut through all layers but implement exactly one complete user behavior (e.g. "password reset via email", not "authentication system").
 
 **Rule of thumb**: One agent session = one vertical slice. If the task description requires "and" between two user behaviors, split it.
 
-### PRD Quality Checklist
+### PRD quality checklist
 
 Run this before handing any task to an agent. Six dimensions to verify:
 
@@ -105,7 +105,7 @@ A task that fails 2+ dimensions needs rework before an agent touches it. The spe
 - Out of scope: OAuth, password reset, remember me"
 ```
 
-### Feature List: Machine-Readable Scope Control
+### Feature list: Machine-Readable scope control
 
 A feature list is a JSON file that tracks scope and completion state per feature across agent sessions. Unlike a PRD, which describes intent, a feature list is the agent's operational contract: it gets read at session start, updated at session end, and persists across handoffs.
 
@@ -147,9 +147,9 @@ The `evidence` field on `feat-001` shows exactly what ran and when. The `feat-00
 
 ---
 
-## CLAUDE.md Spec Templates
+## CLAUDE.md spec templates
 
-### Feature Spec (Most Common)
+### Feature spec (most common)
 
 ```markdown
 ## Feature: [Name]
@@ -179,7 +179,7 @@ The `evidence` field on `feat-001` shows exactly what ran and when. The `feat-00
 - Errors: 400 (validation), 404 (not found), 500 (server)
 ```
 
-### Architecture Spec
+### Architecture spec
 
 ```markdown
 ## Architecture: [Component Name]
@@ -209,7 +209,7 @@ Input → Validation → Processing → Output
 - Scalability: [Expected load, limits]
 ```
 
-### API Spec
+### API spec
 
 ```markdown
 ## API: [Endpoint Name]
@@ -251,9 +251,9 @@ Bearer token required. Scopes: `read:resource`, `write:resource`
 
 ---
 
-## Step-by-Step Workflow
+## Step-by-step workflow
 
-### Step 1: Write the Spec
+### Step 1: Write the spec
 
 Before any implementation request, add spec to CLAUDE.md:
 
@@ -278,7 +278,7 @@ Before any implementation request, add spec to CLAUDE.md:
 - [ ] Passwords hashed with cost factor 12
 ```
 
-### Step 2: Reference Spec in Prompt
+### Step 2: Reference spec in prompt
 
 ```
 Implement the User Authentication feature as specified in CLAUDE.md.
@@ -287,7 +287,7 @@ Follow the acceptance criteria exactly.
 
 Claude automatically reads CLAUDE.md and follows the spec.
 
-### Step 3: Verify Against Spec
+### Step 3: Verify against spec
 
 After implementation, verify:
 
@@ -297,7 +297,7 @@ Check off each acceptance criterion that's satisfied.
 List any gaps.
 ```
 
-### Step 4: Update Spec if Needed
+### Step 4: Update spec if needed
 
 If requirements change during implementation:
 
@@ -309,9 +309,9 @@ Then implement the rate limiting.
 
 ---
 
-## Integration with Tools
+## Integration with tools
 
-### With intent.md (Upstream Problem Statement)
+### With intent.md (upstream problem statement)
 
 Anthropic's [AI-native SDLC playbook](https://claude.com/blog/the-ai-native-sdlc-playbook) (2026) puts one document ahead of the spec: `intent.md` states the problem in natural language, written and gated by the person who owns the problem (usually a PM), before any technical framing exists. Claude only starts drafting `spec.md` once `intent.md` is approved.
 
@@ -339,7 +339,7 @@ Approved by: [PM name], [date]
 
 The gate is deliberately informal: a PM signs off on the problem statement, not on any implementation detail. Once approved, `spec.md` inherits the constraints and open questions as its starting boundary. `plan.md`, the third document in the chain, is the file-by-file implementation plan (Spec Kit's `/speckit.plan` output, or a standalone file when not using Spec Kit) with its own gate: a technical reviewer approves it before Claude writes any code.
 
-### With Spec Kit (Greenfield)
+### With Spec Kit (greenfield)
 
 ```bash
 # Install Spec Kit
@@ -365,7 +365,7 @@ openspec init
 /openspec:archive add-dark-mode     # Merge to specs
 ```
 
-### With BMAD-METHOD (Multi-Role Planning)
+### With BMAD-METHOD (multi-role planning)
 
 BMAD-METHOD ([bmad-code-org/BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD), 51,176 stars as of 2026-07-27) takes spec-first further: instead of one agent writing one plan, it runs 19+ role-specific agents (Analyst, PM, Architect, Dev, QA) through a planning chain, each producing a versioned artifact (Project Brief, PRD, Architecture Doc, UX spec) before a human signs off and any code gets written.
 
@@ -382,7 +382,7 @@ Use it when the task benefits from separating "what to build" (PM), "how to buil
 
 For the strategic case (when BMAD's governance overhead pays off versus when it doesn't) see [methodologies.md § Tier 1: Strategic Orchestration](../core/methodologies.md#tier-1-strategic-orchestration).
 
-### With Spec-Kitty (Isolated Parallel Execution)
+### With spec-kitty (isolated parallel execution)
 
 Spec-kitty ([Priivacy-ai/spec-kitty](https://github.com/Priivacy-ai/spec-kitty), MIT) adds the piece Spec Kit and BMAD-METHOD leave out: each work package runs in its own git worktree, with a local kanban dashboard tracking the `next → review → accept → merge` loop and an audit trail of every merge decision. Smaller community than Spec Kit or BMAD-METHOD (1,449 stars as of 2026-07-27), but it is the most direct open source implementation of "isolated agents, human-gated merge" available today.
 
@@ -390,7 +390,7 @@ Spec-kitty ([Priivacy-ai/spec-kitty](https://github.com/Priivacy-ai/spec-kitty),
 pipx install spec-kitty-cli
 ```
 
-### With Plan Mode
+### With plan mode
 
 ```
 [Press Shift+Tab to enter Plan Mode]
@@ -401,9 +401,9 @@ Review the spec in CLAUDE.md and create an implementation plan.
 
 ---
 
-## When to Use
+## When to use
 
-### Use Spec-First
+### Use spec-first
 
 | Scenario | Why |
 |----------|-----|
@@ -413,7 +413,7 @@ Review the spec in CLAUDE.md and create an implementation plan.
 | Team collaboration | Shared understanding |
 | Complex requirements | Reduce ambiguity |
 
-### Skip Spec-First
+### Skip spec-first
 
 | Scenario | Why |
 |----------|-----|
@@ -424,9 +424,9 @@ Review the spec in CLAUDE.md and create an implementation plan.
 
 ---
 
-## Anti-Patterns
+## Anti-patterns
 
-### Vague Specs
+### Vague specs
 
 ```markdown
 # Wrong
@@ -442,7 +442,7 @@ Review the spec in CLAUDE.md and create an implementation plan.
 - MUST NOT: Allow duplicate emails
 ```
 
-### Spec After Code
+### Spec after code
 
 ```
 # Wrong workflow
@@ -454,7 +454,7 @@ Review the spec in CLAUDE.md and create an implementation plan.
 2. Ask Claude to implement from spec
 ```
 
-### Ignoring Forbidden
+### Ignoring forbidden
 
 ```markdown
 # Don't forget exclusions
@@ -466,11 +466,11 @@ Review the spec in CLAUDE.md and create an implementation plan.
 
 ---
 
-## Modular Spec Design
+## Modular spec design
 
 **Pattern**: Break large specifications into multiple focused files instead of cramming everything into a single CLAUDE.md.
 
-### The Problem: Monolithic CLAUDE.md
+### The problem: Monolithic CLAUDE.md
 
 When specs exceed ~200 lines, several issues emerge:
 
@@ -479,7 +479,7 @@ When specs exceed ~200 lines, several issues emerge:
 - **Maintenance burden**: Updating one area requires navigating unrelated sections
 - **Performance degradation**: Large CLAUDE.md files slow down context loading and processing
 
-### When to Split
+### When to split
 
 | Threshold | Action |
 |-----------|--------|
@@ -488,7 +488,7 @@ When specs exceed ~200 lines, several issues emerge:
 | **>200 lines** | **Split immediately**: you're past the cognitive load threshold |
 | **Multi-team projects** | Split by domain/ownership regardless of size |
 
-### Split Strategies
+### Split strategies
 
 **1. Feature-Based Split**
 
@@ -517,7 +517,7 @@ CLAUDE-release.md      # Release process spec
 CLAUDE-security.md     # Security requirements
 ```
 
-### Implementation Pattern
+### Implementation pattern
 
 **Main CLAUDE.md** (stays concise):
 ```markdown
@@ -564,11 +564,11 @@ CLAUDE-security.md     # Security requirements
 
 ---
 
-## Operational Boundaries
+## Operational boundaries
 
 **Pattern**: Define explicit boundaries for what AI agents should do automatically, ask about, or never touch.
 
-### The Three-Tier System
+### The three-tier system
 
 Traditional specs use binary constraints (MUST/MUST NOT), but operational work requires three levels:
 
@@ -578,7 +578,7 @@ Traditional specs use binary constraints (MUST/MUST NOT), but operational work r
 | **Ask First** | Get user confirmation before proceeding | Default mode |
 | **Never** | Block or require Plan Mode | Plan mode / Hook blocking |
 
-### Operational Boundaries Template
+### Operational boundaries template
 
 ```markdown
 ## Boundaries
@@ -605,7 +605,7 @@ Traditional specs use binary constraints (MUST/MUST NOT), but operational work r
 - Bypass security checks
 ```
 
-### Mapping to Claude Code Permissions
+### Mapping to Claude Code permissions
 
 **Always → Permission Allowlist**:
 ```json
@@ -635,7 +635,7 @@ if [[ "$TOOL_NAME" == "Bash" ]] && [[ "$INPUT" =~ "git push origin main" ]]; the
 fi
 ```
 
-### Decision Framework
+### Decision framework
 
 Ask yourself for each action:
 1. **Can it cause data loss?** → Ask First or Never
@@ -644,7 +644,7 @@ Ask yourself for each action:
 4. **Is it a security risk?** → Never
 5. **Is it part of the standard workflow?** → Always
 
-### Example: API Development
+### Example: API development
 
 ```markdown
 ### Always
@@ -677,15 +677,15 @@ Review boundaries quarterly:
 
 ---
 
-## Command Spec Template
+## Command spec template
 
 **Pattern**: Document executable commands with expected outputs and error handling.
 
-### Why Command Specs Matter
+### Why command specs matter
 
 Most specs focus on **features** ("build authentication"), but **commands** ("how to test authentication") are equally critical for AI agents.
 
-### Template Structure
+### Template structure
 
 ```markdown
 ## Commands
@@ -703,7 +703,7 @@ Most specs focus on **features** ("build authentication"), but **commands** ("ho
 ---
 ```
 
-### Example: Testing Commands
+### Example: Testing commands
 
 ```markdown
 ## Commands
@@ -740,7 +740,7 @@ Most specs focus on **features** ("build authentication"), but **commands** ("ho
 - `--project chromium`: Test specific browser
 ```
 
-### Example: Build & Deployment
+### Example: Build & deployment
 
 ```markdown
 ## Commands
@@ -777,7 +777,7 @@ Most specs focus on **features** ("build authentication"), but **commands** ("ho
 **Never**: Run `pnpm deploy:production` manually — use CI/CD only
 ```
 
-### Example: Database Commands
+### Example: Database commands
 
 ```markdown
 ## Commands
@@ -821,9 +821,9 @@ Reference command specs in your main CLAUDE.md:
 
 ---
 
-## Anti-Pattern: Monolithic CLAUDE.md
+## Anti-pattern: Monolithic CLAUDE.md
 
-### The Problem
+### The problem
 
 **Symptom**: Your CLAUDE.md has grown to 300+ lines, mixing feature specs, API contracts, testing requirements, deployment procedures, and team conventions.
 
@@ -834,7 +834,7 @@ Reference command specs in your main CLAUDE.md:
 - **Maintenance overhead**: Updating one section requires navigating unrelated content
 - **Team friction**: Multiple developers editing same file = merge conflicts
 
-### Real-World Example
+### Real-world example
 
 **Before** (monolithic):
 ```markdown
@@ -886,7 +886,7 @@ CLAUDE-security.md (55 lines) # Security requirements only
 
 **Benefit**: Claude loads CLAUDE.md (82 lines) + CLAUDE-api.md (67 lines) = 149 lines (61% reduction)
 
-### Split Strategy
+### Split strategy
 
 **Step 1: Identify Domains**
 
@@ -944,14 +944,14 @@ User: "Add a new API endpoint for user settings"
 Claude: Reads CLAUDE.md + @CLAUDE-api.md (relevant context only)
 ```
 
-### Maintenance Rules
+### Maintenance rules
 
 1. **Keep CLAUDE.md <100 lines** (core context only)
 2. **Domain files <150 lines each** (if bigger, split further)
 3. **Review quarterly**: Merge rarely-used files, split frequently-updated sections
 4. **Use @file references**: Explicitly load what you need
 
-### Migration Checklist
+### Migration checklist
 
 - [ ] Identify domains in current CLAUDE.md (>200 lines?)
 - [ ] Create domain-specific files (CLAUDE-[domain].md)
@@ -1059,7 +1059,7 @@ No tool has a reliable, widely-adopted mechanism for automated spec-code synchro
 
 ---
 
-## See Also
+## See also
 
 - [workflows/agentic-software-factories.md](./agentic-software-factories.md): orientation map covering the full spectrum from a single session to a closed platform, plus the decision tree for when a closed factory actually beats the native stack
 - [../core/methodologies.md](../core/methodologies.md): SDD and other methodologies

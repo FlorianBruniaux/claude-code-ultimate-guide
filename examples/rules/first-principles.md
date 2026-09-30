@@ -2,7 +2,7 @@
 description: "Session invariant template - hard constraints, quality thresholds, and anti-patterns that Claude must respect throughout a session"
 ---
 
-# First Principles: Session Invariants
+# First principles: Session invariants
 
 This is a template for the "Contract" layer of your Claude Code rules. These are constraints that must hold true for the entire session, regardless of which task is active or how much context has accumulated.
 
@@ -10,7 +10,7 @@ Customize the sections below to match your team's standards. Replace the example
 
 > **Why this matters**: As conversation context grows, earlier instructions lose influence on Claude's behavior. This is called "context decay." Session invariants placed in CLAUDE.md or rules files act as compression anchors that resist this decay, because they're injected at the start of every context window.
 
-## Hard Constraints
+## Hard constraints
 
 These rules never have exceptions. If Claude is about to violate one, it must stop and flag the conflict rather than proceeding.
 
@@ -38,7 +38,7 @@ These rules never have exceptions. If Claude is about to violate one, it must st
 - Never refactor code that isn't part of the current task (note it for later instead)
 ```
 
-## Quality Thresholds
+## Quality thresholds
 
 Thresholds beat vague adjectives. "Good coverage" means different things to different people; "80% line coverage" is unambiguous. Define your numbers here.
 
@@ -69,7 +69,7 @@ Thresholds beat vague adjectives. "Good coverage" means different things to diff
 - Maximum 3 direct dependencies per feature module
 ```
 
-## Workflow Invariants
+## Workflow invariants
 
 Process constraints that ensure consistency across the session, especially when switching between tasks or when sub-agents are involved.
 
@@ -92,7 +92,7 @@ Process constraints that ensure consistency across the session, especially when 
 - When hitting an unexpected error, diagnose before retrying
 ```
 
-## Anti-Patterns to Detect
+## Anti-patterns to detect
 
 Patterns Claude should flag when it encounters them in the codebase or in its own output. These work like automated code review rules, but for the AI's behavior during a session.
 
@@ -118,7 +118,7 @@ Patterns Claude should flag when it encounters them in the codebase or in its ow
 - Premature optimization: adding caching, lazy loading, or memoization without evidence of a perf problem
 ```
 
-## Mitigating Context Decay
+## Mitigating context decay
 
 Three practical strategies to keep these invariants effective across long sessions:
 

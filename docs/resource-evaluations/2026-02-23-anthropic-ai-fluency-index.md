@@ -1,4 +1,4 @@
-# Resource Evaluation: Anthropic AI Fluency Index
+# Resource evaluation: Anthropic AI Fluency index
 
 **URL**: https://www.anthropic.com/research/AI-fluency-index
 **Date evaluated**: 2026-02-23
@@ -7,7 +7,7 @@
 
 ---
 
-## 📄 Content Summary
+## 📄 Content summary
 
 - **Anthropic research** on 9,830 Claude.ai conversations over a 7-day window (January 2026)
 - **Framework**: 4D AI Fluency (24 behaviors total; 11 directly observable in conversation data)
@@ -32,7 +32,7 @@
 
 ---
 
-## ⚖️ Gap Analysis
+## ⚖️ Gap analysis
 
 | Aspect | This resource | Guide (before integration) |
 |--------|--------------|--------------------------|
@@ -45,7 +45,7 @@
 
 ---
 
-## 📍 Integration Applied
+## 📍 Integration applied
 
 ### 1. Rev the Engine section (~line 2522)
 **What**: Callout with 5.6× stat as empirical backing for plan review
@@ -55,7 +55,7 @@
 **What**: Callout with the 30% stat as motivation for explicit collaboration setup
 **Why**: The challenge agent correctly flagged this as belonging in the CLAUDE.md section, not generic prompting
 
-### 3. Common Pitfalls — Artifact Paradox (~line 13382)
+### 3. Common pitfalls — artifact paradox (~line 13382)
 **What**: Full callout with all data points + 5 concrete counter-measures
 **Why**: Core finding directly applicable to Claude Code's nominal use case (100% output = artifacts)
 
@@ -72,7 +72,7 @@ The challenge agent raised the score from 3/5 to **4/5** and identified:
 
 ---
 
-## ✅ Fact-Check
+## ✅ Fact-check
 
 | Claim | Verified | Source |
 |-------|----------|--------|
@@ -91,7 +91,7 @@ The challenge agent raised the score from 3/5 to **4/5** and identified:
 
 ---
 
-## 🎯 Final Decision
+## 🎯 Final decision
 
 - **Score**: 4/5
 - **Action**: Integrated (3 insertion points)

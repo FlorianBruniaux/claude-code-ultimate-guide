@@ -1,4 +1,4 @@
-# Resource Evaluation: Gang Rui's Tasks API Limitations Analysis
+# Resource evaluation: Gang rui's tasks API limitations analysis
 
 **Resource ID**: 016
 **Date Evaluated**: 2026-01-27
@@ -7,7 +7,7 @@
 
 ---
 
-## Resource Metadata
+## Resource metadata
 
 | Field | Value |
 |-------|-------|
@@ -31,7 +31,7 @@ Technical analysis of Claude Code Tasks API (v2.1.16+) field visibility limitati
 
 ## Score: 5/5 (CRITICAL)
 
-### Scoring Justification
+### Scoring justification
 
 **Why CRITICAL (not just "High Value")**:
 
@@ -53,7 +53,7 @@ Technical analysis of Claude Code Tasks API (v2.1.16+) field visibility limitati
 
 6. **Timing**: Discovered 2 days after Tasks API launch (v2.1.16: 2026-01-22), indicating early adopter friction. Integrating this feedback quickly prevents widespread frustration.
 
-### Score Calibration Reference
+### Score calibration reference
 
 | Score | Meaning | This Resource |
 |-------|---------|---------------|
@@ -63,9 +63,9 @@ Technical analysis of Claude Code Tasks API (v2.1.16+) field visibility limitati
 
 ---
 
-## Key Findings
+## Key findings
 
-### 1. Field Visibility Constraint
+### 1. Field visibility constraint
 
 **From post (exact quote)**:
 > "TaskList shows ID, subject, status, and blockedBy but NO description"
@@ -75,7 +75,7 @@ Technical analysis of Claude Code Tasks API (v2.1.16+) field visibility limitati
 - TaskList hidden: `description`, `activeForm`, `metadata` (all custom fields)
 - TaskGet outputs: All fields (full task object)
 
-### 2. Cost Impact
+### 2. Cost impact
 
 **Multi-call overhead pattern**:
 ```
@@ -88,7 +88,7 @@ Review N tasks with descriptions = 1 TaskList + N TaskGet calls
 - 20 tasks: 21 calls (21x)
 - 50 tasks: 51 calls (51x)
 
-### 3. Recommended Workaround
+### 3. Recommended workaround
 
 **From post (exact quote)**:
 > "Use tasks for status tracking, not knowledge storage. For implementation plans that persist across sessions, stick with markdown files in your repo."
@@ -97,7 +97,7 @@ Review N tasks with descriptions = 1 TaskList + N TaskGet calls
 - Tasks API → Status, dependencies, coordination
 - Markdown files → Detailed implementation plans, context notes
 
-### 4. Use Case Guidance
+### 4. Use case guidance
 
 **Good use cases** (from post):
 - Status tracking across sessions
@@ -111,9 +111,9 @@ Review N tasks with descriptions = 1 TaskList + N TaskGet calls
 
 ---
 
-## Gap Analysis
+## Gap analysis
 
-### What the Guide Currently Says
+### What the guide currently says
 
 **Section 3.2.2 (Task Management System)**:
 - ✅ Documents Tasks API capabilities (persistence, dependencies, status)
@@ -132,7 +132,7 @@ Review N tasks with descriptions = 1 TaskList + N TaskGet calls
 - ✅ Shows Tasks API commands
 - ❌ No mention of field visibility constraints
 
-### What This Resource Adds
+### What this resource adds
 
 1. **Factual constraint**: TaskList field visibility documented
 2. **Cost awareness**: Multi-call overhead quantified
@@ -141,9 +141,9 @@ Review N tasks with descriptions = 1 TaskList + N TaskGet calls
 
 ---
 
-## Integration Details
+## Integration details
 
-### Files Modified (2026-01-27)
+### Files modified (2026-01-27)
 
 | File | Section | Change Type |
 |------|---------|-------------|
@@ -154,7 +154,7 @@ Review N tasks with descriptions = 1 TaskList + N TaskGet calls
 | `machine-readable/reference.yaml` | Line 143-146 | Added 4 entries (limitations, field_visibility, cost_overhead, workarounds) |
 | `docs/resource-evaluations/` | New file | This evaluation document |
 
-### Content Added
+### Content added
 
 **Comparison table** (3 new rows):
 - Description visibility: TodoWrite ✅ vs Tasks API ⚠️ (TaskGet only)
@@ -188,7 +188,7 @@ Review N tasks with descriptions = 1 TaskList + N TaskGet calls
 
 ---
 
-## Fact-Check Results
+## Fact-check results
 
 | Claim | Verified | Source | Notes |
 |-------|----------|--------|-------|
@@ -208,9 +208,9 @@ Review N tasks with descriptions = 1 TaskList + N TaskGet calls
 
 ---
 
-## Impact Assessment
+## Impact assessment
 
-### If Integrated (Current State)
+### If integrated (current state)
 
 **User Experience**:
 - ✅ Users warned before hitting limitation
@@ -223,7 +223,7 @@ Review N tasks with descriptions = 1 TaskList + N TaskGet calls
 - ✅ Practitioner-validated (not just theory)
 - ✅ Actionable (3 workaround patterns provided)
 
-### If NOT Integrated (Risk Scenario)
+### If NOT integrated (risk scenario)
 
 **User Frustration** (High Risk):
 1. User follows guide: "TaskList to see current state"
@@ -248,7 +248,7 @@ Review N tasks with descriptions = 1 TaskList + N TaskGet calls
 
 ---
 
-## Technical Writer Challenge (Summary)
+## Technical writer challenge (summary)
 
 **Original evaluation**: 4/5 (High Value), integrate in 7 days
 
@@ -267,9 +267,9 @@ Review N tasks with descriptions = 1 TaskList + N TaskGet calls
 
 ---
 
-## Decision Rationale
+## Decision rationale
 
-### Why Integrate Immediately?
+### Why integrate immediately?
 
 1. **High impact**: Affects daily usage of new feature (v2.1.16, launched 5 days ago)
 2. **Trust critical**: Early warning prevents frustration, maintains guide credibility
@@ -277,7 +277,7 @@ Review N tasks with descriptions = 1 TaskList + N TaskGet calls
 4. **Practitioner validation**: Source is early adopter with real-world usage (not speculation)
 5. **Gap confirmation**: No existing section in guide mentions this limitation
 
-### Why CRITICAL Score?
+### Why CRITICAL score?
 
 Passes all 3 tests for critical integration:
 1. ✅ **Breaks workflow**: "TaskList → Show all tasks" is silently incomplete
@@ -303,7 +303,7 @@ Passes all 3 tests for critical integration:
 
 ---
 
-## Appendix: Evaluation Methodology
+## Appendix: Evaluation methodology
 
 **Process followed**:
 1. ✅ **Fetch & Summarize**: WebFetch LinkedIn post → Extract 5 key points

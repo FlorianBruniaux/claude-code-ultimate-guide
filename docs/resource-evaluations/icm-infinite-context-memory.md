@@ -1,4 +1,4 @@
-# Resource Evaluation: ICM (Infinite Context Memory)
+# Resource evaluation: ICM (infinite context memory)
 
 **Date**: 2026-03-14
 **URL**: https://github.com/rtk-ai/icm
@@ -12,7 +12,7 @@
 
 ICM is a persistent memory MCP server from the rtk-ai team (same authors as RTK/Rust Token Killer). It provides a dual memory architecture: "Memories" (episodic, configurable decay) and "Memoirs" (permanent knowledge graph with 9 typed relation types). Distributed as a single Rust binary with zero external dependencies, installable via Homebrew.
 
-### Key Points
+### Key points
 
 - Single Rust binary, SQLite, zero deps â€” Homebrew install
 - Dual architecture: episodic decay + permanent knowledge graph in one tool
@@ -37,7 +37,7 @@ ICM is a persistent memory MCP server from the rtk-ai team (same authors as RTK/
 
 ---
 
-## Comparison vs Existing Guide Content
+## Comparison vs existing guide content
 
 | Feature | doobidoo | Kairn | ICM |
 |---------|----------|-------|-----|
@@ -75,7 +75,7 @@ Note: The knowledge retention benchmark uses a sample of 10 questions on Haiku â
 
 ---
 
-## Fact-Check
+## Fact-check
 
 | Claim | Status | Source |
 |-------|--------|--------|
@@ -92,7 +92,7 @@ No hallucinations detected. All figures present in the source README.
 
 ---
 
-## License Note
+## License note
 
 Source-Available license. Free for individuals and teams of up to 20 people. **Enterprise license required for organizations above 20 people.** Contact: license@rtk.ai
 
@@ -100,12 +100,12 @@ This was flagged in the guide entry with an explicit callout. Teams should verif
 
 ---
 
-## Integration Location
+## Integration location
 
 - New section: `guide/ultimate-guide.md` after Kairn (~line 11365), before "MCP Memory Stack: Complementarity Patterns"
 - Comparison matrix updated: ICM column added with Runtime and License rows
 
-## Upgrade Trigger
+## Upgrade trigger
 
 Revisit for 4/5 if:
 - Benchmarks independently verified by community

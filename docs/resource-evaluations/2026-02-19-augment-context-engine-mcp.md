@@ -1,4 +1,4 @@
-# Evaluation: Augment Code - Context Engine MCP
+# Evaluation: Augment code - context engine MCP
 
 **Date**: 2026-02-19
 **Evaluator**: Claude Sonnet 4.6
@@ -8,7 +8,7 @@
 
 ---
 
-## Content Summary
+## Content summary
 
 Augment Code launched its Context Engine as a standalone MCP server on February 6, 2026. It provides semantic code search for any MCP-compatible coding agent (Claude Code, Cursor, Zed, Kilo Code, Roo Code, GitHub Copilot).
 
@@ -29,7 +29,7 @@ Augment Code launched its Context Engine as a standalone MCP server on February 
 
 ---
 
-## Fact-Check Results
+## Fact-check results
 
 | Claim | Source | Verdict |
 |-------|--------|---------|
@@ -40,7 +40,7 @@ Augment Code launched its Context Engine as a standalone MCP server on February 
 | **"400,000-500,000 file indexing"** | Augment comparison page | ✅ CONFIRMED via Perplexity |
 | **Model cited: "Claude Opus 4.6"** | Product page | ⚠️ DISCREPANCY — Perplexity sources + Augment blog consistently say "Claude Opus 4.5". The product page appears to have been updated after the original benchmark. The underlying benchmark used Opus 4.5. |
 
-### Factual Corrections
+### Factual corrections
 
 **Model version discrepancy**: The product page references "Claude Opus 4.6" but the original benchmark blog post (Feb 6, 2026) and all secondary sources reference "Claude Opus 4.5". The product page was likely updated to reflect the current model after the benchmark was run. This is a minor but notable inconsistency — the 80% figure comes from Opus 4.5 testing.
 
@@ -48,7 +48,7 @@ Augment Code launched its Context Engine as a standalone MCP server on February 
 
 ---
 
-## Gap Analysis: What the Guide Already Covers
+## Gap analysis: What the guide already covers
 
 The guide has strong coverage of the semantic code search MCP space:
 
@@ -87,7 +87,7 @@ The guide has strong coverage of the semantic code search MCP space:
 
 ---
 
-## Comparative Analysis: Augment vs Grepai vs Guide's Current Coverage
+## Comparative analysis: Augment vs grepai vs guide's current coverage
 
 | Dimension | Grepai (in guide) | Augment Context Engine | Winner for guide |
 |-----------|-------------------|----------------------|-----------------|
@@ -103,7 +103,7 @@ The guide has strong coverage of the semantic code search MCP space:
 
 ---
 
-## Integration Recommendation
+## Integration recommendation
 
 Score 3/5 — integrate as a documented alternative.
 
@@ -142,7 +142,7 @@ Indexes across multiple repos, wikis, and documentation sources via GitHub/GitLa
 
 ---
 
-## Final Decision
+## Final decision
 
 - **Score**: **3/5** (Relevant - integrate as secondary alternative)
 - **Action**: APPROVED for minimal integration in `mcp-servers-ecosystem.md`

@@ -5,17 +5,17 @@ allowed-tools: Write Read AskUserQuestion
 effort: high
 ---
 
-# Talk Stage 4: Position + CHECKPOINT
+# Talk stage 4: Position + CHECKPOINT
 
 Generates strategic angles, titles, descriptions, and a peer-feedback draft. Then **stops and waits** for your angle + title choice before Stage 5 can proceed.
 
-## When to Use This Skill
+## When to use this skill
 
 - After Stage 3 (Concepts), which provides the concept catalogue
 - When deciding how to frame the talk
 - Before sending the CFP (uses the generated descriptions directly)
 
-## What This Skill Does
+## What this skill does
 
 1. **Reads inputs**: summary + concepts + event constraints
 2. **Generates angles**: 3-4 distinct angles with strength/weakness analysis
@@ -173,7 +173,7 @@ Direct and factual tone.}
 {5-10 relevant tags for CFP or search}
 ```
 
-## CHECKPOINT (mandatory, Step 7)
+## CHECKPOINT (mandatory, step 7)
 
 After generating and saving the 4 files, display:
 
@@ -199,7 +199,7 @@ Reply to start the script.
 
 **Do not invoke Stage 5 without explicit user confirmation.**
 
-## Angle Generation Rules
+## Angle generation rules
 
 - Minimum 3 angles, maximum 4 (beyond that it's noise)
 - Each angle must be genuinely distinct (not variations of the same)
@@ -214,7 +214,7 @@ Reply to start the script.
 - Skipping the CHECKPOINT (it's the pipeline's most important control point)
 - Marketing language in descriptions (revolutionary, etc.)
 
-## Validation Checklist
+## Validation checklist
 
 - [ ] 3-4 angles with strength/weakness/audience-fit analysis
 - [ ] Clear recommendation with structured justification

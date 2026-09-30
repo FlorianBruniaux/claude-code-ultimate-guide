@@ -4,7 +4,7 @@ description: "JavaScript-orchestrated multi-agent pipelines with deterministic c
 tags: [workflow, agents, orchestration, parallel, ultracode]
 ---
 
-# Dynamic Workflows
+# Dynamic workflows
 
 > **JavaScript scripts that orchestrate tens to hundreds of subagents in one session**
 > **Introduced**: v2.1.154 (2026-05-28) | **Trigger keyword**: `ultracode` (renamed from `workflow` in v2.1.160, breaking change) | **Monitor**: `/workflows`
@@ -19,7 +19,7 @@ This page documents one Claude Code implementation surface. [Loop & Graph Engine
 
 ---
 
-## Table of Contents
+## Table of contents
 
 1. [When to use workflows (vs Agent tool vs Skills)](#1-when-to-use-workflows-vs-agent-tool-vs-skills)
 2. [Primitive reference](#2-primitive-reference)
@@ -345,7 +345,7 @@ const VERDICT_SCHEMA = {
 };
 ```
 
-### Discovery → Understand → Plan
+### Discovery → understand → plan
 
 A three-phase pipeline where each phase builds on the previous:
 

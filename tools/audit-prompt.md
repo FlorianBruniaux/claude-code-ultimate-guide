@@ -1,4 +1,4 @@
-# Audit Your Claude Code Setup
+# Audit your Claude Code setup
 
 > A self-contained prompt that audits your Claude Code configuration — project memory, rules hygiene, skills, agents/commands, security, MCP, workflow commands, and freshness — in one pass.
 
@@ -8,7 +8,7 @@
 
 ---
 
-## 1. What This Does
+## 1. What this does
 
 This prompt turns Claude into an **audit orchestrator** across 8 weighted dimensions (100 pts total). It runs a fast bash inventory, then delegates each domain to a specialized skill or command if one is installed, falling back to inline checks when not.
 
@@ -31,7 +31,7 @@ This prompt turns Claude into an **audit orchestrator** across 8 weighted dimens
 
 ---
 
-## 2. Who This Is For
+## 2. Who this is for
 
 | Level | What You'll Get |
 |-------|-----------------|
@@ -48,9 +48,9 @@ This prompt turns Claude into an **audit orchestrator** across 8 weighted dimens
 
 ---
 
-## 3. How to Use It
+## 3. How to use it
 
-### Step 1: Copy the Prompt
+### Step 1: Copy the prompt
 
 Copy everything inside the code block in [Section 4](#4-the-prompt) below.
 
@@ -61,15 +61,15 @@ cd your-project-directory
 claude
 ```
 
-### Step 3: Paste and Execute
+### Step 3: Paste and execute
 
 Paste the prompt and press Enter. To also audit your global `~/.claude/` config, append `--include-global` after the paste.
 
-### Step 4: Review Results
+### Step 4: Review results
 
 Claude presents the 8-dimension scorecard and asks for validation before making any changes.
 
-### Platform Note
+### Platform note
 
 | Platform | Global Config Path |
 |----------|-------------------|
@@ -78,7 +78,7 @@ Claude presents the 8-dimension scorecard and asks for validation before making 
 
 ---
 
-## 4. The Prompt
+## 4. The prompt
 
 ````markdown
 # Audit My Claude Code Setup — v5.0
@@ -530,7 +530,7 @@ mkdir -p ~/.claude/skills/security-check
 curl -sL https://raw.githubusercontent.com/FlorianBruniaux/claude-code-ultimate-guide/main/examples/skills/security-check/SKILL.md \
   > ~/.claude/skills/security-check/SKILL.md
 
-# Alternative for Dimension 1 — context-evaluator.ai
+# Alternative for dimension 1 — context-evaluator.ai
 # Zero-install LLM-native audit: 17 AI evaluators for CLAUDE.md/AGENTS.md,
 # automated .patch remediation. Complements /token-audit with deeper rule analysis.
 # Visit: https://context-evaluator.ai
@@ -553,9 +553,9 @@ Wait for explicit user response before taking any action.
 
 ---
 
-## 5. What to Expect
+## 5. What to expect
 
-### Example Executive Summary
+### Example executive summary
 
 ```
 ## Executive Summary
@@ -575,7 +575,7 @@ Top 3 Critical Gaps:
 3. ❌ Workflow — 3/5 core commands absent (4/10)
 ```
 
-### Example Dimension Scorecard
+### Example dimension scorecard
 
 | # | Dimension | Score | Max | Status | Key Finding |
 |---|-----------|-------|-----|--------|-------------|
@@ -591,7 +591,7 @@ Top 3 Critical Gaps:
 
 ---
 
-## 6. Understanding Results
+## 6. Understanding results
 
 ### Glossary
 
@@ -620,7 +620,7 @@ Top 3 Critical Gaps:
 | **Sandbox** | OS-level isolation (Docker container or native process-level). Configured in settings.json |
 | **Iron Law** | Debugging principle: no fixes without root cause investigation first. See `/investigate` |
 
-### Score Thresholds
+### Score thresholds
 
 | Score | Tier | What it means |
 |-------|------|----------------|
@@ -629,7 +629,7 @@ Top 3 Critical Gaps:
 | 40-59 | Growing | Core pieces exist but several gaps. Follow Quick Wins |
 | <40 | Starter | Start with Dimension 5 (Security) and 1 (Memory) |
 
-### Status Icons
+### Status icons
 
 | Icon | Meaning |
 |------|---------|
@@ -639,7 +639,7 @@ Top 3 Critical Gaps:
 
 ---
 
-## 7. Common Issues
+## 7. Common issues
 
 ### "Audit skills not installed"
 
@@ -677,7 +677,7 @@ Top 3 Critical Gaps:
 
 ---
 
-## 8. Related Resources
+## 8. Related resources
 
 **Complementary audit tools** (go deeper on specific dimensions):
 

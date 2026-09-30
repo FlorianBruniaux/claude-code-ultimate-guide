@@ -62,7 +62,7 @@ You: Montre-moi ce que tu as modifié avant de continuer
 | 75%+ | `/compact` maintenant |
 | 90%+ | Sauvegarder les décisions, puis compacter ou préparer une passation selon le besoin |
 
-## Anti-Pattern : Le Vibe Coding
+## Anti-Pattern : Le vibe coding
 
 Laisser Claude itérer sans supervision sur plusieurs fichiers, puis découvrir les problèmes une heure plus tard. Le diff de fin de session devient illisible et le retour arrière coûteux.
 

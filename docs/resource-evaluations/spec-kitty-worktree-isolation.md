@@ -1,4 +1,4 @@
-# Évaluation de Ressource: Spec-Kitty
+# Évaluation de ressource: Spec-kitty
 
 **URL**: https://github.com/Priivacy-ai/spec-kitty
 **Type**: GitHub repository
@@ -63,7 +63,7 @@
 
 ---
 
-## ✅ Fact-Check
+## ✅ Fact-check
 
 | Affirmation | Vérifiée | Source/Commentaire |
 |-------------|----------|---------------------|

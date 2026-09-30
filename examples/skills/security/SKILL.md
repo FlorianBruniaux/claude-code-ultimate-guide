@@ -7,7 +7,7 @@ when_to_use: "Use when reviewing code for security vulnerabilities or before mer
 disable-model-invocation: true
 ---
 
-# Security Quick Audit
+# Security quick audit
 
 Rapid security assessment focused on OWASP Top 10 vulnerabilities.
 
@@ -22,7 +22,7 @@ Perform a quick security scan to identify common vulnerabilities:
 
 ## Instructions
 
-### Step 1: Secrets Scan
+### Step 1: Secrets scan
 
 ```bash
 # Common secret patterns
@@ -37,7 +37,7 @@ find . -name ".env*" -not -path "*/node_modules/*" -type f 2>/dev/null
 [ -f ".gitignore" ] && grep -q "\.env" .gitignore && echo "✅ .env in .gitignore" || echo "⚠️ .env NOT in .gitignore"
 ```
 
-### Step 2: Injection Vulnerabilities
+### Step 2: Injection vulnerabilities
 
 ```bash
 # SQL injection patterns (raw queries with string concat)
@@ -51,7 +51,7 @@ grep -rn --include="*.{js,ts,py,go,rb,php}" \
   --exclude-dir={node_modules,vendor,.git} . 2>/dev/null | head -15
 ```
 
-### Step 3: XSS Patterns
+### Step 3: XSS patterns
 
 ```bash
 # Dangerous innerHTML/dangerouslySetInnerHTML usage
@@ -65,7 +65,7 @@ grep -rn --include="*.{js,ts,jsx,tsx}" \
   --exclude-dir={node_modules,.git,dist} . 2>/dev/null | head -10
 ```
 
-### Step 4: Dependency Check
+### Step 4: Dependency check
 
 ```bash
 # Check for known vulnerabilities in npm packages
@@ -75,7 +75,7 @@ grep -rn --include="*.{js,ts,jsx,tsx}" \
 [ -f "package.json" ] && npm outdated --json 2>/dev/null | jq 'to_entries | map(select(.value.current != .value.latest)) | length' 2>/dev/null
 ```
 
-### Step 5: Auth & Session Issues
+### Step 5: Auth & session issues
 
 ```bash
 # Hardcoded JWT secrets
@@ -89,28 +89,28 @@ grep -rn --include="*.{js,ts,py}" \
   --exclude-dir={node_modules,vendor,.git} . 2>/dev/null | head -10
 ```
 
-## Output Format
+## Output format
 
 ---
 
-### 🛡️ Security Audit Report
+### 🛡️ Security audit report
 
 **Scan Date**: [timestamp]
 **Scope**: [directory scanned]
 
-### 🔴 Critical Issues
+### 🔴 Critical issues
 
 | Issue | Location | Description |
 |-------|----------|-------------|
 | [type] | [file:line] | [brief description] |
 
-### 🟠 High Severity
+### 🟠 High severity
 
 | Issue | Location | Recommendation |
 |-------|----------|----------------|
 | [type] | [file:line] | [fix suggestion] |
 
-### 🟡 Medium Severity
+### 🟡 Medium severity
 
 | Issue | Location | Note |
 |-------|----------|------|
@@ -123,7 +123,7 @@ grep -rn --include="*.{js,ts,py}" \
 - **Medium**: X issues
 - **Dependencies**: X vulnerabilities
 
-### 🔧 Quick Fixes
+### 🔧 Quick fixes
 
 1. [Highest priority fix with command/code]
 2. [Second priority]
@@ -131,7 +131,7 @@ grep -rn --include="*.{js,ts,py}" \
 
 ---
 
-## Severity Levels
+## Severity levels
 
 | Level | Examples | Action |
 |-------|----------|--------|

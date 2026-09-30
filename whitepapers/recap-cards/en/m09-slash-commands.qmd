@@ -92,7 +92,7 @@ Description of the expected result.
 | `/sync` | Multi-file consistency check |
 | `/security-check` | Quick config scan |
 
-## Command vs Skill vs Agent
+## Command vs skill vs agent
 
 | Mechanism | When to use |
 |-----------|-------------|

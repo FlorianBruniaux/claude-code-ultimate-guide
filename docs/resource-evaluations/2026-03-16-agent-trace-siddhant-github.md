@@ -15,7 +15,7 @@ The "strace for AI agents" framing is apt: it solves the "my agent modified 47 f
 
 ---
 
-## Key Points
+## Key points
 
 - **Claude Code hooks**: Setup via `agent-strace setup`. Registers PreToolUse, PostToolUse, PostToolUseFailure, UserPromptSubmit, Stop, SessionStart, SessionEnd in `.claude/settings.json`
 - **Session replay**: `agent-strace replay` shows full session with timestamps, durations, tool inputs, errors — the missing layer between JSONL and understanding
@@ -26,7 +26,7 @@ The "strace for AI agents" framing is apt: it solves the "my agent modified 47 f
 
 ---
 
-## Relevance Score: 2/5
+## Relevance score: 2/5
 
 **Pertinent but too immature for immediate integration.**
 
@@ -34,7 +34,7 @@ The session replay angle is real and not covered by existing tools in the guide.
 
 ---
 
-## Comparison vs Current Guide Coverage
+## Comparison vs current guide coverage
 
 | Aspect | agent-trace | Guide coverage |
 |--------|-------------|----------------|
@@ -68,7 +68,7 @@ The session replay angle is real and not covered by existing tools in the guide.
 
 ---
 
-## Fact-Check
+## Fact-check
 
 | Claim | Verified | Source |
 |-------|----------|--------|

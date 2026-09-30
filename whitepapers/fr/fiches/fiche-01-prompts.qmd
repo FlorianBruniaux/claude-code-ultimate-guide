@@ -1,6 +1,6 @@
 {{< pagebreak >}}
 
-## Fiche Récap : Prompts Efficaces
+## Fiche Récap : Prompts efficaces
 
 ```{=typst}
 #fiche-recap(

@@ -1,4 +1,4 @@
-# Resource Evaluation: Snyk ToxicSkills: Malicious AI Agent Skills Audit
+# Resource evaluation: Snyk ToxicSkills: Malicious AI Agent Skills audit
 
 | Field | Value |
 |-------|-------|
@@ -22,7 +22,7 @@ Snyk scanned **3,984 AI agent skills** across ClawHub and skills.sh marketplaces
 5. **2.9%** fetch and execute remote content dynamically
 6. **mcp-scan**: open-source tool achieving 90-100% recall on confirmed malicious skills, 0% false positives on top-100 legitimate skills
 
-## Gap Analysis
+## Gap analysis
 
 | Topic | Before (guide) | After |
 |-------|----------------|-------|
@@ -33,7 +33,7 @@ Snyk scanned **3,984 AI agent skills** across ClawHub and skills.sh marketplaces
 | Malicious hooks/commands | Not covered | Documented with audit checklist |
 | Recent CVEs | 5 CVEs (2025) | + CVE-2026-24052, CVE-2025-66032 |
 
-## Fact-Check
+## Fact-check
 
 | Claim | Verified | Source |
 |-------|----------|--------|
@@ -46,7 +46,7 @@ Snyk scanned **3,984 AI agent skills** across ClawHub and skills.sh marketplaces
 | CVE-2026-24052 (SSRF Claude Code) | Yes | SentinelOne vulnerability database |
 | CVE-2025-66032 (8 bypasses) | Yes | Flatt Security research |
 
-## Score Justification
+## Score justification
 
 **4/5 (High Value)**: not 5/5 because:
 
@@ -56,7 +56,7 @@ Snyk scanned **3,984 AI agent skills** across ClawHub and skills.sh marketplaces
 - mcp-scan fills a concrete tooling gap
 - The .claude/ attack surface section addresses a real blind spot
 
-## Integration Plan
+## Integration plan
 
 1. **§1.1 CVE Summary**: +2 CVEs (CVE-2026-24052, CVE-2025-66032)
 2. **§1.2 Supply Chain**: Replace SafeDep stats with Snyk (larger corpus), add mcp-scan

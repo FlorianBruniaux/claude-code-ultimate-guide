@@ -6,13 +6,13 @@ effort: medium
 argument-hint: "[path to rules dir, default: .claude/rules/]"
 ---
 
-# Rules Evaluator
+# Rules evaluator
 
 Discover every Claude Code rule file, validate its structure and `paths` globs against the real project, then review each rule with the user so the rules directory ends in better shape than it started.
 
 This skill covers Claude Code instruction rules in `.claude/rules/` and `~/.claude/rules/`. It does not cover Codex `.rules` files, which are Starlark command-approval policies, not instructions. See "Codex" below.
 
-## When to Use
+## When to use
 
 - Writing `.claude/rules/` files for the first time
 - A rule never seems to apply, or applies to everything
@@ -29,7 +29,7 @@ This skill covers Claude Code instruction rules in `.claude/rules/` and `~/.clau
 
 When a `ctxharness doctor --format json` report generated during this task is available, every rules-layer finding it reports must appear in the audit. The doctor checks structure only; dead patterns, breadth and content are this skill's job.
 
-## Key Concepts
+## Key concepts
 
 | Mechanism | When it loads |
 |---|---|
@@ -75,7 +75,7 @@ To share rules across projects without approval, put them in `~/.claude/rules/`.
 
 **Thresholds:** Good >= 83%, Needs work 58-82%, Fix < 58%.
 
-## Execution Instructions
+## Execution instructions
 
 ### Step 1: Discovery
 
@@ -211,7 +211,7 @@ Codex has no equivalent of `.claude/rules/`. When the request is about Codex:
 - **Instructions**: Codex reads `AGENTS.md` (or `AGENTS.override.md`) from the Codex home directory, then from the project root down to the working directory, and concatenates them up to `project_doc_max_bytes` (32 KiB by default). Audit those files instead.
 - **`.rules` files** (for example `~/.codex/rules/default.rules`): these are experimental Starlark `prefix_rule()` policies that decide whether a command runs outside the sandbox (`allow`, `prompt`, `forbidden`). They are out of scope for this skill. Test them with `codex execpolicy check --pretty --rules <file> -- <command>`, and use each rule's `match` and `not_match` examples, which Codex validates when it loads the file.
 
-## Edge Cases
+## Edge cases
 
 - **Subdirectory rules** (`.claude/rules/frontend/react.md`): discovered and processed normally.
 - **Symlinked rule**: apply the load-status rules above before scoring; do not assume it loads.

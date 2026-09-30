@@ -1,4 +1,4 @@
-# Eval Resource: Remotion + Claude Code (Video Production)
+# Eval resource: Remotion + Claude Code (video production)
 
 **Date d'évaluation**: 2026-01-23
 **Évaluateur**: Claude Sonnet 4.5
@@ -132,7 +132,7 @@ L'agent technical-writer a validé le score de 2/5, voire suggéré 1/5 pour les
 
 ---
 
-## ✅ Fact-Check
+## ✅ Fact-check
 
 | Affirmation | Vérifiée | Source | Notes |
 |-------------|----------|--------|-------|

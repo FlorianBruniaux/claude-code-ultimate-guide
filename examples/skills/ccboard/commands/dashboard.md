@@ -4,7 +4,7 @@ description: Launch ccboard TUI dashboard
 category: monitoring
 ---
 
-# Dashboard Command
+# Dashboard command
 
 Launch the interactive ccboard TUI to visualize and monitor your Claude Code usage.
 

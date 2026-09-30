@@ -1,8 +1,8 @@
-# Slack Template
+# Slack template
 
 Compact, scannable, emoji-rich. Ready to paste.
 
-## FR Template
+## FR template
 
 ```
 :newspaper: *{title_fr}*
@@ -12,7 +12,7 @@ Compact, scannable, emoji-rich. Ready to paste.
 :link: {link}
 ```
 
-## EN Template
+## EN template
 
 ```
 :newspaper: *{title_en}*
@@ -22,7 +22,7 @@ Compact, scannable, emoji-rich. Ready to paste.
 :link: {link}
 ```
 
-## Field Rules
+## Field rules
 
 ### title (max 60 chars)
 
@@ -56,7 +56,7 @@ EN:
 
 GitHub repo URL.
 
-## Slack Emoji Reference
+## Slack emoji reference
 
 Use standard Slack emojis that render in all workspaces:
 

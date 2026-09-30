@@ -20,7 +20,7 @@ format:
 lang: en
 ---
 
-# How to Install
+# How to install
 
 ```bash
 curl -fsSL https://claude.ai/install.sh | bash
@@ -30,7 +30,7 @@ which claude && claude --version
 
 **Health Check**: `claude doctor && claude mcp list`
 
-# Essential Commands
+# Essential commands
 
 | Command | Action |
 |---------|--------|
@@ -61,7 +61,7 @@ which claude && claude --version
 | `/debug` | Systematic troubleshooting |
 | `/exit` | Quit (or Ctrl+D) |
 
-# Keyboard Shortcuts
+# Keyboard shortcuts
 
 | Shortcut | Action |
 |----------|--------|
@@ -80,7 +80,7 @@ which claude && claude --version
 
 **IDE Shortcuts**: VS Code `Alt+K` | JetBrains `Cmd+Option+K`
 
-# File References
+# File references
 
 ```
 @path/to/file.ts    → Reference a file
@@ -88,7 +88,7 @@ which claude && claude --version
 !shell-command      → Run shell command
 ```
 
-# Lesser-Known Features (But Official!)
+# Lesser-Known features (but official!)
 
 | Feature | What It Does |
 |---------|--------------|
@@ -107,7 +107,7 @@ which claude && claude --version
 
 **Pro tip**: These aren't "secrets", they're in the [CHANGELOG](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md). Read it!
 
-# Permission Modes
+# Permission modes
 
 | Mode | Editing | Execution |
 |------|---------|-----------|
@@ -131,7 +131,7 @@ The Bypass mode identifier is `bypassPermissions`.
 
 **Settings priority**: Managed policy > CLI > project-local > project > user. CLAUDE.md instructions combine rather than replacing one another.
 
-## .claude/ Folder Structure
+## .claude/ folder structure
 
 ```
 .claude/
@@ -148,7 +148,7 @@ The Bypass mode identifier is `bypassPermissions`.
 └── skills/              # Slash commands + knowledge modules (unified)
 ```
 
-# Context Management (CRITICAL)
+# Context management (CRITICAL)
 
 **Statusline**: `Model: Sonnet | Ctx: 89.5k | Ctx(u): 56.0%`
 
@@ -166,7 +166,7 @@ The Bypass mode identifier is `bypassPermissions`.
 | >70% context | `/compact` |
 | Task complete | `/clear` |
 
-## Context Recovery Commands
+## Context recovery commands
 
 | Command | Usage |
 |---------|-------|
@@ -176,14 +176,14 @@ The Bypass mode identifier is `bypassPermissions`.
 | `claude -c` | Resume last session |
 | `claude -r <id>` | Resume specific session |
 
-# Plan Mode & Thinking
+# Plan mode & thinking
 
 | Feature | Activation | Usage |
 |---------|------------|-------|
 | **Plan Mode** | `Shift+Tab × 2` or `/plan` | Explore without modifying |
 | **OpusPlan** | `/model opusplan` | Opus for planning, Sonnet for execution |
 
-## Thinking and Effort
+## Thinking and effort
 
 Opus 5.5, Sonnet 5, and Fable 5.1 use adaptive thinking. Haiku 4.5 supports extended thinking but has **no effort parameter**.
 
@@ -195,7 +195,7 @@ Current adaptive models support `low`, `medium`, `high`, `xhigh`, and `max`. Opu
 
 `ultrathink` adds a reasoning instruction without changing API effort. `think hard` is ordinary prompt text.
 
-# Typical Workflow
+# Typical workflow
 
 ```
 1. Start session      → claude
@@ -209,7 +209,7 @@ Current adaptive models support `low`, `medium`, `high`, `xhigh`, and `max`. Opu
 9. /compact           → When context >70%
 ```
 
-# Quick Prompting Formula
+# Quick prompting formula
 
 ```
 WHAT: [Concrete deliverable]
@@ -227,7 +227,7 @@ HOW: Use Zod schema, show inline errors
 VERIFY: Empty email shows error, invalid format shows error
 ```
 
-# MCP Servers
+# MCP servers
 
 | Server | Purpose |
 |--------|---------|
@@ -243,7 +243,7 @@ VERIFY: Empty email shows error, invalid format shows error
 
 Check status: `/mcp`
 
-# Search Tools Quick Reference
+# Search tools quick reference
 
 Quick decision: exact text → `rg` | exact name → `rg`/Serena | concept → grepai | structure → ast-grep
 
@@ -254,7 +254,7 @@ Quick decision: exact text → `rg` | exact name → `rg`/Serena | concept → g
 | Who calls a function | `grepai trace callers "login"` |
 | Get file structure | `serena get_symbols_overview` |
 
-# CLI Flags Quick Reference
+# CLI flags quick reference
 
 | Flag | Usage |
 |------|-------|
@@ -293,9 +293,9 @@ Quick decision: exact text → `rg` | exact name → `rg`/Serena | concept → g
 )
 ```
 
-# Cost Optimization
+# Cost optimization
 
-## Current Models
+## Current models
 
 Standard API rates, verified September 24, 2026. USD per million input/output tokens, excluding caching.
 
@@ -321,9 +321,9 @@ Sonnet's published rate remains $2/$10 after the launch promotion. Opus 5.5 is t
 )
 ```
 
-# Quick Decision Tree
+# Quick decision tree
 
-## Four-Layer Quick Map
+## Four-Layer quick map
 
 | Layer | Selection question | Reference |
 |-------|--------------------|-----------|
@@ -358,7 +358,7 @@ Deep analysis     → Use Opus (thinking on by default)
 ))
 ```
 
-# Common Issues Quick Fix
+# Common issues quick fix
 
 | Problem | Solution |
 |---------|----------|

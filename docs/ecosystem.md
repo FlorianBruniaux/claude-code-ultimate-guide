@@ -1,4 +1,4 @@
-# Ecosystem: 6 Interconnected Repositories
+# Ecosystem: 6 interconnected repositories
 
 This guide is part of a 6-repo ecosystem separating audiences (devs vs knowledge workers) and use cases (documentation vs showcase vs long-form writing).
 
@@ -48,7 +48,7 @@ This guide is part of a 6-repo ecosystem separating audiences (devs vs knowledge
 
 **Migration**: The `cowork/` folder was migrated from the main repo to this dedicated repo (v1.0.0, commit 7a686a8).
 
-## 3. Code Landing Site
+## 3. Code landing site
 
 **For**: Visitors discovering the Code guide
 
@@ -57,7 +57,7 @@ This guide is part of a 6-repo ecosystem separating audiences (devs vs knowledge
 | **Content** | Marketing page, badges, FAQ, quiz (473 questions) |
 | **Syncs with** | Main guide (version, templates, guide lines) |
 
-## 3b. Claude Code Plugins (Marketplace)
+## 3b. Claude Code plugins (marketplace)
 
 **For**: Developers who want to install guide templates without manual file copying
 
@@ -77,7 +77,7 @@ claude plugin install security-suite   # or any of the 8 plugins
 
 **Plugins**: security-suite, devops-pipeline, release-automation, code-quality, pr-workflow, session-tools, ai-methodology, session-summary
 
-## 3c. Florian Portfolio & Blog
+## 3c. Florian portfolio & blog
 
 **For**: Readers arriving through long-form writing rather than through the guide
 
@@ -100,7 +100,7 @@ claude plugin install security-suite   # or any of the 8 plugins
 
 **Also hosts the PDF distribution**: `public/guides/` holds the whitepaper PDFs and `api/guides.mjs` maps stable IDs to versioned filenames for email links. See `docs/workflows/whitepaper-build.md`, "PDF Deployment Checklist".
 
-## 4. Cowork Landing Site
+## 4. Cowork landing site
 
 **For**: Visitors discovering the Cowork guide
 
@@ -109,7 +109,7 @@ claude plugin install security-suite   # or any of the 8 plugins
 | **Content** | Cowork marketing page, prompts showcase |
 | **Syncs with** | Cowork guide (version, prompts count) |
 
-## Cross-Repo Sync Triggers
+## Cross-Repo sync triggers
 
 | Change | Repos to update |
 |--------|----------------|
@@ -132,7 +132,7 @@ claude plugin install security-suite   # or any of the 8 plugins
 cd ../claude-cowork-guide && ./scripts/check-version-sync.sh
 ```
 
-## Relations & Links
+## Relations & links
 
 **Code Guide → Cowork Guide**:
 - `guide/cowork.md`: Summary with links to dedicated repo
@@ -145,7 +145,7 @@ cd ../claude-cowork-guide && ./scripts/check-version-sync.sh
 
 **Principle**: Clear audience separation, easy navigation, maintained synchronization.
 
-## Ecosystem History
+## Ecosystem history
 
 | Date | Event | Commits |
 |------|-------|---------|

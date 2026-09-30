@@ -5,17 +5,17 @@ allowed-tools: Write Read
 effort: medium
 ---
 
-# Talk Stage 6: Revision
+# Talk stage 6: Revision
 
 Produces revision sheets usable during and after the talk. Quick navigation by act, master concept table with URLs to share, Q&A cheat-sheet, and glossary.
 
-## When to Use This Skill
+## When to use this skill
 
 - After Stage 5 (Script), which provides pitch + slides
 - Before a talk where Q&A is expected
 - To create a shareable resource for attendees
 
-## What This Skill Does
+## What this skill does
 
 1. **Reads all inputs**: pitch + slides + concepts (+ timeline if available)
 2. **Extracts navigation**: table of contents with anchors per act
@@ -37,7 +37,7 @@ Produces revision sheets usable during and after the talk. Quick navigation by a
 
 `talks/{YYYY}-{slug}-revision-sheets.md`
 
-## Output Format
+## Output format
 
 ```markdown
 # Revision Sheets: {title}
@@ -175,9 +175,9 @@ Produces revision sheets usable during and after the talk. Quick navigation by a
 *Generated {date}. Source: slides, concepts, pitch.*
 ```
 
-## Construction Rules
+## Construction rules
 
-### Master Table
+### Master table
 - Include ALL technical concepts mentioned in pitch and slides
 - URL = link to a public resource (GitHub, docs, guide), no dead links
 - If no link: note "pure storytelling, no guide section" or "concept specific to the project"
@@ -206,7 +206,7 @@ Produces revision sheets usable during and after the talk. Quick navigation by a
 - Copy-pasting pitch descriptions without adapting to cheat-sheet format
 - Forgetting the glossary (essential when you have a memory blank)
 
-## Validation Checklist
+## Validation checklist
 
 - [ ] Quick navigation with working anchor links
 - [ ] Each act has its section (concepts + metrics + Q&A)

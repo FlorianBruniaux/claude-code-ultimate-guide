@@ -9,13 +9,13 @@ keywords:
   - "claude code observability"
 ---
 
-# Session Observability & Monitoring
+# Session observability & monitoring
 
 > Track Claude Code usage, estimate costs, and identify patterns across your development sessions.
 
 For systems with explicit loops or workflow graphs, instrument the decision layer as well as the model and tools. [Loop & Graph Engineering](../core/loop-graph-engineering.md#7-observe-and-evaluate-the-system) defines the minimum evidence for routes, state transitions, checkpoints, verdicts, and human overrides.
 
-## Table of Contents
+## Table of contents
 
 1. [Why Monitor Sessions](#why-monitor-sessions)
 2. [Session Search & Resume](#session-search--resume)
@@ -30,7 +30,7 @@ For systems with explicit loops or workflow graphs, instrument the decision laye
 
 ---
 
-## Why Monitor Sessions
+## Why monitor sessions
 
 Claude Code usage can accumulate quickly, especially in active development. Monitoring helps you:
 
@@ -42,7 +42,7 @@ Claude Code usage can accumulate quickly, especially in active development. Moni
 
 ---
 
-## Observability by Harness Layer
+## Observability by harness layer
 
 Capture evidence at the layer that made the decision. A runtime harness needs traces of model calls, tool calls, permissions, context, and recovery. A repository harness needs the setup command, changed artifact, and verification result. An orchestrator needs dispatch, handoff, retry, queue, and human-escalation events. A dashboard that reports only tokens cannot establish whether the loop or its delivery gates behaved correctly.
 
@@ -52,7 +52,7 @@ Use stable event names and version every harness field that can change behavior.
 
 An optimizer needs a second trace level. Link each candidate harness version to its parent, mutation, evaluation tasks, budget, scores, and promotion decision. Without that lineage, a higher final score cannot establish which change caused it or whether the candidate consumed more search and execution budget.
 
-### Graph-Level Observability
+### Graph-level observability
 
 A graph-based workflow needs more than model and tool spans. The trace must reconstruct why work moved, waited, repeated, or stopped.
 
@@ -72,11 +72,11 @@ Liza illustrates the same need in a coding control plane. Its pinned [architectu
 
 ---
 
-## Session Search & Resume
+## Session search & resume
 
 After weeks of using Claude Code, finding past conversations becomes challenging. This section covers native options and community tools.
 
-### Native Commands
+### Native commands
 
 | Command | Use Case |
 |---------|----------|
@@ -86,7 +86,7 @@ After weeks of using Claude Code, finding past conversations becomes challenging
 
 Sessions are stored locally at `~/.claude/projects/<project>/` as JSONL files.
 
-### Community Tools Comparison
+### Community tools comparison
 
 | Tool | Install | List Speed | Search Speed | Dependencies | Resume Command |
 |------|---------|------------|--------------|--------------|----------------|
@@ -131,14 +131,14 @@ cs --rebuild                # Force index rebuild
 
 Copy-paste the `claude --resume` command to continue any session.
 
-### How It Works
+### How it works
 
 1. **Index mode** (no filters): Uses cached TSV index. Auto-refreshes when sessions change. ~15ms lookup.
 2. **Search mode** (with keyword/filters): Full-text search with 3s timeout. Multi-word queries use AND logic.
 3. **Filters**: `--project` (substring match), `--since` (supports `today`, `yesterday`, `7d`, `YYYY-MM-DD`)
 4. **Output**: Human-readable by default, `--json` for scripting. Excludes agent/subagent sessions.
 
-### Alternative: Python Tools
+### Alternative: Python tools
 
 If you prefer richer features (HTML export, multiple formats):
 
@@ -160,11 +160,11 @@ See [session-search.sh](../../examples/scripts/session-search.sh) for the comple
 
 ---
 
-### Session Resume Limitations & Cross-Folder Migration
+### Session resume limitations & cross-folder migration
 
 **TL;DR**: Native `--resume` is limited to the current working directory by design. For cross-folder migration, use manual filesystem operations (recommended) or community automation tools (untested).
 
-#### Why Resume is Directory-Scoped
+#### Why resume is directory-scoped
 
 Claude Code stores sessions at `~/.claude/projects/<encoded-path>/` where `<encoded-path>` is derived from your project's absolute path. For example:
 - Project at `/home/user/myapp` → Sessions in `~/.claude/projects/-home-user-myapp-/`
@@ -174,7 +174,7 @@ Claude Code stores sessions at `~/.claude/projects/<encoded-path>/` where `<enco
 
 **Related**: GitHub issue [#1516](https://github.com/anthropics/claude-code/issues/1516) tracks community requests for native cross-folder support.
 
-#### Manual Migration (Recommended)
+#### Manual migration (recommended)
 
 **When moving a project folder:**
 
@@ -212,7 +212,7 @@ cd /path/to/target/project
 claude --continue
 ```
 
-#### ⚠️ Migration Risks & Caveats
+#### ⚠️ Migration risks & caveats
 
 **Before migrating sessions, verify compatibility:**
 
@@ -231,7 +231,7 @@ claude --continue
 - Authentication context (API tokens, OAuth sessions specific to source project)
 - Security boundaries (migrating from private to public repo)
 
-#### Community Automation Tool
+#### Community automation tool
 
 **claude-migrate-session** by Jim Weller (inspired by Alexis Laporte) automates the manual process above:
 
@@ -247,7 +247,7 @@ claude --continue
 - Moving debugging session to isolated test repository
 - Continuing architecture discussion in a new project
 
-#### Alternative: Entire CLI Session Portability
+#### Alternative: Entire CLI session portability
 
 **Native limitation**: Claude Code's `--resume` is tied to absolute file paths, breaking on folder moves.
 
@@ -293,7 +293,7 @@ claude --continue  # Resumes with full context
 
 ---
 
-### Multi-Agent Orchestration Monitoring
+### Multi-Agent orchestration monitoring
 
 For monitoring multiple concurrent Claude Code instances via external orchestrators (Gas Town, multiclaude), see:
 
@@ -323,9 +323,9 @@ For monitoring multiple concurrent Claude Code instances via external orchestrat
 
 ---
 
-## Setting Up Session Logging
+## Setting up session logging
 
-### 1. Install the Logger Hook
+### 1. Install the logger hook
 
 Copy the session logger to your hooks directory:
 
@@ -338,7 +338,7 @@ cp examples/hooks/bash/session-logger.sh ~/.claude/hooks/
 chmod +x ~/.claude/hooks/session-logger.sh
 ```
 
-### 2. Register in Settings
+### 2. Register in settings
 
 Add to `~/.claude/settings.json`:
 
@@ -355,7 +355,7 @@ Add to `~/.claude/settings.json`:
 }
 ```
 
-### 3. Verify Installation
+### 3. Verify installation
 
 Run a few Claude Code commands, then check logs:
 
@@ -367,7 +367,7 @@ ls ~/.claude/logs/
 tail -5 ~/.claude/logs/activity-$(date +%Y-%m-%d).jsonl | jq .
 ```
 
-### Configuration Options
+### Configuration options
 
 | Environment Variable | Default | Description |
 |---------------------|---------|-------------|
@@ -377,7 +377,7 @@ tail -5 ~/.claude/logs/activity-$(date +%Y-%m-%d).jsonl | jq .
 
 ---
 
-## Analyzing Session Data
+## Analyzing session data
 
 ### Using session-stats.sh
 
@@ -402,7 +402,7 @@ session-stats.sh --project my-app
 session-stats.sh --json
 ```
 
-### Sample Output
+### Sample output
 
 ```
 ═══════════════════════════════════════════════════════════
@@ -435,7 +435,7 @@ Projects
   other-project: 38
 ```
 
-### Reading for Quality, Not Just Quantity
+### Reading for quality, not just quantity
 
 Token counts tell you how much you used Claude Code. JSONL logs can also tell you **how well your configuration is working**, if you know what to look for.
 
@@ -475,7 +475,7 @@ For each pattern you surface, ask: is there a skill, rule, or CLAUDE.md section 
 
 ---
 
-### Log Format
+### Log format
 
 Each log entry is a JSON object:
 
@@ -496,13 +496,13 @@ Each log entry is a JSON object:
 
 ---
 
-## Cost Tracking
+## Cost tracking
 
-### Token Estimation Method
+### Token estimation method
 
 The logger estimates tokens using a simple heuristic: **~4 characters per token**. This is approximate and tends to slightly overestimate.
 
-### Cost Rates
+### Cost rates
 
 The logger defaults to Sonnet 5 standard API estimates. Rates below are dollars per 1,000 tokens, verified September 24, 2026; they exclude cache pricing and cannot accurately price a mixed-model session. [Official pricing](https://platform.claude.com/docs/en/about-claude/pricing).
 
@@ -520,7 +520,7 @@ export CLAUDE_RATE_INPUT=0.001
 export CLAUDE_RATE_OUTPUT=0.005
 ```
 
-### Budget Alerts (Manual Pattern)
+### Budget alerts (manual pattern)
 
 Add to your shell profile for daily budget warnings:
 
@@ -541,11 +541,11 @@ claude_budget_check
 
 ---
 
-## Activity Monitoring
+## Activity monitoring
 
 Cost tracking tells you *how much* you spend. Activity monitoring tells you *what Claude Code actually did*: which files it read, which commands it ran, which URLs it fetched. This is the audit layer.
 
-### Session JSONL: The Ground Truth
+### Session JSONL: The ground truth
 
 Every tool call Claude Code makes is recorded in the session JSONL files at `~/.claude/projects/<project>/`. Each entry with `type: "assistant"` contains a `content` array where `type: "tool_use"` blocks document every action.
 
@@ -558,7 +558,7 @@ cat ~/.claude/projects/-your-project-/SESSION_ID.jsonl | \
   jq 'select(.type == "assistant") | .message.content[]? | select(.type == "tool_use") | {tool: .name, input: .input}'
 ```
 
-### What Tool Calls Reveal
+### What tool calls reveal
 
 | Tool | What It Exposes |
 |------|----------------|
@@ -569,7 +569,7 @@ cat ~/.claude/projects/-your-project-/SESSION_ID.jsonl | \
 | `Task` | Subagent spawns (prompt passed to sub-model) |
 | `Glob` / `Grep` | Search patterns and scope |
 
-### Practical Audit Queries
+### Practical audit queries
 
 ```bash
 # All files read in a session
@@ -586,7 +586,7 @@ jq 'select(.type == "assistant") | .message.content[]? | select(.type == "tool_u
 jq -r 'select(.type == "assistant") | .message.content[]? | select(.type == "tool_use") | .name' "$SESSION" | sort | uniq -c | sort -rn
 ```
 
-### Sensitive Patterns to Watch
+### Sensitive patterns to watch
 
 These tool call patterns are worth flagging in automated audits:
 
@@ -601,7 +601,7 @@ These tool call patterns are worth flagging in automated audits:
 
 ---
 
-## External Monitoring Tools
+## External monitoring tools
 
 Beyond the hook-based approach above, the community has built purpose-specific tools. This is a factual snapshot as of early 2026.
 
@@ -618,7 +618,7 @@ Beyond the hook-based approach above, the community has built purpose-specific t
 | **ccboard** | TUI + Web | Unified dashboard for sessions, costs, stats. Activity/audit tab in development. | `cargo install ccboard` |
 | **claude-crusts** | CLI | One-command context pollution scanner: flags stale files, oversized memories, and redundant rule loading. Spot what's inflating your context before running sessions. | [github.com/Abinesh-L/claude-crusts](https://github.com/Abinesh-L/claude-crusts) |
 
-### Decision Guide
+### Decision guide
 
 ```
 Want cost numbers fast?          → ccusage (CLI, 0 config)
@@ -653,7 +653,7 @@ ccboard --web        # Launch Web UI (localhost:3000)
 
 Source: [github.com/FlorianBruniaux/ccboard](https://github.com/FlorianBruniaux/ccboard). An Activity tab covering file access, bash commands, and network calls is planned (see `docs/resource-evaluations/ccboard-activity-module-plan.md`).
 
-### MLflow Tracing
+### MLflow tracing
 
 **When to use**: Teams already in the MLflow/MLOps ecosystem, or anyone needing exact token counts + LLM-based quality evaluation. Not the right fit for solo devs wanting quick cost numbers (use ccusage instead).
 
@@ -778,13 +778,13 @@ A common question: "Can I run Proxyman/Charles to see what Claude Code sends to 
 
 **Short answer**: Not directly. Here's why, and what works instead.
 
-### Why System Proxies Don't Work
+### Why system proxies don't work
 
 Claude Code is a Node.js process. By default, Node.js ignores system-level proxy settings (`HTTP_PROXY`, `HTTPS_PROXY`). It uses its own TLS stack and doesn't read macOS/Windows proxy configurations.
 
 Additionally, even if traffic flows through your proxy, the TLS certificate mismatch causes Claude Code to fail (`CERT_UNTRUSTED`).
 
-### Option 1: Trust a MITM Certificate (Proxyman / Charles)
+### Option 1: Trust a MITM certificate (proxyman / charles)
 
 Force Node.js to trust your proxy's CA certificate:
 
@@ -803,7 +803,7 @@ Same approach works for Charles: `Help → SSL Proxying → Export Charles Root 
 - Some Claude Code versions use certificate pinning for `api.anthropic.com`; this may still fail
 - This approach requires a running Proxyman/Charles instance listening on the configured port
 
-### Option 2: Redirect API Traffic with ANTHROPIC_BASE_URL
+### Option 2: Redirect API traffic with ANTHROPIC_BASE_URL
 
 Point Claude Code at a local interceptor instead of `api.anthropic.com`:
 
@@ -838,7 +838,7 @@ The mitmproxy web UI (`mitmweb`) at `http://localhost:8081` shows full request/r
 
 **What you'll see**: System prompt, user messages, tool definitions, tool results, model parameters.
 
-### Option 4: Minimal Python Logging Proxy
+### Option 4: Minimal Python logging proxy
 
 For a zero-dependency approach:
 
@@ -869,9 +869,9 @@ claude
 
 ---
 
-## Patterns & Best Practices
+## Patterns & best practices
 
-### 1. Weekly Review
+### 1. Weekly review
 
 Set a calendar reminder to review weekly stats:
 
@@ -884,7 +884,7 @@ Look for:
 - Repeated operations on same files (inefficiency signal)
 - Project distribution (where time is spent)
 
-### 2. Per-Project Tracking
+### 2. Per-project tracking
 
 Use `CLAUDE_SESSION_ID` to tag sessions by project:
 
@@ -893,7 +893,7 @@ export CLAUDE_SESSION_ID="project-myapp-$(date +%s)"
 claude
 ```
 
-### 3. Team Aggregation
+### 3. Team aggregation
 
 For team-wide tracking, sync logs to shared storage:
 
@@ -913,7 +913,7 @@ cat /tmp/team-logs/*/activity-$(date +%Y-%m-%d).jsonl | \
   jq -s 'group_by(.project) | map({project: .[0].project, total_tokens: [.[].tokens.total] | add})'
 ```
 
-### 4. Log Rotation
+### 4. Log rotation
 
 Logs accumulate over time. Add cleanup to cron:
 
@@ -922,7 +922,7 @@ Logs accumulate over time. Add cleanup to cron:
 find ~/.claude/logs -name "*.jsonl" -mtime +30 -delete
 ```
 
-### 5. Resilience Testing for AI Dependencies
+### 5. Resilience testing for AI dependencies
 
 **Deliberately simulate AI unavailability or degraded output to confirm the team can keep working without it.** Provider outages, extreme latency, and low-quality responses are failure modes worth rehearsing on purpose, the same way chaos engineering rehearses server or network failures. A workflow that silently assumes the AI is always available and always correct only gets that assumption tested for the first time during an actual incident.
 
@@ -932,7 +932,7 @@ find ~/.claude/logs -name "*.jsonl" -mtime +30 -delete
 
 ## Limitations
 
-### What This Monitoring CANNOT Do
+### What this monitoring CANNOT do
 
 | Limitation | Reason |
 |------------|--------|
@@ -943,13 +943,13 @@ find ~/.claude/logs -name "*.jsonl" -mtime +30 -delete
 | **Model selection** | Log doesn't capture which model was used per request |
 | **Context window usage** | No visibility into current context percentage |
 
-### Accuracy Notes
+### Accuracy notes
 
 - **Token estimates**: ~15-25% variance from actual billing
 - **Cost estimates**: Use as directional guidance, not accounting
 - **Session boundaries**: Sessions are approximated by ID, not exact API sessions
 
-### What You CAN Trust
+### What you CAN trust
 
 - **Tool usage counts**: Exact count of each tool invocation
 - **File access patterns**: Which files were touched
@@ -960,7 +960,7 @@ find ~/.claude/logs -name "*.jsonl" -mtime +30 -delete
 
 ---
 
-## Manager Audit Checklist
+## Manager audit checklist
 
 For engineering managers and team leads who need to verify Claude Code is being used appropriately within their team, these are the practical audit queries.
 
@@ -986,7 +986,7 @@ find ~/.claude/projects/ -name "*.jsonl" -newer "$(date -d '7 days ago' +%Y-%m-%
   grep -iE "(drop|delete|truncate|rm -rf|git push --force)"
 ```
 
-### Compliance Reporting
+### Compliance reporting
 
 For regulated environments, generate a summary of AI activity for auditors:
 
@@ -1016,17 +1016,17 @@ For a full governance setup with automatic audit trail logging, see [Enterprise 
 
 ---
 
-## 10. Team-level Log Aggregation
+## 10. Team-level log aggregation
 
 The sections above cover individual developer monitoring. For a team of 10+ developers, you need logs flowing into a central store to track total spend, flag unusual patterns, and answer compliance questions.
 
-### Option A: Route Configured API Traffic Through LiteLLM
+### Option A: Route configured API traffic through LiteLLM
 
 The [API Gateway guide](./api-gateway.md) describes server-side telemetry for clients configured with the gateway URL and a team-scoped virtual key. After that client configuration, the team does not need per-machine cron jobs to collect routed request metadata. The gateway still observes only traffic sent through it. Subscription-authenticated Claude usage and clients that retain direct provider credentials remain outside this dataset.
 
 For routed API traffic, this avoids synchronizing local usage logs. The session JSONL approach below remains necessary when you need file-level detail, such as which files were read and written, rather than model and token telemetry alone.
 
-### Option B: Ship Session JSONL to a Central Store
+### Option B: Ship session JSONL to a central store
 
 Claude Code writes session logs to `~/.claude/projects/**/*.jsonl`. A lightweight cron job or PostToolUse hook can ship new entries to Loki:
 
@@ -1052,7 +1052,7 @@ touch "$MARKER"
 
 Set `CLAUDE_TEAM_ID` and `CENTRAL_LOG_ENDPOINT` in each developer's shell profile. Coordinate with your platform team to provision the Loki endpoint.
 
-### OTel Collector Configuration
+### OTel collector configuration
 
 If you are using the LiteLLM Gateway with OTel export, a minimal collector config to forward spans to Grafana Tempo:
 
@@ -1083,7 +1083,7 @@ service:
 
 This feeds Claude Code usage spans into the same Tempo backend as your application traces, so you can correlate an AI session with a deployment event on a single timeline.
 
-### Key Grafana Queries
+### Key Grafana queries
 
 With LiteLLM Prometheus metrics and Loki for session logs, three panels cover most team needs:
 
@@ -1100,7 +1100,7 @@ sum by (model) (rate(litellm_requests_total[1h]))
 
 ---
 
-## Related Resources
+## Related resources
 
 - [Session Search Script](../../examples/scripts/session-search.sh) - Fast session search & resume
 - [Session Logger Hook](../../examples/hooks/bash/session-logger.sh)

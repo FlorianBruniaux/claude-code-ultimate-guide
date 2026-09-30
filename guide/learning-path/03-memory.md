@@ -1,4 +1,4 @@
-# Module 03: Memory & Config
+# Module 03: Memory & config
 
 **Time**: 1 hour | **Complexity**: ⭐⭐ Intermediate
 
@@ -8,7 +8,7 @@ Configure Claude Code to remember your preferences and project-specific rules. B
 
 ---
 
-## What You'll Learn
+## What you'll learn
 
 - How Claude Code's memory hierarchy works
 - Creating and structuring CLAUDE.md files
@@ -18,7 +18,7 @@ Configure Claude Code to remember your preferences and project-specific rules. B
 
 ---
 
-## The Memory Hierarchy
+## The memory hierarchy
 
 Claude Code remembers preferences at three levels:
 
@@ -51,11 +51,11 @@ Settings at level 3 override level 2, which overrides level 1.
 
 ---
 
-## Creating Your First CLAUDE.md
+## Creating your first CLAUDE.md
 
 CLAUDE.md is a simple markdown file that tells Claude Code your rules.
 
-### Basic Structure
+### Basic structure
 
 ```markdown
 # My Project
@@ -88,7 +88,7 @@ Use /plan for any breaking changes.
 What you're currently working on.
 ```
 
-### Minimal Example (Start Here)
+### Minimal example (start here)
 
 Create `/your-project/CLAUDE.md`:
 
@@ -117,11 +117,11 @@ Claude will automatically read this file at session start and follow your rules.
 
 ---
 
-## What Can Go in CLAUDE.md?
+## What can go in CLAUDE.md?
 
 You can configure almost anything. Common sections:
 
-### 1. Project Overview
+### 1. Project overview
 ```markdown
 ## Purpose
 This is our payment processing backend.
@@ -133,7 +133,7 @@ It handles credit card validation and transaction logging.
 - All changes need security review
 ```
 
-### 2. Tech Stack
+### 2. Tech stack
 ```markdown
 ## Stack
 - Language: Python 3.10+
@@ -143,7 +143,7 @@ It handles credit card validation and transaction logging.
 - Task queue: Celery
 ```
 
-### 3. Coding Standards
+### 3. Coding standards
 ```markdown
 ## Code Style
 - Follow PEP 8
@@ -168,7 +168,7 @@ It handles credit card validation and transaction logging.
 - /plan mode for refactors >100 lines
 ```
 
-### 5. Current Work
+### 5. Current work
 ```markdown
 ## Current Task
 Building the checkout flow.
@@ -207,15 +207,15 @@ Claude will load this at startup and combine it with your project CLAUDE.md.
 
 ---
 
-## Project-Specific vs Global
+## Project-specific vs global
 
-### Use Global for:
+### Use global for:
 - Your general coding style (naming conventions, approach)
 - Tools you always use
 - Communication preferences
 - General principles
 
-### Use Project for:
+### Use project for:
 - Team standards (if different from your global)
 - Project-specific tech stack
 - Business rules (PCI compliance, etc)
@@ -240,9 +240,9 @@ Claude combines both: your style + project rules.
 
 ---
 
-## Exercise: Create Your CLAUDE.md
+## Exercise: Create your CLAUDE.md
 
-### Step 1: Choose a Project
+### Step 1: Choose a project
 
 Use an existing project or create a test directory:
 
@@ -281,7 +281,7 @@ claude
 
 Claude will show that it loaded CLAUDE.md at startup.
 
-### Step 4: Test It
+### Step 4: Test it
 
 Ask Claude to do something. It should follow your rules.
 
@@ -296,7 +296,7 @@ Claude should:
 
 ---
 
-## .claude/ Directory
+## .claude/ directory
 
 For local settings (not committed), use `.claude/`:
 
@@ -343,7 +343,7 @@ Common settings:
 
 ---
 
-## Agents & Skills (Preview)
+## Agents & skills (preview)
 
 In CLAUDE.md, you can reference custom agents:
 
@@ -360,7 +360,7 @@ These are defined in `.claude/agents/` (covered in Module 04).
 
 ---
 
-## Best Practices
+## Best practices
 
 ### DO
 
@@ -386,7 +386,7 @@ These are defined in `.claude/agents/` (covered in Module 04).
 
 ---
 
-## Validation: You're Ready If...
+## Validation: You're ready if...
 
 ✓ You've created a CLAUDE.md file in a project
 
@@ -400,7 +400,7 @@ These are defined in `.claude/agents/` (covered in Module 04).
 
 ---
 
-## What's Next?
+## What's next?
 
 **Module 04: Agents & Specialization** covers:
 - Creating specialized agents for specific tasks
@@ -416,7 +416,7 @@ This teaches you how to create focused AI personas instead of using one general 
 
 ---
 
-## Going Further: Cross-Session and Team Memory
+## Going further: Cross-Session and team memory
 
 The sections above cover the foundational CLAUDE.md patterns. When you're ready to go deeper, the ecosystem has more:
 

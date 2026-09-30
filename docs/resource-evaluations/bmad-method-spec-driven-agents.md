@@ -1,4 +1,4 @@
-# Évaluation de Ressource: BMAD-METHOD
+# Évaluation de ressource: BMAD-METHOD
 
 **URL**: https://github.com/bmad-code-org/BMAD-METHOD
 **Type**: GitHub repository
@@ -66,7 +66,7 @@ Origine de cette évaluation : recherche sur les alternatives open source au pat
 
 ---
 
-## ✅ Fact-Check
+## ✅ Fact-check
 
 | Affirmation | Vérifiée | Source/Commentaire |
 |-------------|----------|---------------------|

@@ -4,7 +4,7 @@ description: "Switch between specialist roles across your ship cycle: strategic 
 tags: [workflow, skills, planning, review, shipping, browser-automation]
 ---
 
-# Cognitive Mode Switching
+# Cognitive mode switching
 
 > **Confidence**: Tier 2, reference implementation: [gstack](https://github.com/garrytan/gstack) by Garry Tan (Y Combinator CEO), 124.8K stars as of 2026-07-27 (1,100+ in the first 24h of launch, March 2026).
 
@@ -31,7 +31,7 @@ Planning, reviewing, and shipping require fundamentally different cognitive post
 
 ---
 
-## The 6 Gears
+## The 6 gears
 
 | Command | Role | Core question | When to switch |
 |---------|------|---------------|----------------|
@@ -44,7 +44,7 @@ Planning, reviewing, and shipping require fundamentally different cognitive post
 
 ---
 
-## The Gap This Fills: Pre-Implementation Strategic Gate
+## The gap this fills: Pre-Implementation strategic gate
 
 The hardest thing to get right with an AI coding assistant is not the implementation. It is the question that comes before: **are we building the right thing?**
 
@@ -69,7 +69,7 @@ The user selects the mode. The assistant commits to it and does not drift.
 
 ---
 
-## /plan-eng-review: Making the Idea Buildable
+## /plan-eng-review: Making the idea buildable
 
 Once direction is locked, the cognitive mode shifts from product intuition to engineering rigor. `/plan-eng-review` is where ideation stops and architecture starts.
 
@@ -85,7 +85,7 @@ The key unlock is **forcing diagram generation**. Diagrams surface hidden assump
 
 ---
 
-## /review: Paranoid Staff Engineer Mode
+## /review: Paranoid staff engineer mode
 
 Passing tests do not mean the branch is safe. `/review` exists for the class of bugs that survive CI and hit production anyway.
 
@@ -103,7 +103,7 @@ The posture is deliberate: imagine the production incident before it happens.
 
 ---
 
-## /browse: Non-MCP Native Browser Automation
+## /browse: Non-MCP native browser automation
 
 `/browse` is the most technically distinct piece of gstack. It is not a MCP server. It is a compiled native binary (TypeScript + Bun) that runs a persistent headless Chromium daemon.
 
@@ -127,7 +127,7 @@ This matters for QA workflows: logging into a staging environment once and then 
 
 ---
 
-## Full Cycle Demo
+## Full cycle demo
 
 ```
 # 1. Strategic gate — challenge the brief
@@ -195,7 +195,7 @@ For team installs (committed to repo so `git clone` just works for teammates), s
 
 ---
 
-## When to Use This vs. Other Workflows
+## When to use this vs. other workflows
 
 | Situation | This workflow | Alternative |
 |-----------|---------------|-------------|
@@ -210,7 +210,7 @@ gstack is a linear gear sequence you control manually; [Plan Pipeline](./plan-pi
 
 ---
 
-## See Also
+## See also
 
 - [Plan Pipeline](./plan-pipeline.md): Automated 3-command workflow with ADR learning loop
 - [Plan-Driven Development](./plan-driven.md): Fundamentals of planning before coding

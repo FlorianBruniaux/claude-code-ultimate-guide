@@ -1,8 +1,8 @@
-# Tech-to-Product Transformation Rules
+# Tech-to-Product transformation rules
 
 This document defines how to transform technical commit messages into user-friendly product language.
 
-## Transformation Categories
+## Transformation categories
 
 ### 1. COMMUNICATE (Transform to product language)
 
@@ -19,7 +19,7 @@ This document defines how to transform technical commit messages into user-frien
 | `monitoring`, `alerting`, `error tracking` | "Better error tracking" |
 | `validation`, `sanitization` | "Enhanced security" |
 
-### 2. DO NOT COMMUNICATE (Internal/Technical only)
+### 2. DO NOT COMMUNICATE (internal/technical only)
 
 These patterns should NOT appear in Slack announcements:
 
@@ -45,7 +45,7 @@ These patterns should NOT appear in Slack announcements:
 | `authentication`, `auth bypass` | "Improved login security" |
 | `CORS`, `CSRF` | "Protection against web attacks" |
 
-## Context-Aware Transformations
+## Context-aware transformations
 
 ### API-related
 - "Fix endpoint rate limiting" -> "Improved API stability"
@@ -67,7 +67,7 @@ These patterns should NOT appear in Slack announcements:
 - "Add fuzzy matching" -> "Better search results"
 - "Optimize search query execution" -> "Faster search"
 
-## Role-Based Impact
+## Role-based impact
 
 Always specify who is affected:
 
@@ -81,7 +81,7 @@ Always specify who is affected:
 | Notifications | All users |
 | Search | All users |
 
-## Severity Indicators
+## Severity indicators
 
 Use these prefixes when appropriate:
 

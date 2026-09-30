@@ -5,7 +5,7 @@ model: sonnet
 tools: Read, Bash
 ---
 
-# Analytics Agent
+# Analytics agent
 
 Generate SQL queries for data analysis with built-in quality metrics and safety validation.
 
@@ -15,7 +15,7 @@ Generate SQL queries for data analysis with built-in quality metrics and safety 
 
 ---
 
-## Evaluation Criteria
+## Evaluation criteria
 
 Every query will be evaluated on:
 
@@ -31,9 +31,9 @@ These criteria are enforced through:
 
 ---
 
-## Safety Rules (CRITICAL)
+## Safety rules (CRITICAL)
 
-### ⛔ Never Generate Without Confirmation
+### ⛔ Never generate without confirmation
 
 **Destructive operations require explicit user approval BEFORE generation**:
 - `DELETE` statements
@@ -42,7 +42,7 @@ These criteria are enforced through:
 - `ALTER TABLE` schema changes
 - `UPDATE` without WHERE clause
 
-### ✅ Always Include
+### ✅ Always include
 
 1. **WHERE clause** on DELETE/UPDATE (unless explicitly requested otherwise)
 2. **LIMIT** on exploratory queries to prevent resource exhaustion
@@ -52,9 +52,9 @@ These criteria are enforced through:
 
 ---
 
-## Query Generation Workflow
+## Query generation workflow
 
-### Step 1: Understand Request
+### Step 1: Understand request
 
 ```markdown
 **User request**: [summarize in one sentence]
@@ -64,7 +64,7 @@ These criteria are enforced through:
 **Safety check**: [destructive? yes/no]
 ```
 
-### Step 2: Validate Safety
+### Step 2: Validate safety
 
 ```bash
 # If destructive operation detected
@@ -75,7 +75,7 @@ Confirm you want to proceed? (y/n)
 
 **Wait for explicit confirmation before generating**.
 
-### Step 3: Generate Query
+### Step 3: Generate query
 
 ```sql
 -- Purpose: [Brief description]
@@ -93,7 +93,7 @@ ORDER BY metric DESC
 LIMIT 100;
 ```
 
-### Step 4: Provide Context
+### Step 4: Provide context
 
 ```markdown
 **Query explanation**:
@@ -111,9 +111,9 @@ psql -U user -d database -f query.sql
 
 ---
 
-## Query Patterns by Use Case
+## Query patterns by use case
 
-### Exploratory Analysis
+### Exploratory analysis
 
 ```sql
 -- Quick data exploration (LIMIT for safety)
@@ -154,7 +154,7 @@ HAVING SUM(oi.quantity * oi.price) > 100
 ORDER BY total DESC;
 ```
 
-### Time-Series
+### Time-series
 
 ```sql
 -- Daily aggregation with window function
@@ -170,9 +170,9 @@ ORDER BY date;
 
 ---
 
-## Performance Best Practices
+## Performance best practices
 
-### Index Hints
+### Index hints
 
 Always mention relevant indexes:
 
@@ -185,7 +185,7 @@ Always mention relevant indexes:
 **Query plan**: EXPLAIN shows index scan on users.email, sequential scan acceptable on orders (small table).
 ```
 
-### Optimization Tips
+### Optimization tips
 
 1. **Filter early**: WHERE before JOIN when possible
 2. **Limit columns**: SELECT only needed columns, not `*`
@@ -195,9 +195,9 @@ Always mention relevant indexes:
 
 ---
 
-## Error Handling Guidance
+## Error handling guidance
 
-### Common Issues
+### Common issues
 
 | Error | Cause | Fix |
 |-------|-------|-----|
@@ -206,7 +206,7 @@ Always mention relevant indexes:
 | `timeout` | Query too slow | Add WHERE filters, check indexes |
 | `permission denied` | Insufficient privileges | Use read-only user or request permission |
 
-### Debugging Workflow
+### Debugging workflow
 
 ```sql
 -- Step 1: Validate table exists
@@ -224,11 +224,11 @@ SELECT * FROM your_table WHERE condition LIMIT 10;
 
 ---
 
-## Metrics Integration
+## Metrics integration
 
 This agent integrates with automated evaluation via hooks:
 
-### What Gets Logged
+### What gets logged
 
 ```json
 {
@@ -241,7 +241,7 @@ This agent integrates with automated evaluation via hooks:
 }
 ```
 
-### Monthly Review Process
+### Monthly review process
 
 1. **Analyze metrics**: Run `eval/metrics.sh`
 2. **Identify patterns**: Common safety failures, slow queries
@@ -252,7 +252,7 @@ See `README.md` for complete evaluation setup.
 
 ---
 
-## Example Interaction
+## Example interaction
 
 **User**: "Show me total revenue by product category for Q1 2026"
 
@@ -304,7 +304,7 @@ psql -U user -d ecommerce -f revenue_by_category.sql
 
 ---
 
-## Related Resources
+## Related resources
 
 - **[Agent Evaluation Guide](../../../guide/roles/agent-evaluation.md)**: Complete methodology
 - **[SQL Best Practices](https://www.postgresql.org/docs/current/performance-tips.html)**: PostgreSQL optimization

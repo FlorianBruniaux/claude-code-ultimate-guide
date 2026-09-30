@@ -8,7 +8,7 @@
 
 ---
 
-## Quick Summary
+## Quick summary
 
 **Score**: **4/5** (High Value - Integrate within 1 week)
 
@@ -22,7 +22,7 @@ Claude-mem is a Claude Code plugin providing **automatic session memory** throug
 
 ---
 
-## Content Summary
+## Content summary
 
 **What claude-mem does**:
 
@@ -51,9 +51,9 @@ Lifecycle Hooks → Observation capture → AI compression (Claude)
 
 ---
 
-## Relevance Score: 4/5
+## Relevance score: 4/5
 
-### Why 4/5 (High Value)?
+### Why 4/5 (high value)?
 
 **✅ Strengths**:
 
@@ -71,7 +71,7 @@ Lifecycle Hooks → Observation capture → AI compression (Claude)
 4. **CLI Only**: No web interface, no cloud sync, no multi-machine support
 5. **Niche Use Case**: Benefits users with >10 sessions/week, less valuable for occasional users
 
-### Comparison to Existing Coverage
+### Comparison to existing coverage
 
 | Aspect | This Resource (claude-mem) | Our Guide (v3.23.4) |
 |--------|----------------------------|---------------------|
@@ -89,9 +89,9 @@ Lifecycle Hooks → Observation capture → AI compression (Claude)
 
 ---
 
-## Integration Recommendations
+## Integration recommendations
 
-### Where to Document
+### Where to document
 
 **Recommended**: **Section 8.2.5** (after grepai) in `guide/ultimate-guide.md` ~line 8463
 
@@ -138,7 +138,7 @@ Lifecycle Hooks → Observation capture → AI compression (Claude)
 
 **Size**: 300-400 lines (not 800 as initially proposed)
 
-### Files to Create/Modify
+### Files to create/modify
 
 1. **guide/ultimate-guide.md**
    - Add Section 8.2.5 (~300 lines)
@@ -184,7 +184,7 @@ Lifecycle Hooks → Observation capture → AI compression (Claude)
 
 ## Technical Analysis: claude-mem vs Serena vs grepai
 
-### Architecture Comparison
+### Architecture comparison
 
 | Aspect | claude-mem | Serena | grepai |
 |--------|-----------|---------|--------|
@@ -198,7 +198,7 @@ Lifecycle Hooks → Observation capture → AI compression (Claude)
 | **Cost** | $0.15/100 obs | Free (local) | Free (local) |
 | **Privacy** | ✅ Local | ✅ Local | ✅ Local |
 
-### Use Case Matrix
+### Use case matrix
 
 | Need | Tool | Example |
 |------|------|---------|
@@ -210,7 +210,7 @@ Lifecycle Hooks → Observation capture → AI compression (Claude)
 | "Summary of all sessions" | claude-mem | Web dashboard + search |
 | "Exact pattern 'authenticate'" | rg (native) | `rg "authenticate" --type ts` |
 
-### Memory Stack Pattern (Proposed)
+### Memory stack pattern (proposed)
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -256,7 +256,7 @@ rg "validateJWT" --type ts -A 5
 
 ---
 
-## Fact-Check Results
+## Fact-check results
 
 | Claim | Source | Verified | Notes |
 |-------|--------|----------|-------|
@@ -285,7 +285,7 @@ rg "validateJWT" --type ts -A 5
 
 ---
 
-## Limitations & Considerations
+## Limitations & considerations
 
 ### claude-mem Limitations
 
@@ -309,7 +309,7 @@ rg "validateJWT" --type ts -A 5
    - Forgetting tags → sensitive data in DB
    - No automatic secret detection
 
-### Overlaps with Existing Tools
+### Overlaps with existing tools
 
 Guide already documents:
 - Session search (`guide/ops/observability.md:29`)
@@ -326,7 +326,7 @@ Guide already documents:
 
 ---
 
-## Technical Writer Challenge Results
+## Technical writer challenge results
 
 **Agent ID**: ac8e0c6
 
@@ -347,7 +347,7 @@ The technical-writer agent challenged the initial 5/5 score, identifying:
 
 ---
 
-## External Resources
+## External resources
 
 **Articles**:
 - [Corti.com: Claude-Mem Deep Dive](https://corti.com/claude-mem-persistent-memory-for-ai-coding-assistants/) (2026-02-03)

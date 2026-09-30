@@ -4,7 +4,7 @@ description: "Add text-to-speech narration to Claude Code on macOS"
 tags: [workflow, tts, tutorial]
 ---
 
-# TTS Setup Workflow - Agent Vibes Installation
+# TTS setup workflow - Agent Vibes installation
 
 **Goal**: Add text-to-speech narration to Claude Code
 **Time**: 18 minutes
@@ -13,7 +13,7 @@ tags: [workflow, tts, tutorial]
 
 ---
 
-## Decision Point: Should You Install TTS?
+## Decision point: Should you install TTS?
 
 Use this quick assessment:
 
@@ -34,7 +34,7 @@ Use this quick assessment:
 
 ---
 
-## Workflow Overview
+## Workflow overview
 
 ```
 Phase 1: Prerequisites (5 min)
@@ -52,7 +52,7 @@ Phase 5: Verify (1 min)
 
 ## Phase 1: Prerequisites (5 minutes)
 
-### Checkpoint 1.1: System Requirements
+### Checkpoint 1.1: System requirements
 
 ```bash
 # Verify macOS version
@@ -68,7 +68,7 @@ node --version
 # Required: 16.0.0+
 ```
 
-### Checkpoint 1.2: Install Bash 5.x
+### Checkpoint 1.2: Install bash 5.x
 
 ```bash
 # Install
@@ -81,7 +81,7 @@ brew install bash
 # ✅ Checkpoint: Bash 5.x installed
 ```
 
-### Checkpoint 1.3: Install Dependencies
+### Checkpoint 1.3: Install dependencies
 
 ```bash
 # Install audio tools
@@ -97,9 +97,9 @@ command -v sox && command -v ffmpeg && command -v espeak-ng && echo "✅ Depende
 
 ---
 
-## Phase 2: Agent Vibes Installation (5 minutes)
+## Phase 2: Agent Vibes installation (5 minutes)
 
-### Step 2.1: Launch Installer
+### Step 2.1: Launch installer
 
 ```bash
 # Navigate to your project
@@ -111,7 +111,7 @@ npx agentvibes install
 
 **Expected**: ASCII banner + 4-page interactive installer
 
-### Step 2.2: Navigate Pages
+### Step 2.2: Navigate pages
 
 **Page 1/4 - Dependencies**:
 - Review: Should show all ✓ green checkmarks
@@ -132,7 +132,7 @@ npx agentvibes install
 - **Verbosity**: `Low` (less chatty)
 - Action: Click "Start Installation"
 
-### Checkpoint 2.3: Verify Installation
+### Checkpoint 2.3: Verify installation
 
 ```bash
 # Check installed files
@@ -148,7 +148,7 @@ cat .claude/tts-provider.txt
 
 ---
 
-## Phase 3: Piper TTS + French Voices (5 minutes)
+## Phase 3: Piper TTS + French voices (5 minutes)
 
 ### Step 3.1: Install Piper via pipx
 
@@ -163,7 +163,7 @@ piper --help
 # ✅ Checkpoint: Piper installed
 ```
 
-### Step 3.2: Download French Voices
+### Step 3.2: Download French voices
 
 ```bash
 # Create voice directory
@@ -191,7 +191,7 @@ curl -L -o fr_FR-siwis-medium.onnx.json \
 
 ## Phase 4: Configuration & Testing (3 minutes)
 
-### Step 4.1: Configure Provider & Voice
+### Step 4.1: Configure provider & voice
 
 ```bash
 # Set Piper as provider
@@ -207,7 +207,7 @@ cat .claude/tts-voice.txt     # Expected: fr_FR-tom-medium
 # ✅ Checkpoint: Configuration set
 ```
 
-### Step 4.2: Test Audio Pipeline
+### Step 4.2: Test audio pipeline
 
 ```bash
 # Test Piper directly
@@ -229,7 +229,7 @@ echo "Bonjour, je suis Claude et je parle français" | \
 
 ## Phase 5: Verification in Claude Code (1 minute)
 
-### Step 5.1: Launch & Test
+### Step 5.1: Launch & test
 
 ```bash
 # Start Claude Code
@@ -246,7 +246,7 @@ claude
 # ✅ Checkpoint: TTS active in Claude Code
 ```
 
-### Step 5.2: Configure Preferences
+### Step 5.2: Configure preferences
 
 ```bash
 # Reduce verbosity (recommended)
@@ -262,13 +262,13 @@ claude
 
 ---
 
-## Total Time: ~18 Minutes ✅
+## Total time: ~18 Minutes ✅
 
 ---
 
-## Post-Setup Recommendations
+## Post-setup recommendations
 
-### Optimize for Your Workflow
+### Optimize for your workflow
 
 **For code reviews**:
 ```bash
@@ -301,7 +301,7 @@ echo "*.onnx" >> .gitignore
 
 ---
 
-## Troubleshooting Quick Reference
+## Troubleshooting quick reference
 
 | Issue | Quick Fix |
 |-------|-----------|
@@ -314,7 +314,7 @@ echo "*.onnx" >> .gitignore
 
 ---
 
-## Next Steps
+## Next steps
 
 - **[Tools Reference](../core/tools-reference.md)** - Full list of Claude Code's built-in tools
 - **[Voice Catalog](../../examples/integrations/agent-vibes/voice-catalog.md)** - Explore 15 voices
@@ -323,7 +323,7 @@ echo "*.onnx" >> .gitignore
 
 ---
 
-## Uninstall Instructions
+## Uninstall instructions
 
 To remove Agent Vibes completely:
 

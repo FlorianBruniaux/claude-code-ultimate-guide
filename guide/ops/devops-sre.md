@@ -18,7 +18,7 @@ tags: [devops, guide, ci-cd, workflows]
 
 ---
 
-## Table of Contents
+## Table of contents
 
 1. [Quick Start](#quick-start)
 2. [Pattern: Infrastructure Diagnosis](#pattern-infrastructure-diagnosis)
@@ -29,11 +29,11 @@ tags: [devops, guide, ci-cd, workflows]
 
 ---
 
-# Quick Start
+# Quick start
 
 **Goal**: Get productive with Claude Code for DevOps in 5 minutes.
 
-## Quick Self-Check
+## Quick self-check
 
 | Situation | Jump To |
 |-----------|---------|
@@ -43,7 +43,7 @@ tags: [devops, guide, ci-cd, workflows]
 | Evaluating for my team | [Guardrails & Adoption](#guardrails--adoption) |
 | Need ready-to-use prompts | [Quick Reference](#quick-reference) |
 
-## The FIRE Framework
+## The FIRE framework
 
 Every infrastructure diagnosis with Claude follows this pattern:
 
@@ -68,7 +68,7 @@ E - Evaluate         → Postmortem, documentation, prevention
 - Production environments
 - Security-sensitive changes
 
-## Your First Infrastructure Diagnosis
+## Your first infrastructure diagnosis
 
 ### Example: Pod CrashLoopBackOff
 
@@ -96,7 +96,7 @@ claude "Create a brief incident note for our wiki:
 - Prevention recommendation"
 ```
 
-### What Claude Returns (First Response Example)
+### What Claude returns (first response example)
 
 ```markdown
 ## CrashLoopBackOff Triage (Priority Order)
@@ -122,13 +122,13 @@ claude "Create a brief incident note for our wiki:
 
 ---
 
-# Pattern: Infrastructure Diagnosis
+# Pattern: Infrastructure diagnosis
 
 **Goal**: Systematic troubleshooting for common infrastructure issues.
 
-## Kubernetes Troubleshooting
+## Kubernetes troubleshooting
 
-### K8s MCP Server Setup
+### K8s MCP server setup
 
 For persistent K8s context, install the K8s MCP server:
 
@@ -148,7 +148,7 @@ For persistent K8s context, install the K8s MCP server:
 
 **Without MCP**: You'll pipe kubectl output to Claude manually (still effective).
 
-### Prompts by Symptom
+### Prompts by symptom
 
 Copy-paste these prompts, replacing `<bracketed>` values.
 
@@ -194,7 +194,7 @@ kubectl describe pod <pod> -n <ns> | claude "ImagePullBackOff diagnosis:
 3. Give me commands to verify the image exists and credentials work"
 ```
 
-#### Pending Pod (Not Scheduling)
+#### Pending pod (not scheduling)
 
 ```bash
 kubectl describe pod <pod> -n <ns> && kubectl describe nodes | claude "Pod stuck in Pending:
@@ -203,7 +203,7 @@ kubectl describe pod <pod> -n <ns> && kubectl describe nodes | claude "Pod stuck
 3. What's the quickest fix vs proper solution?"
 ```
 
-#### Service Not Reachable
+#### Service not reachable
 
 ```bash
 kubectl get svc,endpoints -n <ns> && kubectl describe svc <svc> -n <ns> | claude "Service not reachable:
@@ -213,7 +213,7 @@ kubectl get svc,endpoints -n <ns> && kubectl describe svc <svc> -n <ns> | claude
 Give me diagnostic commands for each possibility"
 ```
 
-### Case Study: Production Outage Root Cause
+### Case study: Production outage root cause
 
 **Situation**: E-commerce platform, 3 AM page, checkout service returning 503s.
 
@@ -255,9 +255,9 @@ Format: Blameless, focused on prevention"
 
 **Outcome**: 15-minute MTTR, clear postmortem, prevention action items identified.
 
-## Log Analysis & Correlation
+## Log analysis & correlation
 
-### Multi-Service Log Correlation
+### Multi-Service log correlation
 
 ```bash
 # Collect logs from related services
@@ -273,7 +273,7 @@ cat gateway.log auth.log payment.log | claude "Correlate these logs:
 4. Create a timeline of events"
 ```
 
-### Log Pattern Detection
+### Log pattern detection
 
 ```bash
 # Find anomalies in error patterns
@@ -284,7 +284,7 @@ grep -E "ERROR|WARN|Exception" app.log | claude "Analyze error patterns:
 4. Prioritize investigation order"
 ```
 
-### Prometheus/Grafana Query Help
+### Prometheus/Grafana query help
 
 ```bash
 claude "I need a PromQL query to:
@@ -294,7 +294,7 @@ claude "I need a PromQL query to:
 Include the alert rule YAML too"
 ```
 
-## What Claude CAN'T Do (Limitations)
+## What Claude CAN'T do (limitations)
 
 Understanding limitations prevents frustration and unsafe reliance.
 
@@ -308,7 +308,7 @@ Understanding limitations prevents frustration and unsafe reliance.
 | **No real-time metrics** | Can't see current graphs | Screenshot Grafana or paste metric values |
 | **No secrets access** | Can't read vault/secrets | Good! Never share secrets with any LLM |
 
-### When NOT to Use Claude
+### When NOT to use Claude
 
 - **Time-critical decisions under 30 seconds**: Your muscle memory is faster
 - **Highly confidential incidents**: Data breach investigation (legal implications)
@@ -316,7 +316,7 @@ Understanding limitations prevents frustration and unsafe reliance.
 - **Compliance-restricted environments**: Check if AI tools are allowed
 - **AI-specific security incidents**: Prompt injection detected, MCP compromised, agent exfiltrating data → See [Security Hardening: Response](../security/security-hardening.md#part-3-response-when-things-go-wrong) for dedicated procedures (kill switch architecture, containment levels, incident timelines)
 
-### When Claude Excels
+### When Claude excels
 
 - **Complex root cause analysis**: Multiple interacting systems
 - **Documentation generation**: Postmortems, runbooks, procedures
@@ -326,15 +326,15 @@ Understanding limitations prevents frustration and unsafe reliance.
 
 ---
 
-# Pattern: Incident Response
+# Pattern: Incident response
 
 **Goal**: Structured workflows for incident management.
 
-## Solo Incident Workflow
+## Solo incident workflow
 
 **Reality**: At 3 AM, you're alone. This workflow is designed for one person.
 
-### FIRE in Action: Solo Incident
+### FIRE in action: Solo incident
 
 #### F - First Response (30 seconds)
 
@@ -415,9 +415,9 @@ Format: Blameless, focus on systems not people
 Include: Action items with owners"
 ```
 
-## Communication During Incidents
+## Communication during incidents
 
-### Stakeholder Update Generator
+### Stakeholder update generator
 
 ```bash
 claude "Generate incident update for stakeholders:
@@ -435,7 +435,7 @@ Length: 3 sentences max"
 **Output Example**:
 > We experienced a 15-minute disruption to our checkout service affecting approximately 30% of transactions, which has now been resolved. The issue was caused by a software bug in a recent update and was quickly rolled back. We'll deploy a permanent fix during our next scheduled maintenance window with no expected customer impact.
 
-### Incident Bridge Prompt
+### Incident bridge prompt
 
 For real-time incident channels:
 
@@ -450,7 +450,7 @@ Current status: [paste latest update]
 What should I communicate to the bridge now?"
 ```
 
-## Multi-Agent Pattern: Post-Incident Analysis
+## Multi-Agent pattern: Post-Incident analysis
 
 **When to use multi-agent**: Not during active incidents. Use for comprehensive analysis afterward.
 
@@ -474,7 +474,7 @@ Given this root cause analysis:
 Output: Prioritized prevention measures, effort estimates, ownership suggestions"
 ```
 
-### Case Study: OpsWorker.ai MTTR Reduction
+### Case study: OpsWorker.ai MTTR reduction
 
 **Context**: SRE team managing 200+ microservices, 5 on-call engineers.
 
@@ -497,13 +497,13 @@ Output: Prioritized prevention measures, effort estimates, ownership suggestions
 
 ---
 
-# Pattern: Infrastructure as Code
+# Pattern: Infrastructure as code
 
 **Goal**: Use Claude for Terraform, Ansible, and GitOps workflows.
 
 ## Terraform with Claude
 
-### Reference: Anton Babenko's Terraform Skill
+### Reference: Anton Babenko's terraform skill
 
 The most comprehensive Terraform skill for Claude Code:
 
@@ -522,9 +522,9 @@ git clone https://github.com/antonbabenko/terraform-skill.git terraform
 - State management guidance
 - CI/CD integration patterns
 
-### Common Terraform Prompts
+### Common terraform prompts
 
-#### Plan Review
+#### Plan review
 
 ```bash
 terraform plan -out=plan.txt && cat plan.txt | claude "Review this Terraform plan:
@@ -534,7 +534,7 @@ terraform plan -out=plan.txt && cat plan.txt | claude "Review this Terraform pla
 4. Cost implications if visible"
 ```
 
-#### Module Generation
+#### Module generation
 
 ```bash
 claude "Generate a Terraform module for:
@@ -549,7 +549,7 @@ Follow these conventions:
 - Output the service URL and ARN"
 ```
 
-#### State Surgery Helper
+#### State surgery helper
 
 ```bash
 claude "I need to move a resource to a different state file:
@@ -560,7 +560,7 @@ Target state: terraform-shared/terraform.tfstate
 What's the safest procedure? Include rollback steps."
 ```
 
-### Drift Detection Workflow
+### Drift detection workflow
 
 ```bash
 # Detect drift
@@ -576,7 +576,7 @@ cat drift.txt | claude "Analyze this Terraform drift:
 
 ## Ansible with Claude
 
-### Playbook Review
+### Playbook review
 
 ```bash
 cat playbook.yml | claude "Review this Ansible playbook:
@@ -586,7 +586,7 @@ cat playbook.yml | claude "Review this Ansible playbook:
 4. Performance optimizations?"
 ```
 
-### Role Generation
+### Role generation
 
 ```bash
 claude "Generate an Ansible role for:
@@ -603,7 +603,7 @@ Follow best practices:
 
 ## GitOps with Claude
 
-### ArgoCD Application Review
+### ArgoCD application review
 
 ```bash
 cat application.yaml | claude "Review this ArgoCD Application:
@@ -613,7 +613,7 @@ cat application.yaml | claude "Review this ArgoCD Application:
 4. Namespace and project permissions correct?"
 ```
 
-### Helm Values Generation
+### Helm values generation
 
 ```bash
 claude "Generate Helm values for deploying [application] to:
@@ -627,9 +627,9 @@ Base chart: [chart name]
 Include comments explaining each value"
 ```
 
-## Security Review Automation
+## Security review automation
 
-### Infrastructure Security Scan
+### Infrastructure security scan
 
 ```bash
 # Run tfsec or checkov, analyze results
@@ -640,7 +640,7 @@ tfsec . --format=json | claude "Analyze these security findings:
 4. Which can we ignore with a documented reason?"
 ```
 
-### IAM Policy Review
+### IAM policy review
 
 ```bash
 cat iam-policy.json | claude "Review this IAM policy:
@@ -652,13 +652,13 @@ cat iam-policy.json | claude "Review this IAM policy:
 
 ---
 
-# Guardrails & Adoption
+# Guardrails & adoption
 
 **Goal**: Implement Claude Code safely and get team buy-in.
 
-## Cost Awareness
+## Cost awareness
 
-### Claude Code Costs
+### Claude Code costs
 
 | Model | Input (1M tokens) | Output (1M tokens) |
 |-------|-------------------|-------------------|
@@ -673,7 +673,7 @@ Standard API rates verified September 24, 2026. A session bill requires separate
 3. Use `/compact` to reduce context when conversation gets long
 4. Avoid pasting entire log files; grep relevant sections first
 
-### Infrastructure Costs from Claude Suggestions
+### Infrastructure costs from Claude suggestions
 
 **Beware**: Claude doesn't see your cloud bill. Always ask:
 
@@ -684,9 +684,9 @@ claude "Before I apply these changes, estimate:
 3. Cost optimization alternatives?"
 ```
 
-## Security Boundaries
+## Security boundaries
 
-### Never Share with Claude
+### Never share with Claude
 
 | Data Type | Why Not | Alternative |
 |-----------|---------|-------------|
@@ -696,7 +696,7 @@ claude "Before I apply these changes, estimate:
 | Proprietary algorithms | IP protection | Describe behavior, not code |
 | Incident details with PII | Legal liability | Sanitize before sharing |
 
-### Safe Prompting Template
+### Safe prompting template
 
 ```bash
 claude "Debug this authentication issue:
@@ -710,7 +710,7 @@ Here's the sanitized log:
 [paste log with secrets replaced]"
 ```
 
-### Approval Gates for Production
+### Approval gates for production
 
 Always require human approval for:
 
@@ -727,7 +727,7 @@ approval_required:
   - Any security group modification
 ```
 
-## Team Rollout Checklist
+## Team rollout checklist
 
 ### Phase 1: Pilot (1-2 engineers, 2 weeks)
 
@@ -745,14 +745,14 @@ approval_required:
 - [ ] Set up shared skills/commands repository
 - [ ] Define when to use Claude vs when not to
 
-### Phase 3: Optimize (Ongoing)
+### Phase 3: Optimize (ongoing)
 
 - [ ] Monthly review of prompt library
 - [ ] A/B test: Claude-assisted vs traditional for similar incidents
 - [ ] Contribute back to community (awesome-lists, this guide)
 - [ ] Track MTTR, postmortem completion, documentation quality
 
-### Adoption Pitfalls to Avoid
+### Adoption pitfalls to avoid
 
 | Pitfall | Why It Happens | Prevention |
 |---------|---------------|------------|
@@ -764,9 +764,9 @@ approval_required:
 
 ---
 
-# Quick Reference
+# Quick reference
 
-## FIRE Framework Summary
+## FIRE framework summary
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -791,7 +791,7 @@ approval_required:
 └─────────────────────────────────────────────────────────────┘
 ```
 
-## Prompts by Symptom
+## Prompts by symptom
 
 ### Kubernetes
 
@@ -803,7 +803,7 @@ approval_required:
 | Pending | `kubectl describe pod && describe nodes \| claude "Resource, selector, or affinity issue?"` |
 | Service unreachable | `kubectl get svc,endpoints \| claude "Healthy endpoints? Selector matching? Network policy?"` |
 
-### Cloud/Infrastructure
+### Cloud/infrastructure
 
 | Symptom | Prompt |
 |---------|--------|
@@ -821,7 +821,7 @@ approval_required:
 | Drift analysis | `terraform plan -detailed-exitcode \| claude "What drifted? Expected? Remediation?"` |
 | Module request | `claude "Generate Terraform module for [resource] with [requirements]"` |
 
-## MCP Servers for DevOps
+## MCP servers for DevOps
 
 | Server | Purpose | Install |
 |--------|---------|---------|
@@ -844,14 +844,14 @@ approval_required:
 }
 ```
 
-## External Resources
+## External resources
 
-### Awesome Lists
+### Awesome lists
 
 - **[awesome-claude-code-subagents](https://github.com/VoltAgent/awesome-claude-code-subagents)** (23.8K stars, verified 2026-07-27, was 8.1k): Agent personas including SRE
 - **[awesome-claude-skills](https://github.com/travisvn/awesome-claude-skills)** (14.4K stars, verified 2026-07-27, was 4.6k): Skills including infra-related
 
-### Official Resources
+### Official resources
 
 - **[terraform-skill](https://github.com/antonbabenko/terraform-skill)**: Production-grade Terraform skill by Anton Babenko
 - **[Claude Code Docs](https://docs.anthropic.com/en/docs/claude-code)**: Official documentation
@@ -864,7 +864,7 @@ approval_required:
 
 ---
 
-## See Also
+## See also
 
 - **[Agent Template](../../examples/agents/devops-sre.md)**: DevOps/SRE agent persona for Claude
 - **[CLAUDE.md Template](../../examples/claude-md/devops-sre.md)**: Project configuration for DevOps teams

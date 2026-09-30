@@ -1,5 +1,5 @@
 ---
-# Resource Evaluation: "Just-in-Time Catching Test Generation at Meta"
+# Resource evaluation: "Just-in-Time Catching Test Generation at Meta"
 
 **Source**: https://arxiv.org/abs/2601.22832
 **Article title**: "The Death of Traditional Testing: Agentic Development Broke a 50-Year-Old Field, JiTTesting Can Revive It"
@@ -10,7 +10,7 @@
 
 ---
 
-## 📄 Content Summary
+## 📄 Content summary
 
 - **Core concept**: JiTTests (Just-in-Time Tests) are LLM-generated tests created on-the-fly at PR submission time, targeting regressions introduced by a specific code change rather than general code quality
 - **Mechanism**: Infer intent from diff → create mutants (deliberate faults) → generate tests to catch those mutants → ensemble rule-based + LLM assessors to filter false positives → report only true positive failures
@@ -21,7 +21,7 @@
 
 ---
 
-## 🎯 Relevance Score
+## 🎯 Relevance score
 
 | Score | Meaning |
 |-------|---------|
@@ -37,7 +37,7 @@
 
 ---
 
-## ⚖️ Comparative Analysis
+## ⚖️ Comparative analysis
 
 | Aspect | This paper | Our guide |
 |--------|-----------|-----------|
@@ -51,7 +51,7 @@
 
 ---
 
-## 📍 Integration Recommendations
+## 📍 Integration recommendations
 
 **Where**: `guide/core/methodologies.md`, after the ATDD block (~line 199). A 150-200 word subsection titled "Testing in AI-Accelerated Workflows" or "When Code Outpaces Tests."
 
@@ -84,7 +84,7 @@ The guide's testing section will age poorly as the audience shifts from code wri
 
 ---
 
-## ✅ Fact-Check
+## ✅ Fact-check
 
 | Claim | Verified | Source |
 |-------|----------|--------|
@@ -103,7 +103,7 @@ The guide's testing section will age poorly as the audience shifts from code wri
 
 ---
 
-## 🎯 Final Decision
+## 🎯 Final decision
 
 - **Final score**: 4/5
 - **Action**: Integrate

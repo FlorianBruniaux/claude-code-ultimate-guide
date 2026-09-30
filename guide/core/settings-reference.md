@@ -1,4 +1,4 @@
-# Claude Code Settings Reference
+# Claude Code settings reference
 
 > Complete reference for `settings.json` configuration and environment variables. Covers all confirmed settings as of Claude Code v2.1.162.
 
@@ -11,7 +11,7 @@
 
 ---
 
-## Scope and Precedence
+## Scope and precedence
 
 Claude Code uses four settings scopes, applied from highest to lowest priority:
 
@@ -38,9 +38,9 @@ Claude Code uses four settings scopes, applied from highest to lowest priority:
 
 ---
 
-## Settings Keys
+## Settings keys
 
-### Core Configuration
+### Core configuration
 
 #### `$schema`
 **Type:** string
@@ -231,7 +231,7 @@ Environment variables applied to every session. Use this instead of wrapper scri
 
 ---
 
-### Plans and Memory
+### Plans and memory
 
 #### `plansDirectory`
 **Type:** string
@@ -315,7 +315,7 @@ Set to `"disable"` to prevent `bypassPermissions` mode from being activated. Dis
 
 When `true`, user and project `allow`, `ask`, and `deny` rules are ignored. Only managed permission rules apply.
 
-### Permission Rule Syntax
+### Permission rule syntax
 
 Rules follow the format `Tool` or `Tool(specifier)`. Evaluation order: deny first, then ask, then allow. The first matching rule wins.
 
@@ -398,7 +398,7 @@ Allowlist of environment variable names that HTTP hooks can interpolate into hea
 
 ---
 
-### MCP Servers
+### MCP servers
 
 #### `enableAllProjectMcpServers`
 **Type:** boolean
@@ -753,7 +753,7 @@ Unix-socket exceptions are intentionally absent from this baseline. Granting `/v
 
 ---
 
-### Plugins and Marketplaces
+### Plugins and marketplaces
 
 For marketplace publication and the `<claude-code-hint />` recommendation boundary, see [Plugin Distribution and Recommendation Hints](../ecosystem/plugin-distribution.md). The settings below govern local and managed marketplace controls.
 
@@ -824,7 +824,7 @@ Per-plugin MCP server configurations, keyed by `plugin@marketplace`.
 
 ---
 
-### Model Configuration
+### Model configuration
 
 #### `effortLevel`
 **Type:** string
@@ -1093,7 +1093,7 @@ Directories to check out in each worktree via git sparse-checkout (cone mode). O
 
 ---
 
-### AWS and Cloud
+### AWS and cloud
 
 #### `awsAuthRefresh`
 **Type:** string
@@ -1122,7 +1122,7 @@ Script to generate dynamic OpenTelemetry headers. Runs at startup and periodical
 
 ---
 
-### Global Config (`~/.claude.json`)
+### Global config (`~/.claude.json`)
 
 These settings are stored in `~/.claude.json`, not `settings.json`. Adding them to `settings.json` triggers a schema validation error.
 
@@ -1136,7 +1136,7 @@ These settings are stored in `~/.claude.json`, not `settings.json`. Adding them 
 
 ---
 
-### Additional Schema-Only Keys
+### Additional schema-only keys
 
 Keys confirmed in the JSON schema not covered in the sections above:
 
@@ -1150,7 +1150,7 @@ Keys confirmed in the JSON schema not covered in the sections above:
 
 ---
 
-## Environment Variables
+## Environment variables
 
 Set in your shell before launching `claude`, or configure under the `env` key in `settings.json` to apply to every session. When an env var and an equivalent settings field both apply, the env var takes precedence (e.g. `ANTHROPIC_MODEL` overrides the `model` setting). Changes take effect on the next `claude` launch.
 
@@ -1169,7 +1169,7 @@ Set in your shell before launching `claude`, or configure under the `env` key in
 | `CLAUDE_CODE_OAUTH_SCOPES` | Space-separated OAuth scopes the refresh token was issued with. Required when `CLAUDE_CODE_OAUTH_REFRESH_TOKEN` is set |
 | `CLAUDE_CONFIG_DIR` | Override the configuration directory (default: `~/.claude`) |
 
-### Model Selection
+### Model selection
 
 | Variable | Description |
 |----------|-------------|
@@ -1197,7 +1197,7 @@ Set in your shell before launching `claude`, or configure under the `env` key in
 | `FALLBACK_FOR_ALL_PRIMARY_MODELS` | Any non-empty value triggers fallback to `--fallback-model` after repeated overload errors on any primary model, not just Opus |
 | `CLAUDE_CODE_DISABLE_LEGACY_MODEL_REMAP` | Set to `1` to prevent automatic remapping of Opus 4.0 and 4.1 to the current Opus version on the Anthropic API |
 
-### Cloud Providers
+### Cloud providers
 
 #### Amazon Bedrock
 
@@ -1267,7 +1267,7 @@ Set in your shell before launching `claude`, or configure under the `env` key in
 | `CLAUDE_CODE_ENABLE_AUTO_MODE` | Set to `1` to make auto mode available on Bedrock, Vertex AI, and Foundry. Added in v2.1.158. No effect on Anthropic API |
 | `CLAUDE_CODE_PROVIDER_MANAGED_BY_HOST` | Set by host platforms managing model provider routing. When set, provider-selection and auth variables in settings files are ignored |
 
-### Timeouts and Limits
+### Timeouts and limits
 
 | Variable | Description |
 |----------|-------------|
@@ -1291,7 +1291,7 @@ Set in your shell before launching `claude`, or configure under the `env` key in
 | `MCP_TIMEOUT` | MCP server startup timeout in ms (default: 30000) |
 | `MCP_TOOL_TIMEOUT` | MCP tool execution timeout in ms (default: 100000000) |
 
-### Behavior Control
+### Behavior control
 
 | Variable | Description |
 |----------|-------------|
@@ -1324,7 +1324,7 @@ Set in your shell before launching `claude`, or configure under the `env` key in
 | `CLAUDE_ENV_FILE` | Path to a shell script run before each Bash command. Also populated dynamically by SessionStart, Setup, CwdChanged, and FileChanged hooks |
 | `USE_BUILTIN_RIPGREP` | Set to `0` to use system-installed `rg` instead of the one bundled with Claude Code |
 
-### Context Window and Compaction
+### Context window and compaction
 
 | Variable | Description |
 |----------|-------------|
@@ -1336,7 +1336,7 @@ Set in your shell before launching `claude`, or configure under the `env` key in
 | `CLAUDE_CODE_DISABLE_THINKING` | Set to `1` to force-disable extended thinking regardless of model support |
 | `DISABLE_INTERLEAVED_THINKING` | Set to `1` to prevent sending the interleaved-thinking beta header. Use when your gateway does not support it |
 
-### Telemetry and Observability
+### Telemetry and observability
 
 | Variable | Description |
 |----------|-------------|
@@ -1368,7 +1368,7 @@ Standard OTEL exporter variables (`OTEL_METRICS_EXPORTER`, `OTEL_LOGS_EXPORTER`,
 | `CLAUDE_CODE_ENABLE_FEEDBACK_SURVEY_FOR_OTEL` | Set to `1` to route session quality survey ratings to your OTel collector instead of Anthropic |
 | `CLAUDE_CODE_PROPAGATE_TRACEPARENT` | Set to `1` to propagate W3C trace context when `ANTHROPIC_BASE_URL` points at a custom proxy. Added in v2.1.152 |
 
-### Feature Toggles
+### Feature toggles
 
 | Variable | Description |
 |----------|-------------|
@@ -1406,7 +1406,7 @@ Standard OTEL exporter variables (`OTEL_METRICS_EXPORTER`, `OTEL_LOGS_EXPORTER`,
 | `DISABLE_UPDATES` | Set to `1` to block all updates including manual `claude update` and `claude install` |
 | `IS_DEMO` | Enable demo mode: hides email/org info, skips onboarding. Useful when screensharing |
 
-### Prompt Caching
+### Prompt caching
 
 | Variable | Description |
 |----------|-------------|
@@ -1419,7 +1419,7 @@ Standard OTEL exporter variables (`OTEL_METRICS_EXPORTER`, `OTEL_LOGS_EXPORTER`,
 | `FORCE_PROMPT_CACHING_5M` | Set to `1` to force the 5-minute cache TTL even when 1-hour TTL would otherwise apply |
 | `CLAUDE_CODE_ATTRIBUTION_HEADER` | Set to `0` to omit the attribution block from the system prompt. Improves prompt-cache hit rates through LLM gateways |
 
-### MCP Configuration
+### MCP configuration
 
 | Variable | Description |
 |----------|-------------|
@@ -1434,7 +1434,7 @@ Standard OTEL exporter variables (`OTEL_METRICS_EXPORTER`, `OTEL_LOGS_EXPORTER`,
 | `CLAUDE_CODE_MCP_ALLOWLIST_ENV` | Set to `1` to spawn stdio MCP servers with only a safe baseline environment plus the server's configured `env` |
 | `CLAUDE_AGENT_SDK_MCP_NO_PREFIX` | Set to `1` to skip the `mcp__<server>__` prefix on tool names from SDK-created MCP servers |
 
-### Proxy and Network
+### Proxy and network
 
 | Variable | Description |
 |----------|-------------|
@@ -1451,7 +1451,7 @@ Standard OTEL exporter variables (`OTEL_METRICS_EXPORTER`, `OTEL_LOGS_EXPORTER`,
 | `CLAUDE_ENABLE_BYTE_WATCHDOG` | Force-enable byte-level streaming idle watchdog. Default on for Anthropic API connections. Set `0` to disable |
 | `CLAUDE_STREAM_IDLE_TIMEOUT_MS` | Timeout in ms before the streaming watchdog closes a stalled connection (default minimum: 300000) |
 
-### UI and Display
+### UI and display
 
 | Variable | Description |
 |----------|-------------|
@@ -1491,7 +1491,7 @@ Standard OTEL exporter variables (`OTEL_METRICS_EXPORTER`, `OTEL_LOGS_EXPORTER`,
 | `CLAUDE_CODE_ENABLE_BACKGROUND_PLUGIN_REFRESH` | Set to `1` to refresh plugin state at turn boundaries in non-interactive mode after a background install |
 | `FORCE_AUTOUPDATE_PLUGINS` | Set to `1` to force plugin auto-updates even when the main auto-updater is disabled |
 
-### SDK and Headless
+### SDK and headless
 
 | Variable | Description |
 |----------|-------------|
@@ -1506,14 +1506,14 @@ Standard OTEL exporter variables (`OTEL_METRICS_EXPORTER`, `OTEL_LOGS_EXPORTER`,
 | `CCR_FORCE_BUNDLE` | Set to `1` to force `claude --remote` to bundle and upload the local repo even when GitHub access is available |
 | `CLAUDE_REMOTE_CONTROL_SESSION_NAME_PREFIX` | Prefix for auto-generated Remote Control session names. Defaults to machine hostname |
 
-### Agent Teams and Tasks
+### Agent teams and tasks
 
 | Variable | Description |
 |----------|-------------|
 | `CLAUDE_CODE_TEAM_NAME` | Team name for agent teams. Set automatically on agent team members |
 | `CLAUDE_CODE_TASK_LIST_ID` | Share a task list across sessions. Set the same ID in multiple Claude Code instances to coordinate on a shared task list |
 
-### Unverified Variables
+### Unverified variables
 
 These appear in community sources or older documentation but are not confirmed in current official docs.
 
@@ -1533,7 +1533,7 @@ These appear in community sources or older documentation but are not confirmed i
 
 ---
 
-## Complete Example
+## Complete example
 
 ```json
 {
@@ -1606,7 +1606,7 @@ These appear in community sources or older documentation but are not confirmed i
 
 ---
 
-## Quick Reference
+## Quick reference
 
 | Task | Setting / Variable |
 |------|--------------------|

@@ -60,7 +60,7 @@ memory: local     # .claude/agent-memory-local/<name>/
 
 `project` memory can be committed for team use; review it first. `local` memory stays private to the machine. Enabling agent memory automatically adds Read, Write and Edit, so omit `memory` for a strictly read-only agent.
 
-## Agent vs Slash Command
+## Agent vs slash command
 
 | Criterion | Agent | Slash Command |
 |-----------|-------|---------------|

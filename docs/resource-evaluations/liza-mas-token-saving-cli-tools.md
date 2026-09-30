@@ -1,4 +1,4 @@
-# Evaluation: liza-mas Token-Saving CLI Tools
+# Evaluation: liza-mas token-saving CLI tools
 
 **Source**: GitHub org [liza-mas](https://github.com/liza-mas) (Tangi Vass)
 **Context**: Mentioned in a LinkedIn comment on Soufiane Keli's series on LLM token-cost optimization for technical teams
@@ -7,7 +7,7 @@
 
 ---
 
-## Executive Summary
+## Executive summary
 
 | Tool | Stars | Language | License | Score | Decision |
 |------|-------|----------|---------|-------|----------|
@@ -22,7 +22,7 @@
 
 ---
 
-## Tool-by-Tool Analysis
+## Tool-by-tool analysis
 
 ### scip-search
 
@@ -98,7 +98,7 @@
 
 ---
 
-## Challenge Assessment
+## Challenge assessment
 
 **Challenge agent position**: Are the scores too harsh on stacklit-cli?
 
@@ -110,7 +110,7 @@ The documented stacklit (glincker) has its own low-traction concerns (the guide 
 
 ---
 
-## Integration Decisions
+## Integration decisions
 
 | Tool | Action | Rationale |
 |------|--------|-----------|
@@ -127,7 +127,7 @@ The 2026-09-01 correction clarifies the optional integration boundary. It does n
 
 ---
 
-## Files Modified
+## Files modified
 
 - `docs/resource-evaluations/liza-mas-token-saving-cli-tools.md` (this file)
 - `docs/resource-evaluations/README.md` (index row)

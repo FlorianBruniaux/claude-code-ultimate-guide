@@ -40,11 +40,11 @@ lang: en
 
 > **In 5 lines:** Team adoption of Claude Code isn't decreed; it's structured. This whitepaper gives the complete playbook: 3 phases with realistic timelines, the champions program that triples adoption rates, and CI/CD integrations that transform Claude Code from an individual tool into a team standard.
 
-# From Solo to Team
+# From solo to team
 
 Your team of 8 devs has just adopted Claude Code. The first 3 weeks always look the same: everyone configures their own setup, prompts diverge, costs spike before the first invoice, and a senior dev declares "it doesn't work for me" because nobody committed a `CLAUDE.md`. This whitepaper is the playbook to skip that phase.
 
-## Adoption Challenges
+## Adoption challenges
 
 | Challenge | Impact | Solution |
 |-----------|--------|----------|
@@ -55,7 +55,7 @@ Your team of 8 devs has just adopted Claude Code. The first 3 weeks always look 
 
 The real problem is never the tool. It's the moment when one dev's implicit conventions collide with another's. Without a shared `CLAUDE.md`, each developer creates their own prompt dialect, and code reviews become debates about generated style rather than business logic. Senior resistance is often the signal that a common framework is missing, not that the tool is inadequate.
 
-## Decision Matrix
+## Decision matrix
 
 ```
 Need to ship today?
@@ -69,9 +69,9 @@ Need to ship today?
 
 The **Turnkey Quickstart** is a ready-to-use configuration path covered in the [Adoption Strategies](#adoption-strategies) section. The **Autonomous Learning Path** suits teams that prefer a gradual, self-managed adoption.
 
-## Structures by Team Size
+## Structures by team size
 
-### Solo / Small Team (2-3)
+### Solo / small team (2-3)
 
 When working solo or in a pair, configuration stays deliberately minimal. A single `CLAUDE.md` at the project root is enough for Claude Code to understand the context; personal preferences live in the user's global directory.
 
@@ -80,7 +80,7 @@ When working solo or in a pair, configuration stays deliberately minimal. A sing
 ~/.claude/CLAUDE.md            # Personal preferences
 ```
 
-### Medium Team (4-10)
+### Medium team (4-10)
 
 Starting at 4 developers, shared hooks become necessary to ensure minimum consistency. A `.claude/settings.json` file committed to the repo standardizes guardrails (security, formatting) without touching each dev's individual preferences.
 
@@ -90,7 +90,7 @@ Starting at 4 developers, shared hooks become necessary to ensure minimum consis
 ~/.claude/CLAUDE.md            # Individual preferences
 ```
 
-### Large Team (10+)
+### Large team (10+)
 
 Beyond 10 developers, the structure needs to be explicit and documented. Shared agents and auto-loaded rules (`.claude/rules/`) enforce review standards (architecture, quality, testing, performance) without requiring each dev to memorize them.
 
@@ -112,7 +112,7 @@ The transition from "Small Team" to "Medium Team" is the critical moment. That's
 
 **Ready-made templates**: `examples/rules/` contains the 4 templates above; copy and adapt.
 
-## What to Commit? Decision Tree
+## What to commit? decision tree
 
 ```
 Claude Code config file
@@ -145,13 +145,13 @@ CLAUDE.local.md              # personal project instructions
 Commit reviewed shared instructions, agents, skills and settings. Keep personal files and credentials out of the repository; do not put secrets in model instructions even if gitignored.
 :::
 
-## Settings Merge: Priority Rules
+## Settings merge: Priority rules
 
 Settings precedence is managed policy, command-line overrides, project-local settings, shared project settings, then user settings. Scalar values follow that order. Lists normally merge; model-list settings have documented exceptions. Hooks from multiple scopes can run together, subject to managed restrictions.
 
 Inspect `/status` for loaded settings sources and `/hooks` for registered hooks. Test the expected event rather than assuming that one settings file has removed another file's hook. See [settings merge rules](https://code.claude.com/docs/en/settings#lists-merge-instead-of-overriding).
 
-## Hook Profiles: Environment-Based Gating (v3.38.0)
+## Hook profiles: Environment-Based gating (v3.38.0)
 
 For teams that want different enforcement levels across environments (dev, staging, prod), the `HOOK_REQUIRED_LEVEL` env prefix gates hook activation per environment variable, without maintaining separate `settings.json` files. Credit: Everything Claude Code (Affaan Mustafa).
 
@@ -176,7 +176,7 @@ HOOK_REQUIRED_LEVEL=strict   # All hooks active
 
 # Observability
 
-## Why Monitor
+## Why monitor
 
 - **Understand costs**: Estimate API spend before invoices land
 - **Identify patterns**: Most-used tools, repeated files
@@ -184,9 +184,9 @@ HOOK_REQUIRED_LEVEL=strict   # All hooks active
 - **Track per project**: Compare usage across codebases
 - **Team visibility**: Aggregate for team budgeting
 
-## Session Search & Resume
+## Session search & resume
 
-### Native Commands
+### Native commands
 
 Claude Code provides three levels of session resumption out of the box. Quick resume (`-c`) covers the most common case (picking up the last interrupted session), while the interactive picker (`--resume`) is useful when multiple sessions coexist on the same project.
 
@@ -196,7 +196,7 @@ Claude Code provides three levels of session resumption out of the box. Quick re
 | `claude -r <id>` | Resume specific session |
 | `claude --resume` | Interactive picker |
 
-### Recommended Script: session-search.sh
+### Recommended script: session-search.sh
 
 **Installation**:
 
@@ -229,7 +229,7 @@ cs --json "api" | jq .      # JSON output for scripts
   claude --resume 1340c42e-eac5-4181-8407-cc76e1a76219
 ```
 
-## Session Logging
+## Session logging
 
 ### Installation
 
@@ -255,7 +255,7 @@ chmod +x ~/.claude/hooks/session-logger.sh
 }
 ```
 
-### Environment Variables
+### Environment variables
 
 The logger's behavior is configured via environment variables, making it possible to adapt per machine or per project without modifying the script itself.
 
@@ -265,7 +265,7 @@ The logger's behavior is configured via environment variables, making it possibl
 | `CLAUDE_LOG_TOKENS` | `true` | Token estimation |
 | `CLAUDE_SESSION_ID` | auto | Custom ID |
 
-## PostToolUse Output Replacement for Team Observability (v2.1.121)
+## PostToolUse output replacement for team observability (v2.1.121)
 
 A logging hook can record selected metadata without replacing the tool result. This example writes a local JSONL record; configure log access and retention for your team.
 
@@ -287,7 +287,7 @@ For deliberate transformation, return the documented `hookSpecificOutput.updated
 
 {{< pagebreak >}}
 
-## Session Analysis
+## Session analysis
 
 ### session-stats.sh
 
@@ -308,7 +308,7 @@ session-stats.sh --project my-app
 session-stats.sh --json
 ```
 
-### Sample Output
+### Sample output
 
 ```
 ═══════════════════════════════════════════════════════
@@ -341,7 +341,7 @@ Projects
   other-project: 38
 ```
 
-## session-summary.sh: Auto Summary (v3.27.1)
+## session-summary.sh: Auto summary (v3.27.1)
 
 **New hook** inspired by the Gemini CLI workflow, automatically displaying a session summary at the end:
 
@@ -362,7 +362,7 @@ cp examples/hooks/bash/session-summary.sh ~/.claude/hooks/
 
 **Useful for teams**: Each dev sees their cost + impact per session, natural visibility without a dashboard.
 
-## Token Optimization: RTK (v3.27.1)
+## Token optimization: RTK (v3.27.1)
 
 [RTK](https://github.com/rtk-ai/rtk) filters verbose shell output before it enters context. Measure reductions on your team's actual command mix; output savings do not translate directly into subscription capacity or an identical reduction in API spend.
 
@@ -383,7 +383,7 @@ Do not replace an arbitrary `pnpm test` script with `vitest` without checking wh
 
 > Full configuration: [guide/third-party-tools.md](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/third-party-tools.md) (RTK section).
 
-## Monitoring Limitations
+## Monitoring limitations
 
 The example logger records tool metadata, not a complete billing or latency trace. Use `/usage`, response usage records or configured telemetry for token and cache information; use provider billing records for charged amounts. Time to first token requires instrumentation of the response stream.
 
@@ -398,9 +398,9 @@ The example logger records tool metadata, not a complete billing or latency trac
 
 {{< pagebreak >}}
 
-# CI/CD Integration
+# CI/CD integration
 
-## Headless Mode in CI/CD (v2.1.81+)
+## Headless mode in CI/CD (v2.1.81+)
 
 For headless tasks, use `-p` and configure the tools and permissions the job needs. Validate results and the exit status in the calling pipeline.
 
@@ -424,7 +424,7 @@ The official `anthropics/claude-code-action` integrates directly into existing G
 | `claude-security-review.yml` | PR | Security audit |
 | `claude-issue-triage.yml` | Issue opened | Automatic triage |
 
-## PR Auto-Review
+## PR auto-review
 
 **File**: `.github/workflows/claude-pr-auto-review.yml`
 
@@ -489,7 +489,7 @@ jobs:
 
 {{< pagebreak >}}
 
-## Security Review
+## Security review
 
 **File**: `.github/workflows/claude-security-review.yml`
 
@@ -517,7 +517,7 @@ jobs:
           comment-pr: true
 ```
 
-## Issue Triage
+## Issue triage
 
 **File**: `.github/workflows/claude-issue-triage.yml`
 
@@ -564,7 +564,7 @@ jobs:
 This appears to be a security-related bug...
 ````
 
-## Required Secrets
+## Required secrets
 
 A single secret is enough to power all the GitHub Actions above. The API key must be stored in the repository's secrets (or at the organization level for multi-repo deployments), never hardcoded in workflow files.
 
@@ -576,7 +576,7 @@ A single secret is enough to power all the GitHub Actions above. The API key mus
 
 > 📖 **Go further:** [§9.12 Git Best Practices](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#912-git-best-practices--workflows): worktrees, branching strategies, pre-commit hooks
 
-## Native Code Review (Research Preview, v3.36.0+)
+## Native code review (research preview, v3.36.0+)
 
 ::: {.callout-note title="Code Review: Teams/Enterprise only"}
 Since March 2026, Anthropic offers a built-in **Code Review** feature on `claude.ai` (Research Preview). Available exclusively on Teams and Enterprise plans.
@@ -651,11 +651,11 @@ claude project purge --all
 
 {{< pagebreak >}}
 
-# Adoption Strategies
+# Adoption strategies
 
-## Turnkey Quickstart
+## Turnkey quickstart
 
-### Step 1: Minimal Config
+### Step 1: Minimal config
 
 ```bash
 mkdir -p .claude
@@ -687,7 +687,7 @@ claude
 
 **Pass**: Returns the configured command.
 
-### Step 3: First Real Task
+### Step 3: First real task
 
 ```bash
 claude "Review the README and suggest improvements"
@@ -695,7 +695,7 @@ claude "Review the README and suggest improvements"
 
 **Add more config only when you hit friction.**
 
-## Champions Program
+## Champions program
 
 Organic adoption works better than a top-down rollout imposed by management. The Champions Program relies on 2-3 developers respected by their peers to demonstrate the tool's value on real-world tasks before expanding to the full team.
 
@@ -718,7 +718,7 @@ Champion selection is decisive. The classic mistake is picking the most enthusia
 **Result**: 8/12 devs use Claude Code by week 3. Additions to `CLAUDE.md` come from the devs themselves via PRs; the file grows organically from 15 to 45 lines over a month.
 :::
 
-## Anti-Patterns to Avoid
+## Anti-patterns to avoid
 
 These patterns come up repeatedly in teams that stall after the first few weeks. Each seems reasonable in isolation, but produces the opposite of the intended effect; initial complexity kills adoption instead of accelerating it.
 
@@ -729,7 +729,7 @@ These patterns come up repeatedly in teams that stall after the first few weeks.
 | No conventions | Team divergence | Document a few essentials |
 | Enabling everything at once | Complexity without benefit | Enable as needed |
 
-## AGENTS.md: Compound Learning (v3.38.0)
+## AGENTS.md: Compound learning (v3.38.0)
 
 The `AGENTS.md` file works like a `CLAUDE.md` dedicated to agents: it documents what the team has learned about agent behavior in this specific project.
 
@@ -763,7 +763,7 @@ LLM-generated files increase cost without improving outcomes. Developer-written 
 - 2026-04-01 | Security agent: rate-limit at 2 calls/min on scan API
 ```
 
-## Instinct-Based Continuous Learning (v3.38.0)
+## Instinct-based continuous learning (v3.38.0)
 
 For teams that want to capture patterns across sessions without cluttering `CLAUDE.md`, the instinct model records lightweight observations at the `Stop` hook.
 
@@ -780,7 +780,7 @@ Stop hook
 
 **Team relevance**: instincts are shared via `AGENTS.md` or a dedicated `.claude/instincts.md`, creating persistent learning accessible to all team members.
 
-## Dual-Instance Planning (Jon Williams, 2026)
+## Dual-instance planning (Jon Williams, 2026)
 
 **Pattern**: 2 Claude sessions with distinct roles.
 
@@ -814,11 +814,11 @@ Claude Zero:
 
 {{< pagebreak >}}
 
-# Agent Teams: Multi-Instance Coordination
+# Agent teams: Multi-Instance coordination
 
 **Status**: Experimental (v2.1.32+). Choose an available model per teammate; Opus is optional.
 
-## Lead-Teammate Architecture
+## Lead-teammate architecture
 
 Multiple Claude instances work in parallel on a shared codebase, each handling a distinct part of the work.
 
@@ -860,7 +860,7 @@ Agent Lead          Agent Security    Agent API    Agent Frontend
 ────────────────────────────────────────────────────
 ```
 
-## Team Use Cases
+## Team use cases
 
 ::: {.callout-note title="Scenario: Multi-Layer Review, Fountain (workforce management)"}
 **Context**: Fountain, a workforce management platform for logistics, uses multi-agent Claude Code for candidate screening (not code review).
@@ -880,7 +880,7 @@ Agent Lead          Agent Security    Agent API    Agent Frontend
 **Caveat**: The "delivery time" metric covers the full pipeline (spec, dev, review, deploy). Attribution to Claude Code alone vs. overall process improvement is not isolated.
 :::
 
-## When to Deploy as a Team
+## When to deploy as a team
 
 | Criterion | Teams ✅ | Single ❌ |
 |-----------|----------|-----------|
@@ -893,7 +893,7 @@ Agent Lead          Agent Security    Agent API    Agent Frontend
 
 The most frequent trap is deploying write-mode agents on shared files. Merge conflicts between agents are silent: no "resolve conflict" dialog, just a commit that overwrites another agent's work. Read-heavy tasks (review, analysis, audit) are the natural playground for multi-agent setups.
 
-## Dedicated Reviewer Teammate (v3.38.0)
+## Dedicated reviewer teammate (v3.38.0)
 
 Illustrative pattern: dedicate one Opus 5.5 reviewer to a bounded group of implementation agents. Explicitly configure how task completion triggers review; measure review capacity rather than treating a fixed staffing ratio as validated.
 
@@ -910,7 +910,7 @@ TaskCompleted → configured reviewer (Opus 5.5, read-only)
 
 **1:4 ratio**: beyond this, the reviewer becomes a bottleneck. Below 4 active agents, a manual review is usually faster.
 
-## Loop Guardrails (v3.38.0)
+## Loop guardrails (v3.38.0)
 
 For unattended CI/CD workflows, agent loops without explicit exit conditions can burn significant budget. Three recommended guardrails:
 
@@ -928,7 +928,7 @@ This is not a native `settings.json` key, it's prompt text in the task brief.
 
 **Kill/reassign criteria**: if 3 consecutive iterations produce the same output, or cost exceeds the task budget, the task is reassigned or abandoned.
 
-## `${CLAUDE_EFFORT}` in Team Skills (v2.1.120)
+## `${CLAUDE_EFFORT}` in team skills (v2.1.120)
 
 Skills can reference the current effort level via `${CLAUDE_EFFORT}`. In a team context, this standardizes skills while adapting them to the execution context:
 
@@ -943,7 +943,7 @@ If low: quick style and obvious bug check.
 
 Useful for teams that alternate between quick reviews (frequent commits) and thorough reviews (critical PRs).
 
-## Background Agents Workflow
+## Background agents workflow
 
 **Use case**: Long-running tests, CI/CD builds without blocking your session.
 
@@ -960,9 +960,9 @@ Useful for teams that alternate between quick reviews (frequent commits) and tho
 
 {{< pagebreak >}}
 
-# Costs and Optimization
+# Costs and optimization
 
-## Pricing by Model
+## Pricing by model
 
 Choose models from measured task outcomes and total cost. A team can explicitly route bounded work to Haiku or Sonnet and compare Opus or Fable for harder work. This routing policy is distinct from the account's default model.
 
@@ -975,9 +975,9 @@ Choose models from measured task outcomes and total cost. A team can explicitly 
 
 Standard direct-API rates above were verified for the guide on September 24, 2026. Sonnet 5 remains $2/$10 after the launch promotion. Opus 5.5 is the direct-service default; organization policy and provider aliases can differ. Fast mode and caching use separate rates.
 
-## Cost-Saving Strategies
+## Cost-saving strategies
 
-### 1. Model Switching
+### 1. Model switching
 
 ```bash
 /model haiku    # Simple tasks
@@ -985,7 +985,7 @@ Standard direct-API rates above were verified for the guide on September 24, 202
 /model opus     # Complex architecture
 ```
 
-### 2. OpusPlan Pattern
+### 2. OpusPlan pattern
 
 OpusPlan uses Opus for planning and Sonnet for implementation. Selecting Haiku is a separate routing choice.
 
@@ -995,7 +995,7 @@ OpusPlan uses Opus for planning and Sonnet for implementation. Selecting Haiku i
 # Opus plans, Sonnet implements
 ```
 
-### 3. Context Management
+### 3. Context management
 
 | Zone | Context | Action |
 |------|---------|--------|
@@ -1004,7 +1004,7 @@ OpusPlan uses Opus for planning and Sonnet for implementation. Selecting Haiku i
 | Orange | 70%+ | Act: `/compact` to free up space |
 | Red | 90%+ | Critical: `/clear` (context loss) |
 
-### 4. Budget Alerts
+### 4. Budget alerts
 
 ```bash
 # In ~/.zshrc
@@ -1022,7 +1022,7 @@ claude_budget_check  # On shell startup
 
 This shell heuristic works for a solo dev but doesn't stop overspend before it happens, it only reports it after the fact. For team-wide enforcement, route Claude Code through a gateway instead: `guide/ops/api-gateway.md` §3 documents virtual keys with hard budget caps per developer or per team, returning a 429 once the cap is hit rather than surfacing a warning after the invoice lands. §4 of the same guide covers model allowlists, restricting which models a given key can call, useful for capping junior devs to Sonnet while leads keep Opus access.
 
-## Team Budget
+## Team budget
 
 | Profile | Suggested budget/day | Notes |
 |---------|----------------------|-------|
@@ -1039,7 +1039,7 @@ These illustrative ranges assume an explicit Sonnet routing policy with occasion
 
 # Governance
 
-## Enterprise Features (Claude for Teams)
+## Enterprise features (Claude for teams)
 
 **Available**: Anthropic Teams/Enterprise plans
 
@@ -1058,7 +1058,7 @@ Propagating configuration to a team no longer means guessing at undocumented adm
 
 **Use case** : Teams >50 devs, compliance-driven industries (finance, healthcare)
 
-## Shared vs Personal Separation
+## Shared vs personal separation
 
 The boundary between shared and personal configuration is a frequent source of confusion on teams. The rule is simple: anything that affects project behavior (tests, conventions, security hooks) goes in the repo, anything related to individual comfort (preferred model, response language) stays local.
 
@@ -1069,13 +1069,13 @@ The boundary between shared and personal configuration is a frequent source of c
 | Commit format | Default flags |
 | Security hooks | Optional extensions |
 
-## Audit Trail
+## Audit trail
 
-### Logging Configuration
+### Logging configuration
 
 → See Observability section configuration
 
-### Team Aggregation
+### Team aggregation
 
 ```bash
 # Daily sync to S3
@@ -1094,7 +1094,7 @@ cat /tmp/team-logs/*/activity-*.jsonl | \
 
 This S3/jq pipeline is a reasonable starting point but stays manual: someone has to run the sync, write the query, refresh the dashboard. `guide/ops/observability.md` §10 documents two more current paths: routing through the LiteLLM Gateway (recommended, gives you usage dashboards for free as a side effect of the budget-cap setup above) or shipping session JSONL to Loki with an OTel Collector for Tempo traces and Prometheus/Grafana queries. Either replaces this ad-hoc script with a queryable, always-on aggregation.
 
-### Log Rotation
+### Log rotation
 
 ```bash
 # Clean logs older than 30 days
@@ -1111,7 +1111,7 @@ find ~/.claude/logs -name "*.jsonl" -mtime +30 -delete
 **Verify**: After 1 month, how many devs actively use it? Has the CLAUDE.md grown organically? Are costs within the budgeted range?
 :::
 
-## Onboarding a New Team Member
+## Onboarding a new team member
 
 The goal: a new dev fully operational with Claude Code in under an hour, without needing someone available to walk them through it.
 
@@ -1159,7 +1159,7 @@ The goal: a new dev fully operational with Claude Code in under an hour, without
 **Recommendation**: Start with committed `CLAUDE.md` + `settings.json`. Layer in existing project Git hooks; avoid duplicating in Claude Code what is already enforced by pre-commit.
 :::
 
-## Team Deployment Checklist
+## Team deployment checklist
 
 This checklist synthesizes the actions covered throughout this whitepaper. It serves as a reference during initial deployment and as a checkpoint for the post-first-month review.
 
@@ -1180,7 +1180,7 @@ This checklist synthesizes the actions covered throughout this whitepaper. It se
 
 # Resources
 
-## Useful Commands
+## Useful commands
 
 These built-in commands cover the most frequent maintenance operations during a session. They require no installation and are available across all Claude Code versions.
 
@@ -1192,7 +1192,7 @@ These built-in commands cover the most frequent maintenance operations during a 
 | `/plan` | Planning mode |
 | `/model` | Switch model |
 
-## Included Scripts
+## Included scripts
 
 Three companion scripts are provided in the guide repository. They cover session search, usage analysis, and activity logging: the three pillars of team observability.
 
@@ -1202,7 +1202,7 @@ Three companion scripts are provided in the guide repository. They cover session
 | [`session-stats.sh`](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/examples/scripts/session-stats.sh) | `examples/scripts/` | Usage analysis |
 | [`session-logger.sh`](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/examples/hooks/bash/session-logger.sh) | `examples/hooks/bash/` | Activity logging |
 
-## Recommended Path
+## Recommended path
 
 This whitepaper covers operational team deployment. The following whitepapers go deeper into complementary dimensions: production hook security, internal architecture understanding, and data compliance for regulated organizations.
 
@@ -1223,7 +1223,7 @@ This whitepaper covers operational team deployment. The following whitepapers go
 
 *Version 3.43.0 | September 2026*
 
-# The Series
+# The series
 
 This whitepaper is part of the **Claude Code Ultimate Guide** series, a complete resource for mastering Claude Code, from installation to production deployment.
 

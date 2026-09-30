@@ -4,7 +4,7 @@ description: "3-layer context system, adherence degradation, modular architectur
 tags: [context-engineering, configuration, architecture, modular, adherence]
 ---
 
-# Context Engineering
+# Context engineering
 
 How to fill Claude's context window with the right information at the right time, and how architectural choices determine whether Claude consistently follows your conventions.
 
@@ -12,7 +12,7 @@ How to fill Claude's context window with the right information at the right time
 
 ---
 
-### The 3-Layer Context System
+### The 3-layer context system
 
 Context engineering operates across 3 distinct layers with different scopes and persistence. Understanding which layer to use prevents the most common mistake: cramming everything into one file.
 
@@ -89,7 +89,7 @@ More specific beats less specific at the same level
 
 ---
 
-### Context Budget & Adherence Degradation
+### Context budget & adherence degradation
 
 Adherence to CLAUDE.md rules degrades predictably as file size grows. Beyond ~150 rules, models begin selectively ignoring instructions. Path-scoping is the primary fix, reducing always-on context by 40-50% without losing coverage.
 
@@ -148,7 +148,7 @@ Result: 40-50% always-on context reduction, adherence back in green zone
 
 ---
 
-### Monolithic vs. Modular Architecture
+### Monolithic vs. modular architecture
 
 The monolithic CLAUDE.md is the most common failure mode in team contexts. Path-scoped modules fix it by loading only what's relevant for the current task.
 
@@ -215,7 +215,7 @@ Result: 40-50% reduction in always-on tokens, full coverage per subsystem
 
 ---
 
-### Rule Placement Decision Tree
+### Rule placement decision tree
 
 Every new instruction or convention needs to land in the right layer. Wrong placement wastes tokens (too global) or loses coverage (too scoped). This tree makes the decision explicit.
 

@@ -1,4 +1,4 @@
-# Resource Evaluation: "How I use Claude Code": Boris Tane
+# Resource evaluation: "How I use Claude Code": Boris Tane
 
 **URL**: https://boristane.com/blog/how-i-use-claude-code/
 **Author**: Boris Tane, Engineering Lead @ Cloudflare
@@ -14,7 +14,7 @@
 
 ---
 
-## Scoring Grid
+## Scoring grid
 
 | Criterion | Score | Notes |
 |-----------|-------|-------|
@@ -28,23 +28,23 @@
 
 ---
 
-## Key Insights
+## Key insights
 
-### 1. Emphatic Research Language
+### 1. Emphatic research language
 Without strong signal, Claude skims. Words like "deeply", "in great detail", "intricacies" shift behavior from surface scan to thorough investigation. Output must be written to a file — verbal summaries disappear on context compaction.
 
-### 2. The Annotation Cycle
+### 2. The annotation cycle
 Core innovation: iterate on `plan.md` with human annotations before any code is written. Human adds comments directly to the plan file, agent revises, repeat until no open questions remain. Typical: 1-6 iterations.
 
 The guard prompt "do NOT implement anything yet" is critical — without it, Claude will start coding during planning.
 
-### 3. Markdown as Shared Mutable State
+### 3. Markdown as shared mutable state
 Quote: "The markdown file acts as shared mutable state between you and the agent." This is the key insight — the plan file isn't just documentation, it's the coordination artifact.
 
-### 4. Terse Feedback in Implementation Phase
+### 4. Terse feedback in implementation phase
 Once plan is approved, implementation is mechanical. Short feedback ("that looks right", screenshots) is more effective than paragraphs — decisions are already made.
 
-### 5. Complementary Techniques
+### 5. Complementary techniques
 - Cherry-picking: implement a subset of the plan
 - Scope trimming: remove items before implementing
 - Reference-based guidance: "do it like auth.ts"
@@ -52,7 +52,7 @@ Once plan is approved, implementation is mechanical. Short feedback ("that looks
 
 ---
 
-## Fact-Check
+## Fact-check
 
 | Claim | Verified | Notes |
 |-------|----------|-------|
@@ -63,7 +63,7 @@ Once plan is approved, implementation is mechanical. Short feedback ("that looks
 
 ---
 
-## Integration Decision
+## Integration decision
 
 **Decision**: Integrate (Score 4) — Added as new section in `guide/workflows/plan-driven.md`.
 
@@ -83,7 +83,7 @@ Once plan is approved, implementation is mechanical. Short feedback ("that looks
 
 ---
 
-## What Was Not Integrated
+## What was not integrated
 
 - Specific cost figures (not verifiable for general users)
 - Cloudflare-specific tooling references (not generalizable)

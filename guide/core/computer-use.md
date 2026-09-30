@@ -4,7 +4,7 @@ description: "Enable, constrain, and verify Claude Code computer use from an int
 tags: [computer-use, permissions, macos, security, guide]
 ---
 
-# Computer Use in Claude Code
+# Computer use in Claude Code
 
 Computer use lets Claude Code control approved macOS applications and inspect their visible screen content from an interactive CLI session. It is a research preview for Pro and Max users. It is unavailable on Team and Enterprise plans, in `claude -p`, and in the CLI on Linux or Windows. [Anthropic's current Computer Use documentation](https://code.claude.com/docs/en/computer-use) is the product authority for this page.
 

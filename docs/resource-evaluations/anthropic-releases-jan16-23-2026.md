@@ -68,7 +68,7 @@ Cette semaine a marqué des avancées significatives pour Anthropic, avec des d�
 - Statistiques filtrées stats 7/30 jours
 - Attributs session URL pour commits et PRs
 
-### Breaking Changes
+### Breaking changes
 
 - **Dépréciation npm install** → Transition recommandée vers `claude install` ou installations natives
 - **Migration URLs OAuth** → console.anthropic.com devient platform.claude.com
@@ -126,7 +126,7 @@ Cette semaine a marqué des avancées significatives pour Anthropic, avec des d�
 - Suppression des modèles Opus 4 et 4.1 des sélecteurs de modèles Claude et Claude Code
 - Migration recommandée vers Opus 4.5 (performance améliorée à 1/3 du coût)
 
-### Breaking Changes
+### Breaking changes
 
 - Dépréciation totale Opus 4/4.1 – clients doivent basculer vers Opus 4.5 ou versions anciennes via External Researcher Access Program
 

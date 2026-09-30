@@ -1,4 +1,4 @@
-# Media Mentions Tracker
+# Media mentions tracker
 
 Tracks all external sources that mention the Claude Code Ultimate Guide (GitHub or cc.bruniaux.com).
 

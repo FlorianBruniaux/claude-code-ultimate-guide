@@ -5,7 +5,7 @@ allowed-tools: Read Write Bash Task
 effort: high
 ---
 
-# Plan Pipeline Orchestrator
+# Plan pipeline orchestrator
 
 Orchestrates the complete plan-to-execution pipeline. Can run the full pipeline or a single isolated stage.
 
@@ -28,7 +28,7 @@ Orchestrates the complete plan-to-execution pipeline. Can run the full pipeline 
 /plan-pipeline --from=execute      # execute a validated plan
 ```
 
-## When to Use Each Stage
+## When to use each stage
 
 **ceo-review**: use before any significant feature when the direction is not locked. Especially valuable when the request is specific (specificity signals collapsed solution space).
 
@@ -51,7 +51,7 @@ Orchestrates the complete plan-to-execution pipeline. Can run the full pipeline 
 7. **validate**: 2-layer validation (structural + specialist agents)
 8. **execute**: worktree isolation -> parallel agents -> quality gate -> PR
 
-## Dependency Graph
+## Dependency graph
 
 ```
    ceo-review

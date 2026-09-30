@@ -1,4 +1,4 @@
-# Sentry MCP Server Reference
+# Sentry MCP server reference
 
 Reference file for the Sentry MCP server. Read this before making any Sentry MCP calls. It contains the query syntax, known gotchas, and working examples that reduce call failures.
 
@@ -6,7 +6,7 @@ Reference file for the Sentry MCP server. Read this before making any Sentry MCP
 
 ---
 
-## Available Tools
+## Available tools
 
 ### `mcp__sentry-mcp__list_issues`
 
@@ -65,7 +65,7 @@ Reference file for the Sentry MCP server. Read this before making any Sentry MCP
 
 ---
 
-## Query Syntax
+## Query syntax
 
 ### Sentry Search Query (for `query` parameter in `list_issues` and `search_events`)
 
@@ -88,7 +88,7 @@ For orgs with many issues, use cursor-based pagination:
 
 ---
 
-## Known Patterns and Exclusions
+## Known patterns and exclusions
 
 When analyzing issues, these patterns are typically noise and should be excluded from reports unless explicitly requested:
 
@@ -103,7 +103,7 @@ If you exclude an issue, state it explicitly in the report's "Out of Scope" sect
 
 ---
 
-## Working Examples
+## Working examples
 
 ### Fetch top unresolved errors in production
 
@@ -137,7 +137,7 @@ get_issue(
 
 ---
 
-## Adapting This File
+## Adapting this file
 
 When forking this template for a different MCP (Datadog, PagerDuty, Linear, etc.):
 

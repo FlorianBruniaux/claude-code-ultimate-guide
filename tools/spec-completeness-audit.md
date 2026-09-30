@@ -1,4 +1,4 @@
-# Spec Completeness Audit for Coding Agents
+# Spec completeness audit for coding agents
 
 > Self-contained prompt that audits how well a codebase is specified for agent delegation.
 > Based on the 5-layer framework from Hamidreza Saghir's "Your coding agent is under-specified".
@@ -9,7 +9,7 @@
 
 ---
 
-## How to Use
+## How to use
 
 ```bash
 cd your-project-directory
@@ -20,7 +20,7 @@ Paste the prompt below and press Enter.
 
 ---
 
-## The Prompt
+## The prompt
 
 ````markdown
 # Spec Completeness Audit — v1.0
@@ -91,7 +91,7 @@ echo "  TypeScript files: $ts_files"
 zod=$(grep -rl "z\.\|zod\|Zod" . --include="*.ts" 2>/dev/null | grep -v node_modules | wc -l | tr -d " ")
 echo "  Zod schemas: $zod files"
 
-# OpenAPI / Swagger
+# OpenAPI / swagger
 for f in openapi.yaml openapi.json swagger.yaml swagger.json api.yaml; do
   [ -f "$f" ] && echo "  ✅ API spec: $f"
 done
@@ -110,7 +110,7 @@ for f in CLAUDE.md .claude/CLAUDE.md .claude/rules/*.md; do
 done
 echo "  Negative constraints found: $negatives"
 
-# ADR (Architecture Decision Records)
+# ADR (architecture decision records)
 adr_count=0
 for d in docs/adr docs/ADR .adr adr; do
   [ -d "$d" ] && adr_count=$(find "$d" -name "*.md" 2>/dev/null | wc -l | tr -d " ") && echo "  ✅ ADR directory: $d ($adr_count records)"
@@ -333,9 +333,9 @@ Wait for explicit user response before taking any action.
 
 ---
 
-## Understanding Results
+## Understanding results
 
-### Risk Tiers
+### Risk tiers
 
 | Score | Tier | Agent delegation posture |
 |-------|------|--------------------------|
@@ -344,11 +344,11 @@ Wait for explicit user response before taking any action.
 | 40–59 | Risky | Plan-mode + reviewer agent. Specify arch before each session. |
 | <40 | Unsafe | Code tasks only, never architectural. Exhaust per-task specs. |
 
-### The Layer That Matters Most
+### The layer that matters most
 
 **Layer 3 (Architectural, 30 pts)** is weighted highest because it's both the most commonly missing and the hardest to detect when wrong. An agent that gets L1 right but fails L3 writes code that works today and rots next month. No test catches it.
 
-### What "Safe" Means
+### What "Safe" means
 
 A project scoring 80+ still requires layer-specific prompt augmentation for each task. "Safe" means the agent has enough context to avoid the worst silent fills — not that you can delegate and walk away.
 

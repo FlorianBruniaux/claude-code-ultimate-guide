@@ -162,7 +162,7 @@ def generate_catalog(templates: Dict[str, List[Dict]]) -> str:
 
     # Category sections
     output.append('---\n')
-    output.append('## By Category\n')
+    output.append('## By category\n')
 
     for category, items in templates.items():
         if not items:
@@ -194,7 +194,7 @@ def generate_catalog(templates: Dict[str, List[Dict]]) -> str:
 
     # Domain-based index
     output.append('---\n')
-    output.append('## By Domain\n')
+    output.append('## By domain\n')
 
     domains = defaultdict(list)
     for items in templates.values():
@@ -213,7 +213,7 @@ def generate_catalog(templates: Dict[str, List[Dict]]) -> str:
 
     # Beginner-friendly section
     output.append('---\n')
-    output.append('## For Beginners\n')
+    output.append('## For beginners\n')
     output.append('Templates recommended for first-time users:\n')
 
     beginner_templates = [
@@ -232,7 +232,7 @@ def generate_catalog(templates: Dict[str, List[Dict]]) -> str:
 
     # Metadata reference
     output.append('---\n')
-    output.append('## Metadata Reference\n')
+    output.append('## Metadata reference\n')
     output.append('Templates can include the following metadata in YAML frontmatter:\n')
     output.append('```yaml\n')
     output.append('name: template-name\n')

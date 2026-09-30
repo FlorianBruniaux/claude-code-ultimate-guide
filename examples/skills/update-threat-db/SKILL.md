@@ -3,7 +3,7 @@ name: update-threat-db
 description: Delegate threat-intelligence research and updates to AgentSec, then validate the guide and landing mirrors.
 ---
 
-# Update Threat Intelligence Through AgentSec
+# Update threat intelligence through AgentSec
 
 AgentSec Triage owns the technical source of truth. This guide skill is a
 delegator and does not carry a private copy of the threat database.

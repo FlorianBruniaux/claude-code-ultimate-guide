@@ -1,4 +1,4 @@
-# Quick-Win Video Series
+# Quick-Win video series
 
 Four short French videos lead to one result each. Every episode ends on an observable check and points to a canonical guide page. The published description must use the `youtube-fr` attributed URL from [`distribution-channels.yaml`](../../machine-readable/distribution-channels.yaml).
 

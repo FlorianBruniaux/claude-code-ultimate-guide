@@ -47,7 +47,7 @@ cs -p mon-projet "auth"   # Filtrer par projet
 
 Chaque résultat affiche la commande `claude --resume <id>` prête à copier-coller.
 
-## Limitation Critique : Scope Répertoire
+## Limitation critique : Scope Répertoire
 
 Claude Code stocke les sessions en encodant le **chemin absolu** du projet. Une session dans `/home/user/myapp` ne sera pas trouvée si vous déplacez le projet vers `/home/user/projects/myapp`.
 
@@ -74,6 +74,6 @@ Les sessions de sous-agents (tâches déléguées) sont stockées dans un sous-d
 | `cc-sessions.py` | Index incrémental, filtres avancés | Python, même dossier |
 | `claude-code-viewer` | Navigateur web read-only | `npx @kimuson/claude-code-viewer` |
 
-## Pattern Recommandé
+## Pattern recommandé
 
 Ne pas compter sur `--resume` comme mécanisme de continuité principal sur des projets longs. Préférer un CLAUDE.md bien tenu avec les décisions clés, des commits réguliers, et des sessions courtes et ciblées. La reprise de session complète cette discipline, elle ne la remplace pas.

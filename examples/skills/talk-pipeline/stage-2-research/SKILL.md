@@ -11,13 +11,13 @@ Builds the git proof for a REX talk. Cross-references git history, CHANGELOG, an
 
 **Automatically skipped in `--concept` mode.** Only runs when the source material is a REX with git repository access.
 
-## When to Use This Skill
+## When to use this skill
 
 - After Stage 1 (Extract) when building a REX talk
 - When you have access to the project's git repository
 - To verify metrics mentioned in the source material against actual git data
 
-## What This Skill Does
+## What this skill does
 
 1. **Reads the summary**: understands the period and themes from Stage 1
 2. **Git archaeology**: extracts velocity metrics (read-only commands only)
@@ -62,7 +62,7 @@ git -C {repo_path} tag --sort=version:refname
 git -C {repo_path} log --pretty=format:"%Y-%m" | sort | uniq -c | sort -rn | head -5
 ```
 
-## Output Formats
+## Output formats
 
 ### git-archaeology.md
 
@@ -157,7 +157,7 @@ git -C {repo_path} log --pretty=format:"%Y-%m" | sort | uniq -c | sort -rn | hea
 *Sources: git log x {CHANGELOG path} x {summary path}*
 ```
 
-## Key Rules
+## Key rules
 
 - **Read-only only**: no git commands that modify repo state
 - **Verify before asserting**: a date not found in git = "unverified"
@@ -172,7 +172,7 @@ git -C {repo_path} log --pretty=format:"%Y-%m" | sort | uniq -c | sort -rn | hea
 - Silently merging contradictory data from different sources
 - Omitting quiet periods (plateaus tell a story too)
 
-## Validation Checklist
+## Validation checklist
 
 - [ ] Only read-only git commands executed
 - [ ] Timeline covers the full period from summary

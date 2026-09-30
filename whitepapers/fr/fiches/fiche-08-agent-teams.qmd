@@ -1,6 +1,6 @@
 {{< pagebreak >}}
 
-## Fiche Récap : Agent Teams & Sub-Agents
+## Fiche Récap : Agent teams & sub-agents
 
 ```{=typst}
 #fiche-recap(

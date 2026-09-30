@@ -1,4 +1,4 @@
-# Template: Peer Feedback Draft
+# Template: Peer feedback draft
 
 Usage: Send to 1-2 trusted peers BEFORE submitting the CFP or finalizing the script.
 Adapt with the actual talk information before sending.

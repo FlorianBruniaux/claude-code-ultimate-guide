@@ -4,11 +4,11 @@ description: "Ready-to-use behavioral mode files for customizing Claude Code beh
 tags: [config, template, workflows]
 ---
 
-# Behavioral Modes
+# Behavioral modes
 
 Ready-to-use behavioral mode files for Claude Code. Copy to `~/.claude/` and reference in your `CLAUDE.md`.
 
-## Available Modes
+## Available modes
 
 | Mode | File | Purpose |
 |------|------|---------|
@@ -59,7 +59,7 @@ claude --learn focus:architecture
 claude --learn batch
 ```
 
-## More Modes: SuperClaude Framework
+## More modes: SuperClaude framework
 
 This guide includes only **Learning Mode**. For a complete behavioral framework with additional modes, check out [SuperClaude](https://github.com/SuperClaude-Org/SuperClaude_Framework):
 
@@ -76,7 +76,7 @@ SuperClaude also includes:
 - `RULES.md` — Actionable rules with priority system
 - MCP server documentation (Context7, Sequential, Serena)
 
-## See Also
+## See also
 
 - [SuperClaude Behavioral Modes](../../guide/ultimate-guide.md#superclaude-behavioral-modes): Full documentation
 - [SuperClaude Repository](https://github.com/SuperClaude-Org/SuperClaude_Framework): Complete framework

@@ -7,7 +7,7 @@ when_to_use: "Use when running SonarQube analysis or interpreting SonarQube find
 disable-model-invocation: true
 ---
 
-# SonarQube Analysis
+# SonarQube analysis
 
 Analyze SonarCloud quality issues for a specific PR. Generates comprehensive report with metrics, top violators, and action plan.
 
@@ -23,7 +23,7 @@ Analyze SonarCloud quality issues for a specific PR. Generates comprehensive rep
 
 ## Prerequisites
 
-### Environment Variable
+### Environment variable
 
 ```bash
 # Set SonarQube token (add to ~/.bashrc or ~/.zshrc)
@@ -38,7 +38,7 @@ echo $SONARQUBE_TOKEN
 2. Generate new token
 3. Copy and export as environment variable
 
-### Project Configuration
+### Project configuration
 
 Configure your SonarCloud project details:
 
@@ -51,7 +51,7 @@ SONAR_BASE_URL="https://sonarcloud.io/api"
 
 **If not set:** Ask user to provide organization and project key.
 
-## Fetch Issues
+## Fetch issues
 
 **Important:** Direct curl with `-u "$SONARQUBE_TOKEN:"` fails in zsh due to authentication parsing. Use bash script wrapper:
 
@@ -74,7 +74,7 @@ chmod +x /tmp/fetch_sonar.sh
 - `sinceLeakPeriod`: Only new issues in this PR
 - `ps`: Page size (max 500)
 
-## Analysis Script
+## Analysis script
 
 Create Node.js analysis script at `/tmp/sonar_analyze.js`:
 
@@ -136,7 +136,7 @@ console.log(JSON.stringify({
 node /tmp/sonar_analyze.js $PR_NUMBER > /tmp/sonar_analysis_$PR_NUMBER.json
 ```
 
-## Report Format
+## Report format
 
 Generate formatted report from analysis:
 
@@ -206,7 +206,7 @@ View in SonarCloud:
 https://sonarcloud.io/project/pull_requests_list?id={PROJECT_KEY}&pullRequest={PR_NUMBER}
 ```
 
-## Severity Mapping
+## Severity mapping
 
 | SonarCloud | Symbol | Priority | Action |
 |------------|--------|----------|--------|
@@ -216,7 +216,7 @@ https://sonarcloud.io/project/pull_requests_list?id={PROJECT_KEY}&pullRequest={P
 | MINOR | 🔵 | P2 | Consider for follow-up |
 | INFO | 🔵 | P3 | Optional improvement |
 
-## Issue Types
+## Issue types
 
 | Type | Symbol | Description |
 |------|--------|-------------|
@@ -236,7 +236,7 @@ rm -f /tmp/sonar_analyze.js
 rm -f /tmp/sonar_analysis_$PR_NUMBER.json
 ```
 
-## Error Handling
+## Error handling
 
 | Error | Cause | Action |
 |-------|-------|--------|
@@ -247,9 +247,9 @@ rm -f /tmp/sonar_analysis_$PR_NUMBER.json
 | >500 issues | Pagination limit reached | Warn about incomplete data, suggest filtering |
 | Network error | API unreachable | Check internet connection, retry |
 
-## Configuration Options
+## Configuration options
 
-### Project-Level Configuration
+### Project-level configuration
 
 Create `.sonarcloud.properties` or add to `CLAUDE.md`:
 
@@ -261,7 +261,7 @@ SONAR_EXCLUSIONS=**/*.test.ts,**/*.spec.ts,**/migrations/**
 SONAR_COVERAGE_EXCLUSIONS=**/*.test.ts,src/test/**
 ```
 
-### API Rate Limits
+### API rate limits
 
 SonarCloud API limits:
 - Free tier: 10,000 requests/day
@@ -269,7 +269,7 @@ SonarCloud API limits:
 
 **Tip:** Cache results for repeated queries to same PR.
 
-## Integration Examples
+## Integration examples
 
 ### GitHub Actions
 
@@ -291,7 +291,7 @@ PR_NUMBER=$(gh pr view --json number -q .number)
 claude -p "/sonarqube $PR_NUMBER"
 ```
 
-## Red Flags - NEVER Do
+## Red flags - NEVER do
 
 **Never:**
 - ❌ Modify code or auto-fix issues (analysis-only command)
@@ -307,9 +307,9 @@ claude -p "/sonarqube $PR_NUMBER"
 - ✅ Verify token is valid before API calls
 - ✅ Parse and present data clearly
 
-## Advanced Usage
+## Advanced usage
 
-### Custom Filters
+### Custom filters
 
 ```bash
 # Only show critical/blocker issues
@@ -357,7 +357,7 @@ export SONARQUBE_TOKEN="new_token_here"
 https://sonarcloud.io/project/overview?id=YOUR_PROJECT_KEY
 ```
 
-## Usage Examples
+## Usage examples
 
 ```bash
 # Basic usage

@@ -1,4 +1,4 @@
-# Resource Evaluation: Claude Code Releases (janvier 2026)
+# Resource evaluation: Claude Code releases (janvier 2026)
 
 **Date d'évaluation**: 2026-01-26
 **Évaluateur**: Claude Sonnet 4.5 (systematic review)
@@ -18,7 +18,7 @@
 
 ## 2. Grille de Scoring
 
-### Technical Accuracy: **5/5** ⭐⭐⭐⭐⭐
+### Technical accuracy: **5/5** ⭐⭐⭐⭐⭐
 
 **Justification:**
 - ✅ Source primaire officielle (GitHub CHANGELOG.md vérifié ligne par ligne)
@@ -41,7 +41,7 @@ curl -s https://api.github.com/repos/anthropics/claude-code/releases
 
 **Seule limite:** Synthèse réalisée par LLM (moi) - possible légère compression d'infos secondaires.
 
-### Practical Value: **5/5** ⭐⭐⭐⭐⭐
+### Practical value: **5/5** ⭐⭐⭐⭐⭐
 
 **Justification:**
 - ✅ **Critical security fix** (2.1.0 OAuth exposure) = impact direct sur tous les utilisateurs
@@ -63,7 +63,7 @@ curl -s https://api.github.com/repos/anthropics/claude-code/releases
 - Teams avec CI/CD → Rotation credentials post-2.1.0
 - Power users → Adopt task system pour projets complexes
 
-### Source Credibility: **5/5** ⭐⭐⭐⭐⭐
+### Source credibility: **5/5** ⭐⭐⭐⭐⭐
 
 **Justification:**
 - ✅ **Source primaire officielle**: GitHub repository Anthropic (vérifié)
@@ -77,7 +77,7 @@ curl -s https://api.github.com/repos/anthropics/claude-code/releases
 - Dates cohérentes (chronologique)
 - Numérotation sémantique respectée (SemVer)
 
-### Integration Potential: **4/5** ⭐⭐⭐⭐
+### Integration potential: **4/5** ⭐⭐⭐⭐
 
 **Justification:**
 
@@ -121,13 +121,13 @@ Priority 3 (Si espace):
   - VSCode integration
 ```
 
-### Overall Score: **4.75/5** ⭐⭐⭐⭐⭐
+### Overall score: **4.75/5** ⭐⭐⭐⭐⭐
 
 **Moyenne**: (5 + 5 + 5 + 4) / 4 = 4.75
 
 **Arrondi**: **5/5** (Critical - Integrate Immediately)
 
-## 3. Analyse Qualitative
+## 3. Analyse qualitative
 
 ### Forces
 

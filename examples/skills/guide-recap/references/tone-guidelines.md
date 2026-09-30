@@ -1,8 +1,8 @@
-# Tone Guidelines
+# Tone guidelines
 
 Rules for social content generated from CHANGELOG entries. Central principle: **engagement through value, not hype**.
 
-## DO / DON'T Checklist
+## DO / DON'T checklist
 
 ### DO
 
@@ -23,7 +23,7 @@ Rules for social content generated from CHANGELOG entries. Central principle: **
 - Use more than 3-4 emojis per LinkedIn post, 2 per tweet
 - Over-promise: `The only guide you'll ever need`, `Complete mastery`
 
-## Language Rules
+## Language rules
 
 ### French (FR)
 
@@ -40,7 +40,7 @@ Rules for social content generated from CHANGELOG entries. Central principle: **
 - American English spelling (`optimize`, `analyze`, not `optimise`, `analyse`)
 - No British idioms or spellings
 
-## Emoji Budget
+## Emoji budget
 
 | Format | Max Emojis | Placement |
 |--------|-----------|-----------|
@@ -52,7 +52,7 @@ Rules for social content generated from CHANGELOG entries. Central principle: **
 Allowed emojis: `+`, `->`, technical symbols preferred over decorative ones.
 Avoid: fire, rocket, explosion, 100, mind-blown (marketing cliches).
 
-## CTA Rules
+## CTA rules
 
 | Format | CTA Style | Link Target |
 |--------|-----------|-------------|
@@ -63,7 +63,7 @@ Avoid: fire, rocket, explosion, 100, mind-blown (marketing cliches).
 
 No `Click here`, `Check this out`, `Link in bio` patterns.
 
-## Quality Checklist (Pre-Output)
+## Quality checklist (pre-output)
 
 Before outputting any social content, verify:
 

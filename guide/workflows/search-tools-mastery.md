@@ -14,7 +14,7 @@ tags: [workflow, search, guide, mcp]
 
 ---
 
-## Table of Contents
+## Table of contents
 
 1. [Quick Reference Matrix](#quick-reference-matrix)
 2. [Tool Comparison](#tool-comparison)
@@ -27,7 +27,7 @@ tags: [workflow, search, guide, mcp]
 
 ---
 
-## Quick Reference Matrix
+## Quick reference matrix
 
 | I need to... | Use This Tool | Command Example |
 |--------------|---------------|-----------------|
@@ -44,9 +44,9 @@ tags: [workflow, search, guide, mcp]
 
 ---
 
-## Tool Comparison
+## Tool comparison
 
-### Complete Feature Matrix
+### Complete feature matrix
 
 | Feature | rg (ripgrep) | grepai | Serena | ast-grep |
 |---------|--------------|--------|--------|----------|
@@ -64,7 +64,7 @@ tags: [workflow, search, guide, mcp]
 | **False positives** | Medium | Low | Very low | Very low |
 | **Learning curve** | Low | Medium | Low | High |
 
-### Token Cost Comparison
+### Token cost comparison
 
 | Tool | Typical Query | Tokens Consumed | Results Returned |
 |------|---------------|-----------------|------------------|
@@ -75,7 +75,7 @@ tags: [workflow, search, guide, mcp]
 
 **Key insight**: rg is 4x more token-efficient but 10x less intelligent than semantic tools.
 
-### Extended Tool Reference
+### Extended tool reference
 
 Two tools that address gaps in the core stack, covered in depth in [§ Extended Toolkit](#extended-toolkit-scip-search--lilmd):
 
@@ -86,9 +86,9 @@ Two tools that address gaps in the core stack, covered in depth in [§ Extended 
 
 ---
 
-## Decision Tree
+## Decision tree
 
-### Level 1: What Do You Know?
+### Level 1: What do you know?
 
 ```
 Do you know the EXACT text/pattern?
@@ -101,7 +101,7 @@ Do you know the EXACT text/pattern?
 └─ NO → Go to Level 2
 ```
 
-### Level 2: What Are You Looking For?
+### Level 2: What are you looking for?
 
 ```
 What's your search intent?
@@ -123,7 +123,7 @@ What's your search intent?
    └─ Example: grepai trace callers "validatePayment"
 ```
 
-### Level 2 (Worktree / No MCP)
+### Level 2 (worktree / no MCP)
 
 When running in a CI environment, a git worktree, or any context where MCP servers are unavailable:
 
@@ -147,9 +147,9 @@ Found too many results?
 
 ---
 
-## Combined Workflows
+## Combined workflows
 
-### Workflow 1: Exploring Unknown Codebase
+### Workflow 1: Exploring unknown codebase
 
 **Goal**: Understand a new project quickly
 
@@ -185,7 +185,7 @@ rg "validateSession" --type ts -A 5
 
 ---
 
-### Workflow 2: Large-Scale Refactoring
+### Workflow 2: Large-Scale refactoring
 
 **Goal**: Rename `createSession` → `initializeUserSession` across 50+ files
 
@@ -224,7 +224,7 @@ rg "createSession" --type ts
 
 ---
 
-### Workflow 3: Security Audit
+### Workflow 3: Security audit
 
 **Goal**: Find security vulnerabilities
 
@@ -265,7 +265,7 @@ rg "password" --type ts | rg -v "hashed"
 
 ---
 
-## Real-World Benchmarks
+## Real-world benchmarks
 
 ### grepai vs grep (Janvier 2026)
 
@@ -291,7 +291,7 @@ rg "password" --type ts | rg -v "hashed"
 
 ---
 
-### Workflow 4: Framework Migration
+### Workflow 4: Framework migration
 
 **Goal**: Migrate React class components → hooks
 
@@ -336,7 +336,7 @@ grepai search "component lifecycle methods"  # Find any missed
 
 ---
 
-### Workflow 5: Performance Optimization
+### Workflow 5: Performance optimization
 
 **Goal**: Identify and fix performance bottlenecks
 
@@ -379,7 +379,7 @@ rg "useMemo|useCallback" --type tsx
 
 ---
 
-## Real-World Scenarios
+## Real-world scenarios
 
 ### Scenario 1: "I Don't Know What I'm Looking For"
 
@@ -479,9 +479,9 @@ rg "processPayment" --type ts -A 20
 
 ---
 
-## Performance Optimization
+## Performance optimization
 
-### Choosing the Fastest Tool
+### Choosing the fastest tool
 
 **General Rules**:
 
@@ -490,7 +490,7 @@ rg "processPayment" --type ts -A 20
 3. **Refactoring** → Serena for symbol safety
 4. **Large migrations** → ast-grep for structural precision
 
-### Performance Benchmarks
+### Performance benchmarks
 
 **Test**: Find authentication code in 500k line codebase
 
@@ -504,7 +504,7 @@ rg "processPayment" --type ts -A 20
 
 **Winner**: Serena symbols (fastest + high quality) for known function names
 
-### Parallelization Strategy
+### Parallelization strategy
 
 **For large codebases (>100k lines)**:
 
@@ -530,9 +530,9 @@ jq -s '.[0] + .[1] + .[2]' \
 
 ---
 
-## Common Pitfalls
+## Common pitfalls
 
-### Pitfall 1: Using Semantic Search for Exact Matches
+### Pitfall 1: Using semantic search for exact matches
 
 ❌ **Wrong**:
 ```bash
@@ -548,7 +548,7 @@ rg "createSession" --type ts  # Fast, precise
 
 ---
 
-### Pitfall 2: Using rg for Conceptual Search
+### Pitfall 2: Using rg for conceptual search
 
 ❌ **Wrong**:
 ```bash
@@ -564,7 +564,7 @@ grepai search "authentication and session management"
 
 ---
 
-### Pitfall 3: Ignoring Call Graph Before Refactoring
+### Pitfall 3: Ignoring call graph before refactoring
 
 ❌ **Wrong**:
 ```bash
@@ -584,7 +584,7 @@ grepai trace callers "oldFunction"
 
 ---
 
-### Pitfall 4: Not Combining Tools
+### Pitfall 4: Not combining tools
 
 ❌ **Wrong**:
 ```bash
@@ -607,7 +607,7 @@ done
 
 ---
 
-### Pitfall 5: Over-Engineering Simple Searches
+### Pitfall 5: Over-Engineering simple searches
 
 ❌ **Wrong**:
 ```bash
@@ -624,9 +624,9 @@ rg "TODO" --type ts
 
 ---
 
-## Tool Selection Cheatsheet
+## Tool selection cheatsheet
 
-### Quick Decision Matrix
+### Quick decision matrix
 
 | Your Situation | Use This | Not This |
 |----------------|----------|----------|
@@ -711,7 +711,7 @@ lilmd read docs/architecture.md "=Authentication Flow"
 
 ---
 
-## Setup Priority
+## Setup priority
 
 **Recommended Setup Order**:
 
@@ -726,7 +726,7 @@ lilmd read docs/architecture.md "=Authentication Flow"
 
 ---
 
-## Summary: The 6-Tool Toolkit
+## Summary: The 6-tool toolkit
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -767,7 +767,7 @@ lilmd read docs/architecture.md "=Authentication Flow"
 
 ---
 
-## Further Reading
+## Further reading
 
 - [Serena MCP Guide](#serena-semantic-code-analysis)
 - [grepai Documentation](#grepai-recommended-semantic-search)

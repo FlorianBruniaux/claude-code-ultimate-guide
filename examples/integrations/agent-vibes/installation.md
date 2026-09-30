@@ -4,7 +4,7 @@ description: "Step-by-step installation guide for Agent Vibes text-to-speech int
 tags: [guide, tts, integration]
 ---
 
-# Agent Vibes TTS - Complete Installation Guide
+# Agent Vibes TTS - complete installation guide
 
 **Time Required**: ~18 minutes
 **Difficulty**: Intermediate
@@ -12,7 +12,7 @@ tags: [guide, tts, integration]
 
 ---
 
-## Prerequisites Check
+## Prerequisites check
 
 Before starting, verify you have:
 
@@ -26,7 +26,7 @@ Before starting, verify you have:
 
 ---
 
-## Installation Overview (5 Phases)
+## Installation overview (5 phases)
 
 ```
 Phase 1: System Dependencies     (~5 min)
@@ -57,9 +57,9 @@ Phase 5: Verification             (~1 min)
 
 ---
 
-## Phase 1: System Dependencies
+## Phase 1: System dependencies
 
-### Step 1.1: Install Bash 5.x
+### Step 1.1: Install bash 5.x
 
 Agent Vibes requires Bash 5.x (macOS ships with 3.2).
 
@@ -74,7 +74,7 @@ brew install bash
 
 **Why**: Agent Vibes scripts use Bash 5.x features (associative arrays, etc.)
 
-### Step 1.2: Install Audio Tools
+### Step 1.2: Install audio tools
 
 ```bash
 # Install audio processing tools
@@ -92,7 +92,7 @@ ffmpeg -version
 
 **Note**: `util-linux` is "keg-only" (not symlinked), but Agent Vibes finds it automatically.
 
-### Step 1.3: Install espeak-ng (Piper Dependency)
+### Step 1.3: Install espeak-ng (Piper dependency)
 
 ```bash
 # Install espeak-ng
@@ -104,7 +104,7 @@ espeak-ng --version
 
 **Why**: Piper TTS requires `libespeak-ng` library for phoneme processing.
 
-### Checkpoint 1: Dependencies Installed ✅
+### Checkpoint 1: Dependencies installed ✅
 
 ```bash
 # Verify all dependencies
@@ -117,9 +117,9 @@ echo "✅ All dependencies installed"
 
 ---
 
-## Phase 2: Agent Vibes Installation
+## Phase 2: Agent Vibes installation
 
-### Step 2.1: Launch Interactive Installer
+### Step 2.1: Launch interactive installer
 
 ```bash
 # Navigate to your Claude Code project
@@ -131,7 +131,7 @@ npx agentvibes install
 
 **Expected**: ASCII art banner + welcome screen
 
-### Step 2.2: Navigate Installation Pages
+### Step 2.2: Navigate installation pages
 
 **Page 1/4: System Dependencies**
 - Review detected dependencies
@@ -154,7 +154,7 @@ npx agentvibes install
 - **Verbosity**: Select `Low` (less chatty)
 - Click **"Start Installation"**
 
-### Step 2.3: Installation Progress
+### Step 2.3: Installation progress
 
 Agent Vibes will install:
 - 34 slash commands
@@ -174,7 +174,7 @@ Agent Vibes will install:
 ✅ AgentVibes is Ready!
 ```
 
-### Checkpoint 2: Agent Vibes Installed ✅
+### Checkpoint 2: Agent Vibes installed ✅
 
 ```bash
 # Verify installation
@@ -189,7 +189,7 @@ cat .claude/tts-provider.txt
 
 ---
 
-## Phase 3: Piper TTS + Voice Models
+## Phase 3: Piper TTS + voice models
 
 ### Step 3.1: Install Piper TTS via pipx
 
@@ -207,7 +207,7 @@ piper --help
 
 **Solution**: `pipx install piper-tts` works reliably (Python version, not binary).
 
-### Step 3.2: Download French Voices
+### Step 3.2: Download French voices
 
 ```bash
 # Navigate to voice storage
@@ -237,7 +237,7 @@ curl -L -o fr_FR-mls-medium.onnx.json \
 
 **Size**: ~60-73MB per voice (4 voices = ~260MB total)
 
-### Step 3.3: Download English Voices (Optional)
+### Step 3.3: Download English voices (optional)
 
 Agent Vibes auto-downloads 12 English voices during installation. Verify:
 
@@ -247,7 +247,7 @@ ls ~/.claude/piper-voices/en_US-*.onnx
 
 **Expected**: 12 files (ryan, amy, lessac, bryce, etc.)
 
-### Checkpoint 3: Voices Downloaded ✅
+### Checkpoint 3: Voices downloaded ✅
 
 ```bash
 # Count voices
@@ -264,7 +264,7 @@ echo "Bonjour, je suis Claude et je parle français" | \
 
 ## Phase 4: Configuration
 
-### Step 4.1: Set Piper as Provider
+### Step 4.1: Set Piper as provider
 
 ```bash
 # Switch to Piper TTS (if not already set)
@@ -275,7 +275,7 @@ cat .claude/tts-provider.txt
 # Expected: "piper"
 ```
 
-### Step 4.2: Set French Male Voice
+### Step 4.2: Set French male voice
 
 ```bash
 # Set default voice
@@ -286,7 +286,7 @@ cat .claude/tts-voice.txt
 # Expected: "fr_FR-tom-medium"
 ```
 
-### Step 4.3: Test Audio Generation
+### Step 4.3: Test audio generation
 
 ```bash
 # Test TTS pipeline manually
@@ -297,7 +297,7 @@ cat .claude/tts-voice.txt
 
 **Troubleshooting**: If no audio, see [Troubleshooting Guide](./troubleshooting.md#issue-1-no-audio-output).
 
-### Checkpoint 4: Configuration Complete ✅
+### Checkpoint 4: Configuration complete ✅
 
 ```bash
 # Verify config files
@@ -318,7 +318,7 @@ echo "✅ Configuration complete"
 claude
 ```
 
-### Step 5.2: Test TTS Commands
+### Step 5.2: Test TTS commands
 
 ```bash
 # In Claude, run:
@@ -333,7 +333,7 @@ claude
 # Expected: Audio response in French
 ```
 
-### Step 5.3: Verify Hooks Active
+### Step 5.3: Verify hooks active
 
 ```bash
 # Exit Claude, check hook was triggered
@@ -345,7 +345,7 @@ ls -la ~/.claude/tts-last-played.wav
 # Expected: File exists
 ```
 
-### Checkpoint 5: Verification Complete ✅
+### Checkpoint 5: Verification complete ✅
 
 ```bash
 # Final verification
@@ -358,9 +358,9 @@ echo "✅ Installation successful!"
 
 ---
 
-## Post-Installation Configuration
+## Post-installation configuration
 
-### Reduce Verbosity (Recommended)
+### Reduce verbosity (recommended)
 
 ```bash
 # In Claude Code
@@ -369,7 +369,7 @@ echo "✅ Installation successful!"
 
 **Why**: Reduces audio narration frequency, less distracting.
 
-### Hide 34 Commands (Optional)
+### Hide 34 commands (optional)
 
 ```bash
 # In Claude Code
@@ -378,7 +378,7 @@ echo "✅ Installation successful!"
 
 **Why**: Declutters command palette. Use `/agent-vibes:show` to unhide.
 
-### Disable Background Music
+### Disable background music
 
 ```bash
 # In Claude Code
@@ -387,7 +387,7 @@ echo "✅ Installation successful!"
 
 **Why**: Background music can be distracting during focus work.
 
-### Set Project Mute (Optional)
+### Set project mute (optional)
 
 ```bash
 # Mute TTS for this project only
@@ -398,7 +398,7 @@ touch .claude/agentvibes-muted
 
 ---
 
-## Performance Benchmarks
+## Performance benchmarks
 
 **System**: M1 MacBook Pro, 16GB RAM, macOS Sequoia 24.6.0
 
@@ -415,7 +415,7 @@ touch .claude/agentvibes-muted
 
 ---
 
-## Disk Usage
+## Disk usage
 
 | Component | Size | Location |
 |-----------|------|----------|
@@ -429,16 +429,16 @@ touch .claude/agentvibes-muted
 
 ---
 
-## Uninstall Instructions
+## Uninstall instructions
 
-### Automated Uninstall
+### Automated uninstall
 
 ```bash
 # Uninstall Agent Vibes completely
 npx agentvibes uninstall --yes
 ```
 
-### Manual Cleanup
+### Manual cleanup
 
 ```bash
 # Remove Agent Vibes files
@@ -461,9 +461,9 @@ rm ~/.agentvibes-muted 2>/dev/null
 
 ---
 
-## Common Installation Issues
+## Common installation issues
 
-### Issue 1: `libespeak-ng.1.dylib` Not Found
+### Issue 1: `libespeak-ng.1.dylib` not found
 
 **Symptom**:
 ```
@@ -480,7 +480,7 @@ pipx uninstall piper-tts
 pipx install piper-tts
 ```
 
-### Issue 2: `flock` Warning (Optional Tool)
+### Issue 2: `flock` warning (optional tool)
 
 **Symptom**:
 ```
@@ -496,7 +496,7 @@ pipx install piper-tts
 export PATH="/opt/homebrew/opt/util-linux/bin:$PATH"
 ```
 
-### Issue 3: Agent Vibes Installer Exits
+### Issue 3: Agent Vibes installer exits
 
 **Symptom**:
 ```
@@ -507,7 +507,7 @@ ExitPromptError: User force closed the prompt
 
 **Solution**: Run `npx agentvibes install` in interactive terminal (not via script).
 
-### Issue 4: No Audio After Installation
+### Issue 4: No audio after installation
 
 **Diagnostic**:
 ```bash
@@ -526,7 +526,7 @@ echo "Test" | piper -m ~/.claude/piper-voices/fr_FR-tom-medium.onnx \
 
 ---
 
-## Next Steps
+## Next steps
 
 After installation:
 

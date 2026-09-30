@@ -1,4 +1,4 @@
-# Resource Evaluation #074: Ruflo, Multi-Agent Orchestration Platform for Claude Code
+# Resource evaluation #074: Ruflo, multi-agent orchestration platform for Claude Code
 
 **Source:** [github.com/ruvnet/ruflo](https://github.com/ruvnet/ruflo)
 **npm package:** `claude-flow` (ancien nom du projet, npm non encore migre)
@@ -129,7 +129,7 @@ Points cles de l'agent:
 
 ---
 
-## Fact-Check
+## Fact-check
 
 | Affirmation | Verifiee | Source |
 |-------------|----------|--------|

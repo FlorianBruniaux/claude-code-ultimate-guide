@@ -4,7 +4,7 @@ description: "15-minute quickstart to create programmatic videos with Remotion a
 tags: [tutorial, workflow, integration]
 ---
 
-# Remotion + Claude Code Quickstart
+# Remotion + Claude Code quickstart
 
 **Objectif**: Créer votre première vidéo programmatique avec Remotion et Claude Code en 15 minutes.
 
@@ -25,9 +25,9 @@ tags: [tutorial, workflow, integration]
 
 ---
 
-## 📦 Étape 1: Installation des Remotion Skills
+## 📦 Étape 1: Installation des Remotion skills
 
-### Option A: Via skills.sh (Recommandé)
+### Option A: Via skills.sh (recommandé)
 
 ```bash
 # Dans un nouveau dossier de projet
@@ -386,7 +386,7 @@ npm run build
 
 ## 📚 Ressources Complémentaires
 
-### 🎯 Top 3 Essentielles (Start Here)
+### 🎯 Top 3 essentielles (start here)
 
 | Ressource | Type | URL | Pourquoi |
 |-----------|------|-----|----------|
@@ -414,7 +414,7 @@ npm run build
 - [Snapper AI - Generate Animated Videos](https://www.youtube.com/watch?v=EwKCAgt4aKI) (9:48, jan 2026)
 - [chantastic - Making Remotion Videos](https://www.youtube.com/watch?v=z87bczUZ0uo) (30 min, jan 2026)
 
-### 🛠️ Templates & Exemples
+### 🛠️ Templates & exemples
 
 | Template | Usage | Lien | Complexité |
 |----------|-------|------|-----------|
@@ -424,7 +424,7 @@ npm run build
 
 **Page complète**: [remotion.dev/docs/resources](https://www.remotion.dev/docs/resources) (50+ templates maintenus)
 
-### 🏆 Success Stories (Inspiration)
+### 🏆 Success stories (inspiration)
 
 Produits réels générant des revenus avec Remotion:
 
@@ -458,7 +458,7 @@ Produits réels générant des revenus avec Remotion:
 - [Railway Template](https://railway.com/deploy/remotion-on-rails) (1-click deploy)
 - [Lambda Docs](https://www.remotion.dev/docs/lambda) (AWS serverless rendering)
 
-### 📊 Paquets Utiles
+### 📊 Paquets utiles
 
 | Paquet | Usage | Installation |
 |--------|-------|--------------|

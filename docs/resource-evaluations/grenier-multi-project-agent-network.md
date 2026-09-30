@@ -1,4 +1,4 @@
-# Resource Evaluation: Multi-Project Agent Network (Mathieu Grenier)
+# Resource evaluation: Multi-Project agent network (Mathieu Grenier)
 
 **URL**: https://mathieugrenier.fr (blog "Coder avec Claude, c'est facile et rapide"), article dated 2026-08-15
 **Type**: Personal blog post, French, first-person field report

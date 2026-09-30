@@ -1,4 +1,4 @@
-# Resource Evaluation: Anaconda Croce Coding Competition
+# Resource evaluation: Anaconda Croce coding competition
 
 **Evaluated**: 2026-01-26
 **Evaluator**: Claude (Sonnet 4.5) via `/eval-resource` skill
@@ -6,7 +6,7 @@
 
 ---
 
-## Resource Details
+## Resource details
 
 | Field | Value |
 |-------|-------|
@@ -43,7 +43,7 @@ Steve Croce (Anaconda Field CTO) documents a 12-day experiment racing Claude Cod
 
 ---
 
-## Evaluation Scores
+## Evaluation scores
 
 | Criterion | Score | Justification |
 |-----------|-------|---------------|
@@ -58,9 +58,9 @@ Steve Croce (Anaconda Field CTO) documents a 12-day experiment racing Claude Cod
 
 ---
 
-## Comparative Analysis
+## Comparative analysis
 
-### What This Resource Covers
+### What this resource covers
 
 | Aspect | Coverage |
 |--------|----------|
@@ -70,7 +70,7 @@ Steve Croce (Anaconda Field CTO) documents a 12-day experiment racing Claude Cod
 | When to use AI | ✅ High-level categories (routine vs creative) |
 | Recommendations | ✅ Generic ("go solo sometimes") |
 
-### What the Guide Already Covers
+### What the guide already covers
 
 | Aspect | Guide Location | Depth |
 |--------|----------------|-------|
@@ -80,7 +80,7 @@ Steve Croce (Anaconda Field CTO) documents a 12-day experiment racing Claude Cod
 | AI limitations | `guide/ultimate-guide.md`, `guide/core/methodologies.md` | ✅✅✅ Extensive coverage |
 | Empirical metrics | — | ❌ Missing (theoretical only) |
 
-### Gap Analysis
+### Gap analysis
 
 **What this resource ADDS:**
 1. ✅ Empirical speed metrics (90s vs 60min) — but from non-representative context
@@ -94,9 +94,9 @@ Steve Croce (Anaconda Field CTO) documents a 12-day experiment racing Claude Cod
 
 ---
 
-## Limitations & Caveats
+## Limitations & caveats
 
-### Methodological Limitations
+### Methodological limitations
 
 1. **N=1**: Single-participant self-report, no statistical validity
 2. **Context specificity**: Advent of Code = isolated algorithmic puzzles, not representative of:
@@ -107,7 +107,7 @@ Steve Croce (Anaconda Field CTO) documents a 12-day experiment racing Claude Cod
 3. **No peer review**: Corporate blog post, not academic research
 4. **Commercial bias**: Published on Anaconda blog by Anaconda Field CTO (potential conflict of interest for promoting AI tooling)
 
-### Generalizability Issues
+### Generalizability issues
 
 | Advent of Code | Production Development |
 |----------------|------------------------|
@@ -119,7 +119,7 @@ Steve Croce (Anaconda Field CTO) documents a 12-day experiment racing Claude Cod
 
 **Conclusion**: Metrics and findings are **context-specific** and should not be extrapolated to general software development.
 
-### Collaboration Cost Caveat
+### Collaboration cost caveat
 
 The observed "collaboration cost" (less Slack engagement) may be:
 - Specific to solo competitive challenges (Advent of Code format)
@@ -131,12 +131,12 @@ Guide already addresses isolation/dependency risks without claiming empirical va
 
 ## Technical Critique (Validated by technical-writer agent)
 
-### Score Adjustment
+### Score adjustment
 
 **Initial score**: 4/5 (Très pertinent)
 **Post-challenge score**: 2/5 (Marginal)
 
-### Key Critiques
+### Key critiques
 
 1. **Metrics non-transférables**: "90s vs 60min" on Advent of Code puzzles ≠ real development productivity
 2. **Biais commercial**: Anaconda blog by Anaconda Field CTO = marketing interest
@@ -145,7 +145,7 @@ Guide already addresses isolation/dependency risks without claiming empirical va
 5. **"Coût caché collaboration" pas nouveau**: Guide already covers dependency/isolation risks
 6. **Recommandations vagues**: "Do a project without AI" lacks specifics (type? duration? metrics?)
 
-### Risk of Integration
+### Risk of integration
 
 **If integrated extensively:**
 - ❌ Dilutes guide quality with marketing content
@@ -159,16 +159,16 @@ Guide already addresses isolation/dependency risks without claiming empirical va
 
 ---
 
-## Decision & Integration
+## Decision & integration
 
-### Decision: **Minimal Mention** (Option A)
+### Decision: **Minimal mention** (option A)
 
 **Rationale:**
 - Provides light empirical validation of existing patterns
 - Maintains guide credibility by limiting exposure to non-scientific content
 - Includes strong caveats to prevent misinterpretation
 
-### Integration Location
+### Integration location
 
 **File**: `guide/roles/learning-with-ai.md`
 **Section**: New subsection "Community Experiences" added after §13 "Sources & Research"
@@ -185,7 +185,7 @@ Practitioner reports from real-world usage provide empirical validation of theor
 [^croce2025]: Steve Croce, ["What I Learned Challenging Claude to a Coding Competition"](https://www.anaconda.com/blog/challenging-claude-code-coding-competition), Anaconda Blog, Jan 16, 2026. Field CTO perspective from 12 days of Advent of Code competition (human vs Claude Code). Reported metrics: Claude 90s/puzzle average, human 60min/puzzle average, no debugging until day 6. Note: Single-participant study on algorithmic puzzles, not production development.
 ```
 
-### Alternative Considered (Rejected)
+### Alternative considered (rejected)
 
 **Option B: Complete Rejection**
 - Reason for rejection: Minimal integration provides empirical flavor without compromising rigor
@@ -193,7 +193,7 @@ Practitioner reports from real-world usage provide empirical validation of theor
 
 ---
 
-## Fact-Check Results
+## Fact-check results
 
 | Claim | Status | Source |
 |-------|--------|--------|
@@ -212,7 +212,7 @@ Practitioner reports from real-world usage provide empirical validation of theor
 
 ---
 
-## Recommendations for Future Updates
+## Recommendations for future updates
 
 1. **If more rigorous study emerges**: Replace this reference with peer-reviewed research
 2. **If Croce publishes follow-up**: Re-evaluate if N increases or context expands to production dev

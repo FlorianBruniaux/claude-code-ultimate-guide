@@ -10,13 +10,13 @@
 
 ---
 
-## Executive Summary
+## Executive summary
 
 A single-file `/security-audit` slash command for Claude Code that runs a 16-section OWASP-mapped web app audit with scoring /10. The repo is 18 days old. The guide already has full OWASP coverage via `security-audit.md`, `security-check.md`, `security-auditor.md` agent, and the 41KB `security-hardening.md`. Two patterns in this resource are genuinely better than what we have: an environment context step (dev/staging/prod) before auditing, and an anti-false-positive factual check before reporting secrets (runs real git history before raising a finding). One area is a genuine gap: paywall/billing logic audit. Everything else overlaps.
 
 ---
 
-## Content Summary
+## Content summary
 
 - **16 audit sections** with OWASP Top 10 (2021) + CWE IDs: HTTP headers, auth, CSRF, open redirect, injection (SQL/XSS/command), IDOR/access control, secrets and crypto, paywall/billing, vulnerable deps (npm audit + pip-audit), CORS, files/config, WebSocket, SSRF, logging/monitoring, data integrity, software integrity
 - **Context-aware pre-step**: asks dev/staging/prod before starting — avoids false positives on debug flags, CORS `*`, and HTTP-only configs that are normal in local dev
@@ -27,7 +27,7 @@ A single-file `/security-audit` slash command for Claude Code that runs a 16-sec
 
 ---
 
-## Gap Analysis vs. Guide
+## Gap analysis vs. guide
 
 | Section | VicKayro's Command | Our Coverage |
 |---------|-------------------|--------------|
@@ -75,7 +75,7 @@ Challenge accepted. Score adjusted to 2/5. Integration plan revised accordingly.
 
 ---
 
-## Fact-Check
+## Fact-check
 
 | Claim | Verified | Source |
 |-------|----------|--------|

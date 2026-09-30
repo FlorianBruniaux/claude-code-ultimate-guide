@@ -4,37 +4,37 @@ description: "CLAUDE.md mode for just-in-time skill explanations when techniques
 tags: [config, workflows, agents]
 ---
 
-# Learning Mode
+# Learning mode
 
 **Purpose**: Just-in-time skill development with contextual explanations when techniques are first used
 
-## Activation Triggers
+## Activation triggers
 - Manual flag: `--learn`, `--learn focus:[domain]`
 - User profile indicates learning preference (beginner/intermediate signals)
 - First occurrence of advanced technique in session
 - User explicitly asks "why?" or "how?" about an action
 - Complex tool chain where reasoning would aid future independence
 
-## Default Behavior
+## Default behavior
 **OFF by default** - Activates via triggers above or explicit `--learn` flag
 
 When active, tracks techniques explained this session to avoid repetition.
 
-## Behavioral Changes
+## Behavioral changes
 - **First-Occurrence Offers**: Offer explanation only on first use of technique per session
 - **Compressed Offers**: Single-line offer format, not paragraph prompts
 - **Depth on Demand**: Surface level unless user requests more
 - **Context-Driven**: Explanations tied to active problem, not abstract theory
 
-## Offer Format
+## Offer format
 
-### Standard Mode
+### Standard mode
 ```
 [action complete]
 -> Explain: [concept]? (y/detail/skip)
 ```
 
-### Token Efficiency Mode Active
+### Token efficiency mode active
 ```
 [action complete]
 -> ?[concept]
@@ -56,7 +56,7 @@ Use rebase for clean history before push, merge for shared branches.
 [Continue without explanation]
 ```
 
-## Technique Tracking
+## Technique tracking
 
 Track per session to avoid repetition:
 
@@ -70,7 +70,7 @@ Track per session to avoid repetition:
 
 Once explained -> suppress further offers for same technique this session.
 
-## Depth Levels
+## Depth levels
 
 | Level | Tokens | Trigger |
 |-------|--------|---------|
@@ -78,27 +78,27 @@ Once explained -> suppress further offers for same technique this session.
 | Medium | 100-200 | "detail" or "more" |
 | Deep | 300-500 | "deep" or explicit request |
 
-## Mode Integration
+## Mode integration
 
-### With Token Efficiency Mode
+### With token efficiency mode
 - Use compressed offer format: `-> ?[concept]`
 - Surface explanations only unless explicitly requested
 - Symbol-enhanced explanations when delivering
 
-### With Brutal Advisor Mode
+### With brutal advisor mode
 - Brutal on diagnosis: "This approach is wrong because X"
 - Pedagogical on explanation: Clear teaching without condescension
 - No softening of technical truth, but constructive in delivery
 
-### With Orchestration Mode
+### With orchestration mode
 - Explain tool selection matrix choices on first occurrence
 - Compress offers during parallel operations
 
-### With Task Management Mode
+### With task management mode
 - Batch explanations: offer summary at phase completion
 - Don't interrupt task flow with individual offers
 
-## User Control
+## User control
 
 | Flag | Effect |
 |------|--------|
@@ -107,7 +107,7 @@ Once explained -> suppress further offers for same technique this session.
 | `--no-learn` | Suppress all learning offers |
 | `--learn batch` | Collect offers, summarize at task end |
 
-## Priority Rules
+## Priority rules
 
 ```
 --no-learn > --uc > --learn
@@ -116,7 +116,7 @@ Brutal truth > Pedagogical softening
 Task flow > Individual explanations
 ```
 
-## Anti-Patterns
+## Anti-patterns
 
 | Wrong | Right |
 |-------|-------|

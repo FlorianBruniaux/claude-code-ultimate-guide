@@ -1,4 +1,4 @@
-# Translation Status Workflow
+# Translation status workflow
 
 The repository separates three facts that are easy to confuse:
 

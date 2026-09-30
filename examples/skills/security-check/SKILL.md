@@ -6,7 +6,7 @@ effort: medium
 disable-model-invocation: true
 ---
 
-# Security Check
+# Security check
 
 Quick configuration security check against known threats database. Verifies your Claude Code setup for known malicious skills, vulnerable MCPs, dangerous patterns, and exposed secrets.
 
@@ -16,14 +16,14 @@ Quick configuration security check against known threats database. Verifies your
 
 You are a security analyst. Check the user's Claude Code configuration against the compatibility threat database at `examples/commands/resources/threat-db.yaml`. Produce a concise, actionable report.
 
-### Phase 1: Load Threat Database
+### Phase 1: Load threat database
 
 Read `examples/commands/resources/threat-db.yaml` from this repository to load:
 - Known malicious authors and skills
 - CVE database for MCP servers
 - Suspicious patterns for hooks, agents, and config
 
-### Phase 2: MCP Server Audit
+### Phase 2: MCP server audit
 
 Read the user's MCP configuration:
 
@@ -41,7 +41,7 @@ cat .mcp.json 2>/dev/null
 - [ ] Any `--dangerous-*` flags in MCP args? → CRITICAL
 - [ ] Any MCP servers not on the Safe List (see `guide/security/security-hardening.md` §1.1)? → MEDIUM (flag for manual review)
 
-### Phase 3: Skills & Agents Audit
+### Phase 3: Skills & agents audit
 
 ```bash
 # List installed skills
@@ -100,7 +100,7 @@ find .claude/skills/ ~/.claude/skills/ -type f 2>/dev/null | \
 - [ ] Skill writes to crontab, launchctl, or shell rc files? → CRITICAL
 - [ ] Skill reads env vars AND makes outbound network calls? → CRITICAL
 
-### Phase 4: Hook Security
+### Phase 4: Hook security
 
 ```bash
 # List all hooks
@@ -122,7 +122,7 @@ grep -rn "ssh\|id_rsa\|id_ed25519\|\.env\|credentials\|secret\|password\|token\|
 - [ ] Credential access (`ssh`, `.env`, `password`) → CRITICAL
 - [ ] Base64 encoding → MEDIUM (review context)
 
-### Phase 5: Memory Poisoning Check
+### Phase 5: Memory poisoning check
 
 ```bash
 # Check for suspicious instructions in memory/config files
@@ -134,7 +134,7 @@ grep -in "ignore\|forget\|override\|disregard\|you are now\|new role\|system pro
 - [ ] Prompt injection patterns in CLAUDE.md / SOUL.md / MEMORY.md? → HIGH
 - [ ] Instructions to disable security, skip reviews, or grant broad permissions? → CRITICAL
 
-### Phase 6: Permissions & Settings
+### Phase 6: Permissions & settings
 
 ```bash
 # Check settings
@@ -146,7 +146,7 @@ cat ~/.claude/settings.json 2>/dev/null
 - [ ] No wildcard `permissions.allow` for Bash or Write? → HIGH if present
 - [ ] No `dangerouslySkipPermissions` or similar flags? → CRITICAL if present
 
-### Phase 7: Exposed Secrets in Config
+### Phase 7: Exposed secrets in config
 
 ```bash
 # Check for secrets in .claude/ directory
@@ -160,7 +160,7 @@ grep -rn "BEGIN.*PRIVATE KEY" .claude/ ~/.claude/ 2>/dev/null
 - [ ] API keys or tokens in config files? → CRITICAL
 - [ ] Private keys in config? → CRITICAL
 
-## Output Format
+## Output format
 
 ```
 ## 🛡️ Security Check Report

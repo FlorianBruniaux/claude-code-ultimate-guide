@@ -4,13 +4,13 @@ description: "Use existing battle-tested repositories as scaffolding for new pro
 tags: [workflow, architecture, template]
 ---
 
-# Skeleton Projects Workflow
+# Skeleton projects workflow
 
 Use existing, battle-tested repositories as scaffolding for new projects instead of starting from scratch.
 
 ---
 
-## When to Use
+## When to use
 
 - **Starting a new project** with known technology stack
 - **Standardizing team patterns** across multiple services
@@ -29,9 +29,9 @@ Use existing, battle-tested repositories as scaffolding for new projects instead
 
 ---
 
-## Step-by-Step Guide
+## Step-by-step guide
 
-### Phase 1: Find and Evaluate a Skeleton
+### Phase 1: Find and evaluate a skeleton
 
 Don't build from zero. Find an existing repo that matches your target architecture.
 
@@ -79,7 +79,7 @@ Agent 3 (DX): Evaluate developer experience - setup time, documentation, tooling
 Synthesize findings into a go/no-go recommendation.
 ```
 
-### Phase 2: Fork and Customize
+### Phase 2: Fork and customize
 
 **Step 4: Create your project from the skeleton**
 
@@ -107,7 +107,7 @@ Important: Don't break the working skeleton. Each removal should be followed
 by a build check.
 ```
 
-### Phase 3: Expand from Skeleton to MVP
+### Phase 3: Expand from skeleton to MVP
 
 **Step 6: Build the first real feature**
 
@@ -134,7 +134,7 @@ User: Now that we have one real feature, verify the skeleton still works:
 4. Confirm new code follows skeleton conventions consistently
 ```
 
-### Phase 4: Document and Iterate
+### Phase 4: Document and iterate
 
 **Step 8: Document decisions in CLAUDE.md**
 
@@ -149,7 +149,7 @@ User: Update CLAUDE.md with:
 
 ---
 
-## Skeleton Expansion Timeline
+## Skeleton expansion timeline
 
 ```
 Skeleton (Day 1)     →    MVP (Week 1)      →    Production (Month 1)
@@ -164,7 +164,7 @@ README only          →    CLAUDE.md + ADRs   →    Full documentation
 
 ---
 
-## Real-World Example: Microservice from Skeleton
+## Real-World example: Microservice from skeleton
 
 ```bash
 # 1. Clone proven skeleton
@@ -190,7 +190,7 @@ User: "Run all tests, verify build, check skeleton patterns preserved"
 
 ---
 
-## Common Pitfalls
+## Common pitfalls
 
 | Pitfall | Symptom | Fix |
 |---------|---------|-----|
@@ -202,7 +202,7 @@ User: "Run all tests, verify build, check skeleton patterns preserved"
 
 ---
 
-## Related Workflows
+## Related workflows
 
 - **[Vibe Coding](#98-vibe-coding-skeleton-projects)**: Explore before choosing a skeleton
 - **[Plan-Driven Development](./plan-driven.md)**: Plan skeleton customization before executing

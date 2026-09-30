@@ -1,4 +1,4 @@
-# Resource Evaluation: Everything Claude Code (GitHub Repository)
+# Resource evaluation: Everything Claude Code (GitHub repository)
 
 **Date**: 2026-01-27
 **Evaluator**: Claude Sonnet 4.5
@@ -10,7 +10,7 @@
 
 ---
 
-## Executive Summary
+## Executive summary
 
 "Everything Claude Code" is a production-ready configuration collection built from 10+ months of intensive daily use by an Anthropic hackathon winner. Unlike our tutorial-focused Ultimate Guide, it provides **battle-tested configs, plugin system, and unique optimization patterns** (hookify, pass@k metrics, sandboxed subagents). With 31.9k stars in 9 days (now 234,124 as of 2026-07-28), it represents the largest community-validated Claude Code resource.
 
@@ -18,7 +18,7 @@
 
 ---
 
-## Scoring Summary
+## Scoring summary
 
 | Criterion | Score | Weight | Weighted Score |
 |-----------|-------|--------|----------------|
@@ -32,9 +32,9 @@
 
 ---
 
-## Detailed Analysis
+## Detailed analysis
 
-### 1. Accuracy & Reliability (Score: 5/5)
+### 1. Accuracy & reliability (score: 5/5)
 
 **Evidence of Quality**:
 - Battle-tested through hackathon win (zenith.chat project)
@@ -60,7 +60,7 @@
 
 ---
 
-### 2. Depth & Comprehensiveness (Score: 5/5)
+### 2. Depth & comprehensiveness (score: 5/5)
 
 **Breadth Coverage**:
 - 15+ directories (agents, skills, commands, hooks, rules, MCP configs)
@@ -93,7 +93,7 @@
 
 ---
 
-### 3. Practical Value (Score: 5/5)
+### 3. Practical value (score: 5/5)
 
 **Immediate Applicability**:
 - Plugin installation: One command → full setup
@@ -127,7 +127,7 @@
 
 ---
 
-### 4. Originality & Uniqueness (Score: 5/5)
+### 4. Originality & uniqueness (score: 5/5)
 
 **Novel Approaches Not in Our Guide**:
 
@@ -159,7 +159,7 @@
 
 ---
 
-### 5. Production Readiness (Score: 5/5)
+### 5. Production readiness (score: 5/5)
 
 **Enterprise-Grade Qualities**:
 - Cross-platform support (Windows, macOS, Linux)
@@ -195,7 +195,7 @@
 
 ---
 
-### 6. Community Validation (Score: 5/5)
+### 6. Community validation (score: 5/5)
 
 **Engagement Metrics**:
 - **31.9k stars** in 9 days (now 234,124 as of 2026-07-28, extraordinary velocity)
@@ -231,7 +231,7 @@
 
 ---
 
-## Integration Recommendations
+## Integration recommendations
 
 ### Immediate Actions (Score 5 = <24h)
 
@@ -304,7 +304,7 @@
 
 ---
 
-## Comparison Matrix: Our Guide vs Everything Claude Code
+## Comparison matrix: Our guide vs everything Claude Code
 
 | Dimension | Ultimate Guide | Everything Claude Code | Winner |
 |-----------|----------------|------------------------|--------|
@@ -323,7 +323,7 @@
 
 ---
 
-## Unique Learnings to Extract
+## Unique learnings to extract
 
 ### 1. pass@k and pass^k Metrics
 - Formal verification approach:
@@ -332,51 +332,51 @@
   - Example: k=3 → 91% pass@k, 34% pass^k
 - Application: Measure skill effectiveness empirically
 
-### 2. Hookify Plugin Workflow
+### 2. Hookify plugin workflow
 - Conversational hook creation (describe need → JSON generated)
 - Lowers barrier vs manual JSON writing
 - Pattern: Natural language → structured config
 
-### 3. Sandboxed Subagents
+### 3. Sandboxed subagents
 - Tool restriction per agent (security-reviewer can't Edit)
 - Prevents accidental destructive actions
 - Implementation: Define `tools: [Read, Grep]` in agent config
 
-### 4. Cascade Method (Multi-Instance)
+### 4. Cascade method (multi-instance)
 - Manage multiple Claude instances: "Sweep left to right, oldest to newest"
 - Focus on 3-4 tasks max
 - Prevents context switching overhead
 
-### 5. Stop Hook Pattern
+### 5. Stop hook pattern
 - Auto-summarization at session end (vs per-message)
 - Captures: successes, failures, unexplored paths
 - Feeds into reusable skills
 
-### 6. Skill Creator from Git History
+### 6. Skill creator from git history
 - Extract patterns from actual commits
 - Plugin or local implementation
 - Pattern: `git log` → skill definition
 
-### 7. Context-Aware MCP Management
+### 7. Context-Aware MCP management
 - 20-30 MCPs configured, <10 enabled per project
 - Reduces context window pressure (200k → 70k effective)
 - Strategy: Enable per task, not globally
 
-### 8. Iterative Retrieval Pattern
+### 8. Iterative retrieval pattern
 - 3-cycle max for subagent context clarification
 - Corrects subagent limitation (lack of orchestrator context)
 - Flow: Query → Clarify → Revisit → Output
 
-### 9. Two-Instance Kickoff Pattern
+### 9. Two-Instance kickoff pattern
 - Instance 1 (Scaffolding): Project structure + config
 - Instance 2 (Research): Deep integration + docs
 - Prevents context mixing early in project
 
 ---
 
-## Risks & Limitations
+## Risks & limitations
 
-### 1. Opinionated Stack
+### 1. Opinionated stack
 - **Risk**: Heavy Go-specific patterns, Zed editor focus
 - **Mitigation**: Author acknowledges "modify for your stack"
 - **Impact**: Medium (requires adaptation)
@@ -386,24 +386,24 @@
 - **Mitigation**: Manual installation available (bash-compatible)
 - **Impact**: Low (Node.js widely adopted)
 
-### 3. Learning Curve
+### 3. Learning curve
 - **Risk**: Advanced patterns assume Claude Code familiarity
 - **Mitigation**: Shortform guide covers foundations
 - **Impact**: Medium (our guide bridges this gap)
 
-### 4. Plugin System Maturity
+### 4. Plugin system maturity
 - **Risk**: New distribution model, potential bugs
 - **Mitigation**: Manual installation fallback
 - **Impact**: Low (community testing rapid)
 
-### 5. Maintenance Dependence
+### 5. Maintenance dependence
 - **Risk**: Single primary author (affaan-m)
 - **Mitigation**: 3.8k forks ensure continuity, MIT license
 - **Impact**: Low (community can fork-maintain)
 
 ---
 
-## Final Recommendation
+## Final recommendation
 
 **Score: 5/5 (CRITICAL)**
 

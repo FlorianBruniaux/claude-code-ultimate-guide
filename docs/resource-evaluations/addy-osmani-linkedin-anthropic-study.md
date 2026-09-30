@@ -1,4 +1,4 @@
-# Resource Evaluation: Addy Osmani LinkedIn Post - Anthropic Study
+# Resource evaluation: Addy Osmani LinkedIn post - Anthropic study
 
 **Date**: 2026-02-01
 **Evaluator**: Claude (Sonnet 4.5)
@@ -21,7 +21,7 @@ LinkedIn post by Addy Osmani summarizing Anthropic research on AI-assisted devel
 
 ---
 
-## Evaluation Scoring
+## Evaluation scoring
 
 | Criterion | Score | Notes |
 |-----------|-------|-------|
@@ -35,9 +35,9 @@ LinkedIn post by Addy Osmani summarizing Anthropic research on AI-assisted devel
 
 ---
 
-## Gap Analysis
+## Gap analysis
 
-### Already Covered in Guide
+### Already covered in guide
 
 | Osmani Post | Guide Coverage | Location |
 |-------------|----------------|----------|
@@ -47,7 +47,7 @@ LinkedIn post by Addy Osmani summarizing Anthropic research on AI-assisted devel
 | Productivity claims | ✅ Nuanced research review | learning-with-ai.md:100-153 |
 | Thinking partner framing | ⚠️ Conceptually covered | Via UVAL, not exact vocabulary |
 
-### What's New
+### What's new
 
 - **"Thinking partner vs code vending machine"**: Memorable pedagogical framing (vocabulary only, concept covered)
 - **246K reach**: Mainstream diffusion milestone (timeline awareness)
@@ -56,7 +56,7 @@ LinkedIn post by Addy Osmani summarizing Anthropic research on AI-assisted devel
 
 ---
 
-## Fact-Check Results
+## Fact-check results
 
 | Claim | Verified | Source/Notes |
 |-------|----------|--------------|
@@ -72,7 +72,7 @@ LinkedIn post by Addy Osmani summarizing Anthropic research on AI-assisted devel
 
 ---
 
-## Technical Writer Challenge
+## Technical writer challenge
 
 Agent challenged evaluation methodology, recommending distinction between content score (2/5) and ecosystem context score (3/5):
 
@@ -86,7 +86,7 @@ Agent challenged evaluation methodology, recommending distinction between conten
 
 ---
 
-## Integration Decision
+## Integration decision
 
 **Action**: **Tracking mention only** (1-2 lines)
 
@@ -106,7 +106,7 @@ Agent challenged evaluation methodology, recommending distinction between conten
 
 ---
 
-## Risks of NOT Integrating
+## Risks of NOT integrating
 
 **Low Impact**:
 1. No technical content loss (primary source already documented)
@@ -121,7 +121,7 @@ Agent challenged evaluation methodology, recommending distinction between conten
 
 ---
 
-## New Evaluation Criterion: Influencer Amplification
+## New evaluation criterion: Influencer amplification
 
 **Pattern identified**: Secondary sources with high reach (>100K followers) that amplify academic research warrant tracking mentions even when content is 100% redundant.
 

@@ -1,4 +1,4 @@
-# Resource Evaluation: Martignole Agent Adoption Maturity Levels
+# Resource evaluation: Martignole agent adoption maturity levels
 
 **Date**: 2026-03-17
 **Evaluator**: Claude Code Ultimate Guide team
@@ -17,7 +17,7 @@
 
 6-level maturity framework (0-5 in the original, extended to 6 here) for individual developers adopting coding agents. The real contribution is the Level 3-5 arc: basic user → stage delegator → context engineer → orchestrator. Maps cleanly onto Claude Code concepts (Plan mode, sub-agents, MCP servers, context engineering).
 
-## Score Justification
+## Score justification
 
 **3/5 — Pertinent complement**
 
@@ -31,7 +31,7 @@
 
 Adapted into `guide/roles/learning-with-ai.md` as a "Where Are You on the Agent Adoption Curve?" section (inserted before the 30-Day Progression Plan). The level descriptions were extended (6 levels vs 5 in the original) and diagnostic questions added. Attribution and source link included.
 
-## Fact-Check Notes
+## Fact-check notes
 
 - Author identity and role: confirmed via LinkedIn
 - "~5% manual coding at Level 3+": practitioner estimate, not empirical — used as illustrative signal

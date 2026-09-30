@@ -1,4 +1,4 @@
-# Resource Evaluation: Liza (MAS framework)
+# Resource evaluation: Liza (MAS framework)
 
 **URL**: https://github.com/liza-mas/liza
 **Type**: GitHub repository (framework)
@@ -48,7 +48,7 @@ The same applies to `capability × harnessability`. Harnessability is retained a
 
 An independent practitioner report was also found after the original evaluation. Hippolyte Durix's [Ippon case write-up](https://blog.ippon.fr/2026/04/29/premier-rex-multi-agent-liza/) records a small Spring Boot, Vue.js, and PostgreSQL catalog run with roughly 30 tasks, 5 automated sprints, 35 review verdicts, 3 corrected rejections, and 3 to 4 hours of human time. It also reports massive token consumption, manual planning validation, and no cross-provider reviewer test. This improves the evidence state from "no third-party report" to "one bounded practitioner report". It does not establish production readiness, comparative cost, or semantic correctness because the project was deliberately simple, figures are self-reported, and no comparable artifact-level baseline is published.
 
-### Additional source: Agent Harness Landscape
+### Additional source: Agent harness landscape
 
 On 2026-09-02, Liza maintainer Tangi Vass reviewed the [Agent Harness Landscape profile](../../guide/ecosystem/agent-harness-landscape.md#liza-a-repository-harness-and-control-plane-combined), classified its synthesis as accurate, and proposed three narrow refinements. The pinned repository supports all three:
 

@@ -7,7 +7,7 @@ when_to_use: "Use when ready to commit staged changes and need a conventional co
 disable-model-invocation: true
 ---
 
-# Conventional Commit
+# Conventional commit
 
 Generate a conventional commit message for staged changes.
 
@@ -17,7 +17,7 @@ Generate a conventional commit message for staged changes.
 2. Analyze the nature of changes
 3. Generate a commit message following the format below
 
-## Commit Format
+## Commit format
 
 ```
 <type>(<scope>): <subject>

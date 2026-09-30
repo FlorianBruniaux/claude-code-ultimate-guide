@@ -10,13 +10,13 @@
 
 ---
 
-## Executive Summary
+## Executive summary
 
 mcp2cli converts MCP servers, OpenAPI specs, and GraphQL schemas into runtime CLI commands, eliminating tool schema injection from LLM prompts. The project claims 96-99% token savings by removing schema overhead, with an additional 40-60% via TOON encoding on array output. Created 8 days ago, it has 1,261 stars and a Claude Code skill integration. The architectural insight is real — MCP tool schema injection is a documented cost driver in agentic workflows — but the tool is too new for production recommendation. There is also a structural mismatch with Claude Code's internal MCP architecture: Claude Code manages MCP connections natively, so mcp2cli's schema-elimination approach doesn't map cleanly onto the standard Claude Code workflow.
 
 ---
 
-## Content Summary
+## Content summary
 
 - **Core mechanic**: converts MCP server definitions, OpenAPI specs, and GraphQL schemas into runtime CLI tools with zero codegen, calling the underlying server on invocation
 - **Token savings claims**: 96-99% reduction by removing tool schema injection from prompts; 40-60% additional via TOON (Tree-Optimized Output Notation) on array output
@@ -27,7 +27,7 @@ mcp2cli converts MCP servers, OpenAPI specs, and GraphQL schemas into runtime CL
 
 ---
 
-## Gap Analysis vs. Guide
+## Gap analysis vs. guide
 
 | Area | mcp2cli | Guide coverage |
 |------|---------|----------------|
@@ -42,7 +42,7 @@ mcp2cli converts MCP servers, OpenAPI specs, and GraphQL schemas into runtime CL
 
 ---
 
-## Risk Assessment
+## Risk assessment
 
 **Structural mismatch with Claude Code**: Claude Code manages MCP connections internally via its own runtime. mcp2cli's primary value proposition — replacing MCP tool injection with CLI calls — does not apply to the standard Claude Code workflow where tool schemas are injected by the host. The Claude Code skill (`npx skills add`) is the intended integration path, but it positions mcp2cli as a complementary tool rather than a replacement for native MCP. Users expecting "install mcp2cli, save 96% tokens in Claude Code" will be disappointed. The actual use case is closer to: use mcp2cli in scripts, hooks, or non-Claude Code contexts where you control the tool injection.
 
@@ -68,7 +68,7 @@ Real problem, real approach, credible engineering (MIT, active dev, 1K+ stars in
 
 ---
 
-## Fact-Check
+## Fact-check
 
 | Claim | Verified | Source |
 |-------|----------|--------|

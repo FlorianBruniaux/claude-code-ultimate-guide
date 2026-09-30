@@ -1,4 +1,4 @@
-# Evaluation: LinkedIn Post: "Prompt Engineering is dead. Context Engineering is king."
+# Evaluation: LinkedIn post: "Prompt Engineering is dead. Context Engineering is king."
 
 **Date**: 2026-02-19
 **Evaluator**: Claude Sonnet 4.6
@@ -9,7 +9,7 @@
 
 ---
 
-## Content Summary
+## Content summary
 
 LinkedIn post using the "Context Engineering" framing to promote Augment Code's Context Engine MCP server.
 
@@ -27,7 +27,7 @@ LinkedIn post using the "Context Engineering" framing to promote Augment Code's 
 
 ---
 
-## Fact-Check Results
+## Fact-check results
 
 | Claim | Source | Verdict |
 |-------|--------|---------|
@@ -42,7 +42,7 @@ LinkedIn post using the "Context Engineering" framing to promote Augment Code's 
 
 ---
 
-## Gap Analysis: Guide Coverage
+## Gap analysis: Guide coverage
 
 | Topic | Guide Coverage | LinkedIn Post |
 |-------|---------------|---------------|

@@ -1,4 +1,4 @@
-# agent-browser (Vercel Labs) - Resource Evaluation
+# agent-browser (Vercel labs) - resource evaluation
 
 **Evaluated**: 2026-03-04
 **Source**: https://github.com/vercel-labs/agent-browser
@@ -9,7 +9,7 @@
 
 ---
 
-## Executive Summary
+## Executive summary
 
 **Final Score**: **5/5 (CRITICAL)**
 
@@ -17,9 +17,9 @@ agent-browser is a headless browser CLI built specifically for AI agents. Launch
 
 ---
 
-## Resource Overview
+## Resource overview
 
-### Key Features
+### Key features
 
 | Feature | Details |
 |---------|---------|
@@ -34,7 +34,7 @@ agent-browser is a headless browser CLI built specifically for AI agents. Launch
 | **Browser streaming** | WebSocket live preview for "pair browsing" (human + agent) |
 | **AI integrations** | Native support for Claude, Gemini, Cursor, GitHub Copilot |
 
-### Core Capabilities
+### Core capabilities
 
 - Navigation, click, type, scroll, screenshot, PDF generation
 - Accessibility tree snapshots (optimized for LLM processing)
@@ -47,7 +47,7 @@ agent-browser is a headless browser CLI built specifically for AI agents. Launch
 - JavaScript evaluation, console capture
 - Performance tracing and profiling
 
-### Release Velocity
+### Release velocity
 
 v0.10.0 → v0.15.0 between mid-February and late February 2026. New in recent releases: advanced profiling, config files, enhanced device emulation, auth vaults, domain allowlists.
 
@@ -94,7 +94,7 @@ v0.10.0 → v0.15.0 between mid-February and late February 2026. New in recent r
 
 ---
 
-## The Ralph Wiggum Loop
+## The Ralph Wiggum loop
 
 The core pattern agent-browser enables for agentic workflows:
 
@@ -113,7 +113,7 @@ Documented in production at Pulumi (2026-03-03) across 6 test scenarios: homepag
 
 ---
 
-## Use Cases for Claude Code Guide
+## Use cases for Claude Code guide
 
 1. **E2E testing in agentic coding loops** (primary: replaces manual Playwright scripts)
 2. **Self-verifying deployments** (Ralph Wiggum Loop)
@@ -123,9 +123,9 @@ Documented in production at Pulumi (2026-03-03) across 6 test scenarios: homepag
 
 ---
 
-## Gap Analysis
+## Gap analysis
 
-### Current Guide Coverage (Before Integration)
+### Current guide coverage (before integration)
 
 | Section | Coverage |
 |---------|---------|
@@ -135,7 +135,7 @@ Documented in production at Pulumi (2026-03-03) across 6 test scenarios: homepag
 | Token comparison browser tools | ❌ Not documented |
 | Ralph Wiggum Loop | ❌ Not documented |
 
-### Post-Integration Target
+### Post-integration target
 
 - New subsection: "agent-browser (Vercel Labs)" after Playwright MCP (line ~10527)
 - Comparison table: agent-browser vs Playwright MCP
@@ -145,7 +145,7 @@ Documented in production at Pulumi (2026-03-03) across 6 test scenarios: homepag
 
 ---
 
-## Integration Details
+## Integration details
 
 ### Placement
 

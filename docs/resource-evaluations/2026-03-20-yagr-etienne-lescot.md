@@ -30,7 +30,7 @@ The architectural concept (grounding AI automation in deterministic, auditable w
 
 ---
 
-## Coverage Comparison
+## Coverage comparison
 
 | Aspect | Yagr | Guide |
 |--------|------|-------|
@@ -56,7 +56,7 @@ The challenge agent identified three critical gaps in the preliminary 3/5 assess
 
 ---
 
-## Fact-Check
+## Fact-check
 
 | Claim | Status | Notes |
 |-------|--------|-------|

@@ -40,9 +40,9 @@ lang: en
 
 > **In 5 lines:** The quality of your Claude Code outputs depends directly on the quality of your prompts. This whitepaper breaks down the mechanics of effective prompting: why a structured prompt beats a vague one, how XML tags change precision levels, and which anti-patterns sabotage your sessions without you noticing. Applicable from your next interaction.
 
-# The Problem: Vague Prompts
+# The problem: Vague prompts
 
-## The Hidden Cost of Iterations
+## The hidden cost of iterations
 
 Most teams adopting Claude Code make the same mistake in the first 3 weeks: prompts too vague that trigger 3 to 5 correction cycles per task. The result: burned context, wasted time, and a model that guesses where it should execute.
 
@@ -54,7 +54,7 @@ Most teams adopting Claude Code make the same mistake in the first 3 weeks: prom
 
 **Consequence**: every unnecessary iteration costs time and context. Multiply by the number of daily tasks and the losses add up fast.
 
-## Anatomy of a Bad Prompt
+## Anatomy of a bad prompt
 
 ```
 Add validation
@@ -68,7 +68,7 @@ This prompt fails because Claude doesn't know:
 
 The model will guess, and its assumptions don't necessarily match your expectations.
 
-## The Vicious Cycle
+## The vicious cycle
 
 ```
 Vague prompt → Claude guesses → Approximate result → You rephrase → ...
@@ -78,7 +78,7 @@ This cycle is more than a minor inconvenience: each iteration consumes context (
 
 {{< pagebreak >}}
 
-# The WHAT/WHERE/HOW/VERIFY Formula
+# The WHAT/WHERE/HOW/VERIFY formula
 
 ## Principle
 
@@ -91,7 +91,7 @@ A 4-element formula for accurate answers on the first try. Each element eliminat
 | **HOW** | How to proceed? | Technical constraints, approach |
 | **VERIFY** | How to know it's correct? | Measurable success criteria |
 
-## Full Example
+## Full example
 
 **Before** (vague):
 
@@ -112,7 +112,7 @@ VERIFY: Empty email shows "Email required", invalid format shows "Invalid email"
 
 Each element of the formula deserves careful attention. The following sections detail what Claude expects for each one, with concrete examples of the difference between a vague element and an actionable one.
 
-### WHAT: The Deliverable
+### WHAT: The deliverable
 
 Be specific about what you expect:
 
@@ -122,7 +122,7 @@ Be specific about what you expect:
 | "Add tests" | "Add unit tests for the calculateTotal function" |
 | "Improve perf" | "Reduce API response time from 2s to 500ms" |
 
-### WHERE: The Location
+### WHERE: The location
 
 Without WHERE, Claude has to scan the codebase to guess where to intervene -- burning context and often landing on the wrong file. Provide explicit paths, down to the function name when possible.
 
@@ -139,7 +139,7 @@ WHERE:
 - src/types/user.ts (type definitions)
 ```
 
-### HOW: The Constraints
+### HOW: The constraints
 
 HOW is the element developers forget most often, because they assume Claude knows the project's conventions. In reality, without explicit direction, Claude will pick the library or pattern it considers most common -- not necessarily the one used in your codebase. Specify the technical approach, including the exact library to use.
 
@@ -150,7 +150,7 @@ HOW:
 - Keep backward compatibility with v1 API
 ```
 
-### VERIFY: The Criteria
+### VERIFY: The criteria
 
 VERIFY turns an instruction prompt into a verifiable one. Without success criteria, Claude considers the task done as soon as the code compiles -- even if the behavior is not what you expected. Provide concrete tests you can run immediately.
 
@@ -179,9 +179,9 @@ A prompt like "Fix the payment validation" typically leads Claude to modify `pay
 
 {{< pagebreak >}}
 
-# Advanced XML Prompting
+# Advanced XML prompting
 
-## When to Use It
+## When to use it
 
 XML is not always necessary. For a simple single-file task, the WHAT/WHERE/HOW/VERIFY formula in plain text is enough. XML becomes relevant when the amount of information to convey exceeds what a paragraph can structure clearly.
 
@@ -192,7 +192,7 @@ XML is not always necessary. For a simple single-file task, the WHAT/WHERE/HOW/V
 | Code review | XML with dedicated sections |
 | Multi-step debugging | XML with detailed context |
 
-## Basic Structure
+## Basic structure
 
 The minimal structure relies on four tags that map to the fundamental questions of any task: what to do, in what context, with what constraints, and in what format to deliver the result. You can add other tags as needed, but these four form the foundation.
 
@@ -215,11 +215,11 @@ The minimal structure relies on four tags that map to the fundamental questions 
 </output>
 ```
 
-## Common Tags
+## Common tags
 
 Beyond the basic structure, Claude recognizes a set of specialized tags. Each category below groups tags by intent: describing the task, providing context, showing code, or setting boundaries.
 
-### Instructions and Tasks
+### Instructions and tasks
 
 These tags define what Claude should accomplish. Use `<instruction>` for the main task, `<task>` for subtasks, and `<goal>` to clarify the objective when it differs from the immediate action.
 
@@ -229,7 +229,7 @@ These tags define what Claude should accomplish. Use `<instruction>` for the mai
 <goal>Desired outcome</goal>
 ```
 
-### Context and Information
+### Context and information
 
 Context tags help Claude situate the task within its environment. Without them, Claude infers context from the files it reads -- which can be incomplete or misleading, especially in a multi-module project.
 
@@ -239,7 +239,7 @@ Context tags help Claude situate the task within its environment. Without them, 
 <state>Currently on feature-branch</state>
 ```
 
-### Code and Examples
+### Code and examples
 
 Wrapping code in dedicated tags lets Claude distinguish existing code (to modify) from reference code (to imitate). This distinction matters: without it, Claude may confuse an example to follow with code to fix.
 
@@ -254,7 +254,7 @@ Wrapping code in dedicated tags lets Claude distinguish existing code (to modify
 </current_code>
 ```
 
-### Constraints and Rules
+### Constraints and rules
 
 Constraints are what separate an amateur prompt from a professional one. Claude respects limitations better when they are explicitly isolated in tags, rather than buried in a paragraph of context.
 
@@ -277,7 +277,7 @@ XML is not an arbitrary syntax choice: Claude was trained with XML tags in its a
 
 {{< pagebreak >}}
 
-## Full Example: Security Review
+## Full example: Security review
 
 This example shows how to structure a security audit in XML. The `<context>` and `<constraints>` tags are particularly important here: they force Claude to analyze the code from a compliance angle (PCI DSS, OWASP) rather than limiting itself to a functional review.
 
@@ -315,7 +315,7 @@ async function authenticate(req, res, next) {
 </output>
 ```
 
-## Full Example: Bug Investigation
+## Full example: Bug investigation
 
 Bug investigation is the use case where XML adds the most value. The `<problem>`, `<state>`, and `<context>` tags cleanly separate observed symptoms, system state, and recent changes -- three pieces of information that Claude needs to distinguish in order to form a relevant hypothesis.
 
@@ -369,13 +369,13 @@ Git diff v2.2.0 → v2.3.0 shows changes to:
 
 {{< pagebreak >}}
 
-# Advanced Techniques v3.26
+# Advanced techniques v3.26
 
 So far, we've covered how to structure an individual prompt (WHAT/WHERE/HOW/VERIFY formula) and how to organize it visually (XML). The next step: controlling what Claude sees before you even write your prompt.
 
 The WHAT/WHERE/HOW/VERIFY formula covers 80% of cases. The techniques below apply when you need fine-grained control over the context Claude receives, or to automate prompt validation.
 
-## Prompting Techniques Comparison
+## Prompting techniques comparison
 
 Four fundamental approaches, each suited to a specific context:
 
@@ -388,7 +388,7 @@ Four fundamental approaches, each suited to a specific context:
 
 **Composition rule**: these techniques combine. An effective debug prompt often blends expert role + chain-of-thought + explicit WHERE.
 
-## `@file` References: Explicit Context Control
+## `@file` references: Explicit context control
 
 **Since v3.26**, Claude Code supports explicit file references.
 
@@ -435,7 +435,7 @@ Now analyze authentication flow.
 **Verify**: Claude mentions the loaded file's content in its response.
 :::
 
-## Thinking Modes and Efficiency
+## Thinking modes and efficiency
 
 Claude Opus 5.5 is the current direct-service default; organization policy and provider defaults can differ. Opus 5.5, Sonnet 5, and Fable 5.1 use adaptive thinking and native 1M context. Effort influences reasoning and tool use. Thinking is always enabled on Opus 5.5 and Fable; Haiku 4.5 supports extended thinking but has no effort parameter.
 
@@ -485,11 +485,11 @@ Currently full table scan, target < 200ms
 **Verify**: If the response lacks depth at low effort, add more context to the prompt or raise the effort level.
 :::
 
-## Context Engineering: The 4 Layers
+## Context engineering: The 4 layers
 
 **Context Engineering** = Managing what Claude "sees" to maximize relevance.
 
-### Layer 1: CLAUDE.md (Durable Instructions)
+### Layer 1: CLAUDE.md (durable instructions)
 
 CLAUDE.md is loaded automatically at every session start. Anything you place there applies without repeating it, which shrinks your daily prompts and ensures convention consistency.
 
@@ -503,7 +503,7 @@ CLAUDE.md is loaded automatically at every session start. Anything you place the
 
 **Effect**: Claude applies these rules automatically, without repeating them.
 
-### Layer 2: Skills (Reusable Workflows)
+### Layer 2: Skills (reusable workflows)
 
 Reusable prompt encapsulated in a skill.
 
@@ -523,7 +523,7 @@ prompt: |
 
 **`effort` field (Claude Code v2.1.80+)**: Skill frontmatter can override the session effort while the skill runs, then restore it. Choose a level supported by the model. `${CLAUDE_EFFORT}` is available in the skill body for instructions that refer to the active level.
 
-### Layer 3: Hooks (Automatic Validation)
+### Layer 3: Hooks (automatic validation)
 
 Validate prompts BEFORE execution.
 
@@ -541,7 +541,7 @@ fi
 
 **Effect**: Impossible to send a prompt without WHERE.
 
-### Layer 4: Project Memory (Conversational Context)
+### Layer 4: Project memory (conversational context)
 
 Claude remembers past decisions.
 
@@ -559,11 +559,11 @@ Claude: I'll use Zod as per our earlier decision.
 
 **Tip**: Remind important decisions at the start of each session.
 
-## The 3 Provocation Patterns
+## The 3 provocation patterns
 
 **Provocation** = Forcing Claude to justify its choices. These patterns exploit the model's tendency to propose the first plausible solution. By demanding justification, you trigger deeper reasoning and get better-calibrated responses.
 
-### 1. Gatekeeper Pattern
+### 1. Gatekeeper pattern
 
 The Gatekeeper is most useful when choosing a library, an architecture pattern, or an optimization strategy. It prevents Claude from committing to the first option without comparative analysis.
 
@@ -578,7 +578,7 @@ Show benchmarks vs alternatives.
 
 **Effect**: Claude analyzes more deeply.
 
-### 2. Proof Demand Pattern
+### 2. Proof demand pattern
 
 The Proof Demand comes after implementation. It forces Claude to demonstrate that its solution actually works, rather than simply asserting it should.
 
@@ -594,7 +594,7 @@ You: Prove it works. Show before/after metrics.
 
 **Effect**: Claude adds benchmarks/tests automatically.
 
-### 3. Reset Pattern
+### 3. Reset pattern
 
 The Reset fights anchoring bias: once Claude has proposed a solution, it tends to defend it even when better alternatives exist. By explicitly asking it to forget the first idea, you free the model from that anchor.
 
@@ -638,7 +638,7 @@ An `/add-feature` skill can automatically inject the project's CLAUDE.md, naming
 **Expected result**: Shorter prompts and more consistent responses aligned with project conventions.
 :::
 
-## Instruction Priority Order
+## Instruction priority order
 
 When multiple instruction sources coexist, Claude applies a strict hierarchy:
 
@@ -657,9 +657,9 @@ If you notice Claude ignoring your inline instructions, check whether your CLAUD
 
 {{< pagebreak >}}
 
-# Anti-Patterns to Avoid
+# Anti-patterns to avoid
 
-## 1. Overly Long Prompt
+## 1. Overly long prompt
 
 **Problem**: More than 200-300 words (excluding code) -> Claude loses track.
 
@@ -683,7 +683,7 @@ CONTEXT: Hybrid auth (JWT + legacy sessions)
 VERIFY: Token refresh returns new valid token
 ```
 
-## 2. Missing File Context
+## 2. Missing file context
 
 **Problem**: Claude looks in the wrong place.
 
@@ -700,7 +700,7 @@ Fix email validation regex (rejects valid addresses with subdomains).
 WHERE: src/utils/validators.ts:45 (validateEmail function)
 ```
 
-## 3. Contradictory Instructions
+## 3. Contradictory instructions
 
 **Problem**: Claude doesn't know which directive to follow.
 
@@ -740,7 +740,7 @@ Pattern: Follow existing loginSchema in same file.
 
 {{< pagebreak >}}
 
-## 5. Multiple Tasks Without Structure
+## 5. Multiple tasks without structure
 
 **Problem**: Claude mixes everything up or forgets some.
 
@@ -762,7 +762,7 @@ Task 3: Update tests (tests/auth.test.ts)
 Start with Task 1, I'll validate before moving to Task 2.
 ```
 
-## Anti-Patterns Summary
+## Anti-patterns summary
 
 The five anti-patterns below share a common root cause: lack of specificity. Use this table as a quick checklist before sending a prompt.
 
@@ -786,9 +786,9 @@ The five anti-patterns below share a common root cause: lack of specificity. Use
 
 {{< pagebreak >}}
 
-# Decision Tree: Which Prompt Style
+# Decision tree: Which prompt style
 
-## Decision Tree
+## Decision tree
 
 This tree covers the most common situations. Follow the branches top to bottom: the first condition that applies determines the format to use.
 
@@ -812,11 +812,11 @@ This tree covers the most common situations. Follow the branches top to bottom: 
     └─ YES → /plan mode THEN structured prompt
 ```
 
-## Examples by Situation
+## Examples by situation
 
 The following examples illustrate each branch of the decision tree with a ready-to-use prompt. Notice how the level of structure scales with task complexity.
 
-### Simple Task
+### Simple task
 
 ```
 Fix typo in error message.
@@ -834,7 +834,7 @@ Focus on: session management, token refresh, logout.
 
 **Plan file naming**: since v3.39, plan files are named after the initial prompt rather than a generic identifier. A plan launched on "Refactor auth flow" produces `refactor-auth-flow.md` -- easier to find when multiple plans coexist in the same project.
 
-### Complex Task
+### Complex task
 
 ```xml
 <instruction>
@@ -859,7 +859,7 @@ API abuse detected from specific IPs
 </constraints>
 ```
 
-### Bug Investigation
+### Bug investigation
 
 ```xml
 <task>Debug cart total calculation</task>
@@ -877,7 +877,7 @@ Broken: main branch (post-merge)
 
 The decision tree above covers the most common cases. When in doubt, start with a direct prompt plus WHERE: it offers the best effort-to-precision ratio. Reserve XML for tasks involving 3+ files or requiring rich context.
 
-## Decision Tree: Which Technique to Choose?
+## Decision tree: Which technique to choose?
 
 Beyond format (text vs XML), choosing the right **prompting technique** depends on the task type:
 
@@ -916,9 +916,9 @@ Task type?
 
 {{< pagebreak >}}
 
-# Effective Prompt Checklist
+# Effective prompt checklist
 
-## Before Sending
+## Before sending
 
 Run each prompt through this 7-point checklist before sending. Points 1 through 4 correspond to the WHAT/WHERE/HOW/VERIFY formula; points 5 through 7 catch the most common anti-patterns.
 
@@ -932,7 +932,7 @@ Run each prompt through this 7-point checklist before sending. Points 1 through 
 | 6 | No contradictions? | ☐ |
 | 7 | One clear main task? | ☐ |
 
-## Warning Signs
+## Warning signs
 
 If you're writing these phrases, rephrase:
 
@@ -944,7 +944,7 @@ If you're writing these phrases, rephrase:
 | "Clean up the code" | Clean up what? | "Extract duplicated fetch logic" |
 | "Whatever you think" | Uncontrolled choice | "Use pattern X from file Y" |
 
-## Quick Template
+## Quick template
 
 This template is the minimal format to memorize. It covers all 4 formula elements in 4 lines and works for the vast majority of daily tasks.
 
@@ -966,7 +966,7 @@ VERIFY: XSS payload "<script>alert(1)</script>" is escaped
 
 {{< pagebreak >}}
 
-# Review Plan: Validate Before Coding (v3.27.4)
+# Review plan: Validate before coding (v3.27.4)
 
 **New workflow** (inspired by Garry Tan, CEO YC): before implementing, trigger `/review-plan` for a structured review across 4 axes.
 
@@ -1006,7 +1006,7 @@ Before writing a single line of code, `/review-plan` reviews the architecture. O
 **Verify**: Claude produces numbered options (a/b/c) for each identified issue.
 :::
 
-## Review-Driven Context Optimization
+## Review-Driven context optimization
 
 `/review-plan` reviews a plan before Claude executes it. Review-driven context optimization operates at the opposite end of the loop: it extracts durable CLAUDE.md rules from the inline comments you leave *during* code review, after Claude has already produced output.
 
@@ -1047,11 +1047,11 @@ The round-to-round diff is the verification step. If you flagged an issue in rou
 
 {{< pagebreak >}}
 
-# New Workflows v3.37+
+# New workflows v3.37+
 
 These commands and mechanisms extend the prompting workflows covered earlier.
 
-## New Slash Commands
+## New slash commands
 
 | Command | Usage |
 |---------|-------|
@@ -1076,7 +1076,7 @@ These commands and mechanisms extend the prompting workflows covered earlier.
 
 **Read-only bash glob patterns**: commands like find, ls, cat, grep, and similar read-only glob patterns no longer trigger permission prompts, making exploration sessions smoother.
 
-## Automation and Parallelization
+## Automation and parallelization
 
 **`/loop` (v2.1.71+)**: schedules a prompt in the current session. An explicit interval is fixed; without one, Claude chooses the delay. Recurring tasks expire after seven days and stop when the session ends. Scheduled prompts can invoke eligible custom skills; built-in commands and skills with `disable-model-invocation: true` are delivered as text.
 
@@ -1119,7 +1119,7 @@ Three elements make an effective goal: a measurable end state, a verification me
 
 # Resources
 
-## Memorable Formula
+## Memorable formula
 
 The formula fits on one line. Print it, stick it on your monitor, or add it to your CLAUDE.md so Claude reminds you when your prompt is missing an element.
 
@@ -1129,7 +1129,7 @@ WHAT / WHERE / HOW / VERIFY
 What / Where / How / Test
 ```
 
-## Further Reading
+## Further reading
 
 | Resource | Content | Link |
 |----------|---------|------|
@@ -1140,7 +1140,7 @@ What / Where / How / Test
 
 > 📖 **Further reading:** [§2.9 Semantic Anchors](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#29-semantic-anchors) + [Anchors catalog](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/tree/main/examples/semantic-anchors/)
 
-## Recommended Path
+## Recommended path
 
 Each whitepaper in the series is self-contained, but reading in order reinforces the progression. Choose based on your current level:
 
@@ -1161,7 +1161,7 @@ Each whitepaper in the series is self-contained, but reading in order reinforces
 
 *Version 3.43.0 | September 2026*
 
-# The Series
+# The series
 
 This whitepaper is part of the **Claude Code Ultimate Guide** series, a complete resource for mastering Claude Code, from installation to production deployment.
 

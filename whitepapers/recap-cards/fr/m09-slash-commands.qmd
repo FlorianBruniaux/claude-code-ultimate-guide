@@ -90,7 +90,7 @@ Description du résultat attendu.
 | `/sync` | Vérification cohérence multi-fichiers |
 | `/security-check` | Scan rapide de la config |
 
-## Command vs Skill vs Agent
+## Command vs skill vs agent
 
 | Mécanisme | Quand l'utiliser |
 |-----------|-----------------|

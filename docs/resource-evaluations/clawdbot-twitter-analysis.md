@@ -1,4 +1,4 @@
-# Évaluation de Ressource: The Ultimate Clawdbot Posts on X
+# Évaluation de ressource: The ultimate Clawdbot posts on X
 
 **Source**: Google Doc partagé par Robert Scoble
 **Producteur**: Levangie Labs + X API
@@ -92,7 +92,7 @@ Mais même cela est du padding sans valeur ajoutée.
 
 ---
 
-## ✅ Fact-Check
+## ✅ Fact-check
 
 | Affirmation | Vérifiée | Source |
 |-------------|----------|--------|

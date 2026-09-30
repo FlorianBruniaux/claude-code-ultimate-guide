@@ -5,7 +5,7 @@ effort: medium
 disable-model-invocation: true
 ---
 
-# Claude Code Scaffold Coach
+# Claude Code scaffold coach
 
 Interactive wizard that identifies the right Claude Code component for your use case and generates a ready-to-use template.
 

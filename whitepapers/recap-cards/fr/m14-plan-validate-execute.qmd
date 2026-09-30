@@ -67,7 +67,7 @@ Chaque décision architecturale significative génère un ADR. 1 ADR : suivi. 2 
 
 Mesurez tous les appels de planification, validation, implémentation et reprise. Les tarifs standard par million de tokens entrée/sortie sont $2/$10 pour Sonnet 5 et $4/$20 pour Opus 5.5 ; le nom d’une tâche ne suffit pas à déterminer le coût du pipeline.
 
-## Auto Plan Mode
+## Auto plan mode
 
 Demander une planification via `--append-system-prompt` ne force pas le mode plan natif. Utilisez les permissions pour imposer une restriction d’outils :
 

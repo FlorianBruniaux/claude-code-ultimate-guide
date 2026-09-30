@@ -1,4 +1,4 @@
-# Resource Evaluation: "AGENTS.md Outperforms Skills in Our Agent Evals"
+# Resource evaluation: "AGENTS.md Outperforms Skills in Our Agent Evals"
 
 **Date**: 2026-01-30
 **Evaluator**: Claude (Opus 4.5)
@@ -28,7 +28,7 @@ Vercel blog post comparing four documentation strategies for coding agents on 19
 
 ---
 
-## Evaluation Scoring
+## Evaluation scoring
 
 | Criterion | Score | Notes |
 |-----------|-------|-------|
@@ -42,9 +42,9 @@ Vercel blog post comparing four documentation strategies for coding agents on 19
 
 ---
 
-## Gap Analysis
+## Gap analysis
 
-### Already Covered in Guide
+### Already covered in guide
 
 | Article Concept | Guide Coverage | Location |
 |-----------------|----------------|----------|
@@ -53,7 +53,7 @@ Vercel blog post comparing four documentation strategies for coding agents on 19
 | Skills as lazy-loaded modules | Memory Loading Comparison | ultimate-guide.md:4074-4080 |
 | skills.sh marketplace | Full documentation | ultimate-guide.md:5606-5694 |
 
-### What's New
+### What's new
 
 - **56% invocation rate**: First quantified data on skill auto-discovery failure rate
 - **8KB compression benchmark**: 5x compression (40KB → 8KB) with zero performance loss
@@ -61,7 +61,7 @@ Vercel blog post comparing four documentation strategies for coding agents on 19
 
 ---
 
-## Fact-Check Results
+## Fact-check results
 
 | Claim | Verified | Source |
 |-------|----------|--------|
@@ -83,7 +83,7 @@ Vercel blog post comparing four documentation strategies for coding agents on 19
 
 ---
 
-## Technical Writer Challenge
+## Technical writer challenge
 
 Agent challenged the evaluation from a documentation perspective:
 
@@ -98,7 +98,7 @@ Agent challenged the evaluation from a documentation perspective:
 
 ---
 
-## System Architect Challenge
+## System architect challenge
 
 Agent challenged the evaluation from an architectural perspective:
 
@@ -113,20 +113,20 @@ Agent challenged the evaluation from an architectural perspective:
 
 ---
 
-## Conflict of Interest Note
+## Conflict of interest note
 
 Vercel operates skills.sh (the skills marketplace) and authored the `npx @next/codemod@canary agents-md` tool evaluated in this article. The article concludes that their own skills.sh platform underperforms compared to AGENTS.md. While this appears intellectually honest (arguing against their own product), Vercel is positioning a different Vercel tool as the replacement. The methodology is transparent and reproducible, so this is noted as context rather than a disqualifier.
 
 ---
 
-## Integration Plan
+## Integration plan
 
 Three surgical insertions in existing sections:
 
 ### 1. CLAUDE.md Sizing (line ~3527)
 Add compression benchmark after the size guideline paragraph.
 
-### 2. Memory Loading Key Insight (line ~4082)
+### 2. Memory loading key insight (line ~4082)
 Add warning about skill invocation reliability after the existing key insight.
 
 ### 3. Skills Trade-offs (line ~5652)

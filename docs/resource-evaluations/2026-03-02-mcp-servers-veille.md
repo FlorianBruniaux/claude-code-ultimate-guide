@@ -1,4 +1,4 @@
-# Resource Evaluation: MCP Servers Veille (March 2026)
+# Resource evaluation: MCP servers veille (March 2026)
 
 **Date**: 2026-03-02
 **Type**: Copied text (veille / research report)
@@ -69,7 +69,7 @@ Key findings from the veille:
 
 ---
 
-## Fact-Check
+## Fact-check
 
 | Claim | Verified | Notes |
 |-------|----------|-------|
@@ -101,6 +101,6 @@ Key findings from the veille:
 
 ---
 
-## Related Files
+## Related files
 
 - `docs/resource-evaluations/git-mcp-server-evaluation.md` — Pre-existing 5/5 evaluation for Git MCP (Feb 2026)

@@ -1,4 +1,4 @@
-# ORF (Open Reasoning Format) Evaluation
+# ORF (open reasoning format) evaluation
 
 **Resource**: Open Reasoning Format: file-based cross-session memory for AI coding agents
 **Source**: [Guillaume Laforge blog, "Open Reasoning Format"](https://glaforge.dev/posts/2026/07/21/open-reasoning-format-encoding-and-remembering-agentic-behavior/) (2026-07-21)
@@ -19,7 +19,7 @@
 
 ---
 
-## What It Is
+## What it is
 
 ORF lets a coding agent record and reload operational learnings across sessions. When an agent resolves a tricky problem, it writes a "playbook" as a Markdown file with YAML frontmatter under `./experiences/`. The next session, an agent facing a similar task retrieves the playbook and skips the dead ends it already paid for once.
 
@@ -56,7 +56,7 @@ What is left as genuinely new, once those are subtracted: git-committable, per-d
 
 ---
 
-## Scoring Breakdown
+## Scoring breakdown
 
 | Criterion | Score | Rationale |
 |-----------|-------|-----------|
@@ -70,7 +70,7 @@ What is left as genuinely new, once those are subtracted: git-committable, per-d
 
 ---
 
-## Patterns Worth Extracting
+## Patterns worth extracting
 
 ### Pattern 1: Three-tier progressive disclosure for memory retrieval (already in the guide)
 
@@ -86,7 +86,7 @@ The 5-section schema splits "Abstracted Insight" (the reusable principle, e.g. "
 
 ---
 
-## Where It Fits the Team Gap
+## Where it fits the team gap
 
 `memory-systems.md` §4.7 argues the team-sharing gap is structural because every leading tool was built single-user-first and depends on per-user infrastructure. ORF is a partial counter-example worth naming: because playbooks are plain files with no server, `git commit experiences/` shares one developer's agent fix with the whole team automatically. It does not solve consolidation or conflict resolution across contributors (the author lists both as open questions), but the distribution mechanism is exactly the Git-native path the guide says is missing. This belongs as a one-paragraph note in §4, not a full section.
 
@@ -101,7 +101,7 @@ The 5-section schema splits "Abstracted Insight" (the reusable principle, e.g. "
 
 ---
 
-## Integration Decisions
+## Integration decisions
 
 | Item | Decision | Rationale |
 |------|----------|-----------|

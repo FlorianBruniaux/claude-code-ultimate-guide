@@ -106,7 +106,7 @@ claude
 
 {{< pagebreak >}}
 
-# Quickstart : Votre Première Session
+# Quickstart : Votre première session
 
 ## Lancer Claude Code
 
@@ -119,7 +119,7 @@ claude
 
 Claude analyse automatiquement votre projet et attend vos instructions.
 
-## Le Workflow
+## Le workflow
 
 Claude Code propose une boucle de validation humaine. Les demandes d’approbation dépendent du mode de permission, des règles enregistrées et de la politique de l’organisation. Les lectures et actions déjà autorisées peuvent s’exécuter sans nouvelle demande.
 
@@ -129,7 +129,7 @@ Vous décrivez → Claude analyse → Claude propose → Vous validez → Claude
 
 **Principe clé** : choisissez délibérément le mode de permission et relisez les modifications avant publication.
 
-## Exemple Concret
+## Exemple concret
 
 Exemple avec validation des éditions : Claude décompose la tâche en étapes visibles. Selon les permissions déjà accordées, certaines actions peuvent s’exécuter sans nouvelle demande.
 
@@ -159,7 +159,7 @@ claude                    # Lancer Claude Code
 /doctor                   # Diagnostiquer la config (sanity check)
 ```
 
-## Raccourcis Clavier
+## Raccourcis clavier
 
 Les raccourcis clavier accélèrent la navigation entre les modes de Claude Code sans quitter le terminal. Le plus utilisé est `Shift+Tab`, qui bascule entre le mode normal, l'auto-accept (pour les modifications de confiance), et le mode plan (lecture seule).
 
@@ -222,7 +222,7 @@ Claude Code n'est pas un chatbot amélioré, c'est un **système de contexte à 
 Antoine commence par un `CLAUDE.md` basique listant sa stack (Next.js, Prisma, PostgreSQL). Dès la première semaine, il constate que Claude respecte ses conventions sans qu'il ait besoin de les rappeler. En semaine 2, il ajoute un Skill "conventions API REST" qui encode ses patterns de validation. En semaine 3, un hook pre-commit vérifie automatiquement que les migrations Prisma sont générées. Résultat : ses prompts passent de 4 lignes de contexte à une simple instruction, et Claude produit du code conforme du premier coup.
 :::
 
-## La Formule WHAT/WHERE/HOW/VERIFY
+## La formule WHAT/WHERE/HOW/VERIFY
 
 **À appliquer pour chaque prompt envoyé à Claude Code, qu'il s'agisse d'un bugfix, d'une feature, ou d'un refactoring.** Structurer vos prompts avec ces 4 éléments permet d'obtenir le bon résultat du premier coup, sans aller-retour correctif :
 
@@ -389,7 +389,7 @@ Les besoins de configuration et de gouvernance évoluent avec la taille de l'éq
 
 Le repository GitHub centralise le guide complet, les templates prêts à l'emploi, et la documentation officielle. C'est le point d'entrée pour approfondir n'importe quel sujet couvert dans cette série.
 
-## Liens Essentiels
+## Liens essentiels
 
 | Ressource | Contenu | Lien |
 |-----------|---------|------|

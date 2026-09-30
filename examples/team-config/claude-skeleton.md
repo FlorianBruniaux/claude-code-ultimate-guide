@@ -1,4 +1,4 @@
-# AI Instructions: {{DEVELOPER_NAME}}
+# AI instructions: {{DEVELOPER_NAME}}
 <!-- Generated: {{GENERATED_DATE}} | OS: {{OS}} | Tool: {{TOOL}} -->
 <!-- DO NOT EDIT MANUALLY — auto-generated from profile + modules -->
 <!-- To update: edit profiles/{{DEVELOPER_SLUG}}.yaml or modules/, then run: -->
@@ -6,13 +6,13 @@
 
 ---
 
-## Project Context
+## Project context
 
 {{MODULE:core-standards}}
 
 ---
 
-## Git Workflow
+## Git workflow
 
 {{MODULE:git-workflow}}
 
@@ -25,7 +25,7 @@
 ---
 
 {{#if typescript}}
-## TypeScript Rules
+## TypeScript rules
 
 {{MODULE:typescript-rules}}
 
@@ -33,21 +33,21 @@
 {{/if}}
 
 {{#if python}}
-## Python Rules
+## Python rules
 
 {{MODULE:python-rules}}
 
 ---
 {{/if}}
 
-## Environment & Paths
+## Environment & paths
 
 {{MODULE:{{OS}}-paths}}
 
 ---
 
 {{#if cursor}}
-## Cursor-Specific Instructions
+## Cursor-specific instructions
 
 {{MODULE:cursor-rules}}
 
@@ -55,14 +55,14 @@
 {{/if}}
 
 {{#if windsurf}}
-## Windsurf-Specific Instructions
+## Windsurf-specific instructions
 
 {{MODULE:windsurf-rules}}
 
 ---
 {{/if}}
 
-## Communication Style
+## Communication style
 
 {{#if verbose}}
 Provide detailed explanations for each decision. Show alternatives considered. Include reasoning.

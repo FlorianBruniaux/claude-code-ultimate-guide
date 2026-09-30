@@ -3,13 +3,13 @@ title: "Changelog Fragments: Enforced Per-PR Documentation"
 description: "A 3-layer enforcement pattern for Claude Code that ensures every PR is documented at write time, never at release time: hook-based nudges, PR template checks, and CI enforcement."
 ---
 
-# Changelog Fragments: Enforced Per-PR Documentation
+# Changelog fragments: Enforced per-PR documentation
 
 A 3-layer enforcement pattern that ensures every PR is documented at write time, never at release time.
 
 ---
 
-## The Problem
+## The problem
 
 Single `CHANGELOG.md` files break on active teams. Three open feature branches all touching the same file means merge conflicts on every merge. Someone resolves the conflict, drops a line, and release notes are wrong before they're published.
 
@@ -21,11 +21,11 @@ The solution: one YAML fragment per PR, written while implementing, validated by
 
 ---
 
-## The 3-Layer Architecture
+## The 3-layer architecture
 
 The system works because enforcement happens at three independent levels. Each layer catches a different failure mode.
 
-### Layer 1: CLAUDE.md Workflow Rule
+### Layer 1: CLAUDE.md workflow rule
 
 The first layer is a rule loaded into Claude Code's context at every session. It encodes the entire fragment workflow so Claude can complete it autonomously when asked to create a PR.
 
@@ -73,7 +73,7 @@ Add label `skip-changelog` for PRs with no user impact (CI config, deps updates,
 
 This rule makes Claude Code a participant in enforcement, not just a coding tool. When a developer says "make the PR," Claude infers the fragment content from the diff and creates it before opening the PR.
 
-### Layer 2: UserPromptSubmit Hook (Behavioral Detection)
+### Layer 2: UserPromptSubmit hook (behavioral detection)
 
 The second layer intercepts intent before it becomes action. When the developer types something that signals PR creation intent, the hook checks whether a changelog fragment was mentioned.
 
@@ -99,7 +99,7 @@ The conditional logic (`if X without Y`) is the key pattern here. The logic adap
 
 **Full hook with 3-tier architecture**: [`examples/hooks/bash/smart-suggest.sh`](../../examples/hooks/bash/smart-suggest.sh)
 
-### Layer 3: CI Enforcement (GitHub Actions)
+### Layer 3: CI enforcement (GitHub Actions)
 
 The third layer is the hard gate. Two independent jobs run on every PR targeting the main branch.
 
@@ -134,7 +134,7 @@ The two jobs are independent by design. A PR can bypass fragment creation (via l
 
 ---
 
-## Fragment Assembly at Release
+## Fragment assembly at release
 
 Fragments accumulate in `changelog/fragments/` as PRs merge. At release time, one command assembles them into a versioned CHANGELOG section.
 
@@ -167,7 +167,7 @@ Output:
 
 ---
 
-## Why 3 Layers, Not 1
+## Why 3 layers, not 1
 
 Each layer catches a different failure mode:
 
@@ -183,7 +183,7 @@ The layers don't conflict. They reinforce each other. A developer who sees the h
 
 ---
 
-## Adopting This Pattern
+## Adopting this pattern
 
 The TypeScript scripts (add, validate, assemble, audit) are specific to the Méthode Aristote stack. The 3-layer enforcement pattern stays generic: it works with any fragment format, any CI system, any assembler.
 

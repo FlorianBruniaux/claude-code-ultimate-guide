@@ -6,7 +6,7 @@ effort: medium
 disable-model-invocation: true
 ---
 
-# Investigate: Root-Cause Debugging
+# Investigate: Root-Cause debugging
 
 Systematic debugging with mandatory root cause investigation before any code changes.
 
@@ -16,7 +16,7 @@ Fixing symptoms creates whack-a-mole debugging. Every fix that doesn't address r
 
 ## Instructions
 
-### Phase 1: Collect Symptoms
+### Phase 1: Collect symptoms
 
 Gather all available context before forming any hypothesis.
 
@@ -31,7 +31,7 @@ Gather all available context before forming any hypothesis.
 
 ---
 
-### Phase 2: Read the Code
+### Phase 2: Read the code
 
 Trace the code path from symptom back to potential causes. Do not guess.
 
@@ -50,7 +50,7 @@ Use Grep to find all references, Read to understand the logic. Never skip readin
 
 ---
 
-### Phase 3: Check Recent Changes
+### Phase 3: Check recent changes
 
 ```bash
 # What changed recently across the whole repo
@@ -89,7 +89,7 @@ If you cannot reproduce: gather more evidence. Do not fix what you cannot verify
 
 ---
 
-### Phase 5: Pattern Analysis
+### Phase 5: Pattern analysis
 
 Match the symptom against known bug patterns:
 
@@ -114,7 +114,7 @@ Also check:
 
 ---
 
-### Phase 6: Hypothesis Testing
+### Phase 6: Hypothesis testing
 
 Before writing any fix, verify your hypothesis.
 
@@ -177,7 +177,7 @@ Once root cause is confirmed:
 
 ---
 
-## Output Format
+## Output format
 
 ```
 DEBUG REPORT
@@ -205,7 +205,7 @@ ATTEMPTED: [list of hypotheses tested]
 RECOMMENDATION: [what the user should do next: add logging, escalate, or request an architectural review]
 ```
 
-## Important Rules
+## Important rules
 
 - **Never apply a fix you cannot verify.** If you can't reproduce and confirm, don't ship it.
 - **Never say "this should fix it."** Verify and prove it. Run the tests.
@@ -221,7 +221,7 @@ RECOMMENDATION: [what the user should do next: add logging, escalate, or request
 /investigate
 ```
 
-## Related Commands
+## Related commands
 
 - `/review-pr`: review the fix before merging
 - `/qa`: run browser QA on the affected feature after fixing

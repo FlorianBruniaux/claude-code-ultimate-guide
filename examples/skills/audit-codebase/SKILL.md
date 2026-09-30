@@ -6,7 +6,7 @@ effort: medium
 disable-model-invocation: true
 ---
 
-# Codebase Health Audit
+# Codebase health audit
 
 Score your codebase across 7 health categories, identify weak spots, and get a prioritized progression plan. Each category is scored 1-10 with specific, actionable findings.
 
@@ -20,7 +20,7 @@ If `$ARGUMENTS` contains category names (e.g., "secrets security tests"), only a
 
 ---
 
-### Category 1: Secrets (Weight: 15%)
+### Category 1: Secrets (weight: 15%)
 
 Scan for hardcoded credentials, API keys, and sensitive data in code.
 
@@ -53,7 +53,7 @@ find . -name ".env*" -not -name ".env.example" -not -path "*/node_modules/*" -no
 
 ---
 
-### Category 2: Security (Weight: 15%)
+### Category 2: Security (weight: 15%)
 
 Check for OWASP-style vulnerabilities and unsafe patterns.
 
@@ -84,7 +84,7 @@ grep -rn -E '(app\.(get|post|put|delete|patch)|router\.(get|post|put|delete))' \
 
 ---
 
-### Category 3: Dependencies (Weight: 15%)
+### Category 3: Dependencies (weight: 15%)
 
 Audit package health, known CVEs, and freshness.
 
@@ -118,7 +118,7 @@ done
 
 ---
 
-### Category 4: Structure (Weight: 10%)
+### Category 4: Structure (weight: 10%)
 
 Evaluate file organization, naming conventions, and module boundaries.
 
@@ -148,7 +148,7 @@ find . -type f -name "*-*" -not -path "*/node_modules/*" -not -path "*/.git/*" 2
 
 ---
 
-### Category 5: Tests (Weight: 15%)
+### Category 5: Tests (weight: 15%)
 
 Assess test coverage, test quality, and testing practices.
 
@@ -181,7 +181,7 @@ find . -name "*.snap" -not -path "*/node_modules/*" 2>/dev/null | wc -l
 
 ---
 
-### Category 6: Imports (Weight: 10%)
+### Category 6: Imports (weight: 10%)
 
 Check for unused imports, circular dependencies, and type coverage.
 
@@ -208,7 +208,7 @@ grep -rn 'import \*' --include="*.{py,ts,js}" --exclude-dir={node_modules,vendor
 
 ---
 
-### Category 7: AI Patterns (Weight: 20%)
+### Category 7: AI patterns (weight: 20%)
 
 Evaluate Claude Code configuration maturity and AI-assisted development readiness.
 
@@ -249,9 +249,9 @@ grep -q "claude" .gitignore 2>/dev/null && echo "OK: Claude patterns in .gitigno
 
 ---
 
-## Scoring & Report
+## Scoring & report
 
-### Overall Score Calculation
+### Overall score calculation
 
 ```
 Overall = (Secrets * 0.15) + (Security * 0.15) + (Dependencies * 0.15) +
@@ -261,7 +261,7 @@ Overall = (Secrets * 0.15) + (Security * 0.15) + (Dependencies * 0.15) +
 
 Round to one decimal place.
 
-### Output Format
+### Output format
 
 ```markdown
 ## Codebase Health Audit
@@ -329,7 +329,7 @@ Polish and optimize for maximum team velocity.
 3. [...]
 ```
 
-### Severity Split
+### Severity split
 
 Approximately 70% of findings should be automatable (scripts, linters, CI checks can detect them). Flag the remaining 30% as requiring human judgment, and explain why automation falls short for those cases.
 

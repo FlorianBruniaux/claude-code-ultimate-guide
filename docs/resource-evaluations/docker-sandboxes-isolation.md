@@ -1,4 +1,4 @@
-# Resource Evaluation: Docker Sandboxes & Sandbox Isolation Landscape
+# Resource evaluation: Docker Sandboxes & sandbox isolation landscape
 
 | Field | Value |
 |-------|-------|
@@ -18,7 +18,7 @@
 4. **The broader landscape** includes Fly.io Sprites (Firecracker microVMs, ~300ms checkpoint/restore), Cloudflare Sandbox SDK (container-based, Workers integration), E2B (open-source Firecracker, 150ms cold boot), and Vercel Sandboxes (GA 2026-01-30, Firecracker microVMs).
 5. **Gap in the guide**: No existing documentation on running Claude Code in isolated environments. The `--dangerously-skip-permissions` warning (ultimate-guide.md:3943) lacks a safe alternative path.
 
-## Gap Analysis
+## Gap analysis
 
 | Topic | Before | After |
 |-------|--------|-------|
@@ -29,7 +29,7 @@
 | Network policy configuration | Missing | Allowlist/denylist modes documented |
 | Custom template creation | Missing | Dockerfile pattern documented |
 
-## Integration Decision
+## Integration decision
 
 **Score justification**: 4/5 (High Value) rather than 5/5 because:
 - Docker Sandboxes are genuinely useful and fill a real gap (safe autonomy)
@@ -41,7 +41,7 @@
 
 **Action**: Create dedicated guide file (`guide/security/sandbox-isolation.md`) covering Docker Sandboxes as the primary solution with alternatives for cloud/CI scenarios.
 
-## Fact-Check
+## Fact-check
 
 | Claim | Verification | Status |
 |-------|-------------|--------|
@@ -55,7 +55,7 @@
 | Vercel Sandboxes GA 2026-01-30 | vercel.com announcement | Verified |
 | Cloudflare uses containers, not microVMs | developers.cloudflare.com/sandbox/ | Verified |
 
-## Integration Applied
+## Integration applied
 
 - `guide/security/sandbox-isolation.md` — New guide file (~10 min read)
 - `machine-readable/reference.yaml` — 13 new sandbox_* index entries

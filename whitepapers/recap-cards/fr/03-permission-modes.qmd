@@ -15,7 +15,7 @@ format:
   recap-card-typst: default
 ---
 
-## Modes Disponibles
+## Modes disponibles
 
 | Mode | Nom canonique | Activation | Usage recommandé |
 |------|---------------|-----------|-----------------|
@@ -88,7 +88,7 @@ Les règles de refus de toute portée applicable prennent priorité sur les auto
 "Bash(cat *)", "Bash(ls *)"
 ```
 
-## Bonnes Pratiques
+## Bonnes pratiques
 
 **CI/CD** : pré-approuver les outils nécessaires et limiter leur disponibilité avec `--tools`. Si le contournement est nécessaire, utiliser un environnement isolé avec identifiants et accès réseau restreints.
 

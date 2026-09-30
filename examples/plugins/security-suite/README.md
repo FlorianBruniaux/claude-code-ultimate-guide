@@ -1,10 +1,10 @@
-# Security Suite Plugin
+# Security suite plugin
 
 **Complete security hardening for Claude Code workflows in 5 minutes.**
 
 This plugin bundles everything you need to secure your Claude Code setup: automated security scanning, pre-commit gates, threat tracking, compliance checks, and configuration audits.
 
-## What's Included
+## What's included
 
 ✓ **Security Auditor Agent**: Specialist for threat modeling and CVE analysis
 ✓ **Quick Security Check**: 30-second configuration scan
@@ -13,7 +13,7 @@ This plugin bundles everything you need to secure your Claude Code setup: automa
 ✓ **Configuration Audits**: Verify agents, skills, commands quality
 ✓ **Compliance Templates**: Automated checklists for governance
 
-## Quick Install
+## Quick install
 
 ```bash
 # From this directory:
@@ -29,7 +29,7 @@ bash install.sh
 
 ## Components
 
-### 1. Security Auditor Agent
+### 1. Security auditor agent
 
 Specialist agent focused exclusively on security analysis.
 
@@ -45,7 +45,7 @@ Specialist agent focused exclusively on security analysis.
 - Custom skill/hook risk analysis
 - Compliance requirement mapping
 
-### 2. Quick Security Check (`/security-check`)
+### 2. Quick security check (`/security-check`)
 
 30-second scan. Run before commits or deployments.
 
@@ -69,7 +69,7 @@ Security Check: 87/100 ✓ PASS
 - CLAUDE.md secure ✓
 ```
 
-### 3. Full Security Audit (`/security-audit`)
+### 3. Full security audit (`/security-audit`)
 
 6-phase deep dive, 2-5 minutes. Comprehensive threat assessment.
 
@@ -113,7 +113,7 @@ Recommendations:
   • Use: /self-assessment → identify security gaps → take training
 ```
 
-### 4. Configuration Audit (`/audit-agents-skills`)
+### 4. Configuration audit (`/audit-agents-skills`)
 
 Verify quality of your custom agents, skills, commands.
 
@@ -130,7 +130,7 @@ Verify quality of your custom agents, skills, commands.
 - ✓ No hardcoded secrets or API keys
 - ✓ All tool invocations are safe
 
-### 5. Security Hooks
+### 5. Security hooks
 
 **Pre-commit Hook:** `security-gate.sh`
 Blocks dangerous operations before they execute:
@@ -146,9 +146,9 @@ Validates outputs for security issues:
 - Monitors resource usage (DoS detection)
 - Flags dangerous patterns
 
-## Usage Scenarios
+## Usage scenarios
 
-### Scenario 1: Securing a Team Setup
+### Scenario 1: Securing a team setup
 
 ```
 1. Run: /security-audit
@@ -158,7 +158,7 @@ Validates outputs for security issues:
 5. Monthly re-audits to track improvement
 ```
 
-### Scenario 2: Evaluating a Third-Party Skill
+### Scenario 2: Evaluating a third-party skill
 
 ```
 1. Download skill to examples/skills/
@@ -167,7 +167,7 @@ Validates outputs for security issues:
 4. If safe, integrate; otherwise reject
 ```
 
-### Scenario 3: Hardening for Production
+### Scenario 3: Hardening for production
 
 ```
 1. Run: /security-audit (current posture baseline)
@@ -177,7 +177,7 @@ Validates outputs for security issues:
 5. Re-audit until 90+ score achieved
 ```
 
-### Scenario 4: Compliance Verification
+### Scenario 4: Compliance verification
 
 ```
 1. Run: /security-audit
@@ -189,7 +189,7 @@ Validates outputs for security issues:
 
 ## Configuration
 
-### Hook Enablement
+### Hook enablement
 
 If hooks don't auto-enable, add to `.claude/settings.json`:
 
@@ -224,7 +224,7 @@ If hooks don't auto-enable, add to `.claude/settings.json`:
 }
 ```
 
-### Environment Variables
+### Environment variables
 
 Configure security parameters:
 
@@ -239,7 +239,7 @@ export CLAUDE_SECURITY_STRICT=true
 export CLAUDE_SECURITY_LEVEL=standard
 ```
 
-## Learning Path
+## Learning path
 
 **After installing:**
 
@@ -258,7 +258,7 @@ bash uninstall.sh
 
 This removes all Security Suite components but preserves your backups (`.bak` files).
 
-## Getting Help
+## Getting help
 
 - **Questions?** → See `guide/security/` for threat patterns and mitigations
 - **Specific audit questions?** → Use the Security Auditor agent

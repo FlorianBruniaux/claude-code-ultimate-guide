@@ -1,10 +1,10 @@
-# Session Retrospective Template
+# Session retrospective template
 
 A structured prompt to run at the end of Claude Code sessions. The goal is to capture
 knowledge while it's fresh and turn it into durable rules — keeping your `CLAUDE.md`
 accurate as the project evolves.
 
-## The Prompt
+## The prompt
 
 Copy this and paste it into Claude at the end of a session:
 
@@ -22,7 +22,7 @@ Skip anything obvious, generic, or already in CLAUDE.md.
 Format each item as an actionable rule ready to copy in.
 ```
 
-## When to Run It
+## When to run it
 
 | Trigger | Run retro? |
 |---------|-----------|
@@ -35,7 +35,7 @@ Format each item as an actionable rule ready to copy in.
 
 Monthly is the minimum cadence even for quiet projects. Small drifts accumulate silently.
 
-## What Good Output Looks Like
+## What good output looks like
 
 Claude should return something like this (not verbatim — but this level of specificity):
 
@@ -60,7 +60,7 @@ Knowledge Feed — 2025-09-15
    to call next(err)."
 ```
 
-## After the Retro
+## After the retro
 
 ### Review the output
 
@@ -95,7 +95,7 @@ context: document payment webhook idempotency requirement
 context: add Prisma-direct query ban after code review
 ```
 
-## Team Usage
+## Team usage
 
 When multiple people work with Claude on the same project, retros become especially valuable.
 Each developer may get different corrections — different gaps in `CLAUDE.md` surface from

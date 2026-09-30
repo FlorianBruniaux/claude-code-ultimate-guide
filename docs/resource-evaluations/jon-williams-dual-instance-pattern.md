@@ -1,4 +1,4 @@
-# Resource Evaluation: Jon Williams - Dual-Instance Planning Pattern
+# Resource evaluation: Jon Williams - dual-instance planning pattern
 
 **Evaluated**: 2026-02-04
 **Evaluator**: Claude Sonnet 4.5
@@ -6,7 +6,7 @@
 
 ---
 
-## Resource Details
+## Resource details
 
 | Field | Value |
 |-------|-------|
@@ -38,7 +38,7 @@ Jon Williams describes a dual-instance workflow using two simultaneous Claude Co
 
 ---
 
-## Evaluation Score: **4/5 (High Value)**
+## Evaluation score: **4/5 (High value)**
 
 ### Rationale
 
@@ -57,9 +57,9 @@ Jon Williams describes a dual-instance workflow using two simultaneous Claude Co
 
 ---
 
-## Gap Analysis
+## Gap analysis
 
-### What This Resource Covers (Novel)
+### What this resource covers (novel)
 
 | Topic | Covered in Resource | Covered in Guide (Before) | Gap Filled? |
 |-------|---------------------|---------------------------|-------------|
@@ -70,7 +70,7 @@ Jon Williams describes a dual-instance workflow using two simultaneous Claude Co
 | Agent-ready plan structure (file paths + line numbers) | ✅ Emphasized | ⚠️ Not taught as best practice | ✅ Yes |
 | Human-in-the-loop planning approval | ✅ Core workflow | ⚠️ Implicit in `/plan` but not persistent | ✅ Yes |
 
-### What Guide Already Covered
+### What guide already covered
 
 | Topic | Resource | Guide Coverage |
 |-------|----------|----------------|
@@ -81,9 +81,9 @@ Jon Williams describes a dual-instance workflow using two simultaneous Claude Co
 
 ---
 
-## Comparison Table
+## Comparison table
 
-### Pattern Dimensions
+### Pattern dimensions
 
 | Dimension | Boris Pattern (Guide Existing) | Jon Pattern (This Resource) |
 |-----------|--------------------------------|----------------------------|
@@ -102,7 +102,7 @@ Jon Williams describes a dual-instance workflow using two simultaneous Claude Co
 
 ---
 
-## Integration Plan
+## Integration plan
 
 ### Location
 
@@ -119,7 +119,7 @@ Jon Williams describes a dual-instance workflow using two simultaneous Claude Co
 - ✅ `machine-readable/reference.yaml` (15 new entries)
 - ✅ `guide/workflows/plan-driven.md` (See Also section)
 
-### Content Structure
+### Content structure
 
 **Section 9.17.1** (~350 lines):
 - When to use dual-instance pattern
@@ -141,7 +141,7 @@ Jon Williams describes a dual-instance workflow using two simultaneous Claude Co
 
 ---
 
-## Fact-Check Results
+## Fact-check results
 
 | Claim | Verified | Source | Notes |
 |-------|----------|--------|-------|
@@ -167,7 +167,7 @@ Jon Williams describes a dual-instance workflow using two simultaneous Claude Co
 
 ## Challenge Results (technical-writer Agent)
 
-### Key Critiques
+### Key critiques
 
 1. **Score underestimation**: Origin (LinkedIn vs academic paper) shouldn't devalue practical patterns
 2. **Gap identification**: Guide documents horizontal scaling but not vertical separation
@@ -175,7 +175,7 @@ Jon Williams describes a dual-instance workflow using two simultaneous Claude Co
 4. **Pattern recognition**: Two-phase commit, separation of concerns = established engineering principles
 5. **Cost analysis missing**: Guide never compares "2 instances sequential vs 1 instance with corrections"
 
-### Aspects Initially Missed
+### Aspects initially missed
 
 - **Link to `/plan` mode**: Dual-instance is extension with persistent human-in-the-loop
 - **Error reduction mechanism**: Two-phase commit → fewer compounding mistakes
@@ -183,7 +183,7 @@ Jon Williams describes a dual-instance workflow using two simultaneous Claude Co
 - **Non-dev audience signal**: Jon is Product Designer → pattern helps non-technical users
 - **Agent-ready structure**: File paths + line numbers should be taught as best practice
 
-### Risk Assessment (Non-Integration)
+### Risk assessment (non-integration)
 
 | Risk | Probability | Impact | Mitigation |
 |------|-------------|--------|------------|
@@ -201,7 +201,7 @@ Jon Williams describes a dual-instance workflow using two simultaneous Claude Co
 
 ### Status: ✅ **COMPLETED (2026-02-04)**
 
-### Actions Taken
+### Actions taken
 
 1. ✅ **Section 9.17.1 added** (~350 lines)
    - Location: Line 12884+ in `guide/ultimate-guide.md`
@@ -219,7 +219,7 @@ Jon Williams describes a dual-instance workflow using two simultaneous Claude Co
    - Source URL cited in both locations
    - Author + date + context (Cursor → Claude transition) documented
 
-### Future Validation
+### Future validation
 
 **Community feedback needed**:
 - Do other practitioners replicate this pattern?
@@ -234,9 +234,9 @@ Jon Williams describes a dual-instance workflow using two simultaneous Claude Co
 
 ---
 
-## Lessons Learned
+## Lessons learned
 
-### Evaluation Process
+### Evaluation process
 
 1. **Don't undervalue non-academic sources**: Practitioner experience from LinkedIn can be highly valuable
 2. **Pattern orthogonality matters**: Jon's pattern complements (not competes with) existing Boris pattern
@@ -244,7 +244,7 @@ Jon Williams describes a dual-instance workflow using two simultaneous Claude Co
 4. **Engineering principles apply**: Two-phase commit, separation of concerns = transferable to AI workflows
 5. **Challenge agents catch bias**: Initial score (2-3/5) corrected to 4/5 via technical-writer review
 
-### Integration Quality
+### Integration quality
 
 **What worked well**:
 - Comprehensive workflow file (750 lines) with ready-to-use templates
@@ -259,7 +259,7 @@ Jon Williams describes a dual-instance workflow using two simultaneous Claude Co
 
 ---
 
-## Related Evaluations
+## Related evaluations
 
 - **Boris Cherny workflow**: Section 9.17, line 12831 (horizontal scaling pattern)
 - **Plan Mode foundation**: Section 9.1, line 9616 (The Trinity)

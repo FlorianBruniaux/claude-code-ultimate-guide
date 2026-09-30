@@ -4,7 +4,7 @@ description: "5-day sprint example combining claude-mem, Serena, grepai and rg f
 tags: [workflow, memory, integration]
 ---
 
-# Memory Stack Integration: Real-World Multi-Day Workflow
+# Memory stack integration: Real-World multi-day workflow
 
 **Scenario**: Refactoring authentication system from session-based to JWT across a 5-day sprint
 
@@ -14,9 +14,9 @@ tags: [workflow, memory, integration]
 
 ---
 
-## Day 1: Discovery & Planning
+## Day 1: Discovery & planning
 
-### Morning: Initial Exploration
+### Morning: Initial exploration
 
 **User**: "Let's explore the current authentication system"
 
@@ -82,7 +82,7 @@ rg "express-session" --type ts
 
 ---
 
-### Afternoon: Architectural Decision
+### Afternoon: Architectural decision
 
 **User**: "Should we use JWT or stick with sessions?"
 
@@ -122,7 +122,7 @@ EOF
 
 ---
 
-### End of Day 1
+### End of day 1
 
 **Claude** auto-generates session summary:
 ```
@@ -141,9 +141,9 @@ Session Summary (Day 1):
 
 ---
 
-## Day 2: Implementation Start
+## Day 2: Implementation start
 
-### Morning: Session Resume
+### Morning: Session resume
 
 **Claude** (auto-injected context):
 ```
@@ -200,7 +200,7 @@ export class JwtService {
 
 ---
 
-### Afternoon: Decision Checkpoint
+### Afternoon: Decision checkpoint
 
 **User**: "Should we add refresh tokens now or later?"
 
@@ -238,7 +238,7 @@ EOF
 
 ---
 
-### End of Day 2
+### End of day 2
 
 **Claude** auto-generates session summary:
 ```
@@ -261,7 +261,7 @@ Session Summary (Day 2):
 
 ## Day 3: Integration
 
-### Morning: Session Resume
+### Morning: Session resume
 
 **Claude** (auto-injected context):
 ```
@@ -330,7 +330,7 @@ async login(req: Request, res: Response) {
 
 ---
 
-### Afternoon: Middleware Update
+### Afternoon: Middleware update
 
 **User**: "Create JWT authentication middleware"
 
@@ -380,7 +380,7 @@ app.use('/admin/*', sessionMiddleware);
 
 ---
 
-### End of Day 3
+### End of day 3
 
 **User**: "Record the migration status"
 
@@ -423,9 +423,9 @@ EOF
 
 ---
 
-## Day 4: Testing & Validation
+## Day 4: Testing & validation
 
-### Morning: Session Resume
+### Morning: Session resume
 
 **Claude** (auto-injected context):
 ```
@@ -549,7 +549,7 @@ npm test jwt.service.test.ts
 
 ---
 
-### Afternoon: End-to-End Test
+### Afternoon: End-to-End test
 
 **User**: "Test the full login flow"
 
@@ -627,7 +627,7 @@ EOF
 
 ---
 
-### End of Day 4
+### End of day 4
 
 **Memory Search Demo**:
 
@@ -665,7 +665,7 @@ Session 4 (Day 4):
 
 ## Day 5: Deployment
 
-### Morning: Pre-Deployment Check
+### Morning: Pre-Deployment check
 
 **User**: "What did we accomplish this week?"
 
@@ -721,7 +721,7 @@ serena list_memories
 
 ---
 
-### Afternoon: Deployment & Handoff
+### Afternoon: Deployment & handoff
 
 **User**: "Deploy to staging"
 
@@ -760,9 +760,9 @@ serena read_memory jwt_validation_results >> docs/jwt-migration.md
 
 ---
 
-## 🎯 Key Takeaways
+## 🎯 Key takeaways
 
-### Memory Stack in Action
+### Memory stack in action
 
 **Without Memory Stack**:
 - Re-read files every day (~200 files × 5 days = 1000 reads)
@@ -779,7 +779,7 @@ serena read_memory jwt_validation_results >> docs/jwt-migration.md
 
 ---
 
-### Token Efficiency
+### Token efficiency
 
 | Metric | Without | With Memory Stack | Savings |
 |--------|---------|-------------------|---------|
@@ -796,7 +796,7 @@ serena read_memory jwt_validation_results >> docs/jwt-migration.md
 
 ---
 
-### Practical Insights
+### Practical insights
 
 **When to Use Each Tool**:
 
@@ -823,7 +823,7 @@ serena read_memory jwt_validation_results >> docs/jwt-migration.md
 
 ---
 
-### Cost Analysis
+### Cost analysis
 
 **5-Day Project**:
 

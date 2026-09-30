@@ -1,4 +1,4 @@
-# Évaluation de Ressource: GET SHIT DONE (GSD)
+# Évaluation de ressource: GET SHIT DONE (GSD)
 
 **URL**: https://github.com/glittercowboy/get-shit-done
 **Type**: GitHub repository
@@ -96,7 +96,7 @@
 
 ---
 
-## ✅ Fact-Check
+## ✅ Fact-check
 
 | Affirmation | Vérifiée | Source/Commentaire |
 |-------------|----------|-------------------|

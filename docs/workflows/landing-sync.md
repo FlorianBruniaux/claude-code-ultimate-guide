@@ -1,10 +1,10 @@
-# Landing Site Synchronization
+# Landing site synchronization
 
 Workflow for keeping `cc.bruniaux.com` in sync with the guide after significant changes.
 
 **Landing repo**: [claude-code-ultimate-guide-landing](https://github.com/FlorianBruniaux/claude-code-ultimate-guide-landing). Commands assume sibling guide and landing checkouts.
 
-## Elements to Sync
+## Elements to sync
 
 | Element | Source (guide) | Destination (landing) |
 |---------|----------------|----------------------|
@@ -14,7 +14,7 @@ Workflow for keeping `cc.bruniaux.com` in sync with the guide after significant 
 | Golden Rules | README.md | index.html section |
 | FAQ | README.md | index.html FAQ |
 
-## Sync Triggers
+## Sync triggers
 
 After these modifications, **remember** to update the landing:
 
@@ -35,7 +35,7 @@ node scripts/prepare-guide-content.mjs && pnpm build
 
 **When to do this**: at every release (`/release patch|minor|major`) so the site reflects the latest guide version.
 
-## Verification Command
+## Verification command
 
 ```bash
 ./scripts/check-landing-sync.sh
@@ -65,7 +65,7 @@ All synced!
 
 If mismatch: exit code = number of issues found. Check `landing/CLAUDE.md` for exact line numbers to modify.
 
-## Search Index (Cmd+K)
+## Search index (Cmd+K)
 
 The landing's Cmd+K search palette includes guide entries generated from `machine-readable/reference.yaml` (the `deep_dive` section).
 
@@ -88,7 +88,7 @@ File: `src/components/global/AnnouncementBanner.astro` (landing repo)
 
 **When to update**: major new page, important section added, guide milestone, visible new feature.
 
-## RSS Feed
+## RSS feed
 
 The landing exposes a unified RSS feed at `/rss.xml`.
 

@@ -7,11 +7,11 @@ when_to_use: "Use when a plan or spec needs adversarial review before implementa
 disable-model-invocation: true
 ---
 
-# Review Plan Before Implementation
+# Review plan before implementation
 
 Review the current plan thoroughly before making any code changes. For every issue or recommendation, explain the concrete tradeoffs, give an opinionated recommendation, and ask for user input before assuming a direction.
 
-## Engineering Preferences
+## Engineering preferences
 
 Use these to guide your recommendations (override with project-specific CLAUDE.md preferences if they exist):
 
@@ -21,11 +21,11 @@ Use these to guide your recommendations (override with project-specific CLAUDE.m
 - Err on the side of handling more edge cases, not fewer
 - Bias toward explicit over clever; thoughtfulness over speed
 
-## Review Pipeline
+## Review pipeline
 
 Work through each section sequentially. After each section, pause and ask for feedback before moving on.
 
-### 1. Architecture Review
+### 1. Architecture review
 
 Evaluate:
 - Overall system design and component boundaries
@@ -34,7 +34,7 @@ Evaluate:
 - Scaling characteristics and single points of failure
 - Security architecture (auth, data access, API boundaries)
 
-### 2. Code Quality Review
+### 2. Code quality review
 
 Evaluate:
 - Code organization and module structure
@@ -43,7 +43,7 @@ Evaluate:
 - Technical debt hotspots
 - Areas that are over-engineered or under-engineered relative to engineering preferences
 
-### 3. Test Review
+### 3. Test review
 
 Evaluate:
 - Test coverage gaps (unit, integration, e2e)
@@ -51,7 +51,7 @@ Evaluate:
 - Missing edge case coverage (be thorough)
 - Untested failure modes and error paths
 
-### 4. Performance Review
+### 4. Performance review
 
 Evaluate:
 - N+1 queries and database access patterns
@@ -59,7 +59,7 @@ Evaluate:
 - Caching opportunities
 - Slow or high-complexity code paths
 
-## Issue Reporting Format
+## Issue reporting format
 
 For every specific issue found (bug, smell, design concern, or risk):
 
@@ -75,7 +75,7 @@ For every specific issue found (bug, smell, design concern, or risk):
 - After each section, pause and ask for feedback before moving on
 - Use AskUserQuestion for structured option selection
 
-## Before Starting
+## Before starting
 
 Ask if the user wants one of two options:
 

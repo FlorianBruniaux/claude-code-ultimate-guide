@@ -4,7 +4,7 @@ description: "Research-based guide for junior developers learning to code effect
 tags: [guide, workflows]
 ---
 
-# Learning to Code with AI: The Conscious Developer's Guide
+# Learning to code with AI: The conscious developer's guide
 
 > **Confidence**: Tier 2, based on academic research (2023-2025) and educator feedback
 >
@@ -16,7 +16,7 @@ tags: [guide, workflows]
 
 ---
 
-## Table of Contents
+## Table of contents
 
 1. [Quick Self-Check (Start Here)](#quick-self-check-start-here)
 2. [The Problem in 60 Seconds](#the-problem-in-60-seconds)
@@ -38,7 +38,7 @@ tags: [guide, workflows]
 
 ---
 
-## Quick Self-Check (Start Here)
+## Quick self-check (start here)
 
 Before diving in, answer honestly:
 
@@ -50,7 +50,7 @@ Before diving in, answer honestly:
 | 4 | Could you write the same function without assistance? | ☐ | ☐ |
 | 5 | Do you know the AI's limitations on this type of problem? | ☐ | ☐ |
 
-### Your Score
+### Your score
 
 | Score | Where You Are | Jump To |
 |-------|--------------|---------|
@@ -62,7 +62,7 @@ Be honest. This guide only helps if you acknowledge where you actually are.
 
 ---
 
-## The Problem in 60 Seconds
+## The problem in 60 seconds
 
 > AI can make you 3x more productive OR unemployable in 3 years.
 > The difference? How you use it.
@@ -77,7 +77,7 @@ Forget the statistics for now. Here's a simple metaphor:
 
 A developer who only copy-pastes AI output is like a driver who can't read a map. Fine until the GPS fails, or until someone asks them to explain the route.
 
-### The Skills Gap
+### The skills gap
 
 ```
 Traditional learning: Problem → Struggle → Understanding → Solution
@@ -87,7 +87,7 @@ AI-assisted (right): Problem → Attempt → AI guidance → Understanding → S
 
 The struggle isn't optional. It's where learning happens.
 
-### The "Vibe Coding" Trap
+### The "Vibe Coding" trap
 
 Term coined by [Andrej Karpathy](https://x.com/karpathy/status/1886192184808149383) (Feb 2025, Collins Word of the Year 2025): coding by "fully giving in to the vibes" without understanding the generated code.
 
@@ -108,11 +108,11 @@ Term coined by [Andrej Karpathy](https://x.com/karpathy/status/18861921848081493
 
 ---
 
-## The Reality of AI Productivity
+## The reality of AI productivity
 
 Before optimizing your learning approach, understand what productivity research actually shows. It's more nuanced than the marketing suggests.
 
-### The Productivity Curve (Not a Straight Line)
+### The productivity curve (not a straight line)
 
 Most developers experience three distinct phases:
 
@@ -126,7 +126,7 @@ Most developers experience three distinct phases:
 
 **Check whether to continue**: Repeated failures, reported fatigue or difficulty explaining the next action can justify a pause, a smaller task or additional help. Agree and assess a cadence locally; these observations do not establish a medical condition or its cause. See [Check whether to continue](#step-25-check-whether-to-continue).
 
-### Where AI Helps (And Where It Hurts)
+### Where AI helps (and where it hurts)
 
 | High-Gain Tasks | Low/Negative-Gain Tasks |
 |-----------------|-------------------------|
@@ -139,7 +139,7 @@ Most developers experience three distinct phases:
 
 The pattern: **AI excels at well-defined, repeatable tasks**. It struggles with ambiguous problems requiring deep context or creative judgment.
 
-### Why Some Teams Get Results (And Others Don't)
+### Why some teams get results (and others don't)
 
 **Teams that succeed**:
 - Establish clear AI usage guidelines (when to use, when not to)
@@ -165,7 +165,7 @@ The tool matters less than the organizational discipline around it.
 
 **On maintainability fear**: The concern that AI-generated code creates unmaintainable codebases is not empirically supported: downstream developers show no significant difference in evolution time or code quality (Borg et al., 2025, n=151). The real risks are skill atrophy and over-delegation, not inherent quality degradation for the next developer. ([arXiv:2507.00788](https://arxiv.org/abs/2507.00788))
 
-### Implications for Learning
+### Implications for learning
 
 This research shapes the rest of this guide:
 
@@ -175,7 +175,7 @@ This research shapes the rest of this guide:
 
 ---
 
-## The Three Patterns
+## The three patterns
 
 Every developer using AI falls into one of three patterns:
 
@@ -228,7 +228,7 @@ Every developer using AI falls into one of three patterns:
 
 ---
 
-## The UVAL Protocol
+## The UVAL protocol
 
 A proposed practice for checking understanding during AI-assisted work. It does not establish a retention benefit or replace the policy for accepting a change.
 
@@ -245,7 +245,7 @@ For the reasoning behind naming this a protocol rather than a habit, see [the UV
 
 ---
 
-### U: Understand First (The 15-Minute Rule)
+### U: Understand first (the 15-minute rule)
 
 **Not just "think for 15 minutes"**, a specific protocol:
 
@@ -274,7 +274,7 @@ This forces you to think before asking AI.
 
 Note reported fatigue, frustration, repeated failed attempts and difficulty explaining the next action. These observations can justify a pause, a smaller task or help from another person; they do not diagnose a condition or identify its cause. Agree a cadence suited to the task and evaluate it locally. Clearing an agent context and recovering human attention are separate interventions.
 
-#### Step 3: Identify Knowledge Gaps (3 min)
+#### Step 3: Identify knowledge gaps (3 min)
 
 What specifically do you NOT know?
 
@@ -283,7 +283,7 @@ What specifically do you NOT know?
 - I've never used Zod before but it keeps coming up
 ```
 
-#### Step 4: THEN Ask AI (5 min)
+#### Step 4: THEN ask AI (5 min)
 
 The revised question names the missing knowledge:
 
@@ -300,7 +300,7 @@ The revised question names the missing knowledge:
 
 The revised question makes the missing knowledge and expected behavior explicit.
 
-#### Claude Code Implementation
+#### Claude Code implementation
 
 Add to your `CLAUDE.md`:
 
@@ -316,13 +316,13 @@ If I skip these, remind me to think first.
 
 ---
 
-### V: Verify (Explain It Back)
+### V: Verify (explain it back)
 
 **The rule**: If you can't explain the code to a colleague, you haven't learned it.
 
 An explanation also needs a behavioral check. [Necessary or Sufficient?](https://arxiv.org/html/2609.05385v1) found that models’ cited top three did not reliably identify the highest-scoring features under the tested input interventions in two synthetic decision tasks. It does not test human learning or validate UVAL. As a local exercise, predict a boundary case, change the input, and compare the actual result with the explanation.
 
-#### The Rubber Duck Protocol
+#### The rubber duck protocol
 
 After AI generates code:
 
@@ -352,7 +352,7 @@ Your explanation:
 
 → Now ask AI specifically about `refine` instead of just copying the whole thing.
 
-#### Claude Code Implementation
+#### Claude Code implementation
 
 Create a custom slash command `/explain-back`:
 
@@ -380,7 +380,7 @@ See [/learn:quiz command](../../examples/commands/learn/quiz.md) for a more comp
 
 ---
 
-### A: Apply (Predict, Test, Adapt)
+### A: Apply (predict, test, adapt)
 
 Keep correct code unchanged when no requirement calls for an edit. Renaming a variable, changing a loop or pasting code does not by itself establish how much someone learned.
 
@@ -397,11 +397,11 @@ These are proposed learning checks, not a ranking of learning by edit type. A la
 
 ---
 
-### L: Learn (Capture the Insight)
+### L: Learn (capture the insight)
 
 **Not a daily journal**: nobody maintains those. Instead: automated capture.
 
-#### The One-Thing Rule
+#### The one-thing rule
 
 At the end of each coding session, capture ONE thing you learned. Not ten. One.
 
@@ -412,7 +412,7 @@ At the end of each coding session, capture ONE thing you learned. Not ten. One.
 **Future me**: Use refine() when validation involves multiple fields
 ```
 
-#### Claude Code Implementation
+#### Claude Code implementation
 
 Create a session-end hook:
 
@@ -427,15 +427,15 @@ The hook asks: "What's ONE thing you learned this session?" and logs it automati
 
 ---
 
-## Claude Code for Learning (Not Just Producing)
+## Claude Code for learning (not just producing)
 
 Claude Code has specific features that support learning. Here's how to configure them.
 
-### Start Here: /powerup
+### Start here: /powerup
 
 Before configuring anything, run `/powerup`. It's a built-in command that walks you through Claude Code's core features via interactive animated lessons, each one short, hands-on, and designed to show rather than tell. Start here if you've never done a structured onboarding of the tool.
 
-### CLAUDE.md Configuration for Learning Mode
+### CLAUDE.md configuration for learning mode
 
 Create this in your `CLAUDE.md`:
 
@@ -468,7 +468,7 @@ Full template: [examples/claude-md/learning-mode.md](../../examples/claude-md/le
 
 ---
 
-### Slash Commands for Learning
+### Slash commands for learning
 
 | Command | Purpose | When to Use |
 |---------|---------|-------------|
@@ -506,9 +506,9 @@ Full template: [examples/commands/learn/quiz.md](../../examples/commands/learn/q
 
 ---
 
-### Hooks That Build Habits
+### Hooks that build habits
 
-#### Learning Capture Hook (Session End)
+#### Learning capture hook (session end)
 
 Automatically prompts for daily learning capture:
 
@@ -527,7 +527,7 @@ Automatically prompts for daily learning capture:
 
 ---
 
-### The 70/30 Weekly Split
+### The 70/30 weekly split
 
 Balance learning and producing:
 
@@ -538,7 +538,7 @@ Balance learning and producing:
 
 > **Research basis**: This ratio aligns with [productivity research](#the-reality-of-ai-productivity) showing AI delivers highest gains on well-defined tasks (practice/projects) while learning new concepts requires cognitive struggle that AI can't shortcut.
 
-#### Week Structure Example
+#### Week structure example
 
 ```
 Monday:    Learn new React pattern     (minimal AI)
@@ -552,11 +552,11 @@ Don't use AI heavily when learning NEW concepts. Use it heavily when applying co
 
 ---
 
-## Breaking Dependency
+## Breaking dependency
 
 **For Pattern 1 developers**: You've been using AI as a crutch. Here's how to rebuild your foundation.
 
-### Week 1: The Cold Turkey Period
+### Week 1: The cold turkey period
 
 **Goal**: Prove to yourself you can code without AI.
 
@@ -568,7 +568,7 @@ Don't use AI heavily when learning NEW concepts. Use it heavily when applying co
 
 **Expect this to feel slow and frustrating.** That's the learning happening.
 
-### Week 2: Guided Reintroduction
+### Week 2: Guided reintroduction
 
 **Goal**: Use AI as a teacher, not a generator.
 
@@ -578,7 +578,7 @@ Don't use AI heavily when learning NEW concepts. Use it heavily when applying co
 | 3-4 | Write code first, then ask AI for review | Reviewer |
 | 5 | Compare your solution to AI's, understand differences | Comparator |
 
-### Week 3-4: Balanced Usage
+### Week 3-4: Balanced usage
 
 **Goal**: Develop critical AI usage habits.
 
@@ -589,7 +589,7 @@ Apply the UVAL protocol (§4) to every interaction:
 3. **Apply**: Predict, test a requirement or diagnose; adapt only when needed
 4. **Learn**: Capture one insight per session
 
-### Red Flags You're Slipping
+### Red flags you're slipping
 
 | Sign | Action |
 |------|--------|
@@ -600,11 +600,11 @@ Apply the UVAL protocol (§4) to every interaction:
 
 ---
 
-## Embracing AI Tools
+## Embracing AI tools
 
 **For Pattern 2 developers**: You've been avoiding AI. Here's why that's hurting you and how to change.
 
-### Why Avoidance Is a Problem
+### Why avoidance is a problem
 
 The job market has changed:
 
@@ -614,7 +614,7 @@ The job market has changed:
 
 You're not cheating by using AI. You're being inefficient by not using it.
 
-### Week 1: Low-Stakes Introduction
+### Week 1: Low-Stakes introduction
 
 **Goal**: Use AI for tasks that don't feel like "cheating."
 
@@ -625,7 +625,7 @@ You're not cheating by using AI. You're being inefficient by not using it.
 | Write documentation | Documentation isn't the skill | "Document this function" |
 | Generate test cases | Tests verify YOUR understanding | "Generate test cases for this function" |
 
-### Week 2: Expanded Usage
+### Week 2: Expanded usage
 
 **Goal**: Use AI for tasks you'd normally struggle through.
 
@@ -641,7 +641,7 @@ You're not cheating by using AI. You're being inefficient by not using it.
 
 Apply UVAL protocol to ensure you're learning, not just generating.
 
-### Mindset Shift
+### Mindset shift
 
 **Old thinking**: "Using AI means I'm not a real developer."
 
@@ -651,13 +651,13 @@ The best developers use every tool available. AI is a tool.
 
 ---
 
-## Optimizing Your Flow
+## Optimizing your flow
 
 **For Pattern 3 developers**: You're using AI well. Here's how to level up.
 
-### Advanced UVAL Applications
+### Advanced UVAL applications
 
-#### Predictive Prompting
+#### Predictive prompting
 
 Before AI generates code, predict the approach:
 
@@ -666,7 +666,7 @@ My prediction: This will probably use reduce() with an accumulator
 Then compare to AI output, learn from differences
 ```
 
-#### Teaching Mode
+#### Teaching mode
 
 Use AI to test your knowledge by teaching:
 
@@ -678,7 +678,7 @@ useState stores state that persists between renders...
 
 AI acts as a smart rubber duck that can catch errors.
 
-#### Comparative Analysis
+#### Comparative analysis
 
 Ask for multiple approaches, then choose:
 
@@ -695,9 +695,9 @@ This builds architectural thinking.
 
 ---
 
-### Advanced Claude Code Configuration
+### Advanced Claude Code configuration
 
-#### Dynamic Learning Mode
+#### Dynamic learning mode
 
 ```markdown
 # Advanced Learning Configuration
@@ -720,7 +720,7 @@ After each feature, summarize:
 3. Potential interview questions from this code
 ```
 
-#### Spaced Repetition Integration
+#### Spaced repetition integration
 
 Track concepts for future review:
 
@@ -734,11 +734,11 @@ Then periodically quiz yourself on past learnings.
 
 ---
 
-## Case Study: Hybrid Learning Principles
+## Case study: Hybrid learning principles
 
 What works best for learning with AI? Research and successful implementations point to the same pattern.
 
-### From Academic Research (2023-2025)
+### From academic research (2023-2025)
 
 Studies on AI-assisted learning show optimal results with:
 
@@ -750,7 +750,7 @@ Studies on AI-assisted learning show optimal results with:
 
 AI excels at **practice and feedback**, humans excel at **motivation and critical evaluation**.
 
-### Real-World Implementation: Méthode Aristote
+### Real-World implementation: Méthode Aristote
 
 A French educational platform (middle/high school) applies these principles at scale:
 
@@ -777,7 +777,7 @@ Applied to coding:
 
 → [methode-aristote.fr](https://www.methode-aristote.fr/)
 
-### Building Your Own Support System
+### Building your own support system
 
 You probably don't have a dedicated tutor, but you can create the structure:
 
@@ -792,7 +792,7 @@ The combination of **human accountability + AI practice** beats either alone. Th
 
 ---
 
-## Where Are You on the Agent Adoption Curve?
+## Where are you on the agent adoption curve?
 
 > **Audience**: Developers already using Claude Code who want to gauge their current sophistication, not beginners starting from scratch (use the 30-Day Plan below for that).
 
@@ -821,7 +821,7 @@ If you landed at Level 3 or below: the 30-Day Plan below is the right path. If y
 
 ---
 
-## 30-Day Progression Plan
+## 30-day progression plan
 
 A concrete path from wherever you are to augmented developer.
 
@@ -853,7 +853,7 @@ A concrete path from wherever you are to augmented developer.
 
 **Success criteria**: Can modify AI-generated code confidently.
 
-### Week 3: Critical Usage
+### Week 3: Critical usage
 
 **Focus**: Challenge AI suggestions, find their limits.
 
@@ -881,7 +881,7 @@ A concrete path from wherever you are to augmented developer.
 
 ---
 
-## For Tech Leads & Engineering Managers
+## For tech leads & engineering managers
 
 > **Audience**: Engineering managers, tech leads, senior developers responsible for junior mentoring.
 >
@@ -891,7 +891,7 @@ UVAL proposes individual comprehension checks whose effectiveness needs evaluati
 
 ---
 
-### The Onboarding Imperative
+### The onboarding imperative
 
 AI access without structured training produces poor results. A 2025 Create Future study found junior developers with no AI training achieved only 14-42% time savings on key tasks. With brief structured training, that jumped to 35-65%. The tool doesn't teach itself.
 
@@ -908,7 +908,7 @@ Week 1 without AI isn't a punishment. It's calibration. You need to see what the
 
 ---
 
-### Measuring What Actually Matters
+### Measuring what actually matters
 
 Velocity is a lagging indicator. It shows nothing about the skills gap forming underneath.
 
@@ -936,7 +936,7 @@ Use the [review comprehension exercise](../../examples/learning-project/review-c
 
 In [IFTTD episode 362](https://www.ifttd.io/episodes/le-lean-a-l-ere-de-l-ia), Yacine Hmito distinguishes giving an agent a skill from teaching its operator to judge the resulting work. His example of formalizing a good unit test makes the operator's tacit criteria inspectable. The exercise operationalizes that distinction; it is not evidence that review-based training equals learning by writing code. Repeat with a new task before claiming transfer, and keep comprehension results separate from merged-PR counts.
 
-### Scalable Mentoring Models
+### Scalable mentoring models
 
 The 1:1 senior/junior compagnonnage model doesn't scale past teams of 5-10. These three approaches do:
 
@@ -954,7 +954,7 @@ Juniors propose additions to the team `CLAUDE.md`. Proposals must be based on so
 
 ---
 
-### Team-Level Steering Metrics
+### Team-Level steering metrics
 
 "Measuring What Actually Matters" covers individual growth signals. This section covers what you look at weekly and monthly to steer the whole team, not just assess individual developers.
 
@@ -996,7 +996,7 @@ For the full framework with dashboards and alerting thresholds, see `ops/team-me
 
 ---
 
-### Team-Level AI Policy (CLAUDE.md for Teams)
+### Team-Level AI policy (CLAUDE.md for teams)
 
 Individual `CLAUDE.md` configuration (§6) is for one developer. Team-level policy goes in the root `CLAUDE.md` of your shared repo. Keep it short enough that people actually read it:
 
@@ -1021,7 +1021,7 @@ Start minimal. Add rules only when a pattern becomes a problem. A six-page polic
 
 ---
 
-### Warning Signs at Team Level
+### Warning signs at team level
 
 | Pattern | What It Means | Response |
 |---------|---------------|----------|
@@ -1034,7 +1034,7 @@ Start minimal. Add rules only when a pattern becomes a problem. A six-page polic
 
 ---
 
-### Quick Checklist
+### Quick checklist
 
 ```
 Onboarding
@@ -1068,7 +1068,7 @@ The [FDA page for the January 2025 AI-enabled device software draft](https://www
 
 ---
 
-## The Attention Cost of the Review Shift
+## The attention cost of the review shift
 
 > **Audience**: Developers at any experience level, plus tech leads doing capacity planning.
 >
@@ -1090,7 +1090,7 @@ Jason Cohen's [Cisco case study](https://static0.smartbear.co/support/media/reso
 
 Split a change when its behavior cannot be understood or verified in context. A generated file, repetitive edit and unfamiliar authorization change require different effort even at equal line counts. Agree breaks and observe review quality in the actual team. The sources examined here do not establish that the historical thresholds become lower, unchanged or higher with agent assistance.
 
-### Reviewing Machine Output Is a Third Mode
+### Reviewing machine output is a third mode
 
 Reviewing agent output is neither writing nor reviewing a colleague. It carries a failure mode the human factors literature named decades ago.
 
@@ -1113,7 +1113,7 @@ Use a real way to pause and resume work. On selected disposable exercises, colle
 
 *Practices to evaluate with real participants, not a reported intervention. [French version and sources](../images/harness-review/README.md).*
 
-### The Apprenticeship Ladder Ran Through the Writing Phase
+### The apprenticeship ladder ran through the writing phase
 
 The labour market data is unusually good for a question this recent.
 
@@ -1154,7 +1154,7 @@ The [supervision exercise](../../examples/learning-project/review-comprehension-
 
 ---
 
-## Red Flags Checklist
+## Red flags checklist
 
 Warning signs you're becoming dependent, and what to do:
 
@@ -1170,7 +1170,7 @@ Warning signs you're becoming dependent, and what to do:
 | Task feels easy but you can't explain it | **Perception gap**: AI users rate tasks easier while scoring 17% lower ([Shen & Tamkin 2026](https://arxiv.org/abs/2601.20245)) | After each task, explain the solution without looking at code |
 | Repeated failures or difficulty sustaining attention | Reported difficulty, without a causal diagnosis | Pause, reduce scope or request help; evaluate a locally agreed cadence |
 
-### Weekly Self-Audit
+### Weekly self-audit
 
 Every Friday, ask:
 
@@ -1183,22 +1183,22 @@ Faster delivery and independent understanding are separate observations. Use an 
 
 ---
 
-## Sources & Research
+## Sources & research
 
-### Academic Research
+### Academic research
 
 - **GitHub Copilot Impact Study (2024)** ([dl.acm.org](https://dl.acm.org/doi/10.1145/3613904.3642394)): Found productivity gains but identified skill atrophy risks in junior developers
 - **Student Dependency Patterns in AI-Assisted Learning** (IACIS 2024): Documented "learned helplessness" in students over-reliant on AI
 - **Junior Developer Career Trajectories with AI Tools** (Software Engineering Institute): 3-year longitudinal study on skill development
 - **AI Impacts on Skill Formation (Shen & Tamkin, 2026)** ([arXiv:2601.20245](https://arxiv.org/abs/2601.20245)): Anthropic Fellows RCT (52 devs learning Python Trio with/without GPT-4o): AI group scored 17% lower on skills quiz (Cohen's d=0.738, p=0.01) with no significant speed gain. Identified 6 interaction patterns, 3 preserving learning (conceptual inquiry, hybrid explanation, generation-then-comprehension) via active cognitive engagement.
 
-### Industry Reports
+### Industry reports
 
 - **Stack Overflow Developer Survey 2025**: AI tool adoption and perceived impact on learning
 - **State of Developer Ecosystem 2025** (JetBrains): AI usage patterns by experience level
 - **GitHub Octoverse 2025**: Code generation adoption rates and practices
 
-### Productivity Research
+### Productivity research
 
 Sources for [§3 The Reality of AI Productivity](#the-reality-of-ai-productivity):
 
@@ -1210,7 +1210,7 @@ Sources for [§3 The Reality of AI Productivity](#the-reality-of-ai-productivity
 - **Borg et al. "Echoes of AI" RCT (2025)** ([arXiv:2507.00788](https://arxiv.org/abs/2507.00788)): 2-phase blind RCT (151 participants, 95% professional developers): AI users 30.7% faster (median), habitual users ~55.9% faster. Phase 2: downstream developers evolving AI-generated code showed no significant difference in evolution time or code quality vs. human-generated code. First RCT to explicitly target maintainability of AI-assisted code. Co-authored by Dave Farley ("Continuous Delivery"). Note: arXiv preprint (v2 Dec 2025), not yet published in peer-reviewed proceedings.
 - **DORA/Google DevOps Research (2024)**: AI tool adoption impact on team performance
 
-### Review Load, Cognition & Recovery
+### Review load, Cognition & recovery
 
 Sources for [§14 The Attention Cost of the Review Shift](#the-attention-cost-of-the-review-shift):
 
@@ -1228,7 +1228,7 @@ Sources for [§14 The Attention Cost of the Review Shift](#the-attention-cost-of
 - **Involvement profiles in knowledge workers (Frontiers in Psychology, 2020)** ([PMC7205444](https://pmc.ncbi.nlm.nih.gov/articles/PMC7205444/)): two Norwegian samples. The high-involvement profile (low detachment plus high autonomous motivation) scored lower on emotional exhaustion than the higher-detachment group. Counterweight to reading low detachment as burnout on its own.
 - **Sonar 2026 State of Code** ([primary report](https://www.sonarsource.com/state-of-code-developer-survey-report.pdf)): trust and verification are separate self-reported measures. The 24% toil measure is not specific to verification of AI output.
 
-### Junior Pipeline & Labour Market
+### Junior pipeline & labour market
 
 Sources for [§14 The Apprenticeship Ladder Ran Through the Writing Phase](#the-apprenticeship-ladder-ran-through-the-writing-phase):
 
@@ -1236,14 +1236,14 @@ Sources for [§14 The Apprenticeship Ladder Ran Through the Writing Phase](#the-
 - **Westby, Sasser Modestino et al. (June 2025)** ([PDF](https://aliciasassermodestino.com/wp-content/uploads/2025/06/Impact_of_GenAI_on_SWEs_061625.pdf)): 1.5M+ software developer vacancies 2021-2023, difference-in-differences with month and location fixed effects. 16.3% drop in the junior share of postings after November 2022, larger than for other computer and mathematical occupations.
 - **Lichtinger & Hosseini Massoum (Harvard)**: LinkedIn and Revelio Labs data, ~62M workers across 285,000 firms, 2015-2025. Junior hiring falls in AI-adopting firms from Q1 2023 while senior headcount rises.
 
-### Team & Organizational Research
+### Team & organizational research
 
 - **Create Future: AI Training Impact on Junior Developers (2025)**: Structured AI training raises junior time savings from 14-42% (untrained) to 35-65% (trained) on key tasks. Source for [§12 Onboarding Imperative](#the-onboarding-imperative).
 - **Stanford Digital Economy Study (2025)**: Software developer employment for ages 22-25 declined ~20% by July 2025. Context for the urgency of structured junior development. [understandingai.org analysis](https://www.understandingai.org/p/new-evidence-strongly-suggest-ai). Note: this figure is software-developer-specific and comes from a secondary analysis of an earlier draft. The November 2025 published paper reports ~16% for ages 22-25 across all most-exposed occupations, cited in full under [Junior Pipeline & Labour Market](#junior-pipeline--labour-market).
 - **LeadDev: Tech CEOs reckon with AI impact on junior developers (2025)** ([leaddev.com](https://leaddev.com/leadership/tech-ceos-reckon-with-impact-junior-developers)): Organizational perspectives from engineering leaders on structuring junior growth in AI-heavy teams.
 - **Stack Overflow: AI vs Gen Z (2025)** ([stackoverflow.blog](https://stackoverflow.blog/2025/12/26/ai-vs-gen-z/)): Career pathway shifts for junior developers with AI adoption data by experience level.
 
-### Practitioner Perspectives
+### Practitioner perspectives
 
 - **Anthropic Claude Code Best Practices** ([anthropic.com](https://www.anthropic.com/engineering/claude-code-best-practices)): Official guidance on effective usage
 - **ThoughtWorks Technology Radar**: AI-assisted development maturity model
@@ -1251,20 +1251,20 @@ Sources for [§14 The Apprenticeship Ladder Ran Through the Writing Phase](#the-
 - **OCTO Technology: Le développement à l'ère des agents IA** ([blog.octo.com](https://blog.octo.com/le-developpement-logiciel-a-l-ere-des-agents-ia)): Organizational perspective on AI-augmented development: pairs as minimal team unit (bus factor), bottleneck shifts from technical to functional requirements, junior developer integration via pair programming and deliberate practice. Managerial focus, useful context for team leads.
 - **Matteo Collina: The Human in the Loop** ([adventures.nodeland.dev](https://adventures.nodeland.dev/archive/the-human-in-the-loop/)): Node.js TSC Chair on the bottleneck shift from coding to reviewing. Response to Arnaldi's "Death of Software Development." Key thesis: AI amplifies productivity, but judgment and accountability remain human responsibilities. Quote: "The human in the loop isn't a limitation. It's the point." See [detailed analysis](../ecosystem/ai-ecosystem.md#matteo-collina-nodejs-tsc-chair).
 
-### Educational Frameworks
+### Educational frameworks
 
 - **Méthode Aristote** ([methode-aristote.fr](https://www.methode-aristote.fr/)): Hybrid human+AI tutoring model
 - **Bloom's Taxonomy Applied to AI Learning**: Cognitive levels in AI-assisted education
 - **Zone of Proximal Development with AI**: Vygotsky's theory applied to AI scaffolding
 
-### Methodology References
+### Methodology references
 
 See [methodologies.md](../core/methodologies.md) for:
 - TDD with AI assistance
 - Spec-Driven Development
 - Eval-Driven Development for AI outputs
 
-### Community Experiences
+### Community experiences
 
 Practitioner reports from real-world usage provide empirical validation of theoretical patterns. Croce (2025)[^croce2025] documents efficiency gains for isolated algorithmic tasks (90s vs 60min average on Advent of Code puzzles), but highlights collaboration trade-offs during solo challenges: decreased team engagement, fewer creative discussions, and reduced diverse approach sharing.
 
@@ -1274,9 +1274,9 @@ Practitioner reports from real-world usage provide empirical validation of theor
 
 ---
 
-## See Also
+## See also
 
-### In This Guide
+### In this guide
 
 - [AI Roles & Career Paths](./ai-roles.md): Map of emerging AI roles (Prompt Engineer → Harness Engineer) with career matrix and salary benchmarks
 - [Methodologies: TDD with Claude](../core/methodologies.md#tier-5-implementation): Write tests first, then implement
@@ -1284,7 +1284,7 @@ Practitioner reports from real-world usage provide empirical validation of theor
 - [Workflows: Plan-Driven](../workflows/plan-driven.md): Use /plan mode for complex work
 - [Ultimate Guide: Mental Models](#26-mental-model): How to think about Claude interactions
 
-### Templates & Examples
+### Templates & examples
 
 - [Learning Mode CLAUDE.md](../../examples/claude-md/learning-mode.md): Configuration template
 - [/learn:quiz Command](../../examples/commands/learn/quiz.md): Self-testing slash command
@@ -1292,7 +1292,7 @@ Practitioner reports from real-world usage provide empirical validation of theor
 - [/learn:alternatives Command](../../examples/commands/learn/alternatives.md): Compare different approaches
 - [Learning Capture Hook](../../examples/hooks/bash/learning-capture.sh): Automated insight logging
 
-### External Resources
+### External resources
 
 - [Anthropic Prompt Engineering Guide](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview): Better prompts = better learning
 - [The Pragmatic Programmer](https://pragprog.com/titles/tpp20/the-pragmatic-programmer-20th-anniversary-edition/): Timeless principles for deliberate practice
@@ -1302,9 +1302,9 @@ Practitioner reports from real-world usage provide empirical validation of theor
 
 ---
 
-## Quick Reference Card
+## Quick reference card
 
-### UVAL Protocol Summary
+### UVAL protocol summary
 
 ```
 U — UNDERSTAND FIRST
@@ -1320,14 +1320,14 @@ L — LEARN
     One insight per session → Log it → Review later
 ```
 
-### The 70/30 Rule
+### The 70/30 rule
 
 ```
 Learning new things: 70% struggle, 30% AI
 Applying known skills: 30% struggle, 70% AI
 ```
 
-### Daily Minimums
+### Daily minimums
 
 ```
 ☐ 15 min: Code something without AI
@@ -1335,7 +1335,7 @@ Applying known skills: 30% struggle, 70% AI
 ☐ 1 min: Log one thing you learned
 ```
 
-### Claude Code Commands for Learning
+### Claude Code commands for learning
 
 ```
 /explain              — Understand existing code

@@ -1,6 +1,6 @@
 {{< pagebreak >}}
 
-## Fiche Récap : Privacy & Conformité
+## Fiche Récap : Privacy & conformité
 
 ```{=typst}
 #fiche-recap(

@@ -4,7 +4,7 @@ description: "Where to start when scaling from a single Claude Code session to a
 tags: [workflow, agents, orchestration, software-factory, decision-guide]
 ---
 
-# Agentic Software Factories: Orientation Map
+# Agentic software factories: Orientation map
 
 This page answers one question: you want to run Claude Code as something closer to a software factory than a single session, so where do you start and what do you pick. It does not repeat the detailed material that already exists across six other files in this guide. It points to it, in order, and adds the two things that were missing: an honest decision tree for closed commercial platforms, and a governance checklist that includes a question no vendor page asks about itself.
 
@@ -14,7 +14,7 @@ This page answers one question: you want to run Claude Code as something closer 
 
 ---
 
-## Read the Map Before Adding a Control Plane
+## Read the map before adding a control plane
 
 A software factory combines several layers. The model reasons; the runtime harness owns the coding loop; the repository harness provides instructions and deterministic delivery gates; the orchestrator dispatches work across sessions or workspaces. A factory or control plane can coordinate runtimes without becoming the runtime itself.
 
@@ -50,7 +50,7 @@ Two consequences for anyone building a factory:
 
 ---
 
-## Table of Contents
+## Table of contents
 
 1. [The spectrum: six levels, six costs](#1-the-spectrum-six-levels-six-costs)
 2. [The missing decision tree: when does a closed software factory actually win](#2-the-missing-decision-tree-when-does-a-closed-software-factory-actually-win)

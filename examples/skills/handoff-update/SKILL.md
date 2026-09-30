@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 Update an existing handoff document with this session's progress.
 
-## Step 1: Resolve the Handoff File
+## Step 1: Resolve the handoff file
 
 Determine which file to update, in this priority order:
 
@@ -16,11 +16,11 @@ Determine which file to update, in this priority order:
 2. If this session was started via `/handoff:resume`, look in conversation history for the argument that was passed to it.
 3. If neither is found, fall back to creating a new file: `claudedocs/handoffs/handoff_YYYYMMDD_HHMMSS.md`. Inform the user that no existing handoff was found.
 
-## Step 2: Read the Existing File
+## Step 2: Read the existing file
 
 Read the resolved file completely. Parse all sections as the baseline for the merge.
 
-## Step 3: Apply Section Merge Rules
+## Step 3: Apply section merge rules
 
 Rewrite the file with updated content using these merge rules:
 

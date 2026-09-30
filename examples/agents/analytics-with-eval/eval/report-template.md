@@ -4,7 +4,7 @@ description: "Monthly evaluation template for scoring analytics agent performanc
 tags: [template, agents, testing]
 ---
 
-# Analytics Agent Evaluation Report
+# Analytics agent evaluation report
 
 **Month**: [YYYY-MM]
 **Report Date**: [YYYY-MM-DD]
@@ -13,7 +13,7 @@ tags: [template, agents, testing]
 
 ---
 
-## Executive Summary
+## Executive summary
 
 [2-3 sentence overview of agent performance this month]
 
@@ -26,7 +26,7 @@ tags: [template, agents, testing]
 
 ---
 
-## Metrics Overview
+## Metrics overview
 
 ### Volume
 
@@ -37,7 +37,7 @@ tags: [template, agents, testing]
 | Queries per day (avg) | [Z] |
 | Growth vs last month | [+/-]% |
 
-### Quality Metrics
+### Quality metrics
 
 | Metric | Target | Actual | Status |
 |--------|--------|--------|--------|
@@ -45,7 +45,7 @@ tags: [template, agents, testing]
 | Query correctness | >90% | [Y]% | 🟢/🟡/🔴 |
 | User satisfaction | >4.0/5 | [Z]/5 | 🟢/🟡/🔴 |
 
-### Performance Metrics
+### Performance metrics
 
 | Metric | Target | Actual | Status |
 |--------|--------|--------|--------|
@@ -55,9 +55,9 @@ tags: [template, agents, testing]
 
 ---
 
-## Safety Analysis
+## Safety analysis
 
-### Safety Check Results
+### Safety check results
 
 ```
 Total: [X] queries
@@ -65,7 +65,7 @@ Total: [X] queries
 - FAIL: [A] ([B]%)
 ```
 
-### Top Safety Failures
+### Top safety failures
 
 1. **[Failure Type]** - [X] occurrences
    - Example: `[SQL query snippet]`
@@ -83,9 +83,9 @@ Total: [X] queries
 
 ---
 
-## Performance Analysis
+## Performance analysis
 
-### Execution Time Distribution
+### Execution time distribution
 
 ```
 Mean:   [X]s
@@ -95,7 +95,7 @@ P99:    [A]s
 Max:    [B]s
 ```
 
-### Slowest Queries
+### Slowest queries
 
 1. **[Query description]** - [X]s
    ```sql
@@ -113,22 +113,22 @@ Max:    [B]s
 
 ---
 
-## User Feedback
+## User feedback
 
-### Explicit Feedback
+### Explicit feedback
 
 - **Positive**: [X] responses
   - Common praise: "[Theme 1]", "[Theme 2]"
 - **Negative**: [Y] responses
   - Common complaints: "[Theme 1]", "[Theme 2]"
 
-### Implicit Signals
+### Implicit signals
 
 - **Query retry rate**: [X]% (users re-running queries)
 - **Query modification rate**: [Y]% (users editing generated queries)
 - **Adoption rate**: [Z] queries/user/week
 
-### Notable Feedback
+### Notable feedback
 
 > "[User quote 1]"
 — [User name/role, if available]
@@ -138,23 +138,23 @@ Max:    [B]s
 
 ---
 
-## Incident Log
+## Incident log
 
-### Critical Issues
+### Critical issues
 
 | Date | Issue | Impact | Resolution |
 |------|-------|--------|------------|
 | [YYYY-MM-DD] | [Brief description] | [High/Medium/Low] | [What was done] |
 
-### Near-Misses
+### Near-misses
 
 [List of queries that almost caused problems but were caught by safety checks]
 
 ---
 
-## Improvements Made
+## Improvements made
 
-### Agent Instruction Updates
+### Agent instruction updates
 
 1. **[Update 1]**
    - **Reason**: [Why needed]
@@ -166,7 +166,7 @@ Max:    [B]s
    - **Change**: [What was modified]
    - **Impact**: [Expected improvement]
 
-### Hook/Metrics Updates
+### Hook/metrics updates
 
 - [Any changes to metrics collection or analysis]
 
@@ -198,7 +198,7 @@ Max:    [B]s
 
 ## Recommendations
 
-### High Priority
+### High priority
 
 1. **[Recommendation 1]**
    - **Current state**: [Problem description]
@@ -206,7 +206,7 @@ Max:    [B]s
    - **Expected impact**: [Improvement estimate]
    - **Effort**: Low/Medium/High
 
-### Medium Priority
+### Medium priority
 
 1. **[Recommendation 2]**
    - **Current state**: [Problem description]
@@ -214,13 +214,13 @@ Max:    [B]s
    - **Expected impact**: [Improvement estimate]
    - **Effort**: Low/Medium/High
 
-### Low Priority / Future
+### Low priority / future
 
 - [Quick list of nice-to-have improvements]
 
 ---
 
-## Next Month Goals
+## Next month goals
 
 1. **[Goal 1]**: [Specific, measurable target]
 2. **[Goal 2]**: [Specific, measurable target]
@@ -246,7 +246,7 @@ Max:    [B]s
 - [Any known gaps in data collection]
 - [Potential biases in analysis]
 
-### Raw Data
+### Raw data
 
 **Export**: `analytics-metrics-[YYYY-MM].json`
 

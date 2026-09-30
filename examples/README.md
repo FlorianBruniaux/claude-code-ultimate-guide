@@ -4,14 +4,14 @@ description: "Annotated templates teaching why patterns work, with trade-offs an
 tags: [template, reference, workflows, architecture]
 ---
 
-# Claude Code Examples
+# Claude Code examples
 
 Annotated templates that teach you **why** patterns work, not just how to configure them. Each template includes comments explaining trade-offs, alternatives, and when to deviate.
 
 > **[📚 Browse Auto-Generated Catalog](./CATALOG.md)**: Indexed by complexity, time, and domain (238 templates across six catalog categories; 271 production templates overall)
 > **[🔍 Browse Interactive Catalog](./index.html)**: View, copy, and download templates with syntax highlighting
 
-## New: Auto-Generated Catalog
+## New: Auto-Generated catalog
 
 **[`CATALOG.md`](./CATALOG.md)** is now auto-generated from template metadata, organized by:
 - **Complexity**: Beginner, Intermediate, Advanced
@@ -68,13 +68,13 @@ keywords: [tag1, tag2]
 
 These worksheets are proposed procedures. Their examples do not establish runtime enforcement or measured learning and throughput gains.
 
-## Quick Start
+## Quick start
 
 1. Copy the template you need
 2. Customize for your project
 3. Place in the correct location (see paths below)
 
-## File Locations
+## File locations
 
 | Type | Project Location | Global Location |
 |------|------------------|-----------------|
@@ -88,7 +88,7 @@ These worksheets are proposed procedures. Their examples do not establish runtim
 
 > **Windows**: Replace `~/.claude/` with `%USERPROFILE%\.claude\`
 
-## Templates Index
+## Templates index
 
 ### Agents (23)
 
@@ -306,7 +306,7 @@ Security-first: 12 security hooks, 8 productivity hooks, 5 automation hooks, 5 m
 | [performance-review.md](./rules/performance-review.md) | Rules for performance review sessions |
 | [test-review.md](./rules/test-review.md) | Rules for test review sessions |
 
-### Team Config (3)
+### Team config (3)
 
 | File | Purpose |
 |------|---------|
@@ -354,7 +354,7 @@ Security-first: 12 security hooks, 8 productivity hooks, 5 automation hooks, 5 m
 
 > **See [agent-vibes/README.md](./integrations/agent-vibes/README.md) for installation and voice catalog**
 
-### MCP Configs (1)
+### MCP configs (1)
 
 | File | Purpose |
 |------|---------|
@@ -368,7 +368,7 @@ Security-first: 12 security hooks, 8 productivity hooks, 5 automation hooks, 5 m
 
 > **See [modes/README.md](./modes/README.md) for installation and SuperClaude framework reference**
 
-### Semantic Anchors (1)
+### Semantic anchors (1)
 
 | File | Purpose |
 |------|---------|
@@ -376,7 +376,7 @@ Security-first: 12 security hooks, 8 productivity hooks, 5 automation hooks, 5 m
 
 > **See [Section 2.7](../guide/ultimate-guide.md#29-semantic-anchors) in the guide for how to use semantic anchors**
 
-### Multi-Provider Bridge
+### Multi-provider bridge
 
 | Tool | Purpose |
 |------|---------|

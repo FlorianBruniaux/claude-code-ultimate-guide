@@ -4,7 +4,7 @@ description: "Org-level governance for teams deploying Claude Code at scale: usa
 tags: [security, enterprise, governance, compliance]
 ---
 
-# Enterprise AI Governance for Claude Code
+# Enterprise AI governance for Claude Code
 
 > **Audience**: Tech leads, engineering managers, security officers deploying Claude Code across teams.
 >
@@ -29,11 +29,11 @@ tags: [security, enterprise, governance, compliance]
 
 ---
 
-## 1. Local vs Shared: The Governance Split
+## 1. Local vs shared: The governance split
 
 The biggest mistake in enterprise AI governance is applying the same rules to everything. Local usage and shared usage have fundamentally different risk profiles.
 
-### 1.1 Risk Matrix
+### 1.1 Risk matrix
 
 | Dimension | Local usage | Shared usage |
 |-----------|-------------|--------------|
@@ -44,7 +44,7 @@ The biggest mistake in enterprise AI governance is applying the same rules to ev
 | **Compliance scope** | Usually none | SOC2, ISO27001, HIPAA (if applicable) |
 | **Config drift** | Personal preference | Team consistency matters |
 
-### 1.2 What You Can and Can't Control
+### 1.2 What you can and can't control
 
 **You CAN control** (via committed config):
 - Which MCP servers are approved (`settings.json` in repo)
@@ -61,7 +61,7 @@ The biggest mistake in enterprise AI governance is applying the same rules to ev
 
 **The practical implication**: Focus governance on what's committed to your repos and deployed in shared environments. Personal dev workflow is the developer's responsibility.
 
-### 1.3 Decision Framework: When to Govern
+### 1.3 Decision framework: When to govern
 
 Not everything needs heavy governance. Apply controls proportionally.
 
@@ -83,13 +83,13 @@ What are you governing?
 
 ---
 
-## 2. AI Usage Charter
+## 2. AI usage charter
 
 A usage charter answers the fundamental question: "What are we allowed to do with Claude Code at this company?" Without it, each team answers differently, creating inconsistent risk exposure.
 
 This is the lean version. For a full charter with legal considerations, see [Whitepaper #11: Enterprise AI Governance](https://cc.bruniaux.com/whitepapers/) (when published).
 
-### 2.1 Lean Charter Template
+### 2.1 Lean charter template
 
 Copy this into your org's `docs/ai-usage-charter.md` and adapt:
 
@@ -171,7 +171,7 @@ By using Claude Code on company systems, you agree to:
 **Charter violations**: Follow standard disciplinary process. First occurrence: coaching. Repeated or severe: escalation.
 ```
 
-### 2.2 Data Classification and Claude Code Settings
+### 2.2 Data classification and Claude Code settings
 
 Translate data classification into actual configuration:
 
@@ -206,7 +206,7 @@ If you encounter restricted data while reading a file, stop and inform the user.
 Do not proceed until explicitly told to skip that content.
 ```
 
-### 2.3 Propagating Settings to the Team
+### 2.3 Propagating settings to the team
 
 Writing a charter is not enough: developers need to actually run with the right config. Three mechanisms exist, and most orgs use all three:
 
@@ -250,11 +250,11 @@ The practical reality for most teams: shared `settings.json` in each repo gives 
 
 ---
 
-## 3. MCP Governance Workflow
+## 3. MCP governance workflow
 
 Individual MCP vetting (the 5-minute audit) is covered in [security-hardening.md §1.1](./security-hardening.md#11-mcp-vetting-workflow). This section covers the organizational workflow: how new MCPs get approved, deployed, and monitored across your team.
 
-### 3.1 Approval Workflow
+### 3.1 Approval workflow
 
 ```
 Developer wants new MCP
@@ -298,7 +298,7 @@ Developer wants new MCP
     - Quarterly full registry review
 ```
 
-### 3.2 MCP Registry Format
+### 3.2 MCP registry format
 
 Maintain an approved MCP registry at `.claude/mcp-registry.yaml` in your team's shared config repo:
 
@@ -369,7 +369,7 @@ denied:
     reason: "Full browser access with no scope restriction. Risk too high."
 ```
 
-### 3.3 Enforcing the Registry via Hook
+### 3.3 Enforcing the registry via hook
 
 Use a governance hook to validate that only approved MCPs are in use. The script below is a minimal inline version you can drop into `.claude/hooks/governance-check.sh`. For a more complete implementation with additional checks (deny list enforcement, dangerous allow-list detection), see [`examples/hooks/bash/governance-enforcement-hook.sh`](../../examples/hooks/bash/governance-enforcement-hook.sh).
 
@@ -405,11 +405,11 @@ exit 0
 
 **Note**: This hook warns, it does not block. Blocking at session start creates too much friction. Use periodic compliance checks instead (see §5.3).
 
-### 3.4 Emerging: Runtime-level MCP Tool Isolation
+### 3.4 Emerging: Runtime-level MCP tool isolation
 
 Beyond approval workflows, an emerging approach sandboxes each MCP tool's OS access at runtime via WebAssembly. Tools like [Wassette](https://github.com/microsoft/wassette) run MCP servers as Wasm components with deny-by-default filesystem and network access, declared in YAML. None of these tools are production-ready as of mid-2026, but they are worth tracking if your risk model includes third-party MCP servers with unpredictable privilege scope. Full coverage: [sandbox-isolation.md §7b](./sandbox-isolation.md#7b-webassembly-based-mcp-tool-sandboxing-experimental).
 
-### 3.5 Watch: Executor, the Registry Pattern as a Product
+### 3.5 Watch: Executor, the registry pattern as a product
 
 The §3.1 to §3.3 workflow above (submit, review, register, enforce with a hook) is a manual answer to a question a growing category of tools tries to automate: a single catalog of approved integrations, shared across every agent that connects to it, instead of one registry per team or per tool.
 
@@ -419,7 +419,7 @@ The trade-off is real and should be weighed against the registry's own maturity,
 
 ---
 
-## 4. Guardrail Tiers
+## 4. Guardrail tiers
 
 Pre-configured guardrail tiers for four common scenarios. Copy the relevant tier into your project's `.claude/settings.json` and `CLAUDE.md`.
 
@@ -505,13 +505,13 @@ Pre-configured guardrail tiers for four common scenarios. Copy the relevant tier
 
 ```markdown
 <!-- CLAUDE.md additions — Standard tier -->
-## Production Safety
+## Production safety
 - Infrastructure files (docker-compose, terraform, CI/CD) are locked.
   Request permission before modifying.
 - New dependencies require Tech Lead approval. Do not run npm install <pkg>.
 - Database destructive operations (DROP, DELETE, TRUNCATE) require backup confirmation.
 
-## Code Review Gate
+## Code review gate
 - All AI-generated code touching auth, payments, or data access must be flagged
   with a "AI-generated: review required" comment in the PR description.
 ```
@@ -584,28 +584,28 @@ Pre-configured guardrail tiers for four common scenarios. Copy the relevant tier
 
 ```markdown
 <!-- CLAUDE.md additions — Strict tier -->
-## Security Posture: STRICT
+## Security posture: STRICT
 
 You are operating in a strict security environment. Follow these rules without exception.
 
-### Locked Files
+### Locked files
 These files cannot be modified without explicit permission in this conversation:
 - docker-compose.yml, Dockerfile, .github/workflows/**, terraform/**, kubernetes/**
 - prisma/schema.prisma (database schema)
 - Any file in /src/auth/, /src/payments/, /src/crypto/
 
-### Dependency Protocol
+### Dependency protocol
 Before adding any dependency:
 1. State the dependency name and purpose
 2. List 2+ alternatives considered
 3. Wait for explicit approval before running any install command
 
-### Data Access Protocol
+### Data access protocol
 Before reading any file not in the project root:
 1. State the file path and why you need it
 2. Wait for approval if the path looks sensitive
 
-### AI Attribution
+### AI attribution
 All code blocks you generate must be prefixed with `// AI-generated` in PRs.
 Tests generated by AI must include `// AI-generated test` comment.
 ```
@@ -686,31 +686,31 @@ This tier adds compliance-specific controls on top of Strict.
 
 ```markdown
 <!-- CLAUDE.md additions — Regulated tier -->
-## Compliance Mode: [HIPAA | SOC2 | PCI] — ACTIVE
+## Compliance mode: [HIPAA | SOC2 | PCI] — ACTIVE
 
 You are operating under regulatory compliance requirements. These rules are non-negotiable.
 
-### Prohibited Data
+### Prohibited data
 NEVER include in your output, suggestions, or examples:
 - PHI (patient health information), PII (names, emails, phones in customer context)
 - Card numbers, CVVs, bank accounts
 - SSNs, tax IDs, government IDs
 - Raw authentication tokens, session cookies, API keys
 
-### Mandatory Review Gates
+### Mandatory review gates
 These changes require human approval BEFORE code is committed:
 - Any change to authentication or authorization logic
 - Any change to encryption or key management
 - Any database migration
 - Any new external API integration
 
-### Audit Trail
+### Audit trail
 Every session operating on regulated data must have:
 - User ID noted at session start ("This session is for: [your-email]")
 - Task description at session start ("Task: [brief description]")
 - Checkpoint comment at natural breakpoints
 
-### AI Attribution (Mandatory for Regulated)
+### AI attribution (mandatory for regulated)
 All AI-generated code must include:
 - `// AI-generated: [date] [model] [reviewer]` comment
 - PR description must include AI disclosure section
@@ -784,7 +784,7 @@ echo "Done. Commit .claude/ and CLAUDE.md to your repo."
 New developer joining a team that uses Claude Code should complete this checklist:
 
 ```markdown
-## Claude Code Onboarding Checklist
+## Claude Code onboarding checklist
 
 ### Setup (30 minutes)
 - [ ] Install Claude Code: `npm i -g @anthropic-ai/claude-code`
@@ -793,13 +793,13 @@ New developer joining a team that uses Claude Code should complete this checklis
 - [ ] Read the AI Usage Charter (link to your doc)
 - [ ] Review approved MCP list: `.claude/mcp-registry.yaml`
 
-### Security Basics
+### Security basics
 - [ ] Confirm `~/.claude/settings.json` has no `permissions.allow` overrides
   that bypass project's deny rules
 - [ ] Confirm no personal MCP servers running that access production data
 - [ ] Know how to report a data exposure: security@[company]
 
-### First Week
+### First week
 - [ ] Complete one task with Claude Code (bug fix, small feature)
 - [ ] Submit at least one PR with proper AI attribution section
 - [ ] Flag any friction points to Tech Lead for config improvement
@@ -905,7 +905,7 @@ Different developers have different risk profiles. Tailor Claude Code settings a
 
 ```markdown
 <!-- CLAUDE.md — role-aware guidelines -->
-## Developer Context
+## Developer context
 
 This is a [JUNIOR|SENIOR|LEAD] developer project context.
 

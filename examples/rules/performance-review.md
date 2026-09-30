@@ -2,11 +2,11 @@
 description: "Performance review criteria for plan and code reviews"
 ---
 
-# Performance Review Criteria
+# Performance review criteria
 
 When reviewing performance, evaluate these dimensions:
 
-## Database Access
+## Database access
 - Are there N+1 query patterns (loop with individual queries)?
 - Are queries using appropriate indexes?
 - Is data fetched at the right granularity (not over-fetching)?

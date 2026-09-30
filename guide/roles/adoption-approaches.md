@@ -4,7 +4,7 @@ description: "Starting points for team adoption patterns and CLAUDE.md configura
 tags: [guide, config, workflows]
 ---
 
-# Choosing Your Adoption Approach
+# Choosing your adoption approach
 
 > **Disclaimer**: Claude Code is young (~1 year). Nobody has definitive answers yet, including this guide. These are starting points based on observed patterns, not proven best practices. Adapt heavily to your context.
 
@@ -23,7 +23,7 @@ In [IFTTD episode 371](https://www.ifttd.io/episodes/everyone-can-build), Alexan
 
 An [Alan Product Crew interview at 10:49](https://www.youtube.com/watch?v=2quWpI_VSDQ&t=649s) also describes engineering pairing and responsibility for merging. This is another account of the same organization, not an independent replication. Track review effort and assistance over subsequent changes before claiming durable team gains. Teaching a non-engineer a bounded contribution workflow is also different from training a junior engineer; use [Learning with AI](learning-with-ai.md) for the latter.
 
-## What We Don't Know Yet
+## What we don't know yet
 
 Before diving in, here's what remains genuinely uncertain:
 
@@ -36,7 +36,7 @@ If anyone tells you they've figured this out, they're ahead of the field or over
 
 ---
 
-## What We Do Know (Empirical Data)
+## What we do know (empirical data)
 
 Some patterns have emerged from practitioner studies and team retrospectives:
 
@@ -82,7 +82,7 @@ Both practices have measured backing, and the numbers behind them are worth read
 
 ---
 
-## Starting Points (Not Prescriptions)
+## Starting points (not prescriptions)
 
 | Your Context | One Approach to Try |
 |--------------|---------------------|
@@ -95,7 +95,7 @@ These are hypotheses. Your mileage will vary.
 
 ---
 
-## Decision Tree
+## Decision tree
 
 ```
 Starting Claude Code?
@@ -115,9 +115,9 @@ Starting Claude Code?
 
 ---
 
-## Turnkey Quickstart
+## Turnkey quickstart
 
-### Step 1: Create Minimal Config
+### Step 1: Create minimal config
 
 ```bash
 mkdir -p .claude
@@ -140,7 +140,7 @@ Create `.claude/CLAUDE.md`:
 - [One rule you care most about, e.g., "TypeScript strict mode required"]
 ```
 
-### Step 2: Verify Setup
+### Step 2: Verify setup
 
 ```bash
 claude
@@ -154,7 +154,7 @@ What's this project's test command?
 **Pass**: Returns your configured command.
 **Fail**: CLAUDE.md not loaded. Check path is `.claude/CLAUDE.md` or `./CLAUDE.md`
 
-### Step 3: First Real Task
+### Step 3: First real task
 
 ```bash
 claude "Review the README and suggest improvements"
@@ -166,11 +166,11 @@ Claude should reference your stack and conventions automatically.
 
 ---
 
-## Autonomous Learning Path
+## Autonomous learning path
 
 If you prefer understanding before configuring, here's a progressive approach. No time estimates: speed depends on your familiarity with AI tools.
 
-### Phase 1: Mental Model
+### Phase 1: Mental model
 
 **Goal**: Understand how Claude Code operates before adding config.
 
@@ -178,7 +178,7 @@ If you prefer understanding before configuring, here's a progressive approach. N
 2. Core concept: Claude works in a loop, prompt → plan → execute → verify
 3. **Try it**: Complete a few real tasks with zero config. Notice where friction appears.
 
-### Phase 2: Context Management
+### Phase 2: Context management
 
 **Goal**: Understand the main constraint of the tool.
 
@@ -190,7 +190,7 @@ If you prefer understanding before configuring, here's a progressive approach. N
    - Near limit: `/clear` to reset
 3. **Try it**: Check `/status` periodically. See how your usage patterns develop.
 
-### Phase 3: Memory Files
+### Phase 3: Memory files
 
 **Goal**: Give Claude project context.
 
@@ -213,11 +213,11 @@ Whether these solutions are worth the setup cost depends on your context.
 
 ---
 
-## Sanity Checks
+## Sanity checks
 
 These are signals that things are working, not rigid milestones.
 
-### Basic Setup Works
+### Basic setup works
 
 ```bash
 claude --version          # Responds with version
@@ -227,13 +227,13 @@ claude /mcp               # Lists MCP servers (may be empty)
 
 If these fail, that's an installation issue: try `claude doctor`.
 
-### Config Is Being Read
+### Config is being read
 
 **Test**: Ask Claude "What's the test command for this project?"
 
 If it returns your configured command, CLAUDE.md is loaded. If not, check the path.
 
-### You're Managing Context
+### You're managing context
 
 **Signal**: You've noticed when context gets high and acted on it.
 
@@ -247,7 +247,7 @@ Both are fine. Extensions are optional; don't add them just to have them.
 
 ---
 
-## Common Pitfalls
+## Common pitfalls
 
 These patterns seem problematic based on observations, though individual experiences vary.
 
@@ -262,11 +262,11 @@ These aren't universal truths; some teams thrive with large configs or full feat
 
 ---
 
-## Team Size Considerations
+## Team size considerations
 
 These are starting points, not rules. Team dynamics matter more than headcount.
 
-### Solo / Small Team (2-3)
+### Solo / small team (2-3)
 
 **Typical structure**:
 ```
@@ -281,7 +281,7 @@ These are starting points, not rules. Team dynamics matter more than headcount.
 
 **Watch for**: Over-engineering. If you're spending more time on config than coding, step back.
 
-### Medium Team (4-10)
+### Medium team (4-10)
 
 **Typical structure**:
 ```
@@ -307,7 +307,7 @@ These are starting points, not rules. Team dynamics matter more than headcount.
 
 **Watch for**: Conventions that exist on paper but aren't followed.
 
-### Larger Team (10+)
+### Larger team (10+)
 
 **Typical structure**:
 ```
@@ -366,7 +366,7 @@ At this scale, individual team setups are not enough. You need a shared config b
 
 ---
 
-## Common Situations
+## Common situations
 
 ### "I'm evaluating Claude Code for my team"
 
@@ -434,7 +434,7 @@ But also: maybe you don't need more complexity. Simple setups work for many team
 
 ---
 
-## Start / Build / Scale: A Practical Navigation Layer
+## Start / build / scale: A practical navigation layer
 
 Start, Build, and Scale answer a different question from the L0-L5 scale below. L0-L5 describes increasing autonomy in the software delivery system. Start, Build, and Scale describe the next adoption decision for a person or team. One does not replace or calculate the other.
 
@@ -448,7 +448,7 @@ The overlap column is descriptive. It is not a promotion ladder or a maturity sc
 
 Use this layer to choose the next guide section. Use L0-L5 when you need to discuss system autonomy. Measure both with observable behavior rather than a self-assigned label.
 
-## The L0-L5 Scale: Where Is Your Team?
+## The L0-L5 scale: Where is your team?
 
 Dan Shapiro (CEO Glowforge) published this framework in January 2026, drawing an explicit parallel with the SAE autonomy levels for self-driving vehicles. The original publication is at [factorydark.com](https://factorydark.com). Simon Willison summarized it at [simonwillison.net/2026/Jan/28/the-five-levels](https://simonwillison.net/2026/Jan/28/the-five-levels/). The name "Five Levels" covers L0-L5 (six levels total).
 
@@ -487,9 +487,9 @@ A 2026 update (metr.org/blog/2026-02-24-uplift-update/) attempted a broader foll
 
 ---
 
-## Quick Reference
+## Quick reference
 
-### Useful Commands
+### Useful commands
 
 | Command    | Purpose                          |
 |------------|----------------------------------|
@@ -501,7 +501,7 @@ A 2026 update (metr.org/blog/2026-02-24-uplift-update/) attempted a broader foll
 
 How often you use these depends on your workflow.
 
-### Model Costs (Relative)
+### Model costs (relative)
 
 | Model  | Cost | Typical use cases              |
 |--------|------|--------------------------------|
@@ -513,7 +513,7 @@ Most people start with Sonnet. Adjust based on your experience.
 
 ---
 
-## Related Resources
+## Related resources
 
 - [Personalized Onboarding](../../tools/onboarding-prompt.md): Interactive setup
 - [Setup Audit](../../tools/audit-prompt.md): Diagnose configuration issues

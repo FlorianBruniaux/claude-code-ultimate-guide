@@ -4,7 +4,7 @@ description: "Production-ready analytics agent with automated metrics collection
 tags: [agents, template, testing, performance]
 ---
 
-# Analytics Agent with Built-in Evaluation
+# Analytics agent with built-in evaluation
 
 **Template**: Production-ready analytics agent with automated metrics collection
 
@@ -14,7 +14,7 @@ tags: [agents, template, testing, performance]
 
 ---
 
-## What's Included
+## What's included
 
 | File | Purpose |
 |------|---------|
@@ -27,7 +27,7 @@ tags: [agents, template, testing, performance]
 
 ## Setup
 
-### 1. Copy Agent to Project
+### 1. Copy agent to project
 
 ```bash
 # Copy agent definition
@@ -37,7 +37,7 @@ cp analytics-agent.md ~/.claude/agents/
 cp analytics-agent.md /path/to/project/.claude/agents/
 ```
 
-### 2. Install Hook
+### 2. Install hook
 
 ```bash
 # Copy hook to project
@@ -47,7 +47,7 @@ cp hooks/post-response-metrics.sh /path/to/project/.claude/hooks/
 chmod +x /path/to/project/.claude/hooks/post-response-metrics.sh
 ```
 
-### 3. Configure Hook Trigger
+### 3. Configure hook trigger
 
 Add to `.claude/settings.json`:
 
@@ -65,7 +65,7 @@ Add to `.claude/settings.json`:
 }
 ```
 
-### 4. Create Logs Directory
+### 4. Create logs directory
 
 ```bash
 mkdir -p /path/to/project/.claude/logs
@@ -75,14 +75,14 @@ mkdir -p /path/to/project/.claude/logs
 
 ## Usage
 
-### Invoke Agent
+### Invoke agent
 
 ```bash
 # In Claude Code session
 "Use analytics-agent to generate a SQL query for [task description]"
 ```
 
-### Check Metrics
+### Check metrics
 
 ```bash
 # View raw metrics log
@@ -92,7 +92,7 @@ cat .claude/logs/analytics-metrics.jsonl
 ./examples/agents/analytics-with-eval/eval/metrics.sh
 ```
 
-### Generate Monthly Report
+### Generate monthly report
 
 ```bash
 # Copy template
@@ -103,7 +103,7 @@ cp eval/report-template.md reports/analytics-2026-02.md
 
 ---
 
-## Metrics Collected
+## Metrics collected
 
 The hook automatically logs:
 
@@ -120,7 +120,7 @@ The hook automatically logs:
 
 ---
 
-## Example Metrics Output
+## Example metrics output
 
 ```bash
 $ ./eval/metrics.sh
@@ -152,7 +152,7 @@ Recommendations:
 
 ## Customization
 
-### Modify Safety Checks
+### Modify safety checks
 
 Edit `hooks/post-response-metrics.sh` line 12-16:
 
@@ -163,7 +163,7 @@ if echo "$QUERY" | grep -iE 'DELETE|DROP|TRUNCATE|ALTER'; then
 fi
 ```
 
-### Add Custom Metrics
+### Add custom metrics
 
 Extend the JSON log structure:
 
@@ -175,7 +175,7 @@ echo "{
 }" >> .claude/logs/analytics-metrics.jsonl
 ```
 
-### Change Log Location
+### Change log location
 
 Update `POST_RESPONSE_LOG` variable in hook script.
 
@@ -183,7 +183,7 @@ Update `POST_RESPONSE_LOG` variable in hook script.
 
 ## Troubleshooting
 
-### Hook Not Triggering
+### Hook not triggering
 
 **Check**:
 1. Hook is executable: `ls -l .claude/hooks/*.sh`
@@ -197,14 +197,14 @@ export CLAUDE_RESPONSE='{"content":"SELECT * FROM users;"}'
 ./.claude/hooks/post-response-metrics.sh
 ```
 
-### No Metrics in Log
+### No metrics in log
 
 **Check**:
 1. Log directory exists: `mkdir -p .claude/logs`
 2. Write permissions: `touch .claude/logs/test.log`
 3. Query extraction pattern matches your SQL format
 
-### Metrics Analysis Fails
+### Metrics analysis fails
 
 **Check**:
 1. `jq` is installed: `which jq`
@@ -212,7 +212,7 @@ export CLAUDE_RESPONSE='{"content":"SELECT * FROM users;"}'
 
 ---
 
-## Production Considerations
+## Production considerations
 
 ### Performance
 
@@ -226,7 +226,7 @@ export CLAUDE_RESPONSE='{"content":"SELECT * FROM users;"}'
 - Add to `.gitignore`: `.claude/logs/`
 - Consider redacting sensitive values in hook script
 
-### Database Connection
+### Database connection
 
 - Hook requires database access for `exec_time` measurement
 - Configure connection in hook script or use environment variables
@@ -234,7 +234,7 @@ export CLAUDE_RESPONSE='{"content":"SELECT * FROM users;"}'
 
 ---
 
-## Related Resources
+## Related resources
 
 - **[Agent Evaluation Guide](../../../guide/roles/agent-evaluation.md)**: Complete evaluation methodology
 - **[Hooks Documentation](../../../guide/ultimate-guide.md#7-hooks)**: Hook system reference

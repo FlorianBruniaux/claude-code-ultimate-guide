@@ -1,4 +1,4 @@
-# Resource Evaluation: MCP Apps (Anthropic Announcement)
+# Resource evaluation: MCP Apps (Anthropic announcement)
 
 **Date**: 2026-01-27
 **Evaluator**: Claude Sonnet 4.5
@@ -23,14 +23,14 @@
 
 ## 🎯 Scoring
 
-### Pertinence Contenu: 4/5
+### Pertinence contenu: 4/5
 - ✅ First official MCP extension (major protocol evolution)
 - ✅ Co-authored by OpenAI + Anthropic (authoritative)
 - ✅ SDK stable with production adoption (9 tools at launch)
 - ⚠️ Announced 1 day ago (limited community best practices)
 - ⚠️ CLI relevance indirect (Desktop/IDE focused)
 
-### Fiabilité Sources: 5/5
+### Fiabilité sources: 5/5
 - ✅ Official Anthropic blog post
 - ✅ Official Claude blog post
 - ✅ Spec published on GitHub (SEP-1865)
@@ -55,7 +55,7 @@
 
 ---
 
-## ⚖️ Comparative Analysis
+## ⚖️ Comparative analysis
 
 | Aspect | MCP Apps | Claude Code Ultimate Guide |
 |--------|----------|---------------------------|
@@ -70,7 +70,7 @@
 
 ---
 
-## 📍 Integration Decision
+## 📍 Integration decision
 
 ### Action: **Integrate**
 
@@ -80,7 +80,7 @@
 3. **Guide documents MCP extensively** → Incomplete without Apps coverage
 4. **Indirect CLI relevance** → Ecosystem understanding, hybrid workflows, MCP server dev
 
-### Where Documented
+### Where documented
 
 | File | Section | Lines |
 |------|---------|-------|
@@ -93,7 +93,7 @@
 
 ---
 
-## 🔥 Technical Review Challenge
+## 🔥 Technical review challenge
 
 **Conducted by**: technical-writer agent
 
@@ -108,7 +108,7 @@
 
 ---
 
-## ✅ Fact-Check Results
+## ✅ Fact-check results
 
 | Claim | Verified | Source |
 |-------|----------|--------|
@@ -126,7 +126,7 @@
 
 ---
 
-## 🎯 Final Decision
+## 🎯 Final decision
 
 - **Score**: 4/5 (High Value)
 - **Action**: Integrated ✅
@@ -149,7 +149,7 @@
 
 ---
 
-## 🔄 Revision History
+## 🔄 Revision history
 
 | Date | Action | Notes |
 |------|--------|-------|

@@ -1,4 +1,4 @@
-# AI Subscription and Inference Visual Prompts
+# AI subscription and inference visual prompts
 
 These prompts cover the multi-provider subscription strategy, Mistral deployment paths, gateway visibility, and agentic-tool selection. Generate one image per prompt. Review every rendered label before publication, resize the selected source to 1600 x 900, and convert it to WebP.
 

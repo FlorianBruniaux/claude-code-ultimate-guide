@@ -4,7 +4,7 @@ description: "Evidence-bounded map of current AI role families, emerging special
 tags: [roles, careers, ai-engineer, applied-ai-engineer, ai-platform-engineer, ai-security, ai-governance, guide]
 ---
 
-# AI Roles & Career Paths: The New Engineering Landscape
+# AI roles & career paths: The new engineering landscape
 
 > **Last updated**: August 31, 2026
 >
@@ -18,7 +18,7 @@ Read the profiles as a **capability map**, not an organization chart with one se
 
 ---
 
-## Table of Contents
+## Table of contents
 
 1. [The Landscape in One View](#1-the-landscape-in-one-view)
 2. [Prompt Engineer](#2-prompt-engineer)
@@ -51,7 +51,7 @@ Read the profiles as a **capability map**, not an organization chart with one se
 
 ---
 
-## 1. The Landscape in One View
+## 1. The landscape in one view
 
 The market separates more reliably by **ownership boundary** than by title. Current postings support five broad families:
 
@@ -127,7 +127,7 @@ Python is a useful expansion path because current hiring data connects it to bac
 
 ---
 
-## 2. Prompt Engineer
+## 2. Prompt engineer
 
 **Evidence label**: Capability. Prompt design appears inside broader product, applied AI, evaluation, and domain roles; the evidence reviewed in August 2026 does not support treating Prompt Engineer as a durable standalone family.
 
@@ -162,7 +162,7 @@ Technical writer, QA engineer, domain expert (law, medicine, finance), content s
 
 ---
 
-## 3. Context Engineer
+## 3. Context engineer
 
 **Evidence label**: Specialization. Current postings use Context Engineer and adjacent titles, but employers also assign the same work to AI, applied AI, platform, and developer-productivity engineers.
 
@@ -205,7 +205,7 @@ Data engineer, backend engineer, ML engineer, information architect.
 
 ---
 
-## 4. AI Engineer
+## 4. AI engineer
 
 **Evidence label**: Role family. AI Engineer is the broad application-engineering title; employer scope still ranges from model adaptation to full-stack product delivery.
 
@@ -243,7 +243,7 @@ Software engineer (most common), backend engineer, data engineer, ML engineer tr
 
 ---
 
-## 5. Applied AI Engineer
+## 5. Applied AI engineer
 
 **Evidence label**: Role family. Current official postings from OpenAI, Cohere, Cognition, Console, and other employers use the exact title, but they do not all place the role at the same customer boundary.
 
@@ -281,7 +281,7 @@ Backend, full-stack, product, data, or ML engineer with evidence of shipping and
 
 ---
 
-## 6. LLM Engineer
+## 6. LLM engineer
 
 **Evidence label**: Specialization or role family, depending on the employer. The title is current, but its scope overlaps ML Engineer, Research Engineer, and AI Engineer.
 
@@ -314,7 +314,7 @@ Strong demand at AI companies (Anthropic, OpenAI, scale-ups) and in large enterp
 
 ---
 
-## 7. AI Agent Engineer
+## 7. AI agent engineer
 
 **Evidence label**: Emerging role family. Current employers use AI Agent Engineer and close variants, while many others place the same scope under Software Engineer or Applied AI Engineer.
 
@@ -348,7 +348,7 @@ Non-determinism. Agent systems fail in ways that are hard to reproduce. Observab
 
 ---
 
-## 8. Founding AI Engineer
+## 8. Founding AI engineer
 
 **Evidence label**: Title qualifier. Founding describes company stage and ownership breadth more reliably than a distinct technical discipline.
 
@@ -385,7 +385,7 @@ Strong mid-level engineers at established companies who want more ownership. Com
 
 ---
 
-## 9. AI Architect
+## 9. AI architect
 
 **Evidence label**: Role family, usually senior or staff level. AI Architect, Applied AI Architect, and Enterprise AI Architect postings share system-level decision ownership but differ in how hands-on they are.
 
@@ -416,7 +416,7 @@ Senior or staff AI engineer moving into cross-team architecture. Another path is
 
 ---
 
-## 10. AI Platform Engineer
+## 10. AI platform engineer
 
 **Evidence label**: Role family. AI Platform Engineer now appears as an exact title across finance, media, healthcare, consulting, and software employers.
 
@@ -445,7 +445,7 @@ MLOps tooling, LLM gateway products (LiteLLM, Portkey), cloud AI services, cost 
 
 ---
 
-## 11. Harness Engineer
+## 11. Harness engineer
 
 **Evidence label**: Capability. Harness engineering names a production discipline; the evidence reviewed does not support a stable standalone Harness Engineer job family.
 
@@ -483,7 +483,7 @@ Software architecture, linter/static analysis tooling, LLM orchestration, observ
 
 ---
 
-## 12. AI Product Manager
+## 12. AI product manager
 
 **Evidence label**: Role family. AI Product Manager and product-manager titles scoped to AI are current, but compensation premiums require employer- and level-specific evidence.
 
@@ -510,7 +510,7 @@ Standard PM skills (roadmapping, prioritization, user research) plus: LLM API fa
 
 ---
 
-## 13. AI Safety Engineer
+## 13. AI safety engineer
 
 **Evidence label**: Role family. Safety work appears under Software Engineer, Research Engineer, ML/Research Engineer, red-team, safeguards, and alignment titles. Evaluation is separated in Section 20 because it has a different production boundary.
 
@@ -537,7 +537,7 @@ Experimental design, statistics, Python, adversarial testing, model-behavior ana
 
 ---
 
-## 14. ML Engineer
+## 14. ML engineer
 
 **Evidence label**: Established role family.
 
@@ -564,7 +564,7 @@ Python (fluent), PyTorch or TensorFlow, distributed computing, data pipeline too
 
 ---
 
-## 15. MLOps Engineer
+## 15. MLOps engineer
 
 **Evidence label**: Established role family, with substantial overlap with AI Platform Engineer in some organizations.
 
@@ -603,7 +603,7 @@ DevOps/platform engineer adding ML knowledge, ML engineer who gravitates toward 
 
 ---
 
-## 16. AI Developer Advocate
+## 16. AI developer Advocate
 
 **Evidence label**: Role family, often posted as Developer Advocate, Developer Relations Engineer, or Technical Evangelist for an AI platform.
 
@@ -645,7 +645,7 @@ Software engineer with a public presence (blog, open source, conference talks), 
 
 ---
 
-## 17. AI Orchestration Engineer
+## 17. AI orchestration engineer
 
 **Evidence label**: Specialization. Current titles vary, and many employers place orchestration inside Applied AI, AI Agent, integration, or platform engineering.
 
@@ -672,7 +672,7 @@ Design and build intelligent workflows that connect AI capabilities with existin
 | Data transformation and mapping | Business process intuition |
 | Observability and tracing (LangSmith, Langfuse) | |
 
-### Distinction from AI Agent Engineer
+### Distinction from AI agent engineer
 
 | AI Agent Engineer | AI Orchestration Engineer |
 |-------------------|--------------------------|
@@ -691,7 +691,7 @@ Integration engineer, backend engineer with workflow automation experience, DevO
 
 ---
 
-## 18. Spec Engineer
+## 18. Spec engineer
 
 **Evidence label**: Capability. Spec-driven development is an observable practice, but current evidence does not establish Spec Engineer as a durable standalone title.
 
@@ -720,7 +720,7 @@ Technical writer with engineering background, QA engineer who understands requir
 
 ---
 
-## 19. Agent Identity Architect
+## 19. Agent identity architect
 
 **Evidence label**: Capability. Agent identity is a distinct control problem, but current postings usually assign it to AI Security, IAM, platform security, or AI Platform roles rather than an Agent Identity Architect family.
 
@@ -750,7 +750,7 @@ Cloud security engineer, identity/access management specialist, platform enginee
 
 ---
 
-## 20. AI Evaluation Engineer
+## 20. AI evaluation engineer
 
 **Evidence label**: Role family with unstable naming. Current titles include Research Engineer, Model Evaluations; Backend Software Engineer (Evals); evaluation-infrastructure leadership; and product-specific AI evaluation engineering.
 
@@ -781,7 +781,7 @@ Tool choice depends on the boundary: test runners for deterministic checks, expe
 
 ---
 
-## 21. Forward-Deployed Engineer (FDE)
+## 21. Forward-Deployed engineer (FDE)
 
 **Evidence label**: Role family. Current official postings at OpenAI, Anthropic, ServiceNow, and other AI vendors use Forward-Deployed Engineer or a close variant.
 
@@ -828,7 +828,7 @@ The delivery lesson is to observe representative users completing their actual t
 
 ---
 
-## 22. AI Security Engineer
+## 22. AI security engineer
 
 **Evidence label**: Role family. Cisco, Apple, GuidePoint Security, Marvell, Prologis, Société Générale, and other employers use the exact title or a seniority-qualified variant in current official postings.
 
@@ -860,7 +860,7 @@ Application security, cloud security, security architecture, adversarial ML, IAM
 
 ---
 
-## 23. AI Governance Engineer
+## 23. AI governance engineer
 
 **Evidence label**: Role family, but less standardized than AI Security Engineer. Current postings at State Street, Deeploy, and Dalio Family Office use the exact title or a combined analyst/engineer variant.
 
@@ -888,7 +888,7 @@ Governance, risk, and compliance engineer; responsible-AI specialist with softwa
 
 ---
 
-## 24. Career Decision Matrix
+## 24. Career decision matrix
 
 Choose the ownership boundary first, then compare titles. In a small AI-augmented team, a credible profile combines one deep specialty with adjacent product, verification, and agent-supervision skills.
 
@@ -917,7 +917,7 @@ These artifacts demonstrate production judgment. They do not substitute for doma
 
 ---
 
-## 25. Compensation Evidence
+## 25. Compensation evidence
 
 The earlier version of this page published broad entry, mid, and senior ranges assembled from secondary salary sites and adjacent-role estimates. That method could not support title-level comparisons, especially for new roles with inconsistent scope. This revision removes those estimates.
 
@@ -936,7 +936,7 @@ For negotiation, compare live postings with the same country, city or remote pol
 
 ---
 
-## 26. Capabilities and Title Qualifiers
+## 26. Capabilities and title qualifiers
 
 The report used for this update was right to challenge title inflation. It was too aggressive in recommending deletion: a weak standalone title does not make the capability obsolete.
 
@@ -956,7 +956,7 @@ Use these terms to describe depth or search for adjacent postings. Do not design
 
 ---
 
-## 27. Evidence Snapshot
+## 27. Evidence snapshot
 
 The following primary employer pages were live or indexed as current during the August 31, 2026 review. A live vacancy proves title usage at that employer on that date. It does not prove market share or future persistence.
 
@@ -973,13 +973,13 @@ The Perplexity report supplied for this revision also cited aggregators, search 
 
 ---
 
-## 28. Job Listings
+## 28. Job listings
 
 This page does not maintain a vacancy feed. Career pages change too quickly for a static list to stay current. Use the employer links in the evidence snapshot, then verify that the posting is still open and that its ownership boundary matches the profile described here.
 
 ---
 
-## See Also
+## See also
 
 - [Learning to Code with AI](./learning-with-ai.md): skill development for developers using AI
 - [AI Ecosystem: Tools & Integrations](../ecosystem/ai-ecosystem.md): which tools each role uses

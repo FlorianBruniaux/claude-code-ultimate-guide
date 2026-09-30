@@ -4,7 +4,7 @@ description: "Complete mapping of AI integrations for reMarkable 2: MCP server, 
 tags: [mcp, integration, hardware, workflow, remarkable]
 ---
 
-# reMarkable 2 + AI: Complete Mapping of Hacks, Tools, and Workflows
+# reMarkable 2 + AI: Complete mapping of hacks, tools, and workflows
 
 > **Last verified**: February 2026
 
@@ -12,7 +12,7 @@ The reMarkable 2 is a full-root-access Linux e-ink tablet. Its zero-distraction 
 
 See also: [AI Ecosystem](ai-ecosystem.md) for the broader mapping of the AI ecosystem (beyond hardware).
 
-## Table of Contents
+## Table of contents
 
 1. [remarkable-mcp: direct MCP access via SSH](#1-remarkable-mcp-direct-mcp-access-via-ssh)
 2. [Ghostwriter: Vision-LLM Interface](#2-ghostwriter-vision-llm-interface)
@@ -97,7 +97,7 @@ cd remarkable-mcp && pip install -e .
 
 ---
 
-## 2. Ghostwriter: Vision-LLM Interface
+## 2. Ghostwriter: Vision-LLM interface
 
 **ROI: experimental | Effort: low (a Rust binary to copy)**
 
@@ -160,7 +160,7 @@ You draw an architecture diagram, you write "optimize this." The LLM analyzes it
 
 **Use case**: Academic research, meeting note-taking with Obsidian search behind it.
 
-### Option B: Custom Cloud Sync plugin
+### Option B: Custom cloud sync plugin
 
 - **Demo**: https://www.youtube.com/watch?v=EsRdi8J9Cnc
 - "remarkable insert" command, pulls files from the reMarkable cloud
@@ -169,7 +169,7 @@ You draw an architecture diagram, you write "optimize this." The LLM analyzes it
 
 ---
 
-## 4. OCR + Custom AI Pipeline
+## 4. OCR + custom AI pipeline
 
 **ROI: high for a custom workflow | Effort: medium-high**
 
@@ -205,7 +205,7 @@ reMarkable → SSH/USB
 
 ---
 
-## 5. SSH Access and Community Tools
+## 5. SSH access and community tools
 
 **Essential foundation for everything else**
 
@@ -250,7 +250,7 @@ ssh root@10.11.99.1 'vi /usr/share/remarkable/templates/templates.json'
 
 ---
 
-## 6. Underused Native Features
+## 6. Underused native features
 
 **Effort: zero | Included in Connect (~6 EUR/month)**
 
@@ -267,7 +267,7 @@ ssh root@10.11.99.1 'vi /usr/share/remarkable/templates/templates.json'
 
 ---
 
-## 7. Official API and Developer Portal
+## 7. Official API and developer portal
 
 | Resource | Link |
 |-----------|------|
@@ -282,7 +282,7 @@ ssh root@10.11.99.1 'vi /usr/share/remarkable/templates/templates.json'
 
 ---
 
-## 8. Zapier Automation
+## 8. Zapier automation
 
 **ROI: medium | Effort: low | No code required**
 
@@ -325,7 +325,7 @@ Action items → Tasks created in Asana/ClickUp
 
 ---
 
-## 10. Meeting Notes → AI Summary
+## 10. Meeting notes → AI summary
 
 **ROI: high | Effort: very low**
 

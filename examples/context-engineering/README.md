@@ -1,4 +1,4 @@
-# Context Engineering Templates
+# Context engineering templates
 
 Context engineering is the practice of deliberately designing what information Claude receives at session start — treating your `CLAUDE.md` and supporting files as a production system, not a one-time setup. These templates give you everything to build, measure, and maintain that system.
 
@@ -16,7 +16,7 @@ Context engineering is the practice of deliberately designing what information C
 | `rules/knowledge-feeding.md` | Rule template for proactive context updates after sessions |
 | `rules/update-loop-retro.md` | Session retrospective template to capture learnings |
 
-## Quick Start
+## Quick start
 
 **New project — get a working `CLAUDE.md` in 3 steps:**
 
@@ -71,7 +71,7 @@ bash examples/context-engineering/canary-check.sh .
 cp examples/context-engineering/ci-drift-check.yml .github/workflows/context-drift.yml
 ```
 
-## Guide Section
+## Guide section
 
 Full methodology and principles: `guide/core/context-engineering.md`
 

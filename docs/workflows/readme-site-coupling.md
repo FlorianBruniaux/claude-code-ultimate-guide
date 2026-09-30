@@ -1,4 +1,4 @@
-# README and Website Navigation Contract
+# README and website navigation contract
 
 The website owns human browsing and discovery. The guide repository owns Markdown sources, reusable files, machine-readable indexes, and contribution history. `machine-readable/navigation.json` connects those surfaces.
 

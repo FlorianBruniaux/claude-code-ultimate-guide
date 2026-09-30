@@ -4,7 +4,7 @@ description: "Use /plan mode for non-trivial tasks to explore and propose implem
 tags: [workflow, guide, architecture]
 ---
 
-# Plan-Driven Development
+# Plan-driven development
 
 > **Confidence**: Tier 1 (based on Claude Code's native /plan mode functionality).
 
@@ -12,7 +12,7 @@ Use `/plan` mode for anything non-trivial. Claude explores the codebase (read-on
 
 ---
 
-## Table of Contents
+## Table of contents
 
 1. [TL;DR](#tldr)
 2. [The /plan Workflow](#the-plan-workflow)
@@ -37,9 +37,9 @@ Use `/plan` mode for anything non-trivial. Claude explores the codebase (read-on
 
 ---
 
-## The /plan Workflow
+## The /plan workflow
 
-### Step 1: Enter Plan Mode
+### Step 1: Enter plan mode
 
 Toggle Plan Mode with `Shift+Tab` (press twice to cycle Normal → Auto-Accept → Plan):
 ```
@@ -52,7 +52,7 @@ Or ask a complex question that triggers plan mode automatically:
 How should I refactor the authentication system to support OAuth?
 ```
 
-### Step 2: Claude Explores
+### Step 2: Claude explores
 
 In plan mode, Claude:
 - Reads relevant files
@@ -60,7 +60,7 @@ In plan mode, Claude:
 - Understands existing architecture
 - CANNOT make any changes
 
-### Step 3: Claude Writes Plan
+### Step 3: Claude writes plan
 
 Claude creates a plan file at `.claude/plans/[name].md`:
 
@@ -91,14 +91,14 @@ Add OAuth support while maintaining existing email/password auth.
 - Token format differences between providers
 ```
 
-### Step 4: You Review
+### Step 4: You review
 
 Review the plan for:
 - Completeness (all requirements covered)
 - Correctness (right approach for your codebase)
 - Scope (not over-engineering)
 
-### Step 5: Approve and Execute
+### Step 5: Approve and execute
 
 ```
 Looks good. Proceed with the plan.
@@ -111,9 +111,9 @@ Modify the plan: also add support for GitHub OAuth, not just Google.
 
 ---
 
-## When to Use
+## When to use
 
-### Use Plan Mode
+### Use plan mode
 
 | Scenario | Why |
 |----------|-----|
@@ -123,7 +123,7 @@ Modify the plan: also add support for GitHub OAuth, not just Google.
 | Unfamiliar codebase | Let Claude explore first |
 | Risky operations | Review before execution |
 
-### Skip Plan Mode
+### Skip plan mode
 
 | Scenario | Why |
 |----------|-----|
@@ -134,11 +134,11 @@ Modify the plan: also add support for GitHub OAuth, not just Google.
 
 ---
 
-## Plan File Structure
+## Plan file structure
 
 Plans are stored in `.claude/plans/` with auto-generated names.
 
-### Typical Plan Sections
+### Typical plan sections
 
 ```markdown
 # Plan: [Title]
@@ -173,7 +173,7 @@ Plans are stored in `.claude/plans/` with auto-generated names.
 
 ---
 
-## Integration with Other Workflows
+## Integration with other workflows
 
 ### Plan + TDD
 
@@ -186,7 +186,7 @@ Plan the test cases first, then the implementation.
 
 Claude plans both tests and implementation in proper TDD order.
 
-### Plan + Spec-First
+### Plan + spec-first
 
 ```
 # Enter Plan Mode (Shift+Tab twice), then:
@@ -195,7 +195,7 @@ Review the Payment Processing spec in CLAUDE.md.
 Create an implementation plan that satisfies all acceptance criteria.
 ```
 
-### Plan + Task Tool
+### Plan + task tool
 
 After plan approval, Claude can break down into tasks:
 
@@ -207,7 +207,7 @@ Approved. Create tasks from this plan and start implementing.
 
 ## Tips
 
-### Be Specific About Scope
+### Be specific about scope
 
 ```
 # Too vague (after entering Plan Mode via Shift+Tab twice)
@@ -218,7 +218,7 @@ Add pagination to the /users endpoint with cursor-based navigation.
 Maintain backwards compatibility with existing clients.
 ```
 
-### Request Plan Modifications
+### Request plan modifications
 
 ```
 The plan looks good but:
@@ -227,7 +227,7 @@ The plan looks good but:
 - Include rollback procedure
 ```
 
-### Use for Architecture Decisions
+### Use for architecture decisions
 
 ```
 # Enter Plan Mode (Shift+Tab twice), then:
@@ -239,7 +239,7 @@ B) Zustand
 Explore the codebase and recommend which fits better.
 ```
 
-### Save Plans for Documentation
+### Save plans for documentation
 
 Plans in `.claude/plans/` serve as decision documentation:
 - Why certain approaches were chosen
@@ -248,14 +248,14 @@ Plans in `.claude/plans/` serve as decision documentation:
 
 ---
 
-## Advanced: Custom Markdown Plans (Boris Tane Pattern)
+## Advanced: Custom markdown plans (Boris Tane pattern)
 
 > **Source**: Boris Tane, Engineering Lead @ Cloudflare, in ["How I use Claude Code"](https://boristane.com/blog/how-i-use-claude-code/) (Feb 2026). 9 months of production usage.
 > **Confidence**: Tier 2 (practitioner-validated pattern, not official Anthropic documentation).
 
 When Plan Mode isn't enough, iterative human/agent planning before any code is written.
 
-### Why Custom Plans Over /plan
+### Why custom plans over /plan
 
 | Factor | Plan Mode (native) | Custom .md plan |
 |--------|----------------|-----------------|
@@ -269,7 +269,7 @@ When Plan Mode isn't enough, iterative human/agent planning before any code is w
 
 ---
 
-### The Three-Phase Workflow
+### The three-phase workflow
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -287,7 +287,7 @@ When Plan Mode isn't enough, iterative human/agent planning before any code is w
 
 ---
 
-### Phase 1: Emphatic Research
+### Phase 1: Emphatic research
 
 Claude skims without strong signal. Use emphatic language to force depth:
 
@@ -311,7 +311,7 @@ In an older or shared codebase, add what the code cannot tell the next session: 
 
 ---
 
-### Phase 2: The Annotation Cycle
+### Phase 2: The annotation cycle
 
 The core of the Boris Tane pattern. Iterate on `plan.md` until ready, **before any implementation**.
 
@@ -388,7 +388,7 @@ Use JWT tokens stored in httpOnly cookies.
 
 ---
 
-### Phase 3: Mechanical Implementation
+### Phase 3: Mechanical implementation
 
 Once the plan is approved, implementation becomes execution; no creative decisions left.
 
@@ -408,7 +408,7 @@ Do not stop between tasks to ask for confirmation — keep going until done.
 
 ---
 
-### Complementary Techniques
+### Complementary techniques
 
 | Technique | What | When |
 |-----------|------|------|
@@ -419,7 +419,7 @@ Do not stop between tasks to ask for confirmation — keep going until done.
 
 ---
 
-## See Also
+## See also
 
 - [exploration-workflow.md](./exploration-workflow.md): Explore alternatives before planning
 - [../ultimate-guide.md](../ultimate-guide.md): Section 2.3 Plan Mode

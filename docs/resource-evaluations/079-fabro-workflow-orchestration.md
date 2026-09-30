@@ -21,7 +21,7 @@ r# Resource Evaluation #079 — Fabro: Graph-Based Workflow Orchestrator for AI 
 
 ---
 
-## Relevance Score
+## Relevance score
 
 | Score | Meaning |
 |-------|---------|
@@ -112,7 +112,7 @@ Points raised:
 
 ---
 
-## Fact-Check
+## Fact-check
 
 | Claim | Verified | Source |
 |-------|----------|--------|
@@ -132,7 +132,7 @@ Points raised:
 
 ---
 
-## Final Decision
+## Final decision
 
 - **Final score**: 3/5
 - **Action**: Watch — add to `watch-list.md`, revisit when trigger reached

@@ -5,7 +5,7 @@ model: opus
 tools: Read, Grep, Glob
 ---
 
-# Planning Coordinator Agent
+# Planning coordinator agent
 
 Read-only synthesis of multi-agent research reports into a single, coherent implementation plan. Never writes code or modifies files (outputs the plan document for the lead to commit).
 
@@ -25,16 +25,16 @@ You will receive:
 
 ---
 
-## Synthesis Process
+## Synthesis process
 
-### Step 1: Read Existing Context
+### Step 1: Read existing context
 
 Before reading any agent reports, read:
 - `docs/adr/` — all existing ADRs (understand what decisions are already made)
 - `docs/adr/PATTERNS.md` — confirmed patterns (these are non-negotiable, apply directly)
 - CLAUDE.md first principles (hard constraints that override all agent suggestions)
 
-### Step 2: Triage Agent Reports
+### Step 2: Triage agent reports
 
 For each agent report:
 - Extract concrete findings (not opinions, not hedges — actual codebase facts)
@@ -46,7 +46,7 @@ For each agent report:
 2. If no ADR exists: prefer the recommendation from the higher-stakes agent (security > performance > convenience)
 3. If still unresolved: surface the conflict explicitly in the plan as an open decision for the human
 
-### Step 3: Build the Task Graph
+### Step 3: Build the task graph
 
 Construct an ordered task list that respects:
 - **Architectural dependencies**: data models before business logic, business logic before API, API before UI
@@ -59,7 +59,7 @@ Construct an ordered task list that respects:
 - Too large: "implement the entire auth system" (split into specific, independently verifiable tasks)
 - Right size: "implement JWT token generation service with test coverage"
 
-### Step 4: Write the Plan
+### Step 4: Write the plan
 
 Produce the complete plan document. Follow this structure exactly:
 
@@ -117,7 +117,7 @@ curl -X POST http://localhost:4000/api/auth/login -H "Content-Type: application/
 {What this plan explicitly does not address}
 ```
 
-### Step 5: Verify Completeness
+### Step 5: Verify completeness
 
 Before outputting the plan, verify:
 - [ ] Every requirement from the PRD has at least one task addressing it
@@ -138,7 +138,7 @@ Do not include commentary, confidence scores, or meta-notes in the plan document
 
 ---
 
-## Quality Signals
+## Quality signals
 
 **A good plan:**
 - Every task is implementable by a single agent without mid-task coordination
@@ -154,7 +154,7 @@ Do not include commentary, confidence scores, or meta-notes in the plan document
 
 ---
 
-## See Also
+## See also
 
 - [Plan-Start Command](../commands/plan-start.md)
 - [ADR Writer Agent](./adr-writer.md)

@@ -1,4 +1,4 @@
-# Resource Evaluation: "Building AI-Native Engineering Teams: From Coding to Verification"
+# Resource evaluation: "Building AI-Native Engineering Teams: From Coding to Verification"
 
 **Source**: Larridin blog (no URL provided — pasted text)
 **Author**: Ameya Kanitkar, Co-founder & CTO, Larridin
@@ -8,7 +8,7 @@
 
 ---
 
-## Summary of Content
+## Summary of content
 
 - **Mindset shift**: agents write code, the engineer's job becomes building the verification system — not the code itself
 - **Spec-first**: spend more time on design and implementation planning before writing a single line; explicit definition of "DONE" at planning stage
@@ -50,7 +50,7 @@ The article covers two areas the guide does not address substantively: the "job 
 
 ---
 
-## Integration Recommendations
+## Integration recommendations
 
 **Where to integrate:**
 
@@ -89,7 +89,7 @@ Key points from challenge:
 
 ---
 
-## Fact-Check
+## Fact-check
 
 | Claim | Verified | Source / Note |
 |-------|----------|---------------|
@@ -107,7 +107,7 @@ Key points from challenge:
 
 ---
 
-## Final Decision
+## Final decision
 
 - **Score**: 4/5
 - **Action**: Integrate — scoped to team structure, verification-system mindset, and anti-patterns

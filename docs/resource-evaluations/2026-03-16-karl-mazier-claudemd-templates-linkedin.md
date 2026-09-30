@@ -78,7 +78,7 @@ The evaluation correctly separates the paper (already covered) from the packagin
 
 ---
 
-## ✅ Fact-Check
+## ✅ Fact-check
 
 | Claim | Verified | Source |
 |-------|----------|--------|
@@ -94,7 +94,7 @@ The evaluation correctly separates the paper (already covered) from the packagin
 
 ---
 
-## 🎯 Final Decision
+## 🎯 Final decision
 
 - **Score**: 2/5
 - **Action**: No integration — the underlying paper is already queued (2026-02-19 evaluation). Note the "write only what the agent can't discover" formulation for possible wording improvement in context-engineering.md.

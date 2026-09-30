@@ -4,7 +4,7 @@ description: "Ready-to-use CI/CD workflows integrating Claude Code into GitHub A
 tags: [ci-cd, devops, template, workflows]
 ---
 
-# GitHub Actions Workflows for Claude Code
+# GitHub Actions workflows for Claude Code
 
 Ready-to-use GitHub Actions workflows that integrate Claude Code into your CI/CD pipeline.
 
@@ -17,9 +17,9 @@ Ready-to-use GitHub Actions workflows that integrate Claude Code into your CI/CD
 3. **Copy Workflows**: Place these `.yml` files in `.github/workflows/` directory
 4. **Test**: Open a test PR or issue to see them run
 
-## Available Workflows
+## Available workflows
 
-### 1. Code Review (Prompt-Based, `claude-code-review.yml`)
+### 1. Code review (prompt-based, `claude-code-review.yml`)
 
 Externalized prompt, anti-hallucination protocol, and `/claude-review` on-demand trigger.
 
@@ -61,7 +61,7 @@ A replacement needs authenticated evidence for the relevant revision and scope, 
 
 ---
 
-### 2. Code Review (Batched, `claude-code-review-batched.yml`)
+### 2. Code review (batched, `claude-code-review-batched.yml`)
 
 For PRs above a file-count threshold (default 75), a single review pass either times out or spreads Claude's attention too thin across unrelated files. This workflow splits the diff into domain-scoped batches (migrations, backend-core, api-routes, frontend, tests-and-tooling), reviews each batch in a parallel matrix job, then synthesizes one final severity table.
 
@@ -84,7 +84,7 @@ Run this alongside `claude-code-review.yml`, not instead of it. Both trigger on 
 
 ---
 
-### 3. Auto PR Review (`claude-pr-auto-review.yml`)
+### 3. Auto PR review (`claude-pr-auto-review.yml`)
 
 **Enhanced version** with comprehensive review criteria and smart filtering.
 
@@ -121,7 +121,7 @@ append_system_prompt: |
 
 ---
 
-### 4. Security Review (`claude-security-review.yml`)
+### 4. Security review (`claude-security-review.yml`)
 
 Runs a focused security scan and comments findings directly on the PR.
 
@@ -149,7 +149,7 @@ cp examples/github-actions/claude-security-review.yml .github/workflows/
 
 ---
 
-### 5. Issue Triage (`claude-issue-triage.yml`)
+### 5. Issue triage (`claude-issue-triage.yml`)
 
 When a new issue opens, Claude proposes labels/severity and posts a tidy triage comment.
 
@@ -179,7 +179,7 @@ cp examples/github-actions/claude-issue-triage.yml .github/workflows/
 
 ---
 
-## Multi-Model Review Setup
+## Multi-Model review setup
 
 Running Claude alongside other automated reviewers (Gemini, Greptile, CodeRabbit) surfaces issues that any single model misses. The pattern: each service reviews independently, then Claude synthesizes the consensus.
 
@@ -278,7 +278,7 @@ examples/github-actions/
 
 ## Customization
 
-### Model Selection
+### Model selection
 Set `CLAUDE_MODEL` or `claude-model` parameter in workflows:
 ```yaml
 env:
@@ -293,7 +293,7 @@ Each workflow declares minimal required permissions:
 
 Adjust only if your organization requires stricter policies.
 
-### Scope Filtering
+### Scope filtering
 Use `paths:` filters to limit when workflows run:
 ```yaml
 on:
@@ -321,14 +321,14 @@ on:
 - Validate spacing: two spaces per nesting level, no tabs
 - Use a YAML validator: [yamllint.com](https://www.yamllint.com/)
 
-## Advanced Usage
+## Advanced usage
 
-### Combining Workflows
+### Combining workflows
 Run multiple workflows together for comprehensive automation:
 - PR Review + Security Review on every PR
 - Issue Triage + Auto-labeling for new issues
 
-### Custom Prompts
+### Custom prompts
 Edit the `direct_prompt` section in workflows to customize Claude's focus:
 ```yaml
 direct_prompt: |
@@ -339,7 +339,7 @@ direct_prompt: |
   4. Test coverage
 ```
 
-### Integration with Other Actions
+### Integration with other actions
 Combine with existing workflows:
 ```yaml
 jobs:
@@ -357,7 +357,7 @@ jobs:
         # ...
 ```
 
-## Cost Considerations
+## Cost considerations
 
 These workflows consume Anthropic API credits:
 - **PR Review**: ~$0.10-$0.50 per review (depending on diff size)
@@ -369,7 +369,7 @@ These workflows consume Anthropic API credits:
 - Set conditions: `if: github.event.pull_request.draft == false`
 - Review logs and adjust model selection
 
-## Examples in This Directory
+## Examples in this directory
 
 ```
 examples/github-actions/

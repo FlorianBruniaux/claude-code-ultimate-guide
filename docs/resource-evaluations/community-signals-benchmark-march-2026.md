@@ -1,4 +1,4 @@
-# Resource Evaluation: Community Signals & Competitor Benchmark (March 2026)
+# Resource evaluation: Community signals & competitor benchmark (March 2026)
 
 **Source**: Pasted text (two synthesized FR-language reports — community signals + competitor benchmark)
 **Type**: Synthesized analysis report (community signals + market benchmark)
@@ -35,7 +35,7 @@ The reports surface real community pain points and confirm what matters most to 
 
 ---
 
-## Gap Analysis & Fact-Check
+## Gap analysis & fact-check
 
 | Claim in report | Status | Guide location |
 |-----------------|--------|---------------|

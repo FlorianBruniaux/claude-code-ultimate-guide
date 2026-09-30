@@ -4,7 +4,7 @@ description: "A 3-phase feature development pattern with explicit validation gat
 tags: [workflow, architecture, design-patterns, validation]
 ---
 
-# RPI: Research → Plan → Implement
+# RPI: Research → plan → implement
 
 > **Confidence**: Tier 2, synthesized from production team patterns. The gate-based structure aligns with Anthropic's guidance on agent task decomposition and agentic loop control.
 
@@ -12,7 +12,7 @@ Build features in three locked phases: Research feasibility first, plan the impl
 
 ---
 
-## Table of Contents
+## Table of contents
 
 1. [TL;DR](#tldr)
 2. [When to Use RPI](#when-to-use-rpi)
@@ -51,9 +51,9 @@ Phase 3 — Implement:
 
 ---
 
-## When to Use RPI
+## When to use RPI
 
-### Use RPI When
+### Use RPI when
 
 - **Feasibility is unknown**: You have an idea but aren't sure it holds up technically
 - **Scope is large**: More than a day's worth of implementation work
@@ -61,7 +61,7 @@ Phase 3 — Implement:
 - **Risk of wrong direction is high**: Security, payments, data migrations, integrations with external systems
 - **You've been surprised before**: A feature looked simple, turned out to involve 6 other systems
 
-### Skip RPI When
+### Skip RPI when
 
 | Scenario | Better Approach |
 |----------|----------------|
@@ -70,7 +70,7 @@ Phase 3 — Implement:
 | Exploration mode (you don't know what you want yet) | Exploration workflow |
 | Tiny change, single file | Just do it |
 
-### Decision Heuristic
+### Decision heuristic
 
 Ask yourself: "If the research phase reveals a serious problem, am I glad I didn't spend 2 days implementing first?"
 
@@ -78,7 +78,7 @@ If yes, run RPI. The research phase typically takes 30-60 minutes and can save m
 
 ---
 
-## How the Gates Work
+## How the gates work
 
 RPI has two human gates and one automated gate per implementation step.
 
@@ -116,7 +116,7 @@ RPI has two human gates and one automated gate per implementation step.
 
 ## Phase 1: Research
 
-### What Research Covers
+### What research covers
 
 The research phase answers five questions:
 
@@ -128,7 +128,7 @@ The research phase answers five questions:
 
 Claude explores the codebase, reads relevant files, checks dependencies, and surfaces any constraint that would change the plan. The result is RESEARCH.md.
 
-### Starting Research
+### Starting research
 
 Create the feature folder and invoke research:
 
@@ -231,7 +231,7 @@ Questions that need a decision before planning can start:
 **Notes**: [human fills this in]
 ```
 
-### What a NO-GO Looks Like
+### What a NO-GO looks like
 
 Not every research phase ends in GO. Common NO-GO reasons:
 
@@ -246,7 +246,7 @@ Archive NO-GO research docs. They're valuable records of decisions made and why.
 
 ## Phase 2: Plan
 
-### What the Plan Covers
+### What the plan covers
 
 Phase 2 starts only after you mark RESEARCH.md with GO. Claude reads the research doc and produces a precise implementation plan.
 
@@ -347,7 +347,7 @@ If implementation fails mid-way:
 **Revision notes**: [human fills this in if changes needed]
 ```
 
-### Reviewing the Plan
+### Reviewing the plan
 
 Read PLAN.md carefully before approving. The goal is to catch design problems now, not during implementation. Specific things to check:
 
@@ -362,7 +362,7 @@ If the plan needs changes, ask Claude to revise before approving. This is free. 
 
 ## Phase 3: Implement
 
-### The Step-Gate Pattern
+### The step-gate pattern
 
 Implementation runs step by step. Each step has a test gate. Claude does not start the next step until the current gate passes.
 
@@ -384,7 +384,7 @@ Rules:
 - Commit after each step that passes its gate
 ```
 
-### What Happens During Implementation
+### What happens during implementation
 
 Claude works through the plan's steps sequentially. For each step:
 
@@ -395,7 +395,7 @@ Claude works through the plan's steps sequentially. For each step:
 
 The step-commit pattern gives you a clean git history that mirrors the plan. If something goes wrong in Step 4, you can roll back to the Step 3 commit cleanly.
 
-### Step-Gate Failure Protocol
+### Step-Gate failure protocol
 
 When a test gate fails, Claude reports:
 
@@ -419,7 +419,7 @@ You decide. Claude does not auto-fix and proceed, because that's how implementat
 
 ---
 
-## Slash Command Templates
+## Slash command templates
 
 Save these to `.claude/commands/` to invoke each phase directly.
 
@@ -530,7 +530,7 @@ For each step in the plan:
 
 ---
 
-## Worked Example
+## Worked example
 
 **Request**: "Add rate limiting to the public API endpoints."
 
@@ -622,7 +622,7 @@ Claude implements Step 1, runs the gate (`npm install` + import check), commits 
 
 ---
 
-## Comparison to Other Workflows
+## Comparison to other workflows
 
 | Workflow | Phase structure | Human gates | Best for |
 |----------|----------------|------------|----------|
@@ -632,23 +632,23 @@ Claude implements Step 1, runs the gate (`npm install` + import check), commits 
 | **TDD** | Test-first + Implement | None (tests are the gate) | Test coverage as driver, refactoring, incremental behavior |
 | **Direct** | None | None | Simple changes, obvious scope, less than 2 hours |
 
-### RPI vs Dual-Instance
+### RPI vs dual-instance
 
 Dual-instance separates planning and implementation into two Claude instances with strict role enforcement. It works well when you already know what you're building and want a high-quality plan. RPI adds a feasibility phase before planning, which makes it better for ambiguous requests. If you already have a clear spec, skip Research and use dual-instance or spec-first.
 
-### RPI vs Spec-First
+### RPI vs spec-first
 
 Spec-first is design-oriented: you define what the system should do, then Claude implements it. RPI is implementation-oriented with validation gates: you describe a goal, Claude researches how to achieve it, then the two of you agree on a plan before touching code. Use spec-first when the design is clear. Use RPI when the technical path is not.
 
-### RPI vs Direct Coding
+### RPI vs direct coding
 
 For anything under 2 hours with a clear scope, just ask Claude to do it. RPI adds overhead that isn't justified for small tasks. The research phase alone takes 30-60 minutes. That overhead pays off on multi-day features where discovering a wrong assumption late is much more expensive.
 
 ---
 
-## Tips and Troubleshooting
+## Tips and troubleshooting
 
-### Claude Skips to Implementation in Research Phase
+### Claude skips to implementation in research phase
 
 **Problem**: Claude starts writing code during the research phase.
 
@@ -668,7 +668,7 @@ Or add to your CLAUDE.md:
 - /rpi:implement runs one step at a time, waits for test gate before next step
 ```
 
-### Research Phase Runs Too Long
+### Research phase runs too long
 
 **Problem**: Claude explores the entire codebase instead of focusing on what's relevant.
 
@@ -682,7 +682,7 @@ Do not explore: frontend, auth, unrelated backend modules
 Time budget: complete research in one session
 ```
 
-### Plan Has Too Many Steps
+### Plan has too many steps
 
 **Problem**: PLAN.md has 12 steps, making the implementation unwieldy.
 
@@ -694,7 +694,7 @@ the core value? Revise the plan to implement only that, with a clear
 "Future work" section for the rest.
 ```
 
-### Test Gates Are Vague
+### Test gates are vague
 
 **Problem**: A step's test gate says "verify it works" rather than a specific command.
 
@@ -717,7 +717,7 @@ A bad test gate:
 Test gate: rate limiting is working correctly
 ```
 
-### A Step Gate Fails Repeatedly
+### A step gate fails repeatedly
 
 **Problem**: Step 2's gate keeps failing even after attempted fixes.
 
@@ -731,7 +731,7 @@ Do we need to revise the plan before continuing?
 
 ---
 
-## File Structure Summary
+## File structure summary
 
 ```
 .claude/
@@ -757,7 +757,7 @@ The archive is a learning resource: completed RESEARCH.md and PLAN.md files show
 
 ---
 
-## See Also
+## See also
 
 - [dual-instance-planning.md](./dual-instance-planning.md): Two-instance pattern for spec-heavy implementation
 - [spec-first.md](./spec-first.md): Design-first workflow using CLAUDE.md as contract

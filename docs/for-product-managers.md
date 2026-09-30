@@ -1,4 +1,4 @@
-# Claude Code: For Product Managers & Product Designers
+# Claude Code: For product managers & product designers
 
 > You don't need to become a developer to get value from Claude Code. But understanding what it does — and what it can do for you directly — changes how you work with your team and what you can ship yourself.
 

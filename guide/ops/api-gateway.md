@@ -4,7 +4,7 @@ description: "Centralize cost control, progressive spend policy, terminal budget
 tags: [enterprise, cost, observability, ops, guide]
 ---
 
-# API Gateway for Enterprise Claude Code
+# API gateway for enterprise Claude Code
 
 > **Audience**: Platform engineers and DevOps teams deploying Claude Code across an organization.
 >
@@ -68,7 +68,7 @@ For general gateway architecture and external gateway constraints, read [Anthrop
 
 The remaining LiteLLM and Portkey material is third-party implementation guidance. Its virtual keys, `403` model rejection, `429` budget behavior, and request/response logging are not claims about Claude apps gateway.
 
-## 1. Why a Gateway Layer
+## 1. Why a gateway layer
 
 Claude Code can call Anthropic or another supported provider directly with the credential and endpoint configured by the organization. Without a proxy layer:
 
@@ -81,7 +81,7 @@ A gateway sits between configured Claude Code instances and their upstream provi
 
 ---
 
-## 2. LiteLLM Gateway
+## 2. LiteLLM gateway
 
 [LiteLLM](https://github.com/BerriAI/litellm) is an open-source Python LLM proxy. It supports Anthropic, issues virtual keys, can enforce configured budgets, and exposes metrics for external dashboards.
 
@@ -146,7 +146,7 @@ Claude Code does not require any other change. It reads `ANTHROPIC_BASE_URL` and
 
 ---
 
-## 3. Virtual Keys and Team Budgets
+## 3. Virtual keys and team budgets
 
 Create virtual keys through the LiteLLM management API. Each key maps to a team or project and carries an optional monthly budget cap.
 
@@ -203,7 +203,7 @@ A gateway can only apply these controls to traffic it sees. Subscription-authent
 
 ---
 
-## 4. Model Allowlists
+## 4. Model allowlists
 
 Calls to models not in a key's `models` list return a `403 ModelNotAllowedError` before the request reaches Anthropic. This enforces your model approval policy at the network layer regardless of what a developer puts in their Claude Code config.
 
@@ -225,7 +225,7 @@ See [Subscription Strategy](./subscription-strategy.md#6-workforce-plans-and-pro
 
 ---
 
-## 5. Usage Dashboards
+## 5. Usage dashboards
 
 LiteLLM exposes Prometheus metrics at `/metrics`. Add a scrape config in Prometheus:
 
@@ -261,7 +261,7 @@ Practitioner accounts show what this attribution can reveal, within the traffic 
 
 ---
 
-## 6. OpenTelemetry Integration
+## 6. OpenTelemetry integration
 
 LiteLLM supports native OTel export, which integrates with the observability stack covered in [observability.md §10](./observability.md):
 
@@ -276,7 +276,7 @@ Each request generates a span with attributes including `litellm.model`, `litell
 
 ---
 
-## 7. Production Deployment
+## 7. Production deployment
 
 Run LiteLLM behind a TLS-terminating reverse proxy (nginx or Caddy). A minimal Docker Compose setup:
 
@@ -315,7 +315,7 @@ For high availability, run two LiteLLM instances behind a load balancer. Both sh
 
 ---
 
-## 8. Portkey as a Managed Alternative
+## 8. Portkey as a managed alternative
 
 [Portkey](https://portkey.ai) offers the same gateway capabilities as a hosted service, with no infrastructure to manage. Free tier covers small teams (up to 10K requests/month).
 
@@ -329,7 +329,7 @@ Portkey also supports `x-portkey-virtual-key` headers for routing, logging, and 
 
 ---
 
-## 9. What the Gateway Does Not Cover
+## 9. What the gateway does not cover
 
 The gateway controls requests routed through it. It does not address:
 
@@ -345,7 +345,7 @@ If gateway-only API routing is a policy requirement, remove direct provider cred
 
 ---
 
-## See Also
+## See also
 
 - [observability.md](./observability.md) for individual session logging and cost estimation without a proxy
 - [enterprise-governance.md](../security/enterprise-governance.md) for MCP governance and guardrail tiers

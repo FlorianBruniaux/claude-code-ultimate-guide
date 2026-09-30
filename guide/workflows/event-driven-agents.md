@@ -4,7 +4,7 @@ description: "Trigger Claude Code agents from external events like Kanban card m
 tags: [workflow, agents, automation, event-driven, kanban]
 ---
 
-# Event-Driven Agent Automation
+# Event-Driven agent automation
 
 > **Confidence**: Tier 3. Emerging pattern, early adopters report positive results but tooling is still maturing.
 
@@ -16,7 +16,7 @@ An event is a trigger, not a complete control contract. Use [Loop & Graph Engine
 
 ---
 
-## Table of Contents
+## Table of contents
 
 1. [Core Concept](#core-concept)
 2. [The Linear-Driven Agent Loop](#the-linear-driven-agent-loop)
@@ -30,7 +30,7 @@ An event is a trigger, not a complete control contract. Use [Loop & Graph Engine
 
 ---
 
-## Core Concept
+## Core concept
 
 Traditional Claude Code usage is interactive: you open a terminal, type a prompt, iterate. Event-driven automation removes the human from the trigger step. The human still reviews output (PRs, code changes), but initiation happens through your existing project management workflow.
 
@@ -52,7 +52,7 @@ The loop is self-reinforcing: the agent's output (a PR, a status update) feeds b
 
 ---
 
-## The Linear-Driven Agent Loop
+## The Linear-driven agent loop
 
 The most documented pattern comes from Damian Galarza's workflow (damiangalarza.com, February 2026). Linear serves as the single source of truth for what needs doing, and Claude Code handles implementation end to end.
 
@@ -87,15 +87,15 @@ Linear's structured fields (description, acceptance criteria, labels, priority) 
 
 ---
 
-## Generic Event-to-Agent Pattern
+## Generic event-to-agent pattern
 
 The Linear example is specific, but the pattern generalizes to any event source. Five components make up the pipeline:
 
-### 1. Event Source
+### 1. Event source
 
 Where the trigger originates. Could be a project management tool, a CI system, a monitoring alert, or a custom webhook.
 
-### 2. Event Filter
+### 2. Event filter
 
 Not every event should spawn an agent. Filters determine which events are actionable:
 
@@ -107,15 +107,15 @@ if [[ "$CARD_LABELS" != *"claude-auto"* ]]; then
 fi
 ```
 
-### 3. Context Extraction
+### 3. Context extraction
 
 Pull the relevant data from the event payload and keep it as data. Do not turn an issue title, description, comment, or webhook body into an instruction. Extract only the fields a later, approved workflow needs.
 
-### 4. Agent Selection
+### 4. Agent selection
 
 Different event types might need different agent configurations. A bug report needs a different CLAUDE.md context than a feature request. You might use different allowed tools, different models, or different safety constraints.
 
-### 5. Output Routing
+### 5. Output routing
 
 Where do the results go? Typically a combination of:
 - Git branch + PR (code changes)
@@ -125,7 +125,7 @@ Where do the results go? Typically a combination of:
 
 ---
 
-## Implementation Example
+## Implementation example
 
 This minimal loop classifies Linear cards without starting an agent or changing a repository. It records the title and description as data, then routes a write request to the gated workflow:
 
@@ -179,7 +179,7 @@ This is a non-mutating triage example, not production code. Real deployments nee
 
 ---
 
-## Event Source Compatibility
+## Event source compatibility
 
 | Event Source | Trigger Events | Agent Use Case | Integration Method |
 |-------------|----------------|----------------|-------------------|
@@ -211,7 +211,7 @@ if git ls-remote --heads origin "feat/$ISSUE_ID" | grep -q "feat/$ISSUE_ID"; the
 fi
 ```
 
-### Rate Limiting
+### Rate limiting
 
 Don't let a burst of events spawn 50 agents simultaneously. Set hard limits:
 
@@ -219,7 +219,7 @@ Don't let a burst of events spawn 50 agents simultaneously. Set hard limits:
 - **Cooldown period**: Minimum 30 seconds between agent spawns
 - **Daily budget cap**: Set a maximum token spend per day
 
-### Circuit Breaker
+### Circuit breaker
 
 If agents keep failing on a particular type of task, stop trying:
 
@@ -232,7 +232,7 @@ if [ "$FAILURE_COUNT" -gt 5 ]; then
 fi
 ```
 
-### Human-in-the-Loop Checkpoints
+### Human-in-the-loop checkpoints
 
 Even in fully automated flows, keep humans in the loop at critical points:
 
@@ -243,7 +243,7 @@ Even in fully automated flows, keep humans in the loop at critical points:
 
 ---
 
-## Anti-Patterns
+## Anti-patterns
 
 | Anti-Pattern | Problem | Solution |
 |-------------|---------|----------|
@@ -257,23 +257,23 @@ Even in fully automated flows, keep humans in the loop at critical points:
 
 ---
 
-## Tools & Resources
+## Tools & resources
 
-### MCP Servers
+### MCP servers
 
 - **linear-kanban-mcp** (0xikarus on GitHub): Exposes the Linear API for kanban board management directly from Claude Code. Enables reading cards, updating states, and managing labels without leaving the agent context.
 
-### Skills & Platforms
+### Skills & platforms
 
 - **skillsllm.com**: Offers a skill that orchestrates the full planning, validation, and execution cycle starting from a Linear card. Handles the translation from card metadata to structured Claude Code prompts.
 
-### Agent Templates
+### Agent templates
 
 - **Scrum Master Agent** (lobehub.com): Auto-detects whether it is running inside Claude Desktop or Claude Code and adapts its behavior accordingly. Useful as a starting point for context-aware agent design.
 
 ---
 
-## See Also
+## See also
 
 - [Monitor, Channels and Safe Delegation to Codex](./monitor-event-delegation.md): verified events, WebSocket monitors, and read-only-first Codex delegation
 

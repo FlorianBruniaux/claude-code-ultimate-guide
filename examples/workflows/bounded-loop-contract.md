@@ -9,7 +9,7 @@ status: stable
 keywords: [agent-loop, graph, verification, budget, escalation]
 ---
 
-# Bounded Agent Loop Contract
+# Bounded agent loop contract
 
 Use this pattern when one agent can complete the job through repeated action and verification. It keeps the control flow explicit without introducing a workflow framework.
 

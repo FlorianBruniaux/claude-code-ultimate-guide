@@ -25,13 +25,13 @@ Shift+Tab          # Parcourir les modes de permission disponibles
 Approuver le plan   # Quitter et passer à l'exécution
 ```
 
-## Pourquoi Ça Change Tout
+## Pourquoi Ça change tout
 
 La planification permet de relire le périmètre, les dépendances et les critères d'acceptation avant l'implémentation. Elle ne garantit pas un résultat correct dès la première tentative.
 
 Claude explore le codebase sans pression d'agir. Il identifie les dépendances cachées, les impacts secondaires, les edge cases. Le plan qui en sort est plus solide que ce que Claude produirait en mode réactif.
 
-## Ce que Permet Plan Mode
+## Ce que permet plan mode
 
 - Lecture de fichiers et exploration du codebase
 - Analyse d'architecture et de dépendances
@@ -54,7 +54,7 @@ Claude explore le codebase sans pression d'agir. Il identifie les dépendances c
 | Fix de typo ou renommage simple | Non |
 | Edit rapide sur fichier connu | Non |
 
-## Pattern Plan-Validate-Execute
+## Pattern plan-validate-execute
 
 ```
 1. /plan
@@ -69,7 +69,7 @@ Claude explore le codebase sans pression d'agir. Il identifie les dépendances c
 
 Relire le plan pour repérer les erreurs de périmètre, de dépendances et de critères d'acceptation avant l'implémentation. Le bénéfice dépend de la tâche et de la qualité de la relecture.
 
-## Auto Plan Mode
+## Auto plan mode
 
 Une instruction `--append-system-prompt` peut demander un plan avant chaque action. Elle ne constitue pas une frontière d’autorisation ; utilisez le mode plan et les permissions d’outils pour imposer les restrictions :
 

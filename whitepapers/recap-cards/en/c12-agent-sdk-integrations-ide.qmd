@@ -15,7 +15,7 @@ format:
   recap-card-typst: default
 ---
 
-## Two Products, Separate Surfaces to Verify
+## Two products, separate surfaces to verify
 
 **Claude Code** is an interactive development product. **Claude Agent SDK** supports integrations or applications that call Claude. Their exact relationship depends on the version and surface published by Anthropic; do not infer a shared architecture from a similar interface.
 
@@ -25,7 +25,7 @@ format:
 | SDK | API reference, supported versions, and permission model |
 | MCP | Server, exposed tools, transport, and requested permissions |
 
-## MCP and IDE Integration
+## MCP and IDE integration
 
 MCP is a tooling protocol. An integration can use MCP, an SDK, a native extension, or several of these mechanisms. None should be presented as a required condition for another.
 
@@ -35,7 +35,7 @@ IDE or local service ↔ published integration ↔ authorized tools
 
 The security decision is unchanged: identify the tools actually exposed, their scope, and the execution path before granting permission.
 
-## MCP Vetting Before Installation
+## MCP vetting before installation
 
 ```bash
 # 1. Check the maintainer, repository, and targeted release

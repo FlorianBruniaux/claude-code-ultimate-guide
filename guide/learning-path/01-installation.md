@@ -1,4 +1,4 @@
-# Module 01: Installation & Setup
+# Module 01: Installation & setup
 
 **Time**: 15 minutes | **Complexity**: ⭐ Beginner
 
@@ -8,7 +8,7 @@ Get Claude Code installed and running on your system. Verify it works with your 
 
 ---
 
-## What You'll Learn
+## What you'll learn
 
 - Install Claude Code for your platform (macOS / Linux / Windows)
 - Understand the basic prompt → response loop
@@ -19,7 +19,7 @@ Get Claude Code installed and running on your system. Verify it works with your 
 
 ## Installation
 
-### macOS (Recommended)
+### macOS (recommended)
 
 ```bash
 brew install anthropic/tap/claude-code
@@ -49,7 +49,7 @@ Download the installer from https://dl.claudecode.com/windows or use:
 iex ((New-Object System.Net.WebClient).DownloadString('https://dl.claudecode.com/install.ps1'))
 ```
 
-### Docker (Any Platform)
+### Docker (any platform)
 
 ```bash
 docker run -it anthropic/claude-code:latest
@@ -57,7 +57,7 @@ docker run -it anthropic/claude-code:latest
 
 ---
 
-## First Run
+## First run
 
 Navigate to any project directory and start Claude:
 
@@ -79,7 +79,7 @@ Type /help for commands or ask me anything
 
 ---
 
-## Essential Commands
+## Essential commands
 
 | Command | Purpose |
 |---------|---------|
@@ -91,9 +91,9 @@ Type /help for commands or ask me anything
 
 ---
 
-## Your First 5 Minutes
+## Your first 5 minutes
 
-### Exercise 1: View Available Commands
+### Exercise 1: View available commands
 ```bash
 /help
 ```
@@ -104,7 +104,7 @@ Review the command list. Notice:
 - **Memory**: memory loading at startup
 - **Advanced**: `/model`, `/mode`
 
-### Exercise 2: Check Session State
+### Exercise 2: Check session state
 ```bash
 /status
 ```
@@ -115,7 +115,7 @@ You'll see:
 - Current project
 - Git branch
 
-### Exercise 3: Ask Claude Something
+### Exercise 3: Ask Claude something
 
 ```
 What files are in my project?
@@ -127,7 +127,7 @@ Claude will read the project structure and respond. This is the core loop:
 Your prompt → Claude reads files → Claude suggests changes → You review → Apply
 ```
 
-### Exercise 4: Review a Suggested Change
+### Exercise 4: Review a suggested change
 
 If Claude suggests code changes, you'll see:
 1. A description of the change
@@ -138,7 +138,7 @@ If Claude suggests code changes, you'll see:
 
 ---
 
-## The Core Concept: The Loop
+## The core concept: The loop
 
 Every interaction follows this pattern:
 
@@ -175,7 +175,7 @@ Every interaction follows this pattern:
 
 ---
 
-## Key Concepts
+## Key concepts
 
 ### Sessions
 
@@ -194,7 +194,7 @@ Each time you run `claude`, you start a new **session**. A session is a conversa
 - 70%+: Run `/compact` to free space
 - 90%+: You'll be forced to clean up
 
-### Git Awareness
+### Git awareness
 
 Claude Code is **git-aware**. It:
 - Detects your current branch
@@ -204,7 +204,7 @@ Claude Code is **git-aware**. It:
 
 ---
 
-## Validation: You're Ready If...
+## Validation: You're ready if...
 
 ✓ You can run `claude --version` and see your installed version
 ✓ You can start Claude in a project with `claude`
@@ -214,7 +214,7 @@ Claude Code is **git-aware**. It:
 
 ---
 
-## What's Next?
+## What's next?
 
 Once you're comfortable with this module, move to **Module 02: Core Loop** to understand:
 - How Claude reads your project

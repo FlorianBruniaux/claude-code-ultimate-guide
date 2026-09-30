@@ -1,4 +1,4 @@
-# Resource Evaluation: SE-CoVe Plugin
+# Resource evaluation: SE-CoVe plugin
 
 **Date**: 2026-01-24
 **Evaluator**: Claude Code Ultimate Guide (via /eval-resource skill)
@@ -13,7 +13,7 @@
 
 ---
 
-## Executive Summary
+## Executive summary
 
 **Decision**: ✅ **INTEGRATED** (with academic corrections)
 **Score**: 3/5 (Pertinent avec réserves majeures)
@@ -28,7 +28,7 @@
 
 ---
 
-## Content Summary
+## Content summary
 
 ### What is SE-CoVe?
 
@@ -43,7 +43,7 @@ Software Engineering adaptation of Meta's Chain-of-Verification for Claude Code.
 
 **Critical innovation**: Verifier operates without draft code access (prevents confirmation bias).
 
-### Author & Maintenance
+### Author & maintenance
 
 - **Author**: Janne Sinivirta (LinkedIn: vertti)
 - **Version**: 1.1.1 (2026-01-23)
@@ -52,9 +52,9 @@ Software Engineering adaptation of Meta's Chain-of-Verification for Claude Code.
 
 ---
 
-## Fact-Check Results
+## Fact-check results
 
-### ✅ Verified Claims
+### ✅ Verified claims
 
 | Claim | Status | Source |
 |-------|--------|--------|
@@ -64,7 +64,7 @@ Software Engineering adaptation of Meta's Chain-of-Verification for Claude Code.
 | **Installation commands** | ✅ Verified | `/plugin marketplace add` + `/plugin install` |
 | **Use cases documented** | ✅ Verified | README lists recommended/avoid scenarios |
 
-### ⚠️ Misleading Claims
+### ⚠️ Misleading claims
 
 | Claim | Reality | Severity |
 |-------|---------|----------|
@@ -73,7 +73,7 @@ Software Engineering adaptation of Meta's Chain-of-Verification for Claude Code.
 | **Output reduction omitted** | -26% facts generated (16.6→12.3) | 🟡 Material omission |
 | **"Improves accuracy"** | True but hallucinations NOT eliminated | 🟡 Oversimplification |
 
-### ❌ Unverified Claims
+### ❌ Unverified claims
 
 | Claim | Issue | Resolution |
 |-------|-------|------------|
@@ -81,7 +81,7 @@ Software Engineering adaptation of Meta's Chain-of-Verification for Claude Code.
 
 ---
 
-## Performance Metrics (from Research Paper)
+## Performance metrics (from research paper)
 
 **Source**: Dhuliawala et al., "Chain-of-Verification Reduces Hallucination in Large Language Models", ACL 2024 Findings.
 
@@ -95,15 +95,15 @@ Software Engineering adaptation of Meta's Chain-of-Verification for Claude Code.
 
 ---
 
-## Gap Analysis
+## Gap analysis
 
-### ✅ Gaps SE-CoVe Fills
+### ✅ Gaps SE-CoVe fills
 
 1. **Plugin examples**: Guide has 233 lines on Plugin System (6863-7096) but ZERO concrete examples
 2. **CoVe methodology**: Multi-Agent Orchestration mentioned (methodologies.md:165) but CoVe specifically absent
 3. **Independent verification**: Verification Loops documented (methodologies.md:145) but no implementation example
 
-### 🔄 Overlap with Existing Content
+### 🔄 Overlap with existing content
 
 | Concept | Existing Section | SE-CoVe Contribution |
 |---------|------------------|---------------------|
@@ -116,14 +116,14 @@ Software Engineering adaptation of Meta's Chain-of-Verification for Claude Code.
 
 ## Technical Writer Challenge (Agent aa5c1fd)
 
-### Original Evaluation Issues Identified
+### Original evaluation issues identified
 
 1. ❌ **Factual error**: Claimed "guide has NO plugin section" → FALSE (233 lines exist)
 2. ✅ **Correctly spotted**: Gap = theoretical docs without examples
 3. ⚠️ **Underestimated**: Importance of "theory without practice" anti-pattern
 4. ❌ **Cherry-picking not flagged**: Original eval didn't catch 28% selectivity
 
-### Score Adjustment
+### Score adjustment
 
 | Phase | Score | Rationale |
 |-------|-------|-----------|
@@ -135,9 +135,9 @@ Software Engineering adaptation of Meta's Chain-of-Verification for Claude Code.
 
 ---
 
-## Integration Approach
+## Integration approach
 
-### Selected: Approach B (Neutral Academic)
+### Selected: Approach B (neutral academic)
 
 **Rejected approaches**:
 - ❌ **Approach A (Heavy disclaimers)**: Too negative, disclaimer longer than content
@@ -149,7 +149,7 @@ Software Engineering adaptation of Meta's Chain-of-Verification for Claude Code.
 3. ✅ Professional tone (academic citation, not "warning")
 4. ✅ Educates users on trade-offs without alarming
 
-### Documentation Format
+### Documentation format
 
 ```markdown
 ## Performance Metrics
@@ -165,11 +165,11 @@ Results from Meta's research paper (Llama 65B model):
 
 ---
 
-## Curation Policy Established
+## Curation policy established
 
 To avoid amplifying marketing bias in future evaluations:
 
-### Inclusion Criteria
+### Inclusion criteria
 
 | Criterion | Requirement | SE-CoVe Status |
 |-----------|-------------|----------------|
@@ -183,7 +183,7 @@ To avoid amplifying marketing bias in future evaluations:
 
 ---
 
-## Files Created
+## Files created
 
 ### 1. `examples/plugins/se-cove.md`
 
@@ -218,9 +218,9 @@ chain_of_verification_acl: "https://aclanthology.org/2024.findings-acl.212/"
 
 ---
 
-## Lessons Learned
+## Lessons learned
 
-### For Future Evaluations
+### For future evaluations
 
 1. ✅ **Fact-check via Perplexity**: Essential for academic claims (28% found in paper p.7, not abstract)
 2. ✅ **Challenge initial assessment**: technical-writer agent caught factual errors
@@ -228,7 +228,7 @@ chain_of_verification_acl: "https://aclanthology.org/2024.findings-acl.212/"
 4. ✅ **Verify source credibility**: ACL 2024 > random blog post
 5. ✅ **Approach B (neutral academic)** > heavy disclaimers or rejection
 
-### Red Flags Detected
+### Red flags detected
 
 | Marketing Pattern | SE-CoVe Example | Mitigation |
 |-------------------|-----------------|------------|
@@ -239,7 +239,7 @@ chain_of_verification_acl: "https://aclanthology.org/2024.findings-acl.212/"
 
 ---
 
-## Confidence Assessment
+## Confidence assessment
 
 | Aspect | Confidence | Evidence |
 |--------|-----------|----------|
@@ -251,9 +251,9 @@ chain_of_verification_acl: "https://aclanthology.org/2024.findings-acl.212/"
 
 ---
 
-## Recommendations for Users
+## Recommendations for users
 
-### When to Trust SE-CoVe
+### When to trust SE-CoVe
 
 ✅ Use for:
 - Critical code review (architectural decisions)
@@ -261,7 +261,7 @@ chain_of_verification_acl: "https://aclanthology.org/2024.findings-acl.212/"
 - Complex debugging requiring independent analysis
 - When 2x computational cost is acceptable
 
-### When to Be Skeptical
+### When to be skeptical
 
 ⚠️ Avoid expecting:
 - Universal 28% improvement (task-dependent: 23-112%)
@@ -271,9 +271,9 @@ chain_of_verification_acl: "https://aclanthology.org/2024.findings-acl.212/"
 
 ---
 
-## Meta: Evaluation Process
+## Meta: Evaluation process
 
-### Workflow Used
+### Workflow used
 
 1. **Fetch & Summarize**: WebFetch LinkedIn + GitHub README
 2. **Context Check**: Read `machine-readable/reference.yaml`
@@ -282,7 +282,7 @@ chain_of_verification_acl: "https://aclanthology.org/2024.findings-acl.212/"
 5. **Fact-Check**: Perplexity research on 28% claim
 6. **Document**: Create files with academic approach
 
-### Tools Used
+### Tools used
 
 - WebFetch (LinkedIn, GitHub, arXiv abstract)
 - Perplexity Pro (fact-check 28% claim in full paper)
@@ -290,7 +290,7 @@ chain_of_verification_acl: "https://aclanthology.org/2024.findings-acl.212/"
 - Grep/Read (gap analysis)
 - Write/Edit (documentation)
 
-### Time Investment
+### Time investment
 
 - Research & fact-check: ~20 minutes
 - Challenge & revision: ~10 minutes

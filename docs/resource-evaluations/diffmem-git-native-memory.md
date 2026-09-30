@@ -1,4 +1,4 @@
-# DiffMem (Git-Native Agent Memory) Evaluation
+# DiffMem (git-native agent memory) evaluation
 
 **Resource**: DiffMem, a git-native / file-based memory backend for AI agents
 **Source**: [github.com/Growth-Kinetics/DiffMem](https://github.com/Growth-Kinetics/DiffMem)
@@ -32,7 +32,7 @@ This matters for our own context: DiffMem is not a validation of the file-plus-B
 
 ---
 
-## Scoring Breakdown
+## Scoring breakdown
 
 | Criterion | Score | Rationale |
 |-----------|-------|-----------|
@@ -75,7 +75,7 @@ Explicitly **not** worth copying: the no-LLM-free mode. Every read and write hit
 
 ---
 
-## Integration Decisions
+## Integration decisions
 
 | Item | Decision | Rationale |
 |------|----------|-----------|

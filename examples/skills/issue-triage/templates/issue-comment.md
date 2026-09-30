@@ -1,10 +1,10 @@
-# Issue Comment Templates
+# Issue comment templates
 
 Use these templates to generate GitHub issue comments during `/issue-triage` Phase 3. Comments are posted in **English** (international audience).
 
 ---
 
-## Template 1 — Ack / Info Request
+## Template 1 — ack / info request
 
 Use when: issue is `Unclear` or `needs-info`, body is missing context, reproduction steps are absent.
 
@@ -26,7 +26,7 @@ Once we have this information, we can prioritize and route the issue appropriate
 
 ---
 
-## Template 2 — Duplicate
+## Template 2 — duplicate
 
 Use when: Jaccard similarity >= 60% with an existing open or recently closed issue.
 
@@ -43,7 +43,7 @@ I'm closing this issue to consolidate discussion there. If you believe this is a
 
 ---
 
-## Template 3 — Close Stale
+## Template 3 — close stale
 
 Use when: issue has had no activity for >90 days and no assignee, or no response to a previous info request for >30 days.
 
@@ -63,7 +63,7 @@ We're happy to pick this back up if it's still blocking you.
 
 ---
 
-## Template 4 — Close Out of Scope
+## Template 4 — close out of scope
 
 Use when: issue describes functionality clearly outside the project's stated scope.
 
@@ -84,7 +84,7 @@ Feel free to open a discussion if you'd like to explore this further.
 
 ---
 
-## Formatting Rules
+## Formatting rules
 
 **Tone**: Professional, direct, respectful. The reporter invested time to file the issue.
 

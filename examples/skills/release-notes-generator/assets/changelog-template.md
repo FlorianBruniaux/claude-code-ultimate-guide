@@ -1,4 +1,4 @@
-# CHANGELOG Section Template
+# CHANGELOG section template
 
 Use this template for generating CHANGELOG.md entries.
 

@@ -1,11 +1,11 @@
-# ccboard - Claude Code Dashboard Plugin
+# ccboard - Claude Code dashboard plugin
 
 > Comprehensive TUI/Web dashboard for monitoring and managing Claude Code
 
 [![License](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue.svg)](../../../LICENSE)
 [![Rust](https://img.shields.io/badge/rust-1.70%2B-orange.svg)](https://www.rust-lang.org)
 
-## Quick Start
+## Quick start
 
 ### Installation
 
@@ -17,7 +17,7 @@
 cargo install ccboard
 ```
 
-### Launch Dashboard
+### Launch dashboard
 
 ```bash
 # Launch TUI
@@ -67,7 +67,7 @@ ccboard
 - `q` : Quit
 - `F5` : Refresh
 
-## MCP Server Monitoring
+## MCP server monitoring
 
 The MCP tab (press `8`) provides:
 
@@ -78,7 +78,7 @@ The MCP tab (press `8`) provides:
   - `o` : Reveal config in finder
   - `r` : Refresh server status
 
-## Cost Analytics
+## Cost analytics
 
 Track your Claude Code spending:
 
@@ -87,7 +87,7 @@ Track your Claude Code spending:
 - Breakdown by model: Opus 4.5 (76%), Sonnet 4.5 (14%)
 - Cache hit rate: 99.9%
 
-## Session Explorer
+## Session explorer
 
 Browse and search conversations:
 
@@ -96,7 +96,7 @@ Browse and search conversations:
 - Metadata: timestamps, tokens, models
 - Edit JSONL files directly
 
-## Web Interface
+## Web interface
 
 ```bash
 # Launch web UI
@@ -121,7 +121,7 @@ Single Rust binary (2.4MB) with:
 - **Web**: Axum + Leptos web interface
 - **Core**: Shared data layer with file watcher
 
-## Data Sources
+## Data sources
 
 ccboard reads from:
 - `~/.claude/stats-cache.json` - Statistics

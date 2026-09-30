@@ -4,11 +4,11 @@ description: "CLAUDE.md configuration for minimizing token consumption with RTK 
 tags: [claude-md, template, performance]
 ---
 
-# RTK Token Optimization
+# RTK token optimization
 
 **Context**: Using RTK (Rust Token Killer) to minimize token consumption from command outputs.
 
-## Commands to Optimize
+## Commands to optimize
 
 Always use RTK wrapper for these high-verbosity commands:
 
@@ -44,7 +44,7 @@ Always use RTK wrapper for these high-verbosity commands:
 - `rtk gh pr view <num>` instead of `gh pr view <num>`
 - `rtk gh pr checks <num>` instead of `gh pr checks <num>`
 
-## Token Savings Target
+## Token savings target
 
 **Baseline**: ~150K tokens per 30-min session
 **With RTK**: ~45K tokens (70% reduction)

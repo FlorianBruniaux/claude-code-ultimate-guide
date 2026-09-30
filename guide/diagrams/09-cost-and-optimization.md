@@ -4,13 +4,13 @@ description: "Model selection, cost optimization, subscription tiers, token redu
 tags: [cost, optimization, models, tokens, subscription]
 ---
 
-# Cost & Optimization
+# Cost & optimization
 
 How to get maximum value from Claude Code while controlling token consumption and costs.
 
 ---
 
-### Model Selection Decision Flow
+### Model selection decision flow
 
 Not all tasks need the most powerful model. A lower-cost model saves money only when it passes the same task acceptance gate without increasing retries, review, or rework.
 
@@ -92,7 +92,7 @@ Budget modifier (downgrade one tier on constrained plans):
 
 ---
 
-### Cost Optimization Decision Tree
+### Cost optimization decision tree
 
 High token costs are usually fixable. This systematic tree identifies the root cause and points to the right fix for each waste pattern.
 
@@ -173,7 +173,7 @@ High costs?
 
 ---
 
-### Subscription Tiers: What Each Unlocks
+### Subscription tiers: What each unlocks
 
 Different tiers unlock different Claude Code capabilities. Knowing the limits helps you plan usage and justify upgrades.
 
@@ -259,7 +259,7 @@ No CLI       Personal use     Parallel ✓       Analytics
 
 ---
 
-### Token Reduction Strategies Pipeline
+### Token reduction strategies pipeline
 
 Multiple strategies can reduce the same token classes, so their advertised percentages cannot be multiplied. Apply them one at a time, measure the interaction, and retain only the changes that reduce cost per accepted task.
 

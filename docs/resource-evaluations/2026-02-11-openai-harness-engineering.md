@@ -1,4 +1,4 @@
-# Resource Evaluation: OpenAI Harness Engineering (Ryan Lopopolo, Feb 2026)
+# Resource evaluation: OpenAI harness engineering (ryan Lopopolo, Feb 2026)
 
 **Source**: https://openai.com/index/harness-engineering/
 **Type**: Engineering blog post, OpenAI
@@ -28,7 +28,7 @@ The post is not a tutorial. It is a practitioner's retrospective on what environ
 
 ---
 
-## Relevance Score: 5/5 (Critical)
+## Relevance score: 5/5 (Critical)
 
 ### Justification
 
@@ -50,7 +50,7 @@ The Anthropic Agentic Trends report (4/5) provided industry validation of known 
 
 ---
 
-## Comparison with Existing Guide Content
+## Comparison with existing guide content
 
 | Pattern from article | Existing guide coverage | Action |
 |----------------------|------------------------|--------|
@@ -69,7 +69,7 @@ The Anthropic Agentic Trends report (4/5) provided industry validation of known 
 
 ---
 
-## Integration Decision
+## Integration decision
 
 **Action**: Integrate as §9.25.1 through §9.25.5 (new subsections appended to existing §9.25)
 
@@ -84,7 +84,7 @@ The Anthropic Agentic Trends report (4/5) provided industry validation of known 
 
 ---
 
-## Fact-Check
+## Fact-check
 
 | Claim | Verifiable | Notes |
 |-------|-----------|-------|
@@ -100,7 +100,7 @@ All figures cited in the guide carry the attribution "Ryan Lopopolo, OpenAI Engi
 
 ---
 
-## Final Decision
+## Final decision
 
 - **Score**: 5/5 (Critical)
 - **Action**: Integrate as §9.25.1 through §9.25.5

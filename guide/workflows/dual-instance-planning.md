@@ -4,7 +4,7 @@ description: "Use two Claude instances with distinct roles for planning and impl
 tags: [workflow, architecture, design-patterns]
 ---
 
-# Dual-Instance Planning Workflow
+# Dual-Instance planning workflow
 
 > **Confidence**: Tier 2, based on practitioner experience (Jon Williams, Feb 2026). Pattern validated through personal transition Cursor → Claude Code over 6 months.
 
@@ -12,7 +12,7 @@ Use two Claude instances with distinct roles: one for planning and review (Claud
 
 ---
 
-## Table of Contents
+## Table of contents
 
 1. [TL;DR](#tldr)
 2. [When to Use This Pattern](#when-to-use-this-pattern)
@@ -39,9 +39,9 @@ Use two Claude instances with distinct roles: one for planning and review (Claud
 
 ---
 
-## When to Use This Pattern
+## When to use this pattern
 
-### ✅ Use When
+### ✅ Use when
 
 - **Complex specifications**: Requirements need clarification through interview-style questions
 - **Quality-critical features**: Security, payments, data migrations
@@ -50,7 +50,7 @@ Use two Claude instances with distinct roles: one for planning and review (Claud
 - **Budget constraints**: $100-200/month (vs $500-1K for parallel multi-instance)
 - **Spec-heavy workflows**: Detailed requirements, many edge cases
 
-### ❌ Don't Use When
+### ❌ Don't use when
 
 - **Simple changes**: Typo fixes, trivial refactors (use single instance)
 - **Exploratory coding**: Problem space unknown (planning overhead not justified)
@@ -58,7 +58,7 @@ Use two Claude instances with distinct roles: one for planning and review (Claud
 - **High-volume parallel features**: Use Boris pattern (Section 9.17) instead
 - **Very limited budget**: <$100/month (use Sonnet, single instance)
 
-### Comparison to Other Patterns
+### Comparison to other patterns
 
 | Pattern | Scaling Axis | Cost/Month | Best For |
 |---------|--------------|------------|----------|
@@ -70,7 +70,7 @@ Use two Claude instances with distinct roles: one for planning and review (Claud
 
 ## Setup
 
-### Step 1: Create Directory Structure
+### Step 1: Create directory structure
 
 ```bash
 cd ~/projects/your-project
@@ -90,7 +90,7 @@ mkdir -p .claude/plans/{Review,Active,Completed}
 # Optional: commit Completed/ for team learning
 ```
 
-### Step 2: Launch Claude Zero (Planner)
+### Step 2: Launch Claude Zero (planner)
 
 **Terminal 1**:
 ```bash
@@ -115,7 +115,7 @@ Start by acknowledging this role.
 
 Claude Zero confirms: "Understood. I am Claude Zero (Planner). I will explore, plan, and review, but never touch code."
 
-### Step 3: Launch Claude One (Implementer)
+### Step 3: Launch Claude One (implementer)
 
 **Terminal 2** (new session):
 ```bash
@@ -142,11 +142,11 @@ Claude One confirms: "Understood. I am Claude One (Implementer). I execute appro
 
 ---
 
-## Complete Workflow
+## Complete workflow
 
 ### Phase 1: Planning (Claude Zero)
 
-#### Step 1.1: Initiate Planning
+#### Step 1.1: Initiate planning
 
 **You** (to Claude Zero):
 ```
@@ -159,14 +159,14 @@ Implement JWT authentication for the API:
 - Logout capability (revoke refresh tokens)
 ```
 
-#### Step 1.2: Claude Zero Explores
+#### Step 1.2: Claude Zero explores
 
 Claude Zero (in Plan Mode):
 - Reads existing auth code
 - Searches for auth patterns in codebase
 - Identifies dependencies (libraries, env vars)
 
-#### Step 1.3: Claude Zero Interviews You
+#### Step 1.3: Claude Zero interviews you
 
 Claude Zero asks clarifying questions:
 ```
@@ -194,7 +194,7 @@ Before I draft the plan, I need to clarify:
 
 **You answer**, Claude Zero refines understanding.
 
-#### Step 1.4: Claude Zero Writes Plan
+#### Step 1.4: Claude Zero writes plan
 
 Claude Zero creates `.claude/plans/Review/auth-jwt.md`:
 
@@ -418,7 +418,7 @@ If you encounter these scenarios during implementation:
 **Plan approved?** → Move to `.claude/plans/Active/auth-jwt.md`
 ```
 
-### Phase 2: Human Review
+### Phase 2: Human review
 
 **You review** `.claude/plans/Review/auth-jwt.md`:
 
@@ -519,7 +519,7 @@ mv .claude/plans/Active/auth-jwt.md .claude/plans/Completed/
 
 ---
 
-## Plan Template
+## Plan template
 
 Save this template to `.claude/plan-template.md` for consistent plan structure:
 
@@ -611,9 +611,9 @@ If you encounter these scenarios during implementation:
 
 ---
 
-## Cost Analysis
+## Cost analysis
 
-### Dual-Instance vs Single Instance with Corrections
+### Dual-Instance vs single instance with corrections
 
 | Scenario | Single Instance | Dual Instance | Savings |
 |----------|----------------|---------------|---------|
@@ -623,7 +623,7 @@ If you encounter these scenarios during implementation:
 
 **Breakeven point**: Features requiring ≥2 correction loops → dual-instance is cheaper.
 
-### Monthly Budget Estimates
+### Monthly budget estimates
 
 **Assumptions**:
 - 20 working days/month
@@ -642,9 +642,9 @@ If you encounter these scenarios during implementation:
 
 ---
 
-## Tips and Troubleshooting
+## Tips and troubleshooting
 
-### Role Enforcement
+### Role enforcement
 
 **Problem**: Claude Zero starts editing code.
 
@@ -673,7 +673,7 @@ Do not edit code. Write plan to .claude/plans/Review/
 - NEVER create plans
 ```
 
-### Context Pollution
+### Context pollution
 
 **Problem**: Claude One's context is polluted with planning discussions.
 
@@ -683,7 +683,7 @@ Do not edit code. Write plan to .claude/plans/Review/
 
 **Never share context** between Claude Zero and Claude One.
 
-### Plan Drift
+### Plan drift
 
 **Problem**: Claude One deviates from plan during implementation.
 
@@ -697,7 +697,7 @@ Do not edit code. Write plan to .claude/plans/Review/
 - If unclear, ask user (don't guess)
 ```
 
-### Overhead Management
+### Overhead management
 
 **Problem**: Moving files between directories is manual overhead.
 
@@ -740,7 +740,7 @@ complete-plan auth-jwt    # Archive completed plan
 
 ---
 
-## See Also
+## See also
 
 - **Main guide**: [Section 9.17.1](#alternative-pattern-dual-instance-planning-vertical-separation) (overview and comparison)
 - **Plan Mode**: [plan-driven.md](plan-driven.md) (foundation for planning workflows)

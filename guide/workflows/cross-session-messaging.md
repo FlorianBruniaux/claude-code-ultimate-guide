@@ -4,7 +4,7 @@ description: "How independent Claude Code sessions discover and message each oth
 tags: [multi-agent, sessions, security, tools-reference]
 ---
 
-# Cross-Session Messaging
+# Cross-session messaging
 
 Cross-session messaging lets one Claude Code session deliver a short text message to another, independently launched Claude Code session, without you copy-pasting between terminals. Two tools carry the whole feature: `ListAgents` discovers which sessions are reachable, `SendMessage` delivers text to one of them by name. Neither tool is something you call yourself; Claude decides when to use them, on its own or because you asked it to.
 

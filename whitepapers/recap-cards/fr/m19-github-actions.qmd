@@ -29,7 +29,7 @@ Ce pattern sépare la logique de review de la mécanique du workflow. Le fichier
 
 Cette séparation permet d'itérer sur la qualité des reviews sans risquer de casser le pipeline.
 
-## Authentification : OAuth vs API Key
+## Authentification : OAuth vs API key
 
 | Méthode | Coût par review | Prérequis |
 |---------|----------------|-----------|

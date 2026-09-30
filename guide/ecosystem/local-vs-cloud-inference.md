@@ -4,7 +4,7 @@ description: "Comparable hardware builds for running large open-weight models lo
 tags: [ecosystem, hardware, local-llm, cloud, cost, benchmarks]
 ---
 
-# Local vs Cloud: LLM Hardware and Inference Economics
+# Local vs cloud: LLM hardware and inference economics
 
 > **Reading time**: ≈35 minutes
 >
@@ -12,7 +12,7 @@ tags: [ecosystem, hardware, local-llm, cloud, cost, benchmarks]
 
 ---
 
-## Table of Contents
+## Table of contents
 
 - [Data Snapshot Date](#data-snapshot-date)
 - [Sizing Local Hardware with llmfit](#sizing-local-hardware-with-llmfit)
@@ -35,7 +35,7 @@ tags: [ecosystem, hardware, local-llm, cloud, cost, benchmarks]
 
 ---
 
-## Data Snapshot Date
+## Data snapshot date
 
 Every price, spec, and throughput number on this page is a snapshot from **August 2026**. GPU prices move by double digits in weeks, cloud providers reprice without notice, and model families get replaced. Treat the tables as a method to reproduce, not a permanent price list. The queries and CLI commands used to produce this page are included so you can rerun them.
 
@@ -61,7 +61,7 @@ Two limits to know before trusting its output:
 
 ---
 
-## Benchmark Protocol Before You Buy
+## Benchmark protocol before you buy
 
 A capacity check only answers whether the weights can be loaded. It does not show whether the model remains usable with a real prompt, several users, or the inference backend you plan to run. Test the exact model, quantization, context length, and concurrency target before comparing machines.
 
@@ -80,7 +80,7 @@ One Framework Desktop presentation reports 80-130 W during use, 25-60 tokens/sec
 
 ---
 
-## Fourteen Comparable Hardware Configurations
+## Fourteen comparable hardware configurations
 
 Bare GPUs are not comparable to laptops or appliances. The table below only lists complete systems: CPU, memory, GPU, and storage together, sorted by increasing price. For workstation builds around a bare Nvidia GPU (no fixed CPU from the vendor), the CPU column shows one realistic example, not a spec. The first three rows are the entry tier a reader specifically asked for: machines with a GPU (dedicated or unified) capped around 16-32 GB, cheap enough to try local inference without committing to a €4,000+ build.
 
@@ -107,7 +107,7 @@ Sources: Nvidia RTX 5090 and RTX PRO 6000 Blackwell core counts and VRAM confirm
 
 ---
 
-## What Actually Fits: Named Models
+## What actually fits: Named models
 
 Sorting `llmfit`'s database by raw parameter count surfaces obscure or roleplay-oriented fine-tunes that happen to fit in memory, not the flagship models most people actually want to run. Querying `llmfit info` against each lab's own official repo (not a third-party quant mirror) gives a cleaner starting point, but `llmfit`'s HuggingFace scrape has its own data-quality gaps (see the Kimi K3 row below, where it was off by roughly 2x). Every parameter count and MoE expert count in this table was cross-checked a second time against each lab's own model card, GitHub repo, or official announcement, not `llmfit` alone.
 
@@ -141,7 +141,7 @@ The frontier gap still widened rather than narrowed since the previous generatio
 
 ---
 
-## Which Local Machine for Which Usage
+## Which local machine for which usage
 
 The two tables above answer "what fits where." This section answers a different, more common question: given what you actually want to do, which of the fourteen configurations is the right one to buy. Same underlying data, organized by use case instead of by price.
 
@@ -227,7 +227,7 @@ What's the local usage?
 
 ---
 
-## Serving Engine Tuning: vLLM in Production
+## Serving engine tuning: vLLM in production
 
 The tables above answer what hardware to buy. They say nothing about whether that hardware's throughput actually reaches users: the serving engine and its configuration decide that. [vLLM](https://docs.vllm.ai/) is the default open-source serving engine behind most self-hosted OpenAI-compatible deployments, including the CPU-offload MoE row above. These are the configuration levers with a documented effect, and what the official docs actually say about each, per the [vLLM optimization guide](https://docs.vllm.ai/en/stable/configuration/optimization/) (August 2026 snapshot; vLLM ships new releases roughly every two weeks, so re-check exact defaults before relying on them).
 
@@ -293,7 +293,7 @@ No official vLLM-published priority ranking exists. The order below follows wher
 
 ---
 
-## Coding Agent Setup: Apple Silicon with MLX
+## Coding agent setup: Apple Silicon with MLX
 
 vLLM does not target Apple Silicon; on a Mac, the equivalent decision (model, runtime, memory budget) runs through [MLX](https://github.com/ml-explore/mlx), Apple's own array framework, and the ecosystem built on it. This section covers what to run and how, for the specific case of a local coding agent on a unified-memory Mac (the 96-128 GB configs on this page: MacBook Pro M5 Max, Mac Studio, Mac mini M5 Pro).
 
@@ -372,7 +372,7 @@ launchctl start local.mlx-llm
 
 ---
 
-## Cloud GPU Rental Pricing
+## Cloud GPU rental pricing
 
 Hourly, on-demand, per GPU. USD figures kept as published; EUR given only where the provider quotes EUR directly.
 
@@ -397,7 +397,7 @@ AWS does not sell a single-GPU H200 instance: the smallest P5en node is already 
 
 ---
 
-## One-Year Cost Projections
+## One-Year cost projections
 
 `annual cost = price/hour × hours/day × 365`. Three usage patterns, same GPU class (H100/H200), across providers.
 
@@ -432,7 +432,7 @@ Cross-referenced against the hardware table above:
 
 ---
 
-## Power Consumption: Watts, Watt-Hours, Joules per Token
+## Power consumption: Watts, watt-hours, joules per token
 
 OVHcloud, AWS, Lambda, GMI Cloud, and Hetzner do not expose watts-per-token, kWh-per-1000-tokens, or a per-request energy figure for the GPU instances checked for this page. Anthropic and OpenAI also do not disclose energy-per-token or energy-per-query for Claude Opus 5, Sonnet 5, or GPT-5.6 Sol/Terra/Luna. The tables below separate official power ceilings, vendor measurements, independent measurements, and the small number of per-token energy measurements that are available.
 
@@ -466,7 +466,7 @@ No independently measured, LLM-specific power figure exists in the sources check
 
 ---
 
-## Energy Efficiency by Model Architecture
+## Energy efficiency by model architecture
 
 The hardware section above answers "how many watts does the GPU draw." A separate question is "does the model itself matter": does a Mixture-of-Experts architecture, a smaller active-parameter count, or a lower-precision format actually cut energy per token, and do any of the labs behind the models named on this page say so. Checked directly against each model's own official card or repo, plus the two research benchmarks that measure this independently (ML.Energy, EnergyLLM-Bench).
 
@@ -480,7 +480,7 @@ The hardware section above answers "how many watts does the GPU draw." A separat
 
 ---
 
-## Cloud API Throughput: Claude vs GPT-5.6
+## Cloud API throughput: Claude vs GPT-5.6
 
 OpenAI's GPT-5.6 family (launched July 9, 2026) ships in three durable capability tiers named after celestial bodies: **Sol** (flagship), **Terra** (balanced mid-tier), **Luna** (fast, cheap). All three are available in ChatGPT, Codex, and the API, and generally available on Amazon Bedrock. The Claude measurements below concern **Opus 5** and **Sonnet 5**. They are historical model-specific results, not measurements of Opus 5.5 or Fable 5.1. For current aliases, defaults, and prices, see [model selection](../ultimate-guide.md#25-model-selection--thinking-guide).
 
@@ -500,7 +500,7 @@ Sources: [OpenRouter Sol](https://openrouter.ai/openai/gpt-5.6-sol), [OpenRouter
 
 ---
 
-## Why Cloud and Local Tokens/Sec Are Not Comparable
+## Why cloud and local tokens/sec are not comparable
 
 Comparing a cloud API's tokens/sec to a local GPU's tokens/sec is comparing a car's speed on a congested highway to the same car's speed on an empty road. Three concrete mechanisms cause the gap:
 
@@ -518,7 +518,7 @@ The more useful check turned out to be cross-referencing your own measured token
 
 ---
 
-## Decision Diagram
+## Decision diagram
 
 ```mermaid
 flowchart TD
@@ -571,7 +571,7 @@ Need to run a large LLM
 
 </details>
 
-## Decision Framework
+## Decision framework
 
 **Light or bursty usage, with no requirement to own the hardware**: start with a managed API (Claude, GPT-5.6) or a specialized inference provider. This avoids idle hardware and maintenance. Check model quality, data handling, and rate limits before comparing token prices alone.
 
@@ -587,7 +587,7 @@ A practitioner account from two legacy-system RAG projects gives an adjacent exa
 
 ---
 
-## Sizing Self-Hosted Inference for a Team
+## Sizing self-hosted inference for a team
 
 Everything above sizes hardware for one workload on one machine. A different question comes up whenever a company evaluates self-hosting to serve many developers running coding agents concurrently: how many concurrent sessions can a given GPU configuration actually carry, and does the math beat a per-seat subscription at that headcount? For context on the subscription side of that comparison, see [Subscription Strategy at Team Scale](../ops/subscription-strategy.md).
 
@@ -656,7 +656,7 @@ A practitioner experiment shows why the pilot must replay the agent's exact mess
 
 ---
 
-## Switching Providers at the CLI Level
+## Switching providers at the CLI level
 
 Everything above is about which hardware or API to run inference on. A separate, complementary problem is how to point Claude Code itself at whichever backend you picked without rewriting configuration every time. [cc-copilot-bridge](https://ccbridge.bruniaux.com/) is a routing layer for the Claude Code CLI that toggles between three backends with a three-character command: `ccd` for Anthropic direct (pay-per-token), `ccc` for a GitHub Copilot subscription, and `cco` for fully offline local inference via Ollama. It doesn't change any of the hardware-fit or cost math on this page, it changes which backend Claude Code talks to once you've decided. Current release is v1.5.3, with a v2 in progress. Worth flagging: the Copilot route relies on a reverse-engineered API, which the project's own documentation notes may violate GitHub Copilot's Terms of Service.
 

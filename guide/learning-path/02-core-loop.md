@@ -1,4 +1,4 @@
-# Module 02: Core Loop
+# Module 02: Core loop
 
 **Time**: 45 minutes | **Complexity**: ⭐ Beginner
 
@@ -10,7 +10,7 @@ Understand how Claude Code actually works: the decision loop, context, and how t
 
 ---
 
-## What You'll Learn
+## What you'll learn
 
 - The complete interaction loop (prompt → analysis → decision → action)
 - How Claude reads and understands your project
@@ -20,7 +20,7 @@ Understand how Claude Code actually works: the decision loop, context, and how t
 
 ---
 
-## The Complete Loop (Deep Dive)
+## The complete loop (deep dive)
 
 Every interaction with Claude Code follows this sequence:
 
@@ -84,7 +84,7 @@ Every interaction with Claude Code follows this sequence:
 
 ---
 
-## How Claude Reads Your Project
+## How Claude reads your project
 
 Claude doesn't read everything. It's **intelligent about scope**.
 
@@ -105,7 +105,7 @@ Claude **won't** read:
 - Every file in the project (too slow)
 - Your entire codebase unless relevant
 
-### Pro Tip
+### Pro tip
 
 Be specific about scope:
 - ❌ "Fix the bugs" → Claude has to guess which files
@@ -113,11 +113,11 @@ Be specific about scope:
 
 ---
 
-## Context: The Key Concept
+## Context: The key concept
 
 **Context** is how much of your conversation Claude remembers. It's finite (~200K tokens).
 
-### What Uses Context?
+### What uses context?
 
 ```
 Your prompt:           50 tokens
@@ -126,7 +126,7 @@ File reads:            2000 tokens per file
 Previous messages:     accumulated tokens
 ```
 
-### The Context Meter
+### The context meter
 
 ```bash
 /status
@@ -143,7 +143,7 @@ This means:
 - 70-90%: Getting tight, use `/compact`
 - 90%+: Critical, you must clean up
 
-### `/compact` - Your Safety Valve
+### `/compact` - your safety valve
 
 When context reaches 70%+, use:
 
@@ -161,11 +161,11 @@ You can compact multiple times in one session.
 
 ---
 
-## Modes: Normal vs Plan vs Think
+## Modes: Normal vs plan vs think
 
 Claude Code has three interaction modes.
 
-### Normal Mode (Default)
+### Normal mode (default)
 
 Claude makes changes immediately after analyzing. Use for:
 - Simple bug fixes
@@ -174,7 +174,7 @@ Claude makes changes immediately after analyzing. Use for:
 
 **Flow**: Ask → Analyze (1-2 sec) → Propose → Apply
 
-### Plan Mode (`/plan`)
+### Plan mode (`/plan`)
 
 Claude thinks first, proposes a plan, waits for approval before making changes. Use for:
 - Complex features
@@ -192,7 +192,7 @@ Refactor the authentication system to use JWT instead of sessions
 
 Claude responds with a step-by-step plan for you to review.
 
-### Think Mode (`/think`)
+### Think mode (`/think`)
 
 Claude shows extended reasoning, thinking through the problem step-by-step. Use for:
 - Understanding complex bugs
@@ -204,9 +204,9 @@ Claude shows extended reasoning, thinking through the problem step-by-step. Use 
 
 ---
 
-## Structuring Effective Requests
+## Structuring effective requests
 
-### The Framework: WHAT, WHERE, HOW, VERIFY
+### The framework: WHAT, WHERE, HOW, VERIFY
 
 Good requests follow this pattern:
 
@@ -217,7 +217,7 @@ Good requests follow this pattern:
 | **HOW** | Constraints | "without changing the API signature" |
 | **VERIFY** | Expected result | "All existing tests should pass" |
 
-### Example Good Request
+### Example good request
 
 ```
 Fix the bug where login fails for emails with + symbols
@@ -226,7 +226,7 @@ HOW: Update the regex to allow + in emails, but keep existing validation otherwi
 VERIFY: Existing tests in tests/auth.test.js should pass
 ```
 
-### Example Poor Request
+### Example poor request
 
 ```
 Fix the bugs
@@ -236,11 +236,11 @@ Claude has to ask follow-up questions instead of solving immediately.
 
 ---
 
-## Session Context
+## Session context
 
 A **session** is your current conversation with Claude.
 
-### Session Facts
+### Session facts
 
 - Starts when you run `claude`
 - Ends when you exit or run `/clear`
@@ -248,7 +248,7 @@ A **session** is your current conversation with Claude.
 - Scoped to one project
 - Can be managed with `/rewind` (go back N steps)
 
-### Checkpoint Sessions
+### Checkpoint sessions
 
 To save a session (optional):
 ```bash
@@ -262,7 +262,7 @@ Later, restore:
 
 ---
 
-## Exercise: The Complete Loop
+## Exercise: The complete loop
 
 ### Task: Create a simple utility function
 
@@ -297,7 +297,7 @@ VERIFY: Write tests in tests/validators.test.js
 
 ---
 
-## Key Takeaways
+## Key takeaways
 
 ✓ Every request follows: read → analyze → decide → propose → apply
 
@@ -311,7 +311,7 @@ VERIFY: Write tests in tests/validators.test.js
 
 ---
 
-## Validation: You're Ready If...
+## Validation: You're ready if...
 
 ✓ You can explain the 7-step loop to someone else
 ✓ You understand what "context" means and why it matters
@@ -321,7 +321,7 @@ VERIFY: Write tests in tests/validators.test.js
 
 ---
 
-## What's Next?
+## What's next?
 
 **Module 03: Memory & Config** covers:
 - Creating your first CLAUDE.md

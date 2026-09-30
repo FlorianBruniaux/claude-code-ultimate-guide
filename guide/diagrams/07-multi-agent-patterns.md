@@ -4,13 +4,13 @@ description: "Agent topologies, worktrees, dual-instance planning, horizontal sc
 tags: [multi-agent, patterns, worktrees, orchestration, scaling]
 ---
 
-# Multi-Agent Patterns
+# Multi-agent patterns
 
 Patterns for coordinating multiple Claude instances for parallel and complex work.
 
 ---
 
-### Agent Teams: 3 Orchestration Topologies
+### Agent teams: 3 orchestration topologies
 
 Three proven topologies for multi-agent coordination. Choose based on task independence, ordering requirements, and specialization needs.
 
@@ -88,7 +88,7 @@ W1    W2     W3              Agent B (implement)   Code Test Docs
 
 ---
 
-### Git Worktree Multi-Instance Pattern
+### Git worktree multi-instance pattern
 
 Git worktrees enable true parallel development: each Claude instance works in an isolated branch with its own working tree. No conflicts, no context mixing.
 
@@ -152,7 +152,7 @@ All merge back to main when done
 
 ---
 
-### Dual-Instance Planning Pattern (Jon Williams)
+### Dual-Instance planning pattern (Jon Williams)
 
 Separating planning from execution using two Claude instances prevents costly mistakes: the planner Claude has no tools, so it can't accidentally execute anything during analysis.
 
@@ -202,7 +202,7 @@ Executor → User: results
 
 ---
 
-### Boris Cherny Horizontal Scaling Pattern
+### Boris Cherny horizontal scaling pattern
 
 When tasks can be parallelized, spawn N Claude instances simultaneously instead of running them sequentially. The speedup is proportional to task independence.
 
@@ -270,7 +270,7 @@ Aggregate → Integration review
 
 ---
 
-### Multi-Instance Decision Matrix
+### Multi-Instance decision matrix
 
 Not every task needs multiple instances. This decision tree guides you to the right pattern based on task characteristics.
 
@@ -344,7 +344,7 @@ Need multiple instances?
 
 ---
 
-### Cross-Session Messaging: Discovery & Delivery
+### Cross-Session messaging: Discovery & delivery
 
 Independent Claude Code sessions, no spawn relationship between them, discover each other with `ListAgents` and message each other with `SendMessage`. Whether the message ever touches Anthropic's servers depends entirely on where the target session runs.
 

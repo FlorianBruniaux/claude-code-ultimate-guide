@@ -9,7 +9,7 @@ decision: "Minimal — add 2-sentence historical arc intro to mcp-vs-cli.md only
 tags: [mcp, cli, tokens, architecture, decision, community]
 ---
 
-# Evaluation: Arnaud Gaches: "MCP vs CLI" Community Synthesis
+# Evaluation: Arnaud Gaches: "MCP vs CLI" community synthesis
 
 **Source**: LinkedIn post dated March 20, 2026. Summary of discussions from the Dev with IA community (devw.ai). Names of contributors used first names only.
 

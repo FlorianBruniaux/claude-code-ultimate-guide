@@ -1,4 +1,4 @@
-# Resource Evaluation #071: Steven Ge: Claude Code for Technical Writing
+# Resource evaluation #071: Steven ge: Claude Code for technical writing
 
 **Source:** [LinkedIn Post](https://www.linkedin.com/posts/steven-ge-ab016947_i-started-using-claude-code-for-technical-activity-7432831185392816129-ARa8?utm_source=share&utm_medium=member_desktop&rcm=ACoAABGhhKgBLYdSS8KjqEyTSCUE4m21LrNR0_I)
 **Author:** Steven Ge (14.6K followers, academic/technical writer and educator)
@@ -86,7 +86,7 @@
 
 ---
 
-## ✅ Fact-Check
+## ✅ Fact-check
 
 | Affirmation | Vérifiée | Source |
 |-------------|----------|--------|

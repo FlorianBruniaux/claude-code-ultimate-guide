@@ -5,7 +5,7 @@ model: sonnet
 tools: Read
 ---
 
-# Anomaly Detector Agent
+# Anomaly detector agent
 
 Second stage. Read structured events from `cyber-defense-events.json`, detect anomalies and known attack patterns.
 
@@ -15,25 +15,25 @@ Second stage. Read structured events from `cyber-defense-events.json`, detect an
 
 Read `cyber-defense-events.json` produced by log-ingestor.
 
-## Detection Rules
+## Detection rules
 
-### Volume Anomalies
+### Volume anomalies
 - AUTH_FAILURE > 10 in any 5-minute window → brute force attempt
 - Same source IP appearing in > 5 AUTH_FAILURE events → credential stuffing
 - ERROR spike > 3x baseline → potential DoS or application crash
 
-### Pattern Anomalies
+### Pattern anomalies
 - Sequential port scanning signatures in source IPs
 - SQL keywords in request paths (`SELECT`, `UNION`, `DROP`, `--`)
 - Path traversal patterns (`../`, `%2e%2e`, `..%2F`)
 - XSS vectors (`<script>`, `javascript:`, `onerror=`)
 
-### Behavioral Anomalies
+### Behavioral anomalies
 - Access to `/admin`, `/config`, `/.env`, `/.git` from external IPs
 - High-frequency requests from single IP (> 100/min)
 - Off-hours activity if timestamps available
 
-## Output Format
+## Output format
 
 Write detected anomalies to `cyber-defense-anomalies.json`:
 

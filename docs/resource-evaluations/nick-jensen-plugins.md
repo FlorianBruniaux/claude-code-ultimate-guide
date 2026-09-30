@@ -1,4 +1,4 @@
-# Resource Evaluation: Claude Code Plugins Developer Productivity
+# Resource evaluation: Claude Code plugins developer productivity
 
 **URL**: https://www.nickjensen.co/posts/claude-code-plugins-developer-productivity
 **Author**: Nick Jensen (Product Engineering)
@@ -8,7 +8,7 @@
 
 ---
 
-## Executive Summary
+## Executive summary
 
 | Criterion | Value |
 |-----------|-------|
@@ -20,7 +20,7 @@
 
 ---
 
-## Content Summary
+## Content summary
 
 Article covering Claude Code plugins:
 - Plugin architecture (`.claude-plugin/` structure with manifest.json)
@@ -31,9 +31,9 @@ Article covering Claude Code plugins:
 
 ---
 
-## Fact-Check Results
+## Fact-check results
 
-### Claims Verified Against Article Source
+### Claims verified against article source
 
 | Claim | In Article | Status |
 |-------|-----------|--------|
@@ -44,7 +44,7 @@ Article covering Claude Code plugins:
 | 47 progressive disclosure skills | ✅ | Verified |
 | 44 tools across 23 categories | ✅ | Verified |
 
-### Perplexity Deep Verification
+### Perplexity deep verification
 
 | Claim | Reality (Jan 2026) | Source |
 |-------|-------------------|--------|
@@ -54,7 +54,7 @@ Article covering Claude Code plugins:
 
 ---
 
-## Why Score Dropped from 4/5 to 2/5
+## Why score dropped from 4/5 to 2/5
 
 1. **Stats are outdated**: 63/85/47 was an earlier version, now 67/99/107
 2. **Onboarding claim is anecdotal**: "4-6 weeks → 1-2 weeks" appears nowhere else
@@ -66,7 +66,7 @@ Article covering Claude Code plugins:
 
 ---
 
-## Primary Sources Discovered (Better Alternatives)
+## Primary sources discovered (better alternatives)
 
 | Source | Value | URL |
 |--------|-------|-----|
@@ -79,11 +79,11 @@ Article covering Claude Code plugins:
 
 ---
 
-## Integration Actions Taken
+## Integration actions taken
 
 Instead of integrating Nick Jensen's article, we integrated **primary sources**:
 
-### 1. Fixed Section 8.5 "Creating Custom Plugins" (guide/ultimate-guide.md)
+### 1. Fixed section 8.5 "Creating Custom Plugins" (guide/ultimate-guide.md)
 
 **Before** (incorrect):
 ```
@@ -123,7 +123,7 @@ my-plugin/
 
 ---
 
-## Lessons Learned
+## Lessons learned
 
 1. **Always verify stats against primary sources** - blog posts often cite outdated data
 2. **Productivity claims need external validation** - anecdotal improvements are not generalizable
@@ -132,7 +132,7 @@ my-plugin/
 
 ---
 
-## Related Evaluations
+## Related evaluations
 
 - [se-cove-plugin.md](./se-cove-plugin.md) - First plugin example integrated
 

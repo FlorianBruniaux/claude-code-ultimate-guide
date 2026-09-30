@@ -1,4 +1,4 @@
-# Resource Evaluation: Boris Cherny - Claude Code & Cowork Interview
+# Resource evaluation: Boris Cherny - Claude Code & Cowork interview
 
 **Date**: 2026-01-26
 **Evaluator**: Claude (Sonnet 4.5)
@@ -6,7 +6,7 @@
 
 ---
 
-## Resource Details
+## Resource details
 
 **Source**: YouTube video interview
 **URL**: https://www.youtube.com/watch?v=DW4a1Cm8nG4
@@ -32,7 +32,7 @@ Interview covering:
 
 ---
 
-## Evaluation Score: 3/5
+## Evaluation score: 3/5
 
 **Rating**: Pertinent - Amélioration modérée
 
@@ -56,9 +56,9 @@ Interview covering:
 
 ---
 
-## Gap Analysis
+## Gap analysis
 
-### Gaps Identified
+### Gaps identified
 
 | Gap | Priority | Status |
 |-----|----------|--------|
@@ -68,7 +68,7 @@ Interview covering:
 | Boris direct quotes in case study | 🟡 Medium | ✅ Integrated (line ~10726) |
 | Cowork overview | 🟢 Low | ⏭️ Skipped (already covered) |
 
-### What Was Already Covered
+### What was already covered
 
 | Topic | Guide Coverage | Quality |
 |-------|----------------|---------|
@@ -83,9 +83,9 @@ Interview covering:
 
 ---
 
-## Integration Details
+## Integration details
 
-### 1. Compounding Memory (guide/ultimate-guide.md ~3254)
+### 1. Compounding memory (guide/ultimate-guide.md ~3254)
 
 **Added**:
 - Philosophy explanation: "You should never have to correct Claude twice"
@@ -96,7 +96,7 @@ Interview covering:
 
 **Rationale**: Transforms CLAUDE.md from "config file" to "organizational learning system"
 
-### 2. Plan-First Discipline (guide/core/methodologies.md ~61)
+### 2. Plan-first discipline (guide/core/methodologies.md ~61)
 
 **Added**:
 - New "Foundational Discipline" section (between Tier 1 and Tier 2)
@@ -108,7 +108,7 @@ Interview covering:
 
 **Rationale**: Elevates plan-first from feature to systematic discipline
 
-### 3. Verification Loops Expansion (guide/core/methodologies.md ~214)
+### 3. Verification loops expansion (guide/core/methodologies.md ~214)
 
 **Enhanced existing section**:
 - Generalized beyond TDD to architectural pattern
@@ -119,7 +119,7 @@ Interview covering:
 
 **Rationale**: Captures broader pattern applicable across all domains
 
-### 4. Boris Quotes (guide/ultimate-guide.md ~10743)
+### 4. Boris quotes (guide/ultimate-guide.md ~10743)
 
 **Added to case study**:
 - 4 direct quotes (multi-clauding, CLAUDE.md, plan-first, verification)
@@ -131,7 +131,7 @@ Interview covering:
 
 ---
 
-## Fact-Check Results
+## Fact-check results
 
 | Claim | Verified | Source |
 |-------|----------|--------|
@@ -154,17 +154,17 @@ Interview covering:
 
 ---
 
-## Technical Writer Challenge
+## Technical writer challenge
 
 **Agent feedback** (technical-writer subagent):
 
-### Errors in Initial Evaluation
+### Errors in initial evaluation
 
 1. **Feature vs Mental Model Confusion**: Guide documents CLAUDE.md as feature, video explains as system of thought
 2. **Plan-first Underestimated**: Confused `/plan` command (feature) with plan-first discipline (workflow system)
 3. **Verification Loops Limited**: Pattern architectural général non capturé, limité au TDD
 
-### Risks of Non-Integration
+### Risks of non-integration
 
 | Risk | Probability | Impact | Severity |
 |------|-------------|--------|----------|
@@ -182,14 +182,14 @@ Integration conditionally approved based on high-priority mental models.
 
 ## Recommendations
 
-### For Future Evaluations
+### For future evaluations
 
 1. **Always view primary source** (not just summaries)
 2. **Distinguish features from mental models** in gap analysis
 3. **Challenge overlap assumptions** (mention ≠ explanation)
 4. **Verify quotes directly** before integration
 
-### For This Resource
+### For this resource
 
 **Completed**:
 - ✅ High-priority mental models integrated
