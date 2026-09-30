@@ -17,12 +17,13 @@ keywords:
 > **Release dates**: UTC publication dates from the [official npm package metadata](https://registry.npmjs.org/@anthropic-ai%2Fclaude-code). Only versions with upstream changelog entries are included.
 > **Machine-readable**: [claude-code-releases.yaml](../../machine-readable/claude-code-releases.yaml)
 
-**Latest**: v2.1.284 | **Updated**: 2026-09-28
+**Latest**: v2.1.285 | **Updated**: 2026-09-29
 
 ---
 
 ## Quick Jump
 
+- [v2.1.285](#v21285-2026-09-29): `allowedProviders`, `claude --desktop`, time-limited background commands, 1M context behind custom base URLs and permission-check fixes
 - [v2.1.284](#v21284-2026-09-28): Sonnet 5.5, auto mode by default in interactive sessions, Ultracode toggle and stream and compaction recovery fixes
 - [v2.1.283](#v21283-2026-09-25): `deniedModels` and exact `availableModels` matching, `/doctor prompt-audit` and MCP lifecycle fixes
 - [v2.1.282](#v21282-2026-09-24): `maxProseWidth`, project-level OpenTelemetry variables ignored and managed-settings validation fixes
@@ -50,6 +51,17 @@ keywords:
 ---
 
 ## 2.1.x Series (January-August 2026)
+
+### v2.1.285 (2026-09-29)
+
+- **Added**: `claude --desktop` opens the Claude desktop app on the current directory, or on a session with `--continue` / `--resume <id>`. `claude plugin configure <plugin>` shows a plugin's options and which are unset, or saves new values from stdin with `--values-stdin`. `claude plugin install --config` accepts `<server>.<key>=<value>`, so a bundled `.mcpb` MCP server can be configured at install time.
+- **Added**: An `allowedProviders` managed setting limits which API providers a machine may use: Anthropic API, a custom endpoint, Bedrock, Mantle, Vertex AI, Foundry, Claude Platform on AWS or a Cloud gateway. `CLAUDE_CODE_DISABLE_WEB_FETCH` turns off the WebFetch tool, and `CLAUDE_CODE_NONSTREAMING_TIMEOUT_RETRIES` caps re-sends of a timed-out non-streaming fallback request.
+- **Changed**: Background Bash and PowerShell commands stop after a time limit (their `timeout` with `run_in_background`, default 30 min, max 2 h), and Claude is notified. Sessions behind a custom `ANTHROPIC_BASE_URL` use the 1M context window of models that have one (Opus 4.7+, Sonnet 5+, Fable); run `/autocompact 200k` if the gateway stops at 200K.
+- **Changed**: `claude -p` and Python Agent SDK sessions on third-party providers or with telemetry off start in auto mode when no permission mode is configured. Team and Enterprise sessions withhold WebFetch until the organization policy loads if it could not load at startup. The MCP server name `widgets` is reserved in cloud sessions and on self-hosted runners, `/ultrareview` on macOS and Linux requires git 2.31+ for local uploads, and `/tasks` folds Claude Code's own background work under one "System tasks" row.
+- **Fixed** (security): The PowerShell tool's permission check no longer skips deny and ask rules when its command parser fails to start. An `Artifact` allow rule no longer publishes files outside the working directories without asking. Redacted logs no longer show part of a URL password containing `@` or `%40`, `/ultrareview` uploads leave out changed credential files such as `server:8443.key`, and the `/claude-api` eval scaffold no longer writes through planted symlinks or hard links.
+- **Fixed**: Fork subagents keep the parent's plan mode or `dontAsk` mode, `claude -p --permission-prompt-tool` receives background subagent permission requests, a reply from `claude agents` no longer approves a pending command by accident, and failing streaming requests share one retry budget instead of retrying up to 21 times.
+- **Fixed**: Claude Code starts with a warning instead of refusing when the OS denies reading the managed settings file, plugin installs over SSH honor `GIT_SSH` and `core.sshCommand`, synchronous hooks no longer hang on background processes they start, and `claude mcp list` includes WebSocket servers.
+- **Improved**: `/resume` and `claude --resume` open a session already running in the background, auto-mode subagents stop as soon as they hand back their report, and Bedrock and Vertex sessions fall back to an older model of the same tier when access to the default is removed.
 
 ### v2.1.284 (2026-09-28)
 
@@ -3587,6 +3599,9 @@ keywords:
 
 | Version | Change |
 |---------|--------|
+| v2.1.285 | Background Bash and PowerShell commands stop after their `timeout` with `run_in_background` (default 30 min, max 2 h); Claude is notified when one is stopped. |
+| v2.1.285 | Sessions behind a custom `ANTHROPIC_BASE_URL` use the 1M context window of models that have one (Opus 4.7+, Sonnet 5+, Fable); run `/autocompact 200k` if the gateway stops at 200K. |
+| v2.1.285 | `claude -p` and Python Agent SDK sessions on third-party providers or with telemetry off start in auto mode when no permission mode is configured; `--permission-mode` still overrides it. |
 | v2.1.284 | Interactive terminal and VS Code sessions start in auto mode when no permission mode is configured, on every plan and provider; `permissions.defaultMode` still overrides it. |
 | v2.1.284 | Ultracode is a separate `/effort` toggle (Tab, or `/effort ultracode [on\|off]`) and no longer forces xhigh effort. |
 | v2.1.284 | Under managed `allowManagedPermissionRulesOnly`, only plugins from an official Anthropic source or a source managed settings vouch for keep `allowed-tools` pre-approval; marketplace, claude.ai and npm plugins lose it. |
@@ -3647,6 +3662,7 @@ keywords:
 
 | Version | Issue |
 |---------|-------|
+| v2.1.285 | PowerShell deny and ask rules no longer skipped when the command parser fails to start, `Artifact` allow rules no longer cover files outside the working directories, URL passwords with `@` fully redacted |
 | v2.1.284 | Plugin `allowed-tools` pre-approval limited to trusted sources under `allowManagedPermissionRulesOnly`, externally symlinked rules and `.claude` directories require approval, unvalidated `ANTHROPIC_FOUNDRY_RESOURCE` values refused |
 | v2.1.283 | Windows PowerShell `cmd /c` deletions of drive roots and the home folder blocked, invalid managed `sandbox` values fail closed |
 | v2.1.282 | Repository and user skill `allowed-tools` pre-approval blocked under `allowManagedPermissionRulesOnly`, mistyped managed lock keys enforced, project-level OpenTelemetry export ignored |

@@ -3,8 +3,8 @@
 # Purpose: Track Claude Code product releases for documentation sync
 # Maintained: Manual updates when new releases are announced
 
-latest: "2.1.284"
-updated: "2026-09-28"
+latest: "2.1.285"
+updated: "2026-09-29"
 
 # ════════════════════════════════════════════════════════════════
 # RELEASES (newest first, condensed highlights only)
@@ -14,6 +14,19 @@ releases:
   # ─────────────────────────────────────────────────────────────
   # 2.1.x Series (January-August 2026)
   # ─────────────────────────────────────────────────────────────
+
+  - version: "2.1.285"
+    date: "2026-09-29"
+    highlights:
+      - "Added `claude --desktop`, `claude plugin configure <plugin>`, `<server>.<key>=<value>` for bundled `.mcpb` servers in `claude plugin install --config` and a `CLAUDE_CODE_DISABLE_WEB_FETCH` variable"
+      - "Added an `allowedProviders` managed setting that limits which API providers a machine may use (Anthropic API, custom endpoint, Bedrock, Mantle, Vertex AI, Foundry, Claude Platform on AWS or a Cloud gateway)"
+      - "Changed background Bash and PowerShell commands to stop at a time limit (default 30 min, max 2 h) and sessions behind a custom `ANTHROPIC_BASE_URL` to use the 1M context window of models that have one"
+      - "Fixed PowerShell permission checks skipping deny and ask rules when the parser failed to start, an Artifact allow rule publishing files outside the working directories, fork subagents escaping plan or `dontAsk` mode and streaming failures retried up to 21 times"
+    breaking:
+      - "Background Bash and PowerShell commands stop after their `timeout` with `run_in_background` (default 30 min, max 2 h); Claude is notified when one is stopped."
+      - "Sessions behind a custom `ANTHROPIC_BASE_URL` use the 1M context window of models that have one (Opus 4.7+, Sonnet 5+, Fable); run `/autocompact 200k` if the gateway stops at 200K."
+      - "`claude -p` and Python Agent SDK sessions on third-party providers or with telemetry off start in auto mode when no permission mode is configured; `--permission-mode` still overrides it."
+      - "The MCP server name `widgets` and close spellings are reserved in cloud sessions and on self-hosted runners; `/ultrareview` on macOS and Linux requires git 2.31+ for local uploads; on Windows, project and local settings `env` no longer set `ALLUSERSPROFILE`, `SystemDrive` or `CommonProgramFiles` variables."
 
   - version: "2.1.284"
     date: "2026-09-28"
