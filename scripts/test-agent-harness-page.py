@@ -255,7 +255,7 @@ class AgentHarnessPageTests(unittest.TestCase):
     def test_page_keeps_source_criticism_and_trial_protocol(self):
         built = self.builder.build_page(self.page, self.catalog)
         for required in (
-            "160 Projects Does Not Mean 160 Runtime Harnesses",
+            "160 projects does not mean 160 runtime harnesses",
             "86 deep-dive profiles",
             "8 to 12 representative tasks",
             "accepted-task cost",
