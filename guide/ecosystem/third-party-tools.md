@@ -4,15 +4,15 @@ description: "40+ Claude Code extensions verified against public repos, with ins
 tags: [reference, integration, plugin, security]
 ---
 
-# Claude Code community tools: 40+ Extensions verified June 2026
+# Claude Code community tools: 40+ extensions
 
-This page catalogs community-built tools that extend Claude Code, organized by use case. Every entry has been verified against its public repository or package registry. For each category, the "When to use" comparison explains which tool fits which workflow, because the right choice depends on your stack and constraints, not just star count.
+This page catalogs community-built tools that extend Claude Code, organized by use case. Entries were checked against public repositories or package registries at different dates; dated versions, counts and status notes are snapshots, not a current audit of every tool. For each category, the "When to use" comparison explains which tool fits which workflow, because the right choice depends on your stack and constraints, not just star count.
 
 This is not a list of AI tools that complement Claude Code generally. It covers only tools whose primary purpose is extending the Claude Code CLI itself. For broader AI ecosystem coverage, see [AI Ecosystem](./ai-ecosystem.md). For MCP server recommendations, see [MCP Servers Ecosystem](./mcp-servers-ecosystem.md).
 
 These extensions may observe, configure, or coordinate Claude Code, but they do not necessarily own an agent loop. Use the [Agent Harness Map](./agent-harness-landscape.md) for the strict runtime comparison and a wider sourced directory, [Agent Harness Engineering](../core/agent-harness.md) for the layer boundaries, and [Agent Tools: Beyond Claude Code](./agentic-tools.md) for runtime-adjacent frameworks and control planes. Evaluate, observe, and secure an added tool through [Agent Evaluation](../roles/agent-evaluation.md), [Session Observability](../ops/observability.md), and [Security Hardening](../security/security-hardening.md). The [glossary](../core/glossary.md) defines the distinctions.
 
-> **Last verified**: June 2026. 40+ tools across 17 categories.
+> **Verification history**: Initial catalog checked in June 2026; selected entries were updated through September 2026. Check each tool's source before installation. 40+ tools across 17 categories.
 
 ## Table of contents
 
@@ -848,7 +848,7 @@ agentshield scan --opus --stream
 **Limitations**:
 - Rules are not independently audited; treat the grade as a useful signal, not a compliance certification
 - `--opus` mode triggers Opus 4.6 API calls; budget accordingly before enabling in CI
-- Project is 2 months old, so the API surface may evolve; pin to a specific version in production
+- API surface may evolve; pin to a specific version in production
 
 > **See also**: [Security Hardening guide](../security/security-hardening.md) for manual hook and permission patterns.
 

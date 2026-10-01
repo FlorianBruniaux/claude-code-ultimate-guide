@@ -12,7 +12,7 @@ tags: [architecture, guide, performance]
 
 **Reading time**: ~25 minutes (full) | ~5 minutes (TL;DR only)
 
-**Last verified**: February 2026 (Claude Code v2.1.34)
+**Last verified**: October 2026 for the tool inventory, context-window and sub-agent claims corrected below. Other sections retain their cited source dates.
 
 ---
 
@@ -42,15 +42,15 @@ Read [Agent Harness Engineering](./agent-harness.md) for the four-layer model an
 
 1. **Simple Loop**: Claude Code runs a `while(tool_call)` loop, with no DAGs, no classifiers, no RAG. The model decides everything.
 
-2. **Eight Core Tools**: Bash (universal adapter), Read, Edit, Write, Grep, Glob, Task (sub-agents), TodoWrite. That's the entire arsenal.
+2. **Built-in and extensible tools**: Claude Code provides file editing, shell access, search, sub-agents and other built-in capabilities. The available set varies by version, model and configuration; the [tools reference](https://code.claude.com/docs/en/tools-reference) is the current inventory.
 
    **Search Strategy Evolution**: Early Claude Code versions experimented with RAG using Voyage embeddings for semantic code search. Anthropic switched to grep-based (ripgrep) agentic search after internal benchmarks showed superior performance with lower operational complexity: no index sync required, no security liabilities from external embedding providers. This "Search, Don't Index" philosophy trades latency/tokens for simplicity/security. Community plugins (ast-grep for AST patterns) and MCP servers (Serena for symbols, grepai for RAG) available for specialized needs.
 
    *Source*: [Latent Space podcast](https://www.latent.space/p/claude-code) (May 2025), ast-grep documentation
 
-3. **200K Token Budget**: Context window shared between system prompt, history, tool results, and response buffer. Auto-compacts at ~75-92% capacity.
+3. **Model-dependent context budget**: The context window is shared between instructions, history, tool results and responses. Supported models and account configurations can provide 200K or 1M tokens; [model configuration](https://code.claude.com/docs/en/model-config#extended-context) documents availability and auto-compaction controls.
 
-4. **Sub-agents = Isolation**: The `Task` tool spawns sub-agents with their own context. They cannot spawn more sub-agents (depth=1). Only their summary returns.
+4. **Sub-agents = Isolation**: Sub-agents have their own context and return a summary to the parent. They can [spawn nested sub-agents](https://code.claude.com/docs/en/sub-agents#let-subagents-spawn-their-own-subagents), up to three layers below the main conversation by default.
 
 5. **Philosophy**: "Less scaffolding, more model." Trust Claude's reasoning instead of building complex orchestration systems around it.
 
@@ -285,8 +285,8 @@ Use this checklist to verify you understand Claude Code's full surface area. Eac
   - Safe architectural exploration
   - See: [Ultimate Guide Section 2.3](#23-plan-mode)
 
-- [ ] **Task Tool**: Hierarchical task delegation to specialized agents
-  - Parallel task execution, depth=1 sub-agents
+- [ ] **Agent Tool**: Hierarchical task delegation to specialized agents
+  - Parallel task execution; nesting is configurable (three layers by default)
   - See: [Section 4.2 Sub-Agent Architecture](#4-sub-agent-architecture)
 
 - [ ] **Agent Teams**: Multi-agent parallel coordination (experimental v2.1.32+)
@@ -320,7 +320,7 @@ Use this checklist to verify you understand Claude Code's full surface area. Eac
 **Confidence**: 100% (Tier 1 - Official)
 **Source**: [code.claude.com/docs](https://code.claude.com/docs/en/setup)
 
-These 8 tools cover 90% of day-to-day use, out of roughly 40 built-in tools total. See the [complete Tools Reference](./tools-reference.md) for every tool including Monitor, LSP, Workflow, Cron*, Task API, agent teams, and more.
+The tools below are examples, not an exhaustive inventory. See the [current tools reference](https://code.claude.com/docs/en/tools-reference) for availability by model and configuration.
 
 | Tool | Purpose | Key Behavior | Token Cost |
 |------|---------|--------------|------------|
@@ -330,7 +330,7 @@ These 8 tools cover 90% of day-to-day use, out of roughly 40 built-in tools tota
 | `Write` | Create/overwrite files | Must read first if file exists | Medium |
 | `Grep` | Search file contents | Ripgrep-based (regex), replaced RAG/embedding approach. For structural code search (AST-based), see ast-grep plugin. Trade-off: Grep (fast, simple) vs ast-grep (precise, setup required) vs Serena MCP (semantic, symbol-aware) | Low |
 | `Glob` | Find files by pattern | Path matching, sorted by mtime | Low |
-| `Agent` | Spawn sub-agents (formerly `Task`) | Isolated context, depth=1 limit | High (new context) |
+| `Agent` | Spawn sub-agents (formerly `Task`) | Isolated context, configurable nesting (three layers by default) | High (new context) |
 | `TodoWrite` | Track progress (legacy) | Superseded by Tasks API (v2.1.16+); disabled by default since v2.1.142 | Low |
 
 ### The bash universal adapter
@@ -368,7 +368,7 @@ Claude decides which tool to use based on the task. There's no hardcoded routing
 
 ### Extended tool ecosystem
 
-Beyond the 8 core tools, Claude Code can use:
+Beyond the built-in tools listed in the [tools reference](https://code.claude.com/docs/en/tools-reference), Claude Code can use:
 
 **MCP Servers** (Model Context Protocol):
 - **Serena**: Symbol-aware code navigation + session memory
@@ -416,13 +416,13 @@ Claude Code offers multiple ways to search code, each with specific strengths:
 - [platform.claude.com/docs](https://platform.claude.com/docs/en/build-with-claude/context-windows) (Tier 1)
 - Observed behavior (Tier 2)
 
-Claude Code operates within a fixed context window (~200K tokens, varies by model).
+Claude Code's context-window size depends on the model, plan and provider. Supported configurations provide 200K or 1M tokens; see [extended context](https://code.claude.com/docs/en/model-config#extended-context).
 
 ### Context budget breakdown
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                 CONTEXT BUDGET (~200K tokens)               │
+│             CONTEXT BUDGET (model-dependent)                │
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
 │  ┌──────────────────────────────────────────────────────┐   │
@@ -588,9 +588,9 @@ Source: [Nick Tune, Workflow DSL: Domain-Driven Claude Code Workflows](https://n
 ## 4. Sub-agent architecture
 
 **Confidence**: 100% (Tier 1 - Documented behavior)
-**Source**: [code.claude.com/docs](https://code.claude.com/docs/en/setup) + System prompt (visible in tool definitions)
+**Source**: [Claude Code sub-agent documentation](https://code.claude.com/docs/en/sub-agents)
 
-The `Task` tool spawns sub-agents for parallel or isolated work.
+Claude Code's agent tool spawns sub-agents for parallel or isolated work.
 
 ### Isolation model
 
@@ -601,16 +601,16 @@ The `Task` tool spawns sub-agents for parallel or isolated work.
 │  ┌───────────────────────────────────────────────────────┐  │
 │  │ Context: Full conversation + all file reads           │  │
 │  │                                                       │  │
-│  │         Task("Explore authentication patterns")       │  │
+│  │       Agent("Explore authentication patterns")        │  │
 │  │                        │                              │  │
 │  │                        ▼                              │  │
 │  │  ┌─────────────────────────────────────────────────┐  │  │
 │  │  │             SUB-AGENT (Spawned)                 │  │  │
 │  │  │                                                 │  │  │
 │  │  │  • Own fresh context window                     │  │  │
-│  │  │  • Receives: task description only              │  │  │
-│  │  │  • Has access to: same tools (except Task)      │  │  │
-│  │  │  • CANNOT spawn sub-sub-agents (depth = 1)      │  │  │
+│  │  │  • Receives: delegated task and agent config    │  │  │
+│  │  │  • Tools vary by agent and permission settings  │  │  │
+│  │  │  • May delegate (default depth: 3 layers)       │  │  │
 │  │  │  • Returns: summary text only                   │  │  │
 │  │  │                                                 │  │  │
 │  │  └─────────────────────────────────────────────────┘  │  │
@@ -624,14 +624,9 @@ The `Task` tool spawns sub-agents for parallel or isolated work.
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### Why depth = 1?
+### Nesting and limits
 
-Limiting sub-agents to one level prevents:
-
-1. **Recursive explosion**: Agent-ception would consume infinite resources
-2. **Context pollution**: Each level would accumulate context
-3. **Debugging nightmares**: Tracking multi-level agent chains is hard
-4. **Unpredictable costs**: Nested agents = unpredictable token usage
+Sub-agents can delegate up to three layers below the main conversation by default. The [depth limit](https://code.claude.com/docs/en/sub-agents#let-subagents-spawn-their-own-subagents) can be configured; a sub-agent without the agent tool cannot delegate. Each agent uses its own context and contributes to usage limits, so nested delegation needs explicit task boundaries.
 
 ### Sub-agent types
 
@@ -1555,7 +1550,7 @@ This convergence suggests that the "less scaffolding, more model" approach scale
 | **Architecture** | while(tool) loop | IDE agent + cloud coding agent | Event-driven + cloud | AWS-integrated agents |
 | **Execution** | Local terminal | Local (agent mode) + cloud VMs | Local + cloud | Cloud/local hybrid |
 | **Model** | Claude (single provider) | GPT, Claude, Codex (selectable) | Multiple (adaptive) | Amazon Titan + others |
-| **Context** | ~200K tokens | Full codebase (agent mode) | Codebase-aware (Composer) | Varies (AWS-scoped) |
+| **Context** | Model and configuration dependent (200K or 1M tokens) | Full codebase (agent mode) | Codebase-aware (Composer) | Varies (AWS-scoped) |
 | **Transparency** | High (visible reasoning) | Medium | Medium | Low |
 | **Customization** | CLAUDE.md + hooks + MCP | AGENTS.md, MCP (GA), custom agents | MCP Apps, .cursorrules | MCP (native), AWS integration |
 | **MCP Support** | Native | Yes (GA, auto-approve) | Yes (MCP Apps v2.6) | Yes (native) |
