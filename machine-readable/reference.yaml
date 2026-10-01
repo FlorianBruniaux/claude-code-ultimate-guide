@@ -1738,6 +1738,8 @@ deep_dive:
   local_vs_cloud_guide: "guide/ecosystem/local-vs-cloud-inference.md"
   local_vs_cloud_llmfit: "guide/ecosystem/local-vs-cloud-inference.md#sizing-local-hardware-with-llmfit"  # llmfit CLI, --memory vs --ram, backend-lock caveat
   local_vs_cloud_hardware_configs: "guide/ecosystem/local-vs-cloud-inference.md#fourteen-comparable-hardware-configurations"  # 14 complete systems, sorted by price, incl. Mac mini M6/M5 Pro and RTX 5060 Ti 16GB entry tier
+  local_vs_cloud_bandwidth_ecc: "guide/ecosystem/local-vs-cloud-inference.md#memory-bandwidth-prefill-and-ecc"  # bandwidth as decode ceiling, measured GB10 vs Strix Halo prefill, no ECC on unified-memory boxes, CUDA decision (rechecked 2026-10-01)
+  local_vs_cloud_small_team: "guide/ecosystem/local-vs-cloud-inference.md#one-machine-for-a-small-team"  # one desktop for 4-5 people: concurrency measurements, single point of failure, Apple lease vs H100 rental per month
   local_vs_cloud_named_models: "guide/ecosystem/local-vs-cloud-inference.md#what-actually-fits-named-models"  # Llama/Qwen/Mixtral/DeepSeek fit by memory budget
   local_vs_cloud_which_machine: "guide/ecosystem/local-vs-cloud-inference.md#which-local-machine-for-which-usage"  # usage-to-hardware table + Mermaid decision tree
   local_vs_cloud_vllm_tuning: "guide/ecosystem/local-vs-cloud-inference.md#serving-engine-tuning-vllm-in-production"  # vLLM O0-O3, prefix caching, chunked prefill, KV cache preemption, TP/PP/DP/EP, NUMA scope, multimodal cache flags
@@ -3326,6 +3328,7 @@ section_maps:
     - "sizing-local-hardware-with-llmfit"
     - "benchmark-protocol-before-you-buy"
     - "fourteen-comparable-hardware-configurations"
+    - "memory-bandwidth-prefill-and-ecc"
     - "what-actually-fits-named-models"
     - "which-local-machine-for-which-usage"
     - "serving-engine-tuning-vllm-in-production"
@@ -3339,6 +3342,7 @@ section_maps:
     - "decision-diagram"
     - "decision-framework"
     - "sizing-self-hosted-inference-for-a-team"
+    - "one-machine-for-a-small-team"
     - "switching-providers-at-the-cli-level"
   "guide/ecosystem/mcp-servers-ecosystem.md":
     - "official-vs-community-servers"
