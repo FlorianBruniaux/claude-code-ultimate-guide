@@ -1,0 +1,19 @@
+.github/workflows/rebuild-guide-exports.yml
+  s_4eb375a9065173::t_74cac71d1fb9ee 59-74,88
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "d7ca75f78d64dc210e3cdac6172fb809462d3a6e",
+  "prompts": {},
+  "sessions": {
+    "s_4eb375a9065173": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0f6ab-3d3e-7fa2-9f0e-2aae4c1ab380",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
