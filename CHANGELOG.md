@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- **Translation provenance repaired (October 1, 2026)**: rebind the English canonical checksum to its latest committed source, record the current French artifact hash and Git lag without claiming a new translation review, and synchronize the MCP registry mirror. French remains stale against the current English source.
+
 - **Architecture and community-tool freshness (October 1, 2026)**: correct the built-in-tool, context-window and nested-sub-agent descriptions against current Claude Code documentation; clarify that community-tool verification dates differ by entry and remove AgentShield's obsolete relative age.
 
 - **Local vs cloud inference rechecked (October 1, 2026)**: `guide/ecosystem/local-vs-cloud-inference.md` replaces the pre-launch Mac Studio M5 Ultra row with Apple's published prices, memory and 1.2 TB/s bandwidth, updates the Strix Halo and Gorgon Halo rows (Gorgon Halo announced but not shipping per a September 27 review), and adds two sections: "Memory bandwidth, prefill and ECC" (bandwidth table, measured GB10 vs Strix Halo prefill, Qwen3.8-27B results on DGX Spark and Ryzen AI Max+ 395, no ECC on unified-memory boxes, CUDA as a separate decision) and "One machine for a small team" (measured concurrency, single point of failure, Apple lease vs H100 rental per month). Two usage rows added. Both reference.yaml copies index the new anchors. Not verified: RTX PRO 6000 street price, current Strix Halo mini-PC prices.

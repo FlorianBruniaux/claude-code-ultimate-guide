@@ -26,7 +26,7 @@ That command validates the evidence in the registry. It does not review translat
 
 ## Verified inventory
 
-The maintained English and French full guides were reviewed on **2026-09-26** at version **3.43.0**. The French refresh reconciled source changes since 3.41.1 and repaired older omissions and code fences. Its recorded source hash matches the committed English guide. This was a Codex review, not a human editorial sign-off; see the [review record](../../docs/audits/2026-09-26-bilingual-publications.md).
+The maintained English and French full guides were reviewed on **2026-09-26** at version **3.43.0**. The French refresh reconciled source changes since 3.41.1 and repaired older omissions and code fences. Its recorded source hash matches the English guide at that recorded commit. Later English changes make the French full guide **stale against the current canonical source** as of 2026-10-01. This was a Codex review, not a human editorial sign-off; see the [review record](../../docs/audits/2026-09-26-bilingual-publications.md).
 
 | Edition | Version | Maintenance and coverage |
 |---------|---------|--------------------------|
