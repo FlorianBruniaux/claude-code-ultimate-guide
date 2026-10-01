@@ -56,8 +56,22 @@ jobs:
           find /tmp/jbmono -name "*.ttf" -exec cp {} ~/.local/share/fonts/ \;
           fc-cache -f
 
-      - name: Render reviewed English and French guides
-        run: TYPST_FONT_PATHS="$HOME/.local/share/fonts" python3 scripts/render-publications.py --collections guides --jobs 2
+      - name: Check guide translation provenance
+        id: translation
+        run: |
+          python3 scripts/check-translations.py --check
+          fr_state=$(jq -r '.translations[] | select(.language == "fr") | .sync_state' machine-readable/translations.json)
+          case "$fr_state" in
+            current) echo "languages=all" >> "$GITHUB_OUTPUT" ;;
+            stale)
+              echo "languages=en" >> "$GITHUB_OUTPUT"
+              echo "::notice::French full-guide export skipped until its translation is current."
+              ;;
+            *) echo "Unexpected French sync state: $fr_state" >&2; exit 1 ;;
+          esac
+
+      - name: Render reviewed guide languages
+        run: TYPST_FONT_PATHS="$HOME/.local/share/fonts" python3 scripts/render-publications.py --lang "${{ steps.translation.outputs.languages }}" --collections guides --jobs 2
 
       - name: Preserve source and output evidence
         uses: actions/upload-artifact@v4
@@ -71,7 +85,7 @@ jobs:
 
       - name: Update GitHub Release
         # Scheduled runs validate exports without replacing reviewed downloads.
-        if: github.event_name != 'schedule'
+        if: github.event_name != 'schedule' && steps.translation.outputs.languages == 'all'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: guide-export-v${{ steps.version.outputs.version }}
