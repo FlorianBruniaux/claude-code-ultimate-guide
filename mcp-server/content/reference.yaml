@@ -804,7 +804,7 @@ deep_dive:
   third_party_gitdiff_watcher_purpose: "Stop hook utility — enforces build/test quality gates before handoff, fires only when matching files changed"
   third_party_tools_alternative_uis: "guide/ecosystem/third-party-tools.md#alternative-uis"
   third_party_tools_model_routing: "guide/ecosystem/third-party-tools.md#model-routing"
-  third_party_agent_router: "guide/ecosystem/third-party-tools.md#agent-router"  # Per-phase model, effort and skill routing for Claude Code and Codex (FSL-1.1-ALv2, by the guide author)
+  third_party_agent_router: "guide/ecosystem/third-party-tools.md#agent-router"  # Per-phase model, effort and skill routing for Claude Code and Codex (FSL-1.1-ALv2, by the guide author, soon: repository not public yet)
   third_party_tools_known_gaps: "guide/ecosystem/third-party-tools.md#known-gaps"
   third_party_tools_recommendations: "guide/ecosystem/third-party-tools.md#recommendations-by-persona"
   third_party_ccusage: "https://www.npmjs.com/package/ccusage"
