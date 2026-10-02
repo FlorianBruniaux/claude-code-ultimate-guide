@@ -1,15 +1,15 @@
 {
   "schema_version": 1,
-  "snapshot_at": "2026-09-02T15:18:09Z",
+  "snapshot_at": "2026-10-02T16:50:00Z",
   "period": {
-    "start": "2026-08-01",
-    "end": "2026-08-31",
+    "start": "2026-09-01",
+    "end": "2026-09-30",
     "timezone": "UTC"
   },
   "sources": {
     "npm": {
       "status": "available",
-      "retrieved_at": "2026-09-02T15:18:09Z",
+      "retrieved_at": "2026-10-02T16:50:00Z",
       "scope": {
         "package": "claude-code-ultimate-guide-mcp"
       },
@@ -17,7 +17,7 @@
         "downloads": "npm package downloads during the completed calendar month"
       },
       "values": {
-        "downloads": 5562
+        "downloads": 1286
       },
       "reason": null
     },
