@@ -3,8 +3,8 @@
 # Purpose: Track Claude Code product releases for documentation sync
 # Maintained: Manual updates when new releases are announced
 
-latest: "2.1.285"
-updated: "2026-09-29"
+latest: "2.1.287"
+updated: "2026-10-01"
 
 # ════════════════════════════════════════════════════════════════
 # RELEASES (newest first, condensed highlights only)
@@ -14,6 +14,30 @@ releases:
   # ─────────────────────────────────────────────────────────────
   # 2.1.x Series (January-August 2026)
   # ─────────────────────────────────────────────────────────────
+
+  - version: "2.1.287"
+    date: "2026-10-01"
+    highlights:
+      - "⭐ Added Claude Mods, which let plugins modify deeper Claude Code behavior, and the built-in \"You should know\" mod, a side agent that flags things you or Claude might miss (`/plugin enable cc-plugin-you-should-know@builtin`)"
+      - "Added an `n:<text>` filter to the agents view, MCP URL prompts on the 2025-11-25 protocol, `prompt_text` on the OpenTelemetry `user_prompt` event and a built-in `gh api` for self-hosted runners without the GitHub CLI"
+      - "Changed Opus 4.7+ and Fable to use a 1M context window by default on Bedrock, Vertex, Foundry and the Claude apps gateway, and MCP `alwaysLoad: false` to defer all of a server's tools behind tool search"
+      - "Fixed a dangerous `rm` losing its always-ask safeguard when the command also redirected to a `~` or wildcard path, per-tool permission ceilings dropped for an MCP tool named `__proto__` and CLAUDE.md attached twice after resume or compaction"
+    breaking:
+      - "Opus 4.7+ and Fable use a 1M context window by default on Bedrock, Vertex, Foundry and the Claude apps gateway, with no `[1m]` suffix; `CLAUDE_CODE_DISABLE_1M_CONTEXT=1` keeps 200K."
+      - "MCP servers on the 2025-11-25 protocol can send URL prompts; if a server no longer connects, add `\"bareElicitationCapability\": true` to its MCP config entry. MCP `alwaysLoad: false` now defers all of that server's tools behind tool search."
+      - "The OpenTelemetry `user_prompt` event carries `prompt_text`, a copy of `prompt`; drop or mask it wherever `prompt` is dropped or masked. Replies from `claude agents` arrive as queued messages, and slash commands other than `/stop` sent during a turn run when it ends."
+
+  - version: "2.1.286"
+    date: "2026-09-30"
+    highlights:
+      - "Added a stack count (\"2 of 5\") to permission prompts and mouse support for the \"N more\" rows of lists in fullscreen mode; `/hooks` opens on one list of configured hooks grouped by event"
+      - "Changed failed API request retries to share one limit per model call (at most 14 requests with default settings) and `--bare` to connect only the MCP servers named on the command line, with no system reminders or background tasks"
+      - "Fixed `--resume` and `--continue` losing turns after parallel tool calls in a crashed session, API 400 errors from non-text tool or hook results, the gateway spend meter underpricing 1-hour cache writes and several secret-redaction gaps in logs and MCP errors"
+      - "Improved commit guidance: when a project or user skill named `verify` exists, Claude is told to run it before committing, except for docs-only and tests-only commits"
+    breaking:
+      - "`--bare` connects only the MCP servers named on the command line, sends no system reminders and starts no background tasks; under `--bare`, a shell command that reaches its timeout stops instead of moving to the background."
+      - "Plugin installs refuse npm sources that are git repositories or folders and install plugin dependencies only from registry packages; failed API requests share one retry limit per model call (at most 14 requests with default settings)."
+      - "[VSCode] Stop and Escape end only the current turn; background agents keep running and are stopped one by one from the agent map."
 
   - version: "2.1.285"
     date: "2026-09-29"
@@ -2199,6 +2223,7 @@ breaking_summary:
 # MILESTONE FEATURES (quick reference)
 # ════════════════════════════════════════════════════════════════
 milestones:
+  "2.1.287": "Claude Mods let plugins modify deeper Claude Code behavior, with the built-in \"You should know\" side-agent mod; Opus 4.7+ and Fable default to 1M context on Bedrock, Vertex, Foundry and the Claude apps gateway"
   "2.1.284": "Sonnet 5.5 becomes the default Sonnet model on the Anthropic API with 1M context; interactive terminal and VS Code sessions start in auto mode when no permission mode is configured; Ultracode becomes a separate /effort toggle"
   "2.1.280": "Opus 5.5 becomes the default Opus model with 1M context; Pro and Team Standard default to Opus; VS Code adds status, sandbox, Chrome, export and skills dialogs"
   "2.1.277": "AGENTS.md read as project instructions when no CLAUDE.md is present, subagent results framed as subagent output, TaskOutput tool removed, egress-boundary and static-header options for Claude apps gateways"

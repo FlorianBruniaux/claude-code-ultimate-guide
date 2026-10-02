@@ -17,12 +17,14 @@ keywords:
 > **Release dates**: UTC publication dates from the [official npm package metadata](https://registry.npmjs.org/@anthropic-ai%2Fclaude-code). Only versions with upstream changelog entries are included.
 > **Machine-readable**: [claude-code-releases.yaml](../../machine-readable/claude-code-releases.yaml)
 
-**Latest**: v2.1.285 | **Updated**: 2026-09-29
+**Latest**: v2.1.287 | **Updated**: 2026-10-01
 
 ---
 
 ## Quick jump
 
+- [v2.1.287](#v21287-2026-10-01): Claude Mods and the "You should know" side agent, 1M context by default on Bedrock, Vertex and Foundry, MCP URL prompts and `rm` safeguard fix
+- [v2.1.286](#v21286-2026-09-30): permission-prompt stack count, single retry budget per model call, stricter `--bare`, resume and secret-redaction fixes
 - [v2.1.285](#v21285-2026-09-29): `allowedProviders`, `claude --desktop`, time-limited background commands, 1M context behind custom base URLs and permission-check fixes
 - [v2.1.284](#v21284-2026-09-28): Sonnet 5.5, auto mode by default in interactive sessions, Ultracode toggle and stream and compaction recovery fixes
 - [v2.1.283](#v21283-2026-09-25): `deniedModels` and exact `availableModels` matching, `/doctor prompt-audit` and MCP lifecycle fixes
@@ -51,6 +53,27 @@ keywords:
 ---
 
 ## 2.1.x series (January-August 2026)
+
+### v2.1.287 (2026-10-01)
+
+- **Added** ⭐: Claude Mods let plugins modify deeper Claude Code behavior. The built-in "You should know" mod runs a side agent that flags things you or Claude might miss; turn it on with `/plugin enable cc-plugin-you-should-know@builtin` (first-party sessions with telemetry on).
+- **Added**: An `n:<text>` filter in the agents view matches session names and tasks, and Enter opens the first match. MCP servers on the 2025-11-25 protocol can send URL prompts, for example to sign in. The OpenTelemetry `user_prompt` event gains `prompt_text`, a copy of `prompt` for backends that nest dotted keys. Self-hosted runners get a built-in `gh api` (REST only) when the GitHub CLI is not installed.
+- **Changed**: Opus 4.7+ and Fable use a 1M context window by default on Bedrock, Vertex, Foundry and the Claude apps gateway, with no `[1m]` suffix; `CLAUDE_CODE_DISABLE_1M_CONTEXT=1` keeps 200K. MCP `alwaysLoad: false` defers all of that server's tools behind tool search. Replies from `claude agents` arrive as queued messages, and waiting permission prompts show oldest first.
+- **Changed** (security): A shell write through a repo-committed symlink onto a sensitive file or out of the working tree names where it lands and waits for a person. Whole-tool `Bash` allow rules and allowing hooks prompt for, rather than run, shell writes to files the file tools refuse outright, such as the host credentials file.
+- **Fixed** (security): A dangerous `rm` (on `/` or the home directory) no longer loses its always-ask safeguard when the same command redirects output to a `~` or wildcard path. Organization per-tool permission ceilings are no longer dropped for an MCP tool named `__proto__`, and sandboxed Bash commands on Linux no longer inherit an open handle on the Claude Code executable.
+- **Fixed**: A folder's CLAUDE.md is no longer attached twice after resume or compaction, switching between Opus 5.5 and Sonnet 5.5 no longer rewrites earlier MCP tool announcements, `claude -p` stops repeating a model fallback after a mid-reply switch, and Bedrock and Vertex startup model checks honor an enforced `availableModels` list.
+- **Fixed**: `asyncRewake` hooks with a missing script are reported once instead of waking Claude repeatedly, Remote Control gives up on an unanswered reconnect after 30 seconds, `claude remote-control` registers behind an HTTP proxy, and SessionStart hooks from synced plugins run in new cloud sessions.
+- **Improved**: `/config` cycles settings both ways with ←/→, plugin marketplace errors explain why a marketplace was refused, large MCP tool results use less memory, and screen reader mode gets eight fixes for cursor placement, hints and repeated announcements. VS Code adds "Run in background" for a running command or subagent.
+
+### v2.1.286 (2026-09-30)
+
+- **Added**: Stacked permission requests show a count such as "2 of 5", and the "N more" rows of fullscreen lists accept clicks to jump to that end of the list.
+- **Changed**: One retry limit now covers a whole model call, so a failing call sends at most 14 requests with default settings. `--bare` connects only the MCP servers named on the command line, sends no system reminders and starts no background tasks; a shell command reaching its timeout under `--bare` stops instead of moving to the background.
+- **Changed**: Plugin installs refuse npm sources that are git repositories or folders and install plugin dependencies only from registry packages. `/hooks` opens on one list of configured hooks grouped by event. In VS Code, Stop and Escape end only the current turn and background agents keep running.
+- **Fixed** (security): MCP error messages no longer show a credential's value when "Bearer" or "Basic" precedes its key name. Percent-encoded Bearer tokens, secrets whose key name contains an invisible character and URL passwords with punctuation are fully redacted in logs and transcripts.
+- **Fixed**: `claude --resume` and `--continue` no longer lose every turn after a batch of parallel tool calls when the earlier session crashed. Tools or hooks returning an object, number or boolean no longer cause API 400 errors, and a refused default model now triggers one retry on the previous model of the same tier.
+- **Fixed**: The Claude apps gateway spend meter prices 1-hour cache writes correctly and counts every model call's input tokens on turns that run server-side tools. Remote Control sessions disconnect when organization policy turns Remote Control off, and `/compact`, `/clear` and `/rewind` typed while viewing a background agent now ask which conversation to act on.
+- **Improved**: When a project or user skill named `verify` exists, Claude is told to run it right before committing, except for docs-only and tests-only commits. Ctrl+G opens editors on the prompt's cursor line, and the model fallback notice says when a fallback dropped the context window from 1M to 200K.
 
 ### v2.1.285 (2026-09-29)
 
@@ -3599,6 +3622,12 @@ keywords:
 
 | Version | Change |
 |---------|--------|
+| v2.1.287 | Opus 4.7+ and Fable use a 1M context window by default on Bedrock, Vertex, Foundry and the Claude apps gateway, with no `[1m]` suffix; `CLAUDE_CODE_DISABLE_1M_CONTEXT=1` keeps 200K. |
+| v2.1.287 | MCP servers on the 2025-11-25 protocol can send URL prompts; if a server no longer connects, add `"bareElicitationCapability": true` to its MCP config entry. MCP `alwaysLoad: false` now defers all of that server's tools behind tool search. |
+| v2.1.287 | The OpenTelemetry `user_prompt` event carries `prompt_text`, a copy of `prompt`; drop or mask it wherever `prompt` is dropped or masked. Replies from `claude agents` arrive as queued messages. |
+| v2.1.286 | `--bare` connects only the MCP servers named on the command line, sends no system reminders and starts no background tasks; a shell command reaching its timeout under `--bare` stops instead of moving to the background. |
+| v2.1.286 | Plugin installs refuse npm sources that are git repositories or folders and install plugin dependencies only from registry packages; failed API requests share one retry limit per model call (at most 14 requests by default). |
+| v2.1.286 | VS Code: Stop and Escape end only the current turn; background agents keep running and are stopped one by one from the agent map. |
 | v2.1.285 | Background Bash and PowerShell commands stop after their `timeout` with `run_in_background` (default 30 min, max 2 h); Claude is notified when one is stopped. |
 | v2.1.285 | Sessions behind a custom `ANTHROPIC_BASE_URL` use the 1M context window of models that have one (Opus 4.7+, Sonnet 5+, Fable); run `/autocompact 200k` if the gateway stops at 200K. |
 | v2.1.285 | `claude -p` and Python Agent SDK sessions on third-party providers or with telemetry off start in auto mode when no permission mode is configured; `--permission-mode` still overrides it. |
@@ -3662,6 +3691,8 @@ keywords:
 
 | Version | Issue |
 |---------|-------|
+| v2.1.287 | Dangerous `rm` keeps its always-ask safeguard when combined with a redirect to a `~` or wildcard path, per-tool permission ceilings enforced for an MCP tool named `__proto__`, shell writes through repo-committed symlinks to sensitive files wait for a person |
+| v2.1.286 | Credential values hidden in MCP error messages, percent-encoded Bearer tokens, secrets with invisible characters in key names and URL passwords with punctuation fully redacted, plugin installs limited to registry npm packages |
 | v2.1.285 | PowerShell deny and ask rules no longer skipped when the command parser fails to start, `Artifact` allow rules no longer cover files outside the working directories, URL passwords with `@` fully redacted |
 | v2.1.284 | Plugin `allowed-tools` pre-approval limited to trusted sources under `allowManagedPermissionRulesOnly`, externally symlinked rules and `.claude` directories require approval, unvalidated `ANTHROPIC_FOUNDRY_RESOURCE` values refused |
 | v2.1.283 | Windows PowerShell `cmd /c` deletions of drive roots and the home folder blocked, invalid managed `sandbox` values fail closed |
@@ -3697,6 +3728,7 @@ keywords:
 
 | Version | Key Features |
 |---------|--------------|
+| **v2.1.287** | Claude Mods let plugins modify deeper Claude Code behavior, with the built-in "You should know" side-agent mod; Opus 4.7+ and Fable default to 1M context on Bedrock, Vertex, Foundry and the Claude apps gateway |
 | **v2.1.284** | Sonnet 5.5 becomes the default Sonnet model on the Anthropic API with 1M context; interactive terminal and VS Code sessions start in auto mode when no permission mode is configured; Ultracode becomes a separate `/effort` toggle |
 | **v2.1.280** | Opus 5.5 becomes the default Opus model with 1M context; Pro and Team Standard default to Opus; VS Code adds status, sandbox, Chrome, export and skills dialogs |
 | **v2.1.277** | `AGENTS.md` read as project instructions when no `CLAUDE.md` is present, subagent results framed as subagent output, TaskOutput tool removed, egress-boundary and static-header options for Claude apps gateways |
