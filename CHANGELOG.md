@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- **Attack-surface link label updated (October 2, 2026)**: `guide/security/security-hardening.md` now cites the portfolio guide under its current title, "the attack surface few teams audit", instead of "nobody audits".
+
 - **Translation provenance repaired (October 1, 2026)**: rebind the English canonical checksum to its latest committed source, record the current French artifact hash and Git lag without claiming a new translation review, and synchronize the MCP registry mirror. French remains stale against the current English source.
 
 - **Architecture and community-tool freshness (October 1, 2026)**: correct the built-in-tool, context-window and nested-sub-agent descriptions against current Claude Code documentation; clarify that community-tool verification dates differ by entry and remove AgentShield's obsolete relative age.

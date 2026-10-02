@@ -14,7 +14,7 @@ keywords:
 >
 > **Scope**: Active threats (attacks, injection, CVE). For data retention and privacy, see [data-privacy.md](./data-privacy.md)
 >
-> **Further reading**: [the attack surface nobody audits](https://florian.bruniaux.com/guides/claude-code-attack-surface/) walks through sandbox, hooks, MCP, and supply chain in one pass.
+> **Further reading**: [the attack surface few teams audit](https://florian.bruniaux.com/guides/claude-code-attack-surface/) walks through sandbox, hooks, MCP, and supply chain in one pass.
 
 ---
 
