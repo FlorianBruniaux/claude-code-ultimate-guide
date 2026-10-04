@@ -308,6 +308,95 @@ stop and report it instead of editing it.
 
 A `PreToolUse` hook that denies `Edit` and `Write` on the characterization directory turns that instruction into a guarantee. Source: Addy Osmani, [Brownfield Agentic Engineering](https://addyo.substack.com/p/brownfield-agentic-engineering) (September 2026); for zones and migration completeness in legacy codebases, see [Legacy Codebase Modernization](../ultimate-guide.md#921-legacy-codebase-modernization).
 
+#### Find a seam before you write the first test
+
+Characterization tests assume you can call the code in a test harness. Legacy code often refuses: it opens an SMTP connection, reads the clock or hits the database from inside the function you want to pin. Michael Feathers' answer in *Working Effectively with Legacy Code* (2004, chapter 4) is the **seam**: "a place where you can alter behavior in your program without editing in that place". Every seam has an **enabling point**, the place where you decide which behavior runs. Feathers names three kinds:
+
+| Seam | Enabling point | Typical use |
+|------|----------------|-------------|
+| Object seam | Where the object is created or passed in (constructor, parameter, factory) | First choice in object-oriented code |
+| Link seam | Outside the code: classpath, linker, module resolution (in JavaScript, `jest.mock()`) | Hard-wired imports you would rather not edit |
+| Preprocessing seam | Macros and compiler flags | C and C++ |
+
+Both terms work as [semantic anchors](../ultimate-guide.md#29-semantic-anchors): Claude knows the book, so naming them gets you a structured answer instead of a generic "add some mocks".
+
+Once you have a seam, pick the test double by what the test needs from the dependency. Gerard Meszaros' *xUnit Test Patterns* (2007) names five; the [TDD skill's table](../../examples/skills/tdd-workflow.md#test-doubles) lists four of them:
+
+| Double | Use it when the test needs to... |
+|--------|----------------------------------|
+| Dummy | Fill a parameter the code path never uses |
+| Stub | Control an indirect input (a return value, the current time, an error) |
+| Spy | Record indirect outputs and assert on them afterwards |
+| Mock | Verify indirect outputs against expectations set up front, failing on the first unexpected call |
+| Fake | Replace a heavy dependency with a working lightweight one (in-memory repository) |
+
+Feathers gives two reasons to break a dependency: *sensing* (you cannot see what the code did) and *separation* (you cannot run the code at all). Sensing points to a spy or mock; separation points to a stub, fake or dummy. For characterization tests, a spy is usually the better fit than a mock: you are recording what the code does today, not prescribing what it should do.
+
+**One example, end to end.** This function cannot run in a test: it sends real mail and reads the real clock.
+
+```ts
+// src/billing/reminders.ts (before)
+export function sendOverdueReminders(invoices: Invoice[]) {
+  const mailer = new SmtpMailer(process.env.SMTP_HOST);
+  const today = new Date();
+  for (const inv of invoices) {
+    if (!inv.paid && inv.dueDate < today) {
+      mailer.send(inv.customerEmail, `Invoice ${inv.id} is overdue`);
+    }
+  }
+}
+```
+
+1. Ask for the analysis before any edit:
+
+   ```
+   Find the seams in sendOverdueReminders (Feathers, Working Effectively
+   with Legacy Code). For each dependency that blocks a unit test, name the
+   seam type and its enabling point, and say whether the test needs sensing
+   or separation. Then pick a test double from Meszaros' taxonomy and justify
+   it in one line. Do not change any code yet.
+   ```
+
+   A good answer: neither dependency has a seam yet, because both are created inside the function. Turning them into parameters creates object seams whose enabling point is the call site. The clock is an indirect input, so a stub. The mailer is an indirect output you need to sense, so a spy.
+
+2. Let Claude make the smallest change that creates the seam, nothing else:
+
+   ```
+   Create the two object seams with Parameterize Method. Keep the current
+   behavior as default arguments so no production caller changes.
+   No other edits.
+   ```
+
+   ```ts
+   export function sendOverdueReminders(
+     invoices: Invoice[],
+     mailer: Mailer = new SmtpMailer(process.env.SMTP_HOST),
+     today: Date = new Date(),
+   ) { /* body unchanged */ }
+   ```
+
+3. Pin the behavior through the seam, in a separate session as described above:
+
+   ```ts
+   it('reminds on the due date itself, not only after it', () => {
+     const sent: string[] = [];
+     const spy: Mailer = { send: (to) => { sent.push(to); } };
+     const today = new Date('2026-03-10T09:00:00Z');  // stub
+     const dueToday = invoice({ dueDate: new Date('2026-03-10T00:00:00Z'), paid: false });
+
+     sendOverdueReminders([dueToday], spy, today);
+
+     expect(sent).toEqual([dueToday.customerEmail]);
+   });
+   ```
+
+   The test name records an oddity worth keeping: due dates carry no time of day, so they sit at midnight and `dueDate < today` is already true on the morning an invoice falls due.
+
+4. Check the result before trusting it:
+   - `git diff` touches only the signature: the seam edit itself had no test to protect it, so it must be trivially reviewable.
+   - The test passes with the network off. If it does not, a default argument is still in play and the seam is not in use.
+   - In a scratch branch, "fix" the comparison to whole calendar days, as an agent might: the test must go red. If it stays green, it pins nothing.
+
 ---
 
 ## Example session

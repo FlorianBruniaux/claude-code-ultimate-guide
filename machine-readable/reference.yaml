@@ -1534,6 +1534,7 @@ deep_dive:
   brownfield_migration_completeness: "guide/ultimate-guide.md#921-legacy-codebase-modernization"  # Step 4: migration done only when old path deleted; SWE Refactor Bench "Blindness" 28/520 runs
   bun_rust_port_case_study: "guide/ultimate-guide.md#case-study-buns-zig-to-rust-port-with-claude-code"  # PORTING.md rulebook, 3-file pilot, oracle outside the change, 2 adversarial reviewers
   characterization_tests_independent_author: "guide/workflows/tdd-with-claude.md#tdd-with-legacy-code"  # tests pinned in a separate session, read-only for the refactoring session
+  legacy_test_seams_and_doubles: "guide/workflows/tdd-with-claude.md#find-a-seam-before-you-write-the-first-test"  # Feathers seam + enabling point, Meszaros dummy/stub/spy/mock/fake, one worked example with checks
   brownfield_evaluation: "docs/resource-evaluations/osmani-brownfield-agentic-engineering.md"
   bun_rust_port_evaluation: "docs/resource-evaluations/bun-rust-rewrite-claude-code.md"
   swe_refactor_bench: "https://arxiv.org/abs/2608.23564"
