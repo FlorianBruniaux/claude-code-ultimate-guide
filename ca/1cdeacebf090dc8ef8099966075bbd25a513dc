@@ -1,0 +1,33 @@
+CHANGELOG.md
+  s_0442fc18126ac8::t_79dcb3c8159c00 9-12
+examples/README.md
+  s_0442fc18126ac8::t_6c455d811ccd1a 375,377
+examples/semantic-anchors/anchor-catalog.md
+  s_0442fc18126ac8::t_dfda2109a09083 3,9-10,14,16-18,39,55,58-68,108,120-121,152-153,233,349-351,369
+guide/core/community-patterns.md
+  s_0442fc18126ac8::t_45e83c5744072a 114
+guide/ultimate-guide.fr.md
+  s_0442fc18126ac8::t_9e8286ef3378d7 4021,4023,4025,4027-4032,4034,4036,4038,4041,4043-4046,4049,4051
+guide/ultimate-guide.md
+  s_0442fc18126ac8::t_0ca5960def4025 3936,3938,3940,3942-3947,3949,3951,3953,3956,3958-3961,3964,3966
+whitepapers/recap-cards/en/c03-xml-prompting-anchors.qmd
+  s_0442fc18126ac8::t_287aa876ee1b9f 8,64,66,68-71,74-76
+whitepapers/recap-cards/fr/c03-xml-prompting-anchors.qmd
+  s_0442fc18126ac8::t_c8627ca0561985 8,64,66,68-71,74-76
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "ca1cdeacebf090dc8ef8099966075bbd25a513dc",
+  "prompts": {},
+  "sessions": {
+    "s_0442fc18126ac8": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a10267-4837-7722-820f-e80524de00a5",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
