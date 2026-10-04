@@ -310,27 +310,27 @@ A `PreToolUse` hook that denies `Edit` and `Write` on the characterization direc
 
 #### Find a seam before you write the first test
 
-Characterization tests assume you can call the code in a test harness. Legacy code often refuses: it opens an SMTP connection, reads the clock or hits the database from inside the function you want to pin. Michael Feathers' answer in *Working Effectively with Legacy Code* (2004, chapter 4) is the **seam**: "a place where you can alter behavior in your program without editing in that place". Every seam has an **enabling point**, the place where you decide which behavior runs. Feathers names three kinds:
+Characterization tests assume you can run the code in a test harness. Legacy code often refuses: it opens an SMTP connection, reads the clock or hits the database from inside the function you want to pin. Michael Feathers' answer in *Working Effectively with Legacy Code* (2004, chapter 4) is the **seam**: "a place where you can alter behavior in your program without editing in that place". Every seam has an **enabling point**, the place where you decide which behavior runs. Feathers names three kinds:
 
 | Seam | Enabling point | Typical use |
 |------|----------------|-------------|
 | Object seam | Where the object is created or passed in (constructor, parameter, factory) | First choice in object-oriented code |
-| Link seam | Outside the code: classpath, linker, module resolution (in JavaScript, `jest.mock()`) | Hard-wired imports you would rather not edit |
+| Link seam | Outside the code: classpath, linker, module resolution (`jest.mock()` is the closest JavaScript equivalent) | Hard-wired imports you would rather not edit |
 | Preprocessing seam | Macros and compiler flags | C and C++ |
 
-Both terms work as [semantic anchors](../ultimate-guide.md#29-semantic-anchors): Claude knows the book, so naming them gets you a structured answer instead of a generic "add some mocks".
+Seam and enabling point both work as [semantic anchors](../ultimate-guide.md#29-semantic-anchors): Claude knows the book, so naming them gets you a structured answer instead of a generic "add some mocks".
 
 Once you have a seam, pick the test double by what the test needs from the dependency. Gerard Meszaros' *xUnit Test Patterns* (2007) names five; the [TDD skill's table](../../examples/skills/tdd-workflow.md#test-doubles) lists four of them:
 
 | Double | Use it when the test needs to... |
 |--------|----------------------------------|
 | Dummy | Fill a parameter the code path never uses |
-| Stub | Control an indirect input (a return value, the current time, an error) |
+| Stub | Control an indirect input (what a dependency returns: the current time, an error) |
 | Spy | Record indirect outputs and assert on them afterwards |
-| Mock | Verify indirect outputs against expectations set up front, failing on the first unexpected call |
+| Mock | Verify indirect outputs against expectations set up front |
 | Fake | Replace a heavy dependency with a working lightweight one (in-memory repository) |
 
-Feathers gives two reasons to break a dependency: *sensing* (you cannot see what the code did) and *separation* (you cannot run the code at all). Sensing points to a spy or mock; separation points to a stub, fake or dummy. For characterization tests, a spy is usually the better fit than a mock: you are recording what the code does today, not prescribing what it should do.
+Feathers gives two reasons to break a dependency: *sensing* (you cannot see what the code did) and *separation* (you cannot run the code at all). As a rule of thumb, sensing calls for a spy or mock, separation for a stub, fake or dummy. Watch the vocabulary: Feathers calls his sensing double a "fake object"; in Meszaros' terms it is a spy. For characterization tests a spy usually beats a mock: you record what the code does today instead of prescribing it.
 
 **One example, end to end.** This function cannot run in a test: it sends real mail and reads the real clock.
 
@@ -357,9 +357,9 @@ export function sendOverdueReminders(invoices: Invoice[]) {
    it in one line. Do not change any code yet.
    ```
 
-   A good answer: neither dependency has a seam yet, because both are created inside the function. Turning them into parameters creates object seams whose enabling point is the call site. The clock is an indirect input, so a stub. The mailer is an indirect output you need to sense, so a spy.
+   Expect: neither dependency has a seam yet, because both are created inside the function. The clock is an indirect input (stub), the mailer an indirect output to sense (spy).
 
-2. Let Claude make the smallest change that creates the seam, nothing else:
+2. Let Claude make the smallest change that creates the seams, nothing else:
 
    ```
    Create the two object seams with Parameterize Method. Keep the current
@@ -368,34 +368,47 @@ export function sendOverdueReminders(invoices: Invoice[]) {
    ```
 
    ```ts
+   type Mailer = Pick<SmtpMailer, 'send'>;
+
    export function sendOverdueReminders(
      invoices: Invoice[],
      mailer: Mailer = new SmtpMailer(process.env.SMTP_HOST),
-     today: Date = new Date(),
-   ) { /* body unchanged */ }
+     now: () => Date = () => new Date(),
+   ) {
+     const today = now();
+     // loop unchanged; only the two local declarations moved into the signature
+   }
    ```
 
-3. Pin the behavior through the seam, in a separate session as described above:
+   No test protects this edit yet, so the diff must be trivially reviewable: the signature, one changed line, one deleted line.
+
+3. Pin the behavior through the seams, in a separate session as described above:
 
    ```ts
-   it('reminds on the due date itself, not only after it', () => {
+   const now = () => new Date('2026-03-10T09:00:00Z');  // stub
+
+   function sentTo(dueDate: string): string[] {
      const sent: string[] = [];
      const spy: Mailer = { send: (to) => { sent.push(to); } };
-     const today = new Date('2026-03-10T09:00:00Z');  // stub
-     const dueToday = invoice({ dueDate: new Date('2026-03-10T00:00:00Z'), paid: false });
+     const inv = invoice({ dueDate: new Date(dueDate), paid: false });  // test data builder
+     sendOverdueReminders([inv], spy, now);
+     return sent;
+   }
 
-     sendOverdueReminders([dueToday], spy, today);
+   it('reminds on the due date itself, not only after it', () => {
+     expect(sentTo('2026-03-10T00:00:00Z')).toHaveLength(1);
+   });
 
-     expect(sent).toEqual([dueToday.customerEmail]);
+   it('does not remind before the due date', () => {
+     expect(sentTo('2026-03-11T00:00:00Z')).toEqual([]);
    });
    ```
 
-   The test name records an oddity worth keeping: due dates carry no time of day, so they sit at midnight and `dueDate < today` is already true on the morning an invoice falls due.
+   The first test records an oddity worth keeping: due dates carry no time of day, so `dueDate < today` is true at any moment on the due date itself.
 
 4. Check the result before trusting it:
-   - `git diff` touches only the signature: the seam edit itself had no test to protect it, so it must be trivially reviewable.
-   - The test passes with the network off. If it does not, a default argument is still in play and the seam is not in use.
-   - In a scratch branch, "fix" the comparison to whole calendar days, as an agent might: the test must go red. If it stays green, it pins nothing.
+   - Drop the `now` argument from the tests: the second one must go red, or the clock seam is not in use.
+   - Change the comparison to whole days (`inv.dueDate.toISOString().slice(0, 10) < today.toISOString().slice(0, 10)`), the "fix" an agent might make: the first test must go red. If it stays green, it pins nothing. Compare in UTC, as here; local-time date getters make the result depend on the machine's time zone.
 
 ---
 

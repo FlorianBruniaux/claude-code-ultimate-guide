@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
-- **Test seams and test doubles for legacy code (October 4, 2026)**: extend "TDD with legacy code" in `guide/workflows/tdd-with-claude.md` with Michael Feathers' seam and enabling point, the three seam types, and Gerard Meszaros' five test doubles mapped to what a test must control or observe. One worked TypeScript example walks through seam analysis, a Parameterize Method edit, a characterization test with a stub and a spy, and three checks on the result. Both reference.yaml copies index the new anchor.
+- **Test seams and test doubles for legacy code (October 4, 2026)**: extend "TDD with legacy code" in `guide/workflows/tdd-with-claude.md` with Michael Feathers' seam and enabling point, the three seam types, and Gerard Meszaros' five test doubles mapped to what a test must control or observe. One worked TypeScript example walks through seam analysis, a Parameterize Method edit, two characterization tests with a stubbed clock and a spy mailer, and two mutation checks on the result. Both reference.yaml copies index the new anchor.
 
 - **Claude Code releases synchronized through 2.1.296**: add the October 7 to 9 summaries from the official changelog (2.1.293 with Claude Haiku 5.5 as the default Haiku model, 2.1.294 hook fix, 2.1.295, 2.1.296), record the Edit non-UTF-8 refusal, backgrounding stop, claude.ai connector MCP protocol default and 32-skill subagent preload cap as breaking changes, add a Haiku 5.5 milestone and security-fix rows, align the release registry and discovery mirrors, and retain npm UTC publication dates.
 
