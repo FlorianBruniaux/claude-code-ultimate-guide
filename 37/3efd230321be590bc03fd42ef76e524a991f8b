@@ -1,0 +1,23 @@
+CHANGELOG.md
+  s_222d39e032fac4::t_cdf430f0c47389 9-10
+machine-readable/reference.yaml
+  s_222d39e032fac4::t_373dff30046792 452,456,3919,3923
+mcp-server/content/reference.yaml
+  s_222d39e032fac4::t_8c9399f881d199 452,456,3919,3923
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "373efd230321be590bc03fd42ef76e524a991f8b",
+  "prompts": {},
+  "sessions": {
+    "s_222d39e032fac4": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0fd10-0234-7173-845d-899eaaa568f7",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
