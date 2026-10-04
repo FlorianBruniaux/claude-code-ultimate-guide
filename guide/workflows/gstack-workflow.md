@@ -1,12 +1,12 @@
 ---
 title: "Cognitive Mode Switching"
-description: "Switch between specialist roles across your ship cycle: strategic gate, architecture, paranoid review, release, browser QA, retrospective"
+description: "A selected path through gstack: challenge demand, review architecture and code, test behavior, ship, and reflect"
 tags: [workflow, skills, planning, review, shipping, browser-automation]
 ---
 
 # Cognitive mode switching
 
-> **Confidence**: Tier 2, reference implementation: [gstack](https://github.com/garrytan/gstack) by Garry Tan (Y Combinator CEO), 124.8K stars as of 2026-07-27 (1,100+ in the first 24h of launch, March 2026).
+> **Source**: [gstack](https://github.com/garrytan/gstack) by Garry Tan. This page selects six workflow steps from a larger, evolving skill pack; check the repository for the current command list.
 
 **Reading time**: ~10 min
 **Prerequisites**: Claude Code skills basics, plan mode
@@ -16,30 +16,30 @@ tags: [workflow, skills, planning, review, shipping, browser-automation]
 
 ## TL;DR
 
-One generic assistant blurs all phases together. This pattern gives each phase a distinct cognitive mode: you summon the right brain for the job, then switch when the work changes.
+A coding agent can blur product decisions, implementation, review and release. This selected gstack path gives each step a distinct question, with the user choosing when an additional step earns its cost.
 
 ```
 /plan-ceo-review  → "Are we building the right thing?"
 /plan-eng-review  → "How do we make this buildable?"
-/review           → "What will blow up in production?"
-/ship             → Execute the release, no debate
-/browse           → Does it actually work in the browser?
-/retro            → How well did we ship this week?
+/review           → "What can still break?"
+/qa               → Test the changed behavior
+/ship             → Complete the Git and PR workflow
+/retro            → What should change next time?
 ```
 
 Planning, reviewing, and shipping require fundamentally different cognitive postures. A single assistant left in generic mode blends them badly.
 
 ---
 
-## The 6 gears
+## Six selected gates
 
 | Command | Role | Core question | When to switch |
 |---------|------|---------------|----------------|
-| `/plan-ceo-review` | Founder / CEO | "Are we building the right thing?" | Before writing any code |
+| `/plan-ceo-review` | Founder / CEO | "Are we building the right thing?" | When product direction is uncertain |
 | `/plan-eng-review` | Eng manager / tech lead | "How do we make this buildable?" | After direction is locked |
 | `/review` | Paranoid staff engineer | "What can still break in prod?" | Before merging |
-| `/ship` | Release engineer | "Get the plane landed" | Branch is ready, no more debate |
-| `/browse` | QA engineer | "Does it actually work?" | After deploy, against staging or prod |
+| `/qa` | QA engineer | "Does the changed behavior work?" | Before the release decision, against a safe target |
+| `/ship` | Release engineer | "Is the branch ready to publish?" | After review and applicable QA |
 | `/retro` | Engineering manager | "How well did we ship?" | Weekly or post-launch |
 
 ---
@@ -58,12 +58,9 @@ Claude Code is optimized to build what you ask. If you say "add photo upload", i
 
 If you run `/plan-ceo-review` first, the assistant is explicitly asked to challenge the literal request and find the product hiding inside it. The output becomes a different brief entirely: auto-identify the product from the photo, pull specs and pricing comps, draft title and description, suggest the hero image, detect low-quality photos before they go live.
 
-That is a different feature. A better one. And you only get it by inserting an explicit gate before implementation starts.
+That is a different, larger feature proposal. It needs evidence that sellers want it and that the extra work is worth doing before it replaces the narrower request.
 
-**The three modes inside `/plan-ceo-review`**:
-- **SCOPE EXPANSION**: find the 10-star product, ask "what would make this 10x better for 2x the effort?"
-- **HOLD SCOPE**: accept the direction, make the plan bulletproof
-- **SCOPE REDUCTION**: strip to the minimum viable version ruthlessly
+**The modes inside `/plan-ceo-review`** include expansion, selective expansion, hold scope and reduction. They are alternative ways to challenge a proposal, not a rule to increase scope. Choose one according to the user need and the cost of work already in progress.
 
 The user selects the mode. The assistant commits to it and does not drift.
 
@@ -103,31 +100,17 @@ The posture is deliberate: imagine the production incident before it happens.
 
 ---
 
-## /browse: Non-MCP native browser automation
+## Browser QA: `/qa` and `/browse`
 
-`/browse` is the most technically distinct piece of gstack. It is not a MCP server. It is a compiled native binary (TypeScript + Bun) that runs a persistent headless Chromium daemon.
+Current gstack separates the browser driver from the QA workflow. [`/browse`](https://github.com/garrytan/gstack/blob/main/docs/skills.md) opens pages and inspects interactions; `/qa` chooses a test depth, records evidence and can reproduce a defect before a fix. Its browser path uses Aside when available and gstack's own browser otherwise. This page does not assert a speed advantage over another browser tool.
 
-**Why the architecture matters**:
-
-| Approach | Cold start | Subsequent calls | State persistence |
-|----------|-----------|-----------------|-------------------|
-| MCP browser server | New connection per session | ~500ms+ | Lost between sessions |
-| `/browse` native daemon | ~3s (once) | ~100-200ms | Cookies, tabs, auth persist |
-
-This matters for QA workflows: logging into a staging environment once and then running a full navigation sequence stays fast because the daemon never restarts. No MCP socket overhead, no session reset.
-
-**Available operations**: navigate, read page text, take screenshots, snapshot accessibility tree with refs, click/fill by ref, run JavaScript, inspect console logs, capture network requests.
-
-**When to prefer this over MCP browser tools**:
-- Latency-sensitive QA loops (10+ page checks in sequence)
-- Environments where MCP server connections are restricted
-- When you need browser state (auth, cookies) to persist across multiple commands in one session
-
-**When to stick with MCP**: single-page checks, simpler environments, or when MCP browser tooling is already in place.
+The Lean question is whether this check catches defects before they travel downstream without growing a queue of unreviewed reports. A passing browser probe covers only the behavior exercised, not every user outcome.
 
 ---
 
 ## Full cycle demo
+
+This is an illustrative sequence, not a measured gstack outcome.
 
 ```
 # 1. Strategic gate — challenge the brief
@@ -162,17 +145,16 @@ Claude: Race condition: two tabs can overwrite cover-photo selection.
 
 You: [fix the issues]
 
-# 5. Ship
+# 5. QA against a safe local or staging target
+You: /qa staging.myapp.com
+
+Claude: [Exercises the listing flow, records the cases tried and any failures]
+        The tested listing path passes; other user outcomes remain unmeasured.
+
+# 6. Ship after the release decision
 You: /ship
 
-Claude: [Syncs main, runs tests, pushes branch, opens PR — done]
-
-# 6. Browser QA against staging
-You: /browse staging.myapp.com — test the listing flow
-
-Claude: [Navigates routes, fills upload form, verifies enrichment renders,
-        checks console for errors, screenshots each step]
-        All pages load correctly. Listing flow works end to end.
+Claude: [Runs release checks, then commits, pushes and opens a PR when authorized]
 ```
 
 ---
@@ -191,7 +173,7 @@ Or paste this directly into Claude Code and it handles the rest:
 
 For team installs (committed to repo so `git clone` just works for teammates), see the [gstack README](https://github.com/garrytan/gstack).
 
-> **Note (March 2026)**: gstack was released March 11, 2026. The patterns are solid; the implementation is new. Verify the repository is actively maintained before adopting in a production workflow.
+> **Current scope**: gstack has more skills than these six. Check its current README and the side effects of a skill before adding it to a project workflow.
 
 ---
 
@@ -202,11 +184,11 @@ For team installs (committed to repo so `git clone` just works for teammates), s
 | Complex feature, direction uncertain | `/plan-ceo-review` first | [Spec-First](./spec-first.md) |
 | Direction clear, architecture complex | `/plan-eng-review` | [Plan Pipeline](./plan-pipeline.md) |
 | Need independent validation of plan | [Plan Pipeline](./plan-pipeline.md) `/plan-validate` | — |
-| Browser automation, single page check | Any MCP browser tool | `/browse` (overkill) |
-| Browser automation, multi-step QA loop | `/browse` | MCP tools (slower) |
+| One-off browser inspection | `/browse` or an available browser tool | No QA result without an explicit check |
+| Changed-flow verification | `/qa` | Record tested path, failures and untested behavior |
 | Want structured ADR learning loop | [Plan Pipeline](./plan-pipeline.md) | — |
 
-gstack is a linear gear sequence you control manually; [Plan Pipeline](./plan-pipeline.md) is a more automated orchestration with ADR memory and parallel agent teams. For solo developers who want explicit control over each phase, gstack is faster to adopt.
+This page presents a selected sequence that you can invoke deliberately; the wider gstack pack also includes automated paths. [Plan Pipeline](./plan-pipeline.md) is a separate orchestration approach. Compare either against the actual wait and rework in your delivery flow rather than assuming more stages are better.
 
 ---
 

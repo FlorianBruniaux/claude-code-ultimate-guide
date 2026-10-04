@@ -8,7 +8,7 @@ tags: [reference, tdd, design-patterns, workflows]
 
 > **Confidence**: Tier 2, validated by multiple production reports and official documentation.
 >
-> **Last updated**: February 2026
+> **Last updated**: October 2026
 
 This is a quick reference for 15 structured development methodologies that have emerged for AI-assisted development in 2025-2026. For hands-on practical workflows, see [workflows/](../workflows/).
 
@@ -25,11 +25,12 @@ Use [Agent Harness Engineering](./agent-harness.md) for that model and the [Agen
 ## Table of contents
 
 1. [Decision Tree](#decision-tree-what-do-you-need)
-2. [The 15 Methodologies](#the-15-methodologies)
-3. [SDD Tools Reference](#sdd-tools-reference)
-4. [Writing Effective Specs](#writing-effective-specs)
-5. [Combination Patterns](#combination-patterns)
-6. [Sources](#sources)
+2. [Lean software engineering as a delivery lens](#lean-software-engineering-as-a-delivery-lens)
+3. [The 15 Methodologies](#the-15-methodologies)
+4. [SDD Tools Reference](#sdd-tools-reference)
+5. [Writing Effective Specs](#writing-effective-specs)
+6. [Combination Patterns](#combination-patterns)
+7. [Sources](#sources)
 
 ---
 
@@ -51,19 +52,19 @@ Use [Agent Harness Engineering](./agent-harness.md) for that model and the [Agen
 
 ## Methodology map
 
-Where each methodology sits on two axes: **Spec-First vs Code-First** (Y) and **Lean/Solo vs Enterprise/Governed** (X).
+Where each methodology sits on two axes: **Spec-First vs Code-First** (Y) and **Lightweight/Solo vs Governed** (X). The second axis describes workflow setup and coordination cost. It does not classify the Toyota Production System or Lean management; for a bounded application of flow and jidoka to AI-assisted delivery, see [review-capacity admission](./loop-graph-engineering.md#limit-admission-to-verification-capacity).
 
 ```
                       SPEC / PLANNING FIRST
                                 ▲
-  ── lean · spec ──             │             ── governed · spec ──
+  ── light · spec ──            │             ── governed · spec ──
                                 │
   [Doc-Driven]  [SDD]           │    [BDD]  [ATDD]   [Req-Driven]
-  [GSD]  [Plan-First]           │ [CDD] [ADR-Driven]  [DDD]  [BMAD]
+  [GSD]  [Plan-First]           │ [CDD] [ADR-Driven]  [DDD]  [BMAD full]
                                 │
-  LEAN ─────────────────────────┼────────────────────────────────► ENTERPRISE
+  LIGHTWEIGHT ──────────────────┼────────────────────────────────► GOVERNED
                                 │
-  ── lean · code ──             │             ── governed · code ──
+  ── light · code ──            │             ── governed · code ──
                                 │
   [Context Eng.]   [TDD]        │       [Multi-Agent]
   [Prompt Eng.]  [Iterative]    │       [Eval-Driven]       [FDD]
@@ -74,11 +75,46 @@ Where each methodology sits on two axes: **Spec-First vs Code-First** (Y) and **
 
 **How to read it:**
 
-- **Top-left** (Spec-first lean): `SDD`, `Doc-Driven`, `Plan-First`. Natural entry point for solo devs and small teams moving away from "code first".
-- **Top-right** (Spec-first governed): `BMAD`, `Req-Driven`, `ATDD`, `DDD`. Real governance, but costly to set up. ROI is driven by project complexity and requirement stability, not headcount alone.
-- **Bottom-left** (Code-first lean): the natural Claude Code terrain. `TDD` + `Ralph Loop` + `Iterative` = core solo workflow.
+- **Top-left** (Spec-first lightweight): `SDD`, `Doc-Driven`, `Plan-First`. Natural entry point for solo devs and small teams moving away from "code first".
+- **Top-right** (Spec-first governed): the full planning path of `BMAD`, `Req-Driven`, `ATDD`, `DDD`. Coordination and traceability can justify more artifacts; BMAD also supports direct building for a small change.
+- **Bottom-left** (Code-first lightweight): the natural Claude Code terrain. `TDD` + `Ralph Loop` + `Iterative` = core solo workflow.
 - **Bottom-right** (Code-first at scale): `Multi-Agent`, `Eval-Driven`, `JiTTesting` (Meta, 100M+ LoC). Emerging patterns for high-volume teams.
 - **On the axis**: `Plan-First`, `CDD`, `ADR-Driven`, `GSD`, hybrid approaches that adapt to any context.
+
+---
+
+## Lean software engineering as a delivery lens
+
+Lean does not occupy one quadrant of this map. Mary and Tom Poppendieck's [software adaptation](https://res.infoq.com/articles/poppendieck-implementing-lean/en/resources/poppendieck_ch02.pdf) asks teams to build quality in and optimize the whole stream from a customer need to deployed software that addresses it. A method can produce a better spec or faster code while the request waits for a decision, review, release, or adoption.
+
+| Lean question | Methods already on this page | What to check in the real workflow |
+|---|---|---|
+| Is the demand worth doing? | SDD, BDD, BMAD | Name the user problem and acceptance condition before expanding a spec. Decline or narrow work that cannot be tied to a need. |
+| Where does work wait? | BMAD, GSD, SDD, Multi-Agent | Map one request through verification and release. Set an explicit work-in-progress policy at the constrained stage instead of generating more drafts. |
+| Is quality built into the work? | TDD, ATDD, BDD, Eval-Driven | Run checks early and stop affected work when a test, evaluation, or evidence check fails. A final review alone is a late gate. |
+| Can the plan change with evidence? | SDD, OpenSpec, BMAD | Keep decisions reversible where possible. Update the spec or plan when learning changes the requirement; do not preserve an obsolete artifact for process compliance. |
+| Did the process improve? | Retrospectives, ADRs, verification loops | Turn a recurring failure into a specific upstream check or rule, then observe whether recurrence and correction effort fall. |
+| Is one unit really complete? | SDD, ATDD, TDD, incremental migration | For legacy work, characterize the existing behavior before changing it, deliver one usable unit through verification and release, and check whether the old path can be retired. A source citation or a passing build alone does not establish behavioral parity. |
+| What does the method itself cost? | BMAD, SDD, Multi-Agent, review workflows | Count waiting, false blocks, repeated checks, human takeovers and upkeep as well as accepted changes. Keep a gate only when it prevents a failure or supplies evidence worth its delay. |
+
+The [Kanban Guide](https://kanbanguides.org/the-kanban-guide/) makes flow operational: define when an item starts and finishes, how work in progress is controlled, and how the workflow changes. Its four minimum flow metrics are WIP, throughput, work-item age, and cycle time. Choose boundaries that include the queue you need to diagnose. Those metrics still need a separate user outcome; a finished pull request is not proof that a customer problem was solved. The [Lean Enterprise Institute's product-development mapping](https://www.lean.org/the-lean-post/articles/why-value-stream-mapping-is-essential-to-product-and-process-development/) is a useful source for mapping decisions and handoffs across functions.
+
+Apply the same test to the methodology itself. A spec that prevents one wrong implementation may earn its preparation and review time; a mandatory spec for a small, reversible correction may only add a queue. Compare the same class of request before and after the method changes, including rework and the time until an accepted result. The [repository-harness countermeasure loop](./agent-harness.md#lean-countermeasure-loop-for-a-repository-harness) shows how to test a control before making it a standing rule.
+
+A workflow also depends on the repository it enters. [Factory's Agent Readiness model](https://docs.factory.com/agent-readiness/overview) checks whether instructions, builds, tests and operational signals make agent work verifiable. This complements SDD or BMAD specifications and TDD checks; it does not replace the Lean question of whether a completed change reaches a user. Fix a repeated repository failure before increasing agent parallelism, then compare the same task type and downstream queue. See the [agent workflow example](loop-graph-engineering.md#limit-admission-to-verification-capacity).
+
+Two repositories expose narrower mechanisms. [RaiSE](https://github.com/humansys/raise) describes persistent workflow state and deterministic checks at phase boundaries. [Andon](https://github.com/PrimeFoldTools/andon) records recurring agent defects and proposed countermeasures. Their repositories make design choices inspectable; neither supplies independent evidence of improved customer outcomes. For a worked AI-assisted request map and its evidence limits, use the [Lean and AI reading path](https://cc.bruniaux.com/lean-ai/) and the [team-metrics chapter](../ops/team-metrics.md).
+
+### Skill packs: useful controls, not a Lean result
+
+These packs document repeatable steps. Their Lean relevance is an interpretation to test in a real delivery stream, not a claim made or measured by the projects.
+
+| Pack | Inspectable mechanism | Lean question and limit |
+|---|---|---|
+| [gstack](https://github.com/garrytan/gstack) | `/office-hours` challenges demand; `/review` and `/qa` check work; `/landing-report` exposes a ship queue; `/retro` reflects on completed work. | Does the complete path shorten time to an accepted user outcome, or add planning and verification queues? Its `/ship` also performs Git and PR actions, so use it only at the intended release boundary. |
+| [Matt Pocock's skills](https://github.com/mattpocock/skills) | `/triage` classifies incoming requests; [`/to-spec`](https://github.com/mattpocock/skills/blob/main/docs/engineering/to-spec.md) is reserved for work spanning sessions; [`/to-tickets`](https://github.com/mattpocock/skills/blob/main/docs/engineering/to-tickets.md) makes thin, testable vertical slices; `/tdd` and `/retro` support quality and learning. | Can the team reject, narrow and complete one valuable slice before starting more? The skills describe controls, not a measured WIP limit or customer result. |
+
+The [Superpowers pack](https://github.com/obra/superpowers) is another existing guide example of planning, TDD and review gates. More gates can help when they prevent recurring failures, but can also increase wait. Keep the smallest set that addresses the observed constraint and measure WIP, cycle time, rework and user outcome across the same request type.
 
 ---
 
@@ -90,16 +126,16 @@ Organized in a 6-tier pyramid from strategic orchestration down to optimization 
 
 | Name | What | Best For | Claude Fit |
 |------|------|----------|------------|
-| **BMAD** | Multi-agent governance with constitution as guardrail | High-complexity projects with stable requirements, compliance or governance needs | ⭐⭐ Niche but powerful |
+| **BMAD** | Thinking and building workflows sized to the change | Small fixes through complex initiatives | ⭐⭐ Useful when its artifacts earn their cost |
 | **GSD** | Meta-prompting 6-phase workflow with fresh contexts per task | Solo devs, Claude Code CLI | ⭐⭐ Similar to patterns in guide |
 
-**BMAD (Breakthrough Method for Agile AI-Driven Development)** inverts the traditional paradigm: documentation becomes the source of truth, not code. Uses specialized agents (Analyst, PM, Architect, Developer, QA) orchestrated with strict governance. *Note: BMAD's role-based agent naming reflects their methodology; see §9.17 Agent Anti-Patterns for scope-focused alternatives.*
+**BMAD (Breakthrough Method for Agile AI-Driven Development)** offers thinking skills and build workflows, with additional planning artifacts for larger or uncertain work. Its [current documentation](https://docs.bmad-method.org/) says a clear small fix can go straight to `bmad-build`; a larger change can start with `bmad-spec` or a fuller planning path. Role-based agents are an optional part of that system, not evidence that every change needs multiple agents.
 
-- **Key concept**: Constitution.md as strategic guardrail
-- **When to use**: Complex enterprise projects needing governance
-- **When to avoid**: MVPs, rapid prototyping, evolving requirements. BMAD is brittle when specs change mid-project
-- **Install and run it**: see [spec-first.md § With BMAD-METHOD](../workflows/spec-first.md#with-bmad-method-multi-role-planning) for the `npx bmad-method install` command and the three planning tracks (Quick Flow, BMad Method, Enterprise)
-- **Canonical repository**: [bmad-code-org/BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD) (51,176 stars, verified 2026-07-27, was 50,200+ earlier in July). The community port linked below (BMAD-AT-CLAUDE) is a Claude Code-specific fork, not the source project.
+- **Key concept**: Size the planning and review path to the change and carry forward decisions that later steps need.
+- **When to use**: Use direct build for a well-understood small change; add planning when the decision or coordination cost warrants it.
+- **When to avoid**: Do not run a full artifact chain for a clear, reversible fix merely because the framework provides one. Revisit artifacts when requirements change.
+- **Install and run it**: see [spec-first.md § With BMAD-METHOD](../workflows/spec-first.md#with-bmad-method-multi-role-planning) for the installer and a choice between direct build and more structured planning.
+- **Canonical repository**: [bmad-code-org/BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD). The community port linked below (BMAD-AT-CLAUDE) is a Claude Code-specific fork, not the source project.
 
 **GSD (Get Shit Done)** addresses context rot through systematic 6-phase workflow (Initialize → Discuss → Plan → Execute → Verify → Complete) with fresh 200k-token contexts per task. Core concepts (multi-agent orchestration, fresh context management) overlap significantly with existing patterns like Ralph Loop, Gas Town, and BMAD. See [resource evaluation](../../docs/resource-evaluations/gsd-evaluation.md) for detailed comparison.
 
@@ -188,7 +224,7 @@ Document your team's plan-first triggers:
 | **Req-Driven** | Rich artifact context (20+ artifacts) | Complex requirements | ⭐⭐ Heavy setup |
 | **DDD** | Domain language first | Business logic | ⭐⭐ Design-time |
 
-**SDD (Spec-Driven Development)**: Specifications BEFORE code. One well-structured iteration equals 8 unstructured ones. CLAUDE.md IS your spec file.
+**SDD (Spec-Driven Development)**: Make intended behavior explicit before implementation and revise the spec when evidence changes the requirement. A project instruction file such as `CLAUDE.md` carries stable conventions; it is not automatically the feature specification. [Spec Kit's SDD documentation](https://github.com/github/spec-kit/blob/main/docs/concepts/sdd.md) covers both new and existing projects.
 
 **Doc-Driven Development**: Living documentation versioned in git becomes the single source of truth. Changes to specs trigger implementation.
 
@@ -437,12 +473,12 @@ Three tools have emerged to formalize Spec-Driven Development:
 
 | Tool | Use Case | Official Docs | Claude Integration |
 |------|----------|---------------|-------------------|
-| **Spec Kit** | Greenfield, governance | [github.blog/spec-kit](https://github.blog/ai-and-ml/generative-ai/spec-driven-development-with-ai-get-started-with-a-new-open-source-toolkit/) | `/speckit.constitution`, `/speckit.specify`, `/speckit.plan` |
+| **Spec Kit** | New and existing projects, structured specs | [Spec Kit SDD docs](https://github.com/github/spec-kit/blob/main/docs/concepts/sdd.md) | `/speckit.constitution`, `/speckit.specify`, `/speckit.plan` |
 | **OpenSpec** | Brownfield, changes | [github.com/Fission-AI/OpenSpec](https://github.com/Fission-AI/OpenSpec) | `/openspec:proposal`, `/openspec:apply`, `/openspec:archive` |
 | **Specmatic** | API contract testing | [specmatic.io](https://specmatic.io) | MCP agent available |
 | **Spec-to-Code Factory** | Greenfield, enforcement outillé | [github.com/SylvainChabaud/spec-to-code-factory](https://github.com/SylvainChabaud/spec-to-code-factory) | Implémentation référence multi-agents (BREAK→MODEL→ACT→DEBRIEF) |
 
-### Spec Kit (greenfield)
+### Spec Kit (new and existing projects)
 
 5-phase workflow:
 1. Constitution: `/speckit.constitution` → guardrails
@@ -512,16 +548,16 @@ Workflow: Proposal → Review → Apply → Archive
 
 ## Combination patterns
 
-Recommended stacks by situation:
+These are starting combinations, not measured productivity gains. Add a method when it addresses a real decision, defect or handoff. Inspect the resulting queue and maintenance cost.
 
-| Situation | Recommended Stack | Notes |
-|-----------|-------------------|-------|
-| Solo MVP | SDD + TDD | Minimal overhead, quality focus |
-| Team 5-10, greenfield | Spec Kit + TDD + BDD | Governance + quality + collaboration |
-| Microservices | CDD + Specmatic | Contract-first, parallel dev |
-| Existing SaaS (100+ features) | OpenSpec + BDD | Change tracking, no spec drift |
-| High-complexity / compliance | BMAD + Spec Kit + Specmatic | Full governance + contracts |
-| LLM-native product | Eval-Driven + Multi-Agent | Self-improving systems |
+| Situation | Starting combination | What to verify |
+|-----------|----------------------|----------------|
+| Solo change with risky behavior | Short task spec + TDD | Accepted behavior and correction effort |
+| Team with recurring requirement misunderstandings | Spec Kit + BDD + TDD | Fewer disputed examples without an oversized spec backlog |
+| Services with explicit API contracts | CDD + Specmatic | Contract failures found before integration |
+| Existing product with changing behavior | OpenSpec + BDD | Current specs match shipped behavior after each change |
+| Complex work across service boundaries | BMAD + Specmatic | One planning source, useful contract checks and manageable review wait |
+| LLM product with recurring output failures | Eval-Driven; add Multi-Agent only for a distinct role | Eval quality and user outcome after release |
 
 ---
 
@@ -529,7 +565,7 @@ Recommended stacks by situation:
 
 | Methodology | Level | Primary Focus | Best Context | Learning Curve |
 |-------------|-------|---------------|--------------|----------------|
-| BMAD | Orchestration | Governance | High complexity, stable requirements | High |
+| BMAD | Orchestration | Planning sized to change | Small fixes through complex initiatives | Varies by path |
 | SDD | Specification | Contracts | Any | Medium |
 | Doc-Driven | Specification | Alignment | Any | Low |
 | Req-Driven | Specification | Context | Complex requirements, many artifacts | Medium |

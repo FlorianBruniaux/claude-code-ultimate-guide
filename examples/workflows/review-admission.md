@@ -16,6 +16,8 @@ This is a proposed policy worksheet, not an installed scheduler or a validated t
 |---|---|
 | Queue and accountable owner | |
 | Eligible change class and excluded work | |
+| User-facing result and evidence of completion | Name the behavior or resolved problem; record release and adoption separately from review acceptance |
+| Known defect and earlier preventive check | Keep the incident, a case the check must reject, and a neighboring valid case it must allow |
 | Baseline observation window | |
 | Arrival event | First declaration of readiness at a stated revision |
 | Acceptance event | Acceptance by the required policy at that revision |
@@ -25,6 +27,7 @@ This is a proposed policy worksheet, not an installed scheduler or a validated t
 | Resume rule | Use a lower queue threshold, acceptable age, fresh telemetry, and available verification capacity |
 | Work allowed during pause | Existing review, agreed corrections, incident response within existing authority |
 | Urgent exception | Named approver, reason, bounded scope, displaced work, expiry |
+| Cost of this policy | Reviewer effort, repeated checks, false blocks, bypasses and maintenance work |
 
 Start with declared availability and a named verifier. The first pilot can remain a manual policy. If admission is automated, reserve a verification slot atomically before dispatch and make release or conversion idempotent under a stable reservation identity. Reconcile an uncertain acknowledgement before retrying. A canceled task does not count as an accepted change. Corrections remain attached to their original change. A new revision invalidates affected acceptance evidence.
 
@@ -44,6 +47,6 @@ The following numbers are synthetic policy inputs, not recommended team limits. 
 | Queue data unavailable or reviewer unavailable | Pause new authoring; retain records and route the blocker to the owner |
 | Urgent request without named exception approval | Keep queued |
 
-Record observed decisions when exercising an implementation. Until then, these are expected outcomes only. Track accepted changes, escaped defects and human effort alongside queue size so that faster approvals do not masquerade as improvement.
+Record observed decisions when exercising an implementation. Until then, these are expected outcomes only. Compare equivalent change classes over comparable windows. Track accepted changes, escaped defects, human effort and time to the named user result alongside queue size so that faster approvals do not masquerade as improvement. If the policy delays the complete result or blocks valid work without preventing the known failure, revise it with the owner.
 
 The [local control exercise](review-control-demo.py) tests durable budgets and concurrent effects on a simulated service. It does not implement this capacity policy or measure human availability.

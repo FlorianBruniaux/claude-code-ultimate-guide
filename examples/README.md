@@ -51,7 +51,7 @@ keywords: [tag1, tag2]
 | [`team-config/`](./team-config/) | Team onboarding templates | 3 |
 | [`templates/`](./templates/) | Session and workflow templates | 2 |
 | [`github-actions/`](./github-actions/) | CI/CD workflows | 6 |
-| [`workflows/`](./workflows/) | Advanced development workflows, including bounded loops and review admission | 5 |
+| [`workflows/`](./workflows/) | Advanced development workflows, including bounded loops, harness experiments and review admission | 6 |
 | [`plugins/`](./plugins/) | Community plugins (SE-CoVe, claude-mem) | 2 |
 | [`integrations/`](./integrations/) | External tool integrations (Agent Vibes TTS) | 3 |
 | [`context-engineering/`](./context-engineering/) | Context engineering patterns and profiles | 10 |
@@ -64,6 +64,7 @@ keywords: [tag1, tag2]
 
 - [AI-assisted contribution packet](templates/ai-assisted-contribution.md): evidence and author explanation before submission
 - [Review admission worksheet](workflows/review-admission.md): shared capacity, pause/resume rules and a tabletop exercise
+- [Harness countermeasure worksheet](workflows/lean-harness-experiment.md): test one recurring failure, a permitted case, alternate paths and control cost
 - [Review comprehension exercise](learning-project/review-comprehension-exercise.md): explain, perturb, diagnose and escalate
 
 These worksheets are proposed procedures. Their examples do not establish runtime enforcement or measured learning and throughput gains.

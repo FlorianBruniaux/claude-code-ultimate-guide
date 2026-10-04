@@ -197,6 +197,10 @@ deep_dive:
   agent_harness_evaluation_protocol: "guide/core/agent-harness.md#11-harness-optimizers-and-meta-harnesses"
   agent_harness_smallest_sufficient: "guide/core/agent-harness.md#7-test-distribution-and-component-stacking-anti-patterns"
   agent_harness_control_tests: "guide/core/agent-harness.md#test-the-control-and-its-permitted-path"
+  agent_harness_lean_countermeasure: "guide/core/agent-harness.md#lean-countermeasure-loop-for-a-repository-harness"
+  context_engineering_lean_pull: "guide/core/context-engineering.md#pull-the-context-that-the-current-decision-needs"
+  software_factory_complete_unit: "guide/workflows/agentic-software-factories.md#the-constraint-moves-upstream-to-what-is-worth-building"
+  methodologies_lean_lens: "guide/core/methodologies.md#lean-software-engineering-as-a-delivery-lens"
   agent_harness_evaluation_oracle: "guide/roles/agent-evaluation.md#freeze-the-oracle-and-the-decision-rule"
   agent_harness_review_constraints: "guide/core/agent-harness.md#test-review-constraints-separately"
   agent_harness_corpus_supplement: "docs/resource-evaluations/harness-corpus-supplement-2026.md"
@@ -506,6 +510,9 @@ deep_dive:
   ai_assisted_open_source_contributions: "guide/workflows/ai-assisted-open-source-contributions.md"
   ai_assisted_contribution_packet: "examples/templates/ai-assisted-contribution.md"
   review_admission_control: "guide/core/loop-graph-engineering.md#limit-admission-to-verification-capacity"
+  lean_ai_flow_adaptation: "guide/core/loop-graph-engineering.md#limit-admission-to-verification-capacity"  # Just-in-Time flow and jidoka stop-and-improve analogy, not a measured outcome
+  lean_software_method_comparison: "guide/core/methodologies.md#lean-software-engineering-as-a-delivery-lens"  # Lean questions across BMAD, SDD, Kanban and verification methods
+  lean_skill_pack_comparison: "guide/core/methodologies.md#skill-packs-useful-controls-not-a-lean-result"  # gstack, Matt Pocock and evidence limits
   review_control_simulation: "examples/workflows/review-control-demo.py"
   review_control_simulation_scope: "13 local tests with a simulated destination; not a deployed GitHub merge gate"
   harness_walkinglabs_evaluation: "docs/resource-evaluations/learn-harness-engineering-2026.md"

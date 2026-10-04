@@ -198,13 +198,13 @@ The proportion of committed code that was AI-generated or AI-assisted. Available
 
 Split your Change Failure Rate by code origin: AI-generated commits versus manually written commits. Most enterprise AI coding tools can tag commits or PRs.
 
-If AI-generated CFR is within 2-3 percentage points of manual CFR, your review process is working. If AI-generated CFR is materially higher, review discipline has dropped. If it's lower, AI tooling may genuinely be improving code quality in your domain.
+Compare changes in the same service and risk class, and report sample size and how AI assistance was attributed. No fixed percentage-point gap proves that review is working. A difference may reflect task selection, deployment policy, test coverage or reviewer practice; investigate those factors before assigning a cause.
 
 ### Review time: AI PRs vs manual PRs
 
 Compare average review time (open to merge) for AI-generated PRs versus manually written PRs. If AI PRs are getting merged significantly faster than manual ones, you may have a rubber-stamping problem.
 
-AI-generated code requires at least as much review scrutiny as manually written code, arguably more, because it can be confidently wrong in non-obvious ways. A 30% faster review cycle for AI PRs is a yellow flag worth investigating.
+Assign review effort by change risk, requirement clarity and the strength of independent checks, regardless of who wrote the code. Faster merge or review time alone does not establish either better verification or rubber-stamping. Compare active review effort, confirmed findings and later corrective work for comparable changes before changing the review policy.
 
 ### Developer code comprehension
 
@@ -235,6 +235,10 @@ Measure one service and comparable change classes before increasing agent concur
 **Illustrative arithmetic:** starting with two queued changes, eight arrivals and five acceptances leaves five queued changes if there are no cancellations or other exits. This is a count balance, not a productivity measurement; changes can have very different review costs. Report counts alongside task mix and active review effort.
 
 Use the [admission worksheet](../../examples/workflows/review-admission.md) to define pause and resume conditions from a local baseline. Improving the acceptance count by weakening review is not evidence of improvement. Keep the quality policy fixed during a comparison and disclose changes in reviewers, tools or workload.
+
+Two 2026 field studies show why merged-PR counts need this queue view. In a [Microsoft CLI-agent rollout](https://arxiv.org/abs/2607.01418), adopters merged roughly 24% more PRs than the study estimates they otherwise would have; the authors explicitly say that a merged PR is an output proxy, not its delivered value. A [single-company longitudinal study](https://arxiv.org/abs/2607.01904) recorded 2.09 times the pre-mandate per-capita PR throughput and roughly twice the load per reviewer, with merge and revert rates holding steady. Its non-random adoption prevents exact attribution to AI. Neither result supplies a universal review-capacity ratio or a product-outcome measure for another service.
+
+The queue does not necessarily absorb every upstream gain. A [six-week case study at Globo](https://escholarship.org/uc/item/59h2f5hs) reports a 23% lower average Jira development cycle time for tasks tagged as using GenAI than the company's historical cycle time. Participation was voluntary, the task tags were applied by the team, and the comparison was not randomized. The paper does not establish that AI caused the difference or that deployment quality and user outcomes improved. Compare task mix, waiting, corrections and release outcomes locally before concluding either that the queue moved or that the whole service became faster.
 
 ---
 
@@ -271,7 +275,7 @@ These require instrumentation via Langfuse, Arize Phoenix, or AWS Bedrock AgentC
 | Agent task completion rate | Tasks the agent completes without human correction, expressed as a percentage | Instrument via harness logs. Anthropic's internal data shows the 99.9th-percentile task duration grew from 25 to 45 minutes between October 2025 and January 2026, indicating agents are handling more complex tasks |
 | Code review recall | Rate at which agent-generated review comments are acted on by developers | Code Review Bench (Martian, March 2026, 200,000+ open-source PRs): Augment Code 62.8% recall, GitHub Copilot 53.3% recall, Graphite 75% precision but only 8.8% recall |
 | Cost per completed task | Token spend plus human review time per agent task that reaches a mergeable state | No industry benchmark published yet. Track manually: tokens consumed, cost per model call, and human review hours per task completion |
-| Tokens per feature | Average tokens consumed per merged feature, crossed with Jira or Linear ticket boundaries. Better signal than tokens/request because it accounts for session count variation per feature | No industry benchmark. Track via [ccboard](https://github.com/FlorianBruniaux/ccboard)'s project leaderboard (tokens/session × sessions per feature), a real-time TUI/web dashboard for monitoring Claude Code sessions, cost, and config across a team. Establish a baseline before optimizing; typical range for a complete PR is 500K-2M tokens on complex codebases |
+| Tokens per feature | Tokens consumed across all attempts linked to one accepted feature, with the accounting window and source of token counts stated | No industry benchmark. Use [ccboard](https://github.com/FlorianBruniaux/ccboard) to inspect session usage where it is available, then reconcile sessions, failed attempts, cache billing and human review against the accepted feature. Establish a local baseline before comparing workflows. |
 
 ### Group 3: Agent governance metrics
 
@@ -322,7 +326,7 @@ Segment by user cohort (new vs. returning users, different pricing tiers) to dis
 
 Bugs found in production divided by total bugs (pre-production bugs + production bugs). Formula: `bugs_in_prod / (bugs_before_prod + bugs_in_prod)`.
 
-If your Bug Escape Rate exceeds 20%, your QA and review processes are consistently failing to catch issues before they reach users. With AI-assisted development, this metric is worth watching closely: faster code generation combined with looser review can push Bug Escape Rate up even when absolute bug count stays flat.
+No universal percentage marks a failing review process. Define what counts as a bug, the observation window and the production exposure for each change class. Investigate a sustained rise against the same service's baseline, including changes in reporting and test coverage; a flat absolute bug count can still conceal a changed exposure or release volume.
 
 ### Feature CSAT
 

@@ -420,6 +420,18 @@ For each preventive control, retain the incident it addresses, an input that mus
 
 Give the control an owner and a reconsideration condition. Low usage can indicate a discovery failure or a rare protected action. Before removal, replay the motivating incident and permitted alternatives, then assess task outcomes on held-out cases. A static inventory or a successful installation does not establish that the control works in a running session.
 
+### Lean countermeasure loop for a repository harness
+
+Treat a recurring defect as a reason to inspect the work station, not as an automatic request for another skill or reviewer. [Toyota's jidoka and kaizen](https://global.toyota/en/company/vision-and-philosophy/production-system/) supply the analogy: detect an abnormality close to its source, stop affected work, correct its cause, and check for recurrence. A software team must define its own stop and acceptance policy. The following is a test design, not a measured improvement.
+
+| Observed failure | Candidate control at the point of work | Proof before adoption |
+|---|---|---|
+| A cited source line exists, but an agent misreads its behavior | Keep a mechanical citation check, then add independent semantic review or a characterization test for that behavior | The known false claim is rejected, a nearby true claim passes, and the test runs against the relevant revision |
+| An editor changes a legacy file's encoding or line endings | Route edits through a format-preserving path and check the resulting bytes before commit | The unsafe edit is caught even through an alternate write path; a valid edit retains its original format |
+| Agents submit changes faster than people can verify them | Admit a new change only when the named verifier and required checks have capacity | Queue age and accepted output improve or stay within the owner's limits without more escaped defects or hidden work |
+
+For each candidate, retain the failure example, a permitted neighboring case, the exact host and repository revision, observed execution, false blocks, recovery effort and owner. Compare accepted changes of the same class over comparable windows. A source-level test, an installed hook, a green CI run and a released user outcome are different observations. Use the [countermeasure worksheet](../../examples/workflows/lean-harness-experiment.md) for one failure; the [admission worksheet](../../examples/workflows/review-admission.md) handles the shared queue; [context engineering](https://cc.bruniaux.com/context-engineering/#pull-the-context-that-the-current-decision-needs) handles information loaded into one task. If the control adds more waiting or maintenance than the failure it prevents, revise or retire it after the owner reviews the evidence.
+
 ---
 
 ### Structural scores and passing suites need behavioral evidence

@@ -32,6 +32,7 @@ Root-level `llms.txt` and `llms-full.txt` cover the same AI-indexation role for 
 # Find where a topic lives, then read only that file or line range
 grep -i "memory_systems" machine-readable/reference.yaml
 grep -i "hooks_events" machine-readable/reference.yaml
+grep -i "lean_ai_flow_adaptation" machine-readable/reference.yaml
 ```
 
 ### Reference in Claude Code

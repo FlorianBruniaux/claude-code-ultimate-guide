@@ -367,18 +367,14 @@ openspec init
 
 ### With BMAD-METHOD (multi-role planning)
 
-BMAD-METHOD ([bmad-code-org/BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD), 51,176 stars as of 2026-07-27) takes spec-first further: instead of one agent writing one plan, it runs 19+ role-specific agents (Analyst, PM, Architect, Dev, QA) through a planning chain, each producing a versioned artifact (Project Brief, PRD, Architecture Doc, UX spec) before a human signs off and any code gets written.
+BMAD-METHOD ([canonical repository](https://github.com/bmad-code-org/BMAD-METHOD)) can scale the amount of planning to the change. Its [current workflow documentation](https://docs.bmad-method.org/) allows a clear small fix to go straight to `bmad-build`. A larger or uncertain change can start with `bmad-spec` or use fuller planning artifacts before implementation. The existence of specialist agents does not mean every change needs a multi-role chain.
 
 ```bash
+# From the project root, install the method and choose a workflow suited to the change.
 npx bmad-method install
-
-# Planning tracks scale to task size
-# Quick Flow Track: bug fixes, small features
-# BMad Method Track: full PRD + Architecture + UX
-# Enterprise Method Track: extended compliance requirements
 ```
 
-Use it when the task benefits from separating "what to build" (PM), "how to build it" (Architect), and "how it should feel" (UX) into distinct, reviewable documents, rather than one combined plan. It does not provide isolated parallel execution on its own, pair it with git worktrees or spec-kitty (below) if you also need that.
+Use fuller planning when the decision benefits from separating the user need, architecture and experience into reviewable artifacts. Update those artifacts when evidence changes the requirement. The method alone does not provide isolated parallel execution; use separate worktrees if concurrent changes would otherwise collide.
 
 For the strategic case (when BMAD's governance overhead pays off versus when it doesn't) see [methodologies.md § Tier 1: Strategic Orchestration](../core/methodologies.md#tier-1-strategic-orchestration).
 

@@ -6,6 +6,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- **Lean controls across harness, context, methods and factory (October 4, 2026)**: add a proposed countermeasure test loop for recurring agent defects, distinguish context availability from observed use and effect, finish a verifiable legacy unit before parallelism, and count the delay and false blocks introduced by the method itself. Add a repository-harness countermeasure worksheet with failure, valid-neighbor, bypass and cost checks; extend review admission with user outcome, preventive-check and policy-cost fields. Add machine-readable entry points without claiming a measured productivity gain.
+
+- **Agent readiness in the Lean flow (October 3, 2026)**: connect Marek Kalnik's Lean standards and Factory's repository assessment to error-proofing, comparable-task checks and downstream user outcomes. Add poka-yoke to the terminology and keep readiness scores separate from measured delivery gains.
+
+- **Lean-adjacent skill packs (October 3, 2026)**: compare gstack and Matt Pocock's composable skills against demand, ship queues, testable slices and improvement without claiming Lean outcomes. Correct the gstack workflow page's outdated six-skill and browser descriptions, and add Matt Pocock to the skill-pack catalog.
+
+- **Lean software engineering and methodology map (October 3, 2026)**: compare the existing AI development methods against demand, flow, built-in quality, revisable plans and improvement; cite the Kanban Guide and inspectable Lean-inspired repositories. Correct outdated BMAD and Spec Kit claims in the map and spec-first workflow, and remove a redundant enterprise spec stack.
+
+- **Lean software terminology (October 3, 2026)**: Define Just-in-Time and kanban, jidoka and andon, muda/mura/muri, and kaizen in the agent workflow using Toyota, Kanban University, Lean Enterprise Institute, and the Poppendiecks' software adaptation. Keep software mappings hypothetical and separate delivery time from user outcome.
+
+- **Lean and AI evidence balance (October 3, 2026)**: add the Globo six-week field study as a bounded counterexample to an inevitable review bottleneck, and clarify that verification-capacity admission depends on local queue evidence and risk.
+
+- **Lean and AI cases (October 3, 2026)**: add source-bounded Qonto and Theodo practitioner examples to the verification-capacity guidance. Separate Qonto's measured migration output from its estimated manual baseline and from unmeasured delivery outcomes.
+
+- **Lean and AI flow guidance (October 2, 2026)**: relate review-capacity admission to Toyota's Just-in-Time and jidoka principles without claiming measured software-team gains; remove unsupported universal review, defect and token-use thresholds from team metrics, and add two scoped 2026 PR-throughput studies. Index the Lean flow reference in both machine-readable mirrors and all three llms.txt copies, update the machine-readable lookup example, and distinguish lightweight development workflows from Toyota Lean in the methodology map.
+
 - **Semantic anchors source alignment (October 4, 2026)**: correct the bilingual C03 recap cards so semantic anchors name established methods rather than code-location comments; clarify the distinction and repair the community-patterns glossary definition.
 
 - **Semantic anchors guide and catalog (October 3, 2026)**: replace unmeasured claims about prompt quality with a practical explanation of recognition versus application in the English and French guides. Add four source-linked coding anchors, name the Richardson Maturity Model, remove fixed code and test ratios, and correct the examples index link. The French section was updated locally; this is not a full translation refresh.
