@@ -449,11 +449,11 @@ deep_dive:
   og_image_testing: "opengraph.xyz + LinkedIn Post Inspector"
   # Cognitive Mode Switching / gstack (Added 2026-03-13)
   gstack_workflow: "guide/workflows/gstack-workflow.md"
-  gstack_6_gears: "guide/workflows/gstack-workflow.md:34"  # Table: 6 roles, core questions, when to switch
+  gstack_6_gears: "guide/workflows/gstack-workflow.md:34"  # Six selected gates; core questions and when to switch
   gstack_strategic_gate: "guide/workflows/gstack-workflow.md#the-gap-this-fills-pre-implementation-strategic-gate"  # Pre-implementation product gate concept
   gstack_plan_ceo_review: "examples/skills/plan-pipeline/ceo-review/SKILL.md"  # Strategic product gate command template
   gstack_plan_eng_review: "examples/skills/plan-pipeline/eng-review/SKILL.md"  # Engineering architecture gate command template
-  gstack_browse_non_mcp: "guide/workflows/gstack-workflow.md#browse-non-mcp-native-browser-automation"  # /browse native Chromium daemon vs MCP (~100ms)
+  gstack_browse_non_mcp: "guide/workflows/gstack-workflow.md#browser-qa-qa-and-browse"  # Browser QA workflow and driver; no speed comparison
   gstack_full_cycle: "guide/workflows/gstack-workflow.md#full-cycle-demo"  # Full ship cycle demo (plan-ceo → plan-eng → review → ship → browse)
   gstack_when_to_use: "guide/workflows/gstack-workflow.md#when-to-use-this-vs-other-workflows"  # Comparison vs Plan Pipeline and other workflows
   gstack_upstream: "https://github.com/garrytan/gstack"
@@ -3916,11 +3916,11 @@ section_maps:
     - "security-checklist"
   "guide/workflows/gstack-workflow.md":
     - "tldr"
-    - "the-6-gears"
+    - "six-selected-gates"
     - "the-gap-this-fills-pre-implementation-strategic-gate"
     - "plan-eng-review-making-the-idea-buildable"
     - "review-paranoid-staff-engineer-mode"
-    - "browse-non-mcp-native-browser-automation"
+    - "browser-qa-qa-and-browse"
     - "full-cycle-demo"
     - "install"
     - "when-to-use-this-vs-other-workflows"
