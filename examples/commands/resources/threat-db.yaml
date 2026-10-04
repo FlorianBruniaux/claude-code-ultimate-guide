@@ -2,9 +2,45 @@
 # For use with /security-check and /security-audit commands
 # Manually maintained — update after new security advisories
 
-version: "2.30.0"
-updated: "2026-09-24"
+version: "2.31.0"
+updated: "2026-10-04"
 sources:
+  - name: Cline maintainers - Cline Hub dashboard cross-origin WebSocket hijack
+    url: https://github.com/cline/cline/security/advisories/GHSA-3cj3-hqcr-g934
+    date: '2026-06-23'
+  - name: Model Context Protocol maintainers - MCP TypeScript cross-origin redirect credential disclosure
+    url: https://github.com/modelcontextprotocol/typescript-sdk/security/advisories/GHSA-6prh-2h8m-c8cw
+    date: '2026-10-02'
+  - name: Model Context Protocol maintainers - MCP TypeScript experimental task cross-session access
+    url: https://github.com/modelcontextprotocol/typescript-sdk/security/advisories/GHSA-22jm-h49p-29qw
+    date: '2026-10-02'
+  - name: Model Context Protocol maintainers - MCP TypeScript OAuth credential issuer confusion
+    url: https://github.com/modelcontextprotocol/typescript-sdk/security/advisories/GHSA-6qxp-vccf-f47h
+    date: '2026-09-30'
+  - name: Amazon Web Services - AWS Security Agent MCP diff reference argument injection
+    url: https://github.com/awslabs/mcp/security/advisories/GHSA-8g28-rj54-p5p2
+    date: '2026-10-01'
+  - name: Model Context Protocol maintainers - MCP Python cross-origin redirect credential disclosure
+    url: https://github.com/modelcontextprotocol/python-sdk/security/advisories/GHSA-5h93-6whr-6q8j
+    date: '2026-10-02'
+  - name: Model Context Protocol maintainers - MCP Python HTTP request body memory exhaustion
+    url: https://github.com/modelcontextprotocol/python-sdk/security/advisories/GHSA-fmmv-w9g8-j3gc
+    date: '2026-09-30'
+  - name: Model Context Protocol maintainers - MCP Python stateful HTTP session memory exhaustion
+    url: https://github.com/modelcontextprotocol/python-sdk/security/advisories/GHSA-84m7-p3x7-pcfv
+    date: '2026-09-30'
+  - name: Model Context Protocol maintainers - MCP Python OAuth authorization-server credential confusion
+    url: https://github.com/modelcontextprotocol/python-sdk/security/advisories/GHSA-qx49-fqc8-xw99
+    date: '2026-09-28'
+  - name: Model Context Protocol maintainers - MCP Python client external schema reference fetch
+    url: https://github.com/modelcontextprotocol/python-sdk/security/advisories/GHSA-rwrf-2pqf-9j8j
+    date: '2026-09-28'
+  - name: Anthropic - Stored API key prevents server-managed policy refresh
+    url: https://github.com/anthropics/claude-code/security/advisories/GHSA-gfvf-j8jh-jxxw
+    date: '2026-09-29'
+  - name: Anthropic - Cowork macOS file-open host execution
+    url: https://github.com/anthropics/claude-code/security/advisories/GHSA-v234-4jrq-mgg6
+    date: '2026-09-25'
   - name: CERT/CC - Sentry Seer fabricated-event code execution
     url: https://www.kb.cert.org/vuls/id/212479
     date: '2026-09-16'
@@ -1521,6 +1557,176 @@ malicious_skill_patterns:
 # CVE DATABASE (MCP servers & AI agent tools)
 # ═══════════════════════════════════════════════════════════════
 cve_database:
+  - id: CVE-2026-59723
+    component: Cline Hub dashboard (/browser endpoint)
+    severity: high
+    cvss: 8.8
+    description: The local dashboard accepted browser WebSocket connections without Origin validation
+      when ROOM_SECRET was unset. Such clients could alter MCP or provider settings and trigger agent
+      commands when a provider and model were configured.
+    affected: cline <= 3.0.24
+    source: https://github.com/cline/cline/security/advisories/GHSA-3cj3-hqcr-g934
+    mitigation: Do not expose the affected dashboard to untrusted browser origins. The reviewed upstream
+      advisory lists no patched version; verify upstream remediation before re-enabling affected use.
+    notes: 'Alias: GHSA-3cj3-hqcr-g934. Reviewed 2026-10-04. Documented only; no executable AgentSec
+      detection. ROOM_SECRET; provider and model; No patched version.'
+  - id: GHSA-6prh-2h8m-c8cw
+    component: MCP TypeScript SDK HTTP client transports
+    severity: medium
+    cvss: 6.5
+    description: HTTP transports and OAuth requests forwarded custom headers and session IDs across
+      origins; 307/308 redirects also re-sent bodies containing OAuth credentials. Current fetch runtimes
+      already remove the Authorization header.
+    affected: '@modelcontextprotocol/sdk < 1.32.0; @modelcontextprotocol/client >= 2.0.0, < 2.3.0'
+    source: https://github.com/modelcontextprotocol/typescript-sdk/security/advisories/GHSA-6prh-2h8m-c8cw
+    mitigation: 'Upgrade sdk to 1.32.0 or client to 2.3.0. Configure final URLs and avoid redirectPolicy:
+      follow, which restores exposure; stdio clients are excluded.'
+    notes: 'Alias: GHSA-6prh-2h8m-c8cw. Reviewed 2026-10-04. Documented only; no executable AgentSec
+      detection. redirectPolicy; stdio; Authorization.'
+    fixed_in: 'sdk 1.x: 1.32.0; client 2.x: 2.3.0'
+  - id: GHSA-22jm-h49p-29qw
+    component: MCP TypeScript SDK experimental tasks
+    severity: high
+    cvss: 8.6
+    description: HTTP clients sharing an InMemoryTaskStore could list, read or cancel tasks created
+      by other sessions. Exposure requires a configured taskStore; 2.x packages are excluded.
+    affected: '@modelcontextprotocol/sdk >= 1.24.0, < 1.32.0'
+    source: https://github.com/modelcontextprotocol/typescript-sdk/security/advisories/GHSA-22jm-h49p-29qw
+    mitigation: Upgrade @modelcontextprotocol/sdk to 1.32.0 or later. Prefer removing deprecated experimental
+      tasks; otherwise use a separate InMemoryTaskStore per session until patched.
+    notes: 'Alias: GHSA-22jm-h49p-29qw. Reviewed 2026-10-04. Documented only; no executable AgentSec
+      detection. taskStore; 2.x packages.'
+    fixed_in: 1.32.0
+  - id: CVE-2026-104850
+    component: MCP TypeScript SDK OAuth client
+    severity: high
+    cvss: 7.5
+    description: OAuth credentials were not bound to the authorization server that owned them. An untrusted
+      MCP server could redirect saved refresh tokens, client secrets or signed assertions to another
+      issuer.
+    affected: '@modelcontextprotocol/sdk >= 1.12.0, < 1.31.0; @modelcontextprotocol/client >= 2.0.0,
+      < 2.2.0'
+    source: https://github.com/modelcontextprotocol/typescript-sdk/security/advisories/GHSA-6qxp-vccf-f47h
+    mitigation: Upgrade sdk to 1.31.0 or client to 2.2.0; update directly imported core to 2.2.0. Set
+      expectedIssuer on bundled providers and add issuer to or clear unbound saved credentials. Custom
+      providers must preserve issuer. Direct refreshAuthorization/exchangeAuthorization and skipIssuerMetadataValidation
+      remain outside the fix.
+    notes: 'Alias: GHSA-6qxp-vccf-f47h. Reviewed 2026-10-04. Documented only; no executable AgentSec
+      detection. expectedIssuer; issuer; new interactive sign-in; skipIssuerMetadataValidation.'
+    fixed_in: 'sdk 1.x: 1.31.0; client 2.x: 2.2.0'
+  - id: CVE-2026-97662
+    component: awslabs.security-agent-mcp-server
+    severity: high
+    cvss: 8.2
+    description: A caller-influenced diff revision could be interpreted as a Git option, allowing writes
+      outside the workspace within server-process privileges. Repository-influenced output could lead
+      to execution; the operation could report no diff.
+    affected: awslabs.security-agent-mcp-server >= 0.1.1, < 0.2.0
+    source: https://github.com/awslabs/mcp/security/advisories/GHSA-8g28-rj54-p5p2
+    mitigation: Upgrade awslabs.security-agent-mcp-server to 0.2.0 or later. Before upgrading, limit
+      diff scans to trusted repositories and run the server with least privilege in isolation.
+    notes: 'Alias: GHSA-8g28-rj54-p5p2. Reviewed 2026-10-04. Documented only; no executable AgentSec
+      detection. no workaround other than upgrading.'
+    fixed_in: 0.2.0
+  - id: GHSA-5h93-6whr-6q8j
+    component: MCP Python SDK HTTP client transports
+    severity: medium
+    cvss: 6.5
+    description: HTTP client transports and OAuth requests followed cross-origin redirects carrying
+      custom headers and, for 307/308, request bodies. The HTTP library dropped a lone Authorization
+      header across origins.
+    affected: mcp >= 1.8.0, < 1.30.0; >= 2.0.0, < 2.2.0
+    source: https://github.com/modelcontextprotocol/python-sdk/security/advisories/GHSA-5h93-6whr-6q8j
+    mitigation: Upgrade mcp to 1.30.0 or 2.2.0 on the corresponding branch. Configure final endpoint
+      URLs; before upgrading, supply an HTTP client with follow_redirects=False. Rotate credentials
+      that reached untrusted redirect targets.
+    notes: 'Alias: GHSA-5h93-6whr-6q8j. Reviewed 2026-10-04. Documented only; no executable AgentSec
+      detection. Authorization; stdio excluded.'
+    fixed_in: '1.x: 1.30.0; 2.x: 2.2.0'
+  - id: GHSA-fmmv-w9g8-j3gc
+    component: MCP Python SDK HTTP server and OAuth endpoints
+    severity: high
+    cvss: 7.5
+    description: HTTP transports and OAuth routes read request bodies without a shared size limit. Streamable
+      HTTP received an earlier partial limit; the later fix covered SSE message and OAuth routes.
+    affected: mcp < 1.29.1; >= 2.0.0, < 2.1.0
+    source: https://github.com/modelcontextprotocol/python-sdk/security/advisories/GHSA-fmmv-w9g8-j3gc
+    mitigation: Upgrade to mcp 1.29.1 or 2.1.0 on the corresponding branch, or enforce a body cap before
+      the SDK. Direct StreamableHTTPServerTransport use still requires an external limit.
+    notes: 'Alias: GHSA-fmmv-w9g8-j3gc. Reviewed 2026-10-04. Documented only; no executable AgentSec
+      detection. clients excluded; StreamableHTTPServerTransport; reverse proxy.'
+    fixed_in: '1.x: 1.29.1; 2.x: 2.1.0'
+  - id: CVE-2026-59951
+    component: MCP Python SDK Streamable HTTP server
+    severity: high
+    cvss: 7.5
+    description: Default stateful Streamable HTTP sessions retained initialize payloads without bounded
+      session counts or reclamation, including ended or refused sessions. Reachable clients could exhaust
+      server memory.
+    affected: mcp >= 1.8.0, < 1.30.0; >= 2.0.0, < 2.2.0
+    source: https://github.com/modelcontextprotocol/python-sdk/security/advisories/GHSA-84m7-p3x7-pcfv
+    mitigation: Upgrade mcp to 1.30.0 or 2.2.0 on the corresponding branch. Tune max_sessions, session_idle_timeout
+      and request-body limits. stateless_http=True on 1.12.0 or later avoids session retention.
+    notes: 'Alias: GHSA-84m7-p3x7-pcfv. Reviewed 2026-10-04. Documented only; no executable AgentSec
+      detection. stateful; stdio and SSE excluded; authentication.'
+    fixed_in: '1.x: 1.30.0; 2.x: 2.2.0'
+  - id: GHSA-qx49-fqc8-xw99
+    component: MCP Python SDK OAuth client
+    severity: high
+    cvss: 7.5
+    description: An untrusted MCP server could select where an OAuth client sent credentials because
+      issuer validation and credential binding were incomplete. stdio clients, clients attaching their
+      own headers and SDK servers are excluded.
+    affected: mcp >= 1.9.1, < 1.30.0; >= 2.0.0a1, < 2.2.0
+    source: https://github.com/modelcontextprotocol/python-sdk/security/advisories/GHSA-qx49-fqc8-xw99
+    mitigation: Upgrade mcp to 1.30.0 or 2.2.0 on the corresponding branch. Pass issuer= for ClientCredentialsOAuthProvider
+      and PrivateKeyJWTOAuthProvider; clear or bind stored unbound registrations. Migrate RFC7523OAuthClientProvider.
+      Rotate exposed secrets and revoke tokens when past exposure is plausible.
+    notes: 'Alias: GHSA-qx49-fqc8-xw99. Reviewed 2026-10-04. Documented only; no executable AgentSec
+      detection. issuer=; unbound; stdio.'
+    fixed_in: '1.x: 1.30.0; 2.x: 2.2.0'
+  - id: GHSA-rwrf-2pqf-9j8j
+    component: MCP Python SDK (mcp on PyPI)
+    severity: medium
+    cvss: 6.5
+    description: Tool output-schema validation resolved server-chosen external references through synchronous
+      URL or local-file reads without a timeout. Retrieved content was used as a schema and was not
+      returned to the server; a stalled fetch could block the event loop.
+    affected: mcp >= 1.10.0, < 1.30.0; >= 2.0.0, < 2.2.0
+    source: https://github.com/modelcontextprotocol/python-sdk/security/advisories/GHSA-rwrf-2pqf-9j8j
+    mitigation: Upgrade mcp to 1.30.0 on 1.x or 2.2.0 on 2.x. Until then, call tools only on trusted
+      servers.
+    notes: 'Alias: GHSA-rwrf-2pqf-9j8j. Reviewed 2026-10-04. Documented only; no executable AgentSec
+      detection. clients only; not returned.'
+    fixed_in: '1.x: 1.30.0; 2.x: 2.2.0'
+  - id: CVE-2026-103012
+    component: Claude Code server-managed settings
+    severity: low
+    cvss: 2.0
+    description: A stored API key was preferred when fetching server-managed settings despite Enterprise
+      or Team session sign-in. Rejection could leave no server policy or an older cached copy; endpoint-managed
+      settings were unaffected.
+    affected: Enterprise >= 2.0.68, < 2.1.260; Team >= 2.1.38, < 2.1.260
+    source: https://github.com/anthropics/claude-code/security/advisories/GHSA-gfvf-j8jh-jxxw
+    mitigation: Upgrade Claude Code to 2.1.260 or later; verify server-managed policy refresh on affected
+      devices.
+    notes: 'Alias: GHSA-gfvf-j8jh-jxxw. Reviewed 2026-10-04. Documented only; no executable AgentSec
+      detection. local access; cached; endpoint-managed.'
+    fixed_in: 2.1.260
+  - id: GHSA-v234-4jrq-mgg6
+    component: Claude Desktop (macOS Cowork)
+    severity: high
+    cvss: 8.5
+    description: An omitted executable file type allowed content from a Cowork shared folder to run
+      commands on macOS when opened from Claude Desktop. A separate guest-kernel flaw could remove the
+      user-interaction requirement on older VM images.
+    affected: Claude Desktop >= 1.1.3918, < 1.15962.0
+    source: https://github.com/anthropics/claude-code/security/advisories/GHSA-v234-4jrq-mgg6
+    mitigation: Upgrade Claude Desktop to 1.15962.0 or later. The guest-kernel fix shipped separately
+      in 1.11847.5.
+    notes: 'Alias: GHSA-v234-4jrq-mgg6. Reviewed 2026-10-04. Documented only; no executable AgentSec
+      detection. user opened; 1.11847.5; CVE-2026-43284.'
+    fixed_in: 1.15962.0
   - id: CVE-2026-90999
     component: Sentry Seer autonomous coding-agent handoff
     severity: high
@@ -3556,6 +3762,12 @@ cve_database:
 # MINIMUM SAFE VERSIONS (quick reference for scanning)
 # ═══════════════════════════════════════════════════════════════
 minimum_safe_versions:
+  "claude-desktop": "1.15962.0"
+  "mcp-python-sdk-2": "2.2.0"
+  "@modelcontextprotocol/sdk": "1.32.0"
+  "@modelcontextprotocol/client": "2.3.0"
+  "@modelcontextprotocol/core": "2.2.0"
+  "awslabs.security-agent-mcp-server": "0.2.0"
   toolhive-cli: 0.30.1
   '@zereight/mcp-gitlab': 2.1.30
   github.com/obot-platform/obot: 0.23.0
@@ -3576,7 +3788,7 @@ minimum_safe_versions:
   "filesystem-mcp": "0.6.3"
   "mcp-inspector": "0.14.1"
   "mcp-server-git": "2026.1.14"
-  "mcp-python-sdk": "1.28.1"
+  "mcp-python-sdk": "1.30.0"
   "mcp-gateway": "0.28.0"
   "figma-developer-mcp": "0.6.3"
   "@playwright/mcp": "0.0.40"

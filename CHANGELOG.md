@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- **Threat intelligence reviewed October 4, 2026**: database 2.31.0 adds five CVE and seven GHSA-only records from Anthropic, MCP Python and TypeScript, AWS Security Agent MCP and Cline Hub. Documented branch-specific SDK floors, OAuth issuer and credential migrations, Cowork's separate host and guest-kernel fixes, redirect limits and Cline's unknown patched version. AgentSec tracks 184 advisories; the compatibility catalogue retains nine historical guide-only records and now contains 193. Synchronized the canonical feed and both reference indexes. Every addition remains `not_detected`; no executable detector coverage was added.
+
 - **Gstack navigation repair (October 4, 2026)**: update the machine-readable anchors for the renamed selected-gates and browser-QA sections so index validation resolves both headings.
 
 - **Lean controls across harness, context, methods and factory (October 4, 2026)**: add a proposed countermeasure test loop for recurring agent defects, distinguish context availability from observed use and effect, finish a verifiable legacy unit before parallelism, and count the delay and false blocks introduced by the method itself. Add a repository-harness countermeasure worksheet with failure, valid-neighbor, bypass and cost checks; extend review admission with user outcome, preventive-check and policy-cost fields. Add machine-readable entry points without claiming a measured productivity gain.

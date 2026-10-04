@@ -33,6 +33,72 @@ keywords:
 
 ---
 
+## October 2026 review
+
+**Reviewed October 4, 2026.** Twelve additional maintainer advisories were
+reviewed since September 24. The versions below cover these disclosures;
+check the installed package, branch and transport before choosing a fix.
+
+| Component | Reviewed version floor | Deployment condition |
+|-----------|------------------------|----------------------|
+| Claude Desktop, macOS Cowork | 1.15962.0 | Opening a shared-folder file could execute commands on the host. |
+| MCP Python SDK, `mcp` 1.x | 1.30.0 | Includes the reviewed client, OAuth and HTTP server fixes. |
+| MCP Python SDK, `mcp` 2.x | 2.2.0 | Keep the floor separate from the 1.x package branch. |
+| MCP TypeScript SDK, `@modelcontextprotocol/sdk` 1.x | 1.32.0 | Includes OAuth, redirects and configured experimental tasks. |
+| MCP TypeScript client 2.x | 2.3.0 | Includes redirects; directly imported `core` needs 2.2.0 for OAuth. |
+| AWS Security Agent MCP | 0.2.0 | Git diff reference arguments could write outside the workspace. |
+
+[Cowork's host file-opening advisory](https://github.com/anthropics/claude-code/security/advisories/GHSA-v234-4jrq-mgg6)
+requires a user to open the file unless the separate guest-kernel vulnerability
+is also present. That kernel fix shipped in 1.11847.5; it does not replace the
+host fix. [Claude Code's stored-API-key policy advisory](https://github.com/anthropics/claude-code/security/advisories/GHSA-gfvf-j8jh-jxxw)
+affects Enterprise from 2.0.68 and Team from 2.1.38, before 2.1.260. Local access
+was required to affect server-managed settings retrieval; endpoint-managed
+settings were unaffected. Keep the existing 2.1.281 Claude Code floor for the
+later reviewed fixes, and verify organization policy refresh on affected devices.
+
+**OAuth requires configuration and credential migration as well as an upgrade.**
+For [Python OAuth clients](https://github.com/modelcontextprotocol/python-sdk/security/advisories/GHSA-qx49-fqc8-xw99),
+pass `issuer=` to `ClientCredentialsOAuthProvider` and `PrivateKeyJWTOAuthProvider`,
+clear or bind stored unbound registrations, and migrate the deprecated
+`RFC7523OAuthClientProvider`. For [TypeScript OAuth clients](https://github.com/modelcontextprotocol/typescript-sdk/security/advisories/GHSA-6qxp-vccf-f47h),
+set `expectedIssuer` on bundled providers and preserve `issuer` in saved credentials
+and custom providers. Direct `refreshAuthorization` / `exchangeAuthorization`
+calls and `skipIssuerMetadataValidation` remain outside that fix. Rotate secrets
+and revoke tokens if earlier disclosure to an untrusted issuer is plausible.
+
+[Python redirects](https://github.com/modelcontextprotocol/python-sdk/security/advisories/GHSA-5h93-6whr-6q8j)
+and [TypeScript redirects](https://github.com/modelcontextprotocol/typescript-sdk/security/advisories/GHSA-6prh-2h8m-c8cw)
+could forward custom headers and 307/308 request bodies across origins. Their
+HTTP libraries already stripped a lone `Authorization` header. Configure final
+endpoint URLs; Python clients can disable redirects, and TypeScript's
+`redirectPolicy: 'follow'` restores the exposure. stdio clients are excluded.
+
+For Python servers, the [session-retention advisory](https://github.com/modelcontextprotocol/python-sdk/security/advisories/GHSA-84m7-p3x7-pcfv)
+affects stateful Streamable HTTP, including authenticated deployments; authentication
+does not bound session counts. Use the patched session limits or stateless HTTP
+where appropriate. The [request-body advisory](https://github.com/modelcontextprotocol/python-sdk/security/advisories/GHSA-fmmv-w9g8-j3gc)
+requires a body cap before directly used `StreamableHTTPServerTransport` even after
+upgrading. The [external-schema-reference advisory](https://github.com/modelcontextprotocol/python-sdk/security/advisories/GHSA-rwrf-2pqf-9j8j)
+affects clients: retrieved local content was used as a schema, not returned to the server.
+
+[TypeScript experimental task access](https://github.com/modelcontextprotocol/typescript-sdk/security/advisories/GHSA-22jm-h49p-29qw)
+requires a configured shared `InMemoryTaskStore`; 2.x packages are excluded.
+Remove deprecated experimental tasks where possible. Until patched, isolate
+stores per session. For [AWS Security Agent MCP](https://github.com/awslabs/mcp/security/advisories/GHSA-8g28-rj54-p5p2),
+upgrade to 0.2.0; trusted repositories and isolated, least-privilege execution are
+interim restrictions, not a confirmed workaround.
+
+[Cline Hub's dashboard advisory](https://github.com/cline/cline/security/advisories/GHSA-3cj3-hqcr-g934)
+was disclosed June 23 and newly indexed in September. The reviewed advisory lists
+no patched version for `cline <= 3.0.24`. Exposure requires an unset `ROOM_SECRET`;
+agent-command execution also requires a configured provider and model. Avoid the
+affected dashboard workflow until upstream remediation is verified.
+
+All twelve additions remain `not_detected` in AgentSec. Documentation and version
+floors do not prove that a running deployment is patched or provide executable
+detector coverage.
+
 ## September 2026 review
 
 **Reviewed September 24, 2026.** Update Claude Code to 2.1.281 for the reviewed

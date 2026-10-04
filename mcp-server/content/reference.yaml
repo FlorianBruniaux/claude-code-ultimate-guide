@@ -1799,6 +1799,7 @@ deep_dive:
   architecture: "guide/core/architecture.md"  # was bare int 1280 into ultimate-guide.md, inside a code fence; the comment ("Architecture internals") and its siblings on this line (production_safety, security_hardening) are all plain paths to the dedicated file
   production_safety: "guide/security/production-safety.md"  # Production safety rules
   security_hardening: "guide/security/security-hardening.md"  # Security best practices
+  security_october_2026: "guide/security/security-hardening.md#october-2026-review"  # OAuth migration, branch floors, Cowork and detector coverage
   security_gitspawn_september_2026: "guide/security/security-hardening.md#september-2026-review"  # Reviewed MCP and coding-agent advisories, GitSpawn limits, detector coverage
   security_cve_summary: "guide/security/security-hardening.md#cve-summary-2025-2026"  # Decision Matrix + CVEs
   security_supply_chain_stats: "guide/security/security-hardening.md#12-agent-skills-supply-chain-risks"
@@ -3759,6 +3760,7 @@ section_maps:
     - "14-see-also"
   "guide/security/security-hardening.md":
     - "tldr---decision-matrix"
+    - "october-2026-review"
     - "apply-controls-at-the-owning-layer"
     - "part-1-prevention-before-you-start"
     - "part-2-detection-while-you-work"
