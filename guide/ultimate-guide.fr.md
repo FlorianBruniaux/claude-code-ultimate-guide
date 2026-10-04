@@ -4018,96 +4018,37 @@ Cela impose une deuxième tentative substantielle avec le contexte accumulé, pl
 
 ## 2.9 Ancres sémantiques
 
-Les LLM sont des apparieurs de motifs statistiques entraînés sur d'immenses corpus textuels. L'utilisation d'un **vocabulaire technique précis** aide Claude à activer les bons motifs dans ses données d'entraînement, produisant ainsi des résultats de meilleure qualité.
+Une **ancre sémantique** est le nom d'une méthode, d'un motif ou d'un cadre établi, utilisé comme raccourci dans un prompt. Elle donne à Claude une référence plus précise que « écris de bons tests ». La reconnaissance du terme et son application correcte dépendent encore du modèle, de la tâche et des instructions qui l'entourent.
 
-### Pourquoi la précision est importante
+### Nommer la méthode et le comportement attendu
 
-Quand vous dites « clean code », Claude peut générer l'une de dizaines d'interprétations. Mais quand vous dites « SOLID principles with dependency injection following Clean Architecture layers », vous ancrez Claude sur un motif spécifique et bien documenté issu de son entraînement.
+« Écris de bons tests » laisse l'approche ouverte. « Utilise le TDD, London School ; commence par un test de comportement de l'extérieur vers l'intérieur » nomme une méthode et précise ce qui est attendu. Cette précision compte : un modèle peut reconnaître le terme sans bien l'appliquer au code du projet.
 
-**Insight clé** : Les termes techniques agissent comme des coordonnées GPS dans la connaissance de Claude. Plus ils sont précis, meilleure est la navigation.
+| Demande vague | Ancre et direction pour la tâche | Point à vérifier |
+|---|---|---|
+| « Gère les erreurs » | « Utilise Railway Oriented Programming avec un type Result pour les échecs attendus » | Les échecs attendus restent explicites ; les défaillances imprévues restent observables |
+| « Améliore la conception » | « Applique Deep Modules : cache les détails d'implémentation derrière une interface réduite » | Les appelants dépendent de moins de détails sans perdre le comportement requis |
+| « Modernise cette fonctionnalité » | « Utilise Strangler Fig : remplace un comportement derrière une frontière » | Les anciens et nouveaux chemins coexistent sans rupture pendant la migration |
+| « Conçois l'API » | « Vise le niveau 2 du Richardson Maturity Model » | Les ressources, méthodes HTTP et codes de statut respectent le contrat de l'API |
 
-### Ancres courantes pour Claude Code
+L'ancre doit convenir au problème. Ajoutez le comportement attendu, les limites et les critères de vérification. Par exemple, CQRS et Event Sourcing sont deux choix distincts ; nommer l'un ne justifie pas d'adopter les deux.
 
-| Terme vague | Ancre sémantique | Pourquoi elle aide |
-|-------------|------------------|--------------------|
-| « error handling » | « Railway Oriented Programming with Either/Result monad » | Active les motifs d'erreur fonctionnels |
-| « clean code » | « SOLID principles, especially SRP and DIP » | Cible des principes de conception spécifiques |
-| « good tests » | « TDD London School with outside-in approach » | Précise la méthodologie de test |
-| « good architecture » | « Hexagonal Architecture (Ports & Adapters) » | Nomme un motif concret |
-| « readable code » | « Screaming Architecture with intention-revealing names » | Déclenche des conventions de nommage spécifiques |
-| « scalable design » | « CQRS with Event Sourcing » | Active les motifs distribués |
-| « documentation » | « arc42 template structure » | Précise le cadre de documentation |
-| « requirements » | « EARS syntax for requirements (Easy Approach to Requirements) » | Cible le format d'exigences |
-| « API design » | « REST Level 3 with HATEOAS » | Précise le niveau de maturité |
-| « security » | « OWASP Top 10 mitigations » | Active les connaissances en sécurité |
+Le [plan d'évaluation du projet Semantic Anchors](https://llm-coding.github.io/Semantic-Anchors/evaluations/) distingue la reconnaissance d'un terme de son application et compare les prompts avec ancre à des descriptions ordinaires. Il décrit une méthode d'évaluation, pas un gain de qualité mesuré pour les exemples de ce guide. Si le modèle applique mal un terme, explicitez la méthode et vérifiez le résultat.
 
-### Comment les utiliser dans CLAUDE.md
-
-Ajoutez des ancres sémantiques à vos instructions de projet :
+### Exemple dans CLAUDE.md
 
 ```markdown
-# Architecture Principles
+# Intégration de paiement
 
-Follow these patterns:
-- **Architecture**: Hexagonal Architecture (Ports & Adapters) with clear domain boundaries
-- **Error handling**: Railway Oriented Programming - never throw, return Result<T, E>
-- **Testing**: TDD London School - mock collaborators, test behaviors not implementations
-- **Documentation**: ADR (Architecture Decision Records) for significant choices
+- Architecture : architecture hexagonale (Ports & Adapters). Garder le code du prestataire hors du domaine.
+- Erreurs : utiliser un type Result pour les échecs de paiement attendus ; rendre les défaillances imprévues observables.
+- Tests : utiliser le TDD, London School à la frontière du service ; ajouter un test d'intégration de l'adaptateur du prestataire.
+- Documentation : consigner la décision sur cette frontière dans un ADR.
 ```
 
-### Combinaison avec les balises XML
+Ce sont des choix de projet, pas des valeurs par défaut à copier dans chaque dépôt. Un prompt structuré en XML (section 2.8) peut regrouper les mêmes instructions ; les balises seules ne rendent pas l'ancre plus fiable.
 
-Les ancres sémantiques fonctionnent puissamment avec les prompts structurés en XML (section 2.8) :
-
-```xml
-<instruction>
-  Refactor the user service following Domain-Driven Design (Evans)
-</instruction>
-
-<constraints>
-  - Apply Hexagonal Architecture (Ports & Adapters)
-  - Use Repository pattern for persistence
-  - Implement Railway Oriented Programming for error handling
-  - Follow CQRS for read/write separation
-</constraints>
-
-<quality_criteria>
-  - Screaming Architecture: package structure reveals intent
-  - Single Responsibility Principle per class
-  - Dependency Inversion: depend on abstractions
-</quality_criteria>
-```
-
-### Ancres sémantiques par domaine
-
-**Tests** :
-- TDD London School (mockiste) vs Chicago School (classiciste)
-- Tests basés sur les propriétés (style QuickCheck)
-- Tests de mutation (PIT, Stryker)
-- Syntaxe BDD Gherkin (Given/When/Then)
-
-**Architecture** :
-- Hexagonal Architecture (Ports & Adapters)
-- Clean Architecture (couches Onion)
-- CQRS + Event Sourcing
-- Modèle C4 (Context, Container, Component, Code)
-
-**Motifs de conception** :
-- Motifs du Gang of Four (à préciser : Strategy, Factory, Observer…)
-- Motifs tactiques du Domain-Driven Design (Aggregate, Repository, Domain Event)
-- Motifs fonctionnels (Monad, Functor, Railway)
-
-**Exigences** :
-- EARS (Easy Approach to Requirements Syntax)
-- User Story Mapping (Jeff Patton)
-- Cadre Jobs-to-be-Done
-- Scénarios BDD
-
-> **💡 Conseil pro** : Lorsque Claude produit du code générique, essayez d'ajouter des ancres plus spécifiques. « Use clean code » → « Apply Martin Fowler's Refactoring catalog, specifically Extract Method and Replace Conditional with Polymorphism. »
-
-> **Catalogue complet** : Voir [examples/semantic-anchors/anchor-catalog.md](../examples/semantic-anchors/anchor-catalog.md) pour une référence exhaustive organisée par domaine.
-
-> **Source** : Concept d'Alexandre Soyer. Catalogue original : [github.com/LLM-Coding/Semantic-Anchors](https://github.com/LLM-Coding/Semantic-Anchors) (Apache-2.0)
+Pour d'autres termes, leurs sources et leurs limites d'usage, voir le [catalogue d'ancres sémantiques](../examples/semantic-anchors/anchor-catalog.md). Le [catalogue communautaire LLM-Coding](https://github.com/LLM-Coding/Semantic-Anchors) décrit ses [critères de qualité](https://llm-coding.github.io/Semantic-Anchors/about/) et d'autres candidats.
 
 <a id="210-prompt-engineering-patterns"></a>
 

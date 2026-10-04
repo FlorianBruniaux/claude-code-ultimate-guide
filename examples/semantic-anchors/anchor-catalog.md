@@ -1,20 +1,21 @@
 ---
 title: "Semantic Anchors Catalog"
-description: "Curated vocabulary of precise technical terms that improve Claude Code output quality"
+description: "Curated technical vocabulary with examples, sources, and usage limits"
 tags: [reference, semantic-anchors, architecture]
 ---
 
 # Semantic anchors catalog
 
-> **Concept**: Alexandre Soyer
-> **Source**: [github.com/LLM-Coding/Semantic-Anchors](https://github.com/LLM-Coding/Semantic-Anchors) (Apache-2.0)
-> **Adapted for**: Claude Code workflows
+> **Related catalog**: [LLM-Coding/Semantic-Anchors](https://github.com/LLM-Coding/Semantic-Anchors) (Apache-2.0)
+> **Scope**: Selected terms for Claude Code workflows, not a complete copy of the community catalog
 
 ## What are semantic anchors?
 
-LLMs are statistical pattern matchers. When you use **precise technical vocabulary**, you help Claude access the right patterns from its training data. Generic terms produce generic code; specific terms produce specific, well-structured code.
+A semantic anchor names an established method, pattern, or framework in a prompt. The name can be a useful shorthand when the model recognizes it, but it does not specify your project constraints or guarantee correct implementation. Pair the term with the behavior you need and a way to check the result.
 
-**Analogy**: Technical terms are GPS coordinates into Claude's knowledge base.
+The [community catalog's quality criteria](https://llm-coding.github.io/Semantic-Anchors/about/) ask whether a term is precise, rich, consistent, and attributable. Its [evaluation plan](https://llm-coding.github.io/Semantic-Anchors/evaluations/) distinguishes recognition from application. This catalog is a set of examples, not a benchmark of output quality.
+
+Use a term only when the underlying method fits the task. If Claude misapplies it, expand the name into explicit instructions or cite the original source. Avoid stacking architectural patterns without a demonstrated need.
 
 ---
 
@@ -35,7 +36,7 @@ LLMs are statistical pattern matchers. When you use **precise technical vocabula
 | Vague | Semantic Anchor | Effect |
 |-------|-----------------|--------|
 | "good test names" | "Roy Osherove naming: MethodName_Scenario_ExpectedBehavior" | Consistent, descriptive names |
-| "isolated tests" | "Test Pyramid (Fowler): 70% unit, 20% integration, 10% E2E" | Proper test distribution |
+| "choose test layers" | "Test Pyramid (Fowler)" | Discuss feedback speed and coverage across layers without a fixed ratio |
 | "fast tests" | "Sociable unit tests with test doubles at boundaries" | Speed with realistic behavior |
 | "readable tests" | "Arrange-Act-Assert (AAA) pattern" | Clear test structure |
 | "maintainable tests" | "Object Mother / Test Data Builder pattern" | Reusable test fixtures |
@@ -51,8 +52,19 @@ LLMs are statistical pattern matchers. When you use **precise technical vocabula
 | "clean architecture" | "Hexagonal Architecture (Ports & Adapters)" | Domain isolation, testability |
 | "layered architecture" | "Onion Architecture (Palermo)" | Dependency toward center |
 | "microservices" | "Domain-Driven Design bounded contexts" | Service boundaries |
-| "event-driven" | "CQRS with Event Sourcing" | Read/write separation, audit trail |
+| "separate read and write models" | "CQRS" | Distinct models when that cost is justified |
 | "scalable" | "Event-Driven Architecture with message broker" | Async processing, decoupling |
+
+### Additional coding anchors to evaluate
+
+These four terms appear in the [community catalog](https://llm-coding.github.io/Semantic-Anchors/). Add them to a prompt when the task calls for the underlying method, then describe the local boundary and the expected check.
+
+| Term | Useful direction | Source |
+|---|---|---|
+| Deep Modules | Hide substantial implementation detail behind a small, stable interface; check what callers must still know | [John Ousterhout, *A Philosophy of Software Design*](https://web.stanford.edu/~ouster/cgi-bin/book.php) |
+| Walking Skeleton | Establish a minimal end-to-end path through the system before building out features; verify that path runs | [Alistair Cockburn on Walking Skeleton](https://www.linkedin.com/posts/alistaircockburn_what-is-a-walking-skeleton-and-why-do-i-need-activity-7419086703577071616-D8Cs) |
+| Mikado Method | Map dependencies before a structural change, revert failed probes, and make the prerequisites explicit | [Ola Ellnestam and Daniel Brolund, *The Mikado Method*](https://www.manning.com/books/the-mikado-method) |
+| Strangler Fig | Replace one legacy behavior at a time behind a boundary; verify old and new paths during migration | [Martin Fowler, Strangler Fig](https://martinfowler.com/bliki/StranglerFigApplication.html) |
 
 ### Domain-Driven design (evans)
 
@@ -93,7 +105,7 @@ LLMs are statistical pattern matchers. When you use **precise technical vocabula
 
 | Smell | Semantic Anchor | Solution |
 |-------|-----------------|----------|
-| "long method" | "Extract Method until comments become unnecessary" | Methods < 10 lines |
+| "long method" | "Extract Method where a named operation clarifies intent" | Review behavior and readability |
 | "large class" | "Extract Class following SRP" | Single responsibility |
 | "feature envy" | "Move Method to class that owns data" | Better cohesion |
 | "primitive obsession" | "Replace Primitive with Value Object" | Type safety |
@@ -105,8 +117,8 @@ LLMs are statistical pattern matchers. When you use **precise technical vocabula
 |-------|-----------------|-------------|
 | "readable" | "Screaming Architecture: package structure reveals intent" | Folder naming |
 | "clear names" | "Intention-revealing names (Clean Code Ch. 2)" | Self-documenting |
-| "no comments" | "Code should be self-explanatory (comments lie)" | Refactor instead |
-| "small functions" | "Functions should do one thing (max 20 lines)" | Single responsibility |
+| "explain a difficult decision" | "Document the why, not the obvious mechanics" | Preserve reasoning that code alone cannot show |
+| "small functions" | "Functions should do one thing" | Review responsibility without a fixed line limit |
 | "no side effects" | "Command-Query Separation (CQS)" | Predictable behavior |
 
 ---
@@ -136,6 +148,8 @@ LLMs are statistical pattern matchers. When you use **precise technical vocabula
 ## API design
 
 ### REST maturity
+
+The levels below refer to the [Richardson Maturity Model](https://martinfowler.com/articles/richardsonMaturityModel.html). They describe HTTP design choices, not a score that every API must maximize.
 
 | Vague | Semantic Anchor | Level |
 |-------|-----------------|-------|
@@ -216,7 +230,7 @@ LLMs are statistical pattern matchers. When you use **precise technical vocabula
 |-------|-----------------|----------------|
 | "secure by default" | "Principle of least privilege" | Minimal permissions |
 | "defense in depth" | "Multiple security layers (network, app, data)" | Layered security |
-| "secure communication" | "TLS 1.3 with certificate pinning" | Transport security |
+| "secure communication" | "TLS 1.3 with certificate validation" | Transport security; pinning needs a separate threat model |
 | "audit logging" | "Immutable audit trail with tamper detection" | Compliance |
 
 ---
@@ -332,9 +346,9 @@ For progressive refinement of scripts and automation:
 | "Add error handling" | "Use Railway Oriented Programming with Either monad" |
 | "Write good tests" | "Follow TDD London School with mock collaborators" |
 | "Document the API" | "Generate OpenAPI 3.0 spec from annotations" |
-| "Make it secure" | "Mitigate OWASP Top 10, specifically A03:Injection" |
-| "Refactor this" | "Apply Extract Method until comments are unnecessary" |
-| "Scale this service" | "Implement CQRS with Event Sourcing for read/write separation" |
+| "Review this input boundary" | "Check applicable OWASP ASVS input-validation requirements" |
+| "Separate this operation" | "Apply Extract Method without changing public behavior" |
+| "Read and write models have different needs" | "Consider CQRS; assess Event Sourcing separately" |
 
 ---
 
@@ -352,4 +366,4 @@ For progressive refinement of scripts and automation:
 
 ---
 
-> **Remember**: The goal is precision, not jargon. Use anchors that Claude has seen extensively in its training data. When in doubt, reference the authoritative source (book, paper, framework).
+> **Use with care**: Prefer a term you can define and verify for this task. If the model does not apply it correctly, spell out the behavior and cite the method's primary source.

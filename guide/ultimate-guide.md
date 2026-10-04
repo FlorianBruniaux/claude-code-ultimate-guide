@@ -3933,96 +3933,37 @@ This forces a substantive second attempt with accumulated context rather than in
 
 ## 2.9 Semantic anchors
 
-LLMs are statistical pattern matchers trained on massive text corpora. Using **precise technical vocabulary** helps Claude activate the right patterns in its training data, leading to higher-quality outputs.
+A **semantic anchor** is the name of an established method, pattern, or framework used as shorthand in a prompt. It gives Claude a more specific reference than a request such as "write good tests." Recognition and correct application still depend on the model, the task, and the surrounding instructions.
 
-### Why precision matters
+### Use the name and the behavior you need
 
-When you say "clean code", Claude might generate any of dozens of interpretations. But when you say "SOLID principles with dependency injection following Clean Architecture layers", you anchor Claude to a specific, well-documented pattern from its training.
+"Write good tests" leaves the testing approach open. "Use TDD, London School; start with an outside-in behavior test" names a particular approach and states the part you need. The added instruction matters: a model may recognize the term without applying it well to your code.
 
-**Key insight**: Technical terms act as GPS coordinates into Claude's knowledge. The more precise, the better the navigation.
+| Vague request | Anchor with task-specific direction | What to check |
+|---|---|---|
+| "Handle errors" | "Use Railway Oriented Programming with Result for expected failures" | Expected failures remain explicit; unexpected failures stay observable |
+| "Improve the design" | "Apply Deep Modules: hide implementation detail behind a small interface" | Callers depend on fewer details without losing needed behavior |
+| "Modernize this feature" | "Use Strangler Fig: replace one behavior behind a boundary" | Old and new paths coexist safely during migration |
+| "Design the API" | "Target Richardson Maturity Model Level 2" | Resources, HTTP methods, and status codes match the API contract |
 
-### Common anchors for Claude Code
+An anchor should fit the problem. State the relevant behavior, boundaries, and acceptance checks alongside it. For example, CQRS and Event Sourcing are separate choices; naming either one does not justify adopting both.
 
-| Vague Term | Semantic Anchor | Why It Helps |
-|------------|-----------------|--------------|
-| "error handling" | "Railway Oriented Programming with Either/Result monad" | Activates functional error patterns |
-| "clean code" | "SOLID principles, especially SRP and DIP" | Targets specific design principles |
-| "good tests" | "TDD London School with outside-in approach" | Specifies test methodology |
-| "good architecture" | "Hexagonal Architecture (Ports & Adapters)" | Names a concrete pattern |
-| "readable code" | "Screaming Architecture with intention-revealing names" | Triggers specific naming conventions |
-| "scalable design" | "CQRS with Event Sourcing" | Activates distributed patterns |
-| "documentation" | "arc42 template structure" | Specifies documentation framework |
-| "requirements" | "EARS syntax for requirements (Easy Approach to Requirements)" | Targets requirement format |
-| "API design" | "REST Level 3 with HATEOAS" | Specifies maturity level |
-| "security" | "OWASP Top 10 mitigations" | Activates security knowledge |
+The [Semantic Anchors project's evaluation plan](https://llm-coding.github.io/Semantic-Anchors/evaluations/) separates recognition from application and compares anchor prompts with ordinary descriptions. It describes an evaluation method, not a measured quality gain for the examples in this guide. If a model applies a term incorrectly, expand it into explicit instructions and verify the result.
 
-### How to use in CLAUDE.md
-
-Add semantic anchors to your project instructions:
+### Example in CLAUDE.md
 
 ```markdown
-# Architecture Principles
+# Payment integration
 
-Follow these patterns:
-- **Architecture**: Hexagonal Architecture (Ports & Adapters) with clear domain boundaries
-- **Error handling**: Railway Oriented Programming - never throw, return Result<T, E>
-- **Testing**: TDD London School - mock collaborators, test behaviors not implementations
-- **Documentation**: ADR (Architecture Decision Records) for significant choices
+- Architecture: Hexagonal Architecture (Ports & Adapters). Keep provider code outside the domain.
+- Error handling: Use a Result type for expected payment failures; keep unexpected failures observable.
+- Testing: Use TDD, London School at the service boundary; add an integration test for the provider adapter.
+- Documentation: Record the provider-boundary decision in an ADR.
 ```
 
-### Combining with XML tags
+These are project choices, not defaults to copy into every repository. An XML-structured prompt (Section 2.8) can group the same instructions, but the tags alone do not make the anchor more reliable.
 
-Semantic anchors work powerfully with XML-structured prompts (Section 2.8):
-
-```xml
-<instruction>
-  Refactor the user service following Domain-Driven Design (Evans)
-</instruction>
-
-<constraints>
-  - Apply Hexagonal Architecture (Ports & Adapters)
-  - Use Repository pattern for persistence
-  - Implement Railway Oriented Programming for error handling
-  - Follow CQRS for read/write separation
-</constraints>
-
-<quality_criteria>
-  - Screaming Architecture: package structure reveals intent
-  - Single Responsibility Principle per class
-  - Dependency Inversion: depend on abstractions
-</quality_criteria>
-```
-
-### Semantic anchors by domain
-
-**Testing**:
-- TDD London School (mockist) vs Chicago School (classicist)
-- Property-Based Testing (QuickCheck-style)
-- Mutation Testing (PIT, Stryker)
-- BDD Gherkin syntax (Given/When/Then)
-
-**Architecture**:
-- Hexagonal Architecture (Ports & Adapters)
-- Clean Architecture (Onion layers)
-- CQRS + Event Sourcing
-- C4 Model (Context, Container, Component, Code)
-
-**Design Patterns**:
-- Gang of Four patterns (specify: Strategy, Factory, Observer...)
-- Domain-Driven Design tactical patterns (Aggregate, Repository, Domain Event)
-- Functional patterns (Monad, Functor, Railway)
-
-**Requirements**:
-- EARS (Easy Approach to Requirements Syntax)
-- User Story Mapping (Jeff Patton)
-- Jobs-to-be-Done framework
-- BDD scenarios
-
-> **💡 Pro tip**: When Claude produces generic code, try adding more specific anchors. "Use clean code" → "Apply Martin Fowler's Refactoring catalog, specifically Extract Method and Replace Conditional with Polymorphism."
-
-> **Full catalog**: See [examples/semantic-anchors/anchor-catalog.md](../examples/semantic-anchors/anchor-catalog.md) for a comprehensive reference organized by domain.
-
-> **Source**: Concept by Alexandre Soyer. Original catalog: [github.com/LLM-Coding/Semantic-Anchors](https://github.com/LLM-Coding/Semantic-Anchors) (Apache-2.0)
+For more terms, sources, and usage limits, see the [curated semantic anchors catalog](../examples/semantic-anchors/anchor-catalog.md). The [LLM-Coding community catalog](https://github.com/LLM-Coding/Semantic-Anchors) describes its [quality criteria](https://llm-coding.github.io/Semantic-Anchors/about/) and additional candidates.
 
 ## 2.10 Prompt engineering patterns
 

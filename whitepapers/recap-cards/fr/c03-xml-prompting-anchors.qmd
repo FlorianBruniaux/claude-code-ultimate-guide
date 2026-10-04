@@ -5,7 +5,7 @@ card-number: "C03"
 category: "Conception"
 difficulty: "advanced"
 guide-version: "3.43.0"
-wp-version: "1.0.1"
+wp-version: "1.0.2"
 author: "Florian BRUNIAUX"
 version: "3.43.0"
 date: "2026-09-26"
@@ -61,25 +61,19 @@ Nouveau fichier src/validation/index.ts avec les exports
 | `<state>` | État actuel (bug, diff, logs) |
 | `<task>` + `<subtask>` | Décomposition hiérarchique |
 
-## Semantic Anchors dans le code
+## Ancres sémantiques
 
-Les anchors sont des marqueurs en commentaire qui permettent à Claude de référencer des zones précises du code sans lire des fichiers entiers.
+Une ancre sémantique nomme une méthode ou un motif établi. Elle donne à Claude une référence concise, mais la tâche exige encore un contexte de projet et un contrôle.
 
-```typescript
-// ANCHOR: auth-flow
-export async function authenticate(token: string) {
-  // ...
-}
-// END-ANCHOR: auth-flow
-
-// ANCHOR: token-validation
-function validateJWT(token: string): Claims {
-  // ...
-}
-// END-ANCHOR: token-validation
+```text
+Refactorise l'intégration de paiement avec Ports & Adapters.
+Garde le code du prestataire hors du domaine.
+Vérifie que les tests de paiement existants passent toujours.
 ```
 
-Dans votre prompt : "Modifie uniquement la section ANCHOR: auth-flow pour ajouter la gestion des tokens expirés." Le marqueur limite la modification demandée ; Claude peut encore avoir besoin du code environnant pour en valider les effets.
+« Ports & Adapters » nomme l'approche. Les deux phrases suivantes précisent son application à cette tâche et le contrôle attendu. Si Claude applique mal le terme, décrivez la frontière voulue plutôt que de répéter son nom. Voir la [section du guide sur les ancres sémantiques](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.fr.md#29-semantic-anchors).
+
+Les commentaires tels que `// ANCHOR: auth-flow` sont des marqueurs de position dans le code. Ils peuvent désigner une zone du fichier, mais le mot « ancre » a ici un autre sens.
 
 ## Quand utiliser XML
 

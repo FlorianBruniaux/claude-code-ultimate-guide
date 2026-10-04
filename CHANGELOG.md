@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- **Semantic anchors source alignment (October 4, 2026)**: correct the bilingual C03 recap cards so semantic anchors name established methods rather than code-location comments; clarify the distinction and repair the community-patterns glossary definition.
+
+- **Semantic anchors guide and catalog (October 3, 2026)**: replace unmeasured claims about prompt quality with a practical explanation of recognition versus application in the English and French guides. Add four source-linked coding anchors, name the Richardson Maturity Model, remove fixed code and test ratios, and correct the examples index link. The French section was updated locally; this is not a full translation refresh.
+
 - **Attack-surface link label updated (October 2, 2026)**: `guide/security/security-hardening.md` now cites the portfolio guide under its current title, "the attack surface few teams audit", instead of "nobody audits".
 
 - **Translation provenance repaired (October 1, 2026)**: rebind the English canonical checksum to its latest committed source, record the current French artifact hash and Git lag without claiming a new translation review, and synchronize the MCP registry mirror. French remains stale against the current English source.

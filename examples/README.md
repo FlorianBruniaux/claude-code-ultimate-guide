@@ -372,9 +372,9 @@ Security-first: 12 security hooks, 8 productivity hooks, 5 automation hooks, 5 m
 
 | File | Purpose |
 |------|---------|
-| [anchor-catalog.md](./semantic-anchors/anchor-catalog.md) | Comprehensive catalog of precise technical terms for prompting |
+| [anchor-catalog.md](./semantic-anchors/anchor-catalog.md) | Curated terms, sources, and usage limits for prompts |
 
-> **See [Section 2.7](../guide/ultimate-guide.md#29-semantic-anchors) in the guide for how to use semantic anchors**
+> **See [Section 2.9](../guide/ultimate-guide.md#29-semantic-anchors) in the guide for how to use semantic anchors**
 
 ### Multi-provider bridge
 

@@ -5,7 +5,7 @@ card-number: "C03"
 category: "Design"
 difficulty: "advanced"
 guide-version: "3.43.0"
-wp-version: "1.0.1"
+wp-version: "1.0.2"
 author: "Florian BRUNIAUX"
 version: "3.43.0"
 date: "2026-09-26"
@@ -61,25 +61,19 @@ New file src/validation/index.ts with exports
 | `<state>` | Current state (bug, diff, logs) |
 | `<task>` + `<subtask>` | Hierarchical decomposition |
 
-## Semantic Anchors in code
+## Semantic anchors
 
-Anchors are comment markers that allow Claude to reference specific areas of code without reading entire files.
+A semantic anchor names an established method or pattern. It gives Claude a concise reference, but the task still needs project context and a check.
 
-```typescript
-// ANCHOR: auth-flow
-export async function authenticate(token: string) {
-  // ...
-}
-// END-ANCHOR: auth-flow
-
-// ANCHOR: token-validation
-function validateJWT(token: string): Claims {
-  // ...
-}
-// END-ANCHOR: token-validation
+```text
+Refactor the payment integration using Ports & Adapters.
+Keep provider code outside the domain.
+Check that the existing payment tests still pass.
 ```
 
-In your prompt: "Modify only the ANCHOR: auth-flow section to add expired token handling." The marker narrows the requested edit; Claude may still need surrounding code to validate its effect.
+"Ports & Adapters" names the design approach. The next two sentences say what it means for this task and how to check the change. If Claude applies the term incorrectly, spell out the intended boundary instead of repeating the name. See the [guide section on semantic anchors](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#29-semantic-anchors).
+
+Code comments such as `// ANCHOR: auth-flow` are location markers. They can help point to a file region, but they are a different use of the word "anchor."
 
 ## When to use XML
 

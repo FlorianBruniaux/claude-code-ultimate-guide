@@ -111,7 +111,7 @@ Quick-reference for Claude Code community patterns, workflow terms, and AI engin
 | RTK (Rust Token Killer) | CLI proxy that reduces token consumption 60-90% by filtering and compressing command output before it reaches Claude. | Ecosystem | Tools |
 | Rules (.claude/rules/) | Auto-loaded markdown files providing always-on instructions. Loaded at every session start, independent of which skills are active. | Claude Code | Configuration |
 | SE-CoVe (Software Engineering Chain-of-Verification) | Community plugin implementing Chain-of-Verification with independent review agents for automated output validation. Based on Meta's CoVe research (arXiv:2309.11495). | Ecosystem | Plugins |
-| Semantic anchors | Named reference patterns in CLAUDE.md (e.g., `## Architecture`) that Claude reliably finds and follows across sessions. | AI Engineering | Context |
+| Semantic anchors | Names of established methods or patterns used as concise references in prompts, with task-specific instructions and checks. | AI Engineering | Context |
 | Session | A single Claude Code conversation with its own context window, history, checkpoints, and tool state. | Claude Code | Core |
 | Session handoff | Manually starting a new session and passing a summarized context document from an exhausted or degraded previous session. | Workflow | Context |
 | SessionStart / SessionEnd | Hook events fired when a session begins or closes. Used for setup scripts, logging, and cleanup automation. | Claude Code | Hooks |
