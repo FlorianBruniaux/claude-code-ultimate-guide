@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "snapshot_at": "2026-10-05T12:22:09Z",
+  "snapshot_at": "2026-10-05T12:28:31Z",
   "package": {
     "name": "claude-code-ultimate-guide-mcp",
     "npm_version": "1.3.5"
