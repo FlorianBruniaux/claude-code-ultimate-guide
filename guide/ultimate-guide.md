@@ -12775,8 +12775,8 @@ The Claude Code Ultimate Guide ships a stdio MCP server so coding clients can se
 #### Installation
 
 ```bash
-claude mcp add --scope user claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.4
-codex mcp add claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.4
+claude mcp add --scope user claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.5
+codex mcp add claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.5
 ```
 
 For project-scoped Claude Code use, add the server to `.mcp.json`:
@@ -12787,7 +12787,7 @@ For project-scoped Claude Code use, add the server to `.mcp.json`:
     "claude-code-guide": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "claude-code-ultimate-guide-mcp@1.3.4"]
+      "args": ["-y", "claude-code-ultimate-guide-mcp@1.3.5"]
     }
   }
 }
