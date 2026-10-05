@@ -197,13 +197,13 @@ The model itself decides when to call tools, which tools to call, and when it's 
 
 ### Agentic loop API vocabulary
 
-The master loop diagram above shows the flow conceptually, but the Anthropic API exposes it through concrete `stop_reason` values. Every API response includes a `stop_reason` field: it's how Claude signals what should happen next. Understanding these three values is essential for building custom agents on top of the Anthropic SDK.
+The master loop diagram above shows the flow conceptually, but the Messages API exposes it through concrete `stop_reason` values. These three common values illustrate the loop; see the [official stop-reason reference](https://platform.claude.com/docs/en/build-with-claude/handling-stop-reasons) for the full list.
 
 | `stop_reason` | Meaning | Loop action |
 |---------------|---------|-------------|
 | `tool_use` | Claude wants to call one or more tools | Execute tools, feed results back, continue loop |
 | `end_turn` | Claude decided it has finished | Exit loop, return the text response |
-| `max_tokens` | Context limit reached before finishing | Rethink context strategy, likely need summarization |
+| `max_tokens` | Requested output-token limit reached | Raise the output limit or continue the response |
 
 The pseudocode becomes precise with these names:
 
@@ -248,13 +248,15 @@ Practical ranges by task type:
 | Research or multi-step coding | 20-30 |
 | Extended autonomous workflows | 50 |
 
-When `max_turns` is reached, the loop exits with whatever state was last written. The task may be incomplete. Always check the final `stop_reason` and implement a fallback path:
+`max_turns` is an Agent SDK loop limit, not a Messages API `stop_reason`. If this cap is reached, the task may be incomplete. Inspect the SDK's final result message for `subtype == "error_max_turns"`, as documented in the [Python Agent SDK reference](https://code.claude.com/docs/en/agent-sdk/python):
 
 ```python
-result = agent.run(task, max_turns=20)
-if result.stop_reason == "max_turns":
-    # escalate or summarize partial progress
-    handle_incomplete(result)
+from claude_agent_sdk import ClaudeAgentOptions, ResultMessage, query
+
+# Inside an async function; handle_incomplete is your application callback.
+async for message in query(prompt=task, options=ClaudeAgentOptions(max_turns=20)):
+    if isinstance(message, ResultMessage) and message.subtype == "error_max_turns":
+        handle_incomplete(message)
 ```
 
 Setting `max_turns` per task type rather than globally prevents a single slow task from starving others in a multi-agent pipeline. A nightly batch job that legitimately needs 50 turns should not inherit the same cap as a quick lookup that should resolve in 5.

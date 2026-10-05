@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- **Agent loop termination corrected**: distinguish Messages API output-token limits from context-window limits and Agent SDK turn caps. Link the full API stop-reason list and replace the unsupported `stop_reason == "max_turns"` example with the documented `error_max_turns` SDK result subtype.
+
 - **MCP public statistics collection repaired**: query the named server through the current Registry v0.1 detail endpoint instead of the global search endpoint. Treat HTTP 404 as absent while preserving network failures as collection failures.
 
 - **MCP 1.3.5 patch release**: publish the repaired guide index and current translation metadata from the validated source tree. The manually published 1.3.4 package retained older bundled references; 1.3.5 carries the source corrections.
