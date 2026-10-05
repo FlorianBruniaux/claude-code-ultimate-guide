@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- **Claude Code releases synchronized through 2.1.289**: add the October 2 and 3 patch summaries from the official changelog, align the release registry and discovery mirrors, and retain npm UTC publication dates.
+
 - **Agent loop termination corrected**: distinguish Messages API output-token limits from context-window limits and Agent SDK turn caps. Link the full API stop-reason list and replace the unsupported `stop_reason == "max_turns"` example with the documented `error_max_turns` SDK result subtype.
 
 - **MCP public statistics collection repaired**: query the named server through the current Registry v0.1 detail endpoint instead of the global search endpoint. Treat HTTP 404 as absent while preserving network failures as collection failures.

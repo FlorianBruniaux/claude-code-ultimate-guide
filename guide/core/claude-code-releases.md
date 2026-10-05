@@ -17,12 +17,14 @@ keywords:
 > **Release dates**: UTC publication dates from the [official npm package metadata](https://registry.npmjs.org/@anthropic-ai%2Fclaude-code). Only versions with upstream changelog entries are included.
 > **Machine-readable**: [claude-code-releases.yaml](../../machine-readable/claude-code-releases.yaml)
 
-**Latest**: v2.1.287 | **Updated**: 2026-10-01
+**Latest**: v2.1.289 | **Updated**: 2026-10-05
 
 ---
 
 ## Quick jump
 
+- [v2.1.289](#v21289-2026-10-03): Fixed managed-machine permission rules bypassed by user-installed mods, Bash deny/ask rules under sandbox auto-allow, and Read deny rules through IDE symlinks
+- [v2.1.288](#v21288-2026-10-02): Added mod selection access via $.ui.selection(), draft recovery with Up after Ctrl+C, and MCP re-authentication prompts for additional OAuth scopes
 - [v2.1.287](#v21287-2026-10-01): Claude Mods and the "You should know" side agent, 1M context by default on Bedrock, Vertex and Foundry, MCP URL prompts and `rm` safeguard fix
 - [v2.1.286](#v21286-2026-09-30): permission-prompt stack count, single retry budget per model call, stricter `--bare`, resume and secret-redaction fixes
 - [v2.1.285](#v21285-2026-09-29): `allowedProviders`, `claude --desktop`, time-limited background commands, 1M context behind custom base URLs and permission-check fixes
@@ -53,6 +55,20 @@ keywords:
 ---
 
 ## 2.1.x series (January-August 2026)
+
+### v2.1.289 (2026-10-03)
+
+- Fixed managed-machine permission rules bypassed by user-installed mods, Bash deny/ask rules under sandbox auto-allow, and Read deny rules through IDE symlinks
+- Added agent.spawn for teammates, shared agent IDs across plugin hook events, and idle/waiting states in $.agent.list()
+- Fixed installed mods missing from the first session after upgrade, stale local plugin versions and plugin/mod rendering failures
+- Reverted the VS Code claude auth status change that could increase sign-outs; fixed terminal and published artifact freezes on malformed code blocks
+
+### v2.1.288 (2026-10-02)
+
+- Added mod selection access via $.ui.selection(), draft recovery with Up after Ctrl+C, and MCP re-authentication prompts for additional OAuth scopes
+- Added /code-review --max-findings and agent-view session search with Ctrl+F
+- Fixed interrupted-response recovery, missed auto-compaction, resume context loss and duplicate remote MCP tool calls
+- Fixed plugin-defined teammate configuration, managed sandbox credential-file rules, headless signal handling and GitHub plugin installation without SSH keys
 
 ### v2.1.287 (2026-10-01)
 
