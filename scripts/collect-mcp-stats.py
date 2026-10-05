@@ -10,6 +10,7 @@ import os
 import re
 import sys
 import urllib.parse
+import urllib.error
 import urllib.request
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
@@ -23,7 +24,7 @@ REGISTRY_NAME = "io.github.FlorianBruniaux/claude-code-guide"
 DEFAULT_OUTPUT = ROOT / "machine-readable" / "mcp-stats.json"
 NPM_REGISTRY_URL = f"https://registry.npmjs.org/{PACKAGE}"
 NPM_DOWNLOADS_URL = "https://api.npmjs.org/downloads"
-MCP_REGISTRY_URL = "https://registry.modelcontextprotocol.io/v0/servers"
+MCP_REGISTRY_URL = "https://registry.modelcontextprotocol.io/v0.1/servers"
 UTC_TIMESTAMP = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z$")
 PRODUCT_CHANGELOG_START = "<!-- mcp-product:start -->"
 PRODUCT_CHANGELOG_END = "<!-- mcp-product:end -->"
@@ -387,6 +388,19 @@ def period_url(kind: str, start: str, end: str) -> str:
     return f"{NPM_DOWNLOADS_URL}/{kind}/{start}:{end}/{package}"
 
 
+def collect_registry(timeout: int) -> Dict[str, Any]:
+    name = urllib.parse.quote(REGISTRY_NAME, safe="")
+    try:
+        response = fetch_json(f"{MCP_REGISTRY_URL}/{name}/versions/latest", timeout)
+    except urllib.error.HTTPError as error:
+        if error.code == 404:
+            return {"servers": []}
+        raise
+    if not isinstance(response, dict) or not isinstance(response.get("server"), dict):
+        raise ValueError("official MCP Registry detail response must contain a server object")
+    return {"servers": [response]}
+
+
 def collect_live(snapshot_at: Optional[str] = None, timeout: int = 30) -> Dict[str, Any]:
     captured_at = snapshot_at or utc_now()
     metadata = fetch_json(NPM_REGISTRY_URL, timeout)
@@ -398,8 +412,7 @@ def collect_live(snapshot_at: Optional[str] = None, timeout: int = 30) -> Dict[s
         name: fetch_json(period_url("point", *period), timeout)
         for name, period in periods.items()
     }
-    registry_query = urllib.parse.urlencode({"search": REGISTRY_NAME, "limit": 100})
-    registry = fetch_json(f"{MCP_REGISTRY_URL}?{registry_query}", timeout)
+    registry = collect_registry(timeout)
     return build_snapshot(metadata, year_to_date, since_launch, totals, registry, captured_at)
 
 

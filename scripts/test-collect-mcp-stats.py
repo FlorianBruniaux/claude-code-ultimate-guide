@@ -11,6 +11,8 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
+import urllib.error
 from pathlib import Path
 
 
@@ -39,6 +41,23 @@ class CollectorContractTests(unittest.TestCase):
         self.collector = load_collector()
         if self.collector is None and self._testMethodName != "test_executable_collector_exists":
             self.skipTest("collector not implemented yet")
+
+    def test_registry_lookup_uses_direct_named_endpoint(self):
+        payload = {"server": {"name": self.collector.REGISTRY_NAME, "version": "1.3.5"}}
+        with patch.object(self.collector, "fetch_json", return_value=payload) as fetch:
+            result = self.collector.collect_registry(30)
+        fetch.assert_called_once_with(
+            "https://registry.modelcontextprotocol.io/v0.1/servers/io.github.FlorianBruniaux%2Fclaude-code-guide/versions/latest", 30
+        )
+        self.assertTrue(self.collector.registry_contains(result))
+
+    def test_registry_missing_server_is_absent_but_network_failure_is_not(self):
+        missing = urllib.error.HTTPError("url", 404, "not found", {}, None)
+        with patch.object(self.collector, "fetch_json", side_effect=missing):
+            self.assertFalse(self.collector.registry_contains(self.collector.collect_registry(30)))
+        with patch.object(self.collector, "fetch_json", side_effect=TimeoutError("network timeout")):
+            with self.assertRaises(TimeoutError):
+                self.collector.collect_registry(30)
 
     def test_distribution_includes_zero_and_flags_only_the_large_outlier(self):
         """Break caught: dropping zero days or weakening MAD hides skew."""
