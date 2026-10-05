@@ -7,9 +7,9 @@ Public package status checked on 2026-10-05:
 - public npm package: `1.3.6`
 - public runtime handshake: `1.3.6`
 - public runtime surface: 17 tools, 6 resources, 1 prompt
-- official MCP Registry identity: `io.github.FlorianBruniaux/claude-code-guide`; its latest registered version was `1.3.5` at `2026-10-05T18:54:06Z`, separately from npm `1.3.6`
+- official MCP Registry identity: `io.github.FlorianBruniaux/claude-code-guide`; version `1.3.6` was active and marked latest at `2026-10-05T19:21:02Z`, separately verified from npm
 
-The [public runtime snapshot](../../machine-readable/mcp-public-runtime.json), measured at `2026-10-05T18:52:56Z`, records the public package handshake and list methods. The public package installed from npm was also checked over stdio on 2026-10-05: initialization, 17 tools, 6 resources, 1 prompt, guide search, and source retrieval passed. The downloaded tarball matched the tested release candidate integrity. Client installation commands below were not executed in that check. The generated [product manifest](../../machine-readable/mcp-product.json) describes the repository contract; a repository candidate can differ from the published package. A separate read of the official Registry latest-version endpoint at `2026-10-05T18:54:06Z` returned version `1.3.5`. npm publication does not update that listing automatically.
+The [public runtime snapshot](../../machine-readable/mcp-public-runtime.json), measured at `2026-10-05T18:52:56Z`, records the public package handshake and list methods. The public package installed from npm was also checked over stdio on 2026-10-05: initialization, 17 tools, 6 resources, 1 prompt, guide search, and source retrieval passed. The downloaded tarball matched the tested release candidate integrity. Client installation commands below were not executed in that check. The generated [product manifest](../../machine-readable/mcp-product.json) describes the repository contract; a repository candidate can differ from the published package. The official Registry accepted publication of `1.3.6` at `2026-10-05T19:15:19.901349Z`. Separate public reads of its version-specific and latest endpoints at `2026-10-05T19:21:02Z` confirmed version `1.3.6`, status `active`, and `isLatest: true`. npm and Registry publication were verified separately.
 
 ## TL;DR
 

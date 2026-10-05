@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
-- **MCP chapter links repaired**: generate chapter boundaries from the guide during builds, ignoring fenced examples and preserving source offsets. Session-scoped hooks now resolve to the Hooks chapter; invalid or mismatched local-source offsets fall back to the guide root. Add regression coverage and refresh the MCP technical reference from the October 5 public 1.3.5 snapshot. The corrected package was published as 1.3.6 on October 5, 2026; its public tarball integrity and stdio search/read behavior were verified.
+- **MCP chapter links repaired**: generate chapter boundaries from the guide during builds, ignoring fenced examples and preserving source offsets. Session-scoped hooks now resolve to the Hooks chapter; invalid or mismatched local-source offsets fall back to the guide root. Add regression coverage and refresh the MCP technical reference from the October 5 public 1.3.5 snapshot. The corrected package was published as 1.3.6 on October 5, 2026; its public tarball integrity and stdio search/read behavior were verified. The official MCP Registry subsequently accepted version 1.3.6; public version-specific and latest endpoints confirmed it active and latest.
 
 - **Claude Code releases synchronized through 2.1.289**: add the October 2 and 3 patch summaries from the official changelog, align the release registry and discovery mirrors, and retain npm UTC publication dates.
 
