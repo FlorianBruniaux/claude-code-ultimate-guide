@@ -1,29 +1,27 @@
+import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import chapterMap from './chapter-ranges.generated.json';
+
 const GITHUB_BASE = 'https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main';
 const GUIDE_SITE_BASE = 'https://cc.bruniaux.com/guide/ultimate-guide';
 
-// Chapter slugs for guide/ultimate-guide.md (line ranges → chapter slug)
-// Pattern: https://cc.bruniaux.com/guide/ultimate-guide/{chapter-slug}/#{section-anchor}
-const CHAPTER_RANGES: Array<{ from: number; to: number; slug: string }> = [
-  { from: 1,     to: 220,   slug: '00-introduction' },
-  { from: 221,   to: 1378,  slug: '01-quick-start' },
-  { from: 1379,  to: 4231,  slug: '02-core-workflow' },
-  { from: 4232,  to: 5648,  slug: '03-memory-files' },
-  { from: 5649,  to: 6361,  slug: '04-agents' },
-  { from: 6362,  to: 7470,  slug: '05-skills' },
-  { from: 7471,  to: 8106,  slug: '06-commands' },
-  { from: 8107,  to: 9482,  slug: '07-hooks' },
-  { from: 9483,  to: 12118, slug: '08-mcp' },
-  { from: 12119, to: 19831, slug: '09-advanced-patterns' },
-  { from: 19832, to: 20760, slug: '10-reference' },
-  { from: 20761, to: 21384, slug: '11-ai-ecosystem' },
-  { from: 21385, to: Infinity, slug: '12-appendices' },
-];
+// The bundle routes its own reference snapshot without accessing a guide repository.
+// GUIDE_ROOT is checked once at module initialization. If local files diverge,
+// callers retain the guide-root link instead of receiving a guessed chapter.
+let matchesSnapshot = true;
+if (process.env.GUIDE_ROOT) {
+  try {
+    const root = resolve(process.env.GUIDE_ROOT);
+    const hashFile = (path: string) => createHash('sha256').update(readFileSync(path)).digest('hex');
+    matchesSnapshot = hashFile(resolve(root, 'guide/ultimate-guide.md')) === chapterMap.sourceSha256
+      && hashFile(resolve(root, 'machine-readable/reference.yaml')) === chapterMap.referenceSha256;
+  } catch { matchesSnapshot = false; }
+}
 
-function lineToChapterSlug(line: number): string {
-  for (const range of CHAPTER_RANGES) {
-    if (line >= range.from && line <= range.to) return range.slug;
-  }
-  return '12-appendices';
+function lineToChapterSlug(line: number): string | null {
+  if (!matchesSnapshot || !Number.isInteger(line) || line < 1 || line > chapterMap.lineCount) return null;
+  return chapterMap.ranges.find(range => line >= range.from && line <= range.to)?.slug ?? null;
 }
 
 export function githubUrl(filePath: string, line?: number): string {
@@ -36,7 +34,7 @@ export function guideSiteUrl(filePath: string, line?: number): string | null {
   if (filePath !== 'guide/ultimate-guide.md') return null;
   if (!line) return `${GUIDE_SITE_BASE}/`;
   const chapterSlug = lineToChapterSlug(line);
-  return `${GUIDE_SITE_BASE}/${chapterSlug}/`;
+  return chapterSlug ? `${GUIDE_SITE_BASE}/${chapterSlug}/` : `${GUIDE_SITE_BASE}/`;
 }
 
 export function formatLinks(filePath: string, line?: number): string {

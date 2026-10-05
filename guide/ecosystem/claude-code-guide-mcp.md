@@ -2,27 +2,26 @@
 
 Technical reference for `claude-code-ultimate-guide-mcp`, the local stdio server that exposes this guide to MCP-compatible coding clients.
 
-Status checked on 2026-09-01:
+Public package status checked on 2026-10-05:
 
-- public npm package: `1.3.1`
-- public runtime handshake: `1.3.1`
+- public npm package: `1.3.5`
+- public runtime handshake: `1.3.5`
 - public runtime surface: 17 tools, 6 resources, 1 prompt
-- repository package version: `1.3.1`
-- official MCP Registry: `io.github.FlorianBruniaux/claude-code-guide`, active at version `1.3.1`
+- official MCP Registry identity: `io.github.FlorianBruniaux/claude-code-guide`; the npm statistics snapshot records presence, not the currently registered version
 
-The public-package facts above were measured by starting `claude-code-ultimate-guide-mcp@1.3.1` and calling the MCP list methods. The repository contract comes from the generated [product manifest](../../machine-readable/mcp-product.json) and its live contract test. The Registry status was read from its public API after publication.
+The [public runtime snapshot](../../machine-readable/mcp-public-runtime.json), measured at `2026-10-05T12:28:31Z`, records the public package handshake and list methods. A separate stdio check on 2026-10-05 reproduced initialization, 17 tools, 6 resources, 1 prompt, guide search, and source retrieval from the public 1.3.5 tarball. Client installation commands below were not executed in that check. The generated [product manifest](../../machine-readable/mcp-product.json) describes the repository contract; a repository candidate can differ from the published package. The current Registry version was not verified by these checks.
 
 ## TL;DR
 
 Use the MCP server when you want a coding client to search the guide, open the exact source section, retrieve a production template, or inspect Claude Code releases without loading the full guide into context.
 
-The server runs locally over stdio. Version `1.3.1` has no first-party telemetry. Some tools can contact GitHub or Anthropic when invoked and can write local cache files. Downloads are not users, active installations, sessions, or executions.
+The server runs locally over stdio. Version `1.3.5` has no first-party telemetry. Some tools can contact GitHub or Anthropic when invoked and can write local cache files. Downloads are not users, active installations, sessions, or executions.
 
 Install the currently published package:
 
 ```bash
-claude mcp add --scope user claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.1
-codex mcp add claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.1
+claude mcp add --scope user claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.5
+codex mcp add claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.5
 ```
 
 ## What the server solves
@@ -38,14 +37,14 @@ This reduces irrelevant context. It does not guarantee that an answer is correct
 
 ## Install by client
 
-All examples below use the public npm version observed on 2026-09-01. Pinning the version makes installation reproducible.
+All examples below use the public npm version observed on 2026-10-05. Pinning the version makes installation reproducible.
 
 ### Claude Code
 
 User scope:
 
 ```bash
-claude mcp add --scope user claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.1
+claude mcp add --scope user claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.5
 claude mcp list
 ```
 
@@ -57,7 +56,7 @@ Project scope in `.mcp.json`:
     "claude-code-guide": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "claude-code-ultimate-guide-mcp@1.3.1"]
+      "args": ["-y", "claude-code-ultimate-guide-mcp@1.3.5"]
     }
   }
 }
@@ -72,7 +71,7 @@ claude mcp remove --scope user claude-code-guide
 ### Codex
 
 ```bash
-codex mcp add claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.1
+codex mcp add claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.5
 codex mcp list
 ```
 
@@ -92,7 +91,7 @@ Add this entry to `.cursor/mcp.json`:
     "claude-code-guide": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "claude-code-ultimate-guide-mcp@1.3.1"]
+      "args": ["-y", "claude-code-ultimate-guide-mcp@1.3.5"]
     }
   }
 }
@@ -108,7 +107,7 @@ Add this entry to `.vscode/mcp.json`:
     "claude-code-guide": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "claude-code-ultimate-guide-mcp@1.3.1"]
+      "args": ["-y", "claude-code-ultimate-guide-mcp@1.3.5"]
     }
   }
 }
@@ -118,14 +117,20 @@ Add this entry to `.vscode/mcp.json`:
 
 Ask the client:
 
-> Search the Claude Code Ultimate Guide for session-scoped hooks. Open the most relevant source section and cite its path and heading.
+> Call search_guide with query="session-scoped hooks" and limit=20. Find the hooks_session_scoped entry, open its returned path and line with read_section, and cite the source path and exact heading.
 
 The expected tool sequence is:
 
 ```text
-search_guide({ query: "session-scoped hooks" })
-read_section({ path: "<path returned by search_guide>" })
+search_guide({ query: "session-scoped hooks", limit: 20 })
+// Use the path and offset returned for hooks_session_scoped.
+// The 2026-10-05 check returned the following values:
+read_section({ path: "guide/ultimate-guide.md", offset: 10043, limit: 80 })
 ```
+
+The checked response read lines 10043-10055 under `Session-Scoped Hooks`. The default search limit of 10 did not include that exact entry in this check; use 20 and inspect the matching result. Line numbers can change, so reuse the returned offset rather than assuming 10043 remains current.
+
+Public 1.3.5 returns an incorrect `Guide` chapter link (`08-mcp`) for this entry because its static chapter ranges are stale. Use the returned [GitHub source](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#L10043), or the checked [Hooks section](https://cc.bruniaux.com/guide/ultimate-guide/07-hooks/#session-scoped-hooks), and verify the heading. GitHub main is mutable; this check did not pin its content SHA.
 
 For a template, start with `search_examples`, then call `get_example` with the returned name. For official documentation changes, run `init_official_docs` once, then `refresh_official_docs` and `diff_official_docs` when you need a new comparison.
 
@@ -144,7 +149,7 @@ The MCP protocol travels through the child process standard input and standard o
 
 ## Tools, resources, and prompt
 
-The published `1.3.1` package exposes the following generated contract:
+The published `1.3.5` package exposes the following generated contract:
 
 | Capability | Count | Purpose |
 | --- | ---: | --- |
@@ -171,7 +176,7 @@ Resources:
 - `claude-code-guide://distribution-channels`
 - `claude-code-guide://translations`
 
-The published package searches 1,798 generated index entries. The public runtime snapshot verifies the capability names and counts without storing descriptions, arguments, content, local paths, or user data.
+The published package searches its bundled generated index. This reference does not infer the entry count from an older package snapshot. The public runtime snapshot verifies the capability names and counts without storing descriptions, arguments, content, local paths, or user data.
 
 ## Bundled content, GitHub fetch, and cache
 
@@ -193,7 +198,7 @@ Successful GitHub responses can be cached under `~/.cache/claude-code-guide/<ver
 
 ## Network and privacy boundary
 
-Version `1.3.1` has no first-party telemetry, analytics endpoint, device identifier, or event upload. MCP requests and responses are not sent to this project's author.
+Version `1.3.5` has no first-party telemetry, analytics endpoint, device identifier, or event upload. MCP requests and responses are not sent to this project's author.
 
 Network access is tool-specific:
 
@@ -206,9 +211,9 @@ Network access is tool-specific:
 
 The MCP client, npm, `npx`, GitHub, Anthropic, and the machine operator can have their own logs or policies. Those systems are outside this server's first-party telemetry boundary.
 
-### Telemetry decision for 1.3.1
+### Telemetry decision for 1.3.5
 
-Centralized product telemetry is deliberately not implemented in `1.3.1`. Download counts do not justify adding a tracking endpoint, and they cannot establish active usage.
+Centralized product telemetry is deliberately not implemented in `1.3.5`. Download counts do not justify adding a tracking endpoint, and they cannot establish active usage.
 
 Any future proposal requires a reviewed privacy decision before code exists. The minimum acceptance criteria are:
 
@@ -235,12 +240,12 @@ For development or controlled offline use, install dependencies ahead of time, b
 
 ## Compatibility
 
-| Requirement | Published `1.3.1` |
+| Requirement | Published `1.3.5` |
 | --- | --- |
 | Transport | local stdio |
 | Node.js | `>=18.14.1` |
-| MCP SDK | `@modelcontextprotocol/sdk` `1.30.0` |
-| Tested client configuration shapes | Claude Code, Codex, Cursor, VS Code |
+| MCP SDK dependency range | `@modelcontextprotocol/sdk` `^1.30.0` |
+| Documented client configuration shapes | Claude Code, Codex, Cursor, VS Code; installation in these clients was not tested by the 2026-10-05 stdio check |
 | Package manager entry point | `npx` |
 
 Other MCP clients can work if they support local stdio servers and the same command-plus-arguments model. That statement is protocol compatibility, not a claim that every client release has been tested.
@@ -248,7 +253,7 @@ Other MCP clients can work if they support local stdio servers and the same comm
 ## Limitations
 
 - The full guide Markdown is not bundled.
-- Version `1.3.1` derives the MCP handshake from `package.json` and tests that contract.
+- Version `1.3.5` derives the MCP handshake from `package.json` and tests that contract.
 - The official Registry identity is case-sensitive: `io.github.FlorianBruniaux/claude-code-guide`.
 - Companion `/ccguide:*` command files live in the repository and are not installed by the npm package.
 - Search retrieves candidate sections; it does not replace source review or freshness checks.
@@ -268,7 +273,7 @@ Other MCP clients can work if they support local stdio servers and the same comm
 Inspect the JSON-RPC surface with the MCP Inspector:
 
 ```bash
-npx -y @modelcontextprotocol/inspector npx -y claude-code-ultimate-guide-mcp@1.3.1
+npx -y @modelcontextprotocol/inspector npx -y claude-code-ultimate-guide-mcp@1.3.5
 ```
 
 ## Version and dated npm statistics
@@ -280,7 +285,18 @@ Two machine-readable snapshots serve different questions:
 
 ### Public package snapshot
 
-Snapshot time: `2026-08-31T22:41:52Z`. Last complete UTC day: 2026-08-30. Unit: npm package downloads.
+Current [npm snapshot](../../machine-readable/mcp-stats.json): `2026-10-05T12:26:54Z`. Public version: 1.3.5, published at `2026-10-05T12:16:33.426Z`. Last complete UTC day: 2026-10-04. Unit: npm package downloads, across package versions.
+
+| Period | Downloads |
+| --- | ---: |
+| Since launch, 2026-02-28 through 2026-10-04 | 10,341 |
+| Year to date, 2026-01-01 through 2026-10-04 | 10,341 |
+| Trailing 30 complete days, 2026-09-05 through 2026-10-04 | 1,088 |
+| Trailing 7 complete days, 2026-09-28 through 2026-10-04 | 139 |
+
+For the trailing 30 complete days, the daily median is 23.5, mean 36.3, maximum 229, and median absolute deviation 7.5. Recorded anomaly dates are September 5 and 6. These observations do not establish their cause or active usage. The window ends before 1.3.5 was published, so these counts are not downloads of 1.3.5 specifically.
+
+Historical npm snapshot: `2026-08-31T22:41:52Z`. Its last complete UTC day was 2026-08-30. The following values remain a dated comparison, not the current snapshot.
 
 | Period | Downloads |
 | --- | ---: |
@@ -293,7 +309,9 @@ For the trailing 30 complete days, the daily median was 31.5, the mean was 175.1
 
 ### Reproducible monthly dashboard
 
-The completed July 2026 UTC snapshot records 1,459 npm downloads. GSC for the landing page, GSC for the portfolio page, and GA4 for the portfolio page are marked `unavailable` because the required Google access and property configuration were absent during collection. They are not reported as zero.
+The [dashboard snapshot](../../machine-readable/mcp-dashboard.json) measured at `2026-10-02T16:50:00Z` records 1,286 npm downloads for the completed September 2026 UTC month. Its GSC landing, GSC portfolio, and GA4 portfolio sources remain marked `unavailable`, with retrieval timestamps of `2026-08-31T16:51:31Z` and missing-access reasons. Those older source states are not a fresh October access check and are not reported as zero.
+
+The earlier completed July 2026 UTC snapshot recorded 1,459 npm downloads. Keep that historical month distinct from September and from the trailing 30-day window above.
 
 The monthly workflow uses exact page URL or path filters, publishes aggregate page and package metrics only, and keeps missing sources explicit. npm downloads can include installs, CI runs, cache misses, bots, and repeated downloads. They do not identify unique or active people.
 
