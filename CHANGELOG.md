@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 - **TDD guide link updated (October 3, 2026)**: `guide/workflows/tdd-with-claude.md` points to the portfolio guide's new URL, `/guides/tdd-with-claude-code/`, and no longer describes it as French.
+- **MCP index integrity repaired**: realign 62 positional references with their source headings, resolve seven repeated-heading targets, and replace the gstack selected-gates line reference with its stable anchor. Synchronize the bundled MCP index before publishing 1.3.4.
 
 - **MCP 1.3.4 release preparation**: regenerate the product manifest and documentation from the current guide index (1,912 entries). Refresh the published runtime and npm statistics in one commit after successful package and registry publication, reusing the daily collector. The landing reads these public snapshots; release publication and public-page verification remain separate checks.
 
