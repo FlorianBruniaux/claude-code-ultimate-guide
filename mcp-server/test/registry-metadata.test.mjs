@@ -171,7 +171,7 @@ test('workflow pins every third-party action to an approved commit with a versio
   const source = readFileSync(workflowPath, 'utf8')
   const workflow = parseYaml(source)
   for (const job of Object.values(workflow.jobs)) {
-    for (const candidate of job.steps) {
+    for (const candidate of job.steps ?? []) {
       if (!candidate.uses) continue
       const [action, revision] = candidate.uses.split('@')
       const pin = actionPins[action]

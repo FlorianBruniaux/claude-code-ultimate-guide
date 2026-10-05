@@ -220,8 +220,8 @@ class CollectorContractTests(unittest.TestCase):
         self.assertNotIn("GOOGLE_ACCESS_TOKEN", source)
         self.assertIn("python3 scripts/test-collect-mcp-stats.py", source)
         self.assertIn("python3 scripts/collect-mcp-stats.py --changelog CHANGELOG.md", source)
-        self.assertIn("git add -- machine-readable/mcp-stats.json CHANGELOG.md", source)
-        self.assertIn('git commit -m "chore(mcp): refresh public npm statistics"', source)
+        self.assertIn("git add -- machine-readable/mcp-public-runtime.json machine-readable/mcp-stats.json CHANGELOG.md", source)
+        self.assertIn('git commit -m "chore(mcp): refresh public runtime and npm statistics"', source)
         self.assertNotIn("git add .", source)
 
         index_workflow = (ROOT / ".github" / "workflows" / "index-integrity.yml").read_text()

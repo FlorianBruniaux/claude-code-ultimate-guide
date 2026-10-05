@@ -4,6 +4,7 @@ on:
   schedule:
     - cron: "37 10 * * *"
   workflow_dispatch:
+  workflow_call:
 
 permissions:
   contents: write
@@ -19,6 +20,20 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
 
+      - name: Set up Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 24
+          package-manager-cache: false
+
+      - name: Install runtime snapshot dependencies
+        working-directory: mcp-server
+        run: npm ci --no-audit --no-fund
+
+      - name: Measure published MCP runtime
+        working-directory: mcp-server
+        run: npm run snapshot:public-runtime
+
       - name: Verify fixture contracts
         run: python3 scripts/test-collect-mcp-stats.py
 
@@ -30,12 +45,12 @@ jobs:
 
       - name: Commit changed public snapshot
         run: |
-          if git diff --quiet -- machine-readable/mcp-stats.json CHANGELOG.md; then
-            echo "Public npm statistics are unchanged."
+          if git diff --quiet -- machine-readable/mcp-public-runtime.json machine-readable/mcp-stats.json CHANGELOG.md; then
+            echo "Public MCP evidence is unchanged."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -- machine-readable/mcp-stats.json CHANGELOG.md
-          git commit -m "chore(mcp): refresh public npm statistics"
+          git add -- machine-readable/mcp-public-runtime.json machine-readable/mcp-stats.json CHANGELOG.md
+          git commit -m "chore(mcp): refresh public runtime and npm statistics"
           git push

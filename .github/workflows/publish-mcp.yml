@@ -243,3 +243,9 @@ jobs:
           chmod +x "$publisher_directory/mcp-publisher"
           "$publisher_directory/mcp-publisher" login github-oidc
           "$publisher_directory/mcp-publisher" publish mcp-server/server.json
+
+  refresh-public-evidence:
+    needs: publish
+    permissions:
+      contents: write
+    uses: ./.github/workflows/collect-mcp-stats.yml
