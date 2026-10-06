@@ -531,7 +531,7 @@ python -m mcp_memory_service.scripts.installation.install --quick
 
 ### 3.6 OpenMemory MCP
 
-**Repo**: github.com/mem0ai/mem0 | **Dashboard**: http://localhost:3000
+**Repo**: github.com/mem0ai/mem0 | **Local dashboard after startup**: `http://localhost:3000`
 
 User-owned, local-first, private memory layer. Standardized 4-tool interface:
 
