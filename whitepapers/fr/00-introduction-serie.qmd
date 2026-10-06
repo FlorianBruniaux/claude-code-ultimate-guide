@@ -221,13 +221,13 @@ Claude Code n'est pas un chatbot amélioré, c'est un **système de contexte à 
 
 > **Auto Dream** (v2.1.78+) : après 24h d'inactivité et 5 sessions, Claude consolide automatiquement sa mémoire projet en 4 phases (orientation, collecte, consolidation, indexation). Accessible via `/memory`.
 
-::: {.callout-note title="Scénario : Antoine, dev full-stack dans un cabinet de conseil tech"}
+::: {.callout-note title="Scénario illustratif : Antoine, dev full-stack dans un cabinet de conseil tech"}
 Antoine commence par un `CLAUDE.md` basique listant sa stack (Next.js, Prisma, PostgreSQL). Dès la première semaine, il constate que Claude respecte ses conventions sans qu'il ait besoin de les rappeler. En semaine 2, il ajoute un Skill "conventions API REST" qui encode ses patterns de validation. En semaine 3, un hook pre-commit vérifie automatiquement que les migrations Prisma sont générées. Résultat : ses prompts passent de 4 lignes de contexte à une simple instruction, et Claude produit du code conforme du premier coup.
 :::
 
 ## La formule WHAT/WHERE/HOW/VERIFY
 
-**À appliquer pour chaque prompt envoyé à Claude Code, qu'il s'agisse d'un bugfix, d'une feature, ou d'un refactoring.** Structurer vos prompts avec ces 4 éléments permet d'obtenir le bon résultat du premier coup, sans aller-retour correctif :
+**À appliquer pour chaque prompt envoyé à Claude Code, qu'il s'agisse d'un bugfix, d'une feature, ou d'un refactoring.** Ces 4 éléments précisent le livrable, le périmètre, la méthode et la vérification ; ils ne garantissent pas une réponse correcte du premier coup :
 
 | Élément | Description |
 |---------|-------------|
@@ -280,7 +280,7 @@ Les bases sont posées: installation, premiers workflows, gestion du contexte. C
 
 | WP | Titre | Public | Ce que vous apprenez |
 |----|-------|--------|---------------------|
-| **#1** | Prompts qui Marchent | Tous niveaux | Formuler des demandes précises dès le premier coup |
+| **#1** | Prompts qui Marchent | Tous niveaux | Formuler des demandes précises et vérifiables |
 | **#2** | Personnaliser Claude | Dev / setup | CLAUDE.md, Skills, Agents réutilisables |
 | **#3** | Sécurité en Production | DevSecOps, Tech Leads | Permissions, hooks, protection des secrets |
 | **#4** | L'Architecture Démystifiée | Architectes, curieux | Boucle agent, limites, calibrage des attentes |
@@ -292,11 +292,11 @@ Les bases sont posées: installation, premiers workflows, gestion du contexte. C
 
 *Public* : Développeurs de tous niveaux.
 
-- Appliquer la formule WHAT/WHERE/HOW/VERIFY pour obtenir le bon résultat du premier coup
+- Appliquer la formule WHAT/WHERE/HOW/VERIFY pour définir un résultat vérifiable
 - Structurer vos prompts pour que Claude comprenne le contexte sans relecture
 - Identifier les anti-patterns (prompts vagues, demandes trop larges) et les corriger
 
-::: {.callout-note title="Scénario : Léa, développeuse junior dans une startup SaaS"}
+::: {.callout-note title="Scénario illustratif : Léa, développeuse junior dans une startup SaaS"}
 Léa demande "refactorise le code" et obtient des changements incohérents sur 12 fichiers. Après avoir lu le WP #1, elle reformule : "Extraire la logique de validation de `OrderService.ts` dans un module `validators/order.ts`, conserver les tests existants verts." Résultat : un diff ciblé, accepté du premier coup.
 :::
 

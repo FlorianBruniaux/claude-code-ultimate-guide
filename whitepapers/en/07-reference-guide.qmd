@@ -140,7 +140,7 @@ VERIFY: Empty email shows "Email required", invalid format shows "Invalid email"
 ```
 
 ::: {.callout-tip title="Memo: WHAT/WHERE/HOW/VERIFY Formula"}
-**What**: Structure your prompts along 4 dimensions for accurate first-try responses.
+**What**: Define the deliverable, scope, approach and verification along four dimensions; check the resulting output.
 
 **When**: Systematically for any non-trivial task (>5 lines of change).
 

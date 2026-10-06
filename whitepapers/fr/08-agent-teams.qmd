@@ -77,7 +77,7 @@ Décision rapide --- pour l'arbre de décision complet, voir -> **#6 Cadre de D�
 
 **Oui si** : tâche *read-heavy*, multi-couches, haute criticité, parallélisable --- et coût tokens justifié.
 
-**Non si** : tâche simple (<5 fichiers), workflow séquentiel, budget serré (3x+ tokens), *write-heavy*, ou faible criticité.
+**Non si** : tâche simple (<5 fichiers), workflow séquentiel, budget serré, *write-heavy*, ou faible criticité.
 
 ::: {.callout-warning title="Mémo Express : Mesurer le Coût des Teams"}
 Additionnez les tokens d’entrée et de sortie de chaque participant, le cache, les messages et les reprises. Comparez cette dépense au temps humain, à la qualité et aux résultats acceptés d’un agent unique. Le nombre d’agents ne donne pas à lui seul un multiplicateur fiable de coût ou de vitesse.
@@ -430,7 +430,7 @@ Anthropic a construit un compilateur C complet de manière autonome, en pipeline
 
 > Patterns théoriques, non validés en production avec des métriques publiées.
 
-**Test d'hypothèses** : Pour un bug de perf API avec causes multiples (BDD, réseau, cache), 3 agents profilent chaque hypothèse en parallèle. Gain : 1/3 du temps de débogage séquentiel, aucune hypothèse ignorée.
+**Test d'hypothèses** : Pour un bug de perf API avec causes multiples (BDD, réseau, cache), 3 agents profilent chaque hypothèse en parallèle. Comparez délai complet, hypothèses effectivement testées et effort de revue au workflow séquentiel ; aucun gain fixe n’est établi.
 
 **Refactoring multi-couches** : Migration JWT → OAuth2 sur 47 fichiers. Décomposer par couche (backend/frontend/tests), pas par domaine fonctionnel. Le *team lead* définit les interfaces partagées avant de déléguer pour éviter les conflits de merge sur les types communs.
 
@@ -591,7 +591,7 @@ Sur chaque TaskCompleted reçu :
 
 ## Budget Tokens par Agent
 
-Plafonner les tokens par agent évite les dérives de coût sur les sessions longues. Sans limite explicite, un agent peut consommer 3x son budget prévu en récupérant des fichiers non nécessaires.
+Définissez et appliquez des limites d’usage par agent, incluant récupération de contexte et reprises. Un budget écrit dans un prompt ne suffit pas à empêcher un dépassement ; vérifiez son application et l’usage facturé.
 
 **Configuration pratique** :
 
@@ -819,7 +819,7 @@ Avant de déployer des agent teams, il faut évaluer si la tâche nécessite ré
 | **Idéal pour** | Tâches *read-heavy* nécessitant coordination | Tâches parallèles indépendantes | Assurance qualité (split plan-execution) | Coordonner des sessions qu'un humain a déjà démarrées et pilote |
 | **Communication** | Messagerie pair-à-pair + synthèse *team lead* | Copier-coller manuel | Synchronisation manuelle | Messages directs entre sessions indépendantes |
 | **Partage de contexte** | Isolé (capacité selon modèle, pas de synchronisation automatique) | Isolé (sessions séparées) | Isolé (2 sessions) | Isolé --- pas de liste de tâches partagée |
-| **Coût** | Élevé (~3x+ tokens) | Moyen (~2x tokens) | Moyen (~2x tokens) | Faible (messages ponctuels) |
+| **Coût** | Mesurer usage cumulé et coordination | Mesurer les deux sessions | Mesurer les deux sessions | Mesurer messages et reprises |
 | **Charge cognitive** | Faible (observateur) | Élevée (orchestrateur) | Moyenne (réviseur) | Moyenne (l'humain garde la main sur chaque session) |
 | **Conflits de merge** | Intégration explicite nécessaire | N/A (dépôts séparés) | Résolution manuelle | N/A (pas de fusion automatique) |
 | **Maturité** | Expérimental (v2.1.32+) | Stable | Stable | Stable (v2.1.224+, v2.1.234+ sous Windows natif) |
@@ -848,7 +848,7 @@ Tâche simple (<5 fichiers) ?
 | **Périmètre** | Multi-couches, multi-domaines | <5 fichiers, 1 domaine |
 | **Dépendances** | Tâches parallélisables indépendantes | Workflow séquentiel (B dépend de A) |
 | **Criticité** | *Release* production, PR externe | PR interne, changement simple |
-| **Budget** | Temps sauvé > 2x surcoût tokens | Budget serré --- 3x+ tokens non justifiés |
+| **Budget** | Résultats acceptés justifiant coût et revue | Usage dépassant le budget convenu |
 
 **Exemple de mauvais fit** : Mettre à jour la logique d'auth dans un seul fichier `auth.ts` partagé --- une seule zone d'écriture, aucun bénéfice de parallélisation, conflit de merge assuré.
 
@@ -1019,7 +1019,7 @@ Appliquez la [boucle AI FinOps](https://github.com/FlorianBruniaux/claude-code-u
 
 **Budget et qualité** :
 
-- [ ] Budget tokens ~3x prévu et validé
+- [ ] Budget d’usage cumulé, coordination et reprises prévu et validé
 - [ ] Plan de repli prêt (retour agent unique si coûts explosent)
 - [ ] Revue humaine systématique des sorties agents
 

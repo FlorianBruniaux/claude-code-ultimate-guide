@@ -35,7 +35,7 @@ lang: fr
 **Ce que vous allez retenir** :
 
 - 3 phases d'adoption : Solo → Pair → Team (timeline et métriques par phase)
-- Champions program: ROI x3 vs formation top-down
+- Programme de champions : évaluer localement adoption et résultats acceptés
 - Config versionnée dans le repo = le levier d'adoption le plus sous-estimé
 :::
 
@@ -731,7 +731,7 @@ claude "Review the README and suggest improvements"
 
 ## Champions program
 
-L'adoption organique fonctionne mieux qu'un déploiement top-down imposé par le management. Le programme Champions s'appuie sur 2-3 développeurs reconnus par leurs pairs pour démontrer la valeur de l'outil sur des cas concrets avant d'élargir à toute l'équipe.
+Le programme Champions propose de travailler avec 2-3 développeurs reconnus par leurs pairs pour tester la valeur sur des tâches concrètes avant d’étendre l’usage. Comparez localement adoption et résultats acceptés ; la supériorité de ce mode de déploiement n’est pas démontrée ici.
 
 | Phase | Action | Durée |
 |-------|--------|-------|

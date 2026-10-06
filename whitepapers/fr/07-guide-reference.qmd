@@ -140,7 +140,7 @@ VERIFY: Empty email shows "Email required", invalid format shows "Invalid email"
 ```
 
 ::: {.callout-tip title="Memo : Formule WHAT/WHERE/HOW/VERIFY"}
-**Quoi** : Structure vos prompts en 4 dimensions pour des réponses précises du premier coup.
+**Quoi** : Définir livrable, périmètre, méthode et vérification en quatre dimensions, puis contrôler le résultat.
 
 **Quand** : Systématiquement pour toute tâche non triviale (>5 lignes de changement).
 

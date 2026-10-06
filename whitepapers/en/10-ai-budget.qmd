@@ -192,11 +192,11 @@ A useful working hypothesis has three phases. Their duration and benefit must be
 
 Initial phase: adaptation. The developer adjusts their reflexes. Gains are low or zero on complex, familiar tasks. The tool hasn't been integrated into the workflow yet.
 
-Appropriation phase: the developer identifies their leverage zones: exploration, documentation, tests, boilerplate. Gains become consistent in those areas.
+Appropriation phase: the developer identifies their leverage zones: exploration, documentation, tests, boilerplate. Check whether accepted outcomes improve consistently in those areas.
 
 Composition phase: the developer starts chaining agents, contexts, skills. The scope expands: new languages, new stacks, business domains they wouldn't have touched alone. This is where augmentation becomes tangible.
 
-At the organizational level, the same curve exists, shifted by several months. What the team learns collectively (shared patterns, common agents, AI code review conventions) produces durable advantage.
+At the organizational level, shared patterns, agents and review conventions are hypotheses for improvement. Their effect and timing must be measured; no universal adoption curve or durable advantage is established here.
 
 **Check variation**: Compare outcomes by task, experience and usage pattern. Aggregate adoption rates cannot explain the cause of a change in throughput.
 
@@ -334,11 +334,11 @@ This expanded scope doesn't happen by itself; it requires solid AI tooling maste
 
 The distinction is practical, not philosophical. A tool you install and use: the gain is immediate or near-immediate. Augmentation is different: there's a reconfiguration period.
 
-The first days with Claude Code or Cursor, most developers are slower. Not because the tool is bad, but because they haven't yet developed what you might call contextualization intuition: knowing when to engage AI, how to frame the problem, what granularity of context to provide. It's a skill, and it takes a few weeks.
+Using Claude Code or Cursor requires deciding when to engage AI, how to frame the problem and what context to provide. An initial slowdown is possible, not inevitable; measure learning, completion time and quality on comparable tasks.
 
 What happens next is more interesting. The augmented developer doesn't just code faster; their scope changes. They venture into languages they wouldn't have touched, stacks they would have handed to a specialist, business domains they would have left to the few seniors who knew them. AI makes the cost of entering new territory much lower. Progressively, the developer becomes a mini-CTO for their area: able to reason and deliver across a wider scope with fewer dependencies.
 
-This is why onboarding on an AI tool doesn't look like onboarding on an IDE. Tool onboarding: a 30-minute demo. Augmentation onboarding: 4-6 weeks on effective patterns, common pitfalls, and the mindset for knowing when to delegate to AI vs. when to keep full control.
+This is why onboarding on an AI tool doesn't look like onboarding on an IDE. Tool onboarding: a 30-minute demo. Augmentation onboarding: practice effective patterns, pitfalls and delegation decisions, with duration adjusted to observations from the pilot.
 
 **Pilot implication**: Track adaptation, accepted output, review and rework across enough representative tasks. The first useful signal is not guaranteed to arrive in a particular week.
 

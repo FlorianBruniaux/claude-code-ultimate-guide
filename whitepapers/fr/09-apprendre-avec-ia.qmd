@@ -741,7 +741,7 @@ Une technique avancee issue des pratiques Meta en production : demander a l'IA d
 
 Un changement de cadre qui redefint l'objectif de la maitrise : le metier du developpeur n'est plus d'ecrire du code, c'est d'ecrire des specs assez claires pour que Claude les implemente correctement. Ce recadrage (Larridin/Kanitkar, "Building AI-Native Engineering Teams") transforme le developpeur en **producteur** plutot qu'implementeur, un directeur qui sait exactement ce qu'il veut et peut evaluer ce qu'il obtient.
 
-La consequence directe : la mesure de votre maitrise n'est plus "est-ce que je peux ecrire ce code ?", c'est "est-ce que ma spec est assez precise pour produire le bon code au premier essai ?". Les developpeurs augmentes investissent dans la qualite de la specification autant que dans la revue du code produit.
+Évaluez la qualité de la spécification et votre capacité à vérifier et expliquer l’implémentation. Une spec précise ne garantit pas un code correct au premier essai. Relisez le code produit et contrôlez son comportement.
 
 ### Comparative analysis
 

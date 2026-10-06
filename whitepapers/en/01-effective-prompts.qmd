@@ -1,6 +1,6 @@
 ---
 title: "Prompts That Work"
-subtitle: "The method for prompts that work on the first try"
+subtitle: "A method for precise, verifiable prompts"
 author: "Florian BRUNIAUX"
 date: "2026-10-06"
 date-format: "MMMM YYYY"
@@ -83,7 +83,7 @@ This cycle is more than a minor inconvenience: each iteration consumes context (
 
 ## Principle
 
-A 4-element formula for accurate answers on the first try. Each element eliminates an entire category of ambiguity: WHAT prevents Claude from guessing the task, WHERE stops it from searching in the wrong place, HOW locks in the technical approach, and VERIFY provides an objective success criterion. When all four are present, Claude no longer needs to assume anything.
+A four-element formula to define the deliverable, scope, approach and verification. WHAT states the task, WHERE identifies relevant files, HOW describes constraints, and VERIFY states the acceptance check. This reduces ambiguity but does not guarantee a correct first response.
 
 | Element | Question | Role |
 |---------|----------|------|

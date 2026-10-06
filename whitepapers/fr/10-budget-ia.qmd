@@ -165,15 +165,15 @@ La propriété, les droits d’usage et l’indemnisation éventuelle doivent ê
 
 **La courbe d'apprentissage (retour terrain, pas une étude mesurée)**
 
-Ce qui suit est observationnel, pas une étude contrôlée. Mais c'est un pattern récurrent dans les équipes qui adoptent ces outils.
+Les trois phases suivantes sont une hypothèse pédagogique, pas une étude contrôlée. Mesurez leur durée et leurs effets dans votre équipe.
 
-*Phase 1: Adaptation (semaines 1-4)* : le dev ajuste ses réflexes. Les gains sont faibles, parfois nuls sur les tâches complexes familières. L'outil n'est pas encore intégré dans le flux. C'est normal et prévisible.
+*Phase 1 : Adaptation* : le dev ajuste ses réflexes. Les gains sont faibles, parfois nuls sur les tâches complexes familières. L'outil n'est pas encore intégré dans le flux. Vérifiez cette hypothèse sur vos tâches.
 
-*Phase 2: Appropriation (mois 2-3)* : le dev identifie ses zones de levier. Exploration, documentation, tests, boilerplate. Les gains deviennent consistants sur ces zones.
+*Phase 2 : Appropriation* : le dev identifie ses zones de levier. Exploration, documentation, tests, boilerplate. Vérifiez si les résultats acceptés s’améliorent de façon régulière sur ces tâches.
 
-*Phase 3: Composition (mois 4+)* : le dev chaîne les outils (agents, contextes, skills personnalisés). À ce stade, c'est moins la vitesse sur les tâches qui change que le périmètre des tâches abordables. C'est là que l'augmentation devient tangible.
+*Phase 3 : Composition* : le dev chaîne les outils (agents, contextes, skills personnalisés). À ce stade, c'est moins la vitesse sur les tâches qui change que le périmètre des tâches abordables. C'est là que l'augmentation devient tangible.
 
-Au niveau organisationnel, la même courbe existe mais décalée de plusieurs mois. Ce que l'équipe construit collectivement (patterns partagés, agents communs, conventions de review du code IA) est ce qui produit l'avantage durable.
+Au niveau organisationnel, patterns partagés, agents communs et conventions de revue sont des hypothèses d’amélioration. Leur effet et leur calendrier doivent être mesurés ; aucune courbe universelle ni avantage durable n’est établi ici.
 
 **Surveiller un éventuel plateau** : une adoption élevée ne prouve pas un gain de résultat. Comparez les tâches acceptées, le temps de revue et les reprises ; les phases ci-dessus sont une proposition pédagogique, sans calendrier universel validé.
 
@@ -291,7 +291,7 @@ Exactement comme si un dev avait fait l'erreur. Le code IA passe en review, en t
 
 **"Nos seniors n'en ont pas besoin."**
 
-Sur leur code familier complexe, les seniors en tirent effectivement moins, voire sont ralentis (cf. METR). Mais ils peuvent l'utiliser intelligemment sur des tâches de levier : architecture, documentation technique, onboarding des juniors, audit de sécurité, exploration de nouveaux stacks. Et les juniors : montée en compétence accélérée, barrière à la contribution abaissée. Le résultat pour les juniors doit être mesuré, notamment la compréhension et l’autonomie après assistance.
+Sur leur code familier complexe, les seniors en tirent effectivement moins, voire sont ralentis (cf. METR). Mais ils peuvent l'utiliser intelligemment sur des tâches de levier : architecture, documentation technique, onboarding des juniors, audit de sécurité, exploration de nouveaux stacks. Pour les juniors, contribution assistée et montée en compétence sont deux résultats distincts à évaluer. Le résultat pour les juniors doit être mesuré, notamment la compréhension et l’autonomie après assistance.
 
 # Au-delà des équipes tech
 
@@ -309,11 +309,11 @@ Ce périmètre élargi ne s'improvise pas; il demande une maîtrise solide de l'
 
 La distinction est pratique, pas philosophique. Un outil, tu l'installes et tu l'utilises : le gain est immédiat ou quasi-immédiat. Une augmentation, c'est différent: il y a une période de reconfiguration.
 
-Les premiers jours avec Claude Code ou Cursor, la plupart des devs sont plus lents. Pas parce que l'outil est mauvais, mais parce qu'ils n'ont pas encore développé ce qu'on peut appeler l'intuition de contextualisation : savoir quand engager l'IA, comment formuler le problème, quelle granularité de contexte fournir. Ça s'apprend, et ça prend quelques semaines.
+L’usage de Claude Code ou Cursor demande de choisir quand engager l’IA, comment formuler le problème et quel contexte fournir. Un ralentissement initial est possible, sans être inévitable ; mesurez apprentissage, délai et qualité sur des tâches comparables.
 
 Ce qui se passe ensuite est plus intéressant. Le dev augmenté ne code pas juste plus vite; il change de périmètre. Il s'aventure sur des langages qu'il n'aurait pas touchés, des stacks qu'il aurait passées à un spécialiste, des domaines métier qu'il aurait laissés aux seuls seniors qui les connaissaient. L'IA rend la prise en main de nouveaux territoires moins coûteuse. Le dev devient progressivement un mini-CTO de son périmètre : il peut raisonner et livrer sur des sujets plus larges, avec moins de dépendances.
 
-C'est pourquoi l'onboarding sur un outil IA ne ressemble pas à un onboarding sur un IDE. L'onboarding outil : 30 minutes de démo. L'onboarding augmentation : 4-6 semaines sur les patterns efficaces, les pièges, et le mindset pour savoir quand déléguer à l'IA vs garder la main.
+C'est pourquoi l'onboarding sur un outil IA ne ressemble pas à un onboarding sur un IDE. L'onboarding outil : 30 minutes de démo. L’onboarding augmentation : pratique des patterns, des pièges et des décisions de délégation, avec une durée ajustée aux observations du pilote.
 
 **Implication pour le pilote** : mesurez dès le départ, puis distinguez la phase d’apprentissage de l’usage stabilisé. Aucun nombre fixe de semaines ne garantit cette stabilisation.
 

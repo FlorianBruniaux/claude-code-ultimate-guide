@@ -730,7 +730,7 @@ A useful learning exercise is to ask for a test designed to fail on a specific r
 
 A reframing that redefines what mastery means: the developer's job is no longer writing code, it's writing specs clear enough that Claude can implement them correctly. This reframing (Larridin/Kanitkar, "Building AI-Native Engineering Teams") turns the developer into a **producer** rather than an implementer, a director who knows exactly what they want and can evaluate what they get.
 
-The direct consequence: the measure of your mastery is no longer "can I write this code?", it's "is my spec precise enough to produce the right code on the first attempt?" Augmented developers invest in spec quality as much as in reviewing the produced code.
+Assess both specification quality and your ability to evaluate and explain the implementation. A precise spec does not guarantee first-attempt correctness. Review the produced code and check its behavior.
 
 ### Comparative analysis
 

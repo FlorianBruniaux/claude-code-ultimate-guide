@@ -35,7 +35,7 @@ lang: en
 **Key takeaways**:
 
 - 3 adoption phases: Solo → Pair → Team (timeline and metrics per phase)
-- Champions program: 3x ROI vs top-down training
+- Champions program: evaluate adoption and accepted outcomes locally
 - Versioned config in the repo = the most underrated adoption lever
 :::
 
@@ -700,7 +700,7 @@ claude "Review the README and suggest improvements"
 
 ## Champions program
 
-Organic adoption works better than a top-down rollout imposed by management. The Champions Program relies on 2-3 developers respected by their peers to demonstrate the tool's value on real-world tasks before expanding to the full team.
+The Champions Program proposes working with 2-3 developers respected by their peers to test value on real tasks before expanding use. Compare adoption and accepted outcomes locally; this is not a proven superior rollout method.
 
 | Phase | Action | Duration |
 |-------|--------|----------|

@@ -217,13 +217,13 @@ Claude Code is not a fancy chatbot; it's a **4-layer context system**. Each laye
 
 > **Auto Dream** (v2.1.78+): after 24h of inactivity and 5 sessions, Claude automatically consolidates its project memory in 4 phases (orient, gather signal, consolidate, prune and index). Accessible via `/memory`.
 
-::: {.callout-note title="Scenario: Antoine, full-stack dev at a tech consultancy"}
+::: {.callout-note title="Illustrative scenario: Antoine, full-stack dev at a tech consultancy"}
 Antoine starts with a basic `CLAUDE.md` listing his stack (Next.js, Prisma, PostgreSQL). In the first week, he notices Claude follows his conventions without needing reminders. In week 2, he adds a "REST API conventions" Skill that encodes his validation patterns. In week 3, a pre-commit hook automatically checks that Prisma migrations are generated. Result: his prompts go from 4 lines of context to a single instruction, and Claude produces compliant code on the first try.
 :::
 
 ## The WHAT/WHERE/HOW/VERIFY formula
 
-For accurate responses on the first try:
+To define the deliverable, scope, approach and verification:
 
 | Element | Description |
 |---------|-------------|
@@ -282,11 +282,11 @@ This introduction is part of a series of 13 technical whitepapers.
 
 *Audience*: Developers of all levels.
 
-- Apply the WHAT/WHERE/HOW/VERIFY formula to get the right result on the first try
+- Apply the WHAT/WHERE/HOW/VERIFY formula to define a result you can verify
 - Structure your prompts so Claude understands context without re-reading
 - Identify anti-patterns (vague prompts, overly broad requests) and fix them
 
-::: {.callout-note title="Scenario: Lea, junior developer at a SaaS startup"}
+::: {.callout-note title="Illustrative scenario: Lea, junior developer at a SaaS startup"}
 Lea asks "refactor the code" and gets inconsistent changes across 12 files. After reading WP #1, she reformulates: "Extract validation logic from `OrderService.ts` into a `validators/order.ts` module, keep existing tests green." Result: a targeted diff, accepted on the first try.
 :::
 

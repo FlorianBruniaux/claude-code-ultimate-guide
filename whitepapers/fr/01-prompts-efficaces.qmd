@@ -1,6 +1,6 @@
 ---
 title: "Prompts qui Marchent"
-subtitle: "La méthode pour des prompts qui marchent du premier coup"
+subtitle: "Une méthode pour des prompts précis et vérifiables"
 author: "Florian BRUNIAUX"
 date: "2026-10-06"
 date-format: "MMMM YYYY"
@@ -88,7 +88,7 @@ Ce cycle n'est pas qu'un inconvénient mineur : chaque itération consomme du co
 
 ## Principe
 
-Une formule en 4 éléments pour des réponses précises du premier coup. L'idée est simple : chaque élément élimine une catégorie entière d'ambiguïté. WHAT empêche Claude de deviner la tâche, WHERE l'empêche de chercher au mauvais endroit, HOW cadre l'approche technique, et VERIFY donne un critère objectif de succès. Quand les quatre sont présents, Claude n'a plus besoin de supposer quoi que ce soit.
+Une formule en quatre éléments pour définir le livrable, le périmètre, la méthode et la vérification. WHAT nomme la tâche, WHERE les fichiers pertinents, HOW les contraintes et VERIFY le contrôle d’acceptation. Cela réduit l’ambiguïté sans garantir une réponse correcte du premier coup.
 
 | Élément | Question | Rôle |
 |---|---|---|
@@ -99,7 +99,7 @@ Une formule en 4 éléments pour des réponses précises du premier coup. L'idé
 
 ## Exemple complet
 
-La formule en action sur un cas réel : de gauche à droite, un prompt vague se transforme en prompt actionnable que Claude peut exécuter du premier coup.
+Exemple illustratif : un prompt vague devient une demande dont le périmètre et les critères d’acceptation sont explicites. Vérifiez le résultat produit.
 
 **Avant** (vague) :
 

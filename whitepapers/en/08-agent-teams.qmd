@@ -35,7 +35,7 @@ lang: en
 **Key takeaways**:
 
 - Sub-agents via the Agent tool = simple and stable delegation (start here)
-- Agent teams = experimental peer-to-peer coordination, 3-5x cost vs solo
+- Agent teams = experimental peer-to-peer coordination; measure cost against a solo baseline
 - Start with sub-agents when tasks can return independent results
 :::
 
@@ -74,7 +74,7 @@ Agent teams add peer-to-peer messages and shared task coordination to isolated a
 
 Quick decision --- for the full decision tree and detailed criteria, see -> **#6 Decision Framework**.
 
-**YES if**: read-heavy, multi-layered, parallelizable, and time saved > 2x token overhead.
+**YES if**: read-heavy, multi-layered, parallelizable, with accepted outcomes that justify total cost and review effort.
 
 **NO if**: simple task, sequential workflow, write-heavy, or tight budget.
 
@@ -86,7 +86,7 @@ Quick decision --- for the full decision tree and detailed criteria, see -> **#6
 | 3 agents | ~3x | ~0.4x | Multi-layer analysis (security + API + frontend) |
 | 5 agents | ~3-5x | ~0.3x | Large-scale multi-file refactoring |
 
-**Rule**: If time saved > 2x token overhead -> go agents. These multipliers are approximations based on documented use cases.
+**Decision**: Compare total cost, accepted outcomes and review effort with a solo baseline. The values above are illustrative assumptions, not measured benchmarks. Measure the complete delivery path and billed usage on comparable tasks.
 :::
 
 > **Further reading:** [§9.20 Agent Teams](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#920-agent-teams-multi-agent-coordination) --- complete guide section | [Agent Teams Workflow](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/agent-teams.md) --- dedicated practical guide
@@ -522,7 +522,7 @@ Context management is the primary bottleneck when working with a single agent on
 - **Parallel reading**: Each agent consumes its codebase section at the same time
 - **Synthesis**: Team lead combines findings without context loss
 
-**Example**:
+**Illustrative example** (time assumptions, not a measured benchmark):
 ```
 Scenario: Analyze 28,000-line TypeScript service
 
@@ -562,7 +562,7 @@ Moving from manual to built-in coordination fundamentally changes the developer'
 
 Token overhead is the direct counterpart of parallelization. Understanding the actual multipliers --- which vary depending on task size --- is essential for deciding when agent teams are economically justified.
 
-**Token consumption comparison** (estimated):
+**Illustrative token budget assumptions** (not measured current-model benchmarks):
 
 | Workflow | Single Agent | Agent Teams (3) | Multiplier |
 |----------|-------------|-----------------|------------|
@@ -572,9 +572,9 @@ Token overhead is the direct counterpart of parallelization. Understanding the a
 | **Feature implementation** | 100K tokens | 200K tokens | 2x |
 | **Refactoring (large)** | 150K tokens | 250K tokens | 1.7x |
 
-The multiplier isn't always 3x even with 3 agents, because agent teams avoid the context duplication you would do with a single agent (re-explaining architecture, re-reading the same files between sessions). The larger the task, the lower the multiplier as coordination overhead gets diluted.
+Actual usage depends on model routing, context, caching, messages, review and retries. The agent count alone does not determine a reliable multiplier. Measure rather than generalizing the assumptions above.
 
-**Rule of thumb**: Agent teams justified when time saved > 2x token cost increase.
+**Decision**: Compare full cost and accepted outcomes with a solo baseline.
 
 # Coordination patterns
 
@@ -858,7 +858,7 @@ On each TaskCompleted received:
 
 ## Token budget per agent
 
-Capping tokens per agent prevents cost drift in long sessions. Without an explicit limit, an agent can consume 3x its estimated budget by retrieving unnecessary files.
+Set and enforce per-agent usage limits, including context retrieval and retries. A budget stated in a prompt alone does not prevent overspend; verify enforcement and actual billed usage.
 
 **Practical configuration**:
 
@@ -945,7 +945,7 @@ The choice of topology determines the communication structure between agents and
 | **Parallel (3-5)** | 3-5x | 0.3x | Multi-layer analysis, multi-file refactoring | Context loss, merge conflicts if boundaries unclear |
 | **Hierarchical** | 2-4x | 0.5x | Complex projects with specialized sub-teams | Over-engineering, high coordination overhead |
 
-**30-second rule**: If estimated time gain < 2x token overhead, stay solo.
+The numeric costs and times in this table are illustrative assumptions, not measured benchmarks. Compare full cost, review effort and accepted outcomes before selecting a topology.
 :::
 
 **When each topology shines**:
@@ -1040,7 +1040,7 @@ function processUser(user: User) {
 
 **Why token-intensive**:
 
-- Each agent runs **separate model inference** (3 agents = ~3x base cost)
+- Each agent runs **separate model inference**; total cost depends on its model, tokens and billing modifiers
 - Context loading per agent (total capacity: ~3M tokens across 3 agents --- see -> *Architecture: Per-Agent Context*)
 - Coordination overhead (team lead synthesis)
 
@@ -1121,7 +1121,7 @@ Before deploying agent teams, you need to evaluate whether the task truly requir
 | **Best for** | Read-heavy tasks needing coordination | Independent parallel tasks | Quality assurance (plan-execute split) |
 | **Communication** | Peer-to-peer messaging + team lead synthesis | Manual copy-paste | Manual synchronization |
 | **Context sharing** | Isolated (1M per agent, no auto-sync) | Isolated (separate sessions) | Isolated (2 sessions) |
-| **Cost** | High (~3x+ tokens) | Medium (~2x tokens) | Medium (~2x tokens) |
+| **Cost** | Measure aggregate usage and coordination | Measure both sessions | Measure both sessions |
 | **Cognitive load** | Low (observer) | High (orchestrator) | Medium (reviewer) |
 | **Merge conflicts** | Automatic resolution (limited) | N/A (separate repos) | Manual resolution |
 | **Maturity** | Experimental (v2.1.32+) | Stable | Stable |
@@ -1152,7 +1152,7 @@ Simple task (<5 files)?
 | **Scope** | Multi-layer, multi-domain | <5 files, 1 domain |
 | **Dependencies** | Parallelizable independent tasks | Sequential workflow (B depends on A) |
 | **Criticality** | Production release, external PR | Internal PR, simple change |
-| **Budget** | Time saved > 2x token overhead | Tight budget --- 3x+ tokens not justified |
+| **Budget** | Accepted outcomes justify full cost and review | Usage exceeds the agreed budget |
 
 **Example of poor fit**: Updating auth logic in a single shared `auth.ts` file --- single write zone, no parallelization benefit, a risk of merge conflict.
 
@@ -1605,7 +1605,7 @@ Use the [AI FinOps loop](https://github.com/FlorianBruniaux/claude-code-ultimate
 
 ### Budget & monitoring
 
-- [ ] **Token budget allocated**: ~3x multiplier accounted for
+- [ ] **Token budget allocated**: aggregate usage, coordination and retries accounted for
 - [ ] **Cost monitoring setup**: Track token usage per session
 - [ ] **ROI metrics defined**: Convergence rate, time saved, bugs caught
 - [ ] **Fallback plan**: Ready to revert to single-agent if costs explode
