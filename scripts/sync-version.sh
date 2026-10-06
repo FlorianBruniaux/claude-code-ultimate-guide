@@ -35,34 +35,40 @@ check_file() {
     return
   fi
 
-  # Find version numbers in file (3.x.x pattern only)
-  local old_versions=$(grep -oE '3\.[0-9]+\.[0-9]+' "$file" 2>/dev/null | sort -u | grep -v "^${VERSION}$" || true)
+  # Match edition metadata only. A section number or historical release
+  # reference may have the same shape as a version and must stay unchanged.
+  local status=0
+  python3 - "$file" "$VERSION" "$CHECK_ONLY" <<'PY' || status=$?
+import re
+import sys
+from pathlib import Path
 
-  if [[ -n "$old_versions" ]]; then
-    echo "📍 $file: found outdated versions"
-    for v in $old_versions; do
-      echo "   - $v → $VERSION"
-    done
-
-    if $CHECK_ONLY; then
-      ERRORS=$((ERRORS + 1))
-    else
-      # Replace all old 3.x.x versions with current version
-      for v in $old_versions; do
-        # Escape dots for sed regex (prevents matching digits in URLs/IDs)
-        local escaped_v=$(echo "$v" | sed 's/\./\\./g')
-        # macOS compatible sed
-        sed -i '' "s/$escaped_v/$VERSION/g" "$file"
-      done
-      echo "✅ $file: updated"
-    fi
-  else
-    # Check if file contains current version
-    if grep -q "$VERSION" "$file" 2>/dev/null; then
-      echo "✅ $file: OK ($VERSION)"
-    else
-      echo "⚠️  $file: no version found"
-    fi
+path, version, check = Path(sys.argv[1]), sys.argv[2], sys.argv[3] == "true"
+source = path.read_text(encoding="utf-8")
+pattern = re.compile(
+    r'(^\*\*Version\*\*:\s*|Guide-v|(?:Guide|guide) version\s+|'
+    r'Updated-[^\n"<]*_·_v|\*Version\s+|'
+    r'\| (?:\*\*)?Version(?:\*\*)?:?\s+|'
+    r'^version:\s*"|^\s+aligned_with_guide:\s*")'
+    r'(\d+\.\d+\.\d+)', re.MULTILINE,
+)
+matches = list(pattern.finditer(source))
+old = sorted({match[2] for match in matches if match[2] != version})
+if old:
+    print(f"📍 {path}: outdated edition metadata: {', '.join(old)} → {version}")
+    if check:
+        sys.exit(1)
+    path.write_text(pattern.sub(lambda match: match[1] + version, source), encoding="utf-8")
+    print(f"✅ {path}: updated")
+elif matches:
+    print(f"✅ {path}: OK ({version})")
+else:
+    print(f"⚠️ {path}: no edition version found")
+PY
+  if [[ $status -eq 1 ]]; then
+    ERRORS=$((ERRORS + 1))
+  elif [[ $status -ne 0 ]]; then
+    return "$status"
   fi
 }
 

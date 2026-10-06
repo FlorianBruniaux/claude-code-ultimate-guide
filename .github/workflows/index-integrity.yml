@@ -147,7 +147,9 @@ jobs:
             --check
 
       - name: Check VERSION is in sync across docs
-        run: ./scripts/sync-version.sh --check
+        run: |
+          python3 scripts/test-sync-version.py
+          ./scripts/sync-version.sh --check
 
       - name: Check MCP public statistics snapshot
         run: |

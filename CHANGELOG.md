@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- **Release version sync corrected**: update edition metadata while preserving numbered sections and references to historical releases. Add regression checks to the index-integrity workflow.
+
 - **Local dashboard address clarified**: display OpenMemory’s localhost address as an inline code example available after local startup, rather than a public hyperlink in the guide reader.
 
 - **MCP chapter links repaired**: generate chapter boundaries from the guide during builds, ignoring fenced examples and preserving source offsets. Session-scoped hooks now resolve to the Hooks chapter; invalid or mismatched local-source offsets fall back to the guide root. Add regression coverage and refresh the MCP technical reference from the October 5 public 1.3.5 snapshot. The corrected package was published as 1.3.6 on October 5, 2026; its public tarball integrity and stdio search/read behavior were verified. The official MCP Registry subsequently accepted version 1.3.6; public version-specific and latest endpoints confirmed it active and latest.
