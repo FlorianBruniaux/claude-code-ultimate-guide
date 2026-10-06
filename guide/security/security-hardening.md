@@ -319,7 +319,7 @@ For the current official distinction between marketplace distribution and CLI re
 
 | Finding | Stat | Impact |
 |---------|------|--------|
-| Skills with security flaws | **36.82%** (1,467/3,984) | Over 1 in 3 skills is compromised |
+| Skills with security flaws | **36.82%** (1,467/3,984) | At least one flaw in this February 2026 sample; not a compromise rate |
 | Critical risk skills | **534** (13.4%) | Malware, prompt injection, exposed secrets |
 | Malicious payloads identified | **76** | Credential theft, backdoors, data exfiltration |
 | Hardcoded secrets (ClawHub) | **10.9%** | API keys, tokens exposed in skill code |
