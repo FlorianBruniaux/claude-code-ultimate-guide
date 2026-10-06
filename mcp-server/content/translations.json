@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-10-05",
-  "measured_at_commit": "e5df7adf480e008a704475b8707d058c572f5d36",
+  "checked_at": "2026-10-06",
+  "measured_at_commit": "60c11f11d9ea4854ab61788cbd97455ecb58eb71",
   "official_scope": "Maintained by the Claude Code Ultimate Guide project; not official Anthropic documentation.",
   "policy": {
     "canonical_language": "en",
@@ -20,11 +20,11 @@
     "url": "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md",
     "maintainer": "Florian Bruniaux",
     "status": "official",
-    "version": "3.43.0",
-    "sha256": "7ba2d005cb1a6dbd638d9db2ee9bdb4575999ad085b4d04e426eb6c3638e207d",
+    "version": "3.44.0",
+    "sha256": "a8544e3c08896280b41384bd2663375e2b8b0028f6318b3b96e96591ef53660b",
     "source": {
-      "commit": "461978a15eb790952832728819db5a6a69755ece",
-      "sha256": "7ba2d005cb1a6dbd638d9db2ee9bdb4575999ad085b4d04e426eb6c3638e207d",
+      "commit": "60c11f11d9ea4854ab61788cbd97455ecb58eb71",
+      "sha256": "a8544e3c08896280b41384bd2663375e2b8b0028f6318b3b96e96591ef53660b",
       "commit_evidence": "latest_commit_touching_canonical_guide"
     },
     "coverage": {
@@ -48,7 +48,7 @@
       "status": "official",
       "official": true,
       "version": "3.43.0",
-      "last_checked_at": "2026-10-05",
+      "last_checked_at": "2026-10-06",
       "last_full_refresh_at": "2026-09-27",
       "sync_state": "stale",
       "translated_from": {
@@ -68,8 +68,8 @@
       },
       "known_lag": {
         "status": "stale",
-        "canonical_guide_commits": 6,
-        "canonical_repo_commits": 62,
+        "canonical_guide_commits": 7,
+        "canonical_repo_commits": 68,
         "version_delta": "same guide version (3.43.0); source commit behind"
       }
     },
@@ -111,8 +111,8 @@
       },
       "known_lag": {
         "status": "stale",
-        "canonical_guide_commits": 55,
-        "canonical_repo_commits": 462,
+        "canonical_guide_commits": 56,
+        "canonical_repo_commits": 468,
         "version_delta": "3.41.0 to 3.43.0"
       },
       "official": false
@@ -187,8 +187,8 @@
       },
       "known_lag": {
         "status": "stale",
-        "canonical_guide_commits": 139,
-        "canonical_repo_commits": 730,
+        "canonical_guide_commits": 140,
+        "canonical_repo_commits": 736,
         "version_delta": "3.32.2 to 3.43.0"
       },
       "official": false
