@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [3.44.0] - 2026-10-06
+
+### Release summary
+
+This guide release collects the documentation, retrieval and publication updates since v3.43.0. It adds Lean workflow controls, AI FinOps and benchmark reviews, and expands agent harness and security guidance. Claude Code release tracking covers v2.1.289; the separately published MCP package is v1.3.6.
+
+The French full guide remains at its recorded v3.43.0 source revision and is declared stale. Existing PDF and EPUB downloads retain their published edition; this source release does not claim a new bilingual book build.
+
 - **Release version sync corrected**: update edition metadata while preserving numbered sections and references to historical releases. Add regression checks to the index-integrity workflow.
 
 - **Local dashboard address clarified**: display OpenMemory’s localhost address as an inline code example available after local startup, rather than a public hyperlink in the guide reader.

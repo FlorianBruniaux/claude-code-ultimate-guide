@@ -3,7 +3,7 @@
 # Source: guide/ultimate-guide.md
 # Purpose: Condensed index for LLMs to quickly answer user questions about Claude Code
 
-version: "3.43.0"
+version: "3.44.0"
 updated: "2026-09-04"
 
 # ════════════════════════════════════════════════════════════════
@@ -2756,7 +2756,7 @@ ecosystem:
 onboarding_matrix_meta:
   version: "2.1.0"
   last_updated: "2026-03-09"
-  aligned_with_guide: "3.43.0"
+  aligned_with_guide: "3.44.0"
   changelog:
     - version: "2.1.0"
       date: "2026-03-09"
