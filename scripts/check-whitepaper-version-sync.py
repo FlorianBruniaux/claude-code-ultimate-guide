@@ -84,7 +84,8 @@ def main() -> int:
             failures.append(f"{qmd_relative}: missing wp-version")
             continue
         if pdf.exists() and can_read_pdf:
-            expected = f"v{wp_version} · Guide v{version}"
+            # Daily cheatsheets use their own template, whose footer shows only the guide edition.
+            expected = f"v{version}" if qmd.stem == "cheatsheet" else f"v{wp_version} · Guide v{version}"
             if expected not in pdf_text(pdf):
                 failures.append(f"{pdf_relative}: missing {expected!r}")
         elif args.require_pdfs:

@@ -2313,7 +2313,7 @@ To choose a portable harness, distinguish the runtime that owns the loop, the re
 
 *This Reference Guide synthesizes the 7 whitepapers of the Claude Code Ultimate Guide series and adds original content on migration, IDE integration, Git, advanced patterns, and development methodologies.*
 
-*Version 3.43.0, September 2026 (updated: Opus 5.5 model defaults, Dynamic Workflows, sub-agent nesting depth 3, `/ultrareview`, `/fewer-permission-prompts`, read-only glob patterns skip permission prompts)*
+*Version 3.44.1, October 2026 (reviewed: current models, AI FinOps, verification capacity and accepted outcomes)*
 
 ---
 

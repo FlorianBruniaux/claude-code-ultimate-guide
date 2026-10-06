@@ -51,8 +51,9 @@
     breakable: true,
     [
       #if title != none [
-        #text(weight: "bold", fill: border)[#icon-char #title]
-        #v(4pt)
+        #block(sticky: true, above: 0pt, below: 4pt)[
+          #text(weight: "bold", fill: border)[#icon-char #title]
+        ]
       ]
       #if body != none { body }
     ]
@@ -246,8 +247,8 @@
     numbering: "1",
   )
 
-  // Reset page counter after cover
-  counter(page).update(1)
+  // Keep physical page numbers: the unnumbered cover is page 1.
+  // Resetting inside page 2 makes its header and page 3 both display 2.
 
   // Text settings with improved line height
   set text(

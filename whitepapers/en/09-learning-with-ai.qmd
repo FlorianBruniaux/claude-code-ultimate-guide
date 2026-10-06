@@ -1141,7 +1141,7 @@ Ask: Explain this code and its trade-offs
 
 ---
 
-*Version 3.43.0 | Created: 2026-02 | Updated: 2026-09 | UVAL Protocol & Comprehension Debt*
+*Version 3.44.1 | Created: 2026-02 | Updated: 2026-10 | UVAL Protocol & Comprehension Debt*
 # The series
 
 This whitepaper is part of the **Claude Code Ultimate Guide** series, a complete resource for mastering Claude Code, from installation to production deployment.

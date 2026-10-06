@@ -2276,7 +2276,7 @@ When a subtask cannot be expressed in a way that passes the SPEC test, that is u
 
 ---
 
-*Version 3.43.0 | Created: 2026-02 | Updated: 2026-09 | Agent Teams (v2.1.32+, Experimental)*
+*Version 3.44.1 | Created: 2026-02 | Updated: 2026-10 | Agent Teams (v2.1.32+, Experimental)*
 
 # The series
 

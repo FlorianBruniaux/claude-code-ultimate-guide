@@ -12,6 +12,8 @@ The four standard Anthropic model API rates were checked directly on October 6 a
 
 ## Export and deployment acceptance
 
+Eleven French recap fragments embedded in the e-books were also reviewed and corrected at their included source. Typst formatting now uses content blocks, and unsupported J-curve and universal productivity claims were bounded. The whitepaper templates preserve physical page numbers after the unnumbered cover and keep callout titles with their following content. Both formatting fixes passed targeted PDF behavior checks.
+
 The complete catalog comprises 146 PDF files and 28 EPUB files. `scripts/render-publications.py` records the committed source, source hashes, tool and font versions, and output hashes. `scripts/validate-publications.py` checks all 174 outputs for integrity, source freshness, PDF page boundaries, one-page recap cards, EPUB language and spine validity. Automated geometry checks do not establish visual or semantic quality. A separate visual pass must inspect representative dense pages and card contact sheets before deployment.
 
 Public download synchronization covers the publication registry, landing page metadata and EPUBs, portfolio PDF files, six recap-card ZIPs, and the stable email download manifest. Previous versioned files are retained. The English landing cards are regenerated from the reviewed EN QMD sources while preserving reviewed web-only RTK disclosures.

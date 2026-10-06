@@ -30,14 +30,15 @@ test('the bundled session-scoped hooks reference links to the rendered Hooks cha
 })
 
 test('real rendered chapter transitions route boundary lines inclusively', async () => {
-  // Independent oracle from the landing splitter and rendered chapter pages.
+  // Independent oracle checked against guide 3.44.1 headings and landing splitter rules.
+  // Keep these expectations independent of chapter-ranges.generated.json.
   const boundaries = [
     [259, '00-introduction', '01-quick-start'], [1649, '01-quick-start', '02-core-workflow'],
-    [4826, '02-core-workflow', '03-memory-files'], [6350, '03-memory-files', '04-agents'],
-    [7239, '04-agents', '05-skills'], [8799, '05-skills', '06-commands'],
-    [9736, '06-commands', '07-hooks'], [11629, '07-hooks', '08-mcp'],
-    [14220, '08-mcp', '09-advanced-patterns'], [23736, '09-advanced-patterns', '10-reference'],
-    [25021, '10-reference', '11-ai-ecosystem'], [25686, '11-ai-ecosystem', '12-appendices'],
+    [4828, '02-core-workflow', '03-memory-files'], [6352, '03-memory-files', '04-agents'],
+    [7241, '04-agents', '05-skills'], [8801, '05-skills', '06-commands'],
+    [9738, '06-commands', '07-hooks'], [11631, '07-hooks', '08-mcp'],
+    [14222, '08-mcp', '09-advanced-patterns'], [23738, '09-advanced-patterns', '10-reference'],
+    [25023, '10-reference', '11-ai-ecosystem'], [25688, '11-ai-ecosystem', '12-appendices'],
   ]
   await withUrls(({ guideSiteUrl }) => {
     for (const [start, previous, next] of boundaries) {
