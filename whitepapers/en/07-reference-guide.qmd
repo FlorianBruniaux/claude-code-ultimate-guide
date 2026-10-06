@@ -2,10 +2,11 @@
 title: "Claude Code: The Reference Guide"
 subtitle: "Complete synthesis + advanced workflows"
 author: "Florian BRUNIAUX"
-date: "2026-09-26"
+date: "2026-10-06"
 date-format: "MMMM YYYY"
-version: "3.43.0"
-wp-version: "1.4.6"
+version: "3.44.1"
+guide-version: "3.44.1"
+wp-version: "1.5.0"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -330,7 +331,7 @@ Now that you know how to formulate your prompts (Ch.1) and position Claude Code 
 
 Claude Code's context budget depends on the selected model and provider. Understanding how it fills up is essential for productive sessions.
 
-> **Current windows:** Opus 5.5, Sonnet 5 and Fable 5.1 use native 1M context on the direct API; Haiku 4.5 uses 200K. Native 1M models use standard rates beyond 200K and do not require the old beta header. Older `[1m]` variants retain plan/provider restrictions. Inspect `/context`; the schematic below is an illustrative 200K budget, not the current default. See **#4 Architecture** (`04-architecture.qmd`).
+> **Current windows:** Opus 5.5, Sonnet 5.5 and Fable 5.1 use native 1M context on the direct API; Haiku 4.5 uses 200K. Native 1M models use standard rates beyond 200K and do not require the old beta header. Older `[1m]` variants retain plan/provider restrictions. Inspect `/context`; the schematic below is an illustrative 200K budget, not the current default. See **#4 Architecture** (`04-architecture.qmd`).
 
 ```
 +--------------------------------------------------------+
@@ -646,7 +647,7 @@ effort: high
 ---
 ```
 
-Current adaptive models support `low`, `medium`, `high`, `xhigh`, and `max`; Haiku 4.5 has no effort parameter. Opus 5.5 defaults to `medium`, Sonnet 5 and Fable 5.1 to `high`. Choose a supported level and verify the result; `xhigh` is not the highest API level.
+Current adaptive models support `low`, `medium`, `high`, `xhigh`, and `max`; Haiku 4.5 has no effort parameter. Opus 5.5 defaults to `medium`, Sonnet 5.5 and Fable 5.1 to `high`. Choose a supported level and verify the result; `xhigh` is not the highest API level.
 
 ### Bundled resources
 
@@ -1910,6 +1911,18 @@ Measuring adoption without concrete metrics leads to subjective decisions. The f
 
 {{< pagebreak >}}
 
+## Measure cost per accepted task
+
+Separate three regimes: a subscription buys a revocable usage allowance, an API bills tokens and modifiers, and owned or rented inference pays for capacity and operations. An allowance expressed as a plan multiplier is not a guaranteed token budget. The September 30, 2026 [market snapshot](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ops/llm-market-snapshot.md) records prices and quotas at that date; recheck the supplier before purchasing.
+
+Use the [AI FinOps loop](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ops/ai-finops.md): Inform with billed usage, cache reads and writes, retries and review effort; Optimize one lever on paired tasks; Operate with attribution, allowed models and tested caps. Divide the full cost of attempts, review, rework and recovery by accepted tasks. Track the later user outcome separately. A lower token count or a completed PR alone does not establish a lower bill or customer value.
+
+## Admit work at verification capacity
+
+The [Lean delivery lens](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/methodologies.md#lean-software-engineering-as-a-delivery-lens) follows one request from a user need through review, integration, release and use. Faster generation can move waiting into those later stages. Before starting another task, name the verifier, required evidence and the available review capacity. When that capacity is exhausted, pause admission and finish, narrow or reject existing work.
+
+Track work in progress, queue age, accepted throughput and end-to-end cycle time for the same class of change. Include rejected attempts, false blocks, review and rework. Record the reviewed head, base and acceptance criteria; a changed requirement or combined change requires affected checks to run again. Compare escaped defects and the user outcome over comparable windows before increasing parallelism. This is a control to test locally, not a promised productivity multiplier. The [review-admission worksheet](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/examples/workflows/review-admission.md) provides a concrete experiment.
+
 # APPENDICES
 
 # Appendix A: Commands & shortcuts
@@ -2042,28 +2055,28 @@ The table combines built-in commands and optional custom skills from several rel
 
 ## Current models
 
-Standard API rates, verified September 24, 2026. USD per million input/output tokens, excluding caching.
+Standard API rates, checked October 6, 2026 at the official pricing source. USD per million input/output tokens, excluding caching.
 
 | Model | Input / output | Context | Default effort |
 |-------|----------------|---------|----------------|
 | Haiku 4.5 | $1 / $5 | 200K | Unsupported |
-| Sonnet 5 | $2 / $10 | 1M | high |
+| Sonnet 5.5 | $2 / $10 | 1M | high |
 | Opus 5.5 | $4 / $20 | 1M | medium |
 | Fable 5.1 | $10 / $50 | 1M | high |
 
-Sonnet's published rate remains $2/$10 after the launch promotion. Opus 5.5 is the direct-service default; account policy can override it. Model choice does not establish a typical task cost.
+Sonnet 5.5 replaces legacy Sonnet 5 on the direct API since v2.1.284, at the same standard $2/$10. Opus 5.5 is the direct-service default; account policy can override it. Model choice does not establish a typical task cost.
 
 ## Select and save
 
 `/model` opens the picker. **Enter** saves a default; **s** applies it to this session only. `claude --model sonnet` applies to the launched session. Project and managed settings can reapply at the next launch.
 
-Aliases depend on the provider. `opus` maps to 5.5 on most providers, but 4.6 on Foundry. `sonnet` maps to 5 on the direct API, 4.6 on Claude Platform on AWS, and 4.5 on Bedrock, Google, and Foundry.
+Aliases depend on the provider. `opus` maps to 5.5 on most providers, but 4.6 on Foundry. `sonnet` maps to 5.5 on the direct API, 4.6 on Claude Platform on AWS, and 4.5 on Bedrock, Google, and Foundry.
 
 `fable` selects 5.1 where available, or 5 through the Claude apps gateway. `best` selects Fable when available, otherwise Opus. Pin a supported full ID when version identity matters.
 
 ## Thinking and effort
 
-Opus 5.5, Sonnet 5, and Fable 5.1 use adaptive thinking. Haiku 4.5 supports extended thinking but has **no effort parameter**.
+Opus 5.5, Sonnet 5.5, and Fable 5.1 use adaptive thinking. Haiku 4.5 supports extended thinking but has **no effort parameter**.
 
 Current adaptive models support `low`, `medium`, `high`, `xhigh`, and `max`. Opus 4.6 and Sonnet 4.6 support `max` but not `xhigh`.
 
@@ -2080,7 +2093,7 @@ Evaluate Haiku on bounded tasks, Sonnet on routine work, and Opus or Fable on ha
 Sources: [Model configuration](https://code.claude.com/docs/en/model-config), [API pricing](https://platform.claude.com/docs/en/about-claude/pricing).
 
 
-Reliable knowledge cutoffs: Opus 5.5 and Fable 5.1, June 2026; Sonnet 5, January 2026; Haiku 4.5, February 2025.
+Reliable knowledge cutoffs: Opus 5.5, Sonnet 5.5 and Fable 5.1, June 2026; Haiku 4.5, February 2025.
 
 ## Keyboard shortcuts
 
@@ -2255,6 +2268,8 @@ Depending on your immediate goal, you do not need to read all 9 whitepapers. Thi
 | Complete overview | 07 (this document) |
 
 {{< pagebreak >}}
+
+**RTK disclosure**: the guide’s author is a core contributor to RTK. Its output-reduction estimate is not a measured reduction in provider billing or proof of security. See the [dated benchmark methods and results](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ecosystem/context-engineering-tools.md#independent-benchmarks), which also state the publishers’ interests.
 
 # Appendix D: Resources
 

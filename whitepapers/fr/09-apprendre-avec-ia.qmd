@@ -2,10 +2,11 @@
 title: "Whitepaper 09 : Apprendre avec l'IA"
 subtitle: "Protocole UVAL et dette de comprehension"
 author: "Florian BRUNIAUX"
-date: "2026-09-26"
+date: "2026-10-06"
 date-format: "MMMM YYYY"
-version: "3.43.0"
-wp-version: "1.2.3"
+version: "3.44.1"
+guide-version: "3.44.1"
+wp-version: "1.2.4"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -967,6 +968,8 @@ L'usage de l'IA dans les processus de développement entre progressivement dans 
 - **FDA AI/ML Guidance** : nouvelles lignes directrices publiées en janvier et juin 2025 pour les dispositifs médicaux intégrant des composants IA/ML.
 
 Les exigences dépendent de la classification du système, du rôle de l’organisation, du déploiement et du calendrier applicable. Une activité fintech ou santé ne suffit pas à elle seule à établir les obligations. Faites examiner ces éléments par les responsables compétents ; UVAL et les ADR ne constituent pas une preuve de conformité.
+
+Les résultats METR et Borg cités ici décrivent leurs tâches, outils et participants de 2025. Ils ne mesurent pas l’effet de Sonnet 5.5 ou d’Opus 5.5. Évaluez séparément la compréhension sans assistance, la qualité de la tâche acceptée et le résultat ultérieur pour l’utilisateur, sans les déduire du volume généré.
 
 # Annexes
 

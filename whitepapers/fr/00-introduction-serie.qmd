@@ -2,10 +2,11 @@
 title: "Claude Code : De Zéro à Productif"
 subtitle: "Les fondamentaux pour démarrer efficacement"
 author: "Florian BRUNIAUX"
-date: "2026-09-26"
+date: "2026-10-06"
 date-format: "MMMM YYYY"
-version: "3.43.0"
-wp-version: "1.5.2"
+version: "3.44.1"
+guide-version: "3.44.1"
+wp-version: "1.5.3"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -80,6 +81,8 @@ Depuis fin 2025, plusieurs fonctionnalités agentic sont devenues disponibles et
 | **Sub-agents imbriqués** | v2.1.219 | Un agent peut déléguer à d'autres agents jusqu'à 3 niveaux de profondeur par défaut (`CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH`) |
 
 ## Installation
+
+Sonnet 5.5 (`claude-sonnet-5-5`) remplace Sonnet 5 sur l’API directe depuis Claude Code v2.1.284, le 28 septembre 2026, au même tarif standard $2/$10 par million de tokens. Sonnet 5 reste un modèle historique ; vérifiez le modèle effectif avec `/model`. [Configuration des modèles](https://code.claude.com/docs/en/model-config).
 
 Deux options d'installation. L'installeur natif est la méthode recommandée par Anthropic ; npm reste fonctionnel si vous avez des contraintes spécifiques.
 
@@ -196,7 +199,7 @@ Règle simple : si vous n'êtes pas dans un sandbox isolé, gardez la validation
 Ces règles condensent les erreurs les plus fréquentes observées lors des premières semaines d'utilisation de Claude Code. Les appliquer dès le départ évite la majorité des frustrations signalées par la communauté.
 
 1. **Toujours relire les diffs** avant d'accepter les modifications
-2. **Utiliser `/compact`** dès 70% de contexte (voir tableau ci-dessous)
+2. **Utiliser `/compact`** à une frontière utile de la tâche ; consulter `/context` (rappels ci-dessous)
 3. **Être spécifique** dans les demandes (voir formule ci-dessous)
 4. **Mode plan d'abord** pour les tâches complexes ou risquées
 5. **Créer un CLAUDE.md** pour chaque projet; vous pouvez en avoir plusieurs : un global (`~/.claude/CLAUDE.md`), un par projet (racine), et un par sous-répertoire pour des règles plus fines
@@ -250,21 +253,21 @@ Le contexte est la mémoire de travail de Claude. Les modèles actuels Opus, Son
 |------|----------|--------|
 | Vert | 0-50% | Travailler librement |
 | Jaune | 50-70% | Être sélectif |
-| Orange | 70-90% | `/compact` maintenant |
+| Orange | 70-90% | Envisager `/compact` à une frontière de tâche |
 | Rouge | 90%+ | Sauvegarder les décisions, puis compacter ou préparer une passation |
 
 ::: {.callout-warning title="Heures de Pointe (mars 2026)"}
-Depuis le 26 mars 2026, les limites de session se drainent plus vite pendant les **heures de pointe en semaine : 5h-11h PT** (13h-19h GMT). Le total hebdomadaire reste identique, mais la distribution est différente. Impact : environ 7% des utilisateurs atteignent leurs limites plus vite qu'avant. Sur les plans Max, des utilisateurs ont rapporté passer de 21% à 100% d'utilisation sur un seul prompt en heure de pointe. Contournement pratique : déplacer les tâches lourdes (chaînes d'agents, refactors massifs) vers les soirées ou le week-end.
+L’annonce des heures de pointe de mars 2026 est historique, pas une garantie de quota actuel. Consultez `/usage` et les conditions du forfait actif avant de planifier une tâche lourde. Distinguez fenêtre de contexte, limites d’abonnement et facturation API. [Référence des limites et coûts](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#cost-awareness--optimization).
 :::
 
 ::: {.callout-tip title="Mémo: Gérer son contexte en 3 réflexes"}
-**Quoi** : Garder le contexte sous 70% pour des réponses fiables.
+**Quoi** : Garder le contexte pertinent pour la tâche active. Les seuils de pourcentage sont des rappels, pas des garanties de mémorisation.
 
 **Quand** : Vérifier avec `/context` après chaque tâche majeure, ou quand les réponses deviennent vagues ou répétitives.
 
-**Comment** : (1) `/compact` dès 70% ; (2) Démarrer une nouvelle session pour chaque tâche indépendante ; (3) Utiliser `@fichier` pour charger uniquement les fichiers pertinents au lieu de laisser Claude tout scanner.
+**Comment** : (1) `/compact` à une frontière utile de la tâche ; (2) Démarrer une nouvelle session pour chaque tâche indépendante ; (3) Utiliser `@fichier` pour charger uniquement les fichiers pertinents au lieu de laisser Claude tout scanner.
 
-**Vérifier** : Si Claude commence à oublier des instructions données en début de session ou à produire du code incohérent avec le contexte projet, c'est que le contexte est saturé.
+**Vérifier** : Si Claude perd une contrainte ou propose une réponse non étayée, rouvrir les preuves pertinentes. Le pourcentage de contexte ne suffit pas à identifier la cause.
 :::
 
 > **Pour aller plus loin :** [TL;DR: The 5-Minute Summary](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#tldr---the-5-minute-summary), résumé visuel complet avec exemples
@@ -407,9 +410,9 @@ Toutes les informations de cette série ne se valent pas. La documentation offic
 
 | Tier | Source | Fiabilité |
 |------|--------|-----------|
-| **Tier 1** | Documentation Anthropic | 100% |
-| **Tier 2** | Tests vérifiés | 70-90% |
-| **Tier 3** | Inférence communautaire | 40-70% |
+| **Tier 1** | Documentation Anthropic | Déclaration officielle ; version et fournisseur à vérifier |
+| **Tier 2** | Tests vérifiés | Observation limitée aux conditions testées |
+| **Tier 3** | Inférence communautaire | Hypothèse à valider localement |
 
 Les informations Tier 2/3 sont explicitement marquées.
 
@@ -420,7 +423,7 @@ Les informations Tier 2/3 sont explicitement marquées.
 | Contenu | CC BY-SA 4.0 |
 | Code | MIT |
 
-*Version 3.43.0 | Septembre 2026*
+*Version 3.44.1 | Octobre 2026*
 
 
 ---

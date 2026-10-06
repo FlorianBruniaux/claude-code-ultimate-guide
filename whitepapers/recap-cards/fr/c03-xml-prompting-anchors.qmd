@@ -4,11 +4,11 @@ subtitle: "Structurer les prompts complexes pour des résultats reproductibles"
 card-number: "C03"
 category: "Conception"
 difficulty: "advanced"
-guide-version: "3.43.0"
-wp-version: "1.0.2"
+guide-version: "3.44.1"
+wp-version: "1.0.3"
 author: "Florian BRUNIAUX"
-version: "3.43.0"
-date: "2026-09-26"
+version: "3.44.1"
+date: "2026-10-06"
 layout: "two-col"
 lang: fr
 format:
@@ -71,7 +71,7 @@ Garde le code du prestataire hors du domaine.
 Vérifie que les tests de paiement existants passent toujours.
 ```
 
-« Ports & Adapters » nomme l'approche. Les deux phrases suivantes précisent son application à cette tâche et le contrôle attendu. Si Claude applique mal le terme, décrivez la frontière voulue plutôt que de répéter son nom. Voir la [section du guide sur les ancres sémantiques](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.fr.md#29-semantic-anchors).
+« Ports & Adapters » nomme l'approche. Les deux phrases suivantes précisent son application à cette tâche et le contrôle attendu. Si Claude applique mal le terme, décrivez la frontière voulue plutôt que de répéter son nom. Voir la [section du guide sur les ancres sémantiques](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.fr.md#29-ancres-sémantiques).
 
 Les commentaires tels que `// ANCHOR: auth-flow` sont des marqueurs de position dans le code. Ils peuvent désigner une zone du fichier, mais le mot « ancre » a ici un autre sens.
 

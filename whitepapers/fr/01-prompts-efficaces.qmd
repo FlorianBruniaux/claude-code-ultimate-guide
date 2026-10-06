@@ -2,10 +2,11 @@
 title: "Prompts qui Marchent"
 subtitle: "La méthode pour des prompts qui marchent du premier coup"
 author: "Florian BRUNIAUX"
-date: "2026-09-26"
+date: "2026-10-06"
 date-format: "MMMM YYYY"
-version: "3.43.0"
-wp-version: "1.3.3"
+version: "3.44.1"
+guide-version: "3.44.1"
+wp-version: "1.3.4"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -34,7 +35,7 @@ citeproc: false
 
 **Ce que vous allez retenir** :
 
-- Un prompt structuré (WHAT/WHERE/HOW/VERIFY) réduit les itérations de 60-70%
+- Un prompt structuré (WHAT/WHERE/HOW/VERIFY) explicite le périmètre et les critères d’acceptation ; mesurez les itérations localement
 - Les XML tags augmentent la précision sur les tâches complexes
 - Les anti-patterns les plus fréquents : prompts vagues, périmètre flou, absence de critères
 :::
@@ -169,7 +170,7 @@ VERIFY:
 ```
 
 ::: {.callout-note title="Exemple : effet de la formule WHAT/WHERE/HOW/VERIFY"}
-Un prompt du type "Fix the payment validation" fait typiquement modifier `payment-form.tsx` alors que le bug se trouve dans `payment-api.ts`. En appliquant WHAT/WHERE/HOW/VERIFY de façon systématique, le taux de prompts corrects du premier coup passe d'environ 30% à environ 80%.
+Un prompt vague sur la validation du paiement peut viser la mauvaise couche. Nommez les fichiers du formulaire et de l’API concernés, décrivez l’échec observé et indiquez le contrôle qui établit la correction. Mesurez l’acceptation au premier essai et l’effort total de revue sur vos tâches.
 :::
 
 ::: {.callout-tip title="Memo -- WHAT/WHERE/HOW/VERIFY en 30 secondes"}
@@ -179,7 +180,7 @@ Un prompt du type "Fix the payment validation" fait typiquement modifier `paymen
 
 **Anti-pattern** : Omettre WHERE -- Claude choisira un fichier au hasard dans la codebase.
 
-**Resultat attendu** : Reponse correcte au premier essai dans ~80% des cas.
+**Résultat attendu** : Une réponse dont le périmètre et la vérification sont contrôlables ; aucun taux de réussite au premier essai n’est établi ici.
 :::
 
 > 📖 **Pour aller plus loin :** [§2.6 Mental Model](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#26-mental-model): le modèle mental complet de l'interaction avec Claude Code
@@ -380,7 +381,7 @@ Git diff v2.2.0 → v2.3.0 shows changes to:
 
 Jusqu'ici, nous avons vu comment structurer un prompt individuel (formule WHAT/WHERE/HOW/VERIFY) et comment l'organiser visuellement (XML). L'etape suivante : controler ce que Claude voit avant meme que vous ecriviez votre prompt.
 
-La formule WHAT/WHERE/HOW/VERIFY couvre 80% des cas. Les techniques ci-dessous s'appliquent quand vous avez besoin de controler finement le contexte que Claude recoit ou d'automatiser la validation de vos prompts.
+La formule WHAT/WHERE/HOW/VERIFY fournit une structure de départ, pas un pourcentage de couverture mesuré. Les techniques ci-dessous s'appliquent quand vous avez besoin de controler finement le contexte que Claude recoit ou d'automatiser la validation de vos prompts.
 
 ## Comparatif des Techniques de Prompting
 
@@ -444,7 +445,7 @@ Now analyze authentication flow.
 
 ## Thinking Modes et Efficacité
 
-Opus 5.5 est le modèle par défaut du service direct ; les politiques d’organisation et fournisseurs peuvent différer. Opus 5.5, Sonnet 5 et Fable 5.1 utilisent un raisonnement adaptatif et un contexte natif de 1M tokens. L’effort influence le raisonnement et les appels d’outils. Le thinking reste activé sur Opus 5.5 et Fable ; Haiku 4.5 accepte l’extended thinking mais n’a pas de paramètre d’effort.
+Opus 5.5 est le modèle par défaut du service direct ; les politiques d’organisation et fournisseurs peuvent différer. Opus 5.5, Sonnet 5.5 et Fable 5.1 utilisent un raisonnement adaptatif et un contexte natif de 1M tokens. L’effort influence le raisonnement et les appels d’outils. Le thinking reste activé sur Opus 5.5 et Fable ; Haiku 4.5 accepte l’extended thinking mais n’a pas de paramètre d’effort.
 
 Les modèles adaptatifs actuels acceptent `low / medium / high / xhigh / max`. Opus 4.6 et Sonnet 4.6 n’acceptent pas `xhigh`. `/effort` enregistre les niveaux compatibles jusqu’à `xhigh` par modèle ; **s** applique le choix à la session seule. `max` est limité à la session. `/effort ultracode` active les workflows dynamiques avec un raisonnement `xhigh` : ce n’est pas un sixième niveau API.
 
@@ -489,7 +490,7 @@ Currently full table scan, target < 200ms
 ::: {.callout-tip title="Memo -- Thinking Modes en 30 secondes"}
 **Quoi** : Le parametre `effort` calibre le budget de calcul du modele sur 5 paliers (low a max), pas seulement le raisonnement.
 
-**Quand** : évaluer `low`/`medium` pour les tâches bornées et `high`/`xhigh` pour l’analyse. Augmenter l’effort ou comparer les modèles lorsque les échecs mesurés le justifient. Opus 5.5 utilise `medium` par défaut ; Sonnet 5 et Fable 5.1 utilisent `high`.
+**Quand** : évaluer `low`/`medium` pour les tâches bornées et `high`/`xhigh` pour l’analyse. Augmenter l’effort ou comparer les modèles lorsque les échecs mesurés le justifient. Opus 5.5 utilise `medium` par défaut ; Sonnet 5.5 et Fable 5.1 utilisent `high`.
 
 **Comment** : exprimer WHAT/WHERE/HOW/VERIFY à tous les niveaux d’effort. Plus de raisonnement ne fournit pas les critères manquants.
 
@@ -1159,7 +1160,7 @@ Chaque whitepaper de la série est autonome, mais la lecture dans l'ordre renfor
 
 **Repository** : [github.com/FlorianBruniaux/claude-code-ultimate-guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide)
 
-*Version 3.43.0 | Septembre 2026*
+*Version 3.44.1 | Octobre 2026*
 
 
 ---

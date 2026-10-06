@@ -2,10 +2,11 @@
 title: "Whitepaper 08: Agent Teams"
 subtitle: "Multi-agent coordination for complex tasks"
 author: "Florian BRUNIAUX"
-date: "2026-09-26"
+date: "2026-10-06"
 date-format: "MMMM YYYY"
-version: "3.43.0"
-wp-version: "1.6.2"
+version: "3.44.1"
+guide-version: "3.44.1"
+wp-version: "1.7.0"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -1153,7 +1154,7 @@ Simple task (<5 files)?
 | **Criticality** | Production release, external PR | Internal PR, simple change |
 | **Budget** | Time saved > 2x token overhead | Tight budget --- 3x+ tokens not justified |
 
-**Example of poor fit**: Updating auth logic in a single shared `auth.ts` file --- single write zone, no parallelization benefit, guaranteed merge conflict.
+**Example of poor fit**: Updating auth logic in a single shared `auth.ts` file --- single write zone, no parallelization benefit, a risk of merge conflict.
 
 ## Use case mapping
 
@@ -1271,7 +1272,7 @@ Measuring agent teams ROI is essential to justify the token overhead to your tea
 | **Convergence rate** | >50% | Count findings flagged by 2+ agents / total findings. High convergence = high confidence. |
 | **Unique insights** | Each agent >= 1 | Each agent must find at least 1 unique issue in their domain. If agent finds 0 unique = wasted tokens. |
 | **False positive rate** | <20% | Count invalid findings / total findings. Too many false positives = poor prompts. |
-| **Time saving** | 60-70% | Compare agent teams time vs sequential (estimate 3x single-agent time for 3 tasks). |
+| **Time saving** | Local hypothesis to measure | Compare accepted outcomes, review, rework and cost against sequential work |
 | **Bug catch rate** | >80% | Count critical bugs found by agents / total bugs found post-ship. High = effective prevention. |
 
 ## Industry adoption timeline
@@ -1568,6 +1569,18 @@ If agent teams regularly cost more than 5x single agent, that's a structural red
 - **v2.1.121**: Critical memory leak fixes in long agent team sessions. Sessions exceeding 2 hours were consuming up to 3x the expected memory.
 - **v2.1.114**: Fixed a crash in the permission dialog when a teammate requested tool access during a git synchronization phase.
 
+## Admit work at verification capacity
+
+The [Lean delivery lens](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/methodologies.md#lean-software-engineering-as-a-delivery-lens) follows one request from a user need through review, integration, release and use. Faster generation can move waiting into those later stages. Before starting another task, name the verifier, required evidence and the available review capacity. When that capacity is exhausted, pause admission and finish, narrow or reject existing work.
+
+Track work in progress, queue age, accepted throughput and end-to-end cycle time for the same class of change. Include rejected attempts, false blocks, review and rework. Record the reviewed head, base and acceptance criteria; a changed requirement or combined change requires affected checks to run again. Compare escaped defects and the user outcome over comparable windows before increasing parallelism. This is a control to test locally, not a promised productivity multiplier. The [review-admission worksheet](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/examples/workflows/review-admission.md) provides a concrete experiment.
+
+## Measure cost per accepted task
+
+Separate three regimes: a subscription buys a revocable usage allowance, an API bills tokens and modifiers, and owned or rented inference pays for capacity and operations. An allowance expressed as a plan multiplier is not a guaranteed token budget. The September 30, 2026 [market snapshot](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ops/llm-market-snapshot.md) records prices and quotas at that date; recheck the supplier before purchasing.
+
+Use the [AI FinOps loop](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ops/ai-finops.md): Inform with billed usage, cache reads and writes, retries and review effort; Optimize one lever on paired tasks; Operate with attribution, allowed models and tested caps. Divide the full cost of attempts, review, rework and recovery by accepted tasks. Track the later user outcome separately. A lower token count or a completed PR alone does not establish a lower bill or customer value.
+
 # Deployment checklist
 
 ## Pre-deployment checklist
@@ -1650,6 +1663,8 @@ If agent teams regularly cost more than 5x single agent, that's a structural red
 3. Refine prompts, scope, or task decomposition
 4. Retest with smaller scope
 5. Only resume production after validation
+
+**RTK disclosure**: the guide’s author is a core contributor to RTK. Its output-reduction estimate is not a measured reduction in provider billing or proof of security. See the [dated benchmark methods and results](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ecosystem/context-engineering-tools.md#independent-benchmarks), which also state the publishers’ interests.
 
 # Appendices
 

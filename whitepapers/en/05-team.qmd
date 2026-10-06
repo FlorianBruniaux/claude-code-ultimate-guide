@@ -2,10 +2,11 @@
 title: "Team Deployment"
 subtitle: "From solo to 50 devs: observability, CI/CD, adoption"
 author: "Florian BRUNIAUX"
-date: "2026-09-26"
+date: "2026-10-06"
 date-format: "MMMM YYYY"
-version: "3.43.0"
-wp-version: "1.6.2"
+version: "3.44.1"
+guide-version: "3.44.1"
+wp-version: "1.7.0"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -381,7 +382,9 @@ cargo install --git https://github.com/rtk-ai/rtk
 
 Do not replace an arbitrary `pnpm test` script with `vitest` without checking what the script runs. Use `rtk gain` to inspect estimates and raw output when filtering omits diagnostic detail.
 
-> Full configuration: [guide/third-party-tools.md](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/third-party-tools.md) (RTK section).
+> Full configuration: [guide/ecosystem/third-party-tools.md](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ecosystem/third-party-tools.md) (RTK section).
+
+**Disclosure and measurement**: the guide's author is a core contributor to RTK. `rtk gain` estimates the reduction in filtered command output; it does not measure the provider's full bill. Eight public benchmarks read on September 30, 2026 report task-level or replay results, with publisher interests stated: Dasein makes Parsec, THOL's maintainer makes Tokenade, and Tura is a competing agent. For RTK, JetBrains measured +7.6% median cost at low effort and +0.1% at high effort; THOL measured +7.1% on seven long tasks (95% interval -7.2% to +26.0%); Codepointer's counterfactual replay modeled -0.5% of total spend without testing task success. These different denominators are not a pooled estimate. None tested Sonnet 5.5 or Opus 5.5. Keep raw output when filtering hides evidence, then compare repeated paired tasks, cache behavior and cost per accepted result. [Benchmark methods and results](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ecosystem/context-engineering-tools.md#independent-benchmarks).
 
 ## Monitoring limitations
 
@@ -960,6 +963,12 @@ Useful for teams that alternate between quick reviews (frequent commits) and tho
 
 {{< pagebreak >}}
 
+## Admit work at verification capacity
+
+The [Lean delivery lens](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/methodologies.md#lean-software-engineering-as-a-delivery-lens) follows one request from a user need through review, integration, release and use. Faster generation can move waiting into those later stages. Before starting another task, name the verifier, required evidence and the available review capacity. When that capacity is exhausted, pause admission and finish, narrow or reject existing work.
+
+Track work in progress, queue age, accepted throughput and end-to-end cycle time for the same class of change. Include rejected attempts, false blocks, review and rework. Record the reviewed head, base and acceptance criteria; a changed requirement or combined change requires affected checks to run again. Compare escaped defects and the user outcome over comparable windows before increasing parallelism. This is a control to test locally, not a promised productivity multiplier. The [review-admission worksheet](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/examples/workflows/review-admission.md) provides a concrete experiment.
+
 # Costs and optimization
 
 ## Pricing by model
@@ -969,11 +978,11 @@ Choose models from measured task outcomes and total cost. A team can explicitly 
 | Model | Input | Output | Usage Type |
 |-------|-------|--------|------------|
 | **Haiku 4.5** | $1/1M | $5/1M | Bounded tasks; 200K context, no effort parameter |
-| **Sonnet 5** | $2/1M | $10/1M | Explicit routing choice, native 1M context |
+| **Sonnet 5.5** | $2/1M | $10/1M | Explicit routing choice, native 1M context |
 | **Opus 5.5** | $4/1M | $20/1M | Current direct-service default, native 1M context |
 | **Fable 5.1** | $10/1M | $50/1M | Available on eligible accounts, native 1M context |
 
-Standard direct-API rates above were verified for the guide on September 24, 2026. Sonnet 5 remains $2/$10 after the launch promotion. Opus 5.5 is the direct-service default; organization policy and provider aliases can differ. Fast mode and caching use separate rates.
+Standard direct-API rates above were checked at the official pricing source on October 6, 2026. Sonnet 5.5 replaces legacy Sonnet 5 on the direct API since v2.1.284, at the same standard $2/$10. Opus 5.5 is the direct-service default; organization policy and provider aliases can differ. Fast mode and caching use separate rates.
 
 ## Cost-saving strategies
 
@@ -1221,7 +1230,7 @@ This whitepaper covers operational team deployment. The following whitepapers go
 
 **Repository**: [github.com/FlorianBruniaux/claude-code-ultimate-guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide)
 
-*Version 3.43.0 | September 2026*
+*Version 3.44.1 | October 2026*
 
 # The series
 

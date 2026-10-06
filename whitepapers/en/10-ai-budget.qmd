@@ -2,10 +2,11 @@
 title: "Making the Case for AI Investment"
 subtitle: "The argumentation guide for CEOs, CTOs and CFOs"
 author: "Florian BRUNIAUX"
-date: "2026-09-26"
+date: "2026-10-06"
 date-format: "MMMM YYYY"
-version: "3.43.0"
-wp-version: "1.2.3"
+version: "3.44.1"
+guide-version: "3.44.1"
+wp-version: "1.3.0"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -81,6 +82,12 @@ For a worked example, choose a local loaded hourly cost and record its source. D
 ::: {.callout-note}
 Historical price assumptions from July 2026, not a current quote. Verify current prices, included usage, overage, seat minimums and billing periods before any decision.
 :::
+
+## Measure cost per accepted task
+
+Separate three regimes: a subscription buys a revocable usage allowance, an API bills tokens and modifiers, and owned or rented inference pays for capacity and operations. An allowance expressed as a plan multiplier is not a guaranteed token budget. The September 30, 2026 [market snapshot](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ops/llm-market-snapshot.md) records prices and quotas at that date; recheck the supplier before purchasing.
+
+Use the [AI FinOps loop](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ops/ai-finops.md): Inform with billed usage, cache reads and writes, retries and review effort; Optimize one lever on paired tasks; Operate with attribution, allowed models and tested caps. Divide the full cost of attempts, review, rework and recovery by accepted tasks. Track the later user outcome separately. A lower token count or a completed PR alone does not establish a lower bill or customer value.
 
 # The raw financial argument
 
@@ -215,7 +222,7 @@ The reality for the majority of organizations. Three approaches depending on con
 
 2. **CTO/VP Eng discretionary budget**: in many organizations, the CTO or VP Eng has a discretionary envelope for tools. A Cursor Pro pilot typically falls within this without a formal budget process; the envelope size varies by organization and engineering team scale.
 
-3. **The scale argument**: "this is a SaaS subscription, not an infrastructure investment." It doesn't carry the same approval constraints as a $50K annual contract. These offerings are monthly, cancellable, with no lock-in. Comparable in size to any existing SaaS tool.
+3. **The scale argument**: "this is a SaaS subscription, not an infrastructure investment." It doesn't carry the same approval constraints as a $50K annual contract. Verify the actual billing period, cancellation terms and dependencies before using that argument. Comparable in size to any existing SaaS tool.
 
 4. **Replace an existing paid tool with an open-source equivalent**: freeing budget on a tooling line by migrating an underused paid SaaS to an OS alternative can fund the pilot at net-zero cost. The pitch to the decision-maker: we're not spending more, we're redirecting.
 
@@ -230,9 +237,9 @@ Current pricing is attractive. Two risks to integrate into any long-term busines
 
 **Vendor lock-in**: once adoption is in place, the vendor can revise enterprise terms (tier upgrades, license minimums, contract changes). Mitigation: verify exit clauses and renewal conditions before signing any annual commitment.
 
-**Unbounded API usage**: if the team shifts to pay-as-you-go API calls (automated agents, continuous workflows), costs become variable and uncapped. Prefer: flat-rate plans with clear limits. On this specific point, an API gateway (LiteLLM or equivalent) lets you regain control technically rather than contractually: per-team virtual keys with capped monthly budgets, allowlists of approved models, and automatic rejection of out-of-budget calls before they even reach the provider's API.
+**Metered usage**: automated API work has variable cost unless an enforceable limit stops it. Choose a billing path suited to the workload, attribute usage per team, and test the gateway or provider cap. Budget for in-flight requests, retries and recovery; a fixed subscription price does not guarantee unattended capacity.
 
-**Price increase scenario**: current enterprise offerings reflect customer acquisition strategies. Future price increases are possible, though not the dominant trajectory (GPU inference costs are structurally declining). A prudent 3-year scenario: factor ×2 into the business case, while noting that even at that level the ratio remains favorable.
+**Price sensitivity scenario**: vary prices, quota, utilization and review effort separately. A doubling scenario is a stress test, not a forecast. Its return still depends on accepted work and measured user outcomes.
 :::
 
 
@@ -251,7 +258,7 @@ Cloud assistants transmit selected context to the configured service. Review the
 
 **"Prices will explode once we're locked in."**
 
-Legitimate concern. AI inference is priced attractively today in a customer acquisition mode. The trajectory to watch: GPU inference costs are structurally declining, which limits the ability to raise prices indefinitely. But future increases are possible. Two practical guardrails: favor offerings with clear exit clauses over locked annual commitments, and don't build infrastructure dependencies on unbounded API calls. Prudent 3-year scenario: factor ×2 into the business case. Even at that level, the ratio remains structurally favorable relative to the cost of a single engineer.
+Vendor terms, quotas and token prices can change independently. Verify renewal and exit clauses, and test scenarios for each cost regime. Neither falling hardware costs nor a small license-to-salary ratio establishes the future price or the return.
 
 ## ROI & measurement
 

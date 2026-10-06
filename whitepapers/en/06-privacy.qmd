@@ -2,10 +2,11 @@
 title: "Privacy & Compliance"
 subtitle: "Your data at Anthropic: understand and control it"
 author: "Florian BRUNIAUX"
-date: "2026-09-26"
+date: "2026-10-06"
 date-format: "MMMM YYYY"
-version: "3.43.0"
-wp-version: "1.3.2"
+version: "3.44.1"
+guide-version: "3.44.1"
+wp-version: "1.3.3"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -144,6 +145,8 @@ The [data usage documentation](https://code.claude.com/docs/en/data-usage) expla
 ZDR requires separate approval and applies to the enabled organization. Its coverage is limited: third-party integrations and administrative metadata are outside the inference guarantee, and legal or misuse exceptions remain. Cloud sessions, Remote Control and feedback submission are disabled under ZDR. See [ZDR scope and exceptions](https://code.claude.com/docs/en/zero-data-retention).
 
 ZDR is a retention control, not a certification of GDPR, HIPAA or PCI-DSS compliance. Review the use case, applicable agreement and any required sector-specific terms with the responsible privacy or legal owner.
+
+**Account boundary**: programmatic usage and interactive usage can share subscription limits. The separately announced monthly programmatic credit was paused; do not infer a new billing or data-retention tier from that announcement. Identify the active account, provider and contractual retention controls for each path. [Billing split, announced then paused](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#the-interactiveprogrammatic-billing-split-announced-then-paused).
 
 ## Immediate action
 
@@ -694,7 +697,7 @@ Privacy is a prerequisite, not an end in itself. This whitepaper covers the "wha
 
 **Repository**: [github.com/FlorianBruniaux/claude-code-ultimate-guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide)
 
-*Version 3.43.0 | September 2026*
+*Version 3.44.1 | October 2026*
 
 # The series
 

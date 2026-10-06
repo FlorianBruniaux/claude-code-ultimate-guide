@@ -4,11 +4,11 @@ subtitle: "Le mode rapide et les changements API majeurs à connaître"
 card-number: "T21"
 category: "Technique"
 difficulty: "intermediate"
-guide-version: "3.43.0"
-wp-version: "1.0.0"
+guide-version: "3.44.1"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.43.0"
-date: "2026-09-24"
+version: "3.44.1"
+date: "2026-10-06"
 layout: "two-col"
 lang: fr
 format:
@@ -30,7 +30,7 @@ Opus 5 et Opus 4.8 acceptent aussi fast mode à $10/$50. Sonnet et Haiku ne le p
 
 Utiliser `/fast` ou `Option+O` / `Alt+O`. Le choix persiste normalement entre les sessions, sous réserve des règles de l'organisation et de la disponibilité. Avec un abonnement, fast mode consomme des crédits d'usage.
 
-Comparer latence et coût sur une même tâche. Une sortie plus rapide ne supprime pas les attentes d'outils, les reprises ni la relecture. Sonnet 5 standard coûte $2/$10, soit quatre fois moins qu'Opus 5.5 fast à nombre de tokens égal.
+Comparer latence et coût sur une même tâche. Une sortie plus rapide ne supprime pas les attentes d'outils, les reprises ni la relecture. Sonnet 5.5 standard coûte $2/$10, soit quatre fois moins qu'Opus 5.5 fast à nombre de tokens égal.
 
 ```{=typst}
 #colbreak()
@@ -58,6 +58,6 @@ Cet exemple utilise la vitesse standard. Opus 5.5 démarre à medium dans Claude
 
 Opus 4.6 a supprimé le préremplissage assistant. Pour du JSON contraint par un schéma, utiliser `output_config.format`. Pour les arguments d'outils, placer `strict: true` sur la définition de l'outil. Une consigne système seule ne garantit pas un JSON valide.
 
-Les Opus actuels, Sonnet 5 et Fable utilisent le thinking adaptatif. Les exemples avec `budget_tokens` fixe concernent d'anciens modèles. Haiku 4.5 accepte le thinking étendu, mais pas le paramètre effort.
+Les Opus actuels, Sonnet 5.5 et Fable utilisent le thinking adaptatif. Les exemples avec `budget_tokens` fixe concernent d'anciens modèles. Haiku 4.5 accepte le thinking étendu, mais pas le paramètre effort.
 
 Vérifié le 24 septembre 2026. Sources : [Fast mode Claude Code](https://code.claude.com/docs/en/fast-mode), [sorties structurées](https://platform.claude.com/docs/en/build-with-claude/structured-outputs).

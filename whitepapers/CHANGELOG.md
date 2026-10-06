@@ -11,6 +11,13 @@ Suivi des versions des ebooks, indépendamment de la version du guide.
 
 ---
 
+## [2026-10-06] Publications du guide 3.44.1
+
+- Revue des 26 e-books FR/EN, 116 fiches et deux cheatsheets. Les versions propres des ouvrages évoluent selon leurs corrections ou ajouts, sans effacer les écarts de révision historiques entre les langues.
+- Modèles et identifiants Sonnet 5.5, tarifs API standard vérifiés le 6 octobre, quotas et budgets distincts des coûts API, hooks et commandes portables corrigés. Les benchmarks RTK restent attribués, datés et accompagnés de la déclaration de contribution de l’auteur.
+- Promesses universelles de sécurité ou de productivité retirées ; contrôles de capacité de vérification, FinOps, récupération des agents et mesures de livraison précisés. Les études historiques conservent leur date et leurs limites.
+- Guide français réconcilié avec les deltas anglais ; exports complets FR/EN révision 1.2.0, édition 3.44.1. Les nouveaux rendus doivent passer les contrôles d’intégrité, de pagination et la revue visuelle avant publication.
+
 ## [2026-09-24] Références commandes et modèles
 
 - Cheatsheets FR/EN et fiches T01, T18, T19, T21 : modèles actuels, prix, effort, raccourcis, contexte 1M et fast mode vérifiés sur les sources officielles.

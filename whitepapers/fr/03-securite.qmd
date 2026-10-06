@@ -1,11 +1,12 @@
 ---
 title: "Sécurité en Production"
-subtitle: "17 hooks, threat DB v2.27, 0 incident"
+subtitle: "Permissions, exemples de hooks et renseignement sur les menaces"
 author: "Florian BRUNIAUX"
-date: "2026-09-26"
+date: "2026-10-06"
 date-format: "MMMM YYYY"
-version: "3.43.0"
-wp-version: "1.4.4"
+version: "3.44.1"
+guide-version: "3.44.1"
+wp-version: "1.4.5"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -44,13 +45,13 @@ lang: fr
 
 ## Vue d'Ensemble
 
-En février 2026, 36.82% des Agent Skills disponibles sur les marketplaces contiennent des failles de sécurité, et la plupart des développeurs les installent sans audit préalable. Claude Code dispose de 5 vecteurs d'attaque documentés, chacun exploitable dès la première session.
+Une étude de février 2026 rapporte des constats de sécurité dans 1 467 des 3 984 skills échantillonnés (36,82 %). Ce résultat appartient à un corpus daté ; il n’établit ni la prévalence actuelle des marketplaces, ni une intention malveillante, ni la compromission d’un skill. Examinez chaque skill et ses dépendances avant activation.
 
 | Vecteur | Risque | Impact | Fréquence | Mitigation principale |
 |---------|--------|--------|-----------|----------------------|
 | **Prompt Injection** | Manipulation du comportement | Élevé | Courant | `prompt-injection-detector.sh` → [Layer 2](#layer-2-hooks-pretooluse) |
 | **MCP Supply Chain** | Exécution de code malveillant | Critique | Rare | Version pinning + audit 5 min → [Layer 3](#layer-3-mcp-vetting) |
-| **Agent Skills Supply Chain** | 36.82% skills compromis | Critique | Très courant | `mcp-scan` avant install → [Layer 3](#layer-3-mcp-vetting) |
+| **Agent Skills Supply Chain** | 36,82 % avec constats dans le corpus étudié | Critique | Très courant | `mcp-scan` avant install → [Layer 3](#layer-3-mcp-vetting) |
 | **.claude/ Attack Surface** | Backdoors dans config | Élevé | Émergent | Repository pre-scan → [Section 1.2](#claude-attack-surface) |
 | **Commandes Destructrices** | Perte de données/secrets | Élevé | Fréquent | `dangerous-actions-blocker.sh` → [Layer 2](#layer-2-hooks-pretooluse) |
 
@@ -504,7 +505,7 @@ Le nombre d’étoiles et l’activité récente ne sont pas des garanties de s�
 
 | Finding | Stat | Impact |
 |---------|------|--------|
-| Skills avec failles sécurité | **36.82%** (1,467/3,984) | Plus d'1 skill sur 3 compromis |
+| Skills avec failles sécurité | **36.82%** (1,467/3,984) | Constats dans ce corpus de février 2026 |
 | Skills risque critique | **534** (13.4%) | Malware, prompt injection, secrets exposés |
 | Payloads malicieux identifiés | **76** | Vol credentials, backdoors, exfiltration |
 | Secrets hardcodés (ClawHub) | **10.9%** | API keys, tokens exposés dans code skill |
@@ -1054,6 +1055,8 @@ La checklist ci-dessus est votre point de depart. Pour aller plus loin, les ress
 
 {{< pagebreak >}}
 
+**Déclaration RTK** : l’auteur du guide contribue au cœur de RTK. L’estimation de réduction des sorties ne mesure pas une baisse de facture fournisseur et ne prouve pas la sécurité. Les [méthodes et résultats datés des benchmarks](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ecosystem/context-engineering-tools.md#independent-benchmarks) précisent aussi les intérêts de leurs auteurs.
+
 # Ressources
 
 ## Références CVE & Recherche Sécurité
@@ -1120,7 +1123,7 @@ Selon votre niveau et votre besoin, les whitepapers complementaires de cette ser
 
 **Repository** : [github.com/FlorianBruniaux/claude-code-ultimate-guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide)
 
-*Version 3.43.0 | Septembre 2026*
+*Version 3.44.1 | Octobre 2026*
 
 
 ---

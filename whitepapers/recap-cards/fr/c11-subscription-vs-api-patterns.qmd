@@ -4,11 +4,11 @@ subtitle: "Comprendre quand chaque modèle de facturation est avantageux"
 card-number: "C11"
 category: "Conception"
 difficulty: "intermediate"
-guide-version: "3.43.0"
-wp-version: "1.0.1"
+guide-version: "3.44.1"
+wp-version: "1.0.2"
 author: "Florian BRUNIAUX"
-version: "3.43.0"
-date: "2026-09-26"
+version: "3.44.1"
+date: "2026-10-06"
 layout: "two-col"
 lang: fr
 format:
@@ -19,13 +19,13 @@ format:
 
 **Subscription :** vous payez un montant mensuel fixe et consommez dans la limite d'un budget de tokens. Le coût est prévisible, mais le budget est plafonné et les limites sont délibérément opaques.
 
-**API :** facturation au token, sans plafond. Le coût est proportionnel à l'usage. Idéal pour un usage irrégulier ou très élevé, mais sans protection contre les dépassements.
+**API :** facturation au token. Fixer et vérifier les plafonds pour le travail autonome ; compter tous les appels et reprises.
 
 La distinction pratique : la subscription favorise les développeurs solo avec un usage quotidien régulier, l'API favorise les équipes, les pipelines CI/CD et les usages à fort volume.
 
 ## Comment fonctionnent les limites subscription
 
-Les subscriptions utilisent un modèle hybride : une fenêtre glissante de 5 heures et un cap hebdomadaire. Les deux s'appliquent simultanément. La facturation est annoncée en "messages" mais correspond en réalité à des tokens, ce qui rend les limites difficiles à anticiper.
+Les subscriptions utilisent un modèle hybride : une fenêtre glissante de 5 heures et un cap hebdomadaire. Les deux s'appliquent simultanément. Le quota n'est pas publié comme une quantité fixe de tokens ; modèle, contexte et outils influencent la consommation.
 
 **Le quota ne suit pas un ratio de tarifs API.** Le modèle, le contexte, les outils et la politique du compte influencent la consommation de l’abonnement. Consultez `/usage` et comparez des sessions réelles ; les tarifs API ci-dessous ne prédisent pas la vitesse d’épuisement du quota hebdomadaire.
 
@@ -71,13 +71,13 @@ ccusage --breakdown # Par modèle
 
 ## Quand l'API gagne
 
-La subscription atteint ses limites dans trois cas : les équipes où plusieurs développeurs consomment simultanément, les pipelines CI/CD avec un volume de PRs élevé, et les projets avec des sessions longues quotidiennes qui épuisent le budget avant la fin de la semaine. Dans ces contextes, la facturation API (avec Haiku pour les tâches mécaniques) revient souvent moins cher que prévu, surtout avec une stratégie d'escalade progressive.
+La subscription atteint ses limites dans trois cas : les équipes où plusieurs développeurs consomment simultanément, les pipelines CI/CD avec un volume de PRs élevé, et les projets avec des sessions longues quotidiennes qui épuisent le budget avant la fin de la semaine. Comparer le coût API total et les résultats acceptés avec le quota d'abonnement avant de changer.
 
 ## Exemples avec budgets de tokens explicites
 
 Tarifs API directs standard en USD, hors cache et fast mode :
 
-| Entrée / sortie | Sonnet 5 | Opus 5.5 |
+| Entrée / sortie | Sonnet 5.5 | Opus 5.5 |
 |---|---|---|
 | 50K / 5K | $0.15 | $0.30 |
 | 150K / 20K | $0.50 | $1.00 |

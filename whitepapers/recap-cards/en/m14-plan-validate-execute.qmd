@@ -4,11 +4,11 @@ subtitle: "The production 3-command workflow: research, validation, execution to
 card-number: "M14"
 category: "Methodology"
 difficulty: "advanced"
-guide-version: "3.43.0"
-wp-version: "1.0.1"
+guide-version: "3.44.1"
+wp-version: "1.0.2"
 author: "Florian BRUNIAUX"
-version: "3.43.0"
-date: "2026-09-26"
+version: "3.44.1"
+date: "2026-10-06"
 layout: "two-col"
 lang: en
 format:
@@ -17,7 +17,7 @@ format:
 
 ## Overview
 
-Plan-Validate-Execute is a production workflow in three commands that extends native Plan Mode: `/plan-start`, `/plan-validate`, `/plan-execute`. Each run feeds an ADR learning loop that reduces human interruptions over time. Confidence: Tier 2, battle-tested by production teams shipping AI-first products at scale.
+Plan-Validate-Execute is a production workflow in three commands that extends native Plan Mode: `/plan-start`, `/plan-validate`, `/plan-execute`. Each run feeds an ADR learning loop that reduces human interruptions over time. The guide describes it as Tier 2 production practice; install its custom commands before use.
 
 ## The 3 commands
 
@@ -29,7 +29,7 @@ Plan-Validate-Execute is a production workflow in three commands that extends na
 
 Run `/clear` between each command: every command reads its inputs from disk (the plan file, ADRs), nothing needs to stay in context memory.
 
-## /plan-start: 5-phase planning
+## /plan-start: 4-phase planning
 
 | Phase | Content |
 |-------|---------|
@@ -52,7 +52,7 @@ Isolated worktree, TDD scaffolding, parallel execution of independent tasks (com
 
 ## ADR learning loop
 
-Every significant architectural decision generates an ADR. 1 ADR: watching. 2 ADRs: recommended default. 3+ ADRs: confirmed, auto-resolved on future plans, candidate for promotion to a hard rule in `CLAUDE.md`. On a 20-plan project, roughly 80% of architecture decisions auto-resolve.
+Every significant architectural decision generates an ADR. 1 ADR: watching. 2 ADRs: recommended default. 3+ ADRs: confirmed, auto-resolved on future plans, candidate for promotion to a hard rule in `CLAUDE.md`. The guide claims roughly 80% auto-resolution on a 20-plan project; no reproducible benchmark is supplied.
 
 ## When to use this pipeline
 
@@ -65,11 +65,11 @@ Every significant architectural decision generates an ADR. 1 ADR: watching. 2 AD
 
 ## Cost
 
-Measure all planning, validation, implementation and retry calls. Current standard rates per million input/output tokens are $2/$10 for Sonnet 5 and $4/$20 for Opus 5.5; a task label alone does not determine the pipeline cost.
+Measure all planning, validation, implementation and retry calls. Current standard rates per million input/output tokens are $2/$10 for Sonnet 5.5 and $4/$20 for Opus 5.5; a task label alone does not determine the pipeline cost.
 
 ## Auto plan mode
 
-Force native Plan Mode on all operations via `--append-system-prompt`:
+An `--append-system-prompt` request does not enforce native Plan Mode. Use permissions to restrict tools:
 
 ```bash
 alias claude-safe='claude --append-system-prompt \

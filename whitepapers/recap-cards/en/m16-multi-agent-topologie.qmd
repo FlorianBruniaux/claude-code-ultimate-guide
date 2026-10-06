@@ -4,11 +4,11 @@ subtitle: "Architecting agent teams for complex tasks"
 card-number: "M16"
 category: "Methodology"
 difficulty: "advanced"
-guide-version: "3.43.0"
-wp-version: "1.0.1"
+guide-version: "3.44.1"
+wp-version: "1.0.2"
 author: "Florian BRUNIAUX"
-version: "3.43.0"
-date: "2026-09-26"
+version: "3.44.1"
+date: "2026-10-06"
 layout: "two-col"
 lang: en
 format:
@@ -93,4 +93,4 @@ Prerequisites: Claude Code v2.1.32+, a model available to the account (teammates
 
 Define a budget, stop condition, recovery state, and synthesis owner before launch. Add an independent reviewer when the change is consequential or when the same agent cannot credibly produce and verify the result.
 
-Start with the smallest number of agents that covers genuinely independent scopes. Add a participant only when elapsed time, conflicts, human rework, and accepted-task cost justify the extra coordination. The [trial protocol](https://cc.bruniaux.com/guide/agent-harness-landscape/) provides the record for that decision.
+Limit new work to verification capacity; start with the smallest team covering independent scopes. Add a participant only when elapsed time, conflicts, human rework, and accepted-task cost justify the extra coordination. The [trial protocol](https://cc.bruniaux.com/guide/agent-harness-landscape/) provides the record for that decision.

@@ -2,10 +2,11 @@
 title: "Claude Code Cheatsheet"
 subtitle: "L'essentiel au quotidien pour une productivité maximale"
 author: "Florian BRUNIAUX"
-date: "2026-09-26"
+date: "2026-10-06"
 date-format: "MMMM YYYY"
-version: "3.43.0"
-wp-version: "1.2.2"
+version: "3.44.1"
+guide-version: "3.44.1"
+wp-version: "1.2.3"
 series: "Claude Code Ultimate Guide"
 format:
   cheatsheet-typst:
@@ -100,7 +101,7 @@ Demander une délégation   → Claude peut utiliser un agent disponible
 | **LSP Tool** | Navigation vers définitions et références, selon les serveurs configurés |
 | **Mode vocal** | Entrée vocale native, transcription gratuite |
 | **Remote Control** | Contrôler une session locale depuis téléphone/navigateur (Pro/Max/Team/Enterprise) |
-| **Tâches planifiées (Cloud/Desktop)** | Planification machine éteinte via `/schedule` ou l'app Desktop |
+| **Tâches planifiées (Cloud/Desktop)** | Cloud : machine éteinte possible ; Desktop : app et machine actives |
 | **Skill Evals** | Tests A/B et calibrage des déclencheurs pour les skills personnalisées |
 | **Output Styles** | `/output-style` : Default, Proactive, Concise, Explanatory, Learning |
 | **Rules Templates** | Templates `.claude/rules/` prêts à l'emploi (arch/qualité/tests/perf) |
@@ -187,7 +188,7 @@ Les préférences personnelles au projet peuvent être placées dans `CLAUDE.loc
 
 ## Thinking et effort
 
-Opus 5.5, Sonnet 5 et Fable 5.1 utilisent le thinking adaptatif. Haiku 4.5 dispose du thinking étendu mais **pas du paramètre effort**.
+Opus 5.5, Sonnet 5.5 et Fable 5.1 utilisent le thinking adaptatif. Haiku 4.5 dispose du thinking étendu mais **pas du paramètre effort**.
 
 Les modèles adaptatifs actuels acceptent `low`, `medium`, `high`, `xhigh` et `max`. Opus 4.6 et Sonnet 4.6 acceptent `max`, mais pas `xhigh`.
 
@@ -300,12 +301,12 @@ Décision rapide : texte exact → `rg` | nom exact → `rg`/Serena | concept �
 
 ## Modèles actuels
 
-Tarifs API standard vérifiés le 24 septembre 2026. Dollars par million de tokens en entrée/sortie, hors cache.
+Tarifs API standard vérifiés le 6 octobre 2026. Dollars par million de tokens en entrée/sortie, hors cache.
 
 | Modèle | Entrée / sortie | Contexte | Effort par défaut |
 |--------|-----------------|----------|-------------------|
 | Haiku 4.5 | $1 / $5 | 200K | Non pris en charge |
-| Sonnet 5 | $2 / $10 | 1M | high |
+| Sonnet 5.5 | $2 / $10 | 1M | high |
 | Opus 5.5 | $4 / $20 | 1M | medium |
 | Fable 5.1 | $10 / $50 | 1M | high |
 
@@ -378,4 +379,4 @@ Analyse profonde   → utiliser Opus (réflexion activée par défaut)
 
 **Auteur** : Florian BRUNIAUX | [Méthode Aristote](https://methode-aristote.fr) | Écrit avec Claude
 
-*Version 3.43.0 | Septembre 2026*
+*Version 3.44.1 | Octobre 2026*

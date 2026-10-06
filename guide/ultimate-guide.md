@@ -14,9 +14,9 @@ tags: [guide, reference, workflows, agents, hooks, mcp, security]
 
 **Reading time**: ~30-40 hours (full) | ~15 minutes (Quick Start only)
 
-**Last updated**: January 2026
+**Last updated**: October 6, 2026
 
-**Version**: 3.44.0
+**Version**: 3.44.1
 
 ---
 
@@ -2156,7 +2156,9 @@ Example output:
 
 Claude Code usage can draw from a subscription allowance, usage credits or API billing. Check the active account and billing path before interpreting a token-cost estimate.
 
-#### Pricing Model (verified September 24, 2026)
+<a id="pricing-model-verified-september-24-2026"></a>
+
+#### Pricing Model (rates checked October 6, 2026)
 
 Claude Code v2.1.280 and later defaults to **Opus 5.5** on Pro, Max, Team, Enterprise, the Anthropic API, Claude Platform on AWS, Bedrock, and Google Cloud's Agent Platform. Microsoft Foundry retains Sonnet 4.5 as its account default. Organization policy, model settings, and environment overrides can change the result. Check `/model` and `/status` for your session.
 
@@ -2167,7 +2169,7 @@ Claude Code v2.1.280 and later defaults to **Opus 5.5** on Pro, Max, Team, Enter
 | Haiku 4.5 | $1 | $5 | $0.10 | 200K | No effort parameter |
 | Fable 5.1 | $10 | $50 | $0.25 | 1M | `high` |
 
-These are standard Anthropic API rates in USD, checked September 24, 2026. Subscription allowances, usage credits, cache writes, batch discounts, data residency, and partner-operated cloud pricing are separate. Sonnet 5.5 (`claude-sonnet-5-5`) replaced Sonnet 5 as the default Sonnet on the Anthropic API in Claude Code v2.1.284 (September 28, 2026) at the same $2/$10; Sonnet 5 is now a legacy model, and the September increase once announced for it did not occur. [Official model pricing](https://platform.claude.com/docs/en/about-claude/pricing).
+These are standard Anthropic API rates in USD, checked October 6, 2026. Subscription allowances, usage credits, cache writes, batch discounts, data residency, and partner-operated cloud pricing are separate. Sonnet 5.5 (`claude-sonnet-5-5`) replaced Sonnet 5 as the default Sonnet on the Anthropic API in Claude Code v2.1.284 (September 28, 2026) at the same $2/$10; Sonnet 5 is now a legacy model, and the September increase once announced for it did not occur. [Official model pricing](https://platform.claude.com/docs/en/about-claude/pricing).
 
 Fast mode supports Opus 5.5 ($8/$40 per MTok), Opus 5 and Opus 4.8 ($10/$50). It is unavailable on Sonnet and Haiku. Anthropic describes up to 2.5 times faster output; this is not a guarantee for every request. Subscription fast mode uses usage credits. [Fast mode reference](https://code.claude.com/docs/en/fast-mode).
 
@@ -18387,7 +18389,7 @@ Six levers control LLM costs. Some are directly accessible within Claude Code; o
 
 **On model routing via the API**: RouteLLM (lm-sys, ICLR 2025, arXiv 2406.18665) trains a lightweight router that decides per-call whether to invoke a strong model or a cheaper one. On MT-Bench it achieves 85% cost reduction vs always-strong routing while matching 95% of strong-model performance. The technique applies to automated pipelines built on the Anthropic API, not to interactive Claude Code sessions.
 
-**On batch processing**: The [Message Batches API](./core/architecture.md#message-batches-api) is the highest-leverage lever for automated pipelines (nightly classification, bulk document analysis, large-scale data extraction). Not applicable to interactive use. If you run `claude -p` in CI/CD at volume, evaluate the Batches API before the June 15 programmatic billing split, which separates interactive and programmatic usage costs.
+**On batch processing**: The [Message Batches API](./core/architecture.md#message-batches-api) is the highest-leverage lever for automated pipelines (nightly classification, bulk document analysis, large-scale data extraction). Not applicable to interactive use. For high-volume asynchronous work, compare the Message Batches API with your current subscription or API billing path. The announced June 15 programmatic billing split was paused; do not budget as if that separate credit is active.
 
 ---
 
@@ -26182,4 +26184,4 @@ We'll evaluate and add it to this section if it meets quality criteria.
 
 **Contributions**: Issues and PRs welcome.
 
-**Last updated**: January 2026 | **Version**: 3.44.0
+**Last updated**: October 6, 2026 | **Version**: 3.44.1

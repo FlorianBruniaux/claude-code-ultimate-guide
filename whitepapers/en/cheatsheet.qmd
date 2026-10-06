@@ -2,10 +2,11 @@
 title: "Claude Code Cheatsheet"
 subtitle: "Daily essentials for maximum productivity"
 author: "Florian BRUNIAUX"
-date: "2026-09-26"
+date: "2026-10-06"
 date-format: "MMMM YYYY"
-version: "3.43.0"
-wp-version: "1.2.2"
+version: "3.44.1"
+guide-version: "3.44.1"
+wp-version: "1.2.3"
 series: "Claude Code Ultimate Guide"
 format:
   cheatsheet-typst:
@@ -38,7 +39,7 @@ which claude && claude --version
 | `/powerup` | Interactive animated lessons teaching Claude Code features |
 | `/clear` | Reset conversation |
 | `/compact` | Free up context |
-| `/status` | Session state + context usage |
+| `/status` | Account and active settings sources |
 | `/context` | Detailed token breakdown |
 | `/plan` | Enter Plan Mode (no changes) |
 | Approve the plan | Exit Plan Mode (`Shift+Tab` to leave without approving) |
@@ -84,7 +85,7 @@ which claude && claude --version
 
 ```
 @path/to/file.ts    → Reference a file
-@agent-name         → Call an agent
+Ask for delegation → Claude may use an available agent
 !shell-command      → Run shell command
 ```
 
@@ -96,8 +97,8 @@ which claude && claude --version
 | **Background Agents** | Sub-agents work while you code |
 | **Agent Teams** | Multi-agent coordination (TeamCreate/SendMessage) |
 | **Auto-Memories** | Automatic cross-session context capture |
-| **Session Forking** | Rewind + create parallel timeline |
-| **LSP Tool** | Code intelligence (go-to-def, refs), ~50ms vs 45s with grep |
+| **Session Forking** | `/branch` branches the conversation; `/fork` copies it to a background session |
+| **LSP Tool** | Definitions and references, according to configured servers |
 | **Voice Mode** | Native voice input, free transcription |
 | **Remote Control** | Control local session from phone/browser (Pro/Max/Team/Enterprise) |
 | **Scheduled Tasks** | Cloud routines can run machine-off; Desktop tasks need the app and machine running |
@@ -172,7 +173,7 @@ The Bypass mode identifier is `bypassPermissions`.
 |---------|-------|
 | `/compact` | Summarize and free context |
 | `/clear` | Fresh start |
-| `/rewind` | Undo recent changes |
+| `/rewind` | Restore a checkpoint; Bash and external effects remain |
 | `claude -c` | Resume last session |
 | `claude -r <id>` | Resume specific session |
 
@@ -185,7 +186,7 @@ The Bypass mode identifier is `bypassPermissions`.
 
 ## Thinking and effort
 
-Opus 5.5, Sonnet 5, and Fable 5.1 use adaptive thinking. Haiku 4.5 supports extended thinking but has **no effort parameter**.
+Opus 5.5, Sonnet 5.5, and Fable 5.1 use adaptive thinking. Haiku 4.5 supports extended thinking but has **no effort parameter**.
 
 Current adaptive models support `low`, `medium`, `high`, `xhigh`, and `max`. Opus 4.6 and Sonnet 4.6 support `max` but not `xhigh`.
 
@@ -297,12 +298,12 @@ Quick decision: exact text → `rg` | exact name → `rg`/Serena | concept → g
 
 ## Current models
 
-Standard API rates, verified September 24, 2026. USD per million input/output tokens, excluding caching.
+Standard API rates verified October 6, 2026. USD per million input/output tokens, excluding caching.
 
 | Model | Input / output | Context | Default effort |
 |-------|----------------|---------|----------------|
 | Haiku 4.5 | $1 / $5 | 200K | Unsupported |
-| Sonnet 5 | $2 / $10 | 1M | high |
+| Sonnet 5.5 | $2 / $10 | 1M | high |
 | Opus 5.5 | $4 / $20 | 1M | medium |
 | Fable 5.1 | $10 / $50 | 1M | high |
 
@@ -375,4 +376,4 @@ Deep analysis     → Use Opus (thinking on by default)
 
 **Author**: Florian BRUNIAUX | [Methode Aristote](https://methode-aristote.fr) | Written with Claude
 
-*Version 3.43.0 | September 2026*
+*Version 3.44.1 | October 2026*

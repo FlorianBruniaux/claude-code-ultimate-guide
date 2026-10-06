@@ -4,11 +4,11 @@ subtitle: "Workflow de production en 3 commandes : recherche, validation, exécu
 card-number: "M14"
 category: "Méthodologie"
 difficulty: "advanced"
-guide-version: "3.43.0"
-wp-version: "1.0.1"
+guide-version: "3.44.1"
+wp-version: "1.0.2"
 author: "Florian BRUNIAUX"
-version: "3.43.0"
-date: "2026-09-26"
+version: "3.44.1"
+date: "2026-10-06"
 layout: "two-col"
 lang: fr
 format:
@@ -17,7 +17,7 @@ format:
 
 ## Vue d'ensemble
 
-Plan-Validate-Execute est un workflow de production en trois commandes qui étend le Plan Mode natif : `/plan-start`, `/plan-validate`, `/plan-execute`. Chaque run alimente une boucle d'apprentissage ADR qui réduit les interruptions humaines au fil des projets. Confiance Tier 2 : testé en production par des équipes qui shippent des produits AI-first à l'échelle.
+Plan-Validate-Execute est un workflow de production en trois commandes qui étend le Plan Mode natif : `/plan-start`, `/plan-validate`, `/plan-execute`. Chaque run alimente une boucle d'apprentissage ADR qui réduit les interruptions humaines au fil des projets. Le guide le présente comme une pratique de production Tier 2 ; installer ses commandes personnalisées avant usage.
 
 ## Les 3 commandes
 
@@ -29,7 +29,7 @@ Plan-Validate-Execute est un workflow de production en trois commandes qui éten
 
 Lancer `/clear` entre chaque commande : chaque commande lit ses entrées depuis le disque (fichier de plan, ADRs), rien à garder en mémoire de contexte.
 
-## /plan-start : planification en 5 phases
+## /plan-start : planification en 4 phases
 
 | Phase | Contenu |
 |-------|---------|
@@ -52,7 +52,7 @@ Worktree isolé, scaffolding TDD, exécution parallèle des tâches indépendant
 
 ## Boucle d'apprentissage ADR
 
-Chaque décision architecturale significative génère un ADR. 1 ADR : suivi. 2 ADR : recommandé par défaut. 3+ ADR : confirmé, auto-résolu lors des plans suivants, candidat à une promotion en règle dure dans `CLAUDE.md`. Sur un projet à 20 plans, environ 80% des décisions d'architecture s'auto-résolvent.
+Chaque décision architecturale significative génère un ADR. 1 ADR : suivi. 2 ADR : recommandé par défaut. 3+ ADR : confirmé, auto-résolu lors des plans suivants, candidat à une promotion en règle dure dans `CLAUDE.md`. Le guide annonce environ 80% sur un projet à 20 plans, sans benchmark reproductible fourni.
 
 ## Quand utiliser ce pipeline
 
@@ -65,7 +65,7 @@ Chaque décision architecturale significative génère un ADR. 1 ADR : suivi. 2 
 
 ## Coût
 
-Mesurez tous les appels de planification, validation, implémentation et reprise. Les tarifs standard par million de tokens entrée/sortie sont $2/$10 pour Sonnet 5 et $4/$20 pour Opus 5.5 ; le nom d’une tâche ne suffit pas à déterminer le coût du pipeline.
+Mesurez tous les appels de planification, validation, implémentation et reprise. Les tarifs standard par million de tokens entrée/sortie sont $2/$10 pour Sonnet 5.5 et $4/$20 pour Opus 5.5 ; le nom d’une tâche ne suffit pas à déterminer le coût du pipeline.
 
 ## Auto plan mode
 

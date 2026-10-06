@@ -4,11 +4,11 @@ subtitle: "Quand passer à la fenêtre de contexte étendue et à quel coût"
 card-number: "T19"
 category: "Technique"
 difficulty: "intermediate"
-guide-version: "3.43.0"
-wp-version: "1.0.0"
+guide-version: "3.44.1"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.43.0"
-date: "2026-09-24"
+version: "3.44.1"
+date: "2026-10-06"
 layout: "two-col"
 lang: fr
 format:
@@ -20,15 +20,15 @@ format:
 | Modèle sur l'API directe | Contexte | Sortie maximale |
 |-------------------------|----------|-----------------|
 | Haiku 4.5 | 200K | 64K |
-| Sonnet 5 | 1M natif | 128K |
+| Sonnet 5.5 | 1M natif | 128K |
 | Opus 5.5 | 1M natif | 128K |
 | Fable 5.1 | 1M natif | 128K |
 
-Vérifié le 24 septembre 2026. Le fournisseur peut imposer d'autres limites. Consulter `/context` pour la session active.
+Snapshot des modèles du guide au 30 septembre 2026. Le fournisseur peut imposer d'autres limites. Consulter `/context` pour la session active.
 
 ## Pas de surcoût du 1M natif
 
-Les modèles actuels à 1M natif gardent leurs tarifs standard au-delà de 200K tokens en entrée. L'ancien en-tête bêta n'est pas requis. Sonnet 5 n'a pas de variante 200K sur l'API directe.
+Les modèles actuels à 1M natif gardent leurs tarifs standard au-delà de 200K tokens en entrée. L'ancien en-tête bêta n'est pas requis. Sonnet 5.5 n'a pas de variante 200K sur l'API directe.
 
 Opus 4.6 et Sonnet 4.6 proposent des variantes `[1m]` avec des restrictions de forfait et de fournisseur. Ces règles ne décrivent pas les modèles actuels.
 
@@ -36,7 +36,7 @@ Opus 4.6 et Sonnet 4.6 proposent des variantes `[1m]` avec des restrictions de f
 
 Exemples en dollars, sans cache ni nouvelle tentative :
 
-| Entrée / sortie | Sonnet 5 | Opus 5.5 |
+| Entrée / sortie | Sonnet 5.5 | Opus 5.5 |
 |-----------------|----------|----------|
 | 50K / 5K | $0.15 | $0.30 |
 | 150K / 20K | $0.50 | $1.00 |
@@ -58,7 +58,7 @@ Charger les fichiers utiles plutôt que remplir la fenêtre. Séparer les tâche
 
 ## Évaluer la recherche d'information
 
-Les anciens scores MRCR d'Opus 4.6 ou Sonnet 4.5 restent propres à ces modèles et au protocole du benchmark. Ils ne mesurent pas Sonnet 5 ou Opus 5.5.
+Les anciens scores MRCR d'Opus 4.6 ou Sonnet 4.5 restent propres à ces modèles et au protocole du benchmark. Ils ne mesurent pas Sonnet 5.5 ou Opus 5.5.
 
 Tester son corpus avec questions vérifiables, citations attendues et distracteurs. Mesurer aussi les éléments de preuve manqués.
 

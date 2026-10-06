@@ -2,10 +2,11 @@
 title: "Customizing Claude"
 subtitle: "CLAUDE.md, Agents, Skills: Your Tailor-Made Assistant"
 author: "Florian BRUNIAUX"
-date: "2026-09-26"
+date: "2026-10-06"
 date-format: "MMMM YYYY"
-version: "3.43.0"
-wp-version: "1.5.4"
+version: "3.44.1"
+guide-version: "3.44.1"
+wp-version: "1.5.5"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -1114,7 +1115,7 @@ Understanding **when** each memory method loads is critical for token optimizati
 
 **Key insight**: Rules without `paths` load as general instructions. Rules with `paths` apply to matching files. Imports in CLAUDE.md are loaded with those instructions; use skills for workflows whose full text is needed only when invoked.
 
-**Field data (Vercel)**: In their analysis, skills are invoked in only **56% of sessions** (Gao, 2026); load them on-demand, not as systematic auto-load.
+**Observed use**: a Vercel agent evaluation reported skill invocation in 56% of its cases ([Gao, 2026](https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals)). This is a bounded evaluation, not a rate for all sessions. Put critical instructions in the applicable CLAUDE.md or rules; verify that a skill was invoked, executed successfully and useful as separate observations.
 
 **Token estimation**:
 
@@ -1380,7 +1381,7 @@ Personal permission overrides (gitignored):
 
 **Repository**: [github.com/FlorianBruniaux/claude-code-ultimate-guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide)
 
-*Version 3.43.0 | September 2026*
+*Version 3.44.1 | October 2026*
 
 # The series
 

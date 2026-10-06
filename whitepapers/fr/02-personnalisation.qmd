@@ -2,10 +2,11 @@
 title: "Personnaliser Claude"
 subtitle: "CLAUDE.md, Agents, Skills : votre assistant sur-mesure"
 author: "Florian BRUNIAUX"
-date: "2026-09-26"
+date: "2026-10-06"
 date-format: "MMMM YYYY"
-version: "3.43.0"
-wp-version: "1.5.4"
+version: "3.44.1"
+guide-version: "3.44.1"
+wp-version: "1.5.5"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -1254,6 +1255,8 @@ Les sous-agents personnalisés chargent normalement les instructions du projet. 
 
 {{< pagebreak >}}
 
+**Usage observé** : une évaluation d’agents de Vercel rapporte l’invocation de skills dans 56 % de ses cas ([Gao, 2026](https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals)). Cette évaluation bornée ne mesure pas toutes les sessions. Placez les instructions critiques dans le CLAUDE.md ou les règles applicables ; distinguez l’invocation d’un skill, son exécution réussie et son utilité.
+
 # Ressources
 
 ## Checklist personnalisation
@@ -1350,7 +1353,7 @@ Overrides personnels de permissions (gitignored) :
 
 **Repository** : [github.com/FlorianBruniaux/claude-code-ultimate-guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide)
 
-*Version 3.43.0 | Septembre 2026*
+*Version 3.44.1 | Octobre 2026*
 
 
 ---

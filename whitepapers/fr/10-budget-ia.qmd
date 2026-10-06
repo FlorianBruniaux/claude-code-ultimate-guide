@@ -2,10 +2,11 @@
 title: "Convaincre son Employeur d'Investir dans l'IA"
 subtitle: "Le dossier d'argumentation pour CEO, CTO et CFO"
 author: "Florian BRUNIAUX"
-date: "2026-09-26"
+date: "2026-10-06"
 date-format: "MMMM YYYY"
-version: "3.43.0"
-wp-version: "1.2.3"
+version: "3.44.1"
+guide-version: "3.44.1"
+wp-version: "1.3.0"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -71,6 +72,12 @@ Les anciens prix de juillet 2026 ci-dessous servent uniquement à illustrer un b
 Avant une décision, relevez le plan, les limites d’usage, les dépassements, les taxes, le change et les conditions de résiliation dans les [tarifs GitHub Copilot](https://github.com/features/copilot/plans), [tarifs Cursor](https://cursor.com/pricing) et [tarifs Claude](https://claude.com/pricing).
 
 Un TJM fictif de 500 EUR peut servir à une simulation, mais ne démontre ni le coût salarial de l’équipe ni la valeur réalisable d’une heure gagnée. Calculez le coût total par tâche acceptée et distinguez capacité disponible et dépenses évitées.
+
+## Mesurer le coût par tâche acceptée
+
+Séparez trois régimes : un abonnement donne une allocation d'usage révisable, une API facture des tokens et leurs modificateurs, et l'inférence sur matériel possédé ou loué paie la capacité et son exploitation. Un quota exprimé en multiple d'un forfait ne garantit pas un budget de tokens. L'[instantané du marché](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ops/llm-market-snapshot.md) relève les prix et quotas au 30 septembre 2026 ; revérifiez le fournisseur avant un achat.
+
+Appliquez la [boucle AI FinOps](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ops/ai-finops.md) : Inform avec l'usage facturé, les lectures et écritures de cache, les tentatives et l'effort de revue ; Optimize un levier sur des tâches appariées ; Operate avec attribution, modèles autorisés et plafonds testés. Divisez le coût complet des tentatives, revues, corrections et reprises par les tâches acceptées. Suivez séparément le résultat ultérieur pour l'utilisateur. Moins de tokens ou une PR terminée ne prouvent à eux seuls ni une baisse de facture ni une valeur client.
 
 # L'argument financier brut
 
@@ -207,9 +214,9 @@ Les prix actuels sont attractifs. Deux risques à intégrer dans le business cas
 
 **Lock-in vendor** : une fois l'adoption en place, le vendor peut revoir ses conditions enterprise (upgrade de tier, minimum de licences, modifications contractuelles). Mitiger : vérifier les clauses d'exit et les conditions de renouvellement avant tout engagement annuel.
 
-**Usage API non plafonné** : si l'équipe bascule sur des appels API pay-as-you-go (agents automatisés, workflows continus), le coût devient variable et non plafonné. À préférer : des forfaits fixes avec limites claires. Sur ce point précis, une passerelle API (LiteLLM ou équivalent) permet de reprendre la main techniquement plutôt que contractuellement : clés virtuelles par équipe avec budget mensuel plafonné, allowlist de modèles autorisés, et rejet automatique des appels hors budget avant même d'atteindre l'API du fournisseur.
+**Usage facturé** : le travail API automatisé a un coût variable tant qu’aucun plafond effectif ne l’arrête. Choisissez un chemin de facturation adapté à la charge, attribuez l’usage par équipe et testez le plafond du fournisseur ou de la passerelle. Prévoyez les requêtes en cours, tentatives et reprises ; un abonnement fixe ne garantit pas la capacité sans supervision.
 
-**Hypothèse de hausse** : les offres enterprise actuelles reflètent des stratégies d'acquisition. Des hausses futures restent possibles, sans être la trajectoire dominante (les coûts d'inférence GPU baissent structurellement). Un scénario de prix multiplié par deux peut tester la sensibilité du budget ; ce n’est ni une prévision ni une preuve de rentabilité.
+**Scénario de sensibilité** : faites varier séparément prix, quotas, utilisation et effort de revue. Un doublement sert à tester le budget, pas à prévoir le marché. La rentabilité dépend toujours du travail accepté et du résultat utilisateur mesuré.
 :::
 
 
@@ -228,7 +235,7 @@ Une offre cloud peut transmettre du code et des résultats d’outils hors de l�
 
 **"Les prix vont exploser quand on sera captifs."**
 
-Légitime. L'inférence IA est vendue à des prix attractifs aujourd'hui, dans une logique d'acquisition d'audience. La trajectoire à surveiller : les coûts GPU d'inférence baissent structurellement, ce qui limite la capacité à monter les prix indéfiniment. Mais une hausse future reste possible. Deux garde-fous pratiques : préférer les offres avec clauses d'exit claires plutôt que des engagements annuels verrouillés, et ne pas construire de dépendances d'infrastructure sur des appels API illimités. Testez plusieurs scénarios de prix et d’usage dans le budget. La rentabilité reste à démontrer pour chacun.
+Les conditions fournisseurs, quotas et prix des tokens peuvent évoluer séparément. Vérifiez les clauses de renouvellement et de sortie, puis testez des scénarios pour chaque régime de coût. Ni la baisse des coûts matériels ni un faible ratio licence/salaire ne prouvent le prix futur ou la rentabilité.
 
 ## ROI & mesure
 

@@ -4,11 +4,11 @@ subtitle: "Practical hook examples to automate your workflow"
 card-number: "M12"
 category: "Methodology"
 difficulty: "intermediate"
-guide-version: "3.43.0"
-wp-version: "1.0.1"
+guide-version: "3.44.1"
+wp-version: "1.0.2"
 author: "Florian BRUNIAUX"
-version: "3.43.0"
-date: "2026-09-26"
+version: "3.44.1"
+date: "2026-10-06"
 layout: "two-col"
 lang: en
 format:
@@ -40,7 +40,7 @@ Wait for formatting before testing or editing again to avoid concurrent writes.
 
 ```bash
 INPUT=$(cat)
-MESSAGE=$(echo "$INPUT" | jq -r '.message // "Done"')
+MESSAGE=$(echo "$INPUT" | jq -r '.last_assistant_message // "Done"')
 osascript - "$MESSAGE" <<'APPLESCRIPT'
 on run argv
   display notification (item 1 of argv) with title "Claude Code"

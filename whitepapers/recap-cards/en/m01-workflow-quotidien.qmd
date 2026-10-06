@@ -4,11 +4,11 @@ subtitle: "The optimal routine for a productive development session"
 card-number: "M01"
 category: "Methodology"
 difficulty: "beginner"
-guide-version: "3.43.0"
-wp-version: "1.0.1"
+guide-version: "3.44.1"
+wp-version: "1.0.2"
 author: "Florian BRUNIAUX"
-version: "3.43.0"
-date: "2026-09-26"
+version: "3.44.1"
+date: "2026-10-06"
 layout: "two-col"
 lang: en
 format:
@@ -53,7 +53,7 @@ claude
 You: Show me what you changed before continuing
 ```
 
-**Context management:**
+**Context management (personal reminders, not quality thresholds):**
 
 | Context | Action |
 |---------|--------|

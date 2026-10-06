@@ -4,11 +4,11 @@ subtitle: "Réduire la consommation de tokens sans perdre en qualité"
 card-number: "T20"
 category: "Technique"
 difficulty: "intermediate"
-guide-version: "3.43.0"
-wp-version: "1.0.1"
+guide-version: "3.44.1"
+wp-version: "1.0.2"
 author: "Florian BRUNIAUX"
-version: "3.43.0"
-date: "2026-09-26"
+version: "3.44.1"
+date: "2026-10-06"
 layout: "two-col"
 lang: fr
 format:
@@ -77,12 +77,12 @@ Examiner séparément les accès shell et MCP. Ces règles restreignent les acc�
 
 **Ce qui consomme le plus :**
 
-| Action | Tokens estimés |
-|--------|---------------|
-| Lecture d'un gros fichier (2000 lignes) | ~5K+ |
-| Appel MCP (Serena, Context7) | ~2K par appel |
-| Long conversation sans /compact | Accumulation |
-| Tests avec output complet non filtré | 3K-10K |
+| Action | Ce qu'il faut mesurer |
+|--------|----------------------|
+| Lecture d'un gros fichier | Taille du texte retourné |
+| Appel MCP | Schémas des outils et résultat renvoyé |
+| Longue conversation | Historique conservé dans le contexte |
+| Exécution des tests | Sortie retournée, échecs compris |
 
 ## Stratégie Combinée
 

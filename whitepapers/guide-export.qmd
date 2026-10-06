@@ -2,10 +2,10 @@
 title: "Claude Code Ultimate Guide"
 subtitle: "From Zero to Power User: The Complete Reference"
 author: "Florian Bruniaux"
-date: "2026-09-26"
+date: "2026-10-06"
 date-format: "MMMM YYYY"
-version: "3.43.0"
-wp-version: "1.1.0"
+version: "3.44.1"
+wp-version: "1.2.0"
 series: "Claude Code Ultimate Guide"
 lang: en
 region: "US"

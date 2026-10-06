@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [3.44.1] - 2026-10-06
+
+### Changed
+
+- Refresh the maintained French full guide against every semantic English delta since its recorded source, including Sonnet 5.5, MCP 1.3.6, dated RTK/Caveman measurements, brownfield migration and Bun case-study guidance. Preserve historical evidence and executable identifiers.
+- Review all 26 EN/FR e-books, 116 recap-card sources and two daily cheatsheets against the current guide. Correct unsupported productivity/security promises, distinguish subscription allowances from API prices, and add verification-capacity, FinOps and harness recovery controls. Publication-specific revisions remain independent.
+- Prepare full-guide export revision 1.2.0 and edition 3.44.1; synchronize machine-readable and LLM discovery metadata. Record translation provenance after the canonical source commit, then rebuild and validate the bilingual publication catalog before updating public download links.
+
+### Fixed
+
+- Recheck the four standard Anthropic model API rates on October 6 and retain the previous pricing anchor. Remove the batch-processing paragraph that treated the paused programmatic credit as active.
+
+
 ## [3.44.0] - 2026-10-06
 
 ### Release summary

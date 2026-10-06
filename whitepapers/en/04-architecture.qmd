@@ -2,10 +2,11 @@
 title: "Architecture Demystified"
 subtitle: "The agent loop, tools, context and execution controls"
 author: "Florian BRUNIAUX"
-date: "2026-09-26"
+date: "2026-10-06"
 date-format: "MMMM YYYY"
-version: "3.43.0"
-wp-version: "1.5.2"
+version: "3.44.1"
+guide-version: "3.44.1"
+wp-version: "1.6.0"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -56,28 +57,28 @@ Source: [How Claude Code works](https://code.claude.com/docs/en/how-claude-code-
 
 ## Current models
 
-Standard API rates, verified September 24, 2026. USD per million input/output tokens, excluding caching.
+Standard API rates, checked October 6, 2026 at the official pricing source. USD per million input/output tokens, excluding caching.
 
 | Model | Input / output | Context | Default effort |
 |-------|----------------|---------|----------------|
 | Haiku 4.5 | $1 / $5 | 200K | Unsupported |
-| Sonnet 5 | $2 / $10 | 1M | high |
+| Sonnet 5.5 | $2 / $10 | 1M | high |
 | Opus 5.5 | $4 / $20 | 1M | medium |
 | Fable 5.1 | $10 / $50 | 1M | high |
 
-Sonnet's published rate remains $2/$10 after the launch promotion. Opus 5.5 is the direct-service default; account policy can override it. Model choice does not establish a typical task cost.
+Sonnet 5.5 replaces legacy Sonnet 5 on the direct API since v2.1.284, at the same standard $2/$10. Opus 5.5 is the direct-service default; account policy can override it. Model choice does not establish a typical task cost.
 
 ## Select and save
 
 `/model` opens the picker. **Enter** saves a default; **s** applies it to this session only. `claude --model sonnet` applies to the launched session. Project and managed settings can reapply at the next launch.
 
-Aliases depend on the provider. `opus` maps to 5.5 on most providers, but 4.6 on Foundry. `sonnet` maps to 5 on the direct API, 4.6 on Claude Platform on AWS, and 4.5 on Bedrock, Google, and Foundry.
+Aliases depend on the provider. `opus` maps to 5.5 on most providers, but 4.6 on Foundry. `sonnet` maps to 5.5 on the direct API, 4.6 on Claude Platform on AWS, and 4.5 on Bedrock, Google, and Foundry.
 
 `fable` selects 5.1 where available, or 5 through the Claude apps gateway. `best` selects Fable when available, otherwise Opus. Pin a supported full ID when version identity matters.
 
 ## Thinking and effort
 
-Opus 5.5, Sonnet 5, and Fable 5.1 use adaptive thinking. Haiku 4.5 supports extended thinking but has **no effort parameter**.
+Opus 5.5, Sonnet 5.5, and Fable 5.1 use adaptive thinking. Haiku 4.5 supports extended thinking but has **no effort parameter**.
 
 Current adaptive models support `low`, `medium`, `high`, `xhigh`, and `max`. Opus 4.6 and Sonnet 4.6 support `max` but not `xhigh`.
 
@@ -244,7 +245,7 @@ Programmatic tool calling, tool search and examples in tool definitions are sepa
 
 ## Context budget (model-dependent)
 
-> **Current windows**: Opus 5.5, Sonnet 5, and Fable 5.1 use native 1M context; Haiku 4.5 uses 200K. See the model table below.
+> **Current windows**: Opus 5.5, Sonnet 5.5, and Fable 5.1 use native 1M context; Haiku 4.5 uses 200K. See the model table below.
 
 ```
   ILLUSTRATIVE 200K CONTEXT BUDGET
@@ -269,15 +270,15 @@ The context budget is a finite, non-extensible resource within a session. Every 
 | Direct API model | Context | Maximum output |
 |------------------|---------|----------------|
 | Haiku 4.5 | 200K | 64K |
-| Sonnet 5 | 1M native | 128K |
+| Sonnet 5.5 | 1M native | 128K |
 | Opus 5.5 | 1M native | 128K |
 | Fable 5.1 | 1M native | 128K |
 
-Verified September 24, 2026. Provider settings can expose different limits. Inspect `/context` for the active session.
+Current model specifications follow the guide’s model reference. Provider settings can expose different limits. Inspect `/context` for the active session.
 
 ## No native-1M premium
 
-Current native 1M models use standard rates beyond 200K input tokens. They do not need the old long-context beta header. Sonnet 5 has no 200K variant on the direct API.
+Current native 1M models use standard rates beyond 200K input tokens. They do not need the old long-context beta header. Sonnet 5.5 has no 200K variant on the direct API.
 
 Older Opus 4.6 and Sonnet 4.6 have `[1m]` variants with plan/provider restrictions. Do not transfer their access rules to current models.
 
@@ -285,7 +286,7 @@ Older Opus 4.6 and Sonnet 4.6 have `[1m]` variants with plan/provider restrictio
 
 Illustrative USD totals without caching or retries:
 
-| Input / output | Sonnet 5 | Opus 5.5 |
+| Input / output | Sonnet 5.5 | Opus 5.5 |
 |----------------|----------|----------|
 | 50K / 5K | $0.15 | $0.30 |
 | 150K / 20K | $0.50 | $1.00 |
@@ -303,7 +304,7 @@ Load relevant files rather than filling the available window. Split independent 
 
 ## Evaluate retrieval
 
-Older MRCR results for Opus 4.6 or Sonnet 4.5 remain results for those models and benchmark conditions. They do not establish retrieval quality for Sonnet 5 or Opus 5.5.
+Older MRCR results for Opus 4.6 or Sonnet 4.5 remain results for those models and benchmark conditions. They do not establish retrieval quality for Sonnet 5.5 or Opus 5.5.
 
 Test on your own document set with answerable questions, expected citations, and distractors. Measure missed evidence as well as correct answers.
 
@@ -832,6 +833,12 @@ An orchestrator can launch several harnesses without becoming their runtime. Con
 
 {{< pagebreak >}}
 
+## Verify acceptance and recovery separately
+
+Durable execution requires more than a saved transcript. Record task identity, current revision, versioned criteria, attempts, terminal state and the evidence authorizing acceptance. A schema-valid response, successful exit or installed hook establishes only that observation. Inspect whether the check actually executed against the candidate integration state and whether repository policy authorizes the next action.
+
+Interrupt a disposable run at a defined boundary, resume it, and check for lost work, duplicate external effects and a reset retry or spend budget. Use durable accounting and idempotent or reconcilable effects. Task resumption, reviewer-configuration rollback, application rollback and data restoration are different operations; exercise the one relevant to the change. Keep the failure case and a permitted neighboring case when testing a control. See [Agent Harness Engineering](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/agent-harness.md) and the [runnable review-control exercise](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/examples/workflows/review-control-demo.py), which simulates receipts, budgets and effect recovery rather than proving a production deployment.
+
 # Resources
 
 ## What we DON'T know
@@ -850,7 +857,7 @@ Despite Anthropic's growing transparency, several internal aspects of Claude Cod
 
 | Model | Knowledge Cutoff |
 |-------|-----------------|
-| Sonnet 5 | January 2026 |
+| Sonnet 5.5 | June 2026 |
 | Opus 5.5 | June 2026 |
 | Fable 5.1 | June 2026 |
 | Sonnet 4.6 | August 2025 |
@@ -888,7 +895,7 @@ Each whitepaper in the series is self-contained, but they complement each other.
 
 **Repository**: [github.com/FlorianBruniaux/claude-code-ultimate-guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide)
 
-*Version 3.43.0 | September 2026*
+*Version 3.44.1 | October 2026*
 
 # The series
 

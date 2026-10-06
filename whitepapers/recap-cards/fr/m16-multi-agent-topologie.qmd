@@ -4,11 +4,11 @@ subtitle: "Architecturer des équipes d'agents pour les tâches complexes"
 card-number: "M16"
 category: "Méthodologie"
 difficulty: "advanced"
-guide-version: "3.43.0"
-wp-version: "1.0.1"
+guide-version: "3.44.1"
+wp-version: "1.0.2"
 author: "Florian BRUNIAUX"
-version: "3.43.0"
-date: "2026-09-26"
+version: "3.44.1"
+date: "2026-10-06"
 layout: "two-col"
 lang: fr
 format:
@@ -93,4 +93,4 @@ Prérequis : Claude Code v2.1.32+, modèle accessible au compte (différent selo
 
 Définir avant le lancement un budget, une condition d'arrêt, un état de reprise et le responsable de la synthèse. Ajouter un relecteur indépendant lorsque le changement est conséquent ou que le même agent ne peut pas produire et vérifier un résultat de manière crédible.
 
-Commencer avec le plus petit nombre d'agents qui couvre des périmètres réellement indépendants. Ajouter un participant seulement si les mesures de délai, de conflits, de corrections humaines et de coût par tâche acceptée justifient la coordination supplémentaire. Le [protocole d'essai](https://cc.bruniaux.com/guide/agent-harness-landscape/) permet de documenter cette décision.
+Limiter le travail lancé à la capacité de vérification ; commencer avec la plus petite équipe couvrant des périmètres indépendants. Ajouter un participant seulement si les mesures de délai, de conflits, de corrections humaines et de coût par tâche acceptée justifient la coordination supplémentaire. Le [protocole d'essai](https://cc.bruniaux.com/guide/agent-harness-landscape/) permet de documenter cette décision.

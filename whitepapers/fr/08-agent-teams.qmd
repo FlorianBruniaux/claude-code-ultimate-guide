@@ -2,10 +2,11 @@
 title: "Whitepaper 08 : Agent Teams"
 subtitle: "Coordination multi-agents pour tâches complexes"
 author: "Florian BRUNIAUX"
-date: "2026-09-26"
+date: "2026-10-06"
 date-format: "MMMM YYYY"
-version: "3.43.0"
-wp-version: "1.6.2"
+version: "3.44.1"
+guide-version: "3.44.1"
+wp-version: "1.7.0"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -444,7 +445,7 @@ La décomposition est le facteur de succès ou d'échec numéro un des agent tea
 ```
 Bon  : Agent 1 → /api/users/*, Agent 2 → src/components/users/*, Agent 3 → db/migrations/
 Mauvais : Agent 1 → auth, Agent 2 → autorisation, Agent 3 → sessions
-         (les 3 touchent auth.ts, conflits garantis)
+         (les 3 touchent auth.ts, risque de conflits)
 ```
 
 **Approche *interface-first*** : définir les contrats TypeScript avant de déléguer.
@@ -880,7 +881,7 @@ npm test && npm run lint            # Tests + style de code
 | Taux de convergence | >50% | Agents travaillent en silos |
 | Insights uniques par agent | ≥1 | Tokens gaspillés sur ce périmètre |
 | Faux positifs | <20% | Prompts à affiner |
-| Gain de temps | 60-70% | ROI insuffisant vs coût tokens |
+| Gain de temps | Hypothèse locale à mesurer | Comparer résultat accepté, revue, corrections et coût avec le travail séquentiel |
 
 > Voir `guide/agent-evaluation.md` + template `examples/agents/analytics-with-eval/`.
 
@@ -990,6 +991,18 @@ Flag d’activation : `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`.
 - **v2.1.121** : Correctifs critiques de fuites mémoire dans les sessions agent teams longues. Les sessions dépassant 2h consommaient jusqu'à 3x la mémoire attendue.
 - **v2.1.114** : Correction du crash dans le dialog de permission quand un teammate demandait l'accès à un outil pendant une phase de synchronisation git.
 
+## Admettre le travail selon la capacité de vérification
+
+La [lecture Lean de la livraison](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/methodologies.md#lean-software-engineering-as-a-delivery-lens) suit une demande du besoin utilisateur jusqu'à la revue, l'intégration, la mise en service et l'usage. Accélérer la génération peut déplacer l'attente vers ces étapes. Avant de lancer une autre tâche, nommez le vérificateur, les preuves nécessaires et la capacité de revue disponible. Lorsque cette capacité est épuisée, suspendez l'admission et terminez, réduisez ou refusez le travail déjà engagé.
+
+Suivez le travail en cours, l'âge de la file, le débit accepté et le temps de cycle complet pour une même classe de changements. Comptez les tentatives refusées, faux blocages, revues et corrections. Consignez le head revu, la base et les critères d'acceptation ; un changement de besoin ou une modification combinée exige de rejouer les contrôles concernés. Comparez les défauts échappés et le résultat utilisateur sur des fenêtres comparables avant d'augmenter le parallélisme. Ce contrôle doit être testé localement ; aucun multiplicateur de productivité n'est promis. La [fiche d'admission à la revue](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/examples/workflows/review-admission.md) propose une expérience concrète.
+
+## Mesurer le coût par tâche acceptée
+
+Séparez trois régimes : un abonnement donne une allocation d'usage révisable, une API facture des tokens et leurs modificateurs, et l'inférence sur matériel possédé ou loué paie la capacité et son exploitation. Un quota exprimé en multiple d'un forfait ne garantit pas un budget de tokens. L'[instantané du marché](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ops/llm-market-snapshot.md) relève les prix et quotas au 30 septembre 2026 ; revérifiez le fournisseur avant un achat.
+
+Appliquez la [boucle AI FinOps](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ops/ai-finops.md) : Inform avec l'usage facturé, les lectures et écritures de cache, les tentatives et l'effort de revue ; Optimize un levier sur des tâches appariées ; Operate avec attribution, modèles autorisés et plafonds testés. Divisez le coût complet des tentatives, revues, corrections et reprises par les tâches acceptées. Suivez séparément le résultat ultérieur pour l'utilisateur. Moins de tokens ou une PR terminée ne prouvent à eux seuls ni une baisse de facture ni une valeur client.
+
 # Checklist Déploiement
 
 **Prérequis techniques** :
@@ -1016,6 +1029,8 @@ Flag d’activation : `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`.
 - Coûts 5x+ → sur-lancement, réduire le périmètre
 - Agents finissant à des moments très différents → charge déséquilibrée
 - Faux positifs >50% → agents qui hallucinent, affiner les prompts
+
+**Déclaration RTK** : l’auteur du guide contribue au cœur de RTK. L’estimation de réduction des sorties ne mesure pas une baisse de facture fournisseur et ne prouve pas la sécurité. Les [méthodes et résultats datés des benchmarks](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ecosystem/context-engineering-tools.md#independent-benchmarks) précisent aussi les intérêts de leurs auteurs.
 
 # Annexes
 

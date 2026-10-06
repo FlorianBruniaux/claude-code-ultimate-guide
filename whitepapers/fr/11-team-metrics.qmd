@@ -2,10 +2,11 @@
 title: "Piloter une Équipe à l'Ère de l'IA"
 subtitle: "DORA, SPACE et les métriques du développement assisté par IA"
 author: "Florian BRUNIAUX"
-date: "2026-09-26"
+date: "2026-10-06"
 date-format: "MMMM YYYY"
-version: "3.43.0"
-wp-version: "1.3.2"
+version: "3.44.1"
+guide-version: "3.44.1"
+wp-version: "1.4.0"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -73,7 +74,7 @@ DORA (DevOps Research and Assessment) mesure la santé d'un système de livraiso
 
 **Comment mesurer** : Timestamp au commit, timestamp au déploiement. Le delta, c'est votre lead time. Des outils comme LinearB et Faros.ai l'automatisent depuis votre pipeline CI/CD.
 
-**En contexte IA** : L'IA réduit le temps de coding mais a un effet limité sur les segments non-code du lead time. Revue de PR, validation staging, délais de context-switching et fenêtres de déploiement sont largement inchangés par l'assistance IA. Si votre lead time ne s'améliore pas en parallèle de l'adoption IA, la contrainte est dans la vélocité de revue ou l'automatisation du pipeline, pas dans le coding.
+**En contexte IA** : comparez séparément temps de code, attente, revue, validation et déploiement. L’assistance peut modifier plusieurs étapes ; un lead time total inchangé ne localise pas à lui seul la contrainte.
 
 **Diagnostic** : Mappez explicitement vos étapes (temps de code, attente revue, attente staging, fenêtre de déploiement) pour savoir où est le levier.
 
@@ -83,7 +84,7 @@ DORA (DevOps Research and Assessment) mesure la santé d'un système de livraiso
 
 **Comment mesurer** : (Déploiements ratés) / (Total déploiements). "Raté" signifie nécessitant un hotfix, un rollback, ou une réponse d'incident. Définissez ça clairement avant de mesurer.
 
-**En contexte IA** : C'est la métrique la plus à risque quand l'adoption IA dépasse la discipline de revue. L'IA génère du code syntaxiquement correct et structurellement plausible qui peut quand même avoir des erreurs comportementales subtiles. Les équipes qui traitent les PRs IA-générées comme "moins risquées" et font du rubber-stamping voient leur CFR monter progressivement sur 6 à 12 mois.
+**En contexte IA** : un code plausible peut contenir des défauts comportementaux. Mesurez les déploiements défaillants et les preuves de revue sur des fenêtres comparables ; aucune hausse générale du CFR en 6 à 12 mois n’est établie ici.
 
 **Recommandation** : comparez les groupes avec une définition documentée de l’assistance IA, en tenant compte des tâches, de la taille des changements et des équipes. Un écart peut justifier une investigation de l’outil, de la revue ou du contexte ; il n’identifie pas à lui seul la cause.
 
@@ -380,6 +381,12 @@ Définissez l’hypothèse qui relie la métrique à un résultat métier et vé
 Si collecter la métrique requiert un travail manuel, elle sera abandonnée dans les 3 mois quand la charge augmente. Automatisez ou supprimez.
 
 **La règle** : moins de 3 "oui", supprimez la métrique. Une stack de 5 métriques rigoureuses est plus utile qu'une stack de 20 métriques mal définies.
+
+## Admettre le travail selon la capacité de vérification
+
+La [lecture Lean de la livraison](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/methodologies.md#lean-software-engineering-as-a-delivery-lens) suit une demande du besoin utilisateur jusqu'à la revue, l'intégration, la mise en service et l'usage. Accélérer la génération peut déplacer l'attente vers ces étapes. Avant de lancer une autre tâche, nommez le vérificateur, les preuves nécessaires et la capacité de revue disponible. Lorsque cette capacité est épuisée, suspendez l'admission et terminez, réduisez ou refusez le travail déjà engagé.
+
+Suivez le travail en cours, l'âge de la file, le débit accepté et le temps de cycle complet pour une même classe de changements. Comptez les tentatives refusées, faux blocages, revues et corrections. Consignez le head revu, la base et les critères d'acceptation ; un changement de besoin ou une modification combinée exige de rejouer les contrôles concernés. Comparez les défauts échappés et le résultat utilisateur sur des fenêtres comparables avant d'augmenter le parallélisme. Ce contrôle doit être testé localement ; aucun multiplicateur de productivité n'est promis. La [fiche d'admission à la revue](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/examples/workflows/review-admission.md) propose une expérience concrète.
 
 # Outillage
 

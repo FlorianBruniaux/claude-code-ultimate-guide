@@ -2,10 +2,11 @@
 title: "L'Architecture Démystifiée"
 subtitle: "Pas de RAG, pas de magie noire - juste une boucle"
 author: "Florian BRUNIAUX"
-date: "2026-09-26"
+date: "2026-10-06"
 date-format: "MMMM YYYY"
-version: "3.43.0"
-wp-version: "1.5.2"
+version: "3.44.1"
+guide-version: "3.44.1"
+wp-version: "1.6.0"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -63,28 +64,28 @@ La boucle action-observation est un modèle pédagogique utile ; elle ne décrit
 
 ## Modèles actuels
 
-Tarifs API standard vérifiés le 24 septembre 2026. Dollars par million de tokens en entrée/sortie, hors cache.
+Tarifs API standard contrôlés le 6 octobre 2026 à la source officielle. Dollars par million de tokens en entrée/sortie, hors cache.
 
 | Modèle | Entrée / sortie | Contexte | Effort par défaut |
 |--------|-----------------|----------|-------------------|
 | Haiku 4.5 | $1 / $5 | 200K | Non pris en charge |
-| Sonnet 5 | $2 / $10 | 1M | high |
+| Sonnet 5.5 | $2 / $10 | 1M | high |
 | Opus 5.5 | $4 / $20 | 1M | medium |
 | Fable 5.1 | $10 / $50 | 1M | high |
 
-Le tarif publié de Sonnet reste $2/$10 après la promotion de lancement. Opus 5.5 est le défaut du service direct, sauf règle du compte. Le modèle seul ne détermine pas le coût d'une tâche.
+Sonnet 5.5 remplace le modèle historique Sonnet 5 sur l'API directe depuis v2.1.284, au même tarif standard $2/$10. Opus 5.5 est le défaut du service direct, sauf règle du compte. Le modèle seul ne détermine pas le coût d'une tâche.
 
 ## Choisir et enregistrer
 
 `/model` ouvre le sélecteur. **Entrée** enregistre le défaut ; **s** limite le choix à la session. `claude --model sonnet` s'applique à la session lancée. Les réglages du projet ou de l'organisation peuvent reprendre priorité au lancement suivant.
 
-Les alias dépendent du fournisseur. `opus` sélectionne 5.5 chez la plupart, mais 4.6 sur Foundry. `sonnet` sélectionne 5 sur l'API directe, 4.6 sur Claude Platform on AWS, et 4.5 sur Bedrock, Google et Foundry.
+Les alias dépendent du fournisseur. `opus` sélectionne 5.5 chez la plupart, mais 4.6 sur Foundry. `sonnet` sélectionne 5.5 sur l'API directe, 4.6 sur Claude Platform on AWS, et 4.5 sur Bedrock, Google et Foundry.
 
 `fable` sélectionne 5.1 si disponible, ou 5 via la passerelle Claude apps. `best` choisit Fable si accessible, sinon Opus. Utiliser un identifiant complet pour fixer une version.
 
 ## Thinking et effort
 
-Opus 5.5, Sonnet 5 et Fable 5.1 utilisent le thinking adaptatif. Haiku 4.5 dispose du thinking étendu mais **pas du paramètre effort**.
+Opus 5.5, Sonnet 5.5 et Fable 5.1 utilisent le thinking adaptatif. Haiku 4.5 dispose du thinking étendu mais **pas du paramètre effort**.
 
 Les modèles adaptatifs actuels acceptent `low`, `medium`, `high`, `xhigh` et `max`. Opus 4.6 et Sonnet 4.6 acceptent `max`, mais pas `xhigh`.
 
@@ -259,15 +260,15 @@ Inspectez les composantes avec `/context` plutôt que de déduire une capacité 
 | Modèle sur l'API directe | Contexte | Sortie maximale |
 |-------------------------|----------|-----------------|
 | Haiku 4.5 | 200K | 64K |
-| Sonnet 5 | 1M natif | 128K |
+| Sonnet 5.5 | 1M natif | 128K |
 | Opus 5.5 | 1M natif | 128K |
 | Fable 5.1 | 1M natif | 128K |
 
-Vérifié le 24 septembre 2026. Le fournisseur peut imposer d'autres limites. Consulter `/context` pour la session active.
+Les spécifications actuelles suivent la référence des modèles du guide. Le fournisseur peut imposer d'autres limites. Consulter `/context` pour la session active.
 
 ## Pas de surcoût du 1M natif
 
-Les modèles actuels à 1M natif gardent leurs tarifs standard au-delà de 200K tokens en entrée. L'ancien en-tête bêta n'est pas requis. Sonnet 5 n'a pas de variante 200K sur l'API directe.
+Les modèles actuels à 1M natif gardent leurs tarifs standard au-delà de 200K tokens en entrée. L'ancien en-tête bêta n'est pas requis. Sonnet 5.5 n'a pas de variante 200K sur l'API directe.
 
 Opus 4.6 et Sonnet 4.6 proposent des variantes `[1m]` avec des restrictions de forfait et de fournisseur. Ces règles ne décrivent pas les modèles actuels.
 
@@ -275,7 +276,7 @@ Opus 4.6 et Sonnet 4.6 proposent des variantes `[1m]` avec des restrictions de f
 
 Exemples en dollars, sans cache ni nouvelle tentative :
 
-| Entrée / sortie | Sonnet 5 | Opus 5.5 |
+| Entrée / sortie | Sonnet 5.5 | Opus 5.5 |
 |-----------------|----------|----------|
 | 50K / 5K | $0.15 | $0.30 |
 | 150K / 20K | $0.50 | $1.00 |
@@ -293,7 +294,7 @@ Charger les fichiers utiles plutôt que remplir la fenêtre. Séparer les tâche
 
 ## Évaluer la recherche d'information
 
-Les anciens scores MRCR d'Opus 4.6 ou Sonnet 4.5 restent propres à ces modèles et au protocole du benchmark. Ils ne mesurent pas Sonnet 5 ou Opus 5.5.
+Les anciens scores MRCR d'Opus 4.6 ou Sonnet 4.5 restent propres à ces modèles et au protocole du benchmark. Ils ne mesurent pas Sonnet 5.5 ou Opus 5.5.
 
 Tester son corpus avec questions vérifiables, citations attendues et distracteurs. Mesurer aussi les éléments de preuve manqués.
 
@@ -779,6 +780,12 @@ Un orchestrateur peut lancer plusieurs harnesses sans devenir leur runtime. Inve
 
 {{< pagebreak >}}
 
+## Vérifier séparément l'acceptation et la reprise
+
+L'exécution durable demande davantage qu'une transcription sauvegardée. Consignez l'identité de la tâche, la révision courante, les critères versionnés, les tentatives, l'état terminal et les preuves autorisant l'acceptation. Une réponse conforme au schéma, un code de sortie réussi ou un hook installé n'établit que cette observation. Vérifiez que le contrôle s'est exécuté sur l'état d'intégration candidat et que la politique du dépôt autorise l'action suivante.
+
+Interrompez un essai jetable à une frontière définie, reprenez-le et cherchez le travail perdu, les effets externes dupliqués et les budgets de tentatives ou de dépense réinitialisés. Utilisez une comptabilité durable et des effets idempotents ou réconciliables. Reprendre une tâche, restaurer la configuration du reviewer, revenir sur l'application et restaurer les données sont des opérations différentes ; exercez celle qui correspond au changement. Conservez le cas défaillant et un cas voisin autorisé pour tester un contrôle. Voir [Agent Harness Engineering](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/agent-harness.md) et l'[exercice de contrôle de revue](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/examples/workflows/review-control-demo.py), qui simule les reçus, budgets et reprises d'effets sans prouver un déploiement en production.
+
 # Ressources
 
 ## Ce Qu'On NE sait PAS
@@ -797,7 +804,7 @@ Malgré la transparence croissante d'Anthropic, plusieurs aspects internes de Cl
 
 | Modèle | Knowledge Cutoff |
 |--------|-----------------|
-| Sonnet 5 | Janvier 2026 |
+| Sonnet 5.5 | Juin 2026 |
 | Opus 5.5 | Juin 2026 |
 | Fable 5.1 | Juin 2026 |
 | Sonnet 4.6 | Août 2025 |
@@ -838,7 +845,7 @@ Chaque whitepaper de la série est autonome, mais ils se complètent mutuellemen
 
 **Repository** : [github.com/FlorianBruniaux/claude-code-ultimate-guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide)
 
-*Version 3.43.0 | Septembre 2026*
+*Version 3.44.1 | Octobre 2026*
 
 
 ---

@@ -3,12 +3,12 @@ title: "Modes de Permission"
 subtitle: "Contrôle des accès outils, du plus sûr au plus permissif"
 card-number: "T03"
 category: "Technique"
-guide-version: "3.43.0"
+guide-version: "3.44.1"
 difficulty: "beginner"
 author: "Florian BRUNIAUX"
-version: "3.43.0"
-wp-version: "1.1.2"
-date: "2026-09-26"
+version: "3.44.1"
+wp-version: "1.1.3"
+date: "2026-10-06"
 layout: "two-col"
 lang: fr
 format:
@@ -19,7 +19,7 @@ format:
 
 | Mode | Nom canonique | Activation | Usage recommandé |
 |------|---------------|-----------|-----------------|
-| **Default** | `default` | _(aucun)_ | Développement quotidien |
+| **Default** | `default` | `--permission-mode default` | Développement quotidien |
 | **Auto-accept edits** | `acceptEdits` | `Shift+Tab` | Revues de code |
 | **Plan** | `plan` | `Shift+Tab x2` ou `/plan` | Analyse sans modification |
 | **Don't Ask** | `dontAsk` | `/permissions` ou règles `permissions.allow` | Workflows restrictifs, refus silencieux si non pré-approuvé |

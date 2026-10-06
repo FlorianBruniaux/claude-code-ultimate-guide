@@ -2,10 +2,11 @@
 title: "Claude Code: From Zero to Productive"
 subtitle: "The fundamentals to get started effectively"
 author: "Florian BRUNIAUX"
-date: "2026-09-26"
+date: "2026-10-06"
 date-format: "MMMM YYYY"
-version: "3.43.0"
-wp-version: "1.5.2"
+version: "3.44.1"
+guide-version: "3.44.1"
+wp-version: "1.5.3"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -77,7 +78,7 @@ Since late 2025, several agentic capabilities have become available and signific
 | **Opus 5.5** | v2.1.280 | Current direct-service default, native 1M context; standard $4/$20 and fast $8/$40 per Mtok |
 | **Fable family** | v2.1.170 | Fable 5.1 is the current direct-API model where available; provider aliases differ |
 | **Nested sub-agents** | v2.1.219 | Agents can delegate to sub-agents up to 3 levels deep by default |
-| **Sonnet 5** | v2.1.197 | Available model with native 1M-token context; published standard price remains $2/$10 per Mtok |
+| **Sonnet 5.5** | v2.1.284 | Current direct-API Sonnet, native 1M context; standard $2/$10 per Mtok. Sonnet 5 is legacy |
 
 Set nested delegation depth with `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH`.
 
@@ -194,7 +195,7 @@ Simple rule: if you are not in an isolated sandbox, keep manual approval on.
 # The 5 golden rules
 
 1. **Always review diffs** before accepting changes
-2. **Use `/compact`** at 70% context (see table below)
+2. **Use `/compact`** at a useful task boundary; inspect `/context` (see reminders below)
 3. **Be specific** in your requests (see formula below)
 4. **Plan Mode first** for complex or risky tasks
 5. **Create a CLAUDE.md** for every project
@@ -248,21 +249,21 @@ Context is Claude's working memory. Current Opus, Sonnet and Fable models have n
 |------|---------|--------|
 | Green | 0-50% | Work freely |
 | Yellow | 50-70% | Be selective |
-| Orange | 70-90% | `/compact` now |
-| Red | 90%+ | `/clear` required |
+| Orange | 70-90% | Consider `/compact` at a task boundary |
+| Red | 90%+ | Save decisions, then compact or prepare a handoff |
 
-::: {.callout-warning title="Peak Hours (March 2026)"}
-Since March 26, 2026, session limits drain faster during **weekday peak hours: 5am-11am PT** (1pm-7pm GMT). Same weekly total, different distribution. Impact: around 7% of users hit limits they would not have before. Max plan users have reported going from 21% to 100% usage on a single prompt during peak. Practical workaround: move heavy agentic tasks (long sub-agent chains, large refactors) to evenings or weekends.
+::: {.callout-warning title="Context and billing limits"}
+The March 2026 peak-hour announcement is historical, not a current quota guarantee. Check `/usage` and the active plan terms before scheduling a heavy task. Separate the context window, subscription limits and API billing. [Subscription and billing reference](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#cost-awareness--optimization).
 :::
 
 ::: {.callout-tip title="Memo: Manage your context in 3 reflexes"}
-**What**: Keep context under 70% for reliable responses.
+**What**: Keep the context relevant to the active task. Percentage thresholds are reminders, not guarantees of recall.
 
 **When**: Check with `/status` after each major task, or when responses become vague or repetitive.
 
-**How**: (1) `/compact` at 70%; (2) Start a new session for each independent task; (3) Use `@file` to load only relevant files instead of letting Claude scan everything.
+**How**: (1) `/compact` at a useful task boundary; (2) Start a new session for each independent task; (3) Use `@file` to load only relevant files instead of letting Claude scan everything.
 
-**Verify**: If Claude starts forgetting instructions given earlier in the session or produces code inconsistent with project context, the context is saturated.
+**Verify**: If Claude loses a constraint or produces an unsupported answer, reopen the relevant evidence. Context percentage alone does not identify the cause.
 :::
 
 > **Go further:** [TL;DR: The 5-Minute Summary](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#tldr---the-5-minute-summary): complete visual summary with examples
@@ -436,9 +437,9 @@ Not all information in this series carries the same weight. Official Anthropic d
 
 | Tier | Source | Reliability |
 |------|--------|-------------|
-| **Tier 1** | Anthropic documentation | 100% |
-| **Tier 2** | Verified tests | 70-90% |
-| **Tier 3** | Community inference | 40-70% |
+| **Tier 1** | Anthropic documentation | Official claim, version and provider scope to verify |
+| **Tier 2** | Verified tests | Observation limited to the tested conditions |
+| **Tier 3** | Community inference | Hypothesis requiring local validation |
 
 Tier 2/3 information is explicitly marked.
 
@@ -449,7 +450,7 @@ Tier 2/3 information is explicitly marked.
 | Content | CC BY-SA 4.0 |
 | Code | MIT |
 
-*Version 3.43.0 | September 2026*
+*Version 3.44.1 | October 2026*
 
 # The series
 

@@ -4,10 +4,10 @@ subtitle: "Fast mode and the major API changes you need to know"
 card-number: "T21"
 category: "Technical"
 difficulty: "intermediate"
-guide-version: "3.43.0"
+guide-version: "3.44.1"
 author: "Florian BRUNIAUX"
-version: "3.43.0"
-date: "2026-09-24"
+version: "3.44.1"
+date: "2026-10-06"
 layout: "two-col"
 lang: en
 format:
@@ -29,7 +29,7 @@ Opus 5 and Opus 4.8 also support fast mode at $10/$50. Sonnet and Haiku do not. 
 
 Use `/fast` or `Option+O` / `Alt+O`. The choice normally persists between sessions; organization settings and availability still apply. Subscription fast mode uses usage credits, not the included subscription allowance.
 
-Compare observed latency and cost on the same task. Faster output does not remove tool waits, retries, or review work. Sonnet 5 standard rates are $2/$10, four times lower than Opus 5.5 fast rates for the same token counts.
+Compare observed latency and cost on the same task. Faster output does not remove tool waits, retries, or review work. Sonnet 5.5 standard rates are $2/$10, four times lower than Opus 5.5 fast rates for the same token counts.
 
 ```{=typst}
 #colbreak()
@@ -57,6 +57,6 @@ This is a standard-speed example. Opus 5.5 defaults to medium effort in Claude C
 
 Opus 4.6 removed assistant prefill. For schema-constrained JSON, use `output_config.format`; for strict tool inputs, put `strict: true` on the tool definition. A system instruction alone does not guarantee valid JSON.
 
-Current Opus, Sonnet 5, and Fable use adaptive thinking. Fixed `budget_tokens` examples belong to older models. Haiku 4.5 supports extended thinking but has no effort parameter.
+Current Opus, Sonnet 5.5, and Fable use adaptive thinking. Fixed `budget_tokens` examples belong to older models. Haiku 4.5 supports extended thinking but has no effort parameter.
 
 Verified September 24, 2026. Sources: [Claude Code fast mode](https://code.claude.com/docs/en/fast-mode), [structured outputs](https://platform.claude.com/docs/en/build-with-claude/structured-outputs).

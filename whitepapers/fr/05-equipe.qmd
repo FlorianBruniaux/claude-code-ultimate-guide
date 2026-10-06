@@ -2,10 +2,11 @@
 title: "Déployer en Équipe"
 subtitle: "De solo à 50 devs : observabilité, CI/CD, adoption"
 author: "Florian BRUNIAUX"
-date: "2026-09-26"
+date: "2026-10-06"
 date-format: "MMMM YYYY"
-version: "3.43.0"
-wp-version: "1.6.2"
+version: "3.44.1"
+guide-version: "3.44.1"
+wp-version: "1.7.0"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -382,6 +383,9 @@ cargo install --git https://github.com/rtk-ai/rtk
 `rtk vitest run` ne remplace pas automatiquement un script `pnpm test` arbitraire. Les économies dépendent de la sortie et du travail demandé. Référence : [RTK officiel](https://github.com/rtk-ai/rtk).
 
 > Configuration complète : [guide/ecosystem/third-party-tools.md](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ecosystem/third-party-tools.md), section RTK.
+
+
+**Déclaration d'intérêt et mesure** : l'auteur du guide contribue au cœur de RTK. `rtk gain` estime la réduction des sorties de commandes filtrées ; il ne mesure pas la facture complète du fournisseur. Huit benchmarks publics lus le 30 septembre 2026 rapportent des résultats par tâche ou par rejeu, avec les intérêts déclarés : Dasein développe Parsec, le mainteneur de THOL développe Tokenade et Tura est un agent concurrent. Pour RTK, JetBrains mesure +7,6 % de coût médian à effort faible et +0,1 % à effort élevé ; THOL mesure +7,1 % sur sept tâches longues (intervalle à 95 % de -7,2 % à +26,0 %) ; le rejeu contrefactuel de Codepointer modélise -0,5 % de la dépense totale sans tester la réussite des tâches. Ces dénominateurs différents ne forment pas une estimation agrégée. Aucun ne teste Sonnet 5.5 ou Opus 5.5. Conservez la sortie brute lorsque le filtrage masque une preuve, puis comparez des tâches appariées répétées, le cache et le coût par résultat accepté. [Méthodes et résultats des benchmarks](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ecosystem/context-engineering-tools.md#independent-benchmarks).
 
 ## Limitations du Monitoring
 
@@ -976,16 +980,22 @@ Demandez un sous-agent en arrière-plan pour une tâche indépendante, ou utilis
 
 {{< pagebreak >}}
 
+## Admettre le travail selon la capacité de vérification
+
+La [lecture Lean de la livraison](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/methodologies.md#lean-software-engineering-as-a-delivery-lens) suit une demande du besoin utilisateur jusqu'à la revue, l'intégration, la mise en service et l'usage. Accélérer la génération peut déplacer l'attente vers ces étapes. Avant de lancer une autre tâche, nommez le vérificateur, les preuves nécessaires et la capacité de revue disponible. Lorsque cette capacité est épuisée, suspendez l'admission et terminez, réduisez ou refusez le travail déjà engagé.
+
+Suivez le travail en cours, l'âge de la file, le débit accepté et le temps de cycle complet pour une même classe de changements. Comptez les tentatives refusées, faux blocages, revues et corrections. Consignez le head revu, la base et les critères d'acceptation ; un changement de besoin ou une modification combinée exige de rejouer les contrôles concernés. Comparez les défauts échappés et le résultat utilisateur sur des fenêtres comparables avant d'augmenter le parallélisme. Ce contrôle doit être testé localement ; aucun multiplicateur de productivité n'est promis. La [fiche d'admission à la revue](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/examples/workflows/review-admission.md) propose une expérience concrète.
+
 # Coûts et Optimisation
 
 ## Tarifs par Modèle
 
-Tarifs API directs standard en USD par million de tokens, hors cache et fast mode. Les quotas d’abonnement ne se déduisent pas de ces tarifs.
+Tarifs API directs standard en USD par million de tokens, contrôlés le 6 octobre 2026 à la [source officielle](https://platform.claude.com/docs/en/about-claude/pricing), hors cache et fast mode. Les quotas d’abonnement ne se déduisent pas de ces tarifs.
 
 | Modèle | Entrée | Sortie | Usage à évaluer |
 |--------|--------|--------|----------------|
 | Haiku 4.5 | $1 | $5 | Tâches bornées |
-| Sonnet 5 | $2 | $10 | Développement général |
+| Sonnet 5.5 | $2 | $10 | Développement général |
 | Opus 5.5 | $4 | $20 | Analyse et implémentation complexes |
 | Fable 5.1 | $10 | $50 | Raisonnement approfondi selon disponibilité |
 
@@ -1271,7 +1281,7 @@ Ce whitepaper couvre le déploiement opérationnel en équipe. Les whitepapers s
 
 **Repository** : [github.com/FlorianBruniaux/claude-code-ultimate-guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide)
 
-*Version 3.43.0 | Septembre 2026*
+*Version 3.44.1 | Octobre 2026*
 
 
 ---

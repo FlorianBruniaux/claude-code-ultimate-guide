@@ -2,10 +2,11 @@
 title: "Claude Code : Le Guide de Référence"
 subtitle: "Synthèse complète + workflows avancés"
 author: "Florian BRUNIAUX"
-date: "2026-09-26"
+date: "2026-10-06"
 date-format: "MMMM YYYY"
-version: "3.43.0"
-wp-version: "1.4.6"
+version: "3.44.1"
+guide-version: "3.44.1"
+wp-version: "1.5.0"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -1300,6 +1301,18 @@ Mesurer l'adoption sans métriques concrètes mène à des décisions subjective
 
 {{< pagebreak >}}
 
+## Mesurer le coût par tâche acceptée
+
+Séparez trois régimes : un abonnement donne une allocation d'usage révisable, une API facture des tokens et leurs modificateurs, et l'inférence sur matériel possédé ou loué paie la capacité et son exploitation. Un quota exprimé en multiple d'un forfait ne garantit pas un budget de tokens. L'[instantané du marché](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ops/llm-market-snapshot.md) relève les prix et quotas au 30 septembre 2026 ; revérifiez le fournisseur avant un achat.
+
+Appliquez la [boucle AI FinOps](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ops/ai-finops.md) : Inform avec l'usage facturé, les lectures et écritures de cache, les tentatives et l'effort de revue ; Optimize un levier sur des tâches appariées ; Operate avec attribution, modèles autorisés et plafonds testés. Divisez le coût complet des tentatives, revues, corrections et reprises par les tâches acceptées. Suivez séparément le résultat ultérieur pour l'utilisateur. Moins de tokens ou une PR terminée ne prouvent à eux seuls ni une baisse de facture ni une valeur client.
+
+## Admettre le travail selon la capacité de vérification
+
+La [lecture Lean de la livraison](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/methodologies.md#lean-software-engineering-as-a-delivery-lens) suit une demande du besoin utilisateur jusqu'à la revue, l'intégration, la mise en service et l'usage. Accélérer la génération peut déplacer l'attente vers ces étapes. Avant de lancer une autre tâche, nommez le vérificateur, les preuves nécessaires et la capacité de revue disponible. Lorsque cette capacité est épuisée, suspendez l'admission et terminez, réduisez ou refusez le travail déjà engagé.
+
+Suivez le travail en cours, l'âge de la file, le débit accepté et le temps de cycle complet pour une même classe de changements. Comptez les tentatives refusées, faux blocages, revues et corrections. Consignez le head revu, la base et les critères d'acceptation ; un changement de besoin ou une modification combinée exige de rejouer les contrôles concernés. Comparez les défauts échappés et le résultat utilisateur sur des fenêtres comparables avant d'augmenter le parallélisme. Ce contrôle doit être testé localement ; aucun multiplicateur de productivité n'est promis. La [fiche d'admission à la revue](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/examples/workflows/review-admission.md) propose une expérience concrète.
+
 # ANNEXES
 
 # Annexe A : Features v2.x essentielles
@@ -1640,28 +1653,28 @@ Les numéros `v2.x` ci-dessous désignent Claude Code ; les numéros `v3.x` dés
 
 ## Modèles actuels
 
-Tarifs API standard vérifiés le 24 septembre 2026. Dollars par million de tokens en entrée/sortie, hors cache.
+Tarifs API standard contrôlés le 6 octobre 2026 à la source officielle. Dollars par million de tokens en entrée/sortie, hors cache.
 
 | Modèle | Entrée / sortie | Contexte | Effort par défaut |
 |--------|-----------------|----------|-------------------|
 | Haiku 4.5 | $1 / $5 | 200K | Non pris en charge |
-| Sonnet 5 | $2 / $10 | 1M | high |
+| Sonnet 5.5 | $2 / $10 | 1M | high |
 | Opus 5.5 | $4 / $20 | 1M | medium |
 | Fable 5.1 | $10 / $50 | 1M | high |
 
-Le tarif publié de Sonnet reste $2/$10 après la promotion de lancement. Opus 5.5 est le défaut du service direct, sauf règle du compte. Le modèle seul ne détermine pas le coût d'une tâche.
+Sonnet 5.5 remplace le modèle historique Sonnet 5 sur l'API directe depuis v2.1.284, au même tarif standard $2/$10. Opus 5.5 est le défaut du service direct, sauf règle du compte. Le modèle seul ne détermine pas le coût d'une tâche.
 
 ## Choisir et enregistrer
 
 `/model` ouvre le sélecteur. **Entrée** enregistre le défaut ; **s** limite le choix à la session. `claude --model sonnet` s'applique à la session lancée. Les réglages du projet ou de l'organisation peuvent reprendre priorité au lancement suivant.
 
-Les alias dépendent du fournisseur. `opus` sélectionne 5.5 chez la plupart, mais 4.6 sur Foundry. `sonnet` sélectionne 5 sur l'API directe, 4.6 sur Claude Platform on AWS, et 4.5 sur Bedrock, Google et Foundry.
+Les alias dépendent du fournisseur. `opus` sélectionne 5.5 chez la plupart, mais 4.6 sur Foundry. `sonnet` sélectionne 5.5 sur l'API directe, 4.6 sur Claude Platform on AWS, et 4.5 sur Bedrock, Google et Foundry.
 
 `fable` sélectionne 5.1 si disponible, ou 5 via la passerelle Claude apps. `best` choisit Fable si accessible, sinon Opus. Utiliser un identifiant complet pour fixer une version.
 
 ## Thinking et effort
 
-Opus 5.5, Sonnet 5 et Fable 5.1 utilisent le thinking adaptatif. Haiku 4.5 dispose du thinking étendu mais **pas du paramètre effort**.
+Opus 5.5, Sonnet 5.5 et Fable 5.1 utilisent le thinking adaptatif. Haiku 4.5 dispose du thinking étendu mais **pas du paramètre effort**.
 
 Les modèles adaptatifs actuels acceptent `low`, `medium`, `high`, `xhigh` et `max`. Opus 4.6 et Sonnet 4.6 acceptent `max`, mais pas `xhigh`.
 
@@ -1678,7 +1691,7 @@ Les modèles adaptatifs actuels acceptent `low`, `medium`, `high`, `xhigh` et `m
 Sources : [Configuration des modèles](https://code.claude.com/docs/en/model-config), [tarifs API](https://platform.claude.com/docs/en/about-claude/pricing).
 
 
-Dates de connaissance fiables : juin 2026 pour Opus 5.5 et Fable 5.1, janvier 2026 pour Sonnet 5, février 2025 pour Haiku 4.5.
+Dates de connaissance fiables : juin 2026 pour Opus 5.5, Sonnet 5.5 et Fable 5.1, février 2025 pour Haiku 4.5.
 
 ## Raccourcis clavier
 
@@ -1849,6 +1862,8 @@ Selon votre objectif immédiat, vous n'avez pas besoin de lire les 13 livres bla
 | Vue complète | 07 (ce document) |
 
 {{< pagebreak >}}
+
+**Déclaration RTK** : l’auteur du guide contribue au cœur de RTK. L’estimation de réduction des sorties ne mesure pas une baisse de facture fournisseur et ne prouve pas la sécurité. Les [méthodes et résultats datés des benchmarks](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ecosystem/context-engineering-tools.md#independent-benchmarks) précisent aussi les intérêts de leurs auteurs.
 
 # Annexe E : Ressources
 

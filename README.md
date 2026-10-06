@@ -17,8 +17,8 @@
 </p>
 
 <p align="center">
-  <a href="./CHANGELOG.md"><img src="https://img.shields.io/badge/Guide-v3.44.0-brightgreen?style=flat-square" alt="Guide version 3.44.0" /></a>
-  <a href="./CHANGELOG.md"><img src="https://img.shields.io/badge/Updated-Oct_6,_2026_·_v3.44.0-brightgreen?style=flat-square" alt="Updated Oct 6, 2026, guide version 3.44.0" /></a>
+  <a href="./CHANGELOG.md"><img src="https://img.shields.io/badge/Guide-v3.44.1-brightgreen?style=flat-square" alt="Guide version 3.44.1" /></a>
+  <a href="./CHANGELOG.md"><img src="https://img.shields.io/badge/Updated-Oct_6,_2026_·_v3.44.1-brightgreen?style=flat-square" alt="Updated Oct 6, 2026, guide version 3.44.1" /></a>
   <a href="https://creativecommons.org/licenses/by-sa/4.0/"><img src="https://img.shields.io/badge/Guide-CC_BY--SA_4.0-blue?style=flat-square" alt="Guide license: CC BY-SA 4.0" /></a>
   <a href="https://cc.bruniaux.com/mcp/"><img src="https://img.shields.io/badge/MCP-npx_ready-blueviolet?style=flat-square" alt="MCP server available through npx" /></a>
 </p>
@@ -417,4 +417,4 @@ Watch [GitHub Releases](https://github.com/FlorianBruniaux/claude-code-ultimate-
 
 ---
 
-*Version 3.44.0 | Updated daily · Oct 6, 2026*
+*Version 3.44.1 | Updated daily · Oct 6, 2026*

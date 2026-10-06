@@ -4,7 +4,7 @@ description: "Guide complet et autonome pour maîtriser Claude Code, du débutan
 tags: [guide, reference, workflows, agents, hooks, mcp, security]
 ---
 
-# The ultimate Claude Code guide
+# Le guide ultime de Claude Code
 
 > Un guide complet et autonome pour maîtriser Claude Code, du débutant au power user.
 
@@ -14,9 +14,9 @@ tags: [guide, reference, workflows, agents, hooks, mcp, security]
 
 **Temps de lecture** : ~30-40 heures (complet) | ~15 minutes (Quick Start uniquement)
 
-**Dernière mise à jour** : Janvier 2026
+**Dernière mise à jour** : 6 octobre 2026
 
-**Version** : 3.43.0
+**Version** : 3.44.1
 
 ---
 
@@ -244,7 +244,7 @@ Si vous n'avez le temps que pour 5 sections :
 
 <a id="1-quick-start-day-1"></a>
 
-# 1. Quick start (jour 1)
+# 1. Démarrage rapide (jour 1)
 
 _Navigation rapide :_ [Installation](#11-installation) · [Premier Workflow](#12-first-workflow) · [Commandes Essentielles](#13-essential-commands) · [Modes de Permission](#14-permission-modes) · [Checklist de Productivité](#15-productivity-checklist) · [Migrer depuis d'Autres Outils](#16-migrating-from-other-ai-coding-tools) · [Erreurs de Débutant](#18-eight-beginner-mistakes-and-how-to-avoid-them)
 
@@ -1761,7 +1761,7 @@ Le contexte est la « mémoire de travail » de Claude pour votre conversation. 
 
 ### Le budget de contexte
 
-La fenêtre de contexte dépend du modèle et du fournisseur. Opus 5.5, Sonnet 5 et Fable 5.1 disposent de **1M tokens** sur l'API directe ; Haiku 4.5 de **200K**. Consultez `/context` pour la session active. La capacité ne garantit pas que chaque détail sera retrouvé de façon fiable.
+La fenêtre de contexte dépend du modèle et du fournisseur. Opus 5.5, Sonnet 5.5 et Fable 5.1 disposent de **1M tokens** sur l'API directe ; Haiku 4.5 de **200K**. Consultez `/context` pour la session active. La capacité ne garantit pas que chaque détail sera retrouvé de façon fiable.
 
 ### Lecture de la barre de statut
 
@@ -2184,18 +2184,20 @@ Exemple de sortie :
 
 L'utilisation de Claude Code peut consommer l'allocation d'un abonnement, des crédits d'usage ou une facturation API. Vérifiez le compte actif et le mode de facturation avant d'interpréter une estimation du coût des tokens.
 
-#### Modèle de tarification (vérifié le 24 septembre 2026) {#pricing-model-verified-september-24-2026}
+<a id="pricing-model-verified-september-24-2026"></a>
+
+#### Modèle de tarification (tarifs vérifiés le 6 octobre 2026) {#pricing-model-rates-checked-october-6-2026}
 
 Claude Code v2.1.280 et les versions suivantes utilisent **Opus 5.5** par défaut sur Pro, Max, Team, Enterprise, l'API Anthropic, Claude Platform on AWS, Bedrock et Google Cloud's Agent Platform. Microsoft Foundry conserve Sonnet 4.5 comme modèle par défaut du compte. La politique de l'organisation, les paramètres du modèle et les variables d'environnement peuvent modifier ce choix. Consultez `/model` et `/status` pour votre session.
 
 | Modèle | Entrée / MTok | Sortie / MTok | Lecture du cache / MTok | Contexte | Effort par défaut dans Claude Code |
 |-------|--------------|---------------|-------------------|---------|-------------------------------|
 | Opus 5.5 | $4 | $20 | $0.20 | 1M | `medium` |
-| Sonnet 5 | $2 | $10 | $0.20 | 1M | `high` |
+| Sonnet 5.5 | $2 | $10 | $0.20 | 1M | `high` |
 | Haiku 4.5 | $1 | $5 | $0.10 | 200K | Pas de paramètre d'effort |
 | Fable 5.1 | $10 | $50 | $0.25 | 1M | `high` |
 
-Il s'agit des tarifs standard de l'API Anthropic en USD, vérifiés le 24 septembre 2026. Les allocations des abonnements, les crédits d'usage, les écritures du cache, les remises par lot, la résidence des données et les tarifs des clouds partenaires sont distincts. Le tarif publié de Sonnet 5 reste de $2/$10 ; sa promotion de lancement ne permet pas de déduire une hausse en septembre. [Tarifs officiels des modèles](https://platform.claude.com/docs/en/about-claude/pricing).
+Il s'agit des tarifs standard de l'API Anthropic en USD, vérifiés le 6 octobre 2026. Les allocations des abonnements, les crédits d'usage, les écritures du cache, les remises par lot, la résidence des données et les tarifs des clouds partenaires sont distincts. Sonnet 5.5 (`claude-sonnet-5-5`) a remplacé Sonnet 5 comme Sonnet par défaut sur l’API Anthropic dans Claude Code v2.1.284 (28 septembre 2026), aux mêmes tarifs de $2/$10 ; Sonnet 5 est désormais un modèle legacy, et la hausse annoncée pour septembre n’a pas eu lieu. [Tarifs officiels des modèles](https://platform.claude.com/docs/en/about-claude/pricing).
 
 Le mode rapide prend en charge Opus 5.5 ($8/$40 par MTok), Opus 5 et Opus 4.8 ($10/$50). Il n'est pas disponible sur Sonnet et Haiku. Anthropic décrit une sortie jusqu'à 2.5 fois plus rapide, sans garantie pour chaque requête. Le mode rapide des abonnements utilise des crédits d'usage. [Référence du mode rapide](https://code.claude.com/docs/en/fast-mode).
 
@@ -2203,13 +2205,13 @@ Fable 5.1 est disponible sur sélection explicite, sous réserve d'accès du com
 
 #### Contexte 200K et 1M : performances, coûts et usages {#200k-vs-1m-context-performance-cost--use-cases}
 
-Opus 5.5, Sonnet 5 et Fable 5.1 disposent d'un contexte natif de 1M sur l'API Anthropic. Sonnet 5 n'y propose aucune variante 200K. Les anciens Opus 4.6 et Sonnet 4.6 utilisent une variante `[1m]` avec un accès dépendant de l'offre. Les passerelles et fournisseurs cloud peuvent exposer une autre fenêtre ; consultez `/context` et les [règles des fournisseurs](https://code.claude.com/docs/en/model-config#extended-context).
+Opus 5.5, Sonnet 5.5 et Fable 5.1 disposent d'un contexte natif de 1M sur l'API Anthropic. Les anciens Opus 4.6 et Sonnet 4.6 utilisent une variante `[1m]` avec un accès dépendant de l'offre. Les passerelles et fournisseurs cloud peuvent exposer une autre fenêtre ; consultez `/context` et les [règles des fournisseurs](https://code.claude.com/docs/en/model-config#extended-context).
 
-Les modèles actuels à 1M natif conservent leurs tarifs standard au-delà de 200K tokens d'entrée. Les anciens conseils sur l'en-tête bêta et le supplément long contexte de Sonnet 4/4.5 ne s'appliquent pas à eux. La sortie maximale est de 128K pour Opus 5.5, Sonnet 5 et Fable 5.1, et de 64K pour Haiku 4.5. [Caractéristiques des modèles](https://platform.claude.com/docs/en/models/overview).
+Les modèles actuels à 1M natif conservent leurs tarifs standard au-delà de 200K tokens d'entrée. Les anciens conseils sur l'en-tête bêta et le supplément long contexte de Sonnet 4/4.5 ne s'appliquent pas à eux. La sortie maximale est de 128K pour Opus 5.5, Sonnet 5.5 et Fable 5.1, et de 64K pour Haiku 4.5. [Caractéristiques des modèles](https://platform.claude.com/docs/en/models/overview).
 
 **Factures de tokens illustratives, sans mesure de sessions**, hors cache et reprises :
 
-| Exemple | Entrée | Sortie | Sonnet 5 | Opus 5.5 |
+| Exemple | Entrée | Sortie | Sonnet 5.5 | Opus 5.5 |
 |---------|-------|--------|----------|----------|
 | Relecture bornée | 50K | 5K | $0.15 | $0.30 |
 | Refactorisation d'un module | 150K | 20K | $0.50 | $1.00 |
@@ -2828,7 +2830,7 @@ Les alias dépendent du fournisseur et peuvent être redéfinis dans la configur
 
 | Fournisseur | `opus` | `sonnet` |
 |-------------|--------|----------|
-| Anthropic API | Opus 5.5 | Sonnet 5 |
+| Anthropic API | Opus 5.5 | Sonnet 5.5 (depuis v2.1.284) |
 | Claude Platform on AWS | Opus 5.5 | Sonnet 4.6 |
 | Amazon Bedrock / Google Cloud's Agent Platform | Opus 5.5 | Sonnet 4.5 |
 | Microsoft Foundry | Opus 4.6 | Sonnet 4.5 |
@@ -2847,7 +2849,7 @@ Pour fixer une version, utilisez son identifiant exact chez le fournisseur, par 
 
 `/model <name>` enregistre un choix par défaut pour les nouvelles sessions. Dans le sélecteur, appuyez sur `s` pour limiter le choix à la session en cours. `claude --model <name>` et `ANTHROPIC_MODEL` s'appliquent à la session lancée. Les paramètres du projet et les paramètres gérés peuvent se réappliquer au lancement suivant ; une session reprise retrouve généralement son modèle enregistré. `ANTHROPIC_DEFAULT_MODEL` est un choix par défaut de priorité inférieure, qui ne remplace pas ces sélections explicites.
 
-Utilisez la barre d'état, `/model` ou les métadonnées de réponse de l'API pour identifier le modèle actif. Les déclarations du modèle sur sa propre identité ne sont pas fiables. Les dates limites de connaissances fiables sont juin 2026 pour Opus 5.5 et Fable 5.1, janvier 2026 pour Sonnet 5, et février 2025 pour Haiku 4.5. [Caractéristiques des modèles](https://platform.claude.com/docs/en/models/overview).
+Utilisez la barre d'état, `/model` ou les métadonnées de réponse de l'API pour identifier le modèle actif. Les déclarations du modèle sur sa propre identité ne sont pas fiables. Les dates limites de connaissances fiables sont juin 2026 pour Opus 5.5, Sonnet 5.5 et Fable 5.1, et février 2025 pour Haiku 4.5. [Caractéristiques des modèles](https://platform.claude.com/docs/en/models/overview).
 
 <a id="opusplan-mode"></a>
 
@@ -3257,12 +3259,12 @@ _Accès rapide :_ [Tableau de décision](#decision-table) · [Niveaux d'effort](
 | Tâche | Modèle candidat | Effort de départ |
 |-------|-----------------|------------------|
 | Renommage, formatage, extraction bornée | Haiku 4.5 | Non pris en charge |
-| Fonctionnalités, tests, débogage courant | Sonnet 5 ou Opus 5.5 | Défaut du modèle |
+| Fonctionnalités, tests, débogage courant | Sonnet 5.5 ou Opus 5.5 | Défaut du modèle |
 | Architecture ou débogage difficile | Opus 5.5 | Augmenter depuis `medium` si l'évaluation le justifie |
 | Travail long ou ambigu sous le niveau de qualité attendu | Évaluer Fable 5.1 | Commencer à `high` |
 | Workflow multi-agents | Affecter selon le rôle et les résultats mesurés | Selon le modèle pris en charge |
 
-Le nom d'un modèle ne détermine pas un coût fixe par tâche. Mesurez les tokens d'entrée, de sortie et de cache, les nouvelles tentatives et l'effort de revue avec les mêmes critères d'acceptation. Voir le [tableau de tarification](#pricing-model-verified-september-24-2026).
+Le nom d'un modèle ne détermine pas un coût fixe par tâche. Mesurez les tokens d'entrée, de sortie et de cache, les nouvelles tentatives et l'effort de revue avec les mêmes critères d'acceptation. Voir le [tableau de tarification](#pricing-model-rates-checked-october-6-2026).
 
 <a id="escalating-to-fable"></a>
 
@@ -12941,8 +12943,8 @@ Le Claude Code Ultimate Guide fournit un serveur MCP stdio : les clients de coda
 #### Installation
 
 ```bash
-claude mcp add --scope user claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.4
-codex mcp add claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.4
+claude mcp add --scope user claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.6
+codex mcp add claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.6
 ```
 
 Pour Claude Code à l'échelle du projet, ajoutez le serveur à `.mcp.json` :
@@ -12953,7 +12955,7 @@ Pour Claude Code à l'échelle du projet, ajoutez le serveur à `.mcp.json` :
     "claude-code-guide": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "claude-code-ultimate-guide-mcp@1.3.4"]
+      "args": ["-y", "claude-code-ultimate-guide-mcp@1.3.6"]
     }
   }
 }
@@ -17201,6 +17203,8 @@ claude                    # Continuer le travail sur la fonctionnalité
 - L'espace disque est limité (chaque worktree = répertoire de travail complet)
 - L'équipe n'est pas familière avec les worktrees (ajoute de la complexité)
 
+> **Les worktrees isolent les changements, pas le comportement.** Chaque worktree possède ses propres fichiers et sa branche, mais tous partagent les métadonnées Git du dépôt, notamment la liste des stashes (un `git stash` effectué dans un worktree apparaît dans `git stash list` dans les autres), ainsi que vos identifiants, les services locaux comme les bases de données et les serveurs de développement, et l'accès réseau. Des agents qui partagent un seul worktree sont encore plus exposés : lors du portage de Bun de Zig vers Rust, des agents parallèles ont exécuté `git stash` et `git reset` sur le travail des autres jusqu'à ce que le workflow interdise ces commandes ([étude de cas](#case-study-buns-zig-to-rust-port-with-claude-code)). Pour un travail de confiance, ce compromis est généralement acceptable. Des agents non surveillés qui consomment du contenu non fiable ont besoin d'un véritable sandbox et d'identifiants à portée limitée ([isolation par sandbox](security/sandbox-isolation.md)).
+
 **Commandes du cycle de vie d'un worktree :**
 
 Le cycle de vie complet d'un worktree est couvert par 4 commandes complémentaires :
@@ -17886,7 +17890,7 @@ Se déclenche également automatiquement sur des phrases comme « sois bref » o
 
 **Comment Caveman économise des tokens**, deux mécanismes :
 
-1. **Compression de la sortie** : Les réponses en prose sont en moyenne 65% plus courtes (plage de 22-87% selon le type de tâche). Plus efficace sur les échanges riches en explications : discussions architecturales, récits de débogage, questions-réponses.
+1. **Compression de la sortie** : Le README actuel de Caveman (lu le 2026-09-30) ne met plus en avant un chiffre de 65% ou 75%. Il rapporte une réduction médiane de 50% des tokens de sortie sur dix questions de développeurs face à un contrôle « Answer concisely. » (longueur uniquement, pas exactitude), et cite le test indépendant de JetBrains sur 86 tâches réelles de programmation (skill seul, sans proxy) : 8,5% de tokens de sortie en moins, sans changement de qualité détectable. Les anciennes affirmations « ~75% » et « 65% » (les notes de version v1.9.1 présentent 65% comme une réduction moyenne des tokens de sortie face aux réponses verbeuses par défaut sur un benchmark de 10 prompts, plage de 22 à 87%) ne figurent plus dans le README. Plus efficace sur les échanges riches en explications : discussions architecturales, récits de débogage, questions-réponses.
 
 2. **Compression de l'entrée via `/caveman-compress`** : Réécrit vos fichiers CLAUDE.md et de mémoire de projet en forme compressée sur place, réduction revendiquée d'environ 46% du coût en tokens au démarrage de session. Les blocs de code, URLs et chemins sont intacts.
 
@@ -17897,7 +17901,7 @@ Se déclenche également automatiquement sur des phrases comme « sois bref » o
 - `/caveman-stats` : utilisation des tokens de session et économies cumulées (Claude Code uniquement)
 - `caveman-shrink` : wrapper MCP qui compresse les champs de description des outils/prompts avant leur chargement dans le contexte
 
-**Chiffres honnêtes** : Le titre « 75% moins de tokens en sortie » s'applique aux réponses en prose individuelles. Dans une session typique, la prose représente une petite fraction du budget total de tokens, les économies sur l'ensemble de la session sont plus proches de 4-10%. Caveman est le plus rentable dans les sessions à forte teneur en échanges conversationnels, et le moins rentable dans les sessions dominées par les lectures de fichiers, les appels d'outils ou la génération de code.
+**Chiffres honnêtes** : Les chiffres par réponse concernent des prompts en prose, pas une session. Dans les sessions de programmation agentique, la plupart des tokens sont du code et des appels d'outils que le skill ne modifie pas : JetBrains a mesuré 8,5% de tokens de sortie en moins. Le benchmark du proxy décrit dans le README (54 exécutions épinglées de Claude Code) rapporte 33,2% de tokens d'entrée en moins (de 885 793 à 591 673), avec 18 réponses correctes sur 18 et un intervalle à 95% de 14,6% à 48,5% ; le README lui-même le présente comme un rapport épinglé, pas une reproduction publique. Caveman apporte le plus dans les sessions riches en échanges conversationnels, et le moins dans celles dominées par les lectures de fichiers, les appels d'outils ou la génération de code.
 
 **Quand NE PAS l'utiliser** :
 
@@ -17916,7 +17920,7 @@ Se déclenche également automatiquement sur des phrases comme « sois bref » o
 
 Pour des hooks, la navigation dans le code et l'interception MCP plus larges, voir la [comparaison Tokenade et les limites des preuves](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ecosystem/third-party-tools.md#tokenade). Elle présente une alternative propriétaire avec des résultats de benchmark maintenus par son éditeur, pas une recommandation universelle de remplacement.
 
-**Dépôt :** [rtk-ai/rtk](https://github.com/rtk-ai/rtk) | **Site web :** [rtk-ai.app](https://www.rtk-ai.app/)
+**Dépôt :** [rtk-ai/rtk](https://github.com/rtk-ai/rtk) | **Site web :** [rtk-ai.app](https://www.rtk-ai.app/) | **Transparence :** l'auteur de ce guide est un contributeur principal de RTK (pas son créateur) ; cette recommandation n'est donc pas indépendante. Les mesures sur des tâches complètes de plusieurs études et la réponse des mainteneurs figurent dans [context-engineering-tools.md](./ecosystem/context-engineering-tools.md).
 
 **Installation :**
 
@@ -17924,21 +17928,21 @@ Pour des hooks, la navigation dans le code et l'interception MCP plus larges, vo
 # Option 1 : Homebrew (macOS/Linux)
 brew install rtk
 
-# Option 2 : Cargo (toutes plateformes)
+# Option 2 : Cargo (toutes plateformes, utiliser --git : une autre crate "rtk" existe sur crates.io)
 cargo install --git https://github.com/rtk-ai/rtk
 
-# Option 3 : Script d'installation
-curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/master/install.sh | bash
+# Option 3 : Script d'installation (Linux/macOS, installe dans ~/.local/bin)
+curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/install.sh | sh
 
 # Vérifier l'installation
-rtk --version  # v0.28.0+
+rtk --version  # dernière version vérifiée le 2026-09-30 : v0.50.0
 ```
 
 **Mesurez l'effet sur votre travail :**
 
 Comparez des commandes équivalentes sur le même état du dépôt et conservez les sorties brutes pour le diagnostic. `rtk gain` rapporte des estimations sur les sorties shell filtrées, sans mesurer l'économie sur la facture totale. Une sortie `git log` ou des logs de tests plus courts ne prouvent pas une réduction universelle de la session. Voir [comment RTK mesure les économies](https://github.com/rtk-ai/rtk#how-savings-work).
 
-**Fonctionnalités clés (v0.28.0) :**
+**Fonctionnalités clés (liste à la v0.28.0 ; dernière version : v0.50.0) :**
 
 ```bash
 # Opérations Git
@@ -18170,10 +18174,10 @@ code-review-graph build     # première analyse (~10 s pour 500 fichiers)
 | **Ce qu'il économise** | Tokens de sortie de commandes | Tokens de lecture de code |
 | **Quand** | Après l'exécution de git, cargo, npm | Avant la lecture des fichiers source |
 | **Comment** | Regex + filtrage texte | Analyse AST (signatures uniquement) |
-| **Économies typiques** | 60 à 90 % sur les sorties CLI | 86 à 92 % sur l'exploration du code |
+| **Économies typiques** | 60 à 90 % sur les sorties CLI (README RTK : « jusqu’à 90% » de la sortie bash, pas de la facture) | 86 à 92 % dans les estimations par tâche ci-dessus (aucune mesure contrôlée citée) ; 10,5% d’économie de tokens de cache dans un test A/B contrôlé de 50 itérations d’un outil tree-sitter comparable (jCodeMunch) |
 | **Configuration** | `rtk init --global` (2 min) | Règle CLAUDE.md (0 min) ou script (5 min) |
 
-Utilisez les deux. Une session de 30 minutes avec RTK + smart explore : ~15 à 20 000 tokens au lieu de ~150 à 200 000.
+Utilisez les deux, mais n'extrapolez pas les chiffres par commande à une session. Aucune source de ce guide n'étaye un total de session pour RTK associé à smart explore. Les mesures sur des tâches complètes avec RTK seul diffèrent selon les études : JetBrains a mesuré +7,6% de coût médian par tâche à faible effort de raisonnement et +0,1% à effort élevé, Dasein +13% de coût total, THOL +7,1% avec un intervalle qui inclut zéro, et le rejeu de Codepointer -0,5% des dépenses. Les mainteneurs de RTK contestent le protocole JetBrains et rapportent -4,8% sur 13 tâches de développement (p = 0,305) dans leur propre nouvelle exécution (voir [context-engineering-tools.md](./ecosystem/context-engineering-tools.md)).
 
 **Voir aussi :**
 
@@ -18480,7 +18484,7 @@ L'article d'aide liste les crédits que recevraient les utilisateurs éligibles 
 | Enterprise, usage-based | $20 |
 | Enterprise, sièges Premium seat-based | $200 |
 
-Aucun de ces crédits n'est actif aujourd'hui. Pour les tarifs API actuels, voir le [LLM market snapshot](./ops/llm-market-snapshot.md#2-api-prices).
+Aucun de ces crédits n'est actif aujourd'hui. Pour les tarifs API actuels, voir le [tableau de tarification](#pricing-model-rates-checked-october-6-2026) et le [LLM market snapshot](./ops/llm-market-snapshot.md#2-api-prices).
 
 #### Ce que le plan affecterait
 
@@ -18590,7 +18594,7 @@ Six leviers permettent de contrôler les coûts des LLM. Certains sont directeme
 | Levier | Natif dans Claude Code ? | En construisant avec l'API/SDK Anthropic | Où est-ce documenté |
 |--------|--------------------------|------------------------------------------|---------------------|
 | Surveillance des coûts | Commande `/cost`, CLI `ccusage`, tableau de bord des crédits d'abonnement | Tableau de bord Anthropic Console, suivi des dépenses par appel | §9.13 ci-dessus |
-| Compression des sorties | Skill Caveman (réduction de 65-75% de la prose), RTK pour la sortie CLI | Ingénierie des prompts, gestion des réponses en streaming | §9.13 Caveman + RTK |
+| Compression des sorties | Skill Caveman (8,5% de tokens de sortie en moins sur des tâches réelles de programmation selon JetBrains, davantage sur les réponses en prose seule), RTK pour la sortie CLI | Ingénierie des prompts, gestion des réponses en streaming | §9.13 Caveman + RTK |
 | Routage de modèle | `/model opusplan`, `model:` dans le frontmatter des agents, `haiku` pour les tâches mécaniques | RouteLLM (85% d'appels en moins vers le modèle de premier niveau sur MT-Bench, arXiv 2406.18665) | [§2.5 Sélection du modèle](#25-model-selection--thinking-guide) |
 | Mise en cache des prompts | Automatique pour les préfixes de contexte stables (Anthropic met en cache les préfixes répétés de manière transparente) | Points d'arrêt `cache_control` dans les requêtes API ; jusqu'à 90% d'économies sur le contexte répété | [§2.2 Gestion des tokens](#22-context-management) |
 | Traitement par lots | Non disponible dans les sessions interactives de Claude Code | Message Batches API : 50% moins cher, asynchrone, fenêtre de 24 heures, jusqu'à 100 requêtes par lot | [core/architecture.md, Message Batches API](./core/architecture.md#message-batches-api) |
@@ -18598,7 +18602,7 @@ Six leviers permettent de contrôler les coûts des LLM. Certains sont directeme
 
 **Sur le routage de modèle via l'API** : RouteLLM (lm-sys, ICLR 2025, arXiv 2406.18665) entraîne un routeur léger qui décide à chaque appel s'il faut invoquer un modèle puissant ou un modèle moins coûteux. Sur MT-Bench, il atteint une réduction des coûts de 85% par rapport au routage toujours vers le modèle fort, tout en correspondant à 95% des performances du modèle fort. La technique s'applique aux pipelines automatisés construits sur l'API Anthropic, et non aux sessions interactives de Claude Code.
 
-**Sur le traitement par lots** : La [Message Batches API](./core/architecture.md#message-batches-api) est le levier à plus fort effet de levier pour les pipelines automatisés (classification nocturne, analyse de documents en masse, extraction de données à grande échelle). Non applicable à un usage interactif. Si vous exécutez `claude -p` en CI/CD à volume, évaluez la Batches API avant la séparation de facturation programmatique du 15 juin, qui sépare les coûts d'usage interactif et programmatique.
+**Sur le traitement par lots** : La [Message Batches API](./core/architecture.md#message-batches-api) est le levier à plus fort effet de levier pour les pipelines automatisés (classification nocturne, analyse de documents en masse, extraction de données à grande échelle). Non applicable à un usage interactif. Pour un travail asynchrone à volume élevé, comparez la Message Batches API avec votre mode actuel de facturation par abonnement ou API. La séparation de facturation programmatique annoncée pour le 15 juin a été suspendue ; n'établissez pas votre budget comme si ce crédit distinct était actif.
 
 ---
 
@@ -22688,6 +22692,8 @@ Cartographier l'intégralité de la base de code :
 >  global variables, or file I/O. Output a dependency map."
 > ```
 
+**Conserver la découverte après la session.** Écrivez la carte dans un fichier : la session suivante et le prochain agent ne devraient pas payer à nouveau pour la même exploration. Pour les zones jaunes et rouges (étape 2), Addy Osmani recommande un passage distinct en lecture seule qui produit une courte note de compréhension (points d'entrée, responsables, appelants, abstractions existantes, tests, signaux de production, historique pertinent, questions ouvertes), dans laquelle chaque affirmation cite un fichier, une issue, un registre de responsabilités ou un tableau de bord. La phase `research.md` de [plan-driven.md](workflows/plan-driven.md) suit le même schéma pour une fonctionnalité.
+
 ---
 
 **Étape 2 : Analyse des risques et cartographie des opportunités**
@@ -22706,6 +22712,18 @@ Avec le graphe de dépendances en main :
 >  Which components can be modernized in isolation?
 >  Which share state with 3+ other modules and should be touched last?"
 > ```
+
+**Transformer la carte des risques en zones que l'agent ne peut pas redessiner.** Dans [Brownfield Agentic Engineering](https://addyo.substack.com/p/brownfield-agentic-engineering) (septembre 2026), Addy Osmani rend le classement opérationnel avec trois zones, chacune assortie de ses propres actions autorisées :
+
+| Zone | Ce qu'elle contient | Comment les agents y travaillent |
+|------|---------------------|----------------------------------|
+| Verte | Code moderne, bien testé et isolé | Boucle agentique resserrée |
+| Jaune | Qualité mixte, couverture partielle | Tests de caractérisation d'abord, modifications ensuite |
+| Rouge | Authentification, facturation, permissions, paie, code que peu de personnes comprennent | Un humain travaille en binôme à chaque étape, ou le travail n'a pas lieu |
+
+Trois règles rendent ces zones concrètes. Une personne dessine la carte, pas l'agent : laissé libre de choisir, il tend à commencer par le fichier le plus risqué. Une zone ne change que si les conditions sont remplies : le jaune devient vert une fois les tests de caractérisation en place et les premières modifications de l'agent relues par le responsable du module. La zone détermine les actions permises, pas la confiance de l'agent. Le critère d'Osmani : « L'autonomie doit suivre le rayon d'impact, l'observabilité et la capacité de récupération. La confiance d'un modèle est un mauvais guide. » Une surface que seul le trafic de production exerce réellement, sans suite de tests qui le représente, reste par définition rouge jusqu'à ce qu'un substitut de ce trafic existe (rejeu, trafic miroir, parcours synthétiques).
+
+Encodez la carte là où elle est appliquée : une entrée `permissions.deny` ou un hook `PreToolUse` sur les chemins rouges, des règles limitées aux chemins jaunes (voir [7. Hooks](#7-hooks)). Une carte de zones qui reste dans un document de planification n'est qu'un conseil.
 
 ---
 
@@ -22743,6 +22761,12 @@ Ne jamais migrer l'intégralité du système en une seule fois :
 >  Write tests that verify identical outputs for identical inputs."
 > ```
 
+**Figer le comportement actuel avant que l'agent le modifie, dans une autre session.** Les tests de caractérisation verrouillent ce que fait le module aujourd'hui, y compris les aspects peu élégants, car dans un ancien système certains de ces comportements font fonctionner l'activité. Si la session qui va modifier le code écrit aussi les tests qui le jugent, la suite verte encode l'implémentation qu'elle vient d'inventer. Écrivez les tests de caractérisation dans un passage distinct, ou faites-les écrire par une personne, puis laissez l'agent travailler (voir [TDD avec du code legacy](workflows/tdd-with-claude.md#tdd-with-legacy-code)).
+
+**Une unité de migration est terminée quand l'ancien chemin a disparu.** Exécuter l'ancien et le nouveau code côte à côte est un état de transition. La définition d'Osmani : « Une migration est terminée quand le nouveau chemin fonctionne et que la disparition de l'ancienne dépendance est démontrée. » Les migrations inachevées désorientent particulièrement les agents : la recherche renvoie l'ancien schéma dans quarante fichiers, le nouveau dans douze, et une couche de compatibilité présente les deux comme actuels. L'agent reçoit des précédents contradictoires. Terminez une route de bout en bout, suppression comprise, avant de convertir les trente fichiers suivants.
+
+Des tests réussis ne prouvent pas que la migration a eu lieu. [SWE Refactor Bench](https://arxiv.org/abs/2608.23564) (août 2026, 20 migrations de dépôts entiers) appelle cela « Blindness » : une migration démarre avec des tests verts, donc un dépôt rendu intact, ou un remplacement qui appelle encore l'implémentation originale, réussit la suite comportementale. Son protocole ajoute un audit de migration (l'ancienne stack a-t-elle disparu de l'artefact construit ?) et des agents indépendants qui recherchent les différences de comportement. Sur 520 exécutions de 8 modèles de pointe, 28 ont réussi les trois étapes (5,4%), 13 des 20 tâches n'ont reçu aucune solution acceptée, et les réécritures de langage ont obtenu 5,6/100 contre 31,4 pour les migrations de chaîne de build. Suivez la migration avec les chiffres qui peuvent évoluer : anciens imports restants, part du trafic servie par le nouveau chemin, écarts de parité, dépendances legacy supprimées.
+
 ---
 
 ### Principes clés
@@ -22754,6 +22778,8 @@ Ne jamais migrer l'intégralité du système en une seule fois :
 | **Exécution en parallèle** | Le retour en arrière n'est possible que si les deux versions coexistent |
 | **Tester aux frontières** | Tester les entrées/sorties, pas la logique interne (qui va changer) |
 | **Revue humaine sur la logique métier** | L'IA ne sait pas quel cas limite est réglementaire ou dead code |
+| **Figer, puis modifier** | Les tests de caractérisation écrits par la session qui modifie le code prouvent seulement les hypothèses de cette session |
+| **Supprimer l'ancien chemin** | Une suite verte dont tout le trafic passe encore par le code legacy ne constitue pas une migration |
 
 ### Attentes réalistes
 
@@ -22774,6 +22800,26 @@ Les gains moyens sont réels et significatifs. Les chiffres les plus spectaculai
 - **❌ Pas d'exécution en parallèle** : Basculer sans plan de repli. Un cas limite non découvert = panne en production.
 - **❌ Sauter la découverte** : Commencer à traduire avant de cartographier. Vous casserez des choses dont vous ignoriez l'existence.
 - **❌ Faire confiance à l'IA sur la logique métier** : L'IA traduit fidèlement ce qu'elle lit. Si l'original était erroné ou dépendant du contexte, la traduction le sera aussi.
+- **❌ Migration inachevée** : Trente fichiers convertis, une couche de compatibilité conservée, une suppression renvoyée à un ticket de nettoyage. Les agents copient alors le premier schéma que la recherche leur présente.
+- **❌ Laisser l'agent choisir où commencer** : Sans carte de zones dessinée par une personne, les agents se dirigent vers le code le plus intéressant, généralement le plus risqué.
+
+<a id="case-study-buns-zig-to-rust-port-with-claude-code"></a>
+
+### Étude de cas : portage de Bun de Zig vers Rust avec Claude Code
+
+[Rewriting Bun in Rust](https://bun.com/blog/bun-in-rust), de Jarred Sumner (juillet 2026), est un récit de première main d'une migration à grande échelle avec Claude Code : 535 496 lignes de Zig réparties sur 1 448 fichiers portées en 11 jours (du 3 au 14 mai 2026), avec environ 50 workflows dynamiques et un pic d'environ 64 instances Claude simultanées sur une préversion de Claude Fable 5. L'auteur chiffre l'exécution à environ 165 000 $ aux tarifs API (5,9 milliards de tokens d'entrée non mis en cache, 690 millions de tokens de sortie, 72 milliards de tokens d'entrée lus dans le cache). Lisez ce récit comme celui d'un opérateur expert sur la base de code qu'il connaît le mieux, pas comme un benchmark.
+
+La structure autour des agents est transférable, pas l'échelle :
+
+| Pratique | Ce que Bun a fait | Ce que cela apporte |
+|----------|-------------------|---------------------|
+| Règles avant tout portage | Environ 3 heures pour produire `PORTING.md` (correspondances entre schémas Zig et Rust), puis un workflow retraçant la durée de vie de chaque champ de structure dans `LIFETIMES.tsv`, relu par des agents contradicteurs et lu par l'auteur | Un ensemble durable de décisions que chaque agent suivant lit, sans les redéduire |
+| Pilote avant le traitement global | 3 fichiers d'abord : 1 agent d'implémentation, 2 relecteurs contradicteurs, 1 agent de correction, avant les 1 448 fichiers | Les règles sont éprouvées sur une unité jetable |
+| Oracle hors du changement | La suite de tests existante, indépendante du langage (1 386 826 appels `expect()`, 60 624 tests sur une plateforme, « 0 test ignoré ou supprimé »), constituait le critère de merge ; l'auteur a « vérifié manuellement que les tests étaient bien exécutés et non ignorés » | Les tests ne font pas partie de ce qui change, et quelqu'un a vérifié leur exécution |
+| Relecteurs séparés | Chaque unité générée était relue par deux relecteurs contradicteurs avant commit | L'auteur n'est jamais son seul juge ([creator-verifier](core/agent-harness.md#8-creator-verifier-pattern)) |
+| Échecs transformés en règles | Les agents exécutaient `git stash` et `git reset` sur le travail des autres, donc le workflow les a interdits ; les agents vidaient les fonctions pour faire taire les erreurs de compilation, donc les revues rejetaient les contournements qui nécessitaient un long commentaire explicatif | Chaque faux départ devenait une règle du harnais, pas un diff corrigé à la main |
+
+Limites des preuves. L'auteur indique que la réécriture a « introduit 19 régressions connues, chacune corrigée », et ne publie aucun taux de défauts après la sortie. Il a surveillé les workflows « pendant la majeure partie de ces 11 jours (et après) ». Il s'agissait d'un portage mécanique préservant le comportement face à une suite indépendante du langage d'implémentation, le cas le plus favorable pour des agents. SWE Refactor Bench a mesuré les réécritures de langage comme la catégorie de migration la plus faible ; ce résultat ne se transpose donc pas à une base de code sans oracle équivalent.
 
 ### Ancrer les fonctionnalités dans le code : quand vous ne réécrivez pas le système {#feature-to-code-anchoring-when-youre-not-rewriting}
 
@@ -26448,4 +26494,4 @@ Nous l'évaluerons et l'ajouterons à cette section s'il répond aux critères d
 
 **Contributions** : Issues et PRs bienvenus.
 
-**Dernière mise à jour** : Janvier 2026 | **Version** : 3.43.0
+**Dernière mise à jour** : 6 octobre 2026 | **Version** : 3.44.1

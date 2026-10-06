@@ -4,11 +4,11 @@ subtitle: "Understanding when each billing model is advantageous"
 card-number: "C11"
 category: "Design"
 difficulty: "intermediate"
-guide-version: "3.43.0"
-wp-version: "1.0.1"
+guide-version: "3.44.1"
+wp-version: "1.0.2"
 author: "Florian BRUNIAUX"
-version: "3.43.0"
-date: "2026-09-26"
+version: "3.44.1"
+date: "2026-10-06"
 layout: "two-col"
 lang: en
 format:
@@ -19,13 +19,13 @@ format:
 
 **Subscription:** you pay a fixed monthly amount and consume within a token budget limit. The cost is predictable, but the budget is capped and the limits are deliberately opaque.
 
-**API:** per-token billing, no cap. The cost is proportional to usage. Ideal for irregular or very high usage, but without protection against overruns.
+**API:** per-token billing. Set and verify spending limits for unattended work; cost depends on all calls and retries.
 
 The practical distinction: subscription favors solo developers with regular daily usage, API favors teams, CI/CD pipelines, and high-volume use cases.
 
 ## How subscription limits work
 
-Subscriptions use a hybrid model: a 5-hour rolling window and a weekly cap. Both apply simultaneously. Billing is announced in "messages" but actually corresponds to tokens, making limits difficult to anticipate.
+Subscriptions use a hybrid model: a 5-hour rolling window and a weekly cap. Both apply simultaneously. The allowance is not published as a fixed token quantity; model, context and tools affect consumption.
 
 **Quota is not an API price ratio.** Model, context, tools and account policy affect subscription consumption. Inspect `/usage` and compare real sessions; the API token prices below do not predict how quickly a weekly allowance runs out.
 
@@ -71,13 +71,13 @@ ccusage --breakdown # By model
 
 ## When API wins
 
-Subscription hits its limits in three cases: teams where multiple developers consume simultaneously, CI/CD pipelines with a high PR volume, and projects with long daily sessions that exhaust the budget before the end of the week. In these contexts, API billing (with Haiku for mechanical tasks) often ends up cheaper than expected, especially with a progressive escalation strategy.
+Subscription hits its limits in three cases: teams where multiple developers consume simultaneously, CI/CD pipelines with a high PR volume, and projects with long daily sessions that exhaust the budget before the end of the week. Compare total API cost and accepted results against the subscription allowance before switching.
 
 ## Explicit token-budget examples
 
 Standard direct-API USD, excluding caching and fast mode:
 
-| Input / output | Sonnet 5 | Opus 5.5 |
+| Input / output | Sonnet 5.5 | Opus 5.5 |
 |---|---|---|
 | 50K / 5K | $0.15 | $0.30 |
 | 150K / 20K | $0.50 | $1.00 |

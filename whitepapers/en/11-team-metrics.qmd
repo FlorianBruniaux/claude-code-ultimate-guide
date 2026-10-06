@@ -2,10 +2,11 @@
 title: "Leading a Team in the Age of AI"
 subtitle: "Metrics, adoption, and governance for engineering managers"
 author: "Florian Bruniaux"
-date: "2026-09-26"
+date: "2026-10-06"
 date-format: "MMMM YYYY"
-version: "3.43.0"
-wp-version: "1.3.2"
+version: "3.44.1"
+guide-version: "3.44.1"
+wp-version: "1.4.0"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -65,9 +66,9 @@ DORA (DevOps Research and Assessment) measures the health of a software delivery
 
 **How to measure**: Count production deployments per day, week, or month. Most CI/CD tools expose this directly (GitHub Actions, CircleCI, Vercel, etc.).
 
-**In an AI context**: AI accelerates feature development, so your cadence should increase, provided your pipeline keeps up. If deployment frequency stays flat after widespread AI adoption, the bottleneck is downstream: staging environments, manual QA, review throughput. AI gives you more PRs to merge; it doesn't automatically improve the rest of the pipeline.
+**In an AI context**: check whether development time changes, then inspect review, validation and deployment queues. A stable deployment frequency alone does not locate a bottleneck or establish an AI effect.
 
-**Warning signal**: deployment frequency rising while Change Failure Rate also rises. That's AI-accelerated code that isn't being reviewed seriously.
+**Signal to inspect**: deployment frequency and Change Failure Rate rise together. Inspect changes and incidents before attributing the cause to review or AI.
 
 ## Change lead time
 
@@ -75,7 +76,7 @@ DORA (DevOps Research and Assessment) measures the health of a software delivery
 
 **How to measure**: Timestamp at commit, timestamp at deployment. The delta is your lead time. Tools like LinearB and Faros.ai automate this from your CI/CD pipeline.
 
-**In an AI context**: AI reduces coding time but has limited effect on non-code segments of lead time. PR review, staging validation, context-switching delays, and deployment windows are largely unchanged by AI assistance. If your lead time doesn't improve alongside AI adoption, the constraint is in review velocity or pipeline automation, not in coding.
+**In an AI context**: compare coding, waiting, review, validation and deployment time separately. Assistance can change several stages; unchanged total lead time alone does not identify which stage constrains the flow.
 
 **Diagnosis**: Map your stages explicitly (coding time, waiting for review, waiting for staging, deployment window) to know where the lever is.
 
@@ -85,9 +86,9 @@ DORA (DevOps Research and Assessment) measures the health of a software delivery
 
 **How to measure**: (Failed deployments) / (Total deployments). "Failed" means requiring a hotfix, rollback, or incident response. Define that clearly before measuring.
 
-**In an AI context**: This is the metric most at risk when AI adoption outpaces review discipline. AI generates syntactically correct and structurally plausible code that can still have subtle behavioral errors. Teams that treat AI-generated PRs as "lower risk" and rubber-stamp them see their CFR rise progressively over 6 to 12 months.
+**In an AI context**: plausible code can contain behavioral defects. Measure failed deployments and review evidence over comparable windows; no general 6-to-12-month rise in CFR is established here.
 
-**Recommendation**: Track CFR separately for AI-generated code and manually written code. If the AI CFR is significantly higher, your review process needs reinforcement, not your AI tools.
+**Recommendation**: where attribution is reliable, compare CFR by recorded AI assistance within comparable change classes. Include unknown attribution and sample sizes. Task risk, review practices and deployment policy can explain a difference; it does not identify the cause.
 
 ## Failed deployment recovery time
 
@@ -207,7 +208,7 @@ DORA doesn't capture the cost of the verification loop either. Agent-generated P
 
 ## Group 1: RCT-Verifiable metrics
 
-These replicate what METR and DeputyDev measured. Run them on real tasks, not synthetic benchmarks. They give you numbers calibrated to your own team rather than vendor estimates.
+These follow distinct methods: METR is randomized; DeputyDev is a cohort study. Run them on real tasks, not synthetic benchmarks. They give you numbers calibrated to your own team rather than vendor estimates.
 
 | Metric | What it measures | Published baseline |
 |--------|-----------------|-------------------|
@@ -227,7 +228,7 @@ These require instrumentation via Langfuse, Arize Phoenix, or AWS Bedrock AgentC
 | Validation contract pass rate | Percentage of agent-generated implementations that pass pre-defined behavioral contracts, measured before human review | Factory.ai Missions pattern: 81 problems detected in a Slack clone from spec alone, generating 34% of implementation work as fix features |
 | Agent task completion rate | Tasks the agent completes without human correction, expressed as a percentage | Instrument via harness logs. Anthropic's internal data shows the 99.9th-percentile task duration grew from 25 to 45 minutes between October 2025 and January 2026, indicating agents are handling more complex tasks |
 | Code review recall | Share of reference defects correctly detected, using an explicitly defined benchmark denominator | Code Review Bench (Martian, March 2026, 200,000+ open-source PRs): Augment Code 62.8% recall, GitHub Copilot 53.3% recall, Graphite 75% precision but only 8.8% recall |
-| Cost per completed task | Token spend plus human review time per agent task that reaches a mergeable state | No industry benchmark published yet. Track manually: tokens consumed, cost per model call, human review hours per task completion |
+| Cost per accepted task | Full attempt, review, rework and recovery cost divided by tasks accepted under the stated criteria | No industry benchmark published yet. Track manually: tokens consumed, cost per model call, human review hours per task completion |
 | Tokens per feature | Average tokens consumed per merged feature, crossed with Jira or Linear ticket boundaries. A better signal than tokens per request because it accounts for session count variation per feature | No industry benchmark. Track via ccboard's project leaderboard (tokens per session times sessions per feature). Establish a local baseline before optimizing; no universal token range is established here |
 
 ## Test a harness before standardizing it
@@ -380,6 +381,12 @@ Deployment frequency correlates with revenue in fast-iteration SaaS products. PR
 If collecting the metric requires manual work, it will be abandoned within 3 months when load increases. Automate or eliminate.
 
 **The rule**: fewer than 3 "yes" answers, drop the metric. A stack of 5 rigorous metrics is more useful than a stack of 20 poorly defined ones.
+
+## Admit work at verification capacity
+
+The [Lean delivery lens](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/methodologies.md#lean-software-engineering-as-a-delivery-lens) follows one request from a user need through review, integration, release and use. Faster generation can move waiting into those later stages. Before starting another task, name the verifier, required evidence and the available review capacity. When that capacity is exhausted, pause admission and finish, narrow or reject existing work.
+
+Track work in progress, queue age, accepted throughput and end-to-end cycle time for the same class of change. Include rejected attempts, false blocks, review and rework. Record the reviewed head, base and acceptance criteria; a changed requirement or combined change requires affected checks to run again. Compare escaped defects and the user outcome over comparable windows before increasing parallelism. This is a control to test locally, not a promised productivity multiplier. The [review-admission worksheet](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/examples/workflows/review-admission.md) provides a concrete experiment.
 
 # Tooling
 

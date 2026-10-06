@@ -4,11 +4,11 @@ subtitle: "Intégrer Claude Code dans les pipelines CI/CD GitHub"
 card-number: "M19"
 category: "Méthodologie"
 difficulty: "advanced"
-guide-version: "3.43.0"
-wp-version: "1.0.1"
+guide-version: "3.44.1"
+wp-version: "1.0.2"
 author: "Florian BRUNIAUX"
-version: "3.43.0"
-date: "2026-09-26"
+version: "3.44.1"
+date: "2026-10-06"
 layout: "two-col"
 lang: fr
 format:
@@ -64,7 +64,7 @@ jobs:
           trigger_phrase: /claude-review
           prompt: Read .github/prompts/code-review.md and review the PR.
           claude_args: >-
-            --model claude-sonnet-5
+            --model claude-sonnet-5-5
             --tools "Read,Glob,Grep"
 ```
 

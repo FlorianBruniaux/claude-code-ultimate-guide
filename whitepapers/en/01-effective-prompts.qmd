@@ -2,10 +2,11 @@
 title: "Prompts That Work"
 subtitle: "The method for prompts that work on the first try"
 author: "Florian BRUNIAUX"
-date: "2026-09-26"
+date: "2026-10-06"
 date-format: "MMMM YYYY"
-version: "3.43.0"
-wp-version: "1.3.3"
+version: "3.44.1"
+guide-version: "3.44.1"
+wp-version: "1.3.4"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -33,7 +34,7 @@ lang: en
 
 **Key takeaways**:
 
-- A structured prompt (WHAT/WHERE/HOW/VERIFY) reduces iterations by 60-70%
+- A structured prompt (WHAT/WHERE/HOW/VERIFY) makes scope and acceptance criteria explicit; measure iterations locally
 - XML tags increase precision on complex tasks
 - Most frequent anti-patterns: vague prompts, unclear scope, missing success criteria
 :::
@@ -162,7 +163,7 @@ VERIFY:
 ```
 
 ::: {.callout-note title="Example: effect of the WHAT/WHERE/HOW/VERIFY formula"}
-A prompt like "Fix the payment validation" typically leads Claude to modify `payment-form.tsx` when the bug is actually in `payment-api.ts`. Applying WHAT/WHERE/HOW/VERIFY systematically raises the rate of correct results on the first try from roughly 30% to roughly 80%.
+A vague payment-validation prompt can target the wrong layer. Name the relevant form and API files, describe the observed failure, and state the check that establishes the fix. Measure first-attempt acceptance and total review effort on your own tasks.
 :::
 
 ::: {.callout-tip title="Memo -- WHAT/WHERE/HOW/VERIFY in 30 seconds"}
@@ -172,7 +173,7 @@ A prompt like "Fix the payment validation" typically leads Claude to modify `pay
 
 **Anti-pattern**: Omitting WHERE -- Claude will pick a random file from the codebase.
 
-**Expected result**: Correct response on first try in ~80% of cases.
+**Expected result**: A response whose scope and verification can be checked; no first-try success rate is established here.
 :::
 
 > 📖 **Further reading:** [§2.6 Mental Model](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#26-mental-model): the complete mental model for interacting with Claude Code
@@ -373,7 +374,7 @@ Git diff v2.2.0 → v2.3.0 shows changes to:
 
 So far, we've covered how to structure an individual prompt (WHAT/WHERE/HOW/VERIFY formula) and how to organize it visually (XML). The next step: controlling what Claude sees before you even write your prompt.
 
-The WHAT/WHERE/HOW/VERIFY formula covers 80% of cases. The techniques below apply when you need fine-grained control over the context Claude receives, or to automate prompt validation.
+The WHAT/WHERE/HOW/VERIFY formula is a starting structure, not a measured coverage percentage. The techniques below apply when you need fine-grained control over the context Claude receives, or to automate prompt validation.
 
 ## Prompting techniques comparison
 
@@ -437,7 +438,7 @@ Now analyze authentication flow.
 
 ## Thinking modes and efficiency
 
-Claude Opus 5.5 is the current direct-service default; organization policy and provider defaults can differ. Opus 5.5, Sonnet 5, and Fable 5.1 use adaptive thinking and native 1M context. Effort influences reasoning and tool use. Thinking is always enabled on Opus 5.5 and Fable; Haiku 4.5 supports extended thinking but has no effort parameter.
+Claude Opus 5.5 is the current direct-service default; organization policy and provider defaults can differ. Opus 5.5, Sonnet 5.5, and Fable 5.1 use adaptive thinking and native 1M context. Effort influences reasoning and tool use. Thinking is always enabled on Opus 5.5 and Fable; Haiku 4.5 supports extended thinking but has no effort parameter.
 
 **Impact on prompts**: current adaptive models support `low / medium / high / xhigh / max`. Opus 4.6 and Sonnet 4.6 do not support `xhigh`. `/effort` saves supported levels through `xhigh` per model; use **s** for one session. `max` is session-only. `/effort ultracode` enables dynamic workflows with `xhigh` reasoning; it is not a sixth API effort level. Higher effort does not guarantee correctness or replace an explicit verification step.
 
@@ -1159,7 +1160,7 @@ Each whitepaper in the series is self-contained, but reading in order reinforces
 
 **Repository**: [github.com/FlorianBruniaux/claude-code-ultimate-guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide)
 
-*Version 3.43.0 | September 2026*
+*Version 3.44.1 | October 2026*
 
 # The series
 
