@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "checked_at": "2026-10-06",
-  "measured_at_commit": "60c11f11d9ea4854ab61788cbd97455ecb58eb71",
+  "measured_at_commit": "ba3733859648a469936744d75214e90248458c27",
   "official_scope": "Maintained by the Claude Code Ultimate Guide project; not official Anthropic documentation.",
   "policy": {
     "canonical_language": "en",
@@ -20,11 +20,11 @@
     "url": "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md",
     "maintainer": "Florian Bruniaux",
     "status": "official",
-    "version": "3.44.0",
-    "sha256": "a8544e3c08896280b41384bd2663375e2b8b0028f6318b3b96e96591ef53660b",
+    "version": "3.44.1",
+    "sha256": "1dd77fdde7e81d28bab2b143c12e4fa8b8c90d4fa9283f6db7a1beb8affa8eb4",
     "source": {
-      "commit": "60c11f11d9ea4854ab61788cbd97455ecb58eb71",
-      "sha256": "a8544e3c08896280b41384bd2663375e2b8b0028f6318b3b96e96591ef53660b",
+      "commit": "ba3733859648a469936744d75214e90248458c27",
+      "sha256": "1dd77fdde7e81d28bab2b143c12e4fa8b8c90d4fa9283f6db7a1beb8affa8eb4",
       "commit_evidence": "latest_commit_touching_canonical_guide"
     },
     "coverage": {
@@ -47,30 +47,30 @@
       "maintainer": "Florian Bruniaux",
       "status": "official",
       "official": true,
-      "version": "3.43.0",
+      "version": "3.44.1",
       "last_checked_at": "2026-10-06",
-      "last_full_refresh_at": "2026-09-27",
-      "sync_state": "stale",
+      "last_full_refresh_at": "2026-10-06",
+      "sync_state": "current",
       "translated_from": {
-        "version": "3.43.0",
-        "commit": "279192a4cda799018afa06a1ff0884a61f81302c",
-        "sha256": "96d28dfd606c9b2de0ceac7cb576ef7aa1f015dad5884860dd538cd996f358a5"
+        "version": "3.44.1",
+        "commit": "ba3733859648a469936744d75214e90248458c27",
+        "sha256": "1dd77fdde7e81d28bab2b143c12e4fa8b8c90d4fa9283f6db7a1beb8affa8eb4"
       },
       "artifact": {
-        "sha256": "ad07df7350137f49379b418e0464844dadb48dc362070e156f7862c1e5b87d07",
+        "sha256": "204a982bddfdf33ec3dd4816f6e3ccaa8ac0981ad752d3d3f7c970bf2414d2d9",
         "last_change_commit": "ca1cdeacebf090dc8ef8099966075bbd25a513dc"
       },
       "coverage": {
         "type": "full_guide",
         "status": "complete_at_recorded_source",
-        "note": "The v3.43.0 refresh reconciled 372 source-delta spans, restored historical omissions and broken code fences, and reviewed commands, examples, links, terminology and navigation against the corrected English source. See docs/audits/2026-09-26-bilingual-publications.md for review scope and limits.",
-        "semantic_review": "codex_full_review_2026-09-26_and_harness_delta_review_2026-09-27; not_human_editorial_signoff"
+        "note": "The 3.44.1 refresh reconciles all semantic English deltas since the recorded source, including models, MCP, measured token-tool claims, paused programmatic billing, and brownfield/Bun guidance. See docs/audits/2026-10-06-bilingual-publications.md for scope and evidence limits.",
+        "semantic_review": "codex_full_review_2026-09-26_and_delta_reconciliation_2026-10-06; not_human_editorial_signoff"
       },
       "known_lag": {
-        "status": "stale",
-        "canonical_guide_commits": 7,
-        "canonical_repo_commits": 68,
-        "version_delta": "same guide version (3.43.0); source commit behind"
+        "status": "current",
+        "canonical_guide_commits": 0,
+        "canonical_repo_commits": 0,
+        "version_delta": "same guide version (3.44.1); zero canonical source drift"
       }
     },
     {
@@ -111,8 +111,8 @@
       },
       "known_lag": {
         "status": "stale",
-        "canonical_guide_commits": 56,
-        "canonical_repo_commits": 468,
+        "canonical_guide_commits": 57,
+        "canonical_repo_commits": 471,
         "version_delta": "3.41.0 to 3.43.0"
       },
       "official": false
@@ -187,8 +187,8 @@
       },
       "known_lag": {
         "status": "stale",
-        "canonical_guide_commits": 140,
-        "canonical_repo_commits": 736,
+        "canonical_guide_commits": 141,
+        "canonical_repo_commits": 739,
         "version_delta": "3.32.2 to 3.43.0"
       },
       "official": false
@@ -204,20 +204,20 @@
       "status": "official",
       "url": "https://cc.bruniaux.com/whitepapers/",
       "maintainer": "Florian Bruniaux",
-      "version": "3.43.0",
-      "source_commit": "391b658db7d73ae4d8f3159564e049391bd20553",
-      "last_checked_at": "2026-09-26",
+      "version": "3.44.1",
+      "source_commit": "ba3733859648a469936744d75214e90248458c27",
+      "last_checked_at": "2026-10-06",
       "coverage": {
         "status": "paired_publication_catalog",
         "paired_items": 13,
         "paired_source_items_in_this_repository": 13,
         "known_french_only_source_prefixes": [],
-        "content_freshness": "operational_content_review_completed_2026-09-26",
-        "review": "Codex source review with EN/FR technical parity; not human editorial sign-off or independent reproduction of historical studies."
+        "content_freshness": "operational_content_review_completed_2026-10-06",
+        "review": "Codex canonical-source review with contemporary EN/FR updates; not human editorial sign-off, execution of every example or independent reproduction of historical studies."
       },
       "known_lag": {
         "status": "reviewed_at_recorded_source",
-        "reason": "Adaptations and summaries, not line-equivalent translations of the canonical full guide. Historical evidence limits are documented in docs/audits/2026-09-26-bilingual-publications.md."
+        "reason": "Adaptations and summaries, not line-equivalent full-guide translations. Review scope and limits: docs/audits/2026-10-06-bilingual-publications.md."
       }
     },
     {
@@ -229,20 +229,20 @@
       "status": "official",
       "url": "https://cc.bruniaux.com/cheatsheets/",
       "maintainer": "Florian Bruniaux",
-      "version": "3.43.0",
-      "source_commit": "391b658db7d73ae4d8f3159564e049391bd20553",
-      "last_checked_at": "2026-09-26",
+      "version": "3.44.1",
+      "source_commit": "ba3733859648a469936744d75214e90248458c27",
+      "last_checked_at": "2026-10-06",
       "coverage": {
         "status": "paired_publication_catalog",
         "paired_items": 58,
         "french_manifest_items": 58,
         "english_manifest_items": 58,
-        "content_freshness": "operational_content_review_completed_2026-09-26",
-        "review": "Codex source review with EN/FR technical parity; not human editorial sign-off or independent reproduction of historical studies."
+        "content_freshness": "operational_content_review_completed_2026-10-06",
+        "review": "Codex canonical-source review with contemporary EN/FR updates; not human editorial sign-off, execution of every example or independent reproduction of historical studies."
       },
       "known_lag": {
         "status": "reviewed_at_recorded_source",
-        "reason": "Adaptations and summaries, not line-equivalent translations of the canonical full guide. Historical evidence limits are documented in docs/audits/2026-09-26-bilingual-publications.md."
+        "reason": "Adaptations and summaries, not line-equivalent full-guide translations. Review scope and limits: docs/audits/2026-10-06-bilingual-publications.md."
       }
     }
   ],
