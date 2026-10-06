@@ -43,11 +43,11 @@ lang: fr
 
 # Introduction
 
-> Un projet de revue de code qui prend 3 heures en agent unique peut descendre à 45 minutes avec trois agents spécialisés travaillant en parallèle --- mais le coût en tokens triple simultanément. C'est le compromis fondamental des agent teams : puissance de parallélisation contre intensité de consommation. Ce guide vous aide à décider quand ce trade-off vaut la peine.
+> Une revue parallèle peut raccourcir certains contrôles indépendants tout en ajoutant des appels et de la coordination. Mesurez le délai complet de livraison acceptée, l’effort de revue, les reprises et l’usage facturé sur des tâches comparables ; ni un gain de vitesse ni un multiplicateur de coût fixe ne sont garantis.
 
 Les agent teams permettent à **plusieurs instances Claude de travailler en parallèle** sur des sous-tâches différentes, coordonnées via une liste de tâches et une messagerie. Les agents prennent en charge des tâches et échangent des résultats ; l’intégration Git reste une étape explicitement organisée par le lead ou l’utilisateur.
 
-L'idée centrale est simple : certaines tâches de développement sont naturellement décomposables en sous-problèmes indépendants. Quand un humain fait une revue de code, il examine la sécurité, la qualité API et le frontend séquentiellement. Avec des agent teams, ces trois analyses se déroulent en même temps, chaque agent apportant son expertise dans un domaine dédié. Le gain de temps est réel, mais le surcoût en tokens l'est aussi --- le choix des cas d'usage détermine si le compromis est rentable.
+L'idée centrale est simple : certaines tâches de développement sont naturellement décomposables en sous-problèmes indépendants. Quand un humain fait une revue de code, il examine la sécurité, la qualité API et le frontend séquentiellement. Avec des agent teams, ces trois analyses se déroulent en même temps, chaque agent apportant son expertise dans un domaine dédié. Le gain éventuel de temps ou de coût dépend du découpage, de la coordination, de la revue et des reprises. Comparez le résultat accepté à une baseline en agent unique.
 
 ## Statut et Maturité
 
@@ -343,7 +343,7 @@ Ces cas d'usage illustrent un dénominateur commun : les agent teams brillent qu
 **Solution** : Orchestration multi-agents hiérarchique déployée avec des sous-agents à périmètre défini
 
 ::: {.callout-note title="Scénario : revue de sécurité chez une fintech"}
-Le lead sécurité dirige la revue d'une PR majeure touchant 40+ fichiers. En agent unique, il faudrait alimenter Claude fichier par fichier, ré-expliquer l'architecture à chaque fois, et perdre du contexte après ~15 fichiers. Avec 3 agents spécialisés (sécurité, API, frontend), chacun analyse son périmètre en parallèle. Le *team lead* synthétise les découvertes en une réponse unifiée --- la revue passe de 3 heures à 45 minutes, avec une couverture plus complète.
+Le lead sécurité dirige la revue d'une PR majeure touchant 40+ fichiers. En agent unique, il faudrait alimenter Claude fichier par fichier, ré-expliquer l'architecture à chaque fois, et perdre du contexte après ~15 fichiers. Avec 3 agents spécialisés (sécurité, API, frontend), chacun analyse son périmètre en parallèle. Le *team lead* synthétise les découvertes en une réponse unifiée --- puis vérifie la couverture et les constats acceptés par rapport à une baseline en agent unique. C’est un workflow proposé, pas un gain de vitesse mesuré.
 :::
 
 **Périmètres agents** (approche Fountain) :

@@ -46,9 +46,9 @@ citeproc: false
 
 ## Le Coût Caché des Itérations
 
-La plupart des équipes qui adoptent Claude Code font la même erreur les 3 premières semaines : des prompts trop vagues qui déclenchent 3 à 5 cycles de correction pour chaque tâche. Résultat : du contexte brûlé, du temps perdu, et un modèle qui suppose là où il devrait exécuter.
+Un prompt vague peut demander des clarifications et corrections supplémentaires. Définissez le livrable, le périmètre et les contrôles, puis comparez les itérations et résultats acceptés sur des tâches similaires. Les nombres d’itérations du tableau suivant sont illustratifs, pas des moyennes mesurées.
 
-| Prompt vague | Résultat | Itérations typiques |
+| Prompt vague | Résultat | Itérations illustratives |
 |---|---|---|
 | "Fix the login" | Claude modifie le mauvais fichier | 3-5 |
 | "Add validation" | Validation trop basique ou trop complexe | 2-4 |

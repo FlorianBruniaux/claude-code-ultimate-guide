@@ -45,9 +45,9 @@ lang: en
 
 ## The hidden cost of iterations
 
-Most teams adopting Claude Code make the same mistake in the first 3 weeks: prompts too vague that trigger 3 to 5 correction cycles per task. The result: burned context, wasted time, and a model that guesses where it should execute.
+A vague prompt can require extra clarification and correction. Define the deliverable, scope and checks, then compare the number of iterations and accepted outcomes on similar tasks. The iteration counts in the following table are illustrative, not measured averages.
 
-| Vague prompt | Result | Typical iterations |
+| Vague prompt | Result | Illustrative iterations |
 |--------------|--------|---------------------|
 | "Fix the login" | Claude modifies the wrong file | 3-5 |
 | "Add validation" | Validation too basic or too complex | 2-4 |

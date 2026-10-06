@@ -39,7 +39,7 @@ lang: fr
 - Config versionnée dans le repo = le levier d'adoption le plus sous-estimé
 :::
 
-> **En 5 lignes :** L'adoption en équipe de Claude Code ne se décrète pas, elle se structure. Cet ebook donne le playbook complet : 3 phases avec timelines réalistes, le programme champions qui multiplie par 3 le taux d'adoption, et les intégrations CI/CD qui transforment Claude Code en standard d'équipe plutôt qu'en outil individuel.
+> **En 5 lignes :** L’adoption en équipe demande une configuration partagée, des accès CI/CD bornés et des critères de travail accepté. Ce livre blanc propose trois phases d’adoption et un programme de champions à évaluer localement. Définissez la baseline et la capacité de revue avant d’étendre l’usage ; comparez qualité, effort de revue, coût et résultats utilisateurs sans promettre de multiplicateur d’adoption.
 
 # Du Solo à l'Équipe
 

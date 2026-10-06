@@ -39,11 +39,11 @@ lang: en
 - The 70/30 rule: 70% on what you already master, 30% on active learning
 :::
 
-> **In 5 lines:** AI accelerates your code but can slow your growth if you're not careful. This whitepaper defines "understanding debt" (accepting what you don't understand), proposes the UVAL protocol for each accepted output, and gives the 70/30 rule so AI amplifies your learning rather than replacing it. Includes a self-diagnostic to identify your dominant pattern.
+> **In 5 lines:** Completing a task and learning to explain or repeat it are separate outcomes. This whitepaper defines understanding debt, proposes the UVAL protocol and uses 70/30 as an adjustable teaching heuristic, not a proven universal ratio. Use the self-diagnostic, then check what you can explain and apply without assistance.
 
 # Introduction
 
-> AI can make you three times more productive, or unemployable in three years. The difference? Not the tools you use. How you use them.
+> Delegating a task may help finish it without teaching you to repeat it or explain its choices. Check those two outcomes separately.
 
 It was 11pm on a Tuesday. A session management bug was blocking a demo the next morning in a project I was building. I asked Claude Code to fix it. It generated a 40-line solution touching three files, restructuring how tokens were refreshed. I read it quickly, ran the tests, they passed. I shipped.
 

@@ -43,11 +43,11 @@ lang: en
 
 # Introduction
 
-> A code review project that takes 3 hours with a single agent can drop to 45 minutes with three specialized agents working in parallel --- but the token cost triples simultaneously. This is the fundamental trade-off of agent teams: parallelization power versus consumption intensity. This guide helps you decide when that trade-off is worth it.
+> Parallel review can shorten some independent checks while increasing calls and coordination. Measure total accepted delivery time, review effort, retries and billed usage on comparable tasks; neither a speedup nor a fixed cost multiplier is guaranteed.
 
 Agent teams enable **multiple Claude instances to work in parallel** on different subtasks with shared task tracking and mailbox messages. Agents can claim work and send findings to one another. Source integration and conflict resolution still need an explicit workflow.
 
-The core idea is simple: certain development tasks are naturally decomposable into independent sub-problems. When a human does a code review, they examine security, API quality, and the frontend sequentially. With agent teams, all three analyses happen at the same time, each agent contributing its expertise in a dedicated domain. The time savings are real, but so is the token overhead --- the use case choice determines whether the trade-off pays off.
+The core idea is simple: certain development tasks are naturally decomposable into independent sub-problems. When a human does a code review, they examine security, API quality, and the frontend sequentially. With agent teams, all three analyses happen at the same time, each agent contributing its expertise in a dedicated domain. Whether this saves time or money depends on decomposition, coordination, review and retries. Compare the accepted outcome with a single-agent baseline.
 
 ## Status and maturity
 
@@ -326,7 +326,7 @@ These use cases illustrate a common denominator: agent teams shine when the task
 **Solution**: Deployed hierarchical multi-agent orchestration with scope-focused sub-agents
 
 ::: {.callout-note title="Scenario: security review at a fintech"}
-The security lead reviews a major PR touching 40+ files. With a single agent, feeding Claude files one by one, re-explaining the architecture each time, and losing context after ~15 files is the norm. With 3 specialized agents (security, API, frontend), each analyzes its scope in parallel. The team lead synthesizes findings into a unified response --- the review goes from 3 hours to 45 minutes, with more comprehensive coverage.
+The security lead reviews a major PR touching 40+ files. With a single agent, feeding Claude files one by one, re-explaining the architecture each time, and losing context after ~15 files is the norm. With 3 specialized agents (security, API, frontend), each analyzes its scope in parallel. The team lead synthesizes findings into a unified response --- then checks coverage and accepted findings against a single-agent baseline. This is a proposed workflow, not a measured speedup.
 :::
 
 **Agent scopes** (Fountain's approach):

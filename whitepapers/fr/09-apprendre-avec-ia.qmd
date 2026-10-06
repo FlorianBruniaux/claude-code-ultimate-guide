@@ -39,7 +39,7 @@ lang: fr
 - La 70/30 rule : 70% sur ce que vous maîtrisez déjà, 30% sur ce que vous apprenez
 :::
 
-> **En 5 lignes :** L'IA accélère votre code mais peut ralentir votre progression si vous n'êtes pas vigilant. Cet ebook définit la "dette de compréhension" (accepter ce qu'on ne comprend pas), propose le protocole UVAL pour chaque output accepté, et donne la 70/30 rule pour que l'IA amplifie votre apprentissage plutôt que de le remplacer. Inclut un auto-diagnostic pour identifier votre pattern dominant.
+> **En 5 lignes :** Terminer une tâche et apprendre à l’expliquer ou la refaire sont deux résultats distincts. Ce livre blanc définit la dette de compréhension, propose le protocole UVAL et utilise 70/30 comme repère pédagogique ajustable, sans ratio universel démontré. Utilisez l’auto-diagnostic, puis vérifiez ce que vous pouvez expliquer et appliquer sans assistance.
 
 # Introduction
 

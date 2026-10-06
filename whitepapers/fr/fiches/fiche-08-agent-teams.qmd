@@ -5,7 +5,7 @@
 ```{=typst}
 #fiche-recap(
   title: "Agent Teams & Sub-Agents",
-  subtitle: "Délégation simple vs coordination P2P",
+  subtitle: "Délégation vs coordination P2P",
   wp-number: "08",
   points: (
     [#strong[Sub-agents] = délégation simple via l'outil Agent. Claude crée des agents enfants pour des tâches parallèles ou isolées. Stable, recommandé.],

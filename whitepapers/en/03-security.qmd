@@ -34,12 +34,12 @@ lang: en
 
 **Key takeaways**:
 
-- 5 documented attack vectors including 36.82% of agent skills containing vulnerabilities
+- 5 documented attack vectors; ToxicSkills found security issues in 1,467/3,984 sampled skills (36.82%, February 2026), not a current prevalence estimate
 - Defense in depth across 4 layers, from permissions.deny to security hooks
 - 17 ready-to-use security hooks in the threat database
 :::
 
-> **In 5 lines:** As of February 2026, more than one-third of available agent skills contain security vulnerabilities. Claude Code introduces 5 new attack vectors that most teams haven't addressed. This whitepaper documents each vector with a concrete exploitation example and a precise countermeasure, from the 17 security hooks to permissions.deny rules that block destructive actions.
+> **In 5 lines:** ToxicSkills reported security findings in 1,467 of 3,984 sampled skills (36.82%) in February 2026. This does not estimate current prevalence or establish malicious intent or compromise. This whitepaper examines five attack surfaces and controls to evaluate: permissions, hooks, MCP review and OS isolation. Verify each control's execution and limits in your configuration.
 
 # The 5 attack vectors
 
@@ -51,7 +51,7 @@ A February 2026 study reported security findings in 1,467 of 3,984 sampled skill
 |--------|------|--------|-----------|-------------------|
 | **Prompt Injection** | Behavior manipulation | High | Common | `prompt-injection-detector.sh` → [Layer 2](#layer-2-hooks-pretooluse) |
 | **MCP Supply Chain** | Malicious code execution | Critical | Rare | Version pinning + 5-min audit → [Layer 3](#layer-3-mcp-vetting) |
-| **Agent Skills Supply Chain** | 36.82% with findings in the sampled corpus | Critical | Very common | `mcp-scan` before install → [Layer 3](#layer-3-mcp-vetting) |
+| **Agent Skills Supply Chain** | 36.82% with findings in the February 2026 corpus | Critical | Not estimated | `mcp-scan` before install → [Layer 3](#layer-3-mcp-vetting) |
 | **.claude/ Attack Surface** | Backdoors in config | High | Emerging | Repository pre-scan → [Section 1.2](#claude-attack-surface) |
 | **Destructive Commands** | Data/secrets loss | High | Frequent | `dangerous-actions-blocker.sh` → [Layer 2](#layer-2-hooks-pretooluse) |
 

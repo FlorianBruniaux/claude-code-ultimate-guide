@@ -39,7 +39,7 @@ lang: en
 - Versioned config in the repo = the most underrated adoption lever
 :::
 
-> **In 5 lines:** Team adoption of Claude Code isn't decreed; it's structured. This whitepaper gives the complete playbook: 3 phases with realistic timelines, the champions program that triples adoption rates, and CI/CD integrations that transform Claude Code from an individual tool into a team standard.
+> **In 5 lines:** Team adoption requires shared configuration, bounded CI/CD access and criteria for accepted work. This whitepaper proposes three adoption phases and a champions program to evaluate locally. Set the baseline and available review capacity before expanding use; compare quality, review effort, cost and user outcomes rather than promising an adoption multiplier.
 
 # From solo to team
 

@@ -103,9 +103,9 @@ Before configuring anything, you need to know how to talk to Claude Code. The qu
 
 ## The problem: Vague prompts
 
-An average developer spends **a significant portion of their time with Claude Code** reformulating requests (source: community feedback). Why? Vague prompts generate off-target responses.
+Vague prompts can require clarification and correction. The table uses illustrative iteration counts, not measured averages. Compare accepted results and total review effort on similar tasks.
 
-| Vague prompt | Result | Typical iterations |
+| Vague prompt | Result | Illustrative iterations |
 |--------------|--------|--------------------|
 | "Fix the login" | Claude modifies the wrong file | 3-5 |
 | "Add validation" | Validation too basic or too complex | 2-4 |
@@ -113,7 +113,7 @@ An average developer spends **a significant portion of their time with Claude Co
 
 ## The WHAT/WHERE/HOW/VERIFY formula
 
-A 4-element formula for accurate responses on the first try.
+A four-element formula to define the deliverable, scope, approach and verification. It does not guarantee a correct first response.
 
 | Element | Question | Role |
 |---------|----------|------|

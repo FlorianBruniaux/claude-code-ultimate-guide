@@ -103,9 +103,9 @@ Avant de configurer quoi que ce soit, il faut savoir parler à Claude Code. La q
 
 ## Le problème : Prompts vagues
 
-Un développeur moyen passe **une part significative de son temps avec Claude Code** à reformuler des demandes (source : retour d'expérience communautaire). Pourquoi ? Des prompts trop vagues génèrent des réponses hors-sujet.
+Un prompt vague peut demander des clarifications et corrections. Le tableau utilise des nombres d’itérations illustratifs, pas des moyennes mesurées. Comparez les résultats acceptés et l’effort complet de revue sur des tâches similaires.
 
-| Prompt vague | Résultat | Itérations typiques |
+| Prompt vague | Résultat | Itérations illustratives |
 |--------------|----------|---------------------|
 | "Fix the login" | Claude modifie le mauvais fichier | 3-5 |
 | "Add validation" | Validation trop basique ou trop complexe | 2-4 |
@@ -113,7 +113,7 @@ Un développeur moyen passe **une part significative de son temps avec Claude Co
 
 ## La formule WHAT/WHERE/HOW/VERIFY
 
-Une formule en 4 éléments pour des réponses précises du premier coup.
+Une formule en quatre éléments pour définir le livrable, le périmètre, la méthode et la vérification. Elle ne garantit pas une réponse correcte du premier coup.
 
 | Élément | Question | Rôle |
 |---------|----------|------|

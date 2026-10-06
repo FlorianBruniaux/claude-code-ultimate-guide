@@ -34,12 +34,12 @@ lang: fr
 
 **Ce que vous allez retenir** :
 
-- 5 vecteurs d'attaque documentés dont 36.82% des agent skills contiennent des failles
+- 5 vecteurs d’attaque documentés ; ToxicSkills rapporte des constats de sécurité dans 1 467/3 984 skills échantillonnés (36,82 %, février 2026), sans estimation de prévalence actuelle
 - Defense in depth en 4 couches: de permissions.deny aux hooks de sécurité
 - Exemples de hooks à examiner, configurer et tester
 :::
 
-> **En 5 lignes :** L’étude ToxicSkills de février 2026 rapporte des failles dans plus d’un tiers de son échantillon de skills ; ce résultat ne décrit pas tous les skills disponibles. Claude Code introduit 5 vecteurs d'attaque nouveaux que la plupart des équipes n'ont pas adressés. Cet ebook documente chaque vecteur avec un exemple concret d'exploitation et une contre-mesure précise, des hooks aux permissions et contrôles OS qui bloquent les actions destructrices.
+> **En 5 lignes :** ToxicSkills rapporte des constats de sécurité dans 1 467 des 3 984 skills échantillonnés (36,82 %) en février 2026. Ce résultat n’estime ni la prévalence actuelle ni l’intention malveillante ou la compromission. Ce livre blanc examine cinq surfaces d’attaque et des contrôles à évaluer : permissions, hooks, revue MCP et isolation OS. Vérifiez l’exécution et les limites de chaque contrôle dans votre configuration.
 
 # Les 5 Vecteurs d'Attaque
 
@@ -51,7 +51,7 @@ Une étude de février 2026 rapporte des constats de sécurité dans 1 467 des 3
 |---------|--------|--------|-----------|----------------------|
 | **Prompt Injection** | Manipulation du comportement | Élevé | Courant | `prompt-injection-detector.sh` → [Layer 2](#layer-2-hooks-pretooluse) |
 | **MCP Supply Chain** | Exécution de code malveillant | Critique | Rare | Version pinning + audit 5 min → [Layer 3](#layer-3-mcp-vetting) |
-| **Agent Skills Supply Chain** | 36,82 % avec constats dans le corpus étudié | Critique | Très courant | `mcp-scan` avant install → [Layer 3](#layer-3-mcp-vetting) |
+| **Agent Skills Supply Chain** | 36,82 % avec constats dans le corpus de février 2026 | Critique | Non estimée | `mcp-scan` avant install → [Layer 3](#layer-3-mcp-vetting) |
 | **.claude/ Attack Surface** | Backdoors dans config | Élevé | Émergent | Repository pre-scan → [Section 1.2](#claude-attack-surface) |
 | **Commandes Destructrices** | Perte de données/secrets | Élevé | Fréquent | `dangerous-actions-blocker.sh` → [Layer 2](#layer-2-hooks-pretooluse) |
 
