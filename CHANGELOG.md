@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Release summary
 
+- **Template catalogue synchronized for the release**: include the Lean harness experiment worksheet in the landing examples and preserve the source-bounded semantic-anchor description when regenerating the catalogue.
+
 This guide release collects the documentation, retrieval and publication updates since v3.43.0. It adds Lean workflow controls, AI FinOps and benchmark reviews, and expands agent harness and security guidance. Claude Code release tracking covers v2.1.289; the separately published MCP package is v1.3.6.
 
 The French full guide remains at its recorded v3.43.0 source revision and is declared stale. Existing PDF and EPUB downloads retain their published edition; this source release does not claim a new bilingual book build.

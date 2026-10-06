@@ -240,7 +240,7 @@ CATEGORIES = [
         "key": "semantic-anchors",
         "icon": "🔗",
         "label": "Semantic Anchors",
-        "description": "Precise vocabulary for better LLM outputs",
+        "description": "Curated technical terms with examples, sources, and usage limits",
         "path": "semantic-anchors",
         "extensions": {".md"},
         "exclude_names": {"README.md"},
