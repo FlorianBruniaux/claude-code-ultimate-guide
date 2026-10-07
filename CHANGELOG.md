@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- Keep nested-fence regression coverage in a synthetic fixture and verify the repaired governance document without requiring its historical malformed fences.
+
 - Allow manual Index Integrity validation through `workflow_dispatch` under the owner-requested CI policy.
 
 - Refresh all 49 visual diagrams and their ASCII fallbacks across 12 themes: correct permission modes, managed and MCP precedence, hooks, subagent effects, native rule loading, transport and sandbox coverage, CI commands, model/plan guidance and UVAL. Remove unsupported adherence, productivity and isolation guarantees; distinguish conceptual models and proposed policies from documented product behavior. Repair Source, node and index fragments and cite current primary references. Align contradictory passages in the full guide, architecture, context-engineering and enterprise-governance chapters; repair governance hook examples.

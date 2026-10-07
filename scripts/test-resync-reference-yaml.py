@@ -178,11 +178,11 @@ check("the old .strip()'d implementation gets emoji-prefixed headings wrong "
 # ---------------------------------------------------------------------------
 # Trap 3 — fence tracking
 #
-# A naive `startswith("```") -> flip` desynchronises on any file with an odd
-# fence count. enterprise-governance.md has 51 fence lines: the toggle got stuck
-# inside a block, dropped every heading after it, and reported 9 valid anchors as
-# broken. CommonMark requires the closing fence to use the same character, be at
-# least as long as the opener, and carry nothing after it.
+# A naive `startswith("```") -> flip` desynchronises when a longer fence
+# contains shorter fence examples. The governance document once exposed this
+# bug, but it no longer needs to retain malformed fences to test the extractor.
+# CommonMark requires the closing fence to use the same character, be at least
+# as long as the opener, and carry nothing after it.
 # ---------------------------------------------------------------------------
 print("\nTrap 3 — fence tracking must follow CommonMark, not a naive toggle")
 
@@ -241,35 +241,37 @@ with tempfile.TemporaryDirectory() as td:
           "This heading is inside a fence and must be ignored" not in got)
 
     naive = [h[2] for h in naive_headings(f)]
-    check("naive toggle loses headings on this fixture (test discriminates)",
-          naive != expected, f"(naive got {naive})")
+    check("naive toggle loses every post-fence heading on this fixture (test discriminates)",
+          set(expected) - set(naive) == {"Real Heading A", "Real Heading B", "Real Heading C"},
+          f"(naive got {naive})")
+    check("naive toggle invents a heading from fenced content (test discriminates)",
+          set(naive) - set(expected) == {"This heading is inside a fence and must be ignored"},
+          f"(naive got {naive})")
 
-# The same rule, exercised against the file that actually broke it. The failure
-# is two-sided and the second half is the one that got missed originally: the
-# desynchronised toggle both DROPS real sections (it is stuck inside a fence) and
-# INVENTS headings out of shell comments and the markdown examples embedded in
-# code blocks (it is stuck outside one). Counting headings alone hides this,
-# because the invented ones outnumber the dropped ones.
+# The repaired live document is an integration check, not the bug fixture.
+# Verify its actual numbered sections and exclude headings from fenced examples;
+# fence parity and disagreement with the naive parser are not requirements.
 gov = REPO_ROOT / "guide" / "security" / "enterprise-governance.md"
 if gov.exists():
-    n_fences = sum(1 for l in open(gov, encoding="utf-8", errors="ignore")
-                   if l.lstrip().startswith("```"))
-    real = {(h[0], h[2]) for h in resync.headings(gov)}
-    naive_real = {(h[0], h[2]) for h in naive_headings(gov)}
-    dropped = real - naive_real
-    invented = naive_real - real
-    check(f"enterprise-governance.md has an odd fence count ({n_fences})",
-          n_fences % 2 == 1, f"(got {n_fences})")
-    check("naive toggle drops real sections there (test discriminates)",
-          len(dropped) >= 15, f"(dropped {len(dropped)})")
-    check("naive toggle invents headings from fenced content (test discriminates)",
-          len(invented) >= 40, f"(invented {len(invented)})")
-    check("the dropped set contains real numbered sections",
-          any(t.startswith("5. ") or t.startswith("6. ") for _, t in dropped),
-          f"(dropped sample {sorted(dropped)[:3]})")
+    real = resync.headings(gov)
+    numbered_sections = [text for _, level, text in real
+                         if level == 2 and re.match(r"^\d+\. ", text)]
+    expected_sections = [
+        "1. Local vs shared: The governance split",
+        "2. AI usage charter",
+        "3. MCP governance workflow",
+        "4. Guardrail tiers",
+        "5. Policy Enforcement at Scale",
+        "6. Audit, Compliance & Governance Structure",
+    ]
+    check("CommonMark extractor finds all live governance numbered sections",
+          numbered_sections == expected_sections, f"(got {numbered_sections})")
+    titles = {text for _, _, text in real}
     check("CommonMark extractor invents nothing from fenced shell comments",
           not any(t.startswith("Create .claude") or t.startswith("Usage:")
-                  for _, t in real))
+                  for t in titles))
+    check("CommonMark extractor ignores live fenced charter headings",
+          not {"AI Coding Tools Usage Charter", "Approved Tools", "Data Handling"} & titles)
 else:
     print("  SKIP  enterprise-governance.md not present")
 
