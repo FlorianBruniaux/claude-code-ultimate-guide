@@ -1,295 +1,249 @@
 ---
 title: "Claude Code: Architecture Internals Diagrams"
-description: "Master loop, tool categories, system prompt assembly, sub-agent isolation"
+description: "Agentic loop, illustrative tool families, request context, and subagent boundaries"
 tags: [architecture, internals, master-loop, tools]
 ---
 
 # Architecture internals
 
-What happens under the hood when Claude Code runs.
+Conceptual diagrams of the model-and-tool loop, tool families and context boundaries.
 
 ---
 
 ### The master loop
 
-Claude Code's core execution is two nested loops: an **inner agent loop** that keeps calling the API as long as tool calls are returned, and an **outer conversation loop** that starts a new turn when the user responds.
+A simplified model-and-tool loop: Claude requests tools, permitted operations run, and their results return to the conversation. Turns can also end because of errors, cancellation or limits. Independent operations may run concurrently; no fixed concurrency limit is asserted.
 
 ```mermaid
 flowchart TD
-    A([User Input]) --> B(Build System Prompt<br/>+ context + tools)
-    B --> C
-
-    subgraph AGENT_LOOP["Agent Loop — repeats until no tool calls"]
-        C{{Claude API Call}} --> D{Response<br/>contains tool calls?}
-        D -->|Yes| E(Execute tools in parallel<br/>Glob, Grep, Bash...)
-        E --> F(Append tool results<br/>to conversation)
-        F --> C
-    end
-
-    D -->|No| H(Extract text response)
-    H --> I([Display to User])
-    I --> J{User sends<br/>next message?}
-    J -->|Yes| B
-    J -->|No| K([Session ends])
-
-    style A fill:#F5E6D3,color:#333
-    style C fill:#E87E2F,color:#fff
-    style D fill:#E87E2F,color:#fff
-    style E fill:#6DB3F2,color:#fff
-    style F fill:#6DB3F2,color:#fff
-    style I fill:#7BC47F,color:#333
-    style J fill:#E87E2F,color:#fff
-    style K fill:#B8B8B8,color:#333
-
-    click A href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#12-first-workflow" "User Input"
-    click B href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#1-the-master-loop" "Build System Prompt"
-    click C href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#1-the-master-loop" "Claude API Call"
-    click D href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#1-the-master-loop" "Response contains tool calls?"
-    click E href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#2-the-tool-arsenal" "Execute tools in parallel"
-    click F href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#1-the-master-loop" "Append tool results"
-    click H href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#1-the-master-loop" "Extract text response"
-    click I href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#12-first-workflow" "Display to User"
-    click J href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#1-the-master-loop" "User sends next message?"
-    click K href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#1-the-master-loop" "Session ends"
+    A([User input]) --> B[Prepare request context<br/>Instructions, history, available tools]
+    B --> C{{Model request}}
+    C --> D{Tool calls?}
+    D -->|Yes| PERM{Allowed?}
+    PERM -->|Yes| E[Execute permitted tools]
+    PERM -->|No| DENY[Return denial to conversation]
+    E --> F[Append tool results]
+    DENY --> F
+    F --> C
+    D -->|No| I[Display response]
+    I --> J{Next user action?}
+    J -->|New message| B
+    J -->|Exit| K([Session ends])
+    E -.->|Error, cancellation or limit| STOP[Handle interruption or failure]
+    style A fill:#6DB3F2,color:#222
+    click A href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#1-the-master-loop" "The master loop"
+    style B fill:#6DB3F2,color:#222
+    click B href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#1-the-master-loop" "The master loop"
+    style C fill:#6DB3F2,color:#222
+    click C href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#1-the-master-loop" "The master loop"
+    style D fill:#6DB3F2,color:#222
+    click D href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#1-the-master-loop" "The master loop"
+    style PERM fill:#6DB3F2,color:#222
+    click PERM href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#1-the-master-loop" "The master loop"
+    style E fill:#6DB3F2,color:#222
+    click E href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#1-the-master-loop" "The master loop"
+    style DENY fill:#6DB3F2,color:#222
+    click DENY href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#1-the-master-loop" "The master loop"
+    style F fill:#6DB3F2,color:#222
+    click F href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#1-the-master-loop" "The master loop"
+    style I fill:#6DB3F2,color:#222
+    click I href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#1-the-master-loop" "The master loop"
+    style J fill:#6DB3F2,color:#222
+    click J href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#1-the-master-loop" "The master loop"
+    style K fill:#6DB3F2,color:#222
+    click K href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#1-the-master-loop" "The master loop"
+    style STOP fill:#6DB3F2,color:#222
+    click STOP href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#1-the-master-loop" "The master loop"
 ```
 
 <details>
 <summary>ASCII version</summary>
 
 ```
-User Input
-     │
-Build prompt (system + context + tools)
-     │
- ┌── Agent Loop ──────────────────────┐
- │ Claude API ◄────────────────────┐  │
- │      │                          │  │
- │ Tool calls?                     │  │
- │  ├─ Yes → Execute tools ────────┘  │
- │  └─ No  → exit loop               │
- └────────────────────────────────────┘
-               │
-         Display response
-               │
-         User next msg? ──► Yes → rebuild prompt → loop
-               └─ No → Session ends
+User input -> request context -> model
+                    ^             |
+                    |        tool calls?
+                    |          Yes -> permissions -> execute or deny -> append result
+                    +-------------------------------------------------------------+
+                               No -> display response -> next message or exit
+Errors, cancellation and limits can interrupt the loop.
+Independent operations may run concurrently.
 ```
 
 </details>
 
-> **Source**: [Architecture: Master Loop](../core/architecture.md#master-loop) (Line ~72)
+> **Source**: [The master loop](../core/architecture.md#1-the-master-loop)
 >
-> *Source-confirmed (2026-03-31): Inner loop is `queryLoop()` async generator. Tools execute via `StreamingToolExecutor` (up to 10 concurrent). Loop exits via one of 10 terminal reasons (`completed`, `max_turns`, `aborted_tools`, etc.).*
+> **Official reference**: [Documented agentic loop](https://code.claude.com/docs/en/how-claude-code-works#the-agentic-loop).
 
 ---
 
 ### Tool categories & selection
 
-Claude Code has 6 tool categories, each optimized for different operations. Understanding which tool Claude chooses (and why) helps you write instructions that guide better tool selection.
+These six author-defined categories organize examples from the documented tool inventory. Availability varies by Claude Code version, model, surface and configuration; this is not a complete tool list or a native six-category taxonomy.
 
 ```mermaid
 flowchart TD
-    ROOT["Claude Code Tools"] --> READ
-    ROOT --> WRITE
-    ROOT --> EXECUTE
-    ROOT --> WEB
-    ROOT --> WORKFLOW
-    ROOT --> CONTROL
-
-    subgraph READ["📖 Read Tools"]
-        R1[Glob<br/>Find files by pattern]
-        R2[Grep<br/>Search file content]
-        R3[Read<br/>Read file content]
-        R4[LS<br/>List directory]
-    end
-
-    subgraph WRITE["✏️ Write Tools"]
-        W1[Write<br/>Create new file]
-        W2[Edit<br/>Modify existing file]
-        W3[MultiEdit<br/>Batch modifications]
-    end
-
-    subgraph EXECUTE["⚙️ Execute Tools"]
-        E1[Bash<br/>Shell commands]
-        E2[Task<br/>Spawn sub-agent]
-    end
-
-    subgraph WEB["🌐 Web Tools"]
-        WB1[WebSearch<br/>Search the web]
-        WB2[WebFetch<br/>Fetch URL content]
-    end
-
-    subgraph WORKFLOW["📋 Workflow Tools"]
-        WF1[TodoWrite<br/>Manage task list]
-        WF2[NotebookEdit<br/>Jupyter notebooks]
-    end
-
-    subgraph CONTROL["🎛️ Control Flow Tools"]
-        CF1[EnterPlanMode / ExitPlanMode<br/>Toggle plan mode]
-        CF2[EnterWorktree / ExitWorktree<br/>Worktree navigation]
-        CF3[AskUserQuestion<br/>Request human input]
-    end
-
-    style ROOT fill:#E87E2F,color:#fff
-    style R1 fill:#6DB3F2,color:#fff
-    style R2 fill:#6DB3F2,color:#fff
-    style R3 fill:#6DB3F2,color:#fff
-    style R4 fill:#6DB3F2,color:#fff
-    style W1 fill:#F5E6D3,color:#333
-    style W2 fill:#F5E6D3,color:#333
-    style W3 fill:#F5E6D3,color:#333
-    style E1 fill:#E85D5D,color:#fff
-    style E2 fill:#E87E2F,color:#fff
-    style WB1 fill:#7BC47F,color:#333
-    style WB2 fill:#7BC47F,color:#333
-    style WF1 fill:#B8B8B8,color:#333
-    style WF2 fill:#B8B8B8,color:#333
-    style CF1 fill:#B8B8B8,color:#333
-    style CF2 fill:#B8B8B8,color:#333
-    style CF3 fill:#B8B8B8,color:#333
-
-    click ROOT href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#2-the-tool-arsenal" "Claude Code Tools"
-    click R1 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#2-the-tool-arsenal" "Glob — Find files by pattern"
-    click R2 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#2-the-tool-arsenal" "Grep — Search file content"
-    click R3 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#2-the-tool-arsenal" "Read — Read file content"
-    click R4 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#2-the-tool-arsenal" "LS — List directory"
-    click W1 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#2-the-tool-arsenal" "Write — Create new file"
-    click W2 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#2-the-tool-arsenal" "Edit — Modify existing file"
-    click W3 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#2-the-tool-arsenal" "MultiEdit — Batch modifications"
-    click E1 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#2-the-tool-arsenal" "Bash — Shell commands"
-    click E2 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#41-what-are-agents" "Task — Spawn sub-agent"
-    click WB1 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#2-the-tool-arsenal" "WebSearch"
-    click WB2 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#2-the-tool-arsenal" "WebFetch"
-    click WF1 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#2-the-tool-arsenal" "TodoWrite — Task list"
-    click WF2 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#2-the-tool-arsenal" "NotebookEdit — Jupyter"
-    click CONTROL href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#2-the-tool-arsenal" "Control Flow Tools"
-    click CF1 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#2-the-tool-arsenal" "EnterPlanMode / ExitPlanMode"
-    click CF2 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#2-the-tool-arsenal" "EnterWorktree / ExitWorktree"
-    click CF3 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#2-the-tool-arsenal" "AskUserQuestion"
+    ROOT[Illustrative tool families] --> READ[Read and search<br/>Glob, Grep, Read]
+    ROOT --> WRITE[Modify files<br/>Write, Edit, NotebookEdit]
+    ROOT --> EXEC[Execute and delegate<br/>Bash, Agent]
+    ROOT --> WEB[Web access<br/>WebSearch, WebFetch]
+    ROOT --> TRACK[Track tasks when available<br/>TaskCreate, TaskGet,<br/>TaskList, TaskUpdate]
+    ROOT --> CONTROL[Control workflow<br/>EnterPlanMode, ExitPlanMode,<br/>EnterWorktree, ExitWorktree,<br/>AskUserQuestion]
+    style ROOT fill:#6DB3F2,color:#222
+    click ROOT href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#2-the-tool-arsenal" "The tool arsenal"
+    style READ fill:#6DB3F2,color:#222
+    click READ href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#2-the-tool-arsenal" "The tool arsenal"
+    style WRITE fill:#6DB3F2,color:#222
+    click WRITE href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#2-the-tool-arsenal" "The tool arsenal"
+    style EXEC fill:#6DB3F2,color:#222
+    click EXEC href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#2-the-tool-arsenal" "The tool arsenal"
+    style WEB fill:#6DB3F2,color:#222
+    click WEB href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#2-the-tool-arsenal" "The tool arsenal"
+    style TRACK fill:#6DB3F2,color:#222
+    click TRACK href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#2-the-tool-arsenal" "The tool arsenal"
+    style CONTROL fill:#6DB3F2,color:#222
+    click CONTROL href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#2-the-tool-arsenal" "The tool arsenal"
 ```
 
 <details>
 <summary>ASCII version</summary>
 
 ```
-READ:     Glob (find), Grep (search), Read (content), LS (list)
-WRITE:    Write (create), Edit (modify), MultiEdit (batch)
-EXECUTE:  Bash (shell), Task (sub-agent)  ← most powerful/risky
-WEB:      WebSearch, WebFetch
-WORKFLOW: TodoWrite, NotebookEdit
-CONTROL:  EnterPlanMode/ExitPlanMode, EnterWorktree/ExitWorktree, AskUserQuestion
+READ / SEARCH : Glob, Grep, Read
+MODIFY        : Write, Edit, NotebookEdit
+EXECUTE       : Bash, Agent
+WEB           : WebSearch, WebFetch
+TASK TRACKING : TaskCreate, TaskGet, TaskList, TaskUpdate when available
+CONTROL       : EnterPlanMode / ExitPlanMode, EnterWorktree / ExitWorktree,
+                AskUserQuestion
+
+Illustrative families, not a complete or universally available inventory.
+List directories through a shell command; consult the current tools reference.
 ```
 
 </details>
 
-> **Source**: [Architecture: Tools](../core/architecture.md#tools) (Line ~213)
-
-> *Simplified: additional tools available. See [Architecture: Tool Arsenal](../core/architecture.md#tools) for the full list.*
+> **Source**: [The tool arsenal](../core/architecture.md#2-the-tool-arsenal)
+>
+> **Official reference**: [Current tools and availability](https://code.claude.com/docs/en/tools-reference).
+>
+> TodoWrite is an alternative checklist tool in supported configurations, not a universally active default. Agent is the current subagent tool name; Task remains an alias in settings and definitions.
 
 ---
 
 ### System prompt assembly
 
-Before every API call, Claude Code assembles a system prompt from multiple sources in a specific order. The prompt is split into two cache zones separated by a boundary marker.
+This conceptual request diagram groups stable instructions with changing conversation context. It does not specify the exact internal assembly order, cache breakpoints or when every input is reread. Instruction files and memory may enter conversation context; MCP definitions can load on demand.
 
 ```mermaid
-sequenceDiagram
-    participant CC as Claude Code
-    participant G as Global CLAUDE.md
-    participant P as Project CLAUDE.md
-    participant T as Tool Registry
-    participant A as Claude API
-
-    Note over CC: STATIC zone (cached globally — shared across all users)
-    CC->>CC: 1. Load base instructions + safety rules
-    CC->>G: 2. Read ~/.claude/CLAUDE.md
-    G->>CC: Global preferences, rules
-    CC->>P: 3. Read project CLAUDE.md(s)
-    P->>CC: Project conventions, context
-    CC->>T: 4. Get available tools list
-    T->>CC: Tool schemas (Glob, Grep, Bash...)
-    Note over CC: ── BOUNDARY MARKER ──────────────────────────
-    Note over CC: DYNAMIC zone (cached per-session, not cross-org)
-    CC->>CC: 5. Add working directory + git info
-    CC->>CC: 6. Add MCP server capabilities (uncached — recomputed every turn)
-    CC->>CC: 7. Add memory (MEMORY.md), session guidance, language
-    CC->>A: System prompt (assembled)<br/>+ User message
-    Note over A: One large call with<br/>all context embedded
+flowchart TD
+    S[System instructions] --> REQ[Model request]
+    T[Available tool definitions<br/>MCP definitions loaded as needed] --> REQ
+    U[User and project instructions<br/>Relevant rules and auto memory] --> CTX[Conversation context]
+    W[Relevant environment and file context] --> CTX
+    H[User messages and tool results] --> CTX
+    CTX --> REQ
+    REQ --> API[Claude API or configured provider]
+    NOTE[Cache reuse depends on stable prefixes<br/>and the provider contract] -.-> API
+    style S fill:#6DB3F2,color:#222
+    click S href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#system-prompt-contents" "System prompt contents"
+    style T fill:#6DB3F2,color:#222
+    click T href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#system-prompt-contents" "System prompt contents"
+    style U fill:#6DB3F2,color:#222
+    click U href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#system-prompt-contents" "System prompt contents"
+    style W fill:#6DB3F2,color:#222
+    click W href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#system-prompt-contents" "System prompt contents"
+    style H fill:#6DB3F2,color:#222
+    click H href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#system-prompt-contents" "System prompt contents"
+    style CTX fill:#6DB3F2,color:#222
+    click CTX href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#system-prompt-contents" "System prompt contents"
+    style REQ fill:#6DB3F2,color:#222
+    click REQ href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#system-prompt-contents" "System prompt contents"
+    style API fill:#6DB3F2,color:#222
+    click API href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#system-prompt-contents" "System prompt contents"
+    style NOTE fill:#6DB3F2,color:#222
+    click NOTE href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#system-prompt-contents" "System prompt contents"
 ```
 
 <details>
 <summary>ASCII version</summary>
 
 ```
-STATIC zone (globally cacheable, cross-org):
-1. Base instructions (hardcoded)
-2. ~/.claude/CLAUDE.md
-3. /project/CLAUDE.md + subdirs
-4. Tool definitions list
-────── BOUNDARY MARKER ──────────
-DYNAMIC zone (per-session cache):
-5. Working directory + git status
-6. MCP server capabilities (always recomputed)
-7. Memory, session guidance, language
-──────────────────────────────────
-→ All combined → Claude API call
+System instructions --------------------+
+Available / loaded tool definitions -----+--> Model request -> configured provider
+Conversation context --------------------+
+  - relevant instruction files, rules and available memory
+  - environment and file information
+  - messages and tool results
+
+Conceptual grouping; not the literal prompt order or cache layout.
+Cache isolation and reuse follow the provider contract.
 ```
 
 </details>
 
-> **Source**: [Architecture: System Prompt](../core/architecture.md#system-prompt) (Line ~354)
+> **Source**: [System prompt contents](../core/architecture.md#system-prompt-contents)
 >
-> *Source-confirmed (2026-03-31): Two-zone architecture via `SYSTEM_PROMPT_DYNAMIC_BOUNDARY` marker. Static zone has `cacheScope: 'global'` (shared across all users). MCP instructions explicitly uncached (comment in source: "servers connect/disconnect between turns").*
+> **Official reference**: [Context loading](https://code.claude.com/docs/en/how-claude-code-works#context-claude-code-adds-on-its-own) and [cache isolation](https://platform.claude.com/docs/en/build-with-claude/prompt-caching#cache-storage-and-sharing).
+>
+> Public Anthropic API caches are not shared across organizations. Workspace isolation also applies on providers identified in the caching documentation. No cross-user or cross-organization reuse of private CLAUDE.md content is asserted.
 
 ---
 
 ### Sub-Agent context isolation
 
-Sub-agents are completely isolated from the parent: they can't read the parent's conversation or modify parent state. This isolation is a feature (safety) and a constraint (intentional design).
+Conversation isolation and filesystem isolation are different boundaries. An ordinary subagent has fresh context; a fork inherits the parent conversation. Both return a final result while permitted operations may affect shared files or external services.
 
 ```mermaid
-sequenceDiagram
-    participant P as Parent Claude
-    participant T as Task Tool
-    participant S as Sub-Agent
-    participant EXT as External Services
-
-    Note over P: Has full conversation history
-    P->>T: Task(prompt="do X", tools=[Read,Write,Bash])
-    Note over T: Creates new Claude instance
-    T->>S: spawn(prompt + tool grants ONLY)
-    Note over S: Does NOT receive:<br/>- Parent conversation<br/>- Parent tool results<br/>- Parent state
-
-    S->>EXT: read files, bash, web (as granted)
-    EXT->>S: Results
-
-    Note over S: Independent reasoning<br/>with limited context
-
-    S->>T: return "task complete: details..."
-    Note over T: Only text passes back
-    T->>P: Result string
-    Note over P: Parent gets text only<br/>No shared state
+flowchart TD
+    P[Parent conversation] --> A{Agent delegation type}
+    A -->|Ordinary subagent| F[Fresh context<br/>Task prompt and agent definition]
+    A -->|Fork| INHERIT[Inherited conversation<br/>Parent prompt, tools and history]
+    F --> S[Subagent tool operations]
+    INHERIT --> S
+    S --> SHARE[Shared checkout or external services<br/>Effects remain visible]
+    S --> WT[Optional isolation: worktree<br/>Separate repository checkout]
+    SHARE --> RESULT[Final result enters parent context]
+    WT --> RESULT
+    RESULT --> P
+    style P fill:#6DB3F2,color:#222
+    click P href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#4-sub-agent-architecture" "Sub-agent architecture"
+    style A fill:#6DB3F2,color:#222
+    click A href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#4-sub-agent-architecture" "Sub-agent architecture"
+    style F fill:#6DB3F2,color:#222
+    click F href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#4-sub-agent-architecture" "Sub-agent architecture"
+    style INHERIT fill:#6DB3F2,color:#222
+    click INHERIT href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#4-sub-agent-architecture" "Sub-agent architecture"
+    style S fill:#6DB3F2,color:#222
+    click S href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#4-sub-agent-architecture" "Sub-agent architecture"
+    style SHARE fill:#6DB3F2,color:#222
+    click SHARE href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#4-sub-agent-architecture" "Sub-agent architecture"
+    style WT fill:#6DB3F2,color:#222
+    click WT href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#4-sub-agent-architecture" "Sub-agent architecture"
+    style RESULT fill:#6DB3F2,color:#222
+    click RESULT href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#4-sub-agent-architecture" "Sub-agent architecture"
 ```
 
 <details>
 <summary>ASCII version</summary>
 
 ```
-Parent (full context)
-    │
-    Task(prompt, tools=[...])
-    │
-    ▼
-Sub-Agent (ISOLATED)
-  Input: prompt + tool grants only
-  Can: use granted tools independently
-  Cannot: see parent conversation, modify parent state
-  Output: text result ONLY
-    │
-    ▼
-Parent receives: text string
+Parent -> Agent
+  ordinary -> fresh context with delegated task and definition
+  fork     -> inherited parent conversation and configuration
+       |
+       +-> shared files and external services: permitted effects persist
+       +-> optional worktree: separate checkout for repository edits
+       |
+       +-> final result enters parent context
+
+Intermediate tool calls stay out of parent context.
+A worktree does not isolate external services.
 ```
 
 </details>
 
-> **Source**: [Architecture: Sub-Agents](../core/architecture.md#sub-agents) (Line ~444)
+> **Source**: [Sub-agent architecture](../core/architecture.md#4-sub-agent-architecture)
+>
+> **Official reference**: [Fork context and optional worktree isolation](https://code.claude.com/docs/en/sub-agents#how-forks-differ-from-other-subagents).

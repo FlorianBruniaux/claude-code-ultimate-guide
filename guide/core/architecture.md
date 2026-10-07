@@ -6,7 +6,7 @@ tags: [architecture, guide, performance]
 
 # How Claude Code works: Architecture & internals
 
-> A technical deep-dive into Claude Code's internal mechanisms, based on official Anthropic documentation and verified community analysis.
+> A technical guide to documented Claude Code behavior, with separately attributed community observations. Cited historical analyses do not establish current internals.
 
 **Author**: Florian BRUNIAUX | Contributions from Claude (Anthropic)
 
@@ -20,13 +20,13 @@ tags: [architecture, guide, performance]
 
 This document combines three tiers of sources:
 
-| Tier | Description | Confidence | Example |
+| Tier | Description | Evidence limit | Example |
 |------|-------------|------------|---------|
-| **Tier 1** | Official Anthropic documentation | 100% | anthropic.com/engineering/* |
-| **Tier 2** | Verified reverse-engineering | 70-90% | PromptLayer analysis, code.claude.com behavior |
-| **Tier 3** | Community inference | 40-70% | Observed but not officially confirmed |
+| **Tier 1** | Official Anthropic documentation | Contract or behavior for the cited version/date and scope | code.claude.com documentation |
+| **Tier 2** | Cited inspection or reverse-engineering | Observation limited to the inspected version and method | PromptLayer analysis |
+| **Tier 3** | Community inference | Unverified explanation, not a product contract | Observed but not officially confirmed |
 
-Each claim is marked with its confidence level. **Always prefer official documentation** when available.
+Source labels describe provenance, not measured confidence. Prefer current official documentation; historical observations remain bounded by their source dates and methods.
 
 ---
 
@@ -40,7 +40,7 @@ Read [Agent Harness Engineering](./agent-harness.md) for the four-layer model an
 
 ## TL;DR - 5 bullet summary
 
-1. **Simple Loop**: Claude Code runs a `while(tool_call)` loop, with no DAGs, no classifiers, no RAG. The model decides everything.
+1. **Agentic loop**: The model proposes tools or a response; the harness applies permission checks before executing tools. Auto mode can use a classifier. This loop is a teaching model, not a complete description of every runtime component. [Permission system](https://code.claude.com/docs/en/permissions#permission-system).
 
 2. **Built-in and extensible tools**: Claude Code provides file editing, shell access, search, sub-agents and other built-in capabilities. The available set varies by version, model and configuration; the [tools reference](https://code.claude.com/docs/en/tools-reference) is the current inventory.
 
@@ -50,7 +50,7 @@ Read [Agent Harness Engineering](./agent-harness.md) for the four-layer model an
 
 3. **Model-dependent context budget**: The context window is shared between instructions, history, tool results and responses. Supported models and account configurations can provide 200K or 1M tokens; [model configuration](https://code.claude.com/docs/en/model-config#extended-context) documents availability and auto-compaction controls.
 
-4. **Sub-agents = Isolation**: Sub-agents have their own context and return a summary to the parent. They can [spawn nested sub-agents](https://code.claude.com/docs/en/sub-agents#let-subagents-spawn-their-own-subagents), up to three layers below the main conversation by default.
+4. **Sub-agent context**: Ordinary sub-agents start fresh; forks inherit the parent's conversation at spawn. Context separation does not isolate filesystem or external effects. Ordinary delegation has a configurable depth limit, three layers below the main conversation by default; forks cannot spawn further forks. [Sub-agent modes and limits](https://code.claude.com/docs/en/sub-agents).
 
 5. **Philosophy**: "Less scaffolding, more model." Trust Claude's reasoning instead of building complex orchestration systems around it.
 
@@ -66,7 +66,7 @@ flowchart TB
 
     subgraph CC["Claude Code — Orchestration Layer"]
         CLAUDE["Claude Model\n(Opus / Sonnet / Haiku)"]
-        TOOLS["Tool Arsenal\n(Read · Edit · Bash · Task · Grep…)"]
+        TOOLS["Tool Arsenal\n(Read · Edit · Bash · Agent · Grep…)"]
         CLAUDE <--> TOOLS
     end
 
@@ -116,10 +116,10 @@ flowchart TB
 
 ## 1. The master loop
 
-**Confidence**: 100% (Tier 1 - Official)
+**Source category**: Tier 1, Official; bounded by the cited version/date and scope.
 **Source**: [Anthropic Engineering Blog](https://www.anthropic.com/engineering/claude-code-best-practices)
 
-Claude Code is remarkably simple:
+The diagram shows the central loop, with permission evaluation condensed into the tool step. It omits hook lifecycle, compaction, retries and delegation details.
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -134,7 +134,7 @@ Claude Code is remarkably simple:
 │   ┌──────────────────────────────────────────────────────┐  │
 │   │                                                      │  │
 │   │                  CLAUDE REASONS                      │  │
-│   │        (No classifier, no routing layer)             │  │
+│   │             (Select the next action)                │  │
 │   │                                                      │  │
 │   └────────────────────────┬─────────────────────────────┘  │
 │                            │                                │
@@ -148,9 +148,9 @@ Claude Code is remarkably simple:
 │         │                                   │               │
 │         ▼                                   ▼               │
 │  ┌────────────┐                      ┌────────────┐         │
-│  │  Execute   │                      │   Text     │         │
-│  │   Tool     │                      │  Response  │         │
-│  │            │                      │   (DONE)   │         │
+│  │  Evaluate  │                      │   Text     │         │
+│  │ permission │                      │  Response  │         │
+│  │ run/refuse │                      │   (DONE)   │         │
 │  └─────┬──────┘                      └────────────┘         │
 │        │                                                    │
 │        ▼                                                    │
@@ -170,23 +170,16 @@ Claude Code is remarkably simple:
 
 ### What this means
 
-The entire architecture is a simple `while` loop:
+Simplified teaching pseudocode, not an implementation of the permission or hook system:
 
 ```
 while (claude_response.has_tool_call):
-    result = execute_tool(tool_call)
+    result = evaluate_permissions_and_run_or_refuse(tool_call)
     claude_response = send_to_claude(result)
 return claude_response.text
 ```
 
-**There is no:**
-- Intent classifier
-- Task router
-- RAG/embedding pipeline
-- DAG orchestrator
-- Planner/executor split
-
-The model itself decides when to call tools, which tools to call, and when it's done. This is the "agentic loop" pattern described in Anthropic's engineering blog.
+The model selects the next action, subject to harness controls. [Permission rules](https://code.claude.com/docs/en/permissions#permission-system) are enforced by Claude Code, and auto mode can use a classifier. Optional workflows and extensions add other control paths; this sketch does not prove their absence. See [how Claude Code works](https://code.claude.com/docs/en/how-claude-code-works) and the current [tool inventory](https://code.claude.com/docs/en/tools-reference).
 
 ### Why this design?
 
@@ -319,7 +312,7 @@ Use this checklist to verify you understand Claude Code's full surface area. Eac
 
 ## 2. The tool arsenal
 
-**Confidence**: 100% (Tier 1 - Official)
+**Source category**: Tier 1, Official; bounded by the cited version/date and scope.
 **Source**: [code.claude.com/docs](https://code.claude.com/docs/en/setup)
 
 The tools below are examples, not an exhaustive inventory. See the [current tools reference](https://code.claude.com/docs/en/tools-reference) for availability by model and configuration.
@@ -332,8 +325,8 @@ The tools below are examples, not an exhaustive inventory. See the [current tool
 | `Write` | Create/overwrite files | Must read first if file exists | Medium |
 | `Grep` | Search file contents | Ripgrep-based (regex), replaced RAG/embedding approach. For structural code search (AST-based), see ast-grep plugin. Trade-off: Grep (fast, simple) vs ast-grep (precise, setup required) vs Serena MCP (semantic, symbol-aware) | Low |
 | `Glob` | Find files by pattern | Path matching, sorted by mtime | Low |
-| `Agent` | Spawn sub-agents (formerly `Task`) | Isolated context, configurable nesting (three layers by default) | High (new context) |
-| `TodoWrite` | Track progress (legacy) | Superseded by Tasks API (v2.1.16+); disabled by default since v2.1.142 | Low |
+| `Agent` | Spawn sub-agents (formerly `Task`) | Fresh or forked context; ordinary nesting configurable (three layers by default); filesystem effects may be shared | Depends on delegation mode |
+| `TodoWrite` / Task tools | Track progress | Available tools and defaults vary by model and configuration; consult the [current tool reference](https://code.claude.com/docs/en/tools-reference) | Depends on task list |
 
 ### The bash universal adapter
 
@@ -359,8 +352,8 @@ Claude decides which tool to use based on the task. There's no hardcoded routing
 │  "Find all test files"    → Glob tool               │
 │  "Search for TODO"        → Grep tool               │
 │  "Run npm test"           → Bash tool               │
-│  "Explore the codebase"   → Task tool (sub-agent)   │
-│  "Track my progress"      → TodoWrite tool          │
+│  "Explore the codebase"   → Agent (sub-agent)       │
+│  "Track my progress"      → Available task tools    │
 │                                                     │
 │  The model learns these patterns during training,   │
 │  not from explicit rules.                           │
@@ -413,7 +406,7 @@ Claude Code offers multiple ways to search code, each with specific strengths:
 
 ## 3. Context management internals
 
-**Confidence**: 80% (Tier 2 - Partially Official)
+**Source category**: Tier 2, Partially Official; limited to the cited observation and method.
 **Sources**:
 - [platform.claude.com/docs](https://platform.claude.com/docs/en/build-with-claude/context-windows) (Tier 1)
 - Observed behavior (Tier 2)
@@ -428,16 +421,16 @@ Claude Code's context-window size depends on the model, plan and provider. Suppo
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
 │  ┌──────────────────────────────────────────────────────┐   │
-│  │ System Prompt                            (~5-15K)    │   │
+│  │ System Prompt                            (variable)  │   │
 │  │ • Tool definitions                                   │   │
 │  │ • Safety instructions                                │   │
 │  │ • Behavioral guidelines                              │   │
 │  │ • See detailed breakdown below ↓                     │   │
 │  ├──────────────────────────────────────────────────────┤   │
-│  │ CLAUDE.md Files                          (~1-10K)    │   │
+│  │ CLAUDE.md Files and Rules                 (variable)  │   │
 │  │ • Global ~/.claude/CLAUDE.md                         │   │
-│  │ • Project /CLAUDE.md                                 │   │
-│  │ • Local /.claude/CLAUDE.md                           │   │
+│  │ • Project CLAUDE.md or .claude/CLAUDE.md               │   │
+│  │ • Native .claude/rules/ files                         │   │
 │  ├──────────────────────────────────────────────────────┤   │
 │  │ Conversation History                     (variable)  │   │
 │  │ • Your prompts                                       │   │
@@ -449,49 +442,47 @@ Claude Code's context-window size depends on the model, plan and provider. Suppo
 │  │ • Command outputs from Bash                          │   │
 │  │ • Search results from Grep                           │   │
 │  ├──────────────────────────────────────────────────────┤   │
-│  │ Reserved for Response                    (~40-45K)   │   │
+│  │ Response / compaction allowance          (variable)  │   │
 │  │ • Claude's thinking                                  │   │
 │  │ • Generated code/text                                │   │
 │  └──────────────────────────────────────────────────────┘   │
 │                                                             │
-│  USABLE = Total - System - Reserved ≈ 140-150K tokens       │
+│  Measure the session with /context; no fixed free budget    │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
 ```
 
 ### System prompt contents
 
-**Confidence**: 100% (Tier 1 - Official Anthropic Documentation)
+**Source category**: Tier 1, Official Anthropic Documentation; bounded by the cited version/date and scope.
 **Sources**:
+- [Claude Code settings: system prompt publication](https://code.claude.com/docs/en/settings#change-a-setting)
+- [How Claude Code works: context](https://code.claude.com/docs/en/how-claude-code-works)
 - [Anthropic System Prompts Release Notes](https://platform.claude.com/docs/en/release-notes/system-prompts)
 - [Anthropic Engineering: Claude Code Best Practices](https://www.anthropic.com/engineering/claude-code-best-practices)
 
-Claude system prompts (~5-15K tokens) are **publicly published** by Anthropic as part of their transparency commitment. These prompts define:
+Claude Code's system prompt is **not published**, according to its settings documentation. Anthropic's released Claude.ai/mobile prompts do not establish the current CLI prompt's text or token size.
 
-**Core Components**:
-- **Tool definitions**: Bash, Read, Edit, Write, Grep, Glob, Task, TodoWrite
-- **Safety instructions**: Content policies, refusal patterns (see [Security Hardening](../security/security-hardening.md))
-- **Behavioral guidelines**: Task-first approach, MVP-first, no over-engineering
-- **Context instructions**: How to gather and use project context
+**Documented context components** include instructions, available tool definitions, history and tool results. Tool availability varies by model and configuration. User instructions such as `CLAUDE.md` shape behavior; permission settings control allowed actions. The exact request layout, prompt size and internal cache allocation remain unverified here.
 
 **Important Distinctions**:
 - **Claude.ai/Mobile**: Published prompts available publicly
 - **Anthropic API**: Different default instructions, configurable by developers
 - **Claude Code CLI**: Agentic coding assistant with context-gathering behavior
 
-**Community Analysis** (for deeper understanding):
+**Historical community analysis of Claude-family prompts**, not evidence of the current Claude Code prompt:
 - **Simon Willison's Claude 4 Analysis** (May 2025): [Deep-dive into thinking blocks, search rules, safety guardrails](https://simonwillison.net/2025/May/25/claude-4-system-prompt/)
 - **PromptHub Technical Breakdown** (June 2025): [Detailed analysis of prompt engineering patterns](https://www.prompthub.us/blog/an-analysis-of-the-claude-4-system-prompt)
 
 → **Cross-reference**: For security implications, see [Section 5: Permission & Security Model](#5-permission--security-model)
 
-**Note**: Claude Code system prompts may differ from Claude.ai/mobile versions. The above sources cover the Claude family; Code-specific prompts are integrated into the CLI tool's behavior.
+**Cache scope**: The [API prompt-caching contract](https://platform.claude.com/docs/en/build-with-claude/prompt-caching#cache-storage-and-sharing) separates organizations, with workspace isolation on the Claude API, Claude Platform on AWS and Microsoft Foundry; Bedrock and Google Cloud use organization isolation. This contract does not establish Claude Code's internal cache layout. Fork reuse is documented separately in the [sub-agent reference](https://code.claude.com/docs/en/sub-agents#how-forks-differ-from-other-subagents).
 
 ---
 
 ### Auto-compaction
 
-**Confidence**: 75% (Tier 2 - Community-verified with research backing)
+**Source category**: Tier 2, Community-verified with research backing; limited to the cited observation and method.
 
 When context usage exceeds a threshold, Claude Code automatically summarizes older conversation turns:
 
@@ -535,7 +526,7 @@ Recent research and practitioner observations confirm **quality degradation with
 
 | Strategy | When to Use | How |
 |----------|-------------|-----|
-| Sub-agents | Exploratory tasks | `Task` tool for isolated search |
+| Sub-agents | Exploratory tasks | `Agent` tool for a separate context; shared effects require coordination |
 | Manual compact | Proactive cleanup | `/compact` command |
 | Clear session | Fresh start needed | `/clear` command |
 | Specific reads | Know what you need | Read exact files, not directories |
@@ -543,7 +534,7 @@ Recent research and practitioner observations confirm **quality degradation with
 
 ### Session degradation limits
 
-**Confidence**: 70% (Tier 2 - Practitioner studies, arXiv research)
+**Source category**: Tier 2, Practitioner studies, arXiv research; limited to the cited observation and method.
 
 Claude Code's effectiveness degrades predictably under certain conditions:
 
@@ -566,7 +557,7 @@ Claude Code's effectiveness degrades predictably under certain conditions:
 1. **Checkpoint prompts**: "Before continuing, recap the current requirements and constraints."
 2. **Session resets**: Start fresh for new tasks (`/clear`)
 3. **Scope tightly**: Break large tasks into focused sub-tasks
-4. **Use sub-agents**: Delegate exploration to `Task` tool to preserve main context
+4. **Use sub-agents**: Delegate exploration to the `Agent` tool to preserve main context
 
 ### Failure-Triggered context drift
 
@@ -589,12 +580,14 @@ Source: [Nick Tune, Workflow DSL: Domain-Driven Claude Code Workflows](https://n
 
 ## 4. Sub-agent architecture
 
-**Confidence**: 100% (Tier 1 - Documented behavior)
+**Source category**: Tier 1, Documented behavior; bounded by the cited version/date and scope.
 **Source**: [Claude Code sub-agent documentation](https://code.claude.com/docs/en/sub-agents)
 
-Claude Code's agent tool spawns sub-agents for parallel or isolated work.
+Claude Code's `Agent` tool delegates work into a separate context. That boundary does not isolate shared files, services or external actions.
 
 ### Isolation model
+
+This figure describes an ordinary, non-fork sub-agent. Forks inherit the parent's conversation at spawn; `isolation: "worktree"` gives separate Git files, not separate external services. [Fork behavior](https://code.claude.com/docs/en/sub-agents#how-forks-differ-from-other-subagents).
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -610,7 +603,7 @@ Claude Code's agent tool spawns sub-agents for parallel or isolated work.
 │  │  │             SUB-AGENT (Spawned)                 │  │  │
 │  │  │                                                 │  │  │
 │  │  │  • Own fresh context window                     │  │  │
-│  │  │  • Receives: delegated task and agent config    │  │  │
+│  │  │  • Task, definition and applicable context     │  │  │
 │  │  │  • Tools vary by agent and permission settings  │  │  │
 │  │  │  • May delegate (default depth: 3 layers)       │  │  │
 │  │  │  • Returns: summary text only                   │  │  │
@@ -630,16 +623,18 @@ Claude Code's agent tool spawns sub-agents for parallel or isolated work.
 
 Sub-agents can delegate up to three layers below the main conversation by default. The [depth limit](https://code.claude.com/docs/en/sub-agents#let-subagents-spawn-their-own-subagents) can be configured; a sub-agent without the agent tool cannot delegate. Each agent uses its own context and contributes to usage limits, so nested delegation needs explicit task boundaries.
 
+Forks cannot spawn further forks. Fresh sub-agents may also load applicable instructions and preloaded skills; they receive more than the task string. [Startup context](https://code.claude.com/docs/en/sub-agents#what-loads-at-startup).
+
 ### Sub-agent types
 
-Claude Code offers specialized sub-agent types via the `subagent_type` parameter:
+Built-in types and tool restrictions vary by version and configuration. The [current reference](https://code.claude.com/docs/en/sub-agents#built-in-subagents) lists:
 
 | Type | Purpose | Tools Available |
 |------|---------|-----------------|
 | `Explore` | Codebase exploration | All read-only tools |
-| `Plan` | Architecture planning | All except Edit/Write |
-| `Bash` | Command execution | Bash only |
-| `general-purpose` | Complex multi-step | All tools |
+| `Plan` | Research during plan mode | Read-only tools; Write and Edit denied |
+| `general-purpose` | Complex multi-step | Tools available to sub-agents, subject to permissions |
+| Other helpers | Session-specific assistance | Depends on helper and configuration |
 
 ### When to use sub-agents
 
@@ -647,12 +642,12 @@ Claude Code offers specialized sub-agent types via the `subagent_type` parameter
 |----------|---------------------|
 | Searching large codebases | Keeps main context clean |
 | Parallel exploration | Multiple searches simultaneously |
-| Risky exploration | Errors don't pollute main context |
+| High-volume exploration | Intermediate output stays in a separate context; shared effects still need controls |
 | Specialized analysis | Different "mindset" for different tasks |
 
 ### Hub-and-spoke orchestration
 
-The dominant multi-agent pattern in production is **hub-and-spoke**: one coordinator agent sits at the center, manages N worker sub-agents, and is the only entity that holds the full picture.
+A proposed **hub-and-spoke** pattern assigns integration to one coordinator. The following diagram expresses that coordination policy, not a restriction on peer messaging or context inheritance.
 
 ```
                     ┌─────────────────────┐
@@ -678,20 +673,19 @@ The dominant multi-agent pattern in production is **hub-and-spoke**: one coordin
                      (results flow back to coordinator only)
 ```
 
-**The critical rule: context is never inherited automatically.** When the coordinator spawns Worker A to analyze file X, Worker B gets no knowledge of that analysis unless the coordinator explicitly passes it in the task description. Workers are isolated by design: they receive only the task string, nothing else.
-
-This is the most common mistake in multi-agent design: assuming sub-agents share context. They don't.
+**Check the delegation mode.** Fresh sub-agents need explicit task context; forks inherit a snapshot. Neither automatically receives a sibling's later findings. Pass those findings or coordinate through supported messages and shared files. [Startup context and forks](https://code.claude.com/docs/en/sub-agents#what-loads-at-startup).
 
 **Explicit context passing pattern:**
 
 ```python
-# Wrong — Worker B won't know about Worker A's findings
-task_a = Task("Analyze auth.py and find the session token logic")
-task_b = Task("Find all callers of the session token logic")  # doesn't know where it is
+# Teaching pseudocode, not a Claude Code API
+# Independent fresh workers do not automatically share findings
+task_a = delegate_fresh("Analyze auth.py and find the session token logic")
+task_b = delegate_fresh("Find all callers of the session token logic")
 
-# Correct — coordinator passes findings explicitly
-result_a = run_task("Analyze auth.py and return the exact function name(s) handling session tokens")
-task_b = Task(f"Find all callers of {result_a} across the codebase")  # explicit context
+# Wait for the result, then supply it to the next fresh worker
+result_a = await_result(task_a)
+task_b = delegate_fresh(f"Find all callers of {result_a} across the codebase")
 ```
 
 **Coordinator responsibilities:**
@@ -699,15 +693,15 @@ task_b = Task(f"Find all callers of {result_a} across the codebase")  # explicit
 1. **Decompose**: Break the goal into independent subtasks with clear boundaries
 2. **Pass context explicitly**: Each worker task description must be self-contained
 3. **Aggregate**: Collect text results from all workers, combine into coherent output
-4. **Decide cross-cutting questions**: Only the coordinator can make decisions that span workers
+4. **Resolve cross-cutting questions**: Assign integration decisions to the coordinator in this pattern
 
-Workers should never need to communicate with each other. If they do, that's a sign the decomposition is wrong and the task belongs in the coordinator.
+In this proposed pattern, route dependencies through the coordinator. Peer communication is also supported when the selected session exposes messaging tools; choose a coordination policy that fits the task.
 
 ---
 
 ## 5. Permission & security model
 
-**Confidence**: 100% (Tier 1 - Official)
+**Source category**: Tier 1, Official; bounded by the cited version/date and scope.
 **Sources**:
 - [code.claude.com/docs/en/hooks](https://code.claude.com/docs/en/hooks)
 - [code.claude.com/docs/en/sandboxing](https://code.claude.com/docs/en/sandboxing)
@@ -755,7 +749,7 @@ Claude Code has a layered security model:
 
 ### Dangerous pattern detection
 
-**Confidence**: 80% (Tier 2 - Observed but not exhaustive)
+**Source category**: Tier 2, Observed but not exhaustive; limited to the cited observation and method.
 
 Claude Code appears to flag certain patterns for extra scrutiny:
 
@@ -772,7 +766,7 @@ This is not a complete blocklist. Patterns are likely detected through model tra
 
 ### Native sandbox (v2.1.0+)
 
-**Confidence**: 100% (Tier 1 - Official)
+**Source category**: Tier 1, Official; bounded by the cited version/date and scope.
 **Source**: [code.claude.com/docs/en/sandboxing](https://code.claude.com/docs/en/sandboxing)
 
 Claude Code includes built-in **native sandboxing** using OS-level primitives for process-level isolation:
@@ -916,7 +910,7 @@ Common fields sent to all events: `session_id`, `transcript_path`, `cwd`, `permi
 
 ## 6. MCP integration
 
-**Confidence**: 100% (Tier 1 - Official)
+**Source category**: Tier 1, Official; bounded by the cited version/date and scope.
 **Source**: [code.claude.com/docs/en/mcp](https://code.claude.com/docs/en/mcp)
 
 MCP (Model Context Protocol) servers extend Claude Code with additional tools.
@@ -1197,7 +1191,7 @@ Building a custom MCP server?
 
 ### MCP tool search (lazy loading)
 
-**Confidence**: 100% (Tier 1 - Official)
+**Source category**: Tier 1, Official; bounded by the cited version/date and scope.
 **Source**: [anthropic.com/engineering/advanced-tool-use](https://www.anthropic.com/engineering/advanced-tool-use)
 
 Since v2.1.7 (January 2026), Claude Code uses **lazy loading** for MCP tool definitions instead of preloading all tools into context. This is powered by Anthropic's [Advanced Tool Use](https://www.anthropic.com/engineering/advanced-tool-use) API feature.
@@ -1265,7 +1259,7 @@ ENABLE_TOOL_SEARCH=false     # Disabled (eager loading)
 
 ## 7. Advanced tool use patterns (API)
 
-**Confidence**: 90% (Tier 1 - Official Anthropic Engineering)
+**Source category**: Tier 1, Official Anthropic Engineering; bounded by the cited version/date and scope.
 **Source**: [Anthropic Engineering: Advanced Tool Use](https://www.anthropic.com/engineering/advanced-tool-use) | [Programmatic Tool Calling Docs](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling)
 
 Four API-level features released as generally available on February 18, 2026 (with Opus/Sonnet 4.6). These are relevant to developers building agents on the Anthropic API or Agent SDK. They are not available directly in the Claude Code CLI.
@@ -1388,7 +1382,7 @@ Accuracy on complex parameter handling: 72% → 90% in Anthropic's benchmarks. U
 
 ## 8. The edit tool: How it actually works
 
-**Confidence**: 90% (Tier 2 - Verified through behavior)
+**Source category**: Tier 2, Verified through behavior; limited to the cited observation and method.
 **Sources**:
 - Observed behavior
 - [github.com/cline/cline/issues/2909](https://github.com/cline/cline/issues/2909) (similar implementation)
@@ -1461,7 +1455,7 @@ Before applying changes, the Edit tool:
 
 ## 9. Session persistence
 
-**Confidence**: 100% (Tier 1 - Official)
+**Source category**: Tier 1, Official; bounded by the cited version/date and scope.
 **Source**: [code.claude.com/docs](https://code.claude.com/docs/en/setup)
 
 Sessions can be resumed across terminal sessions.
@@ -1484,7 +1478,7 @@ Sessions can be resumed across terminal sessions.
 
 ### Storage format
 
-**Confidence**: 50% (Tier 3 - Inferred)
+**Source category**: Tier 3, Inferred; unverified explanation.
 
 Sessions appear to be stored as JSON/JSONL files in `~/.claude/` but:
 
@@ -1498,7 +1492,7 @@ Sessions appear to be stored as JSON/JSONL files in `~/.claude/` but:
 
 ## 10. Philosophy: Less scaffolding, more model
 
-**Confidence**: 100% (Tier 1 - Official)
+**Source category**: Tier 1, Official; bounded by the cited version/date and scope.
 **Source**: Daniela Amodei (Anthropic Co-founder & President) - Public statements
 
 The core philosophy behind Claude Code:
@@ -1509,9 +1503,9 @@ The core philosophy behind Claude Code:
 
 | Traditional Approach | Claude Code Approach |
 |---------------------|---------------------|
-| Intent classifier → Router → Specialist | Single model decides everything |
+| Intent classifier → Router → Specialist | Model-driven actions subject to permission controls |
 | RAG with embeddings | Grep + Glob (regex search) |
-| DAG task orchestration | Simple while loop |
+| DAG task orchestration | Central agentic loop; optional workflows and delegation |
 | Tool-specific planners | Model-driven tool selection |
 | Complex state machines | Conversation as state |
 | Prompt engineering frameworks | Trust the model |
@@ -1544,7 +1538,7 @@ This convergence suggests that the "less scaffolding, more model" approach scale
 
 ## 11. Claude Code vs alternatives
 
-**Confidence**: 80% (Tier 2 - Based on March 2026 fact-checked data)
+**Source category**: Tier 2, Based on March 2026 fact-checked data; limited to the cited observation and method.
 **Sources**: Official documentation, Perplexity research March 2026, vendor changelogs
 
 | Dimension | Claude Code | GitHub Copilot | Cursor | Amazon Q Developer |

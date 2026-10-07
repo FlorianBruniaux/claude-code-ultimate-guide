@@ -1,280 +1,215 @@
 ---
 title: "Claude Code: Context & Sessions Diagrams"
-description: "Context zones, memory hierarchy, session management, and fresh context patterns"
+description: "Context recommendations, memory scopes, native session resume, and focused sessions"
 tags: [context, sessions, memory, optimization]
 ---
 
 # Context & sessions
 
-How Claude Code manages context, memory, and sessions across your work.
+Context management recommendations, persistent instructions and session continuity.
 
 ---
 
 ### Context management zones
 
-Your context window has 4 distinct zones, each requiring different strategies. Knowing which zone you're in prevents context bloat and maintains response quality throughout long sessions.
+These four situations are an author workflow for managing context, not native percentage zones or permission states. Claude manages context automatically; no universal auto-compaction percentage is asserted here.
 
 ```mermaid
 flowchart LR
-    subgraph GREEN["🟢 0–50% — Comfortable"]
-        G1(Full capabilities<br/>available)
-        G2(All tools active)
-        G3(Rich responses)
-    end
-
-    subgraph BLUE["🔵 50–75% — Normal"]
-        B1(Monitor usage)
-        B2(Consider /compact<br/>for old threads)
-        B3(Normal operation)
-    end
-
-    subgraph ORANGE["🟠 75–85% — Caution"]
-        O1(Suggest /compact<br/>proactively)
-        O2(Reduce verbosity)
-        O3(Defer non-critical<br/>operations)
-    end
-
-    subgraph RED["🔴 85–100% — Critical"]
-        R1(Auto-compact<br/>triggered at 80%)
-        R2(Essential ops only)
-        R3(Start new session<br/>for new tasks)
-    end
-
-    GREEN --> BLUE --> ORANGE --> RED
-
-    style G1 fill:#7BC47F,color:#333
-    style G2 fill:#7BC47F,color:#333
-    style G3 fill:#7BC47F,color:#333
-    style B1 fill:#6DB3F2,color:#fff
-    style B2 fill:#6DB3F2,color:#fff
-    style B3 fill:#6DB3F2,color:#fff
-    style O1 fill:#E87E2F,color:#fff
-    style O2 fill:#E87E2F,color:#fff
-    style O3 fill:#E87E2F,color:#fff
-    style R1 fill:#E85D5D,color:#fff
-    style R2 fill:#E85D5D,color:#fff
-    style R3 fill:#E85D5D,color:#fff
-
-    click G1 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#22-context-management" "0-50%: Full capabilities"
-    click G2 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#22-context-management" "0-50%: All tools active"
-    click G3 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#22-context-management" "0-50%: Rich responses"
-    click B1 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#22-context-management" "50-75%: Monitor usage"
-    click B2 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#22-context-management" "50-75%: Consider /compact"
-    click B3 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#22-context-management" "50-75%: Normal operation"
-    click O1 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#22-context-management" "75-85%: Suggest /compact"
-    click O2 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#22-context-management" "75-85%: Reduce verbosity"
-    click O3 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#22-context-management" "75-85%: Defer non-critical"
-    click R1 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#22-context-management" "85-100%: Auto-compact"
-    click R2 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#22-context-management" "85-100%: Essential ops only"
-    click R3 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#22-context-management" "85-100%: Start new session"
+    G[Focused work<br/>Keep relevant context] --> B[Growing context<br/>Inspect with /context]
+    B --> O[Noise or lost focus<br/>Use /compact with a focus]
+    O --> R[Task boundary<br/>Resume later or start fresh<br/>with a written handoff]
+    style G fill:#6DB3F2,color:#222
+    click G href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#22-context-management" "Context management"
+    style B fill:#6DB3F2,color:#222
+    click B href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#22-context-management" "Context management"
+    style O fill:#6DB3F2,color:#222
+    click O href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#22-context-management" "Context management"
+    style R fill:#6DB3F2,color:#222
+    click R href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#22-context-management" "Context management"
 ```
 
 <details>
 <summary>ASCII version</summary>
 
 ```
-0%──────50%──────75%──85%──100%
-│  Green  │  Blue  │ Orange│ Red│
-│ Full    │ Normal │Suggest│Auto│
-│ access  │Monitor │compact│cmp │
-│         │        │Reduce │Ess.│
-│         │        │verbos.│only│
+Focused work   -> Growing context    -> Noise or lost focus -> Task boundary
+Relevant input    Inspect /context      /compact with focus    Resume or start fresh
+
+Author recommendations, not fixed percentages or reduced tool permissions.
+Automatic context management does not guarantee every detail survives.
 ```
 
 </details>
 
-> **Source**: [Context Management](../ultimate-guide.md#context-management) (line ~1335)
+> **Source**: [Context management](../ultimate-guide.md#22-context-management)
+>
+> **Official reference**: [Manage context](https://code.claude.com/docs/en/best-practices#manage-context-aggressively) and [automatic compaction](https://code.claude.com/docs/en/how-claude-code-works#when-context-fills-up).
 
 ---
 
 ### Memory hierarchy (6 types)
 
-Claude Code has 6 distinct memory types with different scopes and persistence. Knowing which memory type to use for each piece of information is key to effective sessions.
+This six-part teaching taxonomy separates persistent instructions, learned notes, conversation history and external state. It is not a six-level configuration override stack. CLAUDE.md and rules shape context; they do not enforce tool permissions.
 
 ```mermaid
 flowchart TD
-    A["🌍 Global CLAUDE.md<br/>~/.claude/CLAUDE.md"] --> B["📁 Project CLAUDE.md<br/>/project-root/CLAUDE.md"]
-    B --> C["📂 Subdirectory CLAUDE.md<br/>/src/CLAUDE.md, /tests/CLAUDE.md"]
-    C --> AM["🧠 Auto-Memory Native<br/>~/.claude/projects/*/memory/MEMORY.md<br/>v2.1.59+"]
-    AM --> D["💬 In-Conversation Context<br/>Messages + tool results this session"]
-    D --> E["⚡ Ephemeral State<br/>MCP server state, tool cache"]
-
-    A1["Scope: ALL projects<br/>Persists: Always<br/>Use: Global prefs, API keys"] --> A
-    B1["Scope: This project<br/>Persists: Always<br/>Use: Project conventions"] --> B
-    C1["Scope: This directory<br/>Persists: Always<br/>Use: Module-specific rules"] --> C
-    AM1["Scope: Per project<br/>Persists: Cross-session<br/>Use: Auto-saved memories, /memory"] --> AM
-    D1["Scope: This session<br/>Persists: Session only<br/>Use: Task context"] --> D
-    E1["Scope: This session<br/>Persists: Session only<br/>Use: Computed results"] --> E
-
-    style A fill:#E87E2F,color:#fff
-    style B fill:#6DB3F2,color:#fff
-    style C fill:#6DB3F2,color:#fff
-    style AM fill:#7BC47F,color:#333
-    style D fill:#F5E6D3,color:#333
-    style E fill:#B8B8B8,color:#333
-    style A1 fill:#B8B8B8,color:#333
-    style B1 fill:#B8B8B8,color:#333
-    style C1 fill:#B8B8B8,color:#333
-    style AM1 fill:#B8B8B8,color:#333
-    style D1 fill:#B8B8B8,color:#333
-    style E1 fill:#B8B8B8,color:#333
-
-    click A href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/memory-systems.md#21-claudemd-three-levels" "Global CLAUDE.md"
-    click B href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/memory-systems.md#21-claudemd-three-levels" "Project CLAUDE.md"
-    click C href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/memory-systems.md#21-claudemd-three-levels" "Subdirectory CLAUDE.md"
-    click AM href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/memory-systems.md#22-auto-memory-v21594" "Auto-Memory Native"
-    click D href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#22-context-management" "In-Conversation Context"
-    click E href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#3-context-management-internals" "Ephemeral State"
-    click A1 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/memory-systems.md#21-claudemd-three-levels" "Global scope — always persists"
-    click B1 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/memory-systems.md#21-claudemd-three-levels" "Project scope — always persists"
-    click C1 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/memory-systems.md#21-claudemd-three-levels" "Directory scope — always persists"
-    click AM1 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/memory-systems.md#22-auto-memory-v21594" "Cross-session auto-memory"
-    click D1 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#22-context-management" "Session scope only"
-    click E1 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#3-context-management-internals" "Session scope only"
+    ROOT[Context and persistence scopes] --> M[1. Organization instructions<br/>Managed CLAUDE.md]
+    ROOT --> U[2. User instructions<br/>User CLAUDE.md and rules]
+    ROOT --> P[3. Project and nested instructions<br/>CLAUDE.md and scoped rules]
+    ROOT --> AM[4. Auto memory<br/>Saved notes for the repository]
+    ROOT --> C[5. Conversation history<br/>Saved sessions can be resumed]
+    ROOT --> EXT[6. External and tool state<br/>Persistence depends on server or tool]
+    U --> SAFE[Preferences and conventions<br/>Keep credentials out of instructions]
+    P --> SAFE
+    style ROOT fill:#6DB3F2,color:#222
+    click ROOT href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#31-memory-files-claudemd" "Memory files"
+    style M fill:#6DB3F2,color:#222
+    click M href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#31-memory-files-claudemd" "Memory files"
+    style U fill:#6DB3F2,color:#222
+    click U href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#31-memory-files-claudemd" "Memory files"
+    style P fill:#6DB3F2,color:#222
+    click P href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#31-memory-files-claudemd" "Memory files"
+    style AM fill:#6DB3F2,color:#222
+    click AM href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#31-memory-files-claudemd" "Memory files"
+    style C fill:#6DB3F2,color:#222
+    click C href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#31-memory-files-claudemd" "Memory files"
+    style EXT fill:#6DB3F2,color:#222
+    click EXT href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#31-memory-files-claudemd" "Memory files"
+    style SAFE fill:#6DB3F2,color:#222
+    click SAFE href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#31-memory-files-claudemd" "Memory files"
 ```
 
 <details>
 <summary>ASCII version</summary>
 
 ```
-PERMANENT ──────────────────────────────── SESSION ONLY
+1. Organization instructions       managed CLAUDE.md
+2. User instructions               user CLAUDE.md and rules
+3. Project / nested instructions    CLAUDE.md and scoped rules
+4. Auto memory                     saved repository notes
+5. Conversation history            saved sessions, resumable
+6. External / tool state           persistence depends on implementation
 
-~/.claude/CLAUDE.md              In-conversation context
-      │                                      │
-/project/CLAUDE.md               Ephemeral MCP state
-      │
-/subdir/CLAUDE.md
-      │
-Auto-Memory (MEMORY.md)  ← cross-session, per project
-
-Higher = broader scope, always persists
-Lower = narrower scope, survives restarts
-Auto-Memory = persists cross-session, scoped per project
+Instruction scopes are not permission enforcement or a strict override stack.
+Store preferences and conventions in instructions, not API keys or tokens.
 ```
 
 </details>
 
-> **Source**: [Memory System](../ultimate-guide.md#memory-system) (lines ~3160 & ~3986) | Auto-Memory: v2.1.59+ (v3.30.0)
+> **Source**: [Memory files](../ultimate-guide.md#31-memory-files-claudemd)
+>
+> **Official reference**: [Instruction files and auto memory](https://code.claude.com/docs/en/memory#claude-md-vs-auto-memory), [session resume](https://code.claude.com/docs/en/common-workflows#resume-previous-conversations), and [credential storage](https://code.claude.com/docs/en/security#additional-safeguards).
+>
+> Nested instructions and conditional rules can load when relevant files are accessed. Use managed settings, permissions and hooks for enforced policy.
 
 ---
 
 ### Session continuity: Saving and resuming state
 
-Sessions don't automatically persist context between terminals. This diagram shows how to save state and resume it in a new session or terminal, enabling async workflows.
+Claude Code saves conversations. Reopening a terminal can resume a saved session, or start a fresh conversation with persistent instructions and an optional handoff. A handoff summarizes progress; it does not restore every message.
 
 ```mermaid
 sequenceDiagram
     participant U as User
     participant CC as Claude Code
-    participant CM as CLAUDE.md
-    participant NI as New Session
-
-    U->>CC: Work on feature X
-    CC->>CC: Executes tasks, tools
-    U->>CC: Save progress to CLAUDE.md
-    CC->>CM: Write: task status, decisions, next steps
-    Note over CM: Persists after session ends
-
-    U->>NI: Open new terminal
-    U->>NI: claude (new session)
-    NI->>CM: Auto-loads CLAUDE.md
-    CM->>NI: Injects: saved context
-    NI->>U: Ready — context restored ✓
-
-    Note over CC,NI: Conversation history NOT restored<br/>Only CLAUDE.md content persists
+    participant STORE as Saved conversations
+    participant FILE as Handoff file
+    CC->>STORE: Save conversation during work
+    opt Prepare a fresh session
+        U->>CC: Write status, decisions and next steps
+        CC->>FILE: Save handoff summary
+    end
+    Note over U: Open another terminal
+    alt Continue saved conversation
+        U->>CC: claude --continue or claude --resume
+        CC->>STORE: Load selected conversation
+        STORE->>CC: Saved history
+    else Start fresh
+        U->>CC: claude, then read handoff if needed
+        Note over CC: Load persistent instructions and available memory
+        CC->>FILE: Read handoff when requested
+        FILE->>CC: Summary, not full history
+    end
 ```
 
 <details>
 <summary>ASCII version</summary>
 
 ```
-Session 1                    CLAUDE.md         Session 2
-─────────                    ─────────         ─────────
-Work on task                    │               Open terminal
-     │                          │                    │
-Save progress ──────────────► Write             Load CLAUDE.md
-                             status,           ◄── Auto-injected
-                             decisions,
-                             next steps
+Work -> conversation saved
+  |
+  +-> claude --continue / claude --resume -> saved conversation resumes
+  |
+  +-> write handoff -> start claude fresh -> read handoff summary
+      Fresh session also loads persistent instructions and available memory.
+      The summary is not the full conversation history.
 ```
 
 </details>
 
-> **Source**: [Session Management](../ultimate-guide.md#session-management) (line ~9477)
+> **Source**: [Session continuation and resume](../ultimate-guide.md#session-continuation-and-resume)
+>
+> **Official reference**: [Resume saved conversations](https://code.claude.com/docs/en/common-workflows#resume-previous-conversations).
 
 ---
 
 ### Fresh context anti-pattern vs. best practice
 
-Long sessions accumulate noise that degrades response quality. This diagram shows the degradation pattern and the recommended "focused sessions" approach that maintains performance.
+Unrelated tasks can fill a session with irrelevant history. The author recommendation is to work in focused sessions, use compaction when useful, and preserve a handoff before starting fresh. Saved conversations remain available for resume.
 
 ```mermaid
 flowchart TD
-    subgraph BAD["❌ Anti-Pattern: Monolith Session"]
-        B1([Start big session]) --> B2(Add task A)
-        B2 --> B3(Add task B)
-        B3 --> B4(Add task C)
-        B4 --> B5{Context bloated<br/>>75%}
-        B5 --> B6(Response quality<br/>degrades)
-        B6 --> B7(Force-restart<br/>loses all context)
-        style B1 fill:#E85D5D,color:#fff
-        style B5 fill:#E85D5D,color:#fff
-        style B6 fill:#E85D5D,color:#fff
-        style B7 fill:#E85D5D,color:#fff
+    subgraph BAD[Unfocused session]
+        B1[Task A] --> B2[Unrelated task B]
+        B2 --> B3[Unrelated task C]
+        B3 --> B4[More irrelevant context<br/>Harder to retain instructions]
     end
-
-    subgraph GOOD["✅ Best Practice: Focused Sessions"]
-        G1([Start focused session]) --> G2(Complete task A)
-        G2 --> G3{Natural<br/>checkpoint?}
-        G3 -->|Yes| G4(Save to CLAUDE.md)
-        G4 --> G5([New session for task B])
-        G3 -->|No| G6{Context >75%?}
-        G6 -->|Yes| G7(/compact)
-        G7 --> G2
-        G6 -->|No| G2
-        style G1 fill:#7BC47F,color:#333
-        style G4 fill:#7BC47F,color:#333
-        style G5 fill:#7BC47F,color:#333
-        style G3 fill:#E87E2F,color:#fff
-        style G6 fill:#E87E2F,color:#fff
-        style G7 fill:#6DB3F2,color:#fff
+    subgraph GOOD[Focused workflow]
+        G1[Work on task A] --> G2{Natural checkpoint?}
+        G2 -->|Yes| G3[Save handoff or resume later]
+        G3 --> G4[Fresh session for unrelated task B]
+        G2 -->|No| G5{Context needs cleanup?}
+        G5 -->|Yes| G6["/compact with a focus"]
+        G6 --> G1
+        G5 -->|No| G1
     end
-
-    click B1 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#22-context-management" "Anti-Pattern: Monolith Session"
-    click B2 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#22-context-management" "Add task A"
-    click B3 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#22-context-management" "Add task B"
-    click B4 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#22-context-management" "Add task C"
-    click B5 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#22-context-management" "Context bloated >75%"
-    click B6 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#22-context-management" "Response quality degrades"
-    click B7 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#22-context-management" "Force-restart — loses context"
-    click G1 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#22-context-management" "Best Practice: Focused Sessions"
-    click G2 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#22-context-management" "Complete task A"
-    click G3 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#22-context-management" "Natural checkpoint?"
-    click G4 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#31-memory-files-claudemd" "Save to CLAUDE.md"
-    click G5 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#22-context-management" "New session for task B"
-    click G6 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#22-context-management" "Context >75%?"
-    click G7 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#22-context-management" "/compact"
+    style B1 fill:#6DB3F2,color:#222
+    click B1 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#22-context-management" "Context management"
+    style B2 fill:#6DB3F2,color:#222
+    click B2 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#22-context-management" "Context management"
+    style B3 fill:#6DB3F2,color:#222
+    click B3 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#22-context-management" "Context management"
+    style B4 fill:#6DB3F2,color:#222
+    click B4 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#22-context-management" "Context management"
+    style G1 fill:#6DB3F2,color:#222
+    click G1 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#22-context-management" "Context management"
+    style G2 fill:#6DB3F2,color:#222
+    click G2 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#22-context-management" "Context management"
+    style G3 fill:#6DB3F2,color:#222
+    click G3 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#22-context-management" "Context management"
+    style G4 fill:#6DB3F2,color:#222
+    click G4 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#22-context-management" "Context management"
+    style G5 fill:#6DB3F2,color:#222
+    click G5 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#22-context-management" "Context management"
+    style G6 fill:#6DB3F2,color:#222
+    click G6 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#22-context-management" "Context management"
 ```
 
 <details>
 <summary>ASCII version</summary>
 
 ```
-BAD: One giant session
-Task A → Task B → Task C → Context bloat → Quality drop → Restart → Lost!
+Unfocused: Task A -> unrelated B -> unrelated C -> irrelevant context accumulates
+Focused:   Task A -> checkpoint -> handoff or resume later -> fresh session for B
+                   no checkpoint -> inspect context -> /compact if useful -> continue
 
-GOOD: Focused sessions
-Task A ──► Checkpoint? ──Yes──► Save CLAUDE.md ──► New session for B
-           │
-           No
-           │
-         Context >75%? ──Yes──► /compact ──► Continue
-           │
-           No
-           │
-         Continue task
+Starting fresh does not erase the saved conversation.
+No fixed percentage guarantees response quality.
 ```
 
 </details>
 
-> **Source**: [Context Best Practices](../ultimate-guide.md#context-best-practices) (line ~1525)
+> **Source**: [Context management](../ultimate-guide.md#22-context-management)
+>
+> **Official reference**: [Context recommendations](https://code.claude.com/docs/en/best-practices#manage-context-aggressively).

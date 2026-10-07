@@ -1,285 +1,269 @@
 ---
 title: "Claude Code: Configuration System Diagrams"
-description: "Config precedence, skills vs commands vs agents, agent lifecycle, hooks pipeline"
+description: "Managed settings precedence, skills and commands, subagents, and hook lifecycle"
 tags: [configuration, hooks, agents, skills, commands]
 ---
 
 # Configuration system
 
-How Claude Code loads settings, resolves conflicts, and orchestrates extensibility.
+Documented settings precedence and a simplified view of extensibility and hooks.
 
 ---
 
 ### Configuration precedence (5 levels)
 
-Claude Code resolves settings through a strict priority hierarchy. Higher layers override lower ones. Knowing this prevents "why isn't my config working?" bugs.
+For the same settings key, the documented stack has five levels, highest first. Lists may merge and security-sensitive exceptions apply. Environment-variable precedence is defined per setting; CLAUDE.md belongs to instruction context, not this settings stack.
 
 ```mermaid
 flowchart TD
-    A["1️⃣ CLI Flags<br/>--model, --dangerously-skip-permissions<br/>--max-turns, --system-prompt"] --> B["2️⃣ Environment Variables<br/>ANTHROPIC_API_KEY<br/>CLAUDE_MODEL, CLAUDE_CONFIG"]
-    B --> C["3️⃣ Project Config<br/>.claude/settings.json<br/>.claude/settings.local.json"]
-    C --> D["4️⃣ Global Config<br/>~/.claude/settings.json<br/>~/.claude/CLAUDE.md"]
-    D --> E["5️⃣ Built-in Defaults<br/>Hardcoded in Claude Code binary"]
-
-    A1["Highest priority<br/>Overrides everything<br/>Use: automation, CI/CD"] --> A
-    E1["Lowest priority<br/>Fallback values<br/>Use: baseline behavior"] --> E
-
-    style A fill:#E87E2F,color:#fff
-    style B fill:#6DB3F2,color:#fff
-    style C fill:#6DB3F2,color:#fff
-    style D fill:#F5E6D3,color:#333
-    style E fill:#B8B8B8,color:#333
-    style A1 fill:#B8B8B8,color:#333
-    style E1 fill:#B8B8B8,color:#333
-
-    click A href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#34-precedence-rules" "CLI Flags — highest priority"
-    click B href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#33-settings--permissions" "Environment Variables"
-    click C href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#33-settings--permissions" "Project Config"
-    click D href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#31-memory-files-claudemd" "Global Config"
-    click E href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#34-precedence-rules" "Built-in Defaults"
-    click A1 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#34-precedence-rules" "Highest priority"
-    click E1 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#34-precedence-rules" "Lowest priority"
+    A[1. Managed settings<br/>Organization policy] --> B[2. Command-line arguments<br/>Session flags and --settings]
+    B --> C[3. Project local settings<br/>.claude/settings.local.json]
+    C --> D[4. Shared project settings<br/>.claude/settings.json]
+    D --> E[5. User settings<br/>~/.claude/settings.json]
+    E -.-> FALL[Built-in fallback<br/>When no source sets the value]
+    ENV[Environment variables<br/>Precedence defined per key] -.-> B
+    style A fill:#6DB3F2,color:#222
+    click A href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#34-precedence-rules" "Precedence rules"
+    style B fill:#6DB3F2,color:#222
+    click B href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#34-precedence-rules" "Precedence rules"
+    style C fill:#6DB3F2,color:#222
+    click C href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#34-precedence-rules" "Precedence rules"
+    style D fill:#6DB3F2,color:#222
+    click D href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#34-precedence-rules" "Precedence rules"
+    style E fill:#6DB3F2,color:#222
+    click E href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#34-precedence-rules" "Precedence rules"
+    style FALL fill:#6DB3F2,color:#222
+    click FALL href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#34-precedence-rules" "Precedence rules"
+    style ENV fill:#6DB3F2,color:#222
+    click ENV href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#34-precedence-rules" "Precedence rules"
 ```
 
 <details>
 <summary>ASCII version</summary>
 
 ```
-PRIORITY (highest to lowest)
-═══════════════════════════
-1. CLI Flags            ← --model, --system-prompt
-2. Environment Vars     ← ANTHROPIC_API_KEY
-3. Project .claude/     ← settings.json, settings.local.json
-4. Global ~/.claude/    ← settings.json, CLAUDE.md
-5. Built-in defaults    ← hardcoded fallbacks
+Highest precedence
+1. Managed settings
+2. Command-line arguments
+3. .claude/settings.local.json
+4. .claude/settings.json
+5. ~/.claude/settings.json
+Fallback: built-in value when not configured
+
+Environment variables: resolve per key, not as a universal sixth level.
+CLAUDE.md: instructions, outside this settings stack.
+Lists can merge; consult documented security-sensitive exceptions.
 ```
 
 </details>
 
-> **Source**: [Configuration System](../ultimate-guide.md#configuration), line ~3760
+> **Source**: [Precedence rules](../ultimate-guide.md#34-precedence-rules)
+>
+> **Official reference**: [Settings precedence](https://code.claude.com/docs/en/settings#settings-precedence) and [environment-variable precedence](https://code.claude.com/docs/en/env-vars#precedence).
+>
+> For model selection the variable is ANTHROPIC_MODEL. CLAUDE_CONFIG_DIR changes the configuration directory. A CLI model selection remains constrained by managed availableModels; it does not override organizational policy.
 
 ---
 
 ### Skills vs. commands vs. agents: When to use each
 
-Three extensibility mechanisms with different purposes and tradeoffs. Choosing the wrong abstraction leads to over-engineering or under-powered automation.
+Custom commands have been merged into skills. Both file formats create a slash command; skills also support bundled resources and invocation by Claude. Subagents use a separate context window for delegated work. User and project scopes exist for these mechanisms.
 
 ```mermaid
 flowchart LR
-    subgraph SKILLS["📦 Skills (.claude/skills/)"]
-        S1[Bundled capability<br/>with resources]
-        S2[Invoked via /skillname]
-        S3[Portable across projects]
-        S4["Use for: reusable<br/>cross-project capabilities"]
-    end
-
-    subgraph COMMANDS["⚡ Commands (.claude/commands/)"]
-        C1[Simple template<br/>or script]
-        C2[Project slash command]
-        C3[Project-specific only]
-        C4["Use for: project<br/>automation, shortcuts"]
-    end
-
-    subgraph AGENTS["🤖 Agents (.claude/agents/)"]
-        A1[Full autonomous agent]
-        A2[Own tool set & CLAUDE.md]
-        A3[Spawned via Task tool]
-        A4["Use for: complex<br/>delegated tasks"]
-    end
-
-    Q{What are<br/>you building?} --> |Reusable feature| SKILLS
-    Q --> |Project shortcut| COMMANDS
-    Q --> |Complex sub-task| AGENTS
-
-    style S1 fill:#6DB3F2,color:#fff
-    style S4 fill:#7BC47F,color:#333
-    style C1 fill:#F5E6D3,color:#333
-    style C4 fill:#7BC47F,color:#333
-    style A1 fill:#E87E2F,color:#fff
-    style A4 fill:#7BC47F,color:#333
-    style Q fill:#E87E2F,color:#fff
-
-    click S1 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#51-understanding-skills" "Skills: Bundled capability"
-    click S2 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#51-understanding-skills" "Skills: Invoked via /skillname"
-    click S3 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#51-understanding-skills" "Skills: Portable across projects"
-    click S4 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#51-understanding-skills" "Skills: Reusable capabilities"
-    click C1 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#62-creating-custom-commands" "Commands: Simple template"
-    click C2 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#62-creating-custom-commands" "Commands: Project slash command"
-    click C3 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#62-creating-custom-commands" "Commands: Project-specific"
-    click C4 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#62-creating-custom-commands" "Commands: Project automation"
-    click A1 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#41-what-are-agents" "Agents: Full autonomous"
-    click A2 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#41-what-are-agents" "Agents: Own tool set"
-    click A3 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#41-what-are-agents" "Agents: Spawned via Task tool"
-    click A4 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#41-what-are-agents" "Agents: Complex delegated tasks"
-    click Q href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#41-what-are-agents" "What are you building?"
+    Q{Need delegated<br/>reasoning context?} -->|Yes| A[Subagent definition<br/>.claude/agents/name.md<br/>Agent tool, own prompt and tools]
+    Q -->|No| S[Skill<br/>.claude/skills/name/SKILL.md<br/>Resources and invocation controls]
+    C[Compatible command format<br/>.claude/commands/name.md] --> S
+    S --> I[Slash command or Claude invocation<br/>As configured]
+    A --> R[Summary returns to parent]
+    I --> U[User or project scope]
+    R --> U
+    style Q fill:#6DB3F2,color:#222
+    click Q href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#51-understanding-skills" "Understanding skills"
+    style A fill:#6DB3F2,color:#222
+    click A href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#51-understanding-skills" "Understanding skills"
+    style S fill:#6DB3F2,color:#222
+    click S href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#51-understanding-skills" "Understanding skills"
+    style C fill:#6DB3F2,color:#222
+    click C href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#51-understanding-skills" "Understanding skills"
+    style I fill:#6DB3F2,color:#222
+    click I href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#51-understanding-skills" "Understanding skills"
+    style R fill:#6DB3F2,color:#222
+    click R href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#51-understanding-skills" "Understanding skills"
+    style U fill:#6DB3F2,color:#222
+    click U href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#51-understanding-skills" "Understanding skills"
 ```
 
 <details>
 <summary>ASCII version</summary>
 
 ```
-                    Skills              Commands           Agents
-Location:      .claude/skills/     .claude/commands/  .claude/agents/
-Trigger:       /skillname          /commandname       Task tool
-Scope:         Cross-project       This project       Any context
-Complexity:    Medium (bundled)    Low (template)     High (autonomous)
-Use when:      Reusable caps       Quick shortcuts    Complex tasks
+Reusable instructions / workflow:
+  .claude/skills/name/SKILL.md -> /name, or Claude invocation as configured
+  .claude/commands/name.md    -> compatible /name format
+  Both can use user or project scope.
+
+Delegated work:
+  .claude/agents/name.md -> Agent tool -> own context, prompt and permitted tools
+  Summary returns to parent; file/service effects can be shared.
 ```
 
 </details>
 
-> **Source**: [Extensibility System](../ultimate-guide.md#extensibility), line ~4495, ~5025, ~3900
+> **Source**: [Understanding skills](../ultimate-guide.md#51-understanding-skills)
+>
+> **Official reference**: [Skills and command compatibility](https://code.claude.com/docs/en/skills) and [subagent definitions](https://code.claude.com/docs/en/sub-agents).
 
 ---
 
 ### Agent lifecycle & scope isolation
 
-Sub-agents run in complete isolation from the parent. They receive a copy of context but share no state. Understanding this prevents "why can't my sub-agent see X?" confusion.
+A separate context window keeps intermediate tool activity out of the parent conversation. It does not isolate file or service effects. Ordinary subagents start fresh; forks inherit the conversation. A worktree can separate repository edits.
 
 ```mermaid
 sequenceDiagram
     participant P as Parent Claude
-    participant T as Task Tool
-    participant S as Sub-Agent
-    participant FS as File System
-
-    P->>T: Task(prompt, tools_allowed)
-    T->>S: Spawn new Claude instance
-    Note over S: Gets: prompt + tool grants<br/>Does NOT get: parent conversation
-
-    S->>FS: Read files (if granted)
-    S->>FS: Edit files (if granted)
-    S->>S: Independent reasoning
-
-    Note over S,FS: Fully isolated execution
-    Note over S: No access to parent state
-
-    S->>T: Return: text result only
-    T->>P: Result string
-    P->>P: Continues with result
-
-    Note over P,T: Parent sees only final text<br/>No side-effects leaked back
+    participant A as Agent tool
+    participant S as Subagent
+    participant FS as Files and services
+    P->>A: Delegate task
+    alt Ordinary subagent
+        A->>S: Task prompt and agent configuration
+        Note over S: Fresh conversation context
+    else Fork
+        A->>S: Copy parent conversation and configuration
+    end
+    S->>FS: Allowed reads, edits or external calls
+    Note over S,FS: Effects may be shared<br/>Optional worktree separates repository edits
+    FS->>S: Results
+    S->>A: Final summary
+    A->>P: Summary enters parent context
 ```
 
 <details>
 <summary>ASCII version</summary>
 
 ```
-Parent ──Task(prompt, tools)──► Sub-Agent
-                                    │
-                               [isolated exec]
-                               - read files
-                               - edit files
-                               - bash (if allowed)
-                                    │
-Parent ◄───── text result ──────────┘
-(no state sharing, no side effects back)
+Parent -> Agent tool -> Subagent
+  Ordinary: task prompt + definition; fresh conversation context
+  Fork:     inherits parent conversation and configuration
+  Tools:    permitted file/service operations; effects may be shared
+  Optional worktree: separate repository checkout, not isolated external services
+Subagent -> final summary -> parent context
 ```
 
 </details>
 
-> **Source**: [Sub-Agents](../ultimate-guide.md#sub-agents), line ~3900
+> **Source**: [Sub-agent architecture](../core/architecture.md#4-sub-agent-architecture)
+>
+> **Official reference**: [Forks and ordinary subagents](https://code.claude.com/docs/en/sub-agents#how-forks-differ-from-other-subagents).
 
 ---
 
 ### Hooks event pipeline
 
-Hooks let you run custom code at key points in Claude Code's lifecycle: security scanning, logging, enforcement, notifications. The execution order matters.
+This simplified lifecycle distinguishes session events, turn events and tool events. PermissionRequest is conditional. Hook types and decision controls vary by event; this is not the exhaustive event inventory.
 
 ```mermaid
 flowchart TD
-    INIT([Session starts]) -.->|v2.1.69+| INST{InstructionsLoaded Hook}
-    INST -.-> A
-
-    A([User sends message]) --> UPS{UserPromptSubmit Hook}
-    UPS -->|Exit 0: proceed| B{PreToolUse Hook}
-    UPS -->|Exit 2: feedback| A
-    B -->|Exit 2: block| D([Tool blocked])
-    B -->|Exit 0: check perms| PR{PermissionRequest Hook}
-    PR -->|allow| C[Tool executes]
-    PR -->|deny| D
-    C --> E{PostToolUse Hook}
-    C -.->|if Agent tool| SS{SubagentStop Hook}
-    SS -.-> E
-    E --> F[Next tool or response]
-    F --> G{More tool calls?}
-    G -->|Yes| B
-    G -->|No| H([Session ends])
-    H --> I{Stop / SessionEnd Hook}
-    I --> J([Complete])
-
-    K{PreCompact Hook} -.->|Before /compact| L[/compact runs]
-    L --> M{PostCompact Hook}
-
-    NOTE["Hook types:<br/>command · http · mcp_tool<br/>prompt · agent"] -.-> B
-
-    style INST fill:#6DB3F2,color:#fff
-    style UPS fill:#6DB3F2,color:#fff
-    style B fill:#E87E2F,color:#fff
-    style PR fill:#6DB3F2,color:#fff
-    style SS fill:#6DB3F2,color:#fff
-    style D fill:#E85D5D,color:#fff
-    style E fill:#E87E2F,color:#fff
-    style I fill:#E87E2F,color:#fff
-    style K fill:#6DB3F2,color:#fff
-    style M fill:#6DB3F2,color:#fff
-    style C fill:#7BC47F,color:#333
-    style J fill:#7BC47F,color:#333
-    style NOTE fill:#F5E6D3,color:#333
-
-    click INIT href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#71-the-event-system" "Session starts"
-    click INST href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#71-the-event-system" "InstructionsLoaded Hook (v2.1.69+)"
-    click A href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#71-the-event-system" "User sends message"
-    click UPS href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#71-the-event-system" "UserPromptSubmit Hook"
-    click B href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#71-the-event-system" "PreToolUse Hook"
-    click PR href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#71-the-event-system" "PermissionRequest Hook"
-    click C href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md#2-the-tool-arsenal" "Tool executes"
-    click SS href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#71-the-event-system" "SubagentStop Hook"
-    click D href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#71-the-event-system" "Tool blocked"
-    click E href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#71-the-event-system" "PostToolUse Hook"
-    click F href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#71-the-event-system" "Next tool or response"
-    click G href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#71-the-event-system" "More tool calls?"
-    click H href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#71-the-event-system" "Session ends"
-    click I href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#71-the-event-system" "Stop / SessionEnd Hook"
-    click J href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#72-creating-hooks" "Complete"
-    click K href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#71-the-event-system" "PreCompact Hook"
-    click L href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#71-the-event-system" "/compact runs"
-    click M href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#71-the-event-system" "PostCompact Hook"
+    INIT([Session starts]) --> START[SessionStart]
+    START --> A[Prompt submitted]
+    A --> UPS[UserPromptSubmit]
+    UPS -->|Exit 2 or block| REJECT[Prompt blocked<br/>Reason shown to user]
+    UPS -->|Proceed| MODEL[Model processes context]
+    MODEL --> TOOL{Tool call?}
+    TOOL -->|Yes| B[PreToolUse]
+    TOOL -->|No, response finished| STOP[Stop]
+    B -->|Block| BLOCK[Tool blocked]
+    B -->|Proceed| NEED{Permission prompt needed?}
+    NEED -->|No, allowed| C[Tool executes]
+    NEED -->|Yes| PR[PermissionRequest]
+    PR -->|Allowed| C
+    PR -->|Denied| BLOCK
+    C --> RESULT{Tool succeeded?}
+    RESULT -->|Yes| E[PostToolUse]
+    RESULT -->|No| FAIL[PostToolUseFailure]
+    E --> MODEL
+    FAIL --> MODEL
+    BLOCK --> MODEL
+    STOP --> WAIT[Await next turn or end session]
+    WAIT -->|Next prompt| A
+    WAIT -->|Session ends| END[SessionEnd]
+    INST[InstructionsLoaded<br/>Async when instruction files load] -.-> A
+    SS[SubagentStop<br/>When a subagent finishes] -.-> WAIT
+    PRE[PreCompact] --> COMPACT[Compaction] --> POST[PostCompact]
+    style INIT fill:#6DB3F2,color:#222
+    click INIT href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#71-the-event-system" "The event system"
+    style START fill:#6DB3F2,color:#222
+    click START href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#71-the-event-system" "The event system"
+    style A fill:#6DB3F2,color:#222
+    click A href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#71-the-event-system" "The event system"
+    style UPS fill:#6DB3F2,color:#222
+    click UPS href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#71-the-event-system" "The event system"
+    style REJECT fill:#6DB3F2,color:#222
+    click REJECT href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#71-the-event-system" "The event system"
+    style B fill:#6DB3F2,color:#222
+    click B href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#71-the-event-system" "The event system"
+    style BLOCK fill:#6DB3F2,color:#222
+    click BLOCK href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#71-the-event-system" "The event system"
+    style NEED fill:#6DB3F2,color:#222
+    click NEED href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#71-the-event-system" "The event system"
+    style C fill:#6DB3F2,color:#222
+    click C href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#71-the-event-system" "The event system"
+    style PR fill:#6DB3F2,color:#222
+    click PR href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#71-the-event-system" "The event system"
+    style RESULT fill:#6DB3F2,color:#222
+    click RESULT href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#71-the-event-system" "The event system"
+    style E fill:#6DB3F2,color:#222
+    click E href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#71-the-event-system" "The event system"
+    style FAIL fill:#6DB3F2,color:#222
+    click FAIL href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#71-the-event-system" "The event system"
+    style MODEL fill:#6DB3F2,color:#222
+    click MODEL href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#71-the-event-system" "The event system"
+    style TOOL fill:#6DB3F2,color:#222
+    click TOOL href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#71-the-event-system" "The event system"
+    style STOP fill:#6DB3F2,color:#222
+    click STOP href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#71-the-event-system" "The event system"
+    style WAIT fill:#6DB3F2,color:#222
+    click WAIT href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#71-the-event-system" "The event system"
+    style END fill:#6DB3F2,color:#222
+    click END href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#71-the-event-system" "The event system"
+    style INST fill:#6DB3F2,color:#222
+    click INST href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#71-the-event-system" "The event system"
+    style SS fill:#6DB3F2,color:#222
+    click SS href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#71-the-event-system" "The event system"
+    style PRE fill:#6DB3F2,color:#222
+    click PRE href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#71-the-event-system" "The event system"
+    style COMPACT fill:#6DB3F2,color:#222
+    click COMPACT href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#71-the-event-system" "The event system"
+    style POST fill:#6DB3F2,color:#222
+    click POST href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#71-the-event-system" "The event system"
 ```
 
 <details>
 <summary>ASCII version</summary>
 
 ```
-Session starts
-     | (InstructionsLoaded Hook, v2.1.69+)
-User message
-     │
- UserPromptSubmit ──exit 2──► feedback to Claude (loop)
-     │ exit 0
- PreToolUse ──exit 2──► BLOCKED
-     │ exit 0
- PermissionRequest ──deny──► BLOCKED
-     │ allow
-Tool executes ......► Subagent? ......► SubagentStop Hook
-     │                                        |
-     +----------------------------------------+
-     |
-PostToolUse
-     │
-More tools? ──yes──► PreToolUse (loop)
-     │ no
-Session ends
-     │
-  Stop / SessionEnd Hook
-     │
- Complete
+SessionStart -> prompt -> UserPromptSubmit
+  blocked (exit 2 / decision): reason shown to user; prompt not processed
+  proceed -> model processes context -> tool call?
+    no, response finished -> Stop -> next turn or SessionEnd
+    yes -> PreToolUse -> permissions check
+              blocked -> tool blocked -> model
+              prompt needed -> PermissionRequest -> allow / deny
+              already allowed -> execute
+  tool success -> PostToolUse -> model
+  tool failure -> PostToolUseFailure -> model
 
-Separately: PreCompact ──► /compact ──► PostCompact
-
-Hook types: command | http | mcp_tool | prompt | agent
+Separate events: InstructionsLoaded (async), SubagentStop
+Compaction: PreCompact -> compaction -> PostCompact
+Hook types: command, http, mcp_tool, prompt, agent; support depends on event.
 ```
 
 </details>
 
-> **Source**: [Hooks System](../ultimate-guide.md#71-the-event-system) (~line 10147) | HTTP hooks: v2.1.63+ | InstructionsLoaded: v2.1.69+ | PermissionRequest + SubagentStop added 2026-06-03
+> **Source**: [The event system](../ultimate-guide.md#71-the-event-system)
+>
+> **Official reference**: [Hook lifecycle and decisions](https://code.claude.com/docs/en/hooks#hook-lifecycle).
+>
+> InstructionsLoaded also fires on lazy instruction loading. Stop is per response, SessionEnd is per session; API errors have StopFailure. Some special tools skip normal tool hooks. The official reference lists these exceptions and each event's supported hook types.

@@ -1011,16 +1011,11 @@ The two approaches handle different moments in a session's lifecycle. Approach A
 
 ## 1.4 Permission modes
 
-Claude Code has five permission modes that control how much autonomy Claude has:
+Claude Code has six permission modes: `default` (Manual), `acceptEdits`, `plan`, `auto`, `dontAsk`, and `bypassPermissions`. Their behavior depends on permission rules and the session. See the [current mode reference](https://code.claude.com/docs/en/permission-modes).
 
 ### Default mode
 
-Claude asks permission before:
-- Editing files
-- Running commands
-- Making commits
-
-This is the safest mode for learning.
+In Manual mode (`default`), reads run without asking; most edits, shell commands and network actions require approval unless already permitted. Use it when you want to review actions that would otherwise run automatically.
 
 ### Auto-accept Mode (`acceptEdits`)
 
@@ -1028,7 +1023,7 @@ This is the safest mode for learning.
 You: Turn on auto-accept for the rest of this session
 ```
 
-Claude auto-approves file edits but still asks for shell commands. Use when you trust the edits and want speed.
+Claude auto-approves file edits and common filesystem commands such as `mkdir`, `touch`, `mv`, and `cp` within the working directories. Other commands can still require approval. Use when you trust and review the edits.
 
 ⚠️ **Warning**: Only use auto-accept for well-defined, reversible operations.
 
@@ -1038,7 +1033,7 @@ Claude auto-approves file edits but still asks for shell commands. Use when you 
 /plan
 ```
 
-Claude can only read and analyze, no modifications allowed. Perfect for:
+Plan mode blocks source-file edits while allowing reads and read-only shell commands. When auto mode is available, classifier-approved commands can also run. Plan mode is not an operating-system isolation boundary. Use it for:
 - Understanding unfamiliar code
 - Exploring architectural options
 - Safe investigation before changes
@@ -1047,75 +1042,66 @@ Exit plan mode by approving the plan Claude presents, or by pressing `Shift+Tab`
 
 ### Don't ask mode (`dontAsk`)
 
-Auto-denies tools unless pre-approved via `/permissions` or `permissions.allow` rules. Claude never interrupts with permission prompts: if a tool isn't explicitly allowed, it's silently denied.
+Reads and pre-approved tools can run. Actions that would require a permission prompt are denied. Inspect tool denials rather than assuming an unattended task completed.
 
 Use for restrictive workflows where you want tight control over which tools run, without interactive confirmation.
 
 ### Auto Mode (all plans, v2.1.114+)
 
-Auto mode delegates permission decisions to a dedicated classifier model. Instead of stopping to ask for approval on each action, a second AI instance running Sonnet 5 evaluates every tool call before it executes. Safe actions proceed automatically; risky ones are blocked, and Claude receives the reason so it can try a different approach.
+Auto mode uses a classifier for actions that need review. Reads and some edits skip classification; it does not review every tool call. The classifier and availability can change server-side.
+
+To request it for one session, run `claude --permission-mode auto`. For a user default, put this in `~/.claude/settings.json`:
 
 ```json
-// .claude/settings.json
-{ "permissionMode": "auto" }
+{ "permissions": { "defaultMode": "auto" } }
 ```
+
+Project and project-local settings cannot select `auto` as the starting mode. See [starting permission modes](https://code.claude.com/docs/en/permission-modes#which-mode-a-session-starts-in).
 
 **Two layers of defense**
 
-Auto mode runs two parallel checks on everything Claude touches:
-
-1. **Input probe**: Before any content enters Claude's context (file reads, web fetches, shell output, MCP responses), a server-side probe scans for prompt injection. When it detects suspicious instructions, it adds a warning to Claude's context rather than silently filtering, so Claude knows that content may be trying to manipulate it.
-2. **Transcript classifier** (Sonnet 5): Evaluates each tool call against three risk categories before execution. The classifier sees user messages and Claude's pending tool calls only; tool outputs and Claude's own reasoning are stripped to prevent reasoning manipulation.
-
-The three categories the classifier checks:
-
-| Category | What it looks for |
-|----------|------------------|
-| Scope escalation | Claude doing more than the task asked for |
-| Untrusted infrastructure | Action targeting a host, API, or system not recognized from context |
-| Prompt injection | Action appearing driven by hostile content Claude read from a file, repo, or web page |
+Permission rules and classifier review serve different roles. Explicit rules resolve some calls before classification; remaining reviewed actions are assessed in context. Treat the classifier as fallible and use restricted credentials, permission rules and isolation for enforceable boundaries. See [how auto mode evaluates actions](https://code.claude.com/docs/en/permission-modes#how-auto-mode-evaluates-actions).
 
 **Performance and limits**
 
-Anthropic's production traffic measurements: 94% of dangerous operations correctly identified, 2% of safe operations falsely flagged, 17% false negative rate (FNR).
+The following independent study reports historical benchmark results for its tested setup, not measurements of the current classifier or your configuration.
 
-An independent stress-test ([arXiv 2604.04978](https://arxiv.org/abs/2604.04978)) targeting scope escalation specifically found 81% FNR end-to-end (CI: 73.8%–87.4%). Even restricting to actions the classifier actually evaluates, the FNR was 70.3%. A key structural gap: in-project file edits are exempt from classification by design, which produced a 92.9% FNR on artifact cleanup tasks when agents fell back to the Edit tool. These are adversarial benchmarks against the authorization boundary, not production averages, but they establish the real ceiling: auto mode is a friction reducer, not a security boundary.
+An independent stress-test ([arXiv 2604.04978](https://arxiv.org/abs/2604.04978)) targeting scope escalation specifically found 81% FNR end-to-end (CI: 73.8%–87.4%). Even restricting to actions the classifier actually evaluates, the FNR was 70.3%. A key structural gap: in-project file edits are exempt from classification by design, which produced a 92.9% FNR on artifact cleanup tasks when agents fell back to the Edit tool. These are adversarial benchmarks for the studied setup, not production averages or current-model measurements. They do not establish a universal error rate; auto mode does not replace an isolation boundary.
 
 **Escalation and visual feedback**
 
-If the classifier blocks Claude 3 consecutive times, or 20 times total in a session, auto mode falls back to a manual permission prompt to break the loop. During a check, the status spinner turns red, so you can distinguish a classifier stall from a running tool.
+Repeated blocks can trigger fallback. The documented thresholds are 3 consecutive blocks or 20 total; interactive and non-interactive sessions handle fallback differently. See [when auto mode falls back](https://code.claude.com/docs/en/permission-modes#when-auto-mode-falls-back) before relying on unattended behavior.
 
 **Configuring classifier rules**
 
-The `autoMode` key lets you extend built-in rules using the `"$defaults"` sentinel. Include it to add your rules alongside the defaults; omit it to replace the entire built-in list:
+The `autoMode` lists contain prose instructions for the classifier, not structured tool-pattern objects. Include `"$defaults"` in each list to retain that list's built-in entries; omitting it replaces only that list.
 
 ```json
 {
   "autoMode": {
-    "allow": ["$defaults", "Bash(git log:*)", "Bash(cat:*)"],
-    "soft_deny": ["$defaults", "Bash(curl:*)"],
-    "environment": ["$defaults", "production-db"]
+    "allow": ["$defaults", "Deploying to the isolated staging namespace is allowed"],
+    "soft_deny": ["$defaults", "Do not run database migrations outside the migrations CLI"],
+    "environment": ["$defaults", "Company source control: github.example.com/acme-corp"]
   }
 }
 ```
 
 **Hard deny rules** (`settings.autoMode.hard_deny`, v2.1.136)
 
-Unconditional block rules that fire before the classifier and cannot be overridden by user intent or allow exceptions:
+`hard_deny` tells the classifier to reject specified actions regardless of user intent or allow exceptions:
 
 ```json
 {
   "autoMode": {
     "hard_deny": [
-      { "tool": "Bash", "pattern": "rm -rf" },
-      { "tool": "Write", "pathPattern": "/etc/**" },
-      { "tool": "Write", "pathPattern": "**/.env" }
+      "$defaults",
+      "Never send repository contents to third-party code-review APIs"
     ]
   }
 }
 ```
 
-Unlike classifier rules (which weigh context and user intent), `hard_deny` entries are absolute. Use them for operations that must never run unattended: destructive commands, credential files, system config paths.
+These remain classifier instructions, not deterministic pattern matching. For tool-level blocks, use `permissions.deny`; for resource boundaries, use restricted credentials and an OS sandbox. See [auto mode configuration](https://code.claude.com/docs/en/auto-mode-config) and [permission rules](https://code.claude.com/docs/en/permissions#manage-permissions).
 
 **Generating environment entries with `/auto-mode-setup`** (v2.1.228+, v2.1.233+ on native Windows)
 
@@ -1147,23 +1133,23 @@ Related inspection commands: `claude auto-mode defaults` (built-in rules as JSON
 |---------|---------|-------|
 | Isolated container or VM, no production credentials | Go | The intended use case |
 | Background Dispatch jobs | Go | No human present to confirm; auto mode is required |
-| Local dev machine, personal project, read-only branch | OK | Low stakes; use version control as backstop |
+| Local dev machine, scoped reversible work | Assess | Review changes; a Git branch does not restrict filesystem or network access |
 | Staging environment with real data | Caution | Limit credentials to read-only; ensure backups |
 | Production, PII, financial data, compliance scope | No | Use default mode or `dontAsk` with an explicit allowlist |
 
 For team use: keep audit logs of auto-approved actions, set a distinct git committer identity for Claude commits so you can trace them, and review Claude's commits before merging.
 
-**Requirements**: All plans (Max subscribers gained access automatically at v2.1.111; all plans at v2.1.114). Team and Enterprise require admin enablement in Claude Code admin settings. Cost and latency are slightly higher than other modes since a second model runs on every tool call.
+**Requirements**: The v2.1.111/v2.1.114 rollout dates are historical. Current availability depends on the model, provider and policy; administrators can disable auto mode. Classifier reviews add usage and latency when they run. Consult the [current availability requirements](https://code.claude.com/docs/en/permission-modes#eliminate-permission-prompts-with-auto-mode) for your session.
 
 ### Bypass permissions mode (`bypassPermissions`)
 
-Auto-approves everything, including shell commands. No permission prompts at all.
+Skips ordinary permission checks. Explicit deny/ask rules, interaction requirements and critical-path safeguards still apply; a non-interactive run can deny those calls instead of prompting.
 
 ⚠️ **Warning**: Only use in sandboxed CI/CD environments. Requires `--dangerously-skip-permissions` to enable from CLI. Never use on production systems or with untrusted code.
 
-**Safety invariant: some paths always prompt, even in `bypassPermissions` mode**:
+**Protected paths and mode exceptions**:
 
-Certain writes are considered too sensitive to auto-approve under any configuration. Claude Code always prompts before modifying:
+These paths receive additional write protection in ordinary modes. That protection can be bypassed in `bypassPermissions` and in certain plan-mode sessions; do not treat this table as an invariant:
 
 | Protected target | Examples |
 |-----------------|---------|
@@ -1172,7 +1158,7 @@ Certain writes are considered too sensitive to auto-approve under any configurat
 | Shell config files | `.bashrc`, `.zshrc`, `.bash_profile`, `.profile` |
 | VCS and tool configs | `.gitconfig`, `.mcp.json`, `.claude.json` |
 
-Content-specific `allow` rules (e.g., `Bash(npm publish:*)`) defined in `settings.json` or CLAUDE.md also survive `bypassPermissions`: they continue to apply as additional filters on top of any permission mode. This lets you build precise guardrails (e.g., "always ask before publishing to npm") that hold regardless of how the session is launched.
+Configure tool permissions in JSON settings, not CLAUDE.md. `allow` grants approval; it does not require a prompt and has no effect in bypass mode. Use `ask` or `deny` rules for those decisions, subject to the [documented exceptions](https://code.claude.com/docs/en/permission-modes#actions-no-mode-auto-approves).
 
 ### Permission Fatigue (anti-pattern)
 
@@ -1182,12 +1168,12 @@ The fix is to pick the right mode upfront rather than clicking through prompts o
 
 | Situation | Right mode | Why |
 |-----------|-----------|-----|
-| Exploratory work, unfamiliar codebase | Plan mode | Can't accidentally change anything |
-| Trusted local edits, no shell ops | `acceptEdits` | Approves edits silently, still gates commands |
-| Long agentic tasks, Max plan | Auto mode | Claude judges actions; fewer interruptions with less risk than bypass |
-| Automated pipeline, sandboxed env | `bypassPermissions` | No prompts at all, but only safe in isolation |
-| You need one tool auto-approved | `permissions.allow` in CLAUDE.md | Granular, not all-or-nothing |
-| Default new session | Default mode | Explicit review of each action |
+| Exploratory work, unfamiliar codebase | Plan mode | Blocks source edits; commands still follow the session's permission policy |
+| Trusted local edits | `acceptEdits` | Approves edits and common filesystem commands; review the resulting changes |
+| Long tasks with a supported session | Auto mode | Classifier review reduces interruptions; inspect denials and outcomes |
+| Automated pipeline, isolated env | `bypassPermissions` | Skips ordinary checks; calls requiring interaction can still fail |
+| You need one tool auto-approved | `permissions.allow` in settings JSON | Granular approval for matching calls |
+| New session | Inspect the active mode | Starting mode varies by surface, version, settings and policy |
 
 The failure mode to avoid: reaching for `--dangerously-skip-permissions` on a dev machine with SSH keys, API tokens, or production access in scope. The permissions system only adds value if you actually read what you're approving, or configure a mode that matches your real trust level.
 
@@ -1713,15 +1699,15 @@ The loop is designed so that **you remain in control**. Claude proposes, you dec
 
 ### 📌 Context management quick reference
 
-**The zones**:
+**The zones (author heuristics, not native compaction thresholds)**:
 - 🟢 0-50%: Work freely
 - 🟡 50-75%: Be selective
 - 🔴 75-90%: Review relevance and consider `/compact`
 - ⚫ 90%+: Preserve state and assess compaction or a new session
 
 **When context is high**:
-1. `/compact` (saves context, frees space)
-2. `/clear` (fresh start, loses history)
+1. `/compact` (summarizes active context and frees space; details can be omitted)
+2. `/clear` (resets the active conversation; saved sessions can still be resumed)
 
 **Prevention**: Load only needed files, compact regularly, commit frequently
 
@@ -1824,12 +1810,14 @@ echo "RL: ${pct_5h}%"
 
 ### Context zones
 
+These are workflow heuristics, not product states or automatic-compaction triggers. Inspect `/context`; recovery depends on the model, settings and retained content.
+
 | Zone | Usage | Action |
 |------|-------|--------|
 | 🟢 Green | 0-50% | Work freely |
 | 🟡 Yellow | 50-75% | Start being selective |
-| 🔴 Red | 75-90% | Use `/compact` or `/clear` |
-| ⚫ Critical | 90%+ | Must clear or risk errors |
+| 🔴 Red | 75-90% | Review relevance and consider `/compact` |
+| ⚫ Critical | 90%+ | Preserve state and assess compaction or a new session |
 
 ### Context recovery strategies
 
@@ -1837,15 +1825,15 @@ When context gets high:
 
 **Option 1: Compact** (`/compact`)
 - Summarizes the conversation
-- Preserves key context
-- Reduces usage by ~50%
+- Aims to preserve relevant context, but can omit details
+- Reduction varies with the conversation; no fixed percentage is guaranteed
 
 > **When `/compact` goes wrong**: Compaction fires when the model has the most accumulated context, meaning it is also at its most distracted point. If the model cannot predict where the work is heading (e.g., auto-compact fires mid-debugging and your next message is "now fix that warning in bar.ts"), it may drop future-relevant info from the summary. Mitigate by compacting proactively and with context: `/compact focus on the auth refactor, drop the test debugging` guides the summary toward what matters next. (Source: Anthropic internal guidance)
 
 **Option 2: Clear** (`/clear`)
-- Starts fresh
-- Loses all context
-- Use when changing topics
+- Resets the active conversation
+- Does not delete saved session history or project instruction files
+- Use when changing topics; see [session resumption](https://code.claude.com/docs/en/common-workflows#resume-previous-conversations)
 
 > **"One Task, One Chat"**: mixing unrelated topics across turns degrades model accuracy by ~39%. Context accumulates noise ("context rot") that distorts judgment even when total token usage stays low. Use `/clear` aggressively between distinct tasks, not just when the context bar turns red.
 
@@ -3013,7 +3001,7 @@ Ultrareview operates on **diffs, not the full codebase**: it reviews what change
 **Concept**: Layer multiple Claude Code mechanisms for maximum intelligence on critical decisions.
 
 ```
-Layer 1: Plan Mode          → Safe exploration, no side effects
+Layer 1: Plan Mode          → Exploration without source-file edits
 Layer 2: Extended Thinking  → Deep reasoning with thinking tokens
 Layer 3: Rev the Engine     → Multi-round refinement
 Layer 4: Split-Role Agents  → Multi-perspective analysis
@@ -3401,7 +3389,7 @@ The most common mistake is treating Claude Code like a chatbot: typing ad-hoc re
 > *"Stop treating it like a chatbot. Give it structured context. CLAUDE.md, hooks, skills, project memory. Changes everything."*
 > [Robin Lorenz](https://www.linkedin.com/in/robin-lorenz-54055412a/), AI Engineer ([comment](https://www.linkedin.com/feed/update/urn:li:activity:7426936437746352128?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7426936437746352128%2C7426941635306987520%29))
 
-Claude Code has four layers of persistent context that compound over time:
+This guide groups four mechanisms into a conceptual learning model, not an exhaustive runtime architecture:
 
 | Layer | What It Does | Section | When to Set Up |
 |-------|-------------|---------|----------------|
@@ -3422,10 +3410,10 @@ These are not independent features. They are layers of the same system:
 > *(Every session. Every time. Copy-pasting context.)*
 
 **After** (context system):
-> CLAUDE.md loads conventions automatically. Skills ensure consistent workflows.
-> Hooks enforce quality with zero manual effort. Memory carries decisions forward.
+> Applicable CLAUDE.md files supply conventions. Skills provide reusable workflows.
+> Configured hooks run checks for supported events. Memory records decisions for later use.
 
-The shift is not about prompting better. It is about building a system where Claude starts every session already knowing what you need.
+These mechanisms improve available context; they do not guarantee instruction adherence, complete recall or a successful quality check.
 
 > **See also**: [§9.10 Continuous Improvement Mindset](#910-continuous-improvement-mindset) for evolving this system over time. Ready to choose the right mechanism? [Memory Loading Comparison](#memory-loading-comparison) maps all seven mechanisms with a decision tree.
 
@@ -4670,7 +4658,7 @@ The `Agent` tool spawns subagents with:
 
 See the [official subagent depth rules](https://code.claude.com/docs/en/sub-agents#subagent-depth-limit).
 
-This prevents context pollution during exploratory tasks.
+This limits transcript accumulation in the parent. Ordinary subagents start with fresh context; forked subagents can inherit history. Separate conversation context does not isolate filesystem changes, credentials or external effects. Use a worktree or other isolation when needed; see [subagent context](https://code.claude.com/docs/en/sub-agents).
 
 ### Agent teams (experimental)
 
@@ -4853,7 +4841,7 @@ _Quick jump:_ [Memory Files (CLAUDE.md)](#31-memory-files-claudemd) · [.claude/
 
 ## 3.1 Memory files (CLAUDE.md)
 
-CLAUDE.md files are persistent instructions read at every session start. Three levels: `~/.claude/CLAUDE.md` (global) → `/project/CLAUDE.md` (project) → `/project/CLAUDE.local.md` (personal; add to `.gitignore`). Instructions are combined; they are not settings with a guaranteed override order. `.claude/CLAUDE.md` is an alternative shared project instruction file.
+CLAUDE.md files supply persistent instructions. Applicable root user/project instructions load at startup; nested files load when relevant. Common files are `~/.claude/CLAUDE.md`, project `CLAUDE.md` or `.claude/CLAUDE.md`, and personal `CLAUDE.local.md` (gitignored). Managed instructions can also apply. Instructions combine rather than following settings precedence; see [instruction loading](https://code.claude.com/docs/en/memory#claudemd-files).
 
 **Minimum viable**: project name, one-sentence description, and `## Commands` block. Claude auto-detects stack, directory structure, and conventions. Add a line only when Claude makes the same mistake twice, not preemptively.
 
@@ -4871,14 +4859,14 @@ CLAUDE.md files are persistent instructions read at every session start. Three l
 **How it works**:
 1. **Claude makes an error** (e.g., uses `npm` instead of `pnpm`)
 2. **You add a rule** to CLAUDE.md: `"Always use pnpm, never npm"`
-3. **Claude reads CLAUDE.md** at session start → never repeats error
+3. **Claude reads applicable CLAUDE.md** → the reminder can reduce repeated errors, but adherence must still be checked
 4. **Knowledge compounds** over time as team catches and documents edge cases
 
-**The compounding effect**:
+**Illustrative growth of documented knowledge (not measured prevention)**:
 ```
-Week 1: 5 rules  →  5 mistakes prevented
-Week 4: 20 rules → 20 mistakes prevented
-Month 3: 50 rules → 50 mistakes prevented + faster onboarding
+Week 1: 5 rules documented
+Week 4: 20 rules documented
+Month 3: 50 rules documented
 ```
 
 **Practical example** (Boris Cherny's team):
@@ -5285,7 +5273,7 @@ Express + Prisma backend.
 
 As projects grow, keeping everything in a single CLAUDE.md file becomes unwieldy. The community has converged on a modular approach that separates the index from the detail, using Claude's native file-loading mechanisms.
 
-**The pattern**: CLAUDE.md stays under 100 lines and acts as a routing index. Domain-specific rules live in `.claude/rules/*.md` files, loaded automatically at session start. Skills and workflows live in `.claude/skills/`.
+**The pattern**: CLAUDE.md stays under 100 lines and acts as a routing index. Domain-specific rules live in `.claude/rules/*.md`: unscoped rules load at startup, while `paths` rules load when matching files are relevant. Skills and workflows live in `.claude/skills/`.
 
 ```
 .claude/
@@ -5296,26 +5284,28 @@ As projects grow, keeping everything in a single CLAUDE.md file becomes unwieldy
 │   ├── architecture.md    # Design decisions, ADR references
 │   └── api-conventions.md # API standards, naming rules
 └── skills/
-    ├── deploy.md           # Deployment workflow
-    └── review.md           # Code review process
+    ├── deploy/SKILL.md     # Deployment workflow
+    └── review/SKILL.md     # Code review process
 ```
 
-**Why this works**: Claude loads ALL files in `.claude/rules/` at session start automatically (Section 3.2). The CLAUDE.md index stays readable at a glance while the full rule set is always active.
+**Why this works**: The index stays short, unscoped rules provide general conventions, and `paths` rules supply file-specific conventions when relevant.
 
 **Path-based conditional loading**: Claude supports frontmatter in rule files to restrict rules to specific directories. A rule that only applies to notebook code doesn't need to load in every session:
 
 ```yaml
 ---
-globs: notebooks/**, experiments/**
+paths:
+  - "notebooks/**"
+  - "experiments/**"
 ---
 # Jupyter Conventions
 Always include a markdown cell explaining the experiment goal before any code.
 Never use global state between notebook cells.
 ```
 
-> **Warning: `paths:` array syntax fails silently.** The documented `paths:` field with a YAML array (`paths:\n  - "**/*.ts"`) does not work due to an internal CSV parser bug (confirmed in GitHub issue #17204 and 8 duplicate reports). Quoted strings under `paths:` also break silently, preserving literal quote characters in the glob. Use `globs:` with unquoted, comma-separated patterns instead. No quotes, no array syntax.
+> **Current syntax**: Use `paths` with a YAML list or a comma-separated string. Earlier compatibility reports (including issue #17204) are historical, not the current contract. `globs` is not a recognized rule field and can leave a rule unscoped. See [path-specific rules](https://code.claude.com/docs/en/memory#path-specific-rules).
 
-Rules without a `globs:` key load unconditionally. Rules with `globs:` only load when Claude is working with files that match those patterns.
+Rules without `paths` load generally. `paths` scopes a rule to matching files.
 
 **The 3-tier hierarchy** (community-validated pattern):
 
@@ -5323,7 +5313,7 @@ Rules without a `globs:` key load unconditionally. Rules with `globs:` only load
 |------|----------|---------|---------------|
 | **Index** | `CLAUDE.md` | Commands, stack, critical constraints | Always |
 | **Domain rules** | `.claude/rules/*.md` | Conventions by domain (testing, security, API) | Always (or path-scoped) |
-| **Skills** | `.claude/skills/*.md` | Reusable workflows | On-demand via `/skill-name` |
+| **Skills** | `.claude/skills/<name>/SKILL.md` | Reusable workflows | On invocation by Claude or `/skill-name` |
 
 **Practical example** for a full-stack project:
 
@@ -5351,7 +5341,7 @@ See .claude/rules/ for domain-specific conventions:
 
 This separation keeps the daily-use index scannable while ensuring domain experts can expand their area without cluttering the shared index.
 
-> **Source**: Pattern documented by the Claude Code community (joseparreogarcia.substack.com, 2026); 78% of developers create a CLAUDE.md within 48h of starting with Claude Code (SFEIR Institute survey). Path-based conditional loading is an official feature documented in the [Claude Code settings reference](https://docs.anthropic.com/en/docs/claude-code/settings).
+> **Source**: Pattern documented by the Claude Code community (joseparreogarcia.substack.com, 2026); 78% of developers create a CLAUDE.md within 48h of starting with Claude Code (SFEIR Institute survey). Path-based conditional loading is documented in the [Claude Code memory reference](https://code.claude.com/docs/en/memory#path-specific-rules).
 
 ---
 
@@ -5363,7 +5353,7 @@ The `.claude/` folder is your project's Claude Code directory for memory, settin
 
 ```
 .claude/
-├── CLAUDE.md              # Local instructions (gitignored)
+├── CLAUDE.md              # Shared project instructions (committed)
 ├── settings.json          # Session, tool, and hook configuration
 ├── settings.local.json    # Personal permissions (gitignored)
 ├── agents/                # Custom agent definitions
@@ -5403,7 +5393,7 @@ The `.claude/` folder is your project's Claude Code directory for memory, settin
 | Team commands | `commands/` | ✅ Commit |
 | Automation hooks | `hooks/` | ✅ Commit |
 | Knowledge modules | `skills/` | ✅ Commit |
-| Personal preferences | `CLAUDE.md` | ❌ Gitignore |
+| Personal instructions | `CLAUDE.local.md` at project root | ❌ Gitignore |
 | Personal permissions | `settings.local.json` | ❌ Gitignore |
 
 ### 3.43.0 Version control & backup
@@ -5414,7 +5404,7 @@ The `.claude/` folder is your project's Claude Code directory for memory, settin
 
 #### Configuration hierarchy
 
-Claude Code uses a three-tier configuration system with clear precedence:
+These are the three user/project file tiers. Managed settings and command-line settings take precedence over them:
 
 ```
 ~/.claude/settings.json          (global user defaults)
@@ -5434,7 +5424,7 @@ This hierarchy enables:
 - **Personal flexibility**: Override settings in `.local.json` without Git conflicts
 - **Multi-machine consistency**: Global defaults in `~/.claude/` synced separately
 
-> **Legacy note**: Claude Code still supports `~/.claude.json` for backward compatibility, but `~/.claude/settings.json` is the recommended location. CLI flags (e.g., `--teammate-mode in-process`) override all file-based settings.
+> **Full precedence**: managed → command line → local → project → user. Some lists merge and some keys have documented exceptions. `~/.claude.json` holds sign-in, MCP and other application state; it is not a general legacy replacement for settings JSON. See [settings files and precedence](https://code.claude.com/docs/en/settings#settings-precedence).
 
 #### Git strategy for project configuration
 
@@ -5941,6 +5931,16 @@ Highest Priority
        │
        ▼
 ┌──────────────────────────────────┐
+│  Managed settings                │  Organization policy
+└──────────────────────────────────┘
+       │
+       ▼
+┌──────────────────────────────────┐
+│  Command-line settings            │  Session configuration
+└──────────────────────────────────┘
+       │
+       ▼
+┌──────────────────────────────────┐
 │  settings.local.json             │  Personal overrides
 └──────────────────────────────────┘
        │
@@ -5979,12 +5979,12 @@ Understanding when each memory method loads is critical for token optimization:
 
 | Method | When Loaded | Token Cost | Use Case |
 |--------|-------------|------------|----------|
-| `CLAUDE.md` | Session start | Always | Core project context |
+| `CLAUDE.md` | Root instructions at startup; nested when relevant | Depends on loaded files | Project instructions |
 | `.claude/rules/*.md` | Startup if unscoped; matching files for `paths` rules | Depends on scope | General or file-specific conventions |
 | `@path/to/file.md` in CLAUDE.md | When the importing instructions load | Loaded with instructions | Split instruction files |
 | `.claude/skills/<name>/SKILL.md` | Full body on invocation | Description may be available earlier | Workflow templates and knowledge |
 
-**Key insight**: Scope file-specific conventions with `paths`. Keep unscoped rules focused on instructions that apply generally. Skills are invocation-only and may not be triggered reliably: one eval found agents invoked skills in only 56% of cases ([Gao, 2026](https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals)). Never rely on skills for critical instructions; use CLAUDE.md or rules instead.
+**Key insight**: Scope file-specific conventions with `paths`. Keep unscoped rules focused on instructions that apply generally. Skill bodies load on invocation and may not be triggered reliably: one eval found agents invoked skills in only 56% of cases ([Gao, 2026](https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals)), a result for that tested setup. CLAUDE.md and rules provide reminders; use permission policy, isolation or verified checks for enforceable constraints.
 
 > **See also**: [Token Cost Estimation](#token-saving-techniques) for approximate token costs per file size. For a unified "which mechanism for what?" reference, see [Memory Loading Comparison](#memory-loading-comparison).
 
@@ -6008,14 +6008,14 @@ These rules only apply when working with API files:
 - Include rate limiting middleware
 ```
 
-> **Warning: `paths:` array syntax fails silently.** The documented `paths:` field with a YAML array is broken due to an internal CSV parser bug (`_9A()` receives a JS Array and iterates characters of the stringified value instead of the actual patterns). Quoted strings under `paths:` have the same problem, preserving literal quote characters in the glob. This is confirmed across GitHub issue #17204 and 8 duplicate reports. The workaround is to use `globs:` with unquoted, comma-separated patterns. No quotes, no YAML arrays.
+> **Current syntax**: Use `paths` with a YAML list or a comma-separated string. Earlier compatibility reports (including issue #17204) are historical, not the current contract. `globs` is not a recognized rule field and can leave a rule unscoped. See [path-specific rules](https://code.claude.com/docs/en/memory#path-specific-rules).
 
 This enables progressive context loading: rules only appear when Claude works with matching files. Real-world example: Avo migrated a 600-line CLAUDE.md to ~15 path-scoped files, reporting sharper responses and easier maintenance across domains. ([Björn Jóhannsson](https://www.linkedin.com/posts/bj%C3%B6rn-j%C3%B3hannsson-72435083_your-claudemd-is-eating-your-context-window-activity-7431750526729338881-ODSs))
 
 **How matching works**:
-- Patterns use glob syntax (same as `.gitignore`)
+- Patterns use the glob syntax documented in the memory reference
 - Multiple rules can match the same file (all are loaded)
-- Rules without `globs:` frontmatter always load
+- Rules without `paths` frontmatter load generally
 
 ---
 
@@ -7260,7 +7260,7 @@ Not all skills age the same way. The type you're building determines how you wri
 
 ## 5.1 Understanding skills
 
-Skills are knowledge packages that agents can inherit.
+Skills package reusable instructions and supporting files. Claude or the user can invoke them, subject to invocation controls; see [skills](https://code.claude.com/docs/en/skills).
 
 ### Skills vs agents
 
@@ -7268,8 +7268,8 @@ Skills are knowledge packages that agents can inherit.
 
 | Concept | Purpose | Invocation |
 |---------|---------|------------|
-| **Agent** | Context isolation tool | Task tool delegation |
-| **Skill** | Knowledge module or workflow template | `/skill-name` (user) or auto-loaded (model) |
+| **Agent** | Delegation with separate conversation context | Agent tool delegation |
+| **Skill** | Knowledge module or workflow template | `/skill-name` (user) or invocation by Claude |
 
 #### Detailed comparison
 
@@ -7277,12 +7277,12 @@ Skills are knowledge packages that agents can inherit.
 |--------|------------------------|--------------------------|--------|
 | **What it is** | Workflow template | Knowledge module | Context isolation tool |
 | **Location** | `.claude/skills/` | `.claude/skills/` | `.claude/agents/` |
-| **Invocation** | `/skill-name` (user types) | Auto-loaded by model | Task tool delegation |
+| **Invocation** | `/skill-name` (user types) | Invoked by Claude | Agent tool delegation |
 | **Frontmatter** | `disable-model-invocation: true` | Default (no flag needed) | n/a |
-| **Execution** | In main conversation | Loaded into context | Separate subprocess |
-| **Context** | Shares main context | Adds to agent context | Isolated context |
+| **Execution** | Main conversation by default; can use `context: fork` | Body loads on invocation | Delegated subagent run |
+| **Context** | Main by default; fork option | Main by default; fork option | Separate context; forked types may inherit history |
 | **Best for** | Repeatable manual workflows | Reusable knowledge | Scope-limited analysis |
-| **Token cost** | Low (template only) | Medium (knowledge loaded) | High (full agent) |
+| **Token cost** | Description plus body when invoked | Description plus body when invoked | Depends on task, model and retained history |
 | **Examples** | `/commit`, `/pr`, `/ship` | TDD, security-guardian | security-audit, perf-audit |
 
 #### Decision tree: Which to use?
@@ -8892,7 +8892,7 @@ claude --resume <session-id> --fork-session
 - You want to try two different approaches to the same problem in parallel
 - You found a good mid-session checkpoint and want to branch off for a hypothesis test
 
-**After forking**: both branches are independent; changes in one don't affect the other. Resume either later with `claude --resume` and the interactive session picker.
+**After forking**: conversation histories diverge, but sessions can still share files and external resources. A fork is not a filesystem snapshot or sandbox. Resume either conversation with `claude --resume`; use separate worktrees when changes must be isolated.
 
 **Tip**: run `/rename` before forking so you can tell the two branches apart in the picker.
 
@@ -9762,7 +9762,7 @@ _Quick jump:_ [The Event System](#71-the-event-system) · [Creating Hooks](#72-c
 
 ## 7.1 The Event System
 
-Hooks are scripts that run automatically when specific events occur.
+Hooks run configured handlers for supported lifecycle events. Handler types include `command`, `http`, `mcp_tool`, `prompt`, and `agent`; each event supports a subset. See the [hook reference](https://code.claude.com/docs/en/hooks#hook-lifecycle).
 
 ### Event Types
 
@@ -9789,7 +9789,7 @@ Hooks are scripts that run automatically when specific events occur.
 
 | Event | When It Fires | Can Block? | Use Case |
 |-------|---------------|------------|----------|
-| `PermissionRequest` | Permission dialog appears | Yes | Custom approval logic |
+| `PermissionRequest` | A tool call would show a permission dialog | Yes | Conditional approval logic; not every tool call |
 | `PermissionDenied` | A tool call is denied by the auto mode classifier (only fires in auto mode, not on manual user denials) | No | Audit classifier denials, return `retry: true` to let model retry |
 
 **Compaction** (context management):

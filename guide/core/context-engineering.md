@@ -112,12 +112,12 @@ Context engineering in Claude Code operates across three distinct layers:
 | Layer | Mechanism | Scope | When Loaded |
 |-------|-----------|-------|-------------|
 | **Global config** | `~/.claude/CLAUDE.md` | All projects | Always |
-| **Project config** | `./CLAUDE.md` + path-scoped modules | Current project | Per session |
-| **Session** | Inline instructions, `/add`, flags | Current session only | Runtime |
+| **Project config** | Root instructions + conditional rules | Current project | Root at launch; conditional content on relevant accesses |
+| **Session** | Inline task instructions, supported prompt flags | Current conversation | Runtime |
 
-Each layer has different tradeoffs. Global config is always-on but cannot reference project-specific details. Session instructions are flexible but ephemeral. Project config is the workhorse: structured, versioned, reviewable.
+Each layer has different tradeoffs. Global instructions apply across projects; project files can be versioned and reviewed; conversation instructions describe the current task. A resumed conversation can retain those task instructions.
 
-Good context engineering means putting each piece of information in the right layer, not cramming everything into one file, and not leaving critical knowledge in the session layer where it evaporates after every conversation.
+Put shared defaults in persistent files and keep task-specific requests in the conversation. Verify what loaded before diagnosing a missed instruction.
 
 **Markdown files as shared persistent memory work better than a dedicated database for this purpose.** A plain Markdown file that multiple agents or sessions can read and append to serves as durable, human-readable memory without the operational overhead of standing up a store. Pairing that memory with a rules file that documents project conventions (naming, code style, architectural boundaries) gives the model the same onboarding a new engineer would need; without it, output quality and adherence to project style both suffer. (*Alex Gavrilescu, Devoxx, 2025. Konstantin Pavlov, 2025, reaches the same conclusion independently.*)
 
@@ -125,16 +125,14 @@ Good context engineering means putting each piece of information in the right la
 
 ### Static vs. dynamic context
 
-The three-layer system above is *static context*: configuration files that are assembled before a session begins and remain stable throughout. Claude Code is primarily a static context system, which is why CLAUDE.md structure and path-scoping matter so much.
-
-As you move toward agent workflows, a second category appears: *dynamic context*, assembled at inference time as the agent operates.
+Here, *static* means authored instruction material, while *dynamic* means task information retrieved or produced during work. This distinction describes provenance, not a universal loading time.
 
 | Type | How assembled | Examples in Claude Code |
 |------|--------------|-------------------------|
-| **Static** | Before session, from files | CLAUDE.md, path-scoped modules, skills |
-| **Dynamic** | At runtime, from tools | Tool outputs, file reads, web fetches, MCP data |
+| **Static** | Authored files loaded at launch or on relevant accesses/invocation | Root and nested CLAUDE.md, conditional rules, skills |
+| **Dynamic** | Retrieved or generated during the task | Tool outputs, file reads, web fetches, MCP data |
 
-In practice, every Claude Code session uses both. The static context (your configuration) sets the behavioral envelope; the dynamic context (files Claude reads, tool results it processes) provides the specific information for each task. Context engineering covers both, but the failure modes differ: static context problems manifest as consistent convention violations; dynamic context problems manifest as Claude acting on stale or incomplete information mid-task.
+Both can enter context during a session. Authored instructions guide behavior; they do not create an enforced security boundary. Inspect instruction conflicts as well as stale or incomplete task data. [Instruction loading](https://code.claude.com/docs/en/memory#how-claude-md-files-load).
 
 A centralized context layer can reduce fragmentation while increasing the blast radius of stale, poisoned, or incorrectly related data. Require provenance, freshness, scoped read permissions, and a revocation path before treating a shared context lake as authoritative. [Memory Systems](./memory-systems.md#71-memory-poisoning-via-prompt-injection) documents the corresponding poisoning, staleness, and multi-writer risks. Product demonstrations that show retrieval working do not measure those failure modes.
 
@@ -193,49 +191,37 @@ The practical rule: use CoT for complex isolated reasoning steps, not as a blank
 
 ### Token math
 
-A concrete baseline for a mid-size project:
+Illustrative token ranges for planning, not a measured project baseline:
 
-| Source | Typical Token Range |
+| Source | Illustrative Token Range |
 |--------|---------------------|
 | Global CLAUDE.md | 1,000 – 3,000 tokens |
 | Project CLAUDE.md (root) | 2,000 – 8,000 tokens |
-| Path-scoped modules (all active) | 1,000 – 5,000 tokens |
-| Imported skills / commands | 500 – 3,000 tokens |
-| **Total always-on context** | **~5,000 – 20,000 tokens** |
+| Conditional rules (if loaded) | 1,000 – 5,000 tokens |
+| Imported instruction files | 500 – 3,000 tokens |
+| **Total if all listed content loads** | **~5,000 – 20,000 tokens** |
 
 Claude Sonnet 5 has a native 1M token context window. That means even a large always-on configuration budget (20K tokens) occupies about 2% of the window, leaving roughly 980K tokens for actual work: code files, conversation history, tool outputs. (Earlier models like Sonnet 4.6 used a 200K standard window with a separate 1M variant, where the same 20K budget cost about 10% of the window.)
 
-The practical rule: **always-on context should stay below 5% of the context window.** Beyond that, you are displacing actual task content, which matters more per token than standing instructions.
+A small standing-instruction budget leaves room for task content. A 5% budget can be a team target, but it is not a documented product limit or a validated universal accuracy threshold. Measure the files actually loaded in your sessions.
 
 ### The 150-instruction ceiling
 
-Empirical observation from teams running large CLAUDE.md files: beyond approximately 150 distinct rules, models begin selectively ignoring some of them. This is not a hard cutoff (it depends on rule complexity, overlap, and placement), but it is a reliable signal that more rules does not equal better adherence.
+There is no verified universal ceiling of 150 instructions. Rule complexity, relevance, contradictions, model, and task all affect adherence; counting rules alone cannot establish a safe limit.
 
-The mechanism is attention diffusion: when a prompt contains hundreds of potentially relevant constraints, the model's attention is split across them. High-salience rules (recent, strongly worded, placed early) crowd out lower-salience ones.
-
-HumanLayer's production data shows teams with structured context (fewer, more specific rules, organized hierarchically) see 15-25% better adherence than teams with undifferentiated long rule lists.
-
-Implication: **rule quality beats rule quantity.** Twenty specific, actionable rules outperform 200 generic aspirational ones.
+The previous claims of a 15-25% adherence improvement and a 20-versus-200-rule comparison lacked a supporting measurement. Use representative tasks to compare configurations, recording the model, loaded files, and violations of each rule.
 
 ### Adherence degradation by file size
 
-```
-Lines in CLAUDE.md    Adherence (estimated)
-─────────────────     ─────────────────────
-1 – 100               ~95%
-100 – 200             ~88%
-200 – 400             ~75%
-400 – 600             ~60%
-600+                  ~45% and falling
-```
+No measured universal curve supports assigning adherence percentages to CLAUDE.md line counts. [Anthropic recommends concise, consistent instruction files](https://code.claude.com/docs/en/memory#write-effective-instructions); treat its under-200-line target as guidance, not a pass/fail accuracy boundary.
 
-These are estimated baselines, not guarantees. Path-scoping and modular architecture can maintain higher adherence at larger total rule counts by ensuring that only relevant rules are in context at any given time.
+For your project, record loaded instruction files, run the same tasks before and after a change, and count observable violations. Do not report an adherence gain without that comparison.
 
 ### Signs of context overload
 
 When always-on context becomes too large or too noisy, you see predictable failure modes:
 
-- **Rule silencing**: Claude follows 80% of conventions consistently but ignores specific rules that should apply.
+- **Rule silencing**: Claude repeatedly ignores specific conventions that should apply.
 - **Contradictory behavior**: Claude applies a rule in some files but not others, or applies contradictory rules depending on phrasing.
 - **Slow first responses**: The model spends more time processing a large context before generating output (observable in longer latency for simple tasks).
 - **Generic outputs**: Instead of applying project-specific patterns, Claude falls back to generic best practices, a sign that project context is not being retained.
@@ -244,46 +230,32 @@ When you see these patterns, the diagnostic is: run a context audit (see Section
 
 ### MECW: Maximum effective context window
 
-The advertised context window and the effective context window are not the same number. Enterprise context engineering deployments consistently find that meaningful accuracy degradation begins before the stated limit is reached. The commonly cited figure from production experience: approximately 92% of the advertised limit.
+Effective task performance can decline before a context window is full, but no verified universal 92% ceiling, 150K trigger, or 30% accuracy loss supports the previous estimates here. The comparison that 128K curated tokens always outperform 1M tokens also lacked a controlled benchmark.
 
-For Claude Opus 4 (200K advertised), this puts the practical ceiling at approximately 185K tokens before accuracy measurably degrades on complex reasoning tasks. The mechanism is the n² attention scaling described in Section 1 (Why Context Rot is Structural): as the context grows, attention operations scale quadratically, and mid-window positions receive diminishing effective weight.
+Use context utilization as a diagnostic alongside task outcomes. Test compaction and offloading on representative tasks; record accuracy, latency, and cost for the actual model and configuration rather than deriving a threshold from window size.
 
-Context rot degrades accuracy by 30%+ in mid-window positions under heavy context load. The practical implication: a 128K-token context window with high-quality, well-maintained content outperforms a 1M-token window with stale, accumulated content. The 1M window does not eliminate the problem; it delays it while increasing the cost of each request.
-
-The question "should I just use the 1M context window?" is really a question about signal-to-noise, not capability. A larger window that accumulates tool output noise, expired conversation turns, and redundant instructions is not more powerful than a smaller, curated one. It is just more expensive and slower.
-
-**Practical MECW targets**:
-
-| Window | Advertised | Practical ceiling (92%) | When rot degrades accuracy |
-|--------|-----------|------------------------|--------------------------|
-| Claude Sonnet 4.6 | 200K | ~184K | ~150K+ |
-| Claude Opus 4 | 200K | ~185K | ~150K+ |
-| Claude Sonnet 5 | 1M | not yet benchmarked | not yet benchmarked |
-
-These are engineering estimates, not guaranteed values. Treat them as planning figures: if your session regularly approaches 150K tokens, it is time to implement compaction, graduated offloading, or path-scoping before accuracy becomes a problem, not after.
-
-**A sharp, non-linear quality drop shows up around 70% of the context budget used, rather than a smooth decline.** Nine speakers at the same meetup independently reported this same threshold, which this guide reads as a notably strong signal for a claim usually offered as a vague hunch. The practical consequence is about timing: purge or compact context before crossing that threshold, not after the drop already shows up in the output. (*Emmanuel Sciara, Dev With AI Meetup, 2026. Malo and Dorian, same event and year, describe the same shift as abrupt rather than gradual.*)
+**Historical meetup observation**: Emmanuel Sciara, Malo, and Dorian at Dev With AI Meetup (2026) described an abrupt quality drop around 70% utilization. This is an attributed anecdote from the guide's event corpus, not a verified product threshold or independent benchmark. It can motivate a local experiment, but does not establish when every session should compact.
 
 ### Path-Scoping and budget efficiency
 
-Path-scoping is the most effective single technique for reducing always-on context. Instead of loading all rules for all parts of the codebase, you load only the rules relevant to the files currently in context.
+Path-scoping can reduce standing instruction overhead when subsystem rules are irrelevant to most tasks. Use conditional rules rather than root imports for this purpose; measure the reduction in your own project.
 
-A typical project without path-scoping:
+Illustrative project before path-scoping:
 
 ```
 Always-on: root CLAUDE.md with backend + frontend + database + API rules = 8,000 tokens
 ```
 
-The same project with path-scoping:
+Illustrative project after path-scoping:
 
 ```
 Always-on: root CLAUDE.md with shared rules = 2,000 tokens
-Active when in src/api/: api module = +1,500 tokens
-Active when in src/components/: frontend module = +1,200 tokens
-Active when in prisma/: database module = +800 tokens
+Loaded on a matching file operation in src/api/: api rules = +1,500 tokens
+Loaded on a matching file operation in src/components/: frontend rules = +1,200 tokens
+Loaded on a matching file operation in prisma/: database rules = +800 tokens
 ```
 
-Result: 40-50% reduction in always-on context, with no loss of coverage. Each subsystem gets its full rule set, but only when working in that subsystem.
+These example counts are not measured savings. Verify the triggers and loaded instructions with `/context`, then test subsystem tasks before claiming coverage or adherence is preserved.
 
 ---
 
@@ -302,12 +274,12 @@ Result: 40-50% reduction in always-on context, with no loss of coverage. Each su
 │  team rules, deployment procedures            │
 ├──────────────────────────────────────────────┤
 │  Session (inline instructions, flags)         │
-│  Ad-hoc overrides, experiment constraints,    │
+│  Task requests, experiment constraints,       │
 │  one-off task parameters                      │
 └──────────────────────────────────────────────┘
 ```
 
-Later layers override earlier ones. A session instruction can override a project rule; a project rule can override a global default. This gives you escape hatches without requiring permanent changes to shared configuration.
+This stack organizes instruction context, not enforced settings precedence. Conflicting instructions have no guaranteed winner. Keep files consistent and state task-specific changes explicitly. Security controls belong in permissions, hooks, managed policy, and the execution environment. [Instruction loading and consistency](https://code.claude.com/docs/en/memory#write-effective-instructions).
 
 ### Global configuration
 
@@ -356,7 +328,7 @@ Later layers override earlier ones. A session instruction can override a project
 - File organization patterns
 - Testing requirements and coverage targets
 - Security constraints specific to this project
-- Path-scope imports for subsystem modules
+- References to conditional subsystem rules
 
 **Structure pattern**:
 
@@ -379,10 +351,9 @@ Later layers override earlier ones. A session instruction can override a project
 - Error handling: wrap service calls in Result<T, E> pattern (see lib/result.ts)
 - Never expose raw database IDs in API responses; use UUIDs
 
-## Path-Scoped Modules
-@src/api/CLAUDE-api.md
-@src/components/CLAUDE-components.md
-@prisma/CLAUDE-db.md
+## Subsystem Rules
+Conditional rules live in .claude/rules/api.md, frontend.md, and database.md.
+Each file declares its matching paths in YAML frontmatter.
 ```
 
 **The Goldilocks problem: altitude**
@@ -408,15 +379,15 @@ The architecture choices, quality standards, and explicit "what not to do and wh
 
 ### Session configuration
 
-**Mechanism**: Inline instructions, `/add-dir`, or system prompt flags for the current session.
+**Mechanism**: Inline task instructions or supported system-prompt flags. `/add-dir` grants additional working-directory access; it is not itself an instruction override mechanism. Additional-directory instructions have their own loading options. [Additional directories](https://code.claude.com/docs/en/memory#load-from-additional-directories).
 
 **What belongs here**:
 - One-off task constraints ("For this refactor, do not change the public API surface")
 - Experiment parameters ("Use the new error format I'm testing in this file")
 - Debug constraints ("Log every tool call for this session")
-- Temporary overrides of project conventions
+- Explicit task-specific changes to project conventions
 
-Session instructions are not persisted. They evaporate when the session ends. Any instruction that you find yourself repeating across sessions belongs in the project config, not the session layer.
+A saved conversation can retain task instructions when resumed. That does not make them a shared default for new sessions. Move instructions you repeatedly need in new sessions into the appropriate persistent file.
 
 ### Decision tree: Where does this rule go?
 
@@ -426,7 +397,7 @@ Is this rule relevant to every project I work on?
 └── No ↓
 
 Is this rule relevant to specific files or subsystems?
-├── Yes → Path-scoped module (e.g., src/api/CLAUDE-api.md)
+├── Yes → Conditional .claude/rules/api.md or nested src/api/CLAUDE.md
 └── No ↓
 
 Is this rule relevant to the whole project?
@@ -440,16 +411,11 @@ Does this rule apply only to the current task or session?
 
 ### Import chain and override semantics
 
-The import chain flows: `global → project root → path-scoped modules → session`.
+A root `@file` import loads with its referring CLAUDE.md; it is not conditional path scoping. Nested CLAUDE.md files and rules with `paths` frontmatter provide on-demand scope. [Import behavior](https://code.claude.com/docs/en/memory#import-additional-files).
 
-When conflicts exist:
-- More specific overrides less specific (path-scoped beats root, root beats global)
-- Later-declared beats earlier-declared at the same level
-- Session instructions override all persistent config
+Loading order does not guarantee how Claude resolves contradictory instructions. Rewrite conflicts into consistent guidance. For example, a project can specify four-space indentation for Python while its global file defers formatting to each project; a task can then ask Claude to match the existing file. A formatter enforces the result independently.
 
-**Practical example**: Your global config says "use two-space indentation." Your project config says "use four-space indentation for Python." Your session says "match the existing file style." The session instruction wins for this session, with four-space default for Python files, two-space for everything else.
-
-Document your overrides explicitly. An undocumented override that contradicts a parent rule creates confusion during audits.
+Settings files have a separate, documented [precedence system](https://code.claude.com/docs/en/settings#settings-precedence). Do not infer tool authorization from instruction-file specificity.
 
 ---
 
@@ -457,43 +423,37 @@ Document your overrides explicitly. An undocumented override that contradicts a 
 
 ### The problem with monolithic config
 
-A 600-line CLAUDE.md with no structure is the most common failure mode in production contexts. Symptoms:
+A long, unstructured CLAUDE.md can make maintenance and task relevance harder. Possible problems:
 
 1. Rules from different domains mix together: a React component convention sits next to a database migration rule
-2. Claude reads all 600 lines but the attention budget means rules on page 5 get less weight than rules on page 1
+2. Unrelated instructions consume context that the task may need
 3. New team members can't find relevant rules quickly
 4. Updates require scanning the entire file to find related rules before editing
-5. Adherence degrades progressively as the file grows
+5. Missed or conflicting instructions require diagnosis and measurement
 
 The fix is architectural: decompose the monolith into focused modules, then use path-scoping to load each module only when relevant.
 
-**A CLAUDE.md file that keeps growing hurts the model's performance directly, not just the token bill.** The common reflex when Claude gets something wrong is to add one more rule to the system prompt, on the assumption that more context can only help. Two independent talks from the same 2026 meetup reached the opposite conclusion: past a certain size, splitting rules into separate modular files outperforms piling them into one growing document, because the file itself becomes the bottleneck the model has to work around. (*Florian Allainmat, Dev With AI Meetup, 2026. Gallet and Dahan, same corpus and year, report the same independent finding.*)
+**A growing CLAUDE.md warrants checking task performance as well as token overhead.** The common reflex when Claude gets something wrong is to add one more rule to the system prompt, on the assumption that more context can only help. Two independent talks from the same 2026 meetup reached the opposite conclusion: past a certain size, splitting rules into separate modular files outperforms piling them into one growing document, because the file itself becomes the bottleneck the model has to work around. (*Florian Allainmat, Dev With AI Meetup, 2026. Gallet and Dahan, same corpus and year, report the same independent finding.*)
 
 A production data engineering team reached the same conclusion from a completely different starting point. Gorgias built an internal SQL-generating agent and found that a single large prompt describing their ~100 BigQuery tables was unmaintainable and noisy. Their fix was a three-tier context layer, structured much like the pattern above: per-table metadata with `when_to_use` and `how_to_use` fields (the productive-altitude pattern from Section 3, with 10-15 example question-query pairs per table), hierarchical topic instructions loaded per department, and step-by-step skill playbooks for multi-step tasks. Their own framing: progressive disclosure, loading only the relevant context on demand, was "the single biggest improvement" to reliability. Three unrelated teams (a CLAUDE.md meetup corpus, this guide's own SKILL.md progressive-disclosure pattern, and a data team solving SQL generation) converged on the same shape without coordinating. (*Gorgias Engineering, "Building a Context Layer From the Ground Up," Medium, 2026.*)
 
 ### Path-scoping pattern
 
-**Mechanism**: Claude Code supports `@path/to/file.md` imports in CLAUDE.md. When a path-scoped import is active, rules from that module are added to context only when files under the specified path are in scope.
+**Mechanism**: Put subsystem guidance in `.claude/rules/` files with YAML `paths` frontmatter. Matching Read, Write, or Edit calls load the rules. This is instruction guidance, not access control. [Path-specific rules](https://code.claude.com/docs/en/memory#path-specific-rules).
 
 **File structure**:
 
 ```
 project/
-├── CLAUDE.md                       # Root config, shared rules + @imports
-├── src/
-│   ├── api/
-│   │   └── CLAUDE-api.md           # API-specific rules
-│   ├── components/
-│   │   └── CLAUDE-components.md    # React/UI-specific rules
-│   └── lib/
-│       └── CLAUDE-lib.md           # Utility/shared library rules
-├── prisma/
-│   └── CLAUDE-db.md                # Database and migration rules
-└── tests/
-    └── CLAUDE-tests.md             # Testing conventions
+├── CLAUDE.md                  # Shared project guidance
+└── .claude/
+    └── rules/
+        ├── api.md            # paths: src/api/**/*.ts
+        ├── frontend.md       # paths: src/components/**/*.tsx
+        └── database.md       # paths: prisma/**/*
 ```
 
-**Root CLAUDE.md with imports**:
+**Root CLAUDE.md**:
 
 ```markdown
 # Project Config
@@ -501,28 +461,27 @@ project/
 ## Shared Rules
 [...shared rules here...]
 
-## Subsystem Modules
-@src/api/CLAUDE-api.md
-@src/components/CLAUDE-components.md
-@src/lib/CLAUDE-lib.md
-@prisma/CLAUDE-db.md
-@tests/CLAUDE-tests.md
+## Subsystem Rules
+Conditional subsystem guidance is maintained in .claude/rules/.
 ```
 
-**Example path-scoped module** (`src/api/CLAUDE-api.md`):
+**Example conditional module** (`.claude/rules/api.md`):
 
 ```markdown
+---
+paths:
+  - "src/api/**/*.ts"
+---
+
 # API Rules
 
-- Route handlers in /app/api only; no business logic inline
-- All endpoints must validate input with Zod before processing
-- Error responses use the standard format: { error: string, code: string }
-- Never log request bodies that may contain PII; log IDs only
-- Rate limiting headers must be present on all public endpoints
-- Authentication: verify JWT in middleware, not in individual handlers
+- Validate endpoint input with Zod before processing.
+- Keep business logic in services, outside route handlers.
+- Use the project's standard error response format.
+- Log request IDs rather than request bodies containing PII.
 ```
 
-This module's 6 rules are in context only when working in `src/api/`. They do not consume context budget when working in `src/components/`.
+Alternatively, use the exact filename `src/api/CLAUDE.md` for nested instructions. Arbitrary names such as `CLAUDE-api.md` are not discovered by name. Importing such files from the root organizes them but loads their contents with the root file. Confirm actual loading with `/context`; once content has loaded, do not assume it disappears when switching tasks.
 
 ### Skills vs. rules
 
@@ -531,18 +490,18 @@ This distinction is underused and matters:
 | Dimension | Rules | Skills |
 |-----------|-------|--------|
 | Nature | Constraints, standards, conventions | Capabilities, procedures, workflows |
-| When active | Always enforced | Invoked on demand |
+| When active | Loaded according to scope; model guidance | Explicit invocation or model selection |
 | Example | "Never use `any` in TypeScript" | "How to add a new API endpoint" |
-| Location | CLAUDE.md | `.claude/skills/` |
-| Token cost | Always-on | Loaded only when invoked |
+| Location | CLAUDE.md or `.claude/rules/` | `.claude/skills/` |
+| Token cost | Unscoped rules at launch; conditional rules on matching operations | Descriptions at launch; body on invocation |
 
-**Rules** define what Claude should and should not do by default. They set the boundaries of acceptable output.
+**Rules** describe expected behavior. Enforce required output properties with suitable validators, hooks, and CI checks.
 
 **Skills** define how to do complex multi-step tasks that require specific knowledge of your project's patterns. They are loaded when Claude needs to perform a specific type of task, not always.
 
 **Practical example**: A rule says "API endpoints must have Zod validation." A skill says "Here is the step-by-step pattern for creating a new API endpoint in this project, including the Zod schema pattern, the error handling wrapper, the auth middleware hook, and the test file structure."
 
-Putting the endpoint creation procedure in a rule would mean loading 40 lines of procedural instructions for every session, even when you're not creating endpoints. Putting it in a skill means loading those 40 lines only when creating an endpoint.
+Putting the endpoint creation procedure in a rule would mean loading 40 lines of procedural instructions for every session, even when you're not creating endpoints. Putting it in a skill defers its body until invocation; verify whether that workflow applies to the task.
 
 **Rule**: `Never expose raw database IDs in API responses.`
 **Skill**: `How to generate and use UUID-based public identifiers for entities.`
@@ -551,8 +510,8 @@ Putting the endpoint creation procedure in a rule would mean loading 40 lines of
 
 Pre-built skill collections reduce the upfront investment in modular context engineering:
 
-- `anthropics/claude-code-skills` (official): Anthropic-maintained skill templates covering common development workflows
-- `ibelick/ui-skills`: UI component and design system skills for frontend projects
+- [anthropics/skills](https://github.com/anthropics/skills) (official): Anthropic skill examples and templates to inspect and test
+- [ibelick/ui-skills](https://github.com/ibelick/ui-skills): community skills for design engineers
 
 These can be cloned, inspected, and adapted to your project conventions rather than built from scratch. Treat them as starting points: fork and modify to match your stack and naming conventions rather than using them verbatim.
 
@@ -577,35 +536,23 @@ The principle: don't load everything upfront. Load what is needed for the task a
 ```
 .claude/
 ├── skills/
-│   ├── deploy-production.md      # Loaded when: "deploy this"
-│   ├── add-api-endpoint.md       # Loaded when: "add endpoint for X"
-│   ├── write-migration.md        # Loaded when: "add DB column"
-│   └── create-component.md      # Loaded when: "create component for X"
+│   ├── deploy-production/
+│   │   └── SKILL.md              # Procedure available for invocation
+│   ├── add-api-endpoint/
+│   │   └── SKILL.md
+│   ├── write-migration/
+│   │   └── SKILL.md
+│   └── create-component/
+│       └── SKILL.md
 ```
 
-Each skill file contains the step-by-step procedure with project-specific patterns. Claude loads it when the task type is detected, not proactively.
+Each SKILL.md has the required skill metadata and procedure. Configure its description and invocation behavior; the directory name alone does not establish a reliable task trigger.
 
 **MCP tool count and context budget**
 
-MCP servers inject tool definitions into the system prompt. Each server adds its tool schemas, which consume context budget before any user content appears. Anthropic's engineering guidance recommends:
+MCP tools consume context through descriptions and results, but the cost depends on the configured servers and loading behavior. Claude Code supports deferred MCP tool discovery with tool search; do not assume every schema always loads up front. [MCP tool search](https://code.claude.com/docs/en/mcp#scale-with-mcp-tool-search).
 
-- Fewer than 10 MCP servers active per project
-- Fewer than 80 total tools across all active servers
-
-Beyond these thresholds, tool definition overhead measurably reduces the tokens available for actual task content. At 80+ tools, you are burning 15-20K tokens on tool schemas alone, budget that would otherwise go to code context, conversation history, and file contents.
-
-The progressive disclosure principle applies to MCP servers as much as to rules. Load MCP servers contextually rather than activating all available servers for every project:
-
-```json
-{
-  "mcpServers": {
-    "database": { },
-    "github": { }
-  }
-}
-```
-
-Resist the pattern of adding every available MCP server to a project's settings "just in case." Each inactive-but-loaded server is pure overhead. If a server is used in fewer than 20% of sessions in a project, it should not be in the default project config.
+The previous 10-server/80-tool limits and 15-20K token estimate were not verified Anthropic requirements. Inspect `/context` for your session, disable irrelevant integrations, and measure the impact on representative tasks. Tool search reduces discovery overhead; it does not authorize servers or isolate their access.
 
 ### Anti-pattern: The monolithic CLAUDE.md
 
@@ -628,18 +575,18 @@ Resist the pattern of adding every available MCP server to a project's settings 
 
 **Why it fails**:
 
-- Rules 1-20 get ~95% attention weight; rules 500+ get ~30%
+- Irrelevant or conflicting guidance can obscure the instructions needed for a task
 - Frontend dev reads backend DB rules they don't need and vice versa
 - No logical grouping means finding relevant rules requires reading everything
 - Adding a new rule requires checking the entire file for conflicts
-- Adherence degrades continuously as the file grows
+- Changes need representative task checks to establish adherence
 
 **The fix**:
 
 1. Extract rules by domain into path-scoped modules
-2. Keep the root CLAUDE.md to shared rules + import declarations
+2. Keep shared rules in the root and use native conditional rules for subsystems
 3. Move procedural knowledge to skills
-4. Target root CLAUDE.md at under 150 lines after extraction
+4. Keep the root concise; validate coverage and loaded-token cost after extraction
 
 ### Structural metadata files
 
@@ -1399,14 +1346,14 @@ For interactive development with regular human review, canary checks and violati
 
 ### Path-Scoping: The highest-leverage technique
 
-Path-scoping reduces always-on context by 40-50% with no loss of coverage. It is the single most impactful structural change for projects beyond ~200 lines of configuration.
+Path-scoping can reduce irrelevant standing instructions. Savings and adherence depend on the project and must be measured; root imports alone do not provide this reduction.
 
 Implementation steps:
 
 1. Identify natural domain boundaries in your codebase (API, frontend, database, tests, infrastructure)
-2. For each domain, create a `CLAUDE-{domain}.md` file in the domain directory
+2. For each domain, create a `.claude/rules/{domain}.md` file with matching `paths` frontmatter
 3. Move domain-specific rules from root CLAUDE.md to the appropriate module
-4. Replace moved content in root CLAUDE.md with `@path/to/CLAUDE-domain.md` imports
+4. Remove the moved content from root CLAUDE.md without importing it back
 5. Verify adherence with canary checks
 
 Target after refactor: root CLAUDE.md at under 150 lines (shared rules + import declarations only).
@@ -1605,12 +1552,12 @@ pxpipe is the first production implementation of this pattern targeted specifica
 
 | Technique | Context Reduction | Effort | Adherence Impact |
 |-----------|------------------|--------|-----------------|
-| Path-scoping | 40-50% | Medium | +15-25% |
-| Negative constraints | 0% (reformulation) | Low | +15-25% per rule |
-| Rule compression | 20-30% | Low | +5-10% |
-| Deduplication | 10-20% | Low | +5-15% |
-| Archive pattern | 10-30% | Low | +5-10% |
-| 80/20 prioritization | 0% (reordering) | Low | +10-20% |
+| Path-scoping | Measure loaded-token difference | Medium | Measure task adherence |
+| Negative constraints | 0% (reformulation) | Low | Measure task adherence |
+| Rule compression | 20-30% | Low | Measure task adherence |
+| Deduplication | 10-20% | Low | Measure task adherence |
+| Archive pattern | 10-30% | Low | Measure task adherence |
+| 80/20 prioritization | 0% (reordering) | Low | Measure task adherence |
 | Think in Code | 90%+ on exploration tasks | Low | N/A (replaces calls) |
 | Graduated offloading | Variable (tier-dependent) | Medium | Prevents rot |
 

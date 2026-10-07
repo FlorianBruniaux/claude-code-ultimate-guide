@@ -1,429 +1,306 @@
 ---
 title: "Claude Code: Development Workflows Diagrams"
-description: "TDD cycle, spec-first pipeline, plan-driven workflow, iterative refinement loop"
+description: "TDD, spec-first, plan-driven, refinement and observed AI fluency behaviors"
 tags: [workflows, tdd, spec-first, plan-driven, iterative]
 ---
 
 # Development workflows
 
-Proven patterns for structuring AI-assisted development sessions.
+Methods for structuring AI-assisted development. Their verification steps establish only the behavior and scope actually checked.
 
 ---
 
 ### TDD red-green-refactor with Claude
 
-Test-Driven Development adapted for Claude Code: write the failing test first, then ask Claude to implement only what's needed to pass it. This prevents over-engineering and ensures tests actually verify behavior.
+Write a behavior test, observe why it fails, implement the requested behavior, then refactor while keeping checks green. A passing test proves only its assertions. Confirm the feature is not already present when a new test passes before implementation, and distinguish expected failures from setup errors.
 
 ```mermaid
 flowchart TD
-    A([Start: New feature needed]) --> B(Write failing test<br/>with human)
-    B --> C(Run tests)
-    C --> D{Tests fail<br/>as expected?}
-    D -->|No: tests pass<br/>before impl!| E(Fix test — it's too weak)
-    E --> B
-    D -->|Yes: RED ✓| F(Ask Claude to implement<br/>minimal code to pass)
-    F --> G(Run tests again)
-    G --> H{Tests pass?}
-    H -->|No| I(Diagnose with Claude<br/>fix implementation)
-    I --> G
-    H -->|Yes: GREEN ✓| J{Code needs<br/>refactoring?}
-    J -->|Yes| K(Refactor with Claude)
-    K --> L(Run tests: still green?)
-    L -->|No| I
-    L -->|Yes: REFACTOR ✓| M{More features<br/>needed?}
-    J -->|No| M
-    M -->|Yes| B
-    M -->|No| N([Feature complete ✓])
-
-    style B fill:#E85D5D,color:#fff
-    style F fill:#E85D5D,color:#fff
-    style D fill:#E87E2F,color:#fff
-    style H fill:#E87E2F,color:#fff
-    style J fill:#E87E2F,color:#fff
-    style G fill:#7BC47F,color:#333
-    style K fill:#6DB3F2,color:#fff
-    style N fill:#7BC47F,color:#333
-
-    click A href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/tdd-with-claude.md" "TDD — New feature"
-    click B href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/tdd-with-claude.md" "Write failing test (RED)"
-    click C href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/tdd-with-claude.md" "Run tests"
-    click D href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/tdd-with-claude.md" "Tests fail as expected?"
-    click E href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/tdd-with-claude.md" "Fix test — too weak"
-    click F href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/tdd-with-claude.md" "Claude implements minimal code"
-    click G href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/tdd-with-claude.md" "Run tests again"
-    click H href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/tdd-with-claude.md" "Tests pass? (GREEN)"
-    click I href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/tdd-with-claude.md" "Diagnose with Claude"
-    click J href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/tdd-with-claude.md" "Code needs refactoring?"
-    click K href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/tdd-with-claude.md" "Refactor with Claude"
-    click L href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/tdd-with-claude.md" "Run tests: still green?"
-    click M href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/tdd-with-claude.md" "More features needed?"
-    click N href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/tdd-with-claude.md" "Feature complete ✓"
+    START["New behavior requested"] --> TEST["Write behavior test<br/>with explicit assertions"]
+    TEST --> RUN["Run test"]
+    RUN --> WHY{"Observed result?"}
+    WHY -->|Already passes| EXISTS["Check existing behavior<br/>or strengthen assertions"]
+    EXISTS --> TEST
+    WHY -->|Setup error| SETUP["Repair test environment"]
+    SETUP --> RUN
+    WHY -->|Expected behavior failure| IMPL["Claude implements<br/>minimal behavior"]
+    IMPL --> CHECK["Run behavior and regression tests"]
+    CHECK --> PASS{"Checks pass?"}
+    PASS -->|No| FIX["Diagnose and fix"]
+    FIX --> CHECK
+    PASS -->|Yes| REFACTOR{"Refactor needed?"}
+    REFACTOR -->|Yes| CLEAN["Refactor and rerun checks"]
+    CLEAN --> CHECK
+    REFACTOR -->|No| REVIEW["Review assertions and change<br/>Verified for tested scope"]
+    classDef default fill:#F5E6D3,color:#333,stroke:#E87E2F
+    click START href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/tdd-with-claude.md" "View this pattern in the guide"
+    click TEST href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/tdd-with-claude.md" "View this pattern in the guide"
+    click RUN href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/tdd-with-claude.md" "View this pattern in the guide"
+    click WHY href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/tdd-with-claude.md" "View this pattern in the guide"
+    click EXISTS href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/tdd-with-claude.md" "View this pattern in the guide"
+    click SETUP href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/tdd-with-claude.md" "View this pattern in the guide"
+    click IMPL href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/tdd-with-claude.md" "View this pattern in the guide"
+    click CHECK href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/tdd-with-claude.md" "View this pattern in the guide"
+    click PASS href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/tdd-with-claude.md" "View this pattern in the guide"
+    click FIX href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/tdd-with-claude.md" "View this pattern in the guide"
+    click REFACTOR href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/tdd-with-claude.md" "View this pattern in the guide"
+    click CLEAN href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/tdd-with-claude.md" "View this pattern in the guide"
+    click REVIEW href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/tdd-with-claude.md" "View this pattern in the guide"
 ```
 
 <details>
 <summary>ASCII version</summary>
 
 ```
-Write failing test (RED)
-        │
-    Run tests
-        │
-  Fail as expected?
-  ├─ No  → Fix test (too weak)
-  └─ Yes → Ask Claude: implement minimal code
-                │
-           Run tests
-                │
-           Pass? (GREEN)
-           ├─ No  → Diagnose + fix
-           └─ Yes → Refactor?
-                    ├─ Yes → Refactor (REFACTOR) → re-run tests
-                    └─ No  → Next feature
+Write behavior test → run it
+├─ Passes already → existing behavior? strengthen assertions if needed
+├─ Setup failure  → fix environment, rerun
+└─ Expected failure (RED) → implement minimal behavior
+                            → run behavior + regression tests
+                            ├─ Fail → diagnose and fix
+                            └─ Pass (GREEN) → refactor if needed
+                                              → rerun checks
+                                              → review tested scope
 ```
 
 </details>
 
-> **Source**: [TDD with Claude](../workflows/tdd-with-claude.md)
+> **Source**: [Guide: TDD red-green-refactor with Claude](../workflows/tdd-with-claude.md); [Verification criteria](https://code.claude.com/docs/en/best-practices)
 
 ---
 
 ### Spec-First development pipeline
 
-Write the specification before the code. Claude uses the spec as the single source of truth, preventing drift between what was planned and what was built. The loop closes on `Maintain`: a monitoring threshold crossed in production drafts a new `intent.md` automatically, a pattern Anthropic's [AI-native SDLC playbook](https://claude.com/blog/the-ai-native-sdlc-playbook) (2026) documents as the boundary between a one-shot pipeline and a continuous one.
-
-"Automatically" covers the invocation, not the decision. The playbook describes a trigger that invokes Claude "with no person in the invocation path", then a queue that the service owner or on-call engineer triages: "Fix now, schedule, or dismiss." Only product-facing findings are routed to the product owner. The diagram keeps that triage step, because a loop that writes its own intents without an owner deciding which ones deserve work is a backlog generator, not a pipeline.
+A specification helps compare intended behavior with implementation; it does not guarantee that drift is impossible. The Maintain loop is a configured automation pattern: a deterministic trigger invokes Claude, an owner triages the resulting intent, and changes pass review and deployment gates. Claude Code does not start this monitoring loop merely because a spec file exists.
 
 ```mermaid
-flowchart LR
-    A([Idea / Requirement]) --> A1(Write intent.md<br/>problem + author + constraints)
-    A1 --> A2{Intent approved<br/>by PM?}
-    A2 -->|No: unclear problem| A1
-    A2 -->|Yes| B(Write spec.md<br/>in natural language)
-    B --> C(Claude reviews spec<br/>for clarity + completeness)
-    C --> D{Spec approved<br/> by human?}
-    D -->|No: gaps found| E(Refine spec<br/>address gaps)
-    E --> C
-    D -->|Yes| F(Generate tests<br/>from spec)
-    F --> G(Generate implementation<br/>from spec + tests)
-    G --> H(Run test suite)
-    H --> I{All tests<br/>pass?}
-    I -->|No| J(Claude fixes<br/>implementation)
-    J --> H
-    I -->|Yes| K(Human review<br/>spec vs output)
-    K --> L{Matches<br/>spec?}
-    L -->|No| M(Update spec<br/>or implementation)
-    M --> K
-    L -->|Yes| N(Merge ✓)
-    N --> O(Maintain:<br/>monitor production)
-    O --> P{Anomaly threshold<br/>crossed?}
-    P -->|Yes: Claude drafts intent.md| Q{On-call / service owner<br/>triage}
-    Q -->|Fix now or schedule| A1
-    Q -->|Dismiss| O
-    P -->|No| O
-
-    style A fill:#F5E6D3,color:#333
-    style A1 fill:#6DB3F2,color:#fff
-    style A2 fill:#E87E2F,color:#fff
-    style B fill:#6DB3F2,color:#fff
-    style D fill:#E87E2F,color:#fff
-    style I fill:#E87E2F,color:#fff
-    style L fill:#E87E2F,color:#fff
-    style N fill:#7BC47F,color:#333
-    style O fill:#F5E6D3,color:#333
-    style P fill:#E87E2F,color:#fff
-    style Q fill:#E87E2F,color:#fff
-
-    click A href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md" "Idea / Requirement"
-    click A1 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md#with-intentmd-upstream-problem-statement" "Write intent.md"
-    click A2 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md#with-intentmd-upstream-problem-statement" "Intent approved by PM?"
-    click B href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md" "Write spec.md"
-    click C href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md" "Claude reviews spec"
-    click D href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md" "Spec approved by human?"
-    click E href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md" "Refine spec"
-    click F href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md" "Generate tests from spec"
-    click G href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md" "Generate implementation"
-    click H href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md" "Run test suite"
-    click I href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md" "All tests pass?"
-    click J href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md" "Claude fixes implementation"
-    click K href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md" "Human review"
-    click L href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md" "Matches spec?"
-    click M href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md" "Update spec or implementation"
-    click N href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md" "Merge ✓"
-    click O href "https://claude.com/blog/the-ai-native-sdlc-playbook" "Maintain: monitor production"
-    click P href "https://claude.com/blog/the-ai-native-sdlc-playbook" "Anomaly threshold crossed?"
-    click Q href "https://claude.com/blog/the-ai-native-sdlc-playbook" "On-call or service owner triage"
+flowchart TD
+    IDEA["Requirement"] --> INTENT["Write intent.md<br/>Problem, owner and constraints"]
+    INTENT --> IA{"Intent approved by owner?"}
+    IA -->|No| INTENT
+    IA -->|Yes| SPEC["Write and clarify spec.md"]
+    SPEC --> SA{"Human approves spec?"}
+    SA -->|No| SPEC
+    SA -->|Yes| TESTS["Generate behavior tests"]
+    TESTS --> IMPL["Implement from spec and tests"]
+    IMPL --> RUN["Run checks"]
+    RUN --> PASS{"Checks pass?"}
+    PASS -->|No| IMPL
+    PASS -->|Yes| REVIEW{"Human review matches spec?"}
+    REVIEW -->|No| FIX["Revise spec or implementation"]
+    FIX --> RUN
+    REVIEW -->|Yes| MERGE["Merge after review"]
+    MERGE --> DEPLOY["Deployment gate and runtime checks"]
+    DEPLOY --> MON["Configured monitoring<br/>Deterministic trigger"]
+    MON --> BREACH{"Threshold crossed?"}
+    BREACH -->|No| MON
+    BREACH -->|Yes| DRAFT["Claude drafts intent.md"]
+    DRAFT --> TRIAGE{"Service owner or on-call triages"}
+    TRIAGE -->|Fix or schedule| INTENT
+    TRIAGE -->|Dismiss| MON
+    classDef default fill:#F5E6D3,color:#333,stroke:#E87E2F
+    click IDEA href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md" "View this pattern in the guide"
+    click INTENT href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md" "View this pattern in the guide"
+    click IA href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md" "View this pattern in the guide"
+    click SPEC href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md" "View this pattern in the guide"
+    click SA href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md" "View this pattern in the guide"
+    click TESTS href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md" "View this pattern in the guide"
+    click IMPL href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md" "View this pattern in the guide"
+    click RUN href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md" "View this pattern in the guide"
+    click PASS href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md" "View this pattern in the guide"
+    click REVIEW href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md" "View this pattern in the guide"
+    click FIX href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md" "View this pattern in the guide"
+    click MERGE href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md" "View this pattern in the guide"
+    click DEPLOY href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md" "View this pattern in the guide"
+    click MON href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md" "View this pattern in the guide"
+    click BREACH href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md" "View this pattern in the guide"
+    click DRAFT href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md" "View this pattern in the guide"
+    click TRIAGE href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md" "View this pattern in the guide"
 ```
 
 <details>
 <summary>ASCII version</summary>
 
 ```
-Idea → Write intent.md → Approved by PM? ─No→ Refine intent
-                             │ Yes
-                       Write spec.md → Claude reviews
-                             │
-                       Approved? ─No→ Refine spec
-                             │ Yes
-                       Generate tests from spec
-                             │
-                       Generate implementation
-                             │
-                       Run tests → Pass? ─No→ Claude fixes
-                             │ Yes
-                       Human review → Matches spec? ─No→ Fix
-                             │ Yes
-                           Merge ✓
-                             │
-                       Maintain: monitor production
-                             │
-                       Anomaly threshold crossed? ─Yes→ Claude drafts intent.md
-                             │ No                          │
-                       keep monitoring          On-call / owner triage
-                                                ├─ Fix now or schedule → loop to top
-                                                └─ Dismiss → keep monitoring
+Requirement → owner-approved intent → human-approved spec
+            → tests → implementation → checks
+                           ↑             │ fail
+                           └─────────────┘
+Checks pass → human compares spec/output
+├─ Mismatch → revise spec or code, rerun checks
+└─ Match → review/merge → deployment gate + runtime checks
+                          → configured monitoring
+                          ├─ No threshold breach → continue
+                          └─ Breach → Claude drafts intent
+                                      → owner/on-call triage
+                                      ├─ Fix/schedule → intent loop
+                                      └─ Dismiss → monitoring
 ```
 
 </details>
 
-> **Source**: [Spec-First Development](../workflows/spec-first.md); closed-loop `Maintain → Plan` pattern: [Anthropic AI-native SDLC playbook](https://claude.com/blog/the-ai-native-sdlc-playbook) (2026)
+> **Source**: [Guide: Spec-First development pipeline](../workflows/spec-first.md); [Anthropic AI-native SDLC playbook](https://claude.com/resources/articles/the-ai-native-sdlc-playbook)
 
 ---
 
 ### Plan-Driven workflow with annotation
 
-Complex tasks benefit from plan mode: Claude explores the codebase, proposes a plan, you annotate it, then Claude executes only what was approved. Prevents surprises on large refactors.
+Use Plan mode to separate exploration from source edits. Cycle Shift+Tab until the status indicates Plan, or launch with --permission-mode plan; the number of keypresses depends on the starting mode. Review the plan, annotate it, then verify the implementation against it. This workflow is a review discipline, not a guarantee that every action will match the plan.
 
 ```mermaid
 flowchart TD
-    A([Complex task given]) --> B(Enter Plan Mode<br/>Shift+Tab × 2)
-    B --> C(Claude explores<br/>codebase structure)
-    C --> D(Claude proposes plan<br/>with file list)
-    D --> E(Human reviews plan)
-    E --> F{Plan<br/>acceptable?}
-    F -->|No: issues found| G(Human annotates plan<br/>marks corrections)
-    G --> H(Claude revises plan)
-    H --> E
-    F -->|Yes| I(Approve plan<br/>Exit Plan Mode)
-    I --> J(Claude executes<br/>step by step)
-    J --> K(Claude reports<br/>progress)
-    K --> L{Unexpected<br/>issue?}
-    L -->|Yes| M(Claude flags issue<br/>asks for guidance)
-    M --> F
-    L -->|No| N{All steps<br/>complete?}
-    N -->|No| J
-    N -->|Yes| O([Task done ✓])
-
-    style A fill:#F5E6D3,color:#333
-    style B fill:#6DB3F2,color:#fff
-    style F fill:#E87E2F,color:#fff
-    style L fill:#E87E2F,color:#fff
-    style N fill:#E87E2F,color:#fff
-    style G fill:#F5E6D3,color:#333
-    style O fill:#7BC47F,color:#333
-
-    click A href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/plan-driven.md" "Complex task given"
-    click B href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#23-plan-mode" "Enter Plan Mode"
-    click C href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/plan-driven.md" "Claude explores codebase"
-    click D href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/plan-driven.md" "Claude proposes plan"
-    click E href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/plan-driven.md" "Human reviews plan"
-    click F href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/plan-driven.md" "Plan acceptable?"
-    click G href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/plan-driven.md" "Human annotates plan"
-    click H href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/plan-driven.md" "Claude revises plan"
-    click I href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#23-plan-mode" "Approve plan — Exit Plan Mode"
-    click J href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/plan-driven.md" "Claude executes step by step"
-    click K href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/plan-driven.md" "Claude reports progress"
-    click L href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/plan-driven.md" "Unexpected issue?"
-    click M href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/plan-driven.md" "Claude flags issue"
-    click N href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/plan-driven.md" "All steps complete?"
-    click O href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/plan-driven.md" "Task done ✓"
+    TASK["Task needs exploration"] --> PLAN["Enter Plan mode<br/>Shift+Tab until Plan<br/>or --permission-mode plan"]
+    PLAN --> EXPLORE["Explore code and requirements"]
+    EXPLORE --> DRAFT["Draft plan with files and checks"]
+    DRAFT --> HUMAN{"Human accepts plan?"}
+    HUMAN -->|No| ANNOTATE["Annotate gaps<br/>Ctrl+G to edit plan"]
+    ANNOTATE --> DRAFT
+    HUMAN -->|Yes| EXEC["Approve and leave Plan mode<br/>Implement steps"]
+    EXEC --> ISSUE{"Scope or assumption changed?"}
+    ISSUE -->|Yes| HUMAN
+    ISSUE -->|No| VERIFY["Run relevant checks<br/>and compare change to plan"]
+    VERIFY --> DONE{"Evidence meets criteria?"}
+    DONE -->|No| EXEC
+    DONE -->|Yes| END["Report result and evidence limits"]
+    classDef default fill:#F5E6D3,color:#333,stroke:#E87E2F
+    click TASK href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/plan-driven.md" "View this pattern in the guide"
+    click PLAN href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/plan-driven.md" "View this pattern in the guide"
+    click EXPLORE href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/plan-driven.md" "View this pattern in the guide"
+    click DRAFT href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/plan-driven.md" "View this pattern in the guide"
+    click HUMAN href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/plan-driven.md" "View this pattern in the guide"
+    click ANNOTATE href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/plan-driven.md" "View this pattern in the guide"
+    click EXEC href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/plan-driven.md" "View this pattern in the guide"
+    click ISSUE href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/plan-driven.md" "View this pattern in the guide"
+    click VERIFY href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/plan-driven.md" "View this pattern in the guide"
+    click DONE href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/plan-driven.md" "View this pattern in the guide"
+    click END href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/plan-driven.md" "View this pattern in the guide"
 ```
 
 <details>
 <summary>ASCII version</summary>
 
 ```
-Complex task
-     │
-Plan Mode (Shift+Tab×2)
-     │
-Claude explores codebase
-     │
-Claude proposes plan
-     │
-Human reviews ──No──► Annotate + Claude revises ──► re-review
-     │ Yes
-Approve + exit plan mode
-     │
-Claude executes step by step
-     │
-Unexpected? ──Yes──► Flag + ask guidance
-     │ No
-Done? ──No──► continue
-     │ Yes
-Complete ✓
+Task → Plan mode (Shift+Tab until Plan, or --permission-mode plan)
+     → explore → propose plan → human review
+                                 ├─ Revise → annotate, redraft
+                                 └─ Accept → approve and implement
+                                             ├─ Scope changed → review again
+                                             └─ Run checks + compare to plan
+                                                 → report evidence and limits
 ```
 
 </details>
 
-> **Source**: [Plan-Driven Workflow](../workflows/plan-driven.md)
+> **Source**: [Guide: Plan-Driven workflow with annotation](../workflows/plan-driven.md); [Explore, plan, implement](https://code.claude.com/docs/en/best-practices)
 
 ---
 
 ### Iterative refinement loop
 
-Output rarely hits the mark on the first try. This loop gives you a systematic way to improve results through targeted feedback rather than "make it better" vague instructions.
+Use specific feedback, compare revisions, and stop when explicit criteria are met. Appearance and satisfaction alone do not establish factual correctness; run checks appropriate to the output.
 
 ```mermaid
 flowchart TD
-    A([Initial prompt]) --> B(Claude generates output)
-    B --> C(Evaluate output quality)
-    C --> D{Good<br/>enough?}
-    D -->|Yes| E([Done ✓])
-    D -->|No| F(Identify specific issue<br/>What exactly is wrong?)
-    F --> G{Issue type?}
-    G -->|Style/tone| H(Add: style constraints)
-    G -->|Missing info| I(Add: provide missing context)
-    G -->|Wrong approach| J(Add: redirect approach)
-    G -->|Too verbose/brief| K(Add: length constraint)
-    H --> L(Refine instruction)
-    I --> L
-    J --> L
-    K --> L
-    L --> M(Claude refines output)
-    M --> N(Compare before/after)
-    N --> O{Improvement<br/>detected?}
-    O -->|Yes| C
-    O -->|No| P(Different<br/>approach needed)
-    P --> F
-
-    style A fill:#F5E6D3,color:#333
-    style D fill:#E87E2F,color:#fff
-    style G fill:#E87E2F,color:#fff
-    style O fill:#E87E2F,color:#fff
-    style E fill:#7BC47F,color:#333
-    style L fill:#6DB3F2,color:#fff
-    style P fill:#E85D5D,color:#fff
-
-    click A href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/iterative-refinement.md" "Initial prompt"
-    click B href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/iterative-refinement.md" "Claude generates output"
-    click C href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/iterative-refinement.md" "Evaluate output quality"
-    click D href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/iterative-refinement.md" "Good enough?"
-    click E href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/iterative-refinement.md" "Done ✓"
-    click F href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/iterative-refinement.md" "Identify specific issue"
-    click G href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/iterative-refinement.md" "Issue type?"
-    click H href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/iterative-refinement.md" "Add style constraints"
-    click I href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/iterative-refinement.md" "Provide missing context"
-    click J href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/iterative-refinement.md" "Redirect approach"
-    click K href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/iterative-refinement.md" "Add length constraint"
-    click L href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/iterative-refinement.md" "Refine instruction"
-    click M href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/iterative-refinement.md" "Claude refines output"
-    click N href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/iterative-refinement.md" "Compare before/after"
-    click O href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/iterative-refinement.md" "Improvement detected?"
-    click P href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/iterative-refinement.md" "Different approach needed"
+    PROMPT["Request with criteria"] --> OUTPUT["Claude produces output"]
+    OUTPUT --> EVAL["Compare with criteria<br/>and run relevant checks"]
+    EVAL --> GOOD{"Criteria met?"}
+    GOOD -->|Yes| DONE["Report result and tested scope"]
+    GOOD -->|No| ISSUE["Identify the specific gap"]
+    ISSUE --> TYPE{"What needs changing?"}
+    TYPE -->|Style or length| STYLE["Specify output constraints"]
+    TYPE -->|Missing context| CONTEXT["Provide required information"]
+    TYPE -->|Wrong approach| APPROACH["Revisit assumptions and approach"]
+    STYLE --> REVISE["Claude revises output"]
+    CONTEXT --> REVISE
+    APPROACH --> REVISE
+    REVISE --> COMPARE["Compare before and after"]
+    COMPARE --> BETTER{"Evidence of improvement?"}
+    BETTER -->|Yes| EVAL
+    BETTER -->|No| ISSUE
+    classDef default fill:#F5E6D3,color:#333,stroke:#E87E2F
+    click PROMPT href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/iterative-refinement.md" "View this pattern in the guide"
+    click OUTPUT href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/iterative-refinement.md" "View this pattern in the guide"
+    click EVAL href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/iterative-refinement.md" "View this pattern in the guide"
+    click GOOD href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/iterative-refinement.md" "View this pattern in the guide"
+    click DONE href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/iterative-refinement.md" "View this pattern in the guide"
+    click ISSUE href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/iterative-refinement.md" "View this pattern in the guide"
+    click TYPE href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/iterative-refinement.md" "View this pattern in the guide"
+    click STYLE href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/iterative-refinement.md" "View this pattern in the guide"
+    click CONTEXT href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/iterative-refinement.md" "View this pattern in the guide"
+    click APPROACH href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/iterative-refinement.md" "View this pattern in the guide"
+    click REVISE href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/iterative-refinement.md" "View this pattern in the guide"
+    click COMPARE href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/iterative-refinement.md" "View this pattern in the guide"
+    click BETTER href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/iterative-refinement.md" "View this pattern in the guide"
 ```
 
 <details>
 <summary>ASCII version</summary>
 
 ```
-Prompt → Output → Evaluate → Good? ──Yes──► Done
-                                 │ No
-                          Identify specific issue
-                                 │
-                          ┌──────┴──────────────┐
-                         Style  Missing  Wrong  Length
-                          └──────┬──────────────┘
-                          Refine instruction
-                                 │
-                          Claude refines
-                                 │
-                          Better? ──Yes──► Evaluate again
-                                 │ No
-                          Different approach
+Request + criteria → output → evaluate and run relevant checks
+                              ├─ Criteria met → report tested scope
+                              └─ Gap → specific feedback
+                                        ├─ Style/length constraints
+                                        ├─ Missing context
+                                        └─ Different approach
+                                        → revision → compare
+                                          ├─ Better → evaluate again
+                                          └─ No gain → revisit gap
 ```
 
 </details>
 
-> **Source**: [Iterative Refinement](../workflows/iterative-refinement.md) (Line ~347)
+> **Source**: [Guide: Iterative refinement loop](../workflows/iterative-refinement.md); [Provide verification and context](https://code.claude.com/docs/en/best-practices)
 
 ---
 
-### AI Fluency: High vs low fluency paths
+### AI Fluency: Observed collaboration behaviors
 
-When Claude produces a polished-looking output, a cognitive bias kicks in: the more complete the output appears, the less critically most users evaluate it. This is the Artifact Paradox, documented by Anthropic across 9,830 conversations. The diagram shows what separates the 30% of high-fluency users from the 70% who accept first outputs, and the measurable difference in outcome quality.
+Anthropic studied 9,830 Claude.ai conversations. Iteration appeared in 85.7% of the sample. Iterative conversations were 5.6 times as likely to show users questioning reasoning, with 2.67 versus 1.33 additional fluency behaviors. In artifact conversations, missing-context identification, fact-checking and reasoning questions were less frequent by 5.2, 3.7 and 3.1 percentage points. These are associations between conversation behaviors, not measured bug catches or proof that polished output causes acceptance bias.
 
 ```mermaid
 flowchart TD
-    A([User sends request to Claude]) --> B(Claude generates output<br/>code · file · config · plan)
-    B --> C["⚠️ Artifact Paradox<br/>Polished output triggers<br/>cognitive acceptance bias"]
-
-    C -->|"70% of users"| D(Accept first output<br/>without critical review)
-    C -->|"30% of users"| E(Iterate + question<br/>define collaboration scope)
-
-    D --> D1["Fluency behaviors drop:<br/>−5.2pp gap identification<br/>−3.7pp fact-checking<br/>−3.1pp reasoning challenge"]
-    D1 --> D2([Silent defects · missed requirements])
-
-    E --> E1("Challenge the output:<br/>'What did you miss?<br/>What assumptions made?'")
-    E1 --> E2(Identify gaps<br/>Refine with full context)
-    E2 --> E3{Satisfied?}
-    E3 -->|No — iterate again| E1
-    E3 -->|Yes| E4([Verified, robust output ✓])
-
-    E4 --> G["Measured impact:<br/>5.6× more issue catches<br/>2.67 vs 1.33 avg behaviors<br/>Source: Anthropic AI Fluency Index, 2026"]
-
-    style A fill:#F5E6D3,color:#333
-    style B fill:#E87E2F,color:#fff
-    style C fill:#E85D5D,color:#fff
-    style D fill:#E85D5D,color:#fff
-    style D1 fill:#E85D5D,color:#fff
-    style D2 fill:#E85D5D,color:#fff
-    style E fill:#7BC47F,color:#333
-    style E1 fill:#6DB3F2,color:#fff
-    style E2 fill:#6DB3F2,color:#fff
-    style E3 fill:#E87E2F,color:#fff
-    style E4 fill:#7BC47F,color:#333
-    style G fill:#7BC47F,color:#333
-
-    click A href "https://www.anthropic.com/research/AI-fluency-index" "AI Fluency Index — Anthropic 2026"
-    click B href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#common-pitfalls--best-practices" "Claude generates output"
-    click C href "https://www.anthropic.com/research/AI-fluency-index" "Artifact Paradox — Anthropic AI Fluency Index"
-    click D href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#common-pitfalls--best-practices" "Accept without review"
-    click D1 href "https://www.anthropic.com/research/AI-fluency-index" "Fluency behaviors drop"
-    click D2 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#common-pitfalls--best-practices" "Silent defects"
-    click E href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#23-plan-mode" "Iterate and question"
-    click E1 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#rev-the-engine" "Challenge the output"
-    click E2 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/iterative-refinement.md" "Identify gaps and refine"
-    click E3 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/iterative-refinement.md" "Satisfied?"
-    click E4 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/iterative-refinement.md" "Verified output"
-    click G href "https://www.anthropic.com/research/AI-fluency-index" "Measured impact — AI Fluency Index"
+    SAMPLE["9,830 sampled conversations<br/>Observational study"] --> ITER["Comparison 1:<br/>Iteration observed vs absent"]
+    SAMPLE --> ART["Comparison 2:<br/>Artifact vs non-artifact"]
+    ITER --> PREV["85.7% show iteration"]
+    ITER --> REASON["Reasoning questioned<br/>5.6x as likely with iteration"]
+    ITER --> BEHAVIOR["Additional fluency behaviors<br/>2.67 vs 1.33 on average"]
+    ART --> DISCERN["Artifact conversations:<br/>missing-context identification -5.2pp<br/>fact-checking -3.7pp<br/>reasoning questions -3.1pp"]
+    PREV --> LIMIT["Associations, not causality<br/>No measured defect-catch multiplier"]
+    REASON --> LIMIT
+    BEHAVIOR --> LIMIT
+    DISCERN --> LIMIT
+    LIMIT --> PRACTICE["Practice recommendation:<br/>question assumptions and verify<br/>with independent evidence"]
+    classDef default fill:#F5E6D3,color:#333,stroke:#E87E2F
+    click SAMPLE href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#911-common-pitfalls--best-practices" "View this pattern in the guide"
+    click ITER href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#911-common-pitfalls--best-practices" "View this pattern in the guide"
+    click ART href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#911-common-pitfalls--best-practices" "View this pattern in the guide"
+    click PREV href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#911-common-pitfalls--best-practices" "View this pattern in the guide"
+    click REASON href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#911-common-pitfalls--best-practices" "View this pattern in the guide"
+    click BEHAVIOR href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#911-common-pitfalls--best-practices" "View this pattern in the guide"
+    click DISCERN href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#911-common-pitfalls--best-practices" "View this pattern in the guide"
+    click LIMIT href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#911-common-pitfalls--best-practices" "View this pattern in the guide"
+    click PRACTICE href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#911-common-pitfalls--best-practices" "View this pattern in the guide"
 ```
 
 <details>
 <summary>ASCII version</summary>
 
 ```
-User request → Claude output (code · file · config · plan)
-                        ↓
-              ⚠️ Artifact Paradox
-          Polished output → cognitive bias
-                        ↓
-    ┌───────────────────┴──────────────────────┐
-70% of users                            30% of users
-Accept without review               Iterate + question
-        ↓                                     ↓
-Fluency behaviors drop:         Challenge: "What did you miss?
-−5.2pp gap identification                What assumptions made?"
-−3.7pp fact-checking                          ↓
-−3.1pp reasoning challenge      Identify gaps → refine
-        ↓                                     ↓
-Silent defects                  Satisfied? ──No──► iterate
-                                            ↓ Yes
-                                Verified output ✓
-                                            ↓
-                               5.6× more issue catches
-                               2.67 vs 1.33 avg behaviors
+9,830 sampled conversations (observational)
+├─ Iteration observed vs absent
+│  ├─ 85.7% show iteration
+│  ├─ Questioning reasoning: 5.6x as likely with iteration
+│  └─ Additional fluency behaviors: 2.67 vs 1.33 average
+└─ Artifact vs non-artifact conversations
+   ├─ Missing-context identification: -5.2 percentage points
+   ├─ Fact-checking: -3.7 percentage points
+   └─ Reasoning questions: -3.1 percentage points
+
+Association does not establish causality or defects caught.
+Recommendation: question assumptions, then verify with evidence.
 ```
 
 </details>
 
-> **Source**: [Anthropic AI Fluency Index](https://www.anthropic.com/research/AI-fluency-index) (Swanson et al., 2026-02-23); [Guide section: Common Pitfalls](../ultimate-guide.md#common-pitfalls--best-practices)
+> **Source**: [Guide: AI Fluency: Observed collaboration behaviors](../ultimate-guide.md#911-common-pitfalls--best-practices); [Anthropic AI Fluency Index](https://academy.claude.com/tutorials/the-ai-fluency-index)

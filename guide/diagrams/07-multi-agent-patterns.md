@@ -1,427 +1,330 @@
 ---
 title: "Claude Code: Multi-Agent Patterns Diagrams"
-description: "Agent topologies, worktrees, dual-instance planning, horizontal scaling, decision matrix, cross-session messaging"
+description: "Conceptual topologies, isolated worktrees, planning, delegation and messaging"
 tags: [multi-agent, patterns, worktrees, orchestration, scaling]
 ---
 
 # Multi-agent patterns
 
-Patterns for coordinating multiple Claude instances for parallel and complex work.
+Coordinate independent work with clear ownership and integration checks. Native features, conceptual patterns and measured outcomes are distinct.
 
 ---
 
-### Agent teams: 3 orchestration topologies
+### Agent teams: Conceptual orchestration topologies
 
-Three proven topologies for multi-agent coordination. Choose based on task independence, ordering requirements, and specialization needs.
+Orchestrator, pipeline and specialist routing are conceptual patterns, not three native Agent Teams modes. Native Agent Teams uses a lead and communicating teammates; it is experimental and disabled by default. It adds coordination and token cost. Sequential tasks and edits to the same files often suit a single session or focused subagents better.
 
 ```mermaid
 flowchart TD
-    subgraph ORCH["Pattern 1: Orchestrator + Workers"]
-        OL[Lead Orchestrator] --> OW1[Worker 1<br/>Frontend]
-        OL --> OW2[Worker 2<br/>Backend]
-        OL --> OW3[Worker 3<br/>Tests]
-        OW1 & OW2 & OW3 --> OR([Results aggregated])
-    end
-
-    subgraph PIPE["Pattern 2: Pipeline"]
-        PA[Agent A<br/>Requirements] --> PB[Agent B<br/>Implementation]
-        PB --> PC[Agent C<br/>Review]
-        PC --> PD([Final output])
-    end
-
-    subgraph ROUTE["Pattern 3: Specialist Router"]
-        RR{Router Agent<br/>analyzes task} --> RC[Code Agent]
-        RR --> RT[Test Agent]
-        RR --> RD[Docs Agent]
-        RC & RT & RD --> RO([Specialized result])
-    end
-
-    style OL fill:#E87E2F,color:#fff
-    style OW1 fill:#6DB3F2,color:#fff
-    style OW2 fill:#6DB3F2,color:#fff
-    style OW3 fill:#6DB3F2,color:#fff
-    style OR fill:#7BC47F,color:#333
-    style PA fill:#F5E6D3,color:#333
-    style PB fill:#F5E6D3,color:#333
-    style PC fill:#F5E6D3,color:#333
-    style PD fill:#7BC47F,color:#333
-    style RR fill:#E87E2F,color:#fff
-    style RC fill:#6DB3F2,color:#fff
-    style RT fill:#6DB3F2,color:#fff
-    style RD fill:#6DB3F2,color:#fff
-    style RO fill:#7BC47F,color:#333
-
-    click OL href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/agent-teams.md" "Lead Orchestrator"
-    click OW1 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/agent-teams.md" "Worker: Frontend"
-    click OW2 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/agent-teams.md" "Worker: Backend"
-    click OW3 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/agent-teams.md" "Worker: Tests"
-    click OR href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/agent-teams.md" "Results aggregated"
-    click PA href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/agent-teams.md" "Agent A: Requirements"
-    click PB href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/agent-teams.md" "Agent B: Implementation"
-    click PC href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/agent-teams.md" "Agent C: Review"
-    click PD href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/agent-teams.md" "Final output"
-    click RR href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/agent-teams.md" "Router Agent"
-    click RC href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/agent-teams.md" "Code Agent"
-    click RT href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/agent-teams.md" "Test Agent"
-    click RD href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/agent-teams.md" "Docs Agent"
-    click RO href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/agent-teams.md" "Specialized result"
+    CHOOSE["Choose a coordination pattern"] --> ORCH["Orchestrator + workers<br/>Native teams: lead + teammates<br/>Experimental, opt-in"]
+    CHOOSE --> PIPE["Pipeline pattern<br/>Stages depend on prior results"]
+    CHOOSE --> ROUTE["Specialist routing pattern<br/>Choose worker by task"]
+    ORCH --> FRONT["Worker owns frontend files"]
+    ORCH --> BACK["Worker owns backend files"]
+    FRONT --> INTEG["Lead integrates and verifies"]
+    BACK --> INTEG
+    PIPE --> REQ["Requirements"]
+    REQ --> IMPL["Implementation"]
+    IMPL --> REVIEW["Review against criteria"]
+    ROUTE --> SELECT{"Needed expertise?"}
+    SELECT --> CODE["Code worker"]
+    SELECT --> TEST["Test worker"]
+    SELECT --> DOC["Documentation worker"]
+    classDef default fill:#F5E6D3,color:#333,stroke:#E87E2F
+    click CHOOSE href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/agent-teams.md" "View this pattern in the guide"
+    click ORCH href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/agent-teams.md" "View this pattern in the guide"
+    click PIPE href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/agent-teams.md" "View this pattern in the guide"
+    click ROUTE href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/agent-teams.md" "View this pattern in the guide"
+    click FRONT href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/agent-teams.md" "View this pattern in the guide"
+    click BACK href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/agent-teams.md" "View this pattern in the guide"
+    click INTEG href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/agent-teams.md" "View this pattern in the guide"
+    click REQ href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/agent-teams.md" "View this pattern in the guide"
+    click IMPL href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/agent-teams.md" "View this pattern in the guide"
+    click REVIEW href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/agent-teams.md" "View this pattern in the guide"
+    click SELECT href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/agent-teams.md" "View this pattern in the guide"
+    click CODE href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/agent-teams.md" "View this pattern in the guide"
+    click TEST href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/agent-teams.md" "View this pattern in the guide"
+    click DOC href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/agent-teams.md" "View this pattern in the guide"
 ```
 
 <details>
 <summary>ASCII version</summary>
 
 ```
-ORCHESTRATOR + WORKERS:      PIPELINE:               ROUTER:
+Conceptual coordination patterns
+├─ Orchestrator → workers with explicit ownership → integration checks
+│  Native Agent Teams: lead + communicating teammates, experimental opt-in
+├─ Pipeline → requirements → implementation → review
+│  Workflow pattern; often a single session or subagents suffices
+└─ Router → needed specialist (code / tests / docs)
+   Workflow pattern, not a dedicated native team mode
 
-   Lead Agent                Agent A (requirements)   Router
-  /    |     \                    │                  /  |  \
-W1    W2     W3              Agent B (implement)   Code Test Docs
-  \   |     /                    │                  \  |  /
-   Aggregate                Agent C (review)        Result
-                                 │
-                             Final output
+Teams cost more tokens and require coordination.
 ```
 
 </details>
 
-> **Source**: [Agent Teams](../workflows/agent-teams.md), line ~59
+> **Source**: [Guide: Agent teams: Conceptual orchestration topologies](../workflows/agent-teams.md); [Agent Teams availability and trade-offs](https://code.claude.com/docs/en/agent-teams)
 
 ---
 
 ### Git worktree multi-instance pattern
 
-Git worktrees enable true parallel development: each Claude instance works in an isolated branch with its own working tree. No conflicts, no context mixing.
+Worktrees give concurrent instances separate checked-out files and branches. Some repository metadata remains shared, and integrating their changes can still produce merge conflicts. Commands below assume the cloned repository root; each command creates the displayed path.
 
 ```mermaid
-flowchart LR
-    MB[(Main Branch<br/>git repository)] --> WA[git worktree add<br/>feature-A]
-    MB --> WB[git worktree add<br/>feature-B]
-    MB --> WC[git worktree add<br/>bugfix-C]
-
-    WA --> CA[Claude Instance 1<br/>/worktrees/feature-A]
-    WB --> CB[Claude Instance 2<br/>/worktrees/feature-B]
-    WC --> CC[Claude Instance 3<br/>/worktrees/bugfix-C]
-
-    CA --> CA1([Commits to feature-A])
-    CB --> CB1([Commits to feature-B])
-    CC --> CC1([Commits to bugfix-C])
-
-    CA1 & CB1 & CC1 --> MERGE([Merge to main<br/>when ready])
-
-    style MB fill:#E87E2F,color:#fff
-    style CA fill:#6DB3F2,color:#fff
-    style CB fill:#6DB3F2,color:#fff
-    style CC fill:#6DB3F2,color:#fff
-    style CA1 fill:#7BC47F,color:#333
-    style CB1 fill:#7BC47F,color:#333
-    style CC1 fill:#7BC47F,color:#333
-    style MERGE fill:#7BC47F,color:#333
-    style WA fill:#F5E6D3,color:#333
-    style WB fill:#F5E6D3,color:#333
-    style WC fill:#F5E6D3,color:#333
-
-    click MB href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#912-git-best-practices--workflows" "Main Branch"
-    click WA href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#912-git-best-practices--workflows" "Worktree: feature-A"
-    click WB href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#912-git-best-practices--workflows" "Worktree: feature-B"
-    click WC href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#912-git-best-practices--workflows" "Worktree: bugfix-C"
-    click CA href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#912-git-best-practices--workflows" "Claude Instance 1"
-    click CB href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#912-git-best-practices--workflows" "Claude Instance 2"
-    click CC href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#912-git-best-practices--workflows" "Claude Instance 3"
-    click CA1 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#912-git-best-practices--workflows" "Commits to feature-A"
-    click CB1 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#912-git-best-practices--workflows" "Commits to feature-B"
-    click CC1 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#912-git-best-practices--workflows" "Commits to bugfix-C"
-    click MERGE href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#912-git-best-practices--workflows" "Merge to main"
+flowchart TD
+    REPO["Repository root"] --> WA["git worktree add -b feature-A<br/>../worktrees/feature-A"]
+    REPO --> WB["git worktree add -b feature-B<br/>../worktrees/feature-B"]
+    REPO --> WC["git worktree add -b bugfix-C<br/>../worktrees/bugfix-C"]
+    WA --> CA["Claude 1: ../worktrees/feature-A<br/>Commits to feature-A"]
+    WB --> CB["Claude 2: ../worktrees/feature-B<br/>Commits to feature-B"]
+    WC --> CC["Claude 3: ../worktrees/bugfix-C<br/>Commits to bugfix-C"]
+    CA --> INTEGRATE["Integrate changes<br/>Resolve conflicts if present"]
+    CB --> INTEGRATE
+    CC --> INTEGRATE
+    INTEGRATE --> CHECK["Run integration checks and review"]
+    CHECK --> MERGE["Merge when criteria pass"]
+    classDef default fill:#F5E6D3,color:#333,stroke:#E87E2F
+    click REPO href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#912-git-best-practices--workflows" "View this pattern in the guide"
+    click WA href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#912-git-best-practices--workflows" "View this pattern in the guide"
+    click WB href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#912-git-best-practices--workflows" "View this pattern in the guide"
+    click WC href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#912-git-best-practices--workflows" "View this pattern in the guide"
+    click CA href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#912-git-best-practices--workflows" "View this pattern in the guide"
+    click CB href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#912-git-best-practices--workflows" "View this pattern in the guide"
+    click CC href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#912-git-best-practices--workflows" "View this pattern in the guide"
+    click INTEGRATE href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#912-git-best-practices--workflows" "View this pattern in the guide"
+    click CHECK href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#912-git-best-practices--workflows" "View this pattern in the guide"
+    click MERGE href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#912-git-best-practices--workflows" "View this pattern in the guide"
 ```
 
 <details>
 <summary>ASCII version</summary>
 
 ```
-Main repo
-├── git worktree add feature-A → Claude 1 → commits to feature-A
-├── git worktree add feature-B → Claude 2 → commits to feature-B
-└── git worktree add bugfix-C  → Claude 3 → commits to bugfix-C
+From the cloned repository root:
+git worktree add -b feature-A ../worktrees/feature-A
+git worktree add -b feature-B ../worktrees/feature-B
+git worktree add -b bugfix-C ../worktrees/bugfix-C
 
-No conflicts: separate working trees, separate branches
-All merge back to main when done
+Each path → its Claude instance → commits on its own branch
+         → integrate → resolve conflicts if present
+         → integration checks + review → merge
+
+Separate working files; shared repository metadata.
+Concurrent editing is isolated, merge conflicts remain possible.
 ```
 
 </details>
 
-> **Source**: [Git Worktrees](../ultimate-guide.md#git-worktrees), line ~10634
+> **Source**: [Guide: Git worktree multi-instance pattern](../ultimate-guide.md#912-git-best-practices--workflows); [Git worktree semantics](https://git-scm.com/docs/git-worktree)
 
 ---
 
-### Dual-Instance planning pattern (Jon Williams)
+### Dual-Instance planning pattern
 
-Separating planning from execution using two Claude instances prevents costly mistakes: the planner Claude has no tools, so it can't accidentally execute anything during analysis.
+Use two sessions when a separate planning boundary is useful. A planner with no tools needs the relevant documents supplied in its prompt. Alternatively, Plan mode permits exploration with restricted actions. Configure the restriction explicitly; launching a second session does not disable tools. The executor needs the approved plan and required context, rather than inheriting the planner conversation automatically.
 
 ```mermaid
-sequenceDiagram
-    participant U as User
-    participant PL as Planner Claude<br/>(no tools)
-    participant EX as Executor Claude<br/>(full tools)
-
-    U->>PL: "Plan how to refactor auth module"
-    Note over PL: Reads docs, analyzes requirements<br/>No execution risk — no tools
-
-    PL->>U: Detailed plan:<br/>1. Files to change<br/>2. Order of operations<br/>3. Risk points<br/>4. Rollback strategy
-
-    U->>U: Review plan carefully
-    Note over U: Human checkpoint:<br/>approve or adjust
-
-    U->>EX: "Execute this plan: [plan text]"
-    EX->>EX: Implements step by step
-    EX->>U: Progress updates + results
-
-    Note over PL,EX: Key insight: planner can be<br/>more thorough without execution anxiety
+flowchart TD
+    DOCS["User supplies requirements<br/>and relevant documents"] --> PLANNER["Planner session<br/>No tools explicitly configured<br/>or restricted Plan mode"]
+    PLANNER --> PLAN["Plan: files, steps, checks<br/>and rollback constraints"]
+    PLAN --> REVIEW{"Human approves?"}
+    REVIEW -->|No| PLANNER
+    REVIEW -->|Yes| TRANSFER["Transfer approved plan<br/>and required context"]
+    TRANSFER --> EXEC["Executor session<br/>Configured tool permissions"]
+    EXEC --> VERIFY["Run checks and compare with plan"]
+    VERIFY --> REPORT["Report results and evidence limits"]
+    classDef default fill:#F5E6D3,color:#333,stroke:#E87E2F
+    click DOCS href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/dual-instance-planning.md" "View this pattern in the guide"
+    click PLANNER href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/dual-instance-planning.md" "View this pattern in the guide"
+    click PLAN href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/dual-instance-planning.md" "View this pattern in the guide"
+    click REVIEW href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/dual-instance-planning.md" "View this pattern in the guide"
+    click TRANSFER href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/dual-instance-planning.md" "View this pattern in the guide"
+    click EXEC href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/dual-instance-planning.md" "View this pattern in the guide"
+    click VERIFY href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/dual-instance-planning.md" "View this pattern in the guide"
+    click REPORT href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/dual-instance-planning.md" "View this pattern in the guide"
 ```
 
 <details>
 <summary>ASCII version</summary>
 
 ```
-User → Planner (no tools): "Plan X"
-         │
-    [safe analysis, no execution risk]
-         │
-Planner → User: detailed plan
-         │
-User reviews + approves
-         │
-User → Executor (full tools): "Execute: [plan]"
-         │
-    [implements with full context]
-         │
-Executor → User: results
+Supplied documents → planner
+                     (explicit no-tools configuration,
+                      or restricted Plan mode for exploration)
+                   → plan → human review
+                            ├─ Revise → planner
+                            └─ Approve → transfer plan + required context
+                                       → executor with configured tools
+                                       → checks + result report
+
+Two sessions alone do not enforce tool restrictions or transfer context.
 ```
 
 </details>
 
-> **Source**: [Dual-Instance Planning](../workflows/dual-instance-planning.md)
+> **Source**: [Guide: Dual-Instance planning pattern](../workflows/dual-instance-planning.md); [Plan permission mode](https://code.claude.com/docs/en/permissions), [Subagent tool restrictions](https://code.claude.com/docs/en/sub-agents)
 
 ---
 
-### Boris Cherny horizontal scaling pattern
+### Horizontal scaling pattern
 
-When tasks can be parallelized, spawn N Claude instances simultaneously instead of running them sequentially. The speedup is proportional to task independence.
+Parallelize independent work with explicit file ownership, then measure the result after coordination and integration. More instances do not guarantee proportional speedup; costs and dependencies can outweigh the benefit. Measure speedup and cost on the workload before making a performance claim.
 
 ```mermaid
-flowchart LR
-    BT([Large Task:<br/>Refactor 50 files]) --> DEC{Decompose<br/>into N subtasks}
-
-    DEC --> T1["Subtask 1<br/>Files 1-10"]
-    DEC --> T2["Subtask 2<br/>Files 11-20"]
-    DEC --> T3["Subtask 3<br/>Files 21-30"]
-    DEC --> TN["Subtask N<br/>..."]
-
-    T1 --> CI1[Claude<br/>Instance 1]
-    T2 --> CI2[Claude<br/>Instance 2]
-    T3 --> CI3[Claude<br/>Instance 3]
-    TN --> CIN[Claude<br/>Instance N]
-
-    CI1 & CI2 & CI3 & CIN --> AGG(Aggregate<br/>results)
-    AGG --> REV([Integration review<br/>~10x faster than sequential])
-
-    style BT fill:#F5E6D3,color:#333
-    style DEC fill:#E87E2F,color:#fff
-    style CI1 fill:#6DB3F2,color:#fff
-    style CI2 fill:#6DB3F2,color:#fff
-    style CI3 fill:#6DB3F2,color:#fff
-    style CIN fill:#6DB3F2,color:#fff
-    style AGG fill:#B8B8B8,color:#333
-    style REV fill:#7BC47F,color:#333
-
-    click BT href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows" "Large Task"
-    click DEC href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows" "Decompose into subtasks"
-    click T1 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows" "Subtask 1"
-    click T2 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows" "Subtask 2"
-    click T3 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows" "Subtask 3"
-    click TN href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows" "Subtask N"
-    click CI1 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows" "Claude Instance 1"
-    click CI2 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows" "Claude Instance 2"
-    click CI3 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows" "Claude Instance 3"
-    click CIN href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows" "Claude Instance N"
-    click AGG href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows" "Aggregate results"
-    click REV href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows" "Integration review"
+flowchart TD
+    TASK["Large task"] --> SPLIT["Identify independent subtasks<br/>and file ownership"]
+    SPLIT --> A["Worker A<br/>Owned files and criteria"]
+    SPLIT --> B["Worker B<br/>Owned files and criteria"]
+    SPLIT --> C["Worker C<br/>Owned files and criteria"]
+    A --> AGG["Aggregate outputs and evidence"]
+    B --> AGG
+    C --> AGG
+    AGG --> REVIEW["Resolve dependencies/conflicts<br/>and run integration checks"]
+    REVIEW --> MEASURE["Measure elapsed benefit and token cost<br/>for this workload"]
+    classDef default fill:#F5E6D3,color:#333,stroke:#E87E2F
+    click TASK href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows" "View this pattern in the guide"
+    click SPLIT href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows" "View this pattern in the guide"
+    click A href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows" "View this pattern in the guide"
+    click B href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows" "View this pattern in the guide"
+    click C href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows" "View this pattern in the guide"
+    click AGG href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows" "View this pattern in the guide"
+    click REVIEW href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows" "View this pattern in the guide"
+    click MEASURE href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows" "View this pattern in the guide"
 ```
 
 <details>
 <summary>ASCII version</summary>
 
 ```
-Large task
-     │
-Decompose into N independent subtasks
-     │
-┌────┼────┐
-│    │    │
-I1  I2  I3... (parallel)
-│    │    │
-└────┼────┘
-     │
-Aggregate → Integration review
-(~10x faster than sequential)
+Large task → independent subtasks with explicit ownership
+            → parallel workers A / B / C
+            → aggregate evidence
+            → resolve dependencies and conflicts
+            → integration checks
+            → measure elapsed benefit and token cost
+
+No guaranteed multiplier; coordination reduces gains.
 ```
 
 </details>
 
-> **Source**: [Horizontal Scaling](../ultimate-guide.md#horizontal-scaling), line ~9617
+> **Source**: [Guide: Horizontal scaling pattern](../ultimate-guide.md#917-scaling-patterns-multi-instance-workflows); [Team size, cost and diminishing returns](https://code.claude.com/docs/en/agent-teams)
 
 ---
 
 ### Multi-Instance decision matrix
 
-Not every task needs multiple instances. This decision tree guides you to the right pattern based on task characteristics.
+Choose by dependency, communication and isolation needs before choosing a worker count. The native delegation tool is Agent; Task was its former name and remains a compatibility alias in settings and definitions. There is no four-instance prerequisite for using subagents.
 
 ```mermaid
 flowchart TD
-    A([Task to complete]) --> B{Need multiple<br/>Claude instances?}
-    B -->|No| C([Single session<br/>Standard usage])
-    B -->|Yes| D{How many<br/>instances?}
-    B -->|"Planning separation?"| B2{Need planning<br/>separation?}
-
-    D -->|2-3| E{Need branch<br/>isolation?}
-    E -->|Yes| F([Git worktrees<br/>Separate branches])
-    E -->|No| G([Multiple terminals<br/>Same repo])
-
-    D -->|4+| H{Task structure?}
-    H -->|Independent tasks| I([Task tool<br/>Sub-agents in parallel])
-    H -->|Sequential pipeline| J([Agent pipeline<br/>A → B → C])
-    H -->|Mixed expertise| K([Specialist router<br/>Route by task type])
-
-    B2 --> L([Dual-instance<br/>Planner + Executor])
-
-    style A fill:#F5E6D3,color:#333
-    style B fill:#E87E2F,color:#fff
-    style D fill:#E87E2F,color:#fff
-    style E fill:#E87E2F,color:#fff
-    style H fill:#E87E2F,color:#fff
-    style B2 fill:#E87E2F,color:#fff
-    style C fill:#B8B8B8,color:#333
-    style F fill:#7BC47F,color:#333
-    style G fill:#7BC47F,color:#333
-    style I fill:#7BC47F,color:#333
-    style J fill:#7BC47F,color:#333
-    style K fill:#7BC47F,color:#333
-    style L fill:#6DB3F2,color:#fff
-
-    click A href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows" "Task to complete"
-    click B href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows" "Need multiple instances?"
-    click C href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows" "Single session"
-    click D href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows" "How many instances?"
-    click E href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#912-git-best-practices--workflows" "Need branch isolation?"
-    click F href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#912-git-best-practices--workflows" "Git worktrees"
-    click G href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows" "Multiple terminals"
-    click H href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows" "Task structure?"
-    click I href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/agent-teams.md" "Task tool sub-agents"
-    click J href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/agent-teams.md" "Agent pipeline"
-    click K href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/agent-teams.md" "Specialist router"
-    click B2 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/dual-instance-planning.md" "Need planning separation?"
-    click L href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/dual-instance-planning.md" "Dual-instance: Planner + Executor"
+    TASK["Task to complete"] --> INDEP{"Independent work worth delegating?"}
+    INDEP -->|No| SINGLE["Single session<br/>Plan and execute stages as needed"]
+    INDEP -->|Yes| COMM{"Workers need discussion<br/>and shared coordination?"}
+    COMM -->|No| SUB["Agent tool<br/>Focused subagents return results<br/>Former name: Task"]
+    COMM -->|Yes| TEAM["Experimental Agent Teams<br/>Lead + communicating teammates"]
+    SUB --> EDIT{"Concurrent file edits?"}
+    TEAM --> EDIT
+    EDIT -->|Yes| WT["Separate ownership<br/>Worktrees for checkout isolation"]
+    EDIT -->|No| READ["Parallel research or review"]
+    WT --> SIZE["Choose size by task independence<br/>cost and coordination"]
+    READ --> SIZE
+    classDef default fill:#F5E6D3,color:#333,stroke:#E87E2F
+    click TASK href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows" "View this pattern in the guide"
+    click INDEP href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows" "View this pattern in the guide"
+    click SINGLE href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows" "View this pattern in the guide"
+    click COMM href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows" "View this pattern in the guide"
+    click SUB href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows" "View this pattern in the guide"
+    click TEAM href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows" "View this pattern in the guide"
+    click EDIT href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows" "View this pattern in the guide"
+    click WT href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows" "View this pattern in the guide"
+    click READ href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows" "View this pattern in the guide"
+    click SIZE href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows" "View this pattern in the guide"
 ```
 
 <details>
 <summary>ASCII version</summary>
 
 ```
-Need multiple instances?
-├─ No → Single session
-├─ Yes → How many?
-│        ├─ 2-3 → Need branch isolation?
-│        │        ├─ Yes → Git worktrees
-│        │        └─ No  → Multiple terminals
-│        └─ 4+  → Task structure?
-│                 ├─ Independent → Task tool (parallel sub-agents)
-│                 ├─ Sequential  → Agent pipeline A→B→C
-│                 └─ Mixed       → Specialist router
-└─ Planning separation? → Dual-instance (Planner + Executor)
+Worth delegating independent work?
+├─ No → single session, stages as needed
+└─ Yes → need peer discussion / shared coordination?
+         ├─ No → Agent tool subagents return results
+         │       (Task is the historical compatibility alias)
+         └─ Yes → experimental Agent Teams
+                    │
+         Concurrent file edits?
+         ├─ Yes → file ownership + separate worktrees
+         └─ No → parallel research/review
+                    │
+         Size by independence, cost and coordination, not a 4+ rule.
 ```
 
 </details>
 
-> **Source**: [Multi-Instance Patterns](../ultimate-guide.md#multi-instance-patterns), line ~11176
+> **Source**: [Guide: Multi-Instance decision matrix](../ultimate-guide.md#917-scaling-patterns-multi-instance-workflows); [Agent tool rename and delegation](https://code.claude.com/docs/en/sub-agents), [Teams versus subagents](https://code.claude.com/docs/en/agent-teams)
 
 ---
 
 ### Cross-Session messaging: Discovery & delivery
 
-Independent Claude Code sessions, no spawn relationship between them, discover each other with `ListAgents` and message each other with `SendMessage`. Whether the message ever touches Anthropic's servers depends entirely on where the target session runs.
+Eligible independent sessions can discover peers with ListAgents and send text with SendMessage. Same-machine delivery uses local sockets or named pipes; other-machine and cloud delivery uses Anthropic infrastructure. Explicit crossSessionInbound hold retains messages until an applicable accept releases them. Approval dialogs belong to some permission-mode defaults in supported terminals, not to the explicit hold setting. Availability depends on version, provider and Remote Control requirements.
 
 ```mermaid
 flowchart TD
-    subgraph DISCOVER["Discovery: ListAgents"]
-        SA(Session A<br/>repo-a) -->|registers on start| REG[(On-disk registry<br/>+ inbox socket)]
-        SB(Session B<br/>repo-b) -->|registers on start| REG
-        REG --> LA[[ListAgents reads registry]]
-        LA --> ROWS[[/list-agents rows:<br/>subagents, teammates,<br/>local peers, cloud, Remote Control/]]
-    end
-
-    subgraph DELIVER["Delivery: SendMessage"]
-        ROWS --> SM{Target session<br/>runs where?}
-        SM -->|Same machine| SOCK[Unix socket / named pipe<br/>never through Anthropic servers]
-        SM -->|Other machine or web| RC{{Remote Control channel<br/>through Anthropic servers}}
-        SOCK --> GATE{crossSessionInbound<br/>on receiving side}
-        RC --> GATE
-        GATE -->|accept| DELIVERED([Delivered to<br/>receiving Claude])
-        GATE -->|hold| HELD([Held: user must<br/>click Approve])
-        GATE -->|refuse| DROPPED([Dropped,<br/>never delivered])
-    end
-
-    DELIVERED --> BOUND(Receiving session's own permission<br/>rules still apply. Message text alone<br/>cannot approve or reconfigure anything.)
-
-    style SA fill:#F5E6D3,color:#333
-    style SB fill:#F5E6D3,color:#333
-    style REG fill:#B8B8B8,color:#333
-    style LA fill:#6DB3F2,color:#fff
-    style ROWS fill:#6DB3F2,color:#fff
-    style SM fill:#E87E2F,color:#fff
-    style SOCK fill:#B8B8B8,color:#333
-    style RC fill:#B8B8B8,color:#333
-    style GATE fill:#E87E2F,color:#fff
-    style DELIVERED fill:#7BC47F,color:#333
-    style HELD fill:#F5E6D3,color:#333
-    style DROPPED fill:#E85D5D,color:#fff
-    style BOUND fill:#7BC47F,color:#333
-
-    click SA href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/cross-session-messaging.md#2-discovery-listagents" "Session A"
-    click SB href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/cross-session-messaging.md#2-discovery-listagents" "Session B"
-    click REG href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/cross-session-messaging.md#5-the-sessions-inbox-socket" "On-disk registry"
-    click LA href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/cross-session-messaging.md#2-discovery-listagents" "ListAgents"
-    click ROWS href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/cross-session-messaging.md#2-discovery-listagents" "list-agents rows"
-    click SM href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/cross-session-messaging.md#4-same-machine-vs-cross-machine-delivery" "Target session runs where"
-    click SOCK href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/cross-session-messaging.md#4-same-machine-vs-cross-machine-delivery" "Same-machine socket"
-    click RC href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/cross-session-messaging.md#4-same-machine-vs-cross-machine-delivery" "Remote Control channel"
-    click GATE href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/cross-session-messaging.md#6-security-model" "crossSessionInbound"
-    click DELIVERED href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/cross-session-messaging.md#6-security-model" "Delivered"
-    click HELD href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/cross-session-messaging.md#6-security-model" "Held"
-    click DROPPED href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/cross-session-messaging.md#6-security-model" "Dropped"
-    click BOUND href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/cross-session-messaging.md#6-security-model" "Permission boundary"
+    SESSIONS["Eligible sessions<br/>Bind inbox and register locally"] --> LIST["ListAgents / list-agents<br/>Reachable peers and agents"]
+    LIST --> SEND["SendMessage text<br/>Target identified"]
+    SEND --> WHERE{"Target location?"}
+    WHERE -->|Same machine| LOCAL["Unix socket / named pipe<br/>Local delivery"]
+    WHERE -->|Other machine or cloud| REMOTE["Anthropic infrastructure<br/>Remote Control or cloud session"]
+    LOCAL --> SETTING{"Explicit inbound setting?"}
+    REMOTE --> SETTING
+    SETTING -->|accept| DELIVER["Delivered to receiving Claude"]
+    SETTING -->|hold| HOLD["Undelivered<br/>Later applicable accept releases"]
+    SETTING -->|refuse| DROP["Dropped"]
+    SETTING -->|Unset| DEFAULT["Permission-mode default<br/>Deliver or hold for approval<br/>where dialog is supported"]
+    DEFAULT --> DELIVER
+    DEFAULT --> WAIT["Approval/default-held queue<br/>Subject to surface and expiry"]
+    DELIVER --> BOUND["Recipient permissions still apply<br/>Peer text cannot approve permissions<br/>or authorize config changes"]
+    classDef default fill:#F5E6D3,color:#333,stroke:#E87E2F
+    click SESSIONS href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/cross-session-messaging.md" "View this pattern in the guide"
+    click LIST href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/cross-session-messaging.md" "View this pattern in the guide"
+    click SEND href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/cross-session-messaging.md" "View this pattern in the guide"
+    click WHERE href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/cross-session-messaging.md" "View this pattern in the guide"
+    click LOCAL href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/cross-session-messaging.md" "View this pattern in the guide"
+    click REMOTE href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/cross-session-messaging.md" "View this pattern in the guide"
+    click SETTING href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/cross-session-messaging.md" "View this pattern in the guide"
+    click DELIVER href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/cross-session-messaging.md" "View this pattern in the guide"
+    click HOLD href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/cross-session-messaging.md" "View this pattern in the guide"
+    click DROP href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/cross-session-messaging.md" "View this pattern in the guide"
+    click DEFAULT href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/cross-session-messaging.md" "View this pattern in the guide"
+    click WAIT href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/cross-session-messaging.md" "View this pattern in the guide"
+    click BOUND href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/cross-session-messaging.md" "View this pattern in the guide"
 ```
 
 <details>
 <summary>ASCII version</summary>
 
 ```
-DISCOVERY                              DELIVERY
-Session A ─┐                           list-agents rows
-Session B ─┴─> on-disk registry           │
-              + inbox socket              ▼
-                   │                 Target runs where?
-                   ▼                 ├─ Same machine ──> local socket ──┐
-            ListAgents reads              (never via Anthropic servers) │
-                   │                 └─ Other machine/web ──> Remote    │
-                   ▼                      Control (via Anthropic) ──────┤
-            list-agents rows                                           ▼
-                                                              crossSessionInbound?
-                                                              ├─ accept ─> delivered
-                                                              ├─ hold ───> user must Approve
-                                                              └─ refuse ─> dropped
+Eligible sessions → registry/inbox → ListAgents → SendMessage
+Target location?
+├─ Same machine → Unix socket / named pipe, local delivery
+└─ Other machine/cloud → Anthropic infrastructure
+                               │
+Explicit crossSessionInbound?
+├─ accept → delivered
+├─ hold   → undelivered; later applicable accept releases
+├─ refuse → dropped
+└─ unset  → mode-dependent default
+            ├─ deliver
+            └─ approval hold, depending on terminal/surface and expiry
 
-  Delivered message still cannot approve permissions or change config;
-  the receiving session's own permission rules apply to anything it asks for.
+Peer text does not approve permissions or authorize configuration changes.
+Version/provider/Remote Control requirements govern availability.
 ```
 
 </details>
 
-> **Source**: [Cross-Session Messaging](../workflows/cross-session-messaging.md)
+> **Source**: [Guide: Cross-Session messaging: Discovery & delivery](../workflows/cross-session-messaging.md); [Messaging controls and availability](https://code.claude.com/docs/en/cross-session-messaging)

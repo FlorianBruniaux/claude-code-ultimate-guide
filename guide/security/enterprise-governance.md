@@ -31,39 +31,30 @@ tags: [security, enterprise, governance, compliance]
 
 ## 1. Local vs shared: The governance split
 
-The biggest mistake in enterprise AI governance is applying the same rules to everything. Local usage and shared usage have fundamentally different risk profiles.
+Govern according to data access, credentials, actions, and execution environment. A local checkout can contain production credentials or customer data; a shared repository can contain only public examples. Location alone does not establish the risk level.
 
 ### 1.1 Risk matrix
 
 | Dimension | Local usage | Shared usage |
 |-----------|-------------|--------------|
-| **Data exposure** | Developer's own files | Customer data, shared codebases, secrets |
-| **Blast radius** | One machine | Entire repo, CI/CD, production |
-| **Accountability** | Individual | Team / org |
-| **Reproducibility** | Session ends, history gone | Needs audit trail |
-| **Compliance scope** | Usually none | SOC2, ISO27001, HIPAA (if applicable) |
-| **Config drift** | Personal preference | Team consistency matters |
+| **Data exposure** | Any data reachable by the session | Any data reachable by the session |
+| **Blast radius** | Depends on credentials, filesystem, network, and tools | Depends on credentials, filesystem, network, and tools |
+| **Accountability** | Named operator and applicable org policy | Named owners and applicable org policy |
+| **Reproducibility** | Saved sessions may exist; verify retention and access | Configure and verify the required audit trail |
+| **Compliance scope** | Determined by data and processing obligations | Determined by data and processing obligations |
+| **Config drift** | Inspect active personal, project, and managed sources | Inspect active sources and deployed policy |
 
 ### 1.2 What you can and can't control
 
-**You CAN control** (via committed config):
-- Which MCP servers are approved (`settings.json` in repo)
-- Which tools Claude can use (`permissions.deny`)
-- What CLAUDE.md says about project conventions
-- Hook scripts that run pre/post tool use
-- CI/CD gates that validate AI-generated code
+**Repository configuration distributes a baseline**: share project instructions, supported settings, hooks, and project MCP definitions in `.mcp.json`. Keep CI checks as independent gates. A repository file is not an organization-wide policy lock.
 
-**You CANNOT directly control**:
-- Which personal `~/.claude/settings.json` developers have
-- Which models they use on personal API keys
-- What they do in personal projects outside your repos
-- Memory / session content between sessions
+**Managed controls enforce applicable policy inside Claude Code**: deploy supported managed settings and managed MCP restrictions to covered accounts or hosts. Verify which policy is active with `/status` and exercise blocked actions. Some values, such as a default model, remain defaults; use the documented restriction key when a choice must be limited. [Managed deployment](https://code.claude.com/docs/en/managed-settings#what-a-developer-can-change).
 
-**The practical implication**: Focus governance on what's committed to your repos and deployed in shared environments. Personal dev workflow is the developer's responsibility.
+**Outside that boundary**: unmanaged devices, other API clients, and local administrators can require separate identity, endpoint, network, and credential controls. Do not claim governance of those surfaces from a committed file.
 
 ### 1.3 Decision framework: When to govern
 
-Not everything needs heavy governance. Apply controls proportionally.
+The following is a proposed organizational framework, not product tiers. Apply controls according to the data and actions involved; validate the effective policy in each environment.
 
 ```
 What are you governing?
@@ -72,7 +63,7 @@ What are you governing?
 │   └─ Minimal: CLAUDE.md guidelines + basic hooks
 │
 ├─ Team codebase (shared repo, not production)
-│   └─ Standard: shared settings.json + MCP registry + PR gates
+│   └─ Standard: shared config + managed policy where required + PR gates
 │
 ├─ Production system (customer-facing, real data)
 │   └─ Strict: full tier config + approval workflow + audit log
@@ -87,11 +78,11 @@ What are you governing?
 
 A usage charter answers the fundamental question: "What are we allowed to do with Claude Code at this company?" Without it, each team answers differently, creating inconsistent risk exposure.
 
-This is the lean version. For a full charter with legal considerations, see [Whitepaper #11: Enterprise AI Governance](https://cc.bruniaux.com/whitepapers/) (when published).
+This is an example policy to adapt with the owners responsible for your data, contracts, and systems. It does not establish a plan entitlement or a legal compliance requirement.
 
 ### 2.1 Lean charter template
 
-Copy this into your org's `docs/ai-usage-charter.md` and adapt:
+Copy this into your org's `docs/ai-usage-charter.md` and adapt. Classification choices, review cadence, and approvals below are example organizational decisions:
 
 ```markdown
 # AI Coding Tools Usage Charter
@@ -107,8 +98,8 @@ Copy this into your org's `docs/ai-usage-charter.md` and adapt:
 
 | Tool | Scope | Data Classification |
 |------|-------|---------------------|
-| Claude Code (Pro/Team/Enterprise) | All dev work | Up to CONFIDENTIAL |
-| Claude Code (personal accounts) | Personal dev only | PUBLIC/INTERNAL only |
+| Organization-approved Claude Code account and processing route | Approved dev work | Approved classifications only |
+| Personal accounts | Personal public work only | PUBLIC only |
 | [Other approved tools] | [Scope] | [Classification] |
 
 ---
@@ -117,12 +108,12 @@ Copy this into your org's `docs/ai-usage-charter.md` and adapt:
 
 | Classification | Examples | Allowed with Claude Code? |
 |----------------|----------|--------------------------|
-| **PUBLIC** | Open source, public docs | Yes, no restrictions |
-| **INTERNAL** | Internal tools, non-sensitive code | Yes, standard config |
-| **CONFIDENTIAL** | Internal business secrets, non-regulated IP | Yes, Enterprise plan only |
-| **RESTRICTED** | Customer PII, PCI card data, PHI, credentials | No, never in AI context without legal/compliance sign-off |
+| **PUBLIC** | Open source, public docs | Yes, subject to action permissions |
+| **INTERNAL** | Internal tools, non-sensitive code | Only on an approved processing route |
+| **CONFIDENTIAL** | Internal business secrets, non-regulated IP | Only when contracts, retention, and controls are approved |
+| **RESTRICTED** | Customer PII, PCI card data, PHI, credentials | Prohibited under this example charter |
 
-**Hard rule**: RESTRICTED data never enters an AI context window. Not in prompts, not in files Claude reads, not as examples. Configure `permissions.deny` to block access to restricted files.
+**Hard rule**: RESTRICTED data never enters an AI context window. Not in prompts, not in files Claude reads, not as examples. Remove restricted data from the execution environment and apply validated tool, filesystem, network, and credential controls. Instruction text alone is insufficient.
 
 ---
 
@@ -173,7 +164,7 @@ By using Claude Code on company systems, you agree to:
 
 ### 2.2 Data classification and Claude Code settings
 
-Translate data classification into actual configuration:
+These permission rules are a starting example for built-in tools, not complete data containment. Shell programs and MCP servers can access data through other routes. Use OS controls and narrowly scoped credentials, then test indirect reads and network egress. [Permission boundaries](https://code.claude.com/docs/en/permissions#how-permissions-interact-with-sandboxing).
 
 ```json
 {
@@ -208,11 +199,11 @@ Do not proceed until explicitly told to skip that content.
 
 ### 2.3 Propagating settings to the team
 
-Writing a charter is not enough: developers need to actually run with the right config. Three mechanisms exist, and most orgs use all three:
+Writing a charter is not enough: developers need to actually run with the right config. Use complementary mechanisms, each with a different scope:
 
 **Shared settings.json in your team repo**
 
-Commit a `.claude/settings.json` at your repo root with org-approved permissions and hooks. Every developer who clones the repo picks it up automatically. This is the highest-fidelity distribution mechanism for project-specific settings.
+Commit supported project settings in `.claude/settings.json`. Check each key's scope and workspace-trust requirements; cloning a repository alone does not activate every possible setting. [Project settings scope](https://code.claude.com/docs/en/settings#a-committed-key-doesnt-reach-teammates).
 
 ```json
 {
@@ -221,32 +212,37 @@ Commit a `.claude/settings.json` at your repo root with org-approved permissions
       "Read(./.env)",
       "Read(./.env.*)",
       "Read(./**/*.key)",
-      "Bash(curl:*)",
-      "Bash(wget:*)"
+      "Bash(curl *)",
+      "Bash(wget *)"
     ]
   },
   "hooks": {
     "PreToolUse": [
       {
         "matcher": "Bash",
-        "hooks": [".claude/hooks/dangerous-actions-blocker.sh"]
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/dangerous-actions-blocker.sh"
+          }
+        ]
       }
     ]
   }
 }
 ```
 
-Developers cannot easily override project-level settings without editing the committed file, which makes drift visible in git history.
+Local settings can change ordinary project defaults without a tracked edit. Permission deny/ask rules combine across sources rather than following ordinary scalar precedence. Use managed policy for required restrictions and verify the result. The example assumes the referenced executable hook exists and has been tested; its Bash patterns do not block every network route. [Settings precedence](https://code.claude.com/docs/en/settings#settings-precedence), [hook configuration](https://code.claude.com/docs/en/hooks#hook-locations).
 
 **Shared CLAUDE.md for behavior rules**
 
-Project-level `CLAUDE.md` is loaded on every session. Use it to distribute coding standards, data classification rules, and tool restrictions that Claude should follow. See §2.2 for the charter template.
+Use project `CLAUDE.md` to distribute coding standards and explain data-handling policy. It provides model guidance, not enforced tool restrictions. See §2.2 for the charter template.
 
 **Anthropic Team and Enterprise admin controls**
 
-For organizations on Anthropic's Team or Enterprise plan, the admin console at [console.anthropic.com](https://console.anthropic.com) provides organization-level settings that apply to all members. These include usage policies and API key management. Consult the [official Anthropic documentation](https://docs.anthropic.com) for the current scope of admin controls, as this feature set evolves with each Claude Code release.
+Deploy the managed controls available for your organization and client. API Console administration, claude.ai organization settings, and host policy are different surfaces; check which one reaches the session. Organization restrictions need supported policy keys, delivery to the intended account or host, and runtime verification. [Deployment mechanisms](https://code.claude.com/docs/en/managed-settings).
 
-The practical reality for most teams: shared `settings.json` in each repo gives you the most granular control and works on all plans, including personal API key setups. Admin console controls are a useful additional layer for Enterprise customers, not a replacement for repo-level configuration.
+Shared repository configuration remains useful for project defaults. It complements managed policy and execution-environment controls.
 
 ---
 
@@ -256,96 +252,84 @@ Individual MCP vetting (the 5-minute audit) is covered in [security-hardening.md
 
 ### 3.1 Approval workflow
 
+This is an example organizational process. A server name, popularity score, or absent advisory is not sufficient evidence of safety.
+
 ```
-Developer wants new MCP
-        │
-        ▼
-[1] Submit MCP Request
-    - Name, source URL, version
-    - Proposed use case
-    - Data scope (what will it access?)
-        │
-        ▼
-[2] Security Review (Tech Lead + optionally Security team)
-    - 5-min MCP audit (see security-hardening.md)
-    - Check: Stars >50, recent commits, no dangerous flags
-    - Check: No CVEs (search NVD + GitHub security advisories)
-    - Classify risk: LOW / MEDIUM / HIGH
-        │
-     ┌──┴──┐
-   LOW   MED/HIGH
-     │      │
-     ▼      ▼
-  Approve  Extended review
-           (2-week trial in sandbox)
-           + approval from Security team
-        │
-        ▼
-[3] Add to Approved Registry
-    - Pin exact version
-    - Document approved scope
-    - Set expiry date (6 months)
-        │
-        ▼
-[4] Deploy via shared settings.json
-    - Committed to repo
-    - No local overrides for approved MCPs
-        │
-        ▼
-[5] Monitor + Periodic Re-review
-    - Check for security advisories every 30 days
-    - Re-approve at version bumps (patch: auto, minor+: manual)
-    - Quarterly full registry review
+Developer requests MCP
+        |
+        v
+[1] Record source, exact version, use case, data flow, credentials
+        |
+        v
+[2] Review code/provenance, dependencies, advisories, permissions,
+    tool descriptions, network access, and representative behavior
+        |
+        +-- Evidence insufficient --> Hold or reject
+        |
+        v
+[3] Approve a bounded scope and reviewed version
+    Record owner, decision evidence, and review triggers
+        |
+        v
+[4] Distribute project definitions via .mcp.json
+    Deploy managed MCP policy where restrictions must be enforced
+    Verify the active policy and blocked actions
+        |
+        v
+[5] Monitor advisories and behavior; re-review changes
+    Update approval before deploying a changed version or scope
 ```
+
+Choose review intervals and expiry rules as organizational policy. Do not automatically approve a patch merely because its version label suggests a small change. [Managed MCP configuration](https://code.claude.com/docs/en/mcp#managed-mcp-configuration).
 
 ### 3.2 MCP registry format
 
-Maintain an approved MCP registry at `.claude/mcp-registry.yaml` in your team's shared config repo:
+Maintain a registry such as `.claude/mcp-registry.yaml` in your shared config repo. Claude Code does not natively enforce this custom YAML. The values below are placeholders to replace with an actual review, not verified approvals or runnable version pins:
 
 ```yaml
 # .claude/mcp-registry.yaml
 # Approved MCP servers for [Organization Name]
-# Last updated: 2026-03-10
+# Last updated: [REVIEW_DATE]
 # Reviewer: [Name, Role]
 
 metadata:
   review_cycle: quarterly
-  next_review: "2026-06-10"
+  next_review: "NEXT_REVIEW_DATE"
   owner: "platform-team@company.com"
 
 approved:
   - name: context7
-    version: "1.2.3"
-    source: "https://github.com/context7/mcp-server"
+    version: "REVIEWED_VERSION"
+    source: "https://github.com/upstash/context7"
     approved_by: "john.doe@company.com"
-    approved_date: "2026-01-15"
-    expires: "2026-07-15"
+    approved_date: "REVIEW_DATE"
+    expires: "EXPIRY_DATE"
     data_scope: PUBLIC
     risk: LOW
-    rationale: "Read-only documentation lookup. No data egress."
+    rationale: "Documentation lookup; review outbound queries and credentials."
     config:
       command: npx
-      args: ["-y", "@context7/mcp-server@1.2.3"]
+      args: ["-y", "@upstash/context7-mcp@REVIEWED_VERSION"]
 
   - name: sequential-thinking
-    version: "0.6.2"
+    version: "REVIEWED_VERSION"
     source: "https://github.com/modelcontextprotocol/servers"
     approved_by: "jane.smith@company.com"
-    approved_date: "2026-01-15"
-    expires: "2026-07-15"
+    approved_date: "REVIEW_DATE"
+    expires: "EXPIRY_DATE"
     data_scope: INTERNAL
     risk: LOW
-    rationale: "Local reasoning only. No network access."
+    rationale: "Reference implementation; verify code and restrict network access."
     config:
       command: npx
-      args: ["-y", "@modelcontextprotocol/server-sequential-thinking@0.6.2"]
+      args: ["-y", "@modelcontextprotocol/server-sequential-thinking@REVIEWED_VERSION"]
 
   - name: internal-db-readonly
-    version: "2.1.0"
+    version: "REVIEWED_VERSION"
     source: "internal"
     approved_by: "security@company.com"
-    approved_date: "2026-02-01"
-    expires: "2026-05-01"  # shorter expiry for higher risk
+    approved_date: "REVIEW_DATE"
+    expires: "EXPIRY_DATE"  # shorter expiry for higher risk
     data_scope: CONFIDENTIAL
     risk: MEDIUM
     rationale: "Read-only replica access. No PII tables in allowlist."
@@ -354,30 +338,30 @@ approved:
       - "No access to users, payments, or audit tables"
     config:
       command: npx
-      args: ["-y", "@company/db-mcp@2.1.0"]
+      args: ["-y", "@company/db-mcp@REVIEWED_VERSION"]
 
 pending_review:
   - name: github-mcp
     requested_by: "dev@company.com"
-    requested_date: "2026-03-05"
+    requested_date: "REVIEW_DATE"
     use_case: "PR automation"
     status: under_review
 
 denied:
   - name: browser-automation-mcp
-    denied_date: "2026-02-10"
+    denied_date: "REVIEW_DATE"
     reason: "Full browser access with no scope restriction. Risk too high."
 ```
 
 ### 3.3 Enforcing the registry via hook
 
-Use a governance hook to validate that only approved MCPs are in use. The script below is a minimal inline version you can drop into `.claude/hooks/governance-check.sh`. For a more complete implementation with additional checks (deny list enforcement, dangerous allow-list detection), see [`examples/hooks/bash/governance-enforcement-hook.sh`](../../examples/hooks/bash/governance-enforcement-hook.sh).
+Use managed MCP configuration for enforced restrictions. The sample below is only a diagnostic warning for the top-level `mcpServers` map in `~/.claude.json`; it misses other scopes, project entries, plugins, connectors, and command-line definitions. It cannot validate the resolved active server set. Review and test any hook before use; the separate [governance hook example](../../examples/hooks/bash/governance-enforcement-hook.sh) also needs validation for your deployment.
 
 ```bash
 #!/bin/bash
 # .claude/hooks/governance-check.sh
 # Event: SessionStart
-# Validates active MCP config against approved registry
+# Warns on one stored MCP map; does not inventory active servers
 
 REGISTRY=".claude/mcp-registry.yaml"
 SETTINGS="${HOME}/.claude.json"
@@ -403,7 +387,7 @@ fi
 exit 0
 ```
 
-**Note**: This hook warns, it does not block. Blocking at session start creates too much friction. Use periodic compliance checks instead (see §5.3).
+**Note**: This example always continues the session, including when its dependencies are missing. It is not an enforcement or approval gate. Use deployed managed MCP controls and verify their coverage for the client surfaces in use.
 
 ### 3.4 Emerging: Runtime-level MCP tool isolation
 
@@ -421,7 +405,7 @@ The trade-off is real and should be weighed against the registry's own maturity,
 
 ## 4. Guardrail tiers
 
-Pre-configured guardrail tiers for four common scenarios. Copy the relevant tier into your project's `.claude/settings.json` and `CLAUDE.md`.
+Pre-configured guardrail tiers for four common scenarios. Adapt the relevant tier for your project's `.claude/settings.json` and `CLAUDE.md`. These examples require the referenced hook scripts to be installed and tested. Valid JSON and hook structure do not establish security behavior.
 
 ### Tier 1: Starter
 
@@ -441,7 +425,12 @@ Pre-configured guardrail tiers for four common scenarios. Copy the relevant tier
     "PreToolUse": [
       {
         "matcher": "Bash",
-        "hooks": ["~/.claude/hooks/dangerous-actions-blocker.sh"]
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$HOME/.claude/hooks/dangerous-actions-blocker.sh\""
+          }
+        ]
       }
     ]
   }
@@ -462,6 +451,7 @@ Pre-configured guardrail tiers for four common scenarios. Copy the relevant tier
 
 **When**: Team 5–20, production-adjacent code, some sensitive data, no hard compliance requirements.
 
+```json
 {
   "permissions": {
     "deny": [
@@ -482,22 +472,42 @@ Pre-configured guardrail tiers for four common scenarios. Copy the relevant tier
       {
         "matcher": "Bash",
         "hooks": [
-          "~/.claude/hooks/dangerous-actions-blocker.sh"
+          {
+            "type": "command",
+            "command": "bash \"$HOME/.claude/hooks/dangerous-actions-blocker.sh\""
+          }
         ]
       },
       {
         "matcher": "Edit|Write",
-        "hooks": [".claude/hooks/prompt-injection-detector.sh"]
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/prompt-injection-detector.sh\""
+          }
+        ]
       }
     ],
     "PostToolUse": [
       {
         "matcher": "Bash",
-        "hooks": ["~/.claude/hooks/output-secrets-scanner.sh"]
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$HOME/.claude/hooks/output-secrets-scanner.sh\""
+          }
+        ]
       }
     ],
     "SessionStart": [
-      ".claude/hooks/governance-check.sh"
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/governance-check.sh\""
+          }
+        ]
+      }
     ]
   }
 }
@@ -552,31 +562,63 @@ Pre-configured guardrail tiers for four common scenarios. Copy the relevant tier
       {
         "matcher": "Bash",
         "hooks": [
-          "~/.claude/hooks/dangerous-actions-blocker.sh",
-          "~/.claude/hooks/velocity-governor.sh"
+          {
+            "type": "command",
+            "command": "bash \"$HOME/.claude/hooks/dangerous-actions-blocker.sh\""
+          },
+          {
+            "type": "command",
+            "command": "bash \"$HOME/.claude/hooks/velocity-governor.sh\""
+          }
         ]
       },
       {
         "matcher": "Edit|Write",
         "hooks": [
-          ".claude/hooks/prompt-injection-detector.sh",
-          ".claude/hooks/unicode-injection-scanner.sh"
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/prompt-injection-detector.sh\""
+          },
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/unicode-injection-scanner.sh\""
+          }
         ]
       }
     ],
     "PostToolUse": [
       {
         "matcher": "Bash",
-        "hooks": ["~/.claude/hooks/output-secrets-scanner.sh"]
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$HOME/.claude/hooks/output-secrets-scanner.sh\""
+          }
+        ]
       },
       {
         "matcher": "Edit|Write",
-        "hooks": [".claude/hooks/session-logger.sh"]
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/session-logger.sh\""
+          }
+        ]
       }
     ],
     "SessionStart": [
-      ".claude/hooks/governance-check.sh",
-      "~/.claude/hooks/mcp-config-integrity.sh"
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/governance-check.sh\""
+          },
+          {
+            "type": "command",
+            "command": "bash \"$HOME/.claude/hooks/mcp-config-integrity.sh\""
+          }
+        ]
+      }
     ]
   }
 }
@@ -655,15 +697,27 @@ This tier adds compliance-specific controls on top of Strict.
       {
         "matcher": "Bash",
         "hooks": [
-          "~/.claude/hooks/dangerous-actions-blocker.sh",
-          "~/.claude/hooks/velocity-governor.sh"
+          {
+            "type": "command",
+            "command": "bash \"$HOME/.claude/hooks/dangerous-actions-blocker.sh\""
+          },
+          {
+            "type": "command",
+            "command": "bash \"$HOME/.claude/hooks/velocity-governor.sh\""
+          }
         ]
       },
       {
         "matcher": "Edit|Write",
         "hooks": [
-          ".claude/hooks/prompt-injection-detector.sh",
-          ".claude/hooks/unicode-injection-scanner.sh"
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/prompt-injection-detector.sh\""
+          },
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/unicode-injection-scanner.sh\""
+          }
         ]
       }
     ],
@@ -671,14 +725,30 @@ This tier adds compliance-specific controls on top of Strict.
       {
         "matcher": ".*",
         "hooks": [
-          "~/.claude/hooks/output-secrets-scanner.sh",
-          ".claude/hooks/session-logger.sh"
+          {
+            "type": "command",
+            "command": "bash \"$HOME/.claude/hooks/output-secrets-scanner.sh\""
+          },
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/session-logger.sh\""
+          }
         ]
       }
     ],
     "SessionStart": [
-      ".claude/hooks/governance-check.sh",
-      "~/.claude/hooks/mcp-config-integrity.sh"
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/governance-check.sh\""
+          },
+          {
+            "type": "command",
+            "command": "bash \"$HOME/.claude/hooks/mcp-config-integrity.sh\""
+          }
+        ]
+      }
     ]
   }
 }
