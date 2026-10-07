@@ -1,6 +1,6 @@
 {
-  "sourceSha256": "1dd77fdde7e81d28bab2b143c12e4fa8b8c90d4fa9283f6db7a1beb8affa8eb4",
-  "referenceSha256": "1eb417a9265a95f4089bf733a7d1b6bb314016f895d60d01bc1cdcd1d8c76a4b",
+  "sourceSha256": "8cd7cb70a7fa91aaeee0ff624eb4144ff258e5abb2881742461b465f3658959e",
+  "referenceSha256": "c0e48ce2534dc88d499234b407ae63979dc085831791556231a8bb56e0fa8647",
   "lineCount": 26188,
   "ranges": [
     {
@@ -10,16 +10,16 @@
     },
     {
       "from": 259,
-      "to": 1648,
+      "to": 1634,
       "slug": "01-quick-start"
     },
     {
-      "from": 1649,
-      "to": 4827,
+      "from": 1635,
+      "to": 4815,
       "slug": "02-core-workflow"
     },
     {
-      "from": 4828,
+      "from": 4816,
       "to": 6351,
       "slug": "03-memory-files"
     },

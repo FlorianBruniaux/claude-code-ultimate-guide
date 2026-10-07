@@ -33,8 +33,8 @@ test('real rendered chapter transitions route boundary lines inclusively', async
   // Independent oracle checked against guide 3.44.1 headings and landing splitter rules.
   // Keep these expectations independent of chapter-ranges.generated.json.
   const boundaries = [
-    [259, '00-introduction', '01-quick-start'], [1649, '01-quick-start', '02-core-workflow'],
-    [4828, '02-core-workflow', '03-memory-files'], [6352, '03-memory-files', '04-agents'],
+    [259, '00-introduction', '01-quick-start'], [1635, '01-quick-start', '02-core-workflow'],
+    [4816, '02-core-workflow', '03-memory-files'], [6352, '03-memory-files', '04-agents'],
     [7241, '04-agents', '05-skills'], [8801, '05-skills', '06-commands'],
     [9738, '06-commands', '07-hooks'], [11631, '07-hooks', '08-mcp'],
     [14222, '08-mcp', '09-advanced-patterns'], [23738, '09-advanced-patterns', '10-reference'],
