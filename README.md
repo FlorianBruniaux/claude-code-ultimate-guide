@@ -18,7 +18,7 @@
 
 <p align="center">
   <a href="./CHANGELOG.md"><img src="https://img.shields.io/badge/Guide-v3.44.1-brightgreen?style=flat-square" alt="Guide version 3.44.1" /></a>
-  <a href="./CHANGELOG.md"><img src="https://img.shields.io/badge/Updated-Oct_6,_2026_·_v3.44.1-brightgreen?style=flat-square" alt="Updated Oct 6, 2026, guide version 3.44.1" /></a>
+  <a href="./CHANGELOG.md"><img src="https://img.shields.io/badge/Updated-Oct_7,_2026_·_v3.44.1-brightgreen?style=flat-square" alt="Updated Oct 7, 2026, guide version 3.44.1" /></a>
   <a href="https://creativecommons.org/licenses/by-sa/4.0/"><img src="https://img.shields.io/badge/Guide-CC_BY--SA_4.0-blue?style=flat-square" alt="Guide license: CC BY-SA 4.0" /></a>
   <a href="https://cc.bruniaux.com/mcp/"><img src="https://img.shields.io/badge/MCP-npx_ready-blueviolet?style=flat-square" alt="MCP server available through npx" /></a>
 </p>
@@ -334,6 +334,7 @@ Guide changes and Claude Code product releases answer different questions:
 
 Recent guide additions include:
 
+- [Mistral Large 4 evaluation](./docs/resource-evaluations/mistral-large-4.md): October 6 launch evidence, promotional pricing, independent results, regional inference, and pending weights; integrated into the [market snapshot](./guide/ops/llm-market-snapshot.md) and [AI ecosystem](./guide/ecosystem/ai-ecosystem.md#21-mistral-large-4-multimodal-api-candidate).
 - [Loop & Graph Engineering](https://cc.bruniaux.com/guide/loop-graph-engineering/) ([source](./guide/core/loop-graph-engineering.md)): bounded feedback, workflow state, stopping rules, recovery, and judgment allocation.
 - [Subscription Strategy](https://cc.bruniaux.com/guide/subscription-strategy/) ([source](./guide/ops/subscription-strategy.md)): seats, APIs, gateways, self-hosting scenarios, and team-scale decision gates.
 - [Cross-Session Messaging](https://cc.bruniaux.com/guide/workflows/cross-session-messaging/) ([source](./guide/workflows/cross-session-messaging.md)): peer discovery, delivery, security boundaries, and correlated-drift controls.
@@ -417,4 +418,4 @@ Watch [GitHub Releases](https://github.com/FlorianBruniaux/claude-code-ultimate-
 
 ---
 
-*Version 3.44.1 | Updated daily · Oct 6, 2026*
+*Version 3.44.1 | Updated daily · Oct 7, 2026*

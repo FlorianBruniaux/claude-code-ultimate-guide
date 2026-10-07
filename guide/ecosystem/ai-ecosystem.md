@@ -25,6 +25,7 @@ Read the [Agent Harness Map](./agent-harness-landscape.md) for the strict runtim
 - [Introduction](#introduction)
 - [1. Perplexity AI (Research & Sourcing)](#1-perplexity-ai-research--sourcing)
 - [2. Google Gemini (Visual Understanding)](#2-google-gemini-visual-understanding)
+- [2.1 Mistral Large 4 (Multimodal API Candidate)](#21-mistral-large-4-multimodal-api-candidate)
 - [3. Kimi (PPTX & Long Document Generation)](#3-kimi-pptx--long-document-generation)
 - [4. NotebookLM (Synthesis & Audio)](#4-notebooklm-synthesis--audio)
 - [5. Voice-to-Text Tools (Wispr Flow, Superwhisper)](#5-voice-to-text-tools-wispr-flow-superwhisper)
@@ -306,6 +307,16 @@ For generating diagrams, mockups, or visual assets:
 1. Generate image with tool of choice
 2. Upload to Gemini for → code conversion
 3. Refine with Claude Code
+
+---
+
+## 2.1 Mistral Large 4 (Multimodal API Candidate)
+
+**Checked 2026-10-06.** [Mistral Large 4](https://mistral.ai/news/mistral-large-4/) is a general-purpose reasoning model accepting text and images and producing text, released in public preview through Mistral Studio and the API. Mistral says it trained and serves this preview on its European infrastructure; that launch claim does not establish every API route's data-residency terms. Weights are announced for later in October.
+
+For a team comparing providers, add Large 4 to a governed API pilot for repository tasks, document reasoning, or visual analysis. Measure accepted outcomes through the chosen harness. The model is distinct from the Vibe coding-agent runtime, and this entry does not establish native Claude Code compatibility. [Mistral's model documentation](https://docs.mistral.ai/models/mistral-large-4-0) lists function calling and structured outputs, but those features alone do not prove a complete coding-agent integration.
+
+Start with the [source evaluation](../../docs/resource-evaluations/mistral-large-4.md) for independent results, the clarified 49B/52B parameter-count convention, and the unresolved 1M/512K context figures. Use the [market snapshot](../ops/llm-market-snapshot.md#2-api-prices) for promotional versus original rates, [subscription strategy](../ops/subscription-strategy.md#exercise-choose-a-provider-portfolio-for-300-engineers) for API and workforce purchasing, and [local inference](./local-vs-cloud-inference.md#what-actually-fits-named-models) for the weight-memory boundary.
 
 ---
 

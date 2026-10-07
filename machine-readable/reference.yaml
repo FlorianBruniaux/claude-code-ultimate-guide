@@ -569,7 +569,7 @@ deep_dive:
   ai_finops_cost_regimes: "guide/ops/ai-finops.md#1-three-cost-regimes-that-move-independently"  # subscription quota vs metered tokens vs owned capacity; a quota is not convertible to tokens
   ai_finops_loop: "guide/ops/ai-finops.md#2-the-finops-loop-applied-to-agents"  # FinOps Foundation phases mapped to agent measurement, levers, and governance pages
   ai_finops_lever_map: "guide/ops/ai-finops.md#3-lever-map"  # routing, caching, batch, off-peak, compression, delegation, portability, plan portfolio, local inference, each with what it does not solve
-  llm_market_snapshot: "guide/ops/llm-market-snapshot.md"  # dated 2026-09-30, primary-source-checked prices and quotas across Anthropic, OpenAI, Google, DeepSeek, Mistral, xAI, Moonshot, Z.AI, hosts
+  llm_market_snapshot: "guide/ops/llm-market-snapshot.md"  # dated 2026-09-30; Mistral Large 4 prices, benchmarks, and regional processing added 2026-10-06
   llm_market_trend: "guide/ops/llm-market-snapshot.md#1-the-trend-quotas-shrink-while-token-prices-fall"  # API changes mostly cuts; subscriptions move to weighted credits and windows; OpenAI Pro $200 20x->10x Plus on 2026-10-30
   llm_market_api_prices: "guide/ops/llm-market-snapshot.md#2-api-prices"  # per-1M input/cached/output with batch, off-peak, regional modifiers; tokenizer caveat
   llm_market_subscriptions: "guide/ops/llm-market-snapshot.md#3-subscription-quotas"  # Claude, ChatGPT, Cursor, Copilot, Mistral, Z.AI, Alibaba, OpenCode Go, Cerebras Code
@@ -578,6 +578,11 @@ deep_dive:
   llm_market_data_location: "guide/ops/llm-market-snapshot.md#6-where-the-data-goes"  # Anthropic us/global only, OpenAI EU endpoint +10%, DeepSeek stores in PRC, OpenRouter EU routing
   llm_market_failed_claims: "guide/ops/llm-market-snapshot.md#7-claims-that-did-not-survive-verification"  # paused Agent SDK credit, sold-out Cerebras Code, DeepSeek weekday peak window, OpenRouter ZDR on all plans
   llm_market_refresh_rule: "guide/ops/llm-market-snapshot.md#8-refresh-rule"
+  # Mistral Large 4 public preview, checked 2026-10-06; no native Claude Code or self-hosted runtime validation
+  mistral_large_4_evaluation: "docs/resource-evaluations/mistral-large-4.md"  # source inventory, 49B/52B counting convention clarified by Mistral HF; 1M/512K context and Oct 27/31 weight plans differ; final license unverified
+  mistral_large_4_ecosystem: "guide/ecosystem/ai-ecosystem.md#21-mistral-large-4-multimodal-api-candidate"  # multimodal model distinct from Vibe runtime and workforce seats
+  mistral_large_4_benchmarks: "docs/resource-evaluations/mistral-large-4.md#benchmark-evidence"  # Artificial Analysis Intelligence Index 38; Vals Index 48.05 +/-1.11; Terminal-Bench launch 28.3 vs Vals 22.73 +/-0.88, conditions not matched
+  mistral_large_4_pricing_regions: "docs/resource-evaluations/mistral-large-4.md#pricing-and-regional-processing"  # sale $0.68/$0.07/$2.09 vs original $1.36/$0.14/$4.18 per 1M input/cache/output; global geography uncommitted, regional model availability untested
   token_saving_independent_benchmarks: "guide/ecosystem/context-engineering-tools.md#independent-benchmarks"  # Dasein (sponsor-run, Parsec), Stet, Marmelab, JetBrains RTK and Caveman, THOL (Tokenade author); end-to-end cost vs vendor layer claims; RTK +7.6% (JetBrains low effort) and +13% (Dasein); Caveman -8.5% output tokens vs 65% claimed; author is an RTK core contributor (disclosed)
   token_saving_layer_vs_bill: "guide/ecosystem/context-engineering-tools.md#independent-benchmarks"  # Read 90.6% vs Bash 6.4% of tool-result tokens (Marmelab); rewritable Bash calls carry under 20% of tool-result chars (JetBrains); rtk gain 96.2M tokens saved while the bill rose
   token_saving_research_preprints: "guide/ecosystem/context-engineering-tools.md#independent-benchmarks"  # arXiv 2607.12161 (-38.4% tool-output tokens, +6.8% billed cost, r=0.15), 2609.22114 (gateway cost attribution, tool-schema filtering), 2608.16370 (retrieval calls 21.0 to 63.9), 2609.32961 (35K runs, 1/3 tokens can take 20-80% longer)
@@ -1307,9 +1312,9 @@ deep_dive:
   agentic_software_factories_fusion_case_study: "docs/resource-evaluations/fusion-multi-agent-orchestrator.md"  # 727K lines/4 months, bus factor 1, verification module built but never wired into production
   # Resource Evaluations (added 2026-01-26, updated 2026-02-07, synced 2026-07-08)
   resource_evaluations_directory: "docs/resource-evaluations/"
-  resource_evaluations_count: 191
-  resource_evaluations_indexed: 68
-  resource_evaluations_count_note: "191 Markdown files on disk; 68 indexed README rows. Different denominators, verified 2026-09-27; older unindexed evaluations remain a maintenance backlog."
+  resource_evaluations_count: 198
+  resource_evaluations_indexed: 75
+  resource_evaluations_count_note: "198 Markdown files on disk; 75 indexed README rows. Different denominators, verified 2026-10-06; older unindexed evaluations remain a maintenance backlog."
   resource_evaluations_methodology: "docs/resource-evaluations/README.md"
   resource_evaluations_watchlist: "docs/resource-evaluations/watch-list.md"
   resource_evaluations_appendix: "guide/ultimate-guide.md#appendix-c-resource-evaluation-process"
@@ -3176,6 +3181,7 @@ section_maps:
     - "methodology-is-not-harness-ownership"
     - "decision-tree-what-do-you-need"
     - "methodology-map"
+    - "lean-software-engineering-as-a-delivery-lens"
     - "the-15-methodologies"
     - "sdd-tools-reference"
     - "writing-effective-specs"
@@ -3267,6 +3273,7 @@ section_maps:
     - "introduction"
     - "1-perplexity-ai-research--sourcing"
     - "2-google-gemini-visual-understanding"
+    - "21-mistral-large-4-multimodal-api-candidate"
     - "3-kimi-pptx--long-document-generation"
     - "4-notebooklm-synthesis--audio"
     - "41-notebooklm-mcp-integration"
@@ -3425,6 +3432,7 @@ section_maps:
     - "engineering-standards-distribution"
     - "hook-utilities"
     - "alternative-uis"
+    - "model-routing"
     - "multi-agent-orchestration"
     - "external-orchestration-frameworks"
     - "knowledge-graph"
@@ -3527,6 +3535,12 @@ section_maps:
     - "best-practices-for-advanced-systems"
     - "validation-youre-ready-if"
     - "whats-next"
+  "guide/ops/ai-finops.md":
+    - "tldr"
+    - "1-three-cost-regimes-that-move-independently"
+    - "2-the-finops-loop-applied-to-agents"
+    - "3-lever-map"
+    - "4-what-this-section-does-not-cover"
   "guide/ops/ai-traceability.md":
     - "why-traceability-matters-now"
     - "the-disclosure-spectrum"
@@ -3579,6 +3593,16 @@ section_maps:
     - "prompts-by-symptom"
     - "mcp-servers-for-devops"
     - "external-resources"
+  "guide/ops/llm-market-snapshot.md":
+    - "data-snapshot-date"
+    - "1-the-trend-quotas-shrink-while-token-prices-fall"
+    - "2-api-prices"
+    - "3-subscription-quotas"
+    - "4-capability-read-the-benchmark-conditions-first"
+    - "5-cost-of-one-reference-workload"
+    - "6-where-the-data-goes"
+    - "7-claims-that-did-not-survive-verification"
+    - "8-refresh-rule"
   "guide/ops/observability.md":
     - "why-monitor-sessions"
     - "observability-by-harness-layer"
@@ -3632,6 +3656,7 @@ section_maps:
     - "common-pitfalls"
     - "team-size-considerations"
     - "common-situations"
+    - "start--build--scale-a-practical-navigation-layer"
     - "the-l0-l5-scale-where-is-your-team"
     - "quick-reference"
   "guide/roles/agent-evaluation.md":
@@ -3761,6 +3786,7 @@ section_maps:
   "guide/security/security-hardening.md":
     - "tldr---decision-matrix"
     - "october-2026-review"
+    - "september-2026-review"
     - "apply-controls-at-the-owning-layer"
     - "part-1-prevention-before-you-start"
     - "part-2-detection-while-you-work"

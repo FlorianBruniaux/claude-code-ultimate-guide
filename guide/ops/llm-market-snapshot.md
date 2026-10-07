@@ -18,6 +18,8 @@ tags: [ops, cost, finops, pricing, providers, guide]
 
 Every price and quota on this page was read at the vendor's own documentation on **2026-09-30**, unless a row says otherwise. Vendors reprice without notice and rename models between releases. Re-verify at the linked source before any purchase decision.
 
+**2026-10-06 addition:** Mistral Large 4 pricing, benchmark evidence, and regional-inference conditions below were checked separately on its public-preview launch day. Other providers retain their September snapshot dates. The [source evaluation](../../docs/resource-evaluations/mistral-large-4.md) records the clarified parameter count, differing context limits, and pending weight availability.
+
 **How the numbers were checked.** The starting point was an AI-generated market summary. Each claim was then re-read at a primary source: vendor pricing pages, help centers, API documentation, and changelogs. The reading tool returns a summarized version of each page, so an exact figure can still carry a transcription error. `openai.com` and `help.openai.com` refused automated reads during verification; OpenAI figures come from `developers.openai.com` and OpenAI's `learn.chatgpt.com` pricing page instead. Where only a secondary source was available, the row says so.
 
 ---
@@ -57,7 +59,7 @@ Anthropic's pricing documentation also states that a planned increase of Claude 
 
 ## 2. API prices
 
-USD per 1 million tokens, standard tier, read on 2026-09-30. "n/a" means no cached-input price was found, not that caching is free.
+USD per 1 million tokens, standard tier, read on 2026-09-30 unless stated otherwise. "n/a" means no cached-input price was found, not that caching is free.
 
 | Provider and model | Input | Cached input | Output | Modifiers | Source |
 |---|---:|---:|---:|---|---|
@@ -71,6 +73,7 @@ USD per 1 million tokens, standard tier, read on 2026-09-30. "n/a" means no cach
 | DeepSeek `deepseek-v4-pro`, peak | $1.32 | $0.044 | $3.96 | Off-peak half price: $0.66 / $0.022 / $1.98 | [DeepSeek pricing](https://api-docs.deepseek.com/quick_start/pricing/) |
 | DeepSeek `deepseek-flash`, peak | $0.30 | $0.006 | $1.20 | Off-peak half price: $0.15 / $0.003 / $0.60 | [DeepSeek pricing](https://api-docs.deepseek.com/quick_start/pricing/) |
 | Mistral Devstral 2 | $0.40 | n/a | $2.00 | Devstral Small 2: $0.10 / $0.30 | [Mistral](https://mistral.ai/news/mistral-vibe-2-0) |
+| Mistral Large 4, public preview | $0.68 | $0.07 | $2.09 | Read 2026-10-06; 50% sale. Original rates: $1.36 / $0.14 / $4.18; no sale end date found | [Mistral inference pricing](https://docs.mistral.ai/inference/pricing) |
 | xAI Grok 4.7 | $2.00 | n/a | $6.00 | US regional endpoint +10% | [xAI docs](https://docs.x.ai/developers/grok-4-7) |
 | Moonshot Kimi K3 | $3.00 | $0.30 | $15.00 | Cache write $3.00 (5-minute TTL) or $6.00 (1-hour TTL) | [Kimi platform pricing](https://platform.kimi.ai/docs/pricing/chat) |
 | Z.AI GLM-5.3 | $1.40 | $0.26 | $4.40 | | [Z.AI pricing](https://docs.z.ai/guides/overview/pricing) |
@@ -118,10 +121,14 @@ A benchmark score measures a model, a harness, an effort setting, and a number o
 | Claude Opus 5.5 | Terminal-Bench 4.0 | 66.4% (±2.6) | xhigh effort, Claude Code harness | Anthropic | 2026-09-22 |
 | Claude Sonnet 5.5 | Terminal-Bench 4.0 | 70.6% | Effort and harness not stated in the text read | Anthropic | 2026-09-28 |
 | Gemini 3.5 Flash | Terminal-Bench 2.1 | 76.2% | Different benchmark version: not comparable with the rows above | Google | 2026-05-19 |
+| Mistral Large 4 | Terminal-Bench 4 | 28.3% | Launch article does not specify matching harness, effort, and attempts | Mistral | 2026-10-06 |
+| Mistral Large 4 | Terminal-Bench 4.0 | 22.73% (±0.88) | Vals defaults: high reasoning, temperature 1, top-p 0.95, output cap 256,000; settings may vary by benchmark; matched harness and attempts not established | Vals AI | 2026-10-06 (read) |
 
-Sources: [Claude Opus 5.5](https://www.anthropic.com/claude-opus-5-5), [Claude Sonnet 5.5](https://www.anthropic.com/claude-sonnet-5-5), [Gemini 3.5](https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-5/).
+Sources: [Claude Opus 5.5](https://www.anthropic.com/claude-opus-5-5), [Claude Sonnet 5.5](https://www.anthropic.com/claude-sonnet-5-5), [Gemini 3.5](https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-5/), [Mistral Large 4 announcement](https://mistral.ai/news/mistral-large-4/), [Vals model results](https://www.vals.ai/models/mistralai_mistral-large-4).
 
-All three are vendor-reported. Do not read the first two rows as "Sonnet beats Opus" until both conditions are published. No independent benchmark run with one harness across all providers was found. For a buying decision, run your own tasks through the same harness on each candidate, as described in [agent evaluation](../roles/agent-evaluation.md).
+The first three rows are vendor-reported. Do not read the first two as "Sonnet beats Opus" until both conditions are published. The two Mistral scores come from different reported evaluations; do not average them or rank them against Claude without matched conditions. No independent benchmark run with one harness across all providers in this table was established. For a buying decision, run your own tasks through the same harness on each candidate, as described in [agent evaluation](../roles/agent-evaluation.md).
+
+Other independent launch-day results give a broader view: Artificial Analysis lists an Intelligence Index of **38**, while Vals lists a Vals Index of **48.05 ±1.11** and **78.40% ±3.55** on VibeCodeBench v1.1. These are different scales and task sets, not interchangeable coding scores. See [Artificial Analysis](https://artificialanalysis.ai/models/mistral-large-4), [Vals](https://www.vals.ai/models/mistralai_mistral-large-4), and the [evaluation](../../docs/resource-evaluations/mistral-large-4.md#benchmark-evidence).
 
 ---
 
@@ -143,6 +150,7 @@ Cost = 4 × input price + 16 × cached price + 0.4 × output price. When no cach
 | Z.AI GLM-5.3 | $11.52 |
 | Mistral Devstral 2 (no cached price found, upper bound) | $8.80 |
 | DeepSeek `deepseek-v4-pro`, peak / off-peak | $7.57 / $3.78 |
+| Mistral Large 4 (2026-10-06 sale rates) | $4.68 |
 | Groq GPT-OSS 120B | $2.04 |
 | DeepSeek `deepseek-flash`, peak / off-peak | $1.78 / $0.89 |
 | OVHcloud GPT-OSS 120B (EUR, no cached price found) | €1.76 |
@@ -150,7 +158,9 @@ Cost = 4 × input price + 16 × cached price + 0.4 × output price. When no cach
 
 ![One hypothetical day of agent work, 20M input tokens with 16M served from cache and 0.4M output tokens, priced at list rates read on 2026-09-30, ranging from $76.00 on OpenAI GPT-6 Astra to $0.76 on OpenAI GPT-6 Luna for the same token count.](../images/finops-reference-workload.webp)
 
-The chart leaves out the three upper-bound rows (no cached price found) and Claude Fable 5.1, which was added to the table after the chart was generated.
+The chart leaves out the three upper-bound rows (no cached price found), Claude Fable 5.1, and the October 6 Mistral Large 4 addition.
+
+For Mistral Large 4, the sale-rate calculation is **4 × $0.68 + 16 × $0.07 + 0.4 × $2.09 = $4.676**, rounded to **$4.68**. At the original rates it is **$9.352**, rounded to **$9.35**. Both assume the stated cache hits and exclude cache writes, regional premiums, retries, and review cost; neither is a measured agent bill.
 
 This table compares bills for the same token count. It does not compare work done. A model that fails, loops on tool calls, or needs three attempts costs more per accepted task than its row suggests, and the tokenizer difference noted in [§2](#2-api-prices) changes the token count itself. Measure cost per accepted task on your own workload with the method in [AI unit economics](./ai-unit-economics.md#2-building-a-cost-per-accepted-task).
 
@@ -164,6 +174,7 @@ This table compares bills for the same token count. It does not compare work don
 | OpenAI API | European endpoint `eu.api.openai.com`, which requires approval and a Modified Retention amendment, with a 10% regional processing premium where available. System data (account, metadata, usage) may be processed outside the region. API data is not used for training unless you opt in ([your data](https://developers.openai.com/api/docs/guides/your-data)) |
 | Google Gemini API | Paid-tier content is not used to improve Google's products; free-tier content may be ([Gemini API pricing](https://ai.google.dev/gemini-api/docs/pricing)). The Vertex AI residency page lists France and Germany regions, but which commitment and which models they cover was not established ([Vertex data residency](https://docs.cloud.google.com/vertex-ai/generative-ai/docs/learn/data-residency)) |
 | DeepSeek API | Personal data is collected, processed, and stored in the People's Republic of China, with a GDPR Article 27 representative for the EU. No EU residency option was found ([privacy policy](https://cdn.deepseek.com/policies/en-US/deepseek-privacy-policy.html)) |
+| Mistral API (read 2026-10-06) | The global endpoint has no specific inference-geography commitment. Optional EU/US regional endpoints cost 1.1× standard list pricing; interaction with the sale was not established. Model availability must be checked by region. Regionalization covers inference, not account, billing, or usage metadata; only function calling is supported among tools, and stateful Agents, Batch, and Files APIs are excluded. Large 4 availability on the EU endpoint was not tested ([regional inference](https://docs.mistral.ai/inference/regional-inference)) |
 | OpenRouter | In-region EU routing on Business and Enterprise plans; zero-data-retention routing on every plan ([OpenRouter pricing](https://openrouter.ai/pricing)) |
 | xAI, Fireworks | Regional premiums: xAI +10% on the US endpoint, Fireworks 1.5x on newly launched US-only models |
 

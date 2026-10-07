@@ -73,6 +73,8 @@ This guide is the most comprehensive community resource for Claude Code. It cove
 
 ---
 
+For the October 6, 2026 Mistral Large 4 preview, read `docs/resource-evaluations/mistral-large-4.md` and its integration map. The ecosystem, market snapshot, subscription strategy, and local-inference pages distinguish sale pricing, independent evaluations, regional endpoint constraints, unresolved specifications, and future weights. No native Claude Code or self-hosted Large 4 integration was tested.
+
 ## Full Cheatsheet
 
 ---

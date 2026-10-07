@@ -37,6 +37,7 @@ Les documents de travail bruts (prompts Perplexity, audits clients) restent dans
 
 | Ressource | Score Initial | Score Final | Décision | Fichier |
 |-----------|---------------|-------------|----------|---------|
+| **Mistral Large 4** (October 6 public preview) | 3/5 | **3/5** | Selective integration: API pricing, benchmark evidence, procurement, and future weight-deployment limits; parameters clarified, context and planned release dates differ across sources | [mistral-large-4.md](./mistral-large-4.md) |
 | **shunt** (spotify/portal-ai-plugins, hook-enforced delegation to a cheaper model) | 3/5 | **3/5** | Integrated as a pattern: context-engineering-tools.md §3 and the cost levers table; 90% figure scoped to Claude's context on 3 private scenarios; Portal-only; `~` path bypass and PDF blocking confirmed live | [spotify-portal-shunt.md](./spotify-portal-shunt.md) |
 | **logseq-wiki** (ystreibel/logseq-wiki, LLM Wiki port of obsidian-wiki) | 2/5 | **2/5** | Case study only: memory-systems.md §7.1 (ingestion-time poisoning of a single-user wiki: headless `--dangerously-skip-permissions` over third-party transcripts, opt-in staging not on that path); 5 stars, single author | [logseq-wiki-llm-wiki-port.md](./logseq-wiki-llm-wiki-port.md) |
 | **Brownfield Agentic Engineering** (Addy Osmani, Sep 2026) | 4/5 | **4/5** | Integrated: zones, independent characterization tests, migration completeness, parallelize last | [osmani-brownfield-agentic-engineering.md](./osmani-brownfield-agentic-engineering.md) |
@@ -118,4 +119,4 @@ Ressources surveillées mais pas encore intégrées : [watch-list.md](./watch-li
 
 ---
 
-**Last updated**: 2026-09-27 (192 Markdown files on disk, 69 indexed above; the disk/index gap remains a separate maintenance backlog)
+**Last updated**: 2026-10-06 (198 Markdown files on disk, 75 indexed above; the disk/index gap remains a separate maintenance backlog)

@@ -94,7 +94,7 @@ Core documentation for mastering Claude Code, organized by topic.
 
 | File | Description | Time |
 |------|-------------|------|
-| [ecosystem/ai-ecosystem.md](./ecosystem/ai-ecosystem.md) | Complementary AI tools (Perplexity, Gemini, Kimi, NotebookLM, TTS) | 30 min |
+| [ecosystem/ai-ecosystem.md](./ecosystem/ai-ecosystem.md) | Complementary AI tools (Perplexity, Gemini, Kimi, NotebookLM, TTS), plus the Mistral Large 4 API candidate | 30 min |
 | [ecosystem/plugin-distribution.md](./ecosystem/plugin-distribution.md) | **Plugin distribution**: package boundaries, marketplace trust, recommendation hints, and release checks | 15 min |
 | [ecosystem/agentic-tools.md](./ecosystem/agentic-tools.md) | **Agent tools comparison**: Hermes Agent, Codex CLI, Aider, Devin, SWE-agent, CrewAI, LangGraph, AutoGen, decision framework | 20 min |
 | [ecosystem/mcp-vs-cli.md](./ecosystem/mcp-vs-cli.md) | **MCP vs CLI decision guide**: when to use MCP servers vs CLI tools in Claude Code workflows, tradeoffs and decision dimensions | 15 min |
@@ -134,7 +134,7 @@ Core documentation for mastering Claude Code, organized by topic.
 | [ops/ai-unit-economics.md](./ops/ai-unit-economics.md) | **AI unit economics**: per-task cost decomposition, real cost levers (routing, sub-agent isolation, exit criteria), autonomous agent break-even point, team budget governance | 15 min |
 | [ops/subscription-strategy.md](./ops/subscription-strategy.md) | **Subscription strategy at team scale**: Claude, Codex, Copilot, Gemini, Cursor, and Mistral portfolio exercise; API gateway controls; personal-plan contract gaps; and scenario-based self-hosting economics | 20 min |
 | [ops/ai-finops.md](./ops/ai-finops.md) | **AI FinOps (section entry point)**: three cost regimes (subscription quota, metered tokens, owned capacity), the Inform-Optimize-Operate loop applied to agents, and a map of every cost lever with what it does not solve | 12 min |
-| [ops/llm-market-snapshot.md](./ops/llm-market-snapshot.md) | **LLM market snapshot (2026-09-30)**: source-checked API prices, subscription quotas, data location, the cost of one reference agent workload, and claims that did not survive verification | 20 min |
+| [ops/llm-market-snapshot.md](./ops/llm-market-snapshot.md) | **LLM market snapshot (2026-09-30, Mistral Large 4 added 2026-10-06)**: source-checked prices, subscription quotas, regional processing, benchmarks, and one hypothetical agent workload | 20 min |
 
 ---
 
