@@ -1,0 +1,51 @@
+CHANGELOG.md
+  s_46a62e0ad2f87e::t_a5d15a1915cde7 9-10
+README.md
+  s_46a62e0ad2f87e::t_356a8edd7f0a99 21,337,421
+docs/resource-evaluations/README.md
+  s_46a62e0ad2f87e::t_9ba1193550ca7b 40,122
+docs/resource-evaluations/mistral-large-4.md
+  s_46a62e0ad2f87e::t_9ca6ee1d959946 1-121
+guide/README.md
+  s_46a62e0ad2f87e::t_e5b6e5cce426c5 97,137
+guide/ecosystem/ai-ecosystem.md
+  s_46a62e0ad2f87e::t_1be9fde0d61308 28,313-322
+guide/ecosystem/local-vs-cloud-inference.md
+  s_46a62e0ad2f87e::t_9b51471039a0ef 143-144,643-644
+guide/ops/llm-market-snapshot.md
+  s_46a62e0ad2f87e::t_2596e1996618c1 21-22,62,76,124-127,129,131,153,161-163,177
+guide/ops/subscription-strategy.md
+  s_46a62e0ad2f87e::t_d3369e0d2ae3f7 259-262
+llms-full.txt
+  s_46a62e0ad2f87e::t_7226b3826fa4cc 76-77
+llms.txt
+  s_46a62e0ad2f87e::t_ca74d00e425332 30
+machine-readable/llms.txt
+  s_46a62e0ad2f87e::t_388ee343c8ba4b 30
+machine-readable/mcp-product.json
+  s_46a62e0ad2f87e::t_6b0da5975e43d0 16,488
+machine-readable/reference.yaml
+  s_46a62e0ad2f87e::t_8312f7c4bd8c2e 572,581-585,1315-1317,3184,3276,3435,3538-3543,3596-3605,3659,3789
+mcp-server/content/llms.txt
+  s_46a62e0ad2f87e::t_07738bb180d771 30
+mcp-server/content/reference.yaml
+  s_46a62e0ad2f87e::t_9a6d697ca70fad 572,581-585,1315-1317,3184,3276,3435,3538-3543,3596-3605,3659,3789
+mcp-server/src/lib/chapter-ranges.generated.json
+  s_46a62e0ad2f87e::t_565799dbf8168e 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "57735c7c82e7331c49b83c5397e7b31239b584c4",
+  "prompts": {},
+  "sessions": {
+    "s_46a62e0ad2f87e": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a11295-a30b-70f0-bffd-1872c78eb50a",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
