@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- Allow manual Index Integrity validation through `workflow_dispatch` under the owner-requested CI policy.
+
 - Refresh all 49 visual diagrams and their ASCII fallbacks across 12 themes: correct permission modes, managed and MCP precedence, hooks, subagent effects, native rule loading, transport and sandbox coverage, CI commands, model/plan guidance and UVAL. Remove unsupported adherence, productivity and isolation guarantees; distinguish conceptual models and proposed policies from documented product behavior. Repair Source, node and index fragments and cite current primary references. Align contradictory passages in the full guide, architecture, context-engineering and enterprise-governance chapters; repair governance hook examples.
 
 - **Claude Code releases synchronized through 2.1.292**: add the October 5 and 6 summaries from the official changelog (2.1.290, 2.1.291 regression fix, 2.1.292), record the stdio MCP protocol default, hourly WebSearch budget and project-settings restrictions as breaking changes, align the release registry and discovery mirrors, and retain npm UTC publication dates.
