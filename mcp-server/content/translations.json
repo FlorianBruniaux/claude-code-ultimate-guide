@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-10-06",
-  "measured_at_commit": "b0ca2130e44412f17295598686b3b41a7b9c0cc2",
+  "checked_at": "2026-10-07",
+  "measured_at_commit": "624a60121940c2c938e3029447222cbd85b9c327",
   "official_scope": "Maintained by the Claude Code Ultimate Guide project; not official Anthropic documentation.",
   "policy": {
     "canonical_language": "en",
@@ -21,10 +21,10 @@
     "maintainer": "Florian Bruniaux",
     "status": "official",
     "version": "3.44.1",
-    "sha256": "1dd77fdde7e81d28bab2b143c12e4fa8b8c90d4fa9283f6db7a1beb8affa8eb4",
+    "sha256": "8cd7cb70a7fa91aaeee0ff624eb4144ff258e5abb2881742461b465f3658959e",
     "source": {
-      "commit": "ba3733859648a469936744d75214e90248458c27",
-      "sha256": "1dd77fdde7e81d28bab2b143c12e4fa8b8c90d4fa9283f6db7a1beb8affa8eb4",
+      "commit": "624a60121940c2c938e3029447222cbd85b9c327",
+      "sha256": "8cd7cb70a7fa91aaeee0ff624eb4144ff258e5abb2881742461b465f3658959e",
       "commit_evidence": "latest_commit_touching_canonical_guide"
     },
     "coverage": {
@@ -48,9 +48,9 @@
       "status": "official",
       "official": true,
       "version": "3.44.1",
-      "last_checked_at": "2026-10-06",
+      "last_checked_at": "2026-10-07",
       "last_full_refresh_at": "2026-10-06",
-      "sync_state": "current",
+      "sync_state": "stale",
       "translated_from": {
         "version": "3.44.1",
         "commit": "ba3733859648a469936744d75214e90248458c27",
@@ -67,10 +67,10 @@
         "semantic_review": "codex_full_review_2026-09-26_and_delta_reconciliation_2026-10-06; not_human_editorial_signoff"
       },
       "known_lag": {
-        "status": "current",
-        "canonical_guide_commits": 0,
-        "canonical_repo_commits": 7,
-        "version_delta": "same guide version (3.44.1); zero canonical source drift"
+        "status": "stale",
+        "canonical_guide_commits": 1,
+        "canonical_repo_commits": 13,
+        "version_delta": "same guide version (3.44.1); canonical source changed; French remains based on its recorded source"
       }
     },
     {
@@ -111,8 +111,8 @@
       },
       "known_lag": {
         "status": "stale",
-        "canonical_guide_commits": 57,
-        "canonical_repo_commits": 478,
+        "canonical_guide_commits": 58,
+        "canonical_repo_commits": 484,
         "version_delta": "3.41.0 to 3.43.0"
       },
       "official": false
@@ -187,8 +187,8 @@
       },
       "known_lag": {
         "status": "stale",
-        "canonical_guide_commits": 141,
-        "canonical_repo_commits": 746,
+        "canonical_guide_commits": 142,
+        "canonical_repo_commits": 752,
         "version_delta": "3.32.2 to 3.43.0"
       },
       "official": false
