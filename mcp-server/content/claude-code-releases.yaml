@@ -3,8 +3,8 @@
 # Purpose: Track Claude Code product releases for documentation sync
 # Maintained: Manual updates when new releases are announced
 
-latest: "2.1.289"
-updated: "2026-10-05"
+latest: "2.1.292"
+updated: "2026-10-07"
 
 # ════════════════════════════════════════════════════════════════
 # RELEASES (newest first, condensed highlights only)
@@ -14,6 +14,33 @@ releases:
   # ─────────────────────────────────────────────────────────────
   # 2.1.x Series (January-August 2026)
   # ─────────────────────────────────────────────────────────────
+
+  - version: "2.1.292"
+    date: "2026-10-06"
+    highlights:
+      - "Added `claude plugin install --marketplace <source>`, an `effort` parameter on the Agent tool for sub-agents, and `CLAUDE_CODE_OVERLOADED_RETRY_BASE_DELAY_MS` for the 529 retry backoff"
+      - "Fixed PreToolUse hook approvals and auto mode skipping the permission prompt for reads from network (UNC) paths, sandboxed commands reading `/ultrareview` staged uploads, and notebook or PDF reads through a link swapped mid-read"
+      - "Fixed `NO_PROXY` ignored for Claude Code's own API requests, plan mode lost on `/resume`, scheduled tasks and `/loop` wakeups lost after `/resume`, `/clear` or a restart, and `claude -p` stopping background commands 5 seconds after the final result"
+      - "Changed local (stdio) MCP connections to negotiate protocol version 2026-07-28 by default; Read now errors on a PDF `pages` list and @-mentioned text files over 256KB are no longer dropped silently"
+    breaking:
+      - "Local (stdio) MCP servers negotiate protocol version 2026-07-28 by default on every install, including Bedrock, Vertex and Foundry; `MCP_PROTOCOL_NEGOTIATION=legacy` opts out."
+      - "Agent names are limited to 256 characters; a skill's or plugin file's longer `name` is ignored. `claude plugin test` now fails on a failed `expect` inside a hook the test registered instead of passing silently."
+
+  - version: "2.1.291"
+    date: "2026-10-06"
+    highlights:
+      - "Fixed a 2.1.290 regression where cloud sessions could drop answers to permission prompts"
+
+  - version: "2.1.290"
+    date: "2026-10-05"
+    highlights:
+      - "Added `claude attach <name>` and `claude logs <name>` with partial session names, `/claude-api managed-agents-onboard`, and warnings when managed settings link outside their folder or ignore user sandbox allowRead paths"
+      - "Fixed Bash permission checks auto-approving read-only commands with shell-expanded wildcards or zsh-specific variable names, rules skipped after a PreToolUse hook rewrote input, and Read deny rules bypassed by pasted images, @-mentions and links swapped mid-read"
+      - "Fixed WebFetch silently dropping page text past 100,000 characters (it now reports the rest and takes an `offset`), scheduled tasks lost after compaction or `/background`, and resumed subagents losing earlier thinking and prompt cache"
+      - "Changed WebSearch to a budget that refills at 100 calls per hour, and stopped project settings from turning on Claude in Chrome or setting `CLAUDE_CODE_DISABLE_ATTACHMENTS`"
+    breaking:
+      - "Interactive WebSearch uses a budget that refills at 100 calls per hour (`CLAUDE_CODE_WEB_SEARCH_REFILLS_PER_HOUR` sets the rate) instead of ending after 200 calls."
+      - "A project's settings files can no longer turn on Claude in Chrome or set `CLAUDE_CODE_DISABLE_ATTACHMENTS`; `pyright` and more forms of `ps` now ask for permission. An in-process teammate's `agent_id` in Agent results is its agent ID, with the `name@team` address in `teammate_id`."
 
   - version: "2.1.289"
     date: "2026-10-03"

@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- **Claude Code releases synchronized through 2.1.292**: add the October 5 and 6 summaries from the official changelog (2.1.290, 2.1.291 regression fix, 2.1.292), record the stdio MCP protocol default, hourly WebSearch budget and project-settings restrictions as breaking changes, align the release registry and discovery mirrors, and retain npm UTC publication dates.
+
 - **Mistral Large 4 evidence and selective integration (October 6, 2026)**: add a launch-day source evaluation and update the market snapshot, subscription strategy, local inference, and AI ecosystem. Separate promotional and original prices ($4.68 versus $9.35 for the hypothetical reference workload), independent and launch-reported benchmarks, and available API access from planned weights. Clarify the 49B/52B parameter-count convention, preserve differing context and planned-release figures, and document regional endpoint limits. Update navigation and machine-readable/MCP reference mirrors without claiming a tested native Claude Code or self-hosted integration.
 
 ## [3.44.1] - 2026-10-06

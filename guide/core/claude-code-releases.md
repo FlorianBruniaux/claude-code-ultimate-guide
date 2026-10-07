@@ -17,12 +17,15 @@ keywords:
 > **Release dates**: UTC publication dates from the [official npm package metadata](https://registry.npmjs.org/@anthropic-ai%2Fclaude-code). Only versions with upstream changelog entries are included.
 > **Machine-readable**: [claude-code-releases.yaml](../../machine-readable/claude-code-releases.yaml)
 
-**Latest**: v2.1.289 | **Updated**: 2026-10-05
+**Latest**: v2.1.292 | **Updated**: 2026-10-07
 
 ---
 
 ## Quick jump
 
+- [v2.1.292](#v21292-2026-10-06): `claude plugin install --marketplace`, Agent tool `effort` parameter, UNC-path permission fix and stdio MCP protocol 2026-07-28 by default
+- [v2.1.291](#v21291-2026-10-06): cloud-session permission-answer regression fix
+- [v2.1.290](#v21290-2026-10-05): `claude attach`/`logs` by name, Bash permission-check fixes, WebFetch `offset` and an hourly WebSearch budget
 - [v2.1.289](#v21289-2026-10-03): Fixed managed-machine permission rules bypassed by user-installed mods, Bash deny/ask rules under sandbox auto-allow, and Read deny rules through IDE symlinks
 - [v2.1.288](#v21288-2026-10-02): Added mod selection access via $.ui.selection(), draft recovery with Up after Ctrl+C, and MCP re-authentication prompts for additional OAuth scopes
 - [v2.1.287](#v21287-2026-10-01): Claude Mods and the "You should know" side agent, 1M context by default on Bedrock, Vertex and Foundry, MCP URL prompts and `rm` safeguard fix
@@ -55,6 +58,24 @@ keywords:
 ---
 
 ## 2.1.x series (January-August 2026)
+
+### v2.1.292 (2026-10-06)
+
+- **Added**: `claude plugin install --marketplace <source>` adds the marketplace if needed, under the same policy checks as `claude plugin marketplace add`, then installs from it. The Agent tool takes an `effort` parameter, so a sub-agent runs at the effort level you ask for, and `CLAUDE_CODE_OVERLOADED_RETRY_BASE_DELAY_MS` sets a longer base delay for retrying overloaded (529) requests.
+- **Changed**: Local (stdio) MCP servers negotiate protocol version 2026-07-28 by default on every install, including Bedrock, Vertex and Foundry; `MCP_PROTOCOL_NEGOTIATION=legacy` opts out. Agent names are limited to 256 characters, and `claude plugin test` fails on a failed `expect` inside a hook the test registered instead of passing silently.
+- **Fixed** (security): PreToolUse hook approvals and auto mode no longer bypass the permission prompt for file reads from network (UNC) paths. Sandboxed commands can no longer read the staged copies of `/ultrareview` uploads, and notebook or PDF reads on macOS and Windows no longer return a file outside what was approved through a link swapped mid-read.
+- **Fixed**: `NO_PROXY` is honored for Claude Code's own API requests when `HTTPS_PROXY` is set. Plan mode is restored on `/resume`, scheduled tasks created after `/resume`, `/branch` or `/clear` fire, and `claude -p` waits for background commands and scheduled wakeups instead of stopping them. Read errors on a PDF `pages` list such as "6,9,15", and @-mentioned text files over 256KB are no longer dropped silently.
+
+### v2.1.291 (2026-10-06)
+
+- **Fixed**: A regression in 2.1.290 where cloud sessions could drop answers to permission prompts.
+
+### v2.1.290 (2026-10-05)
+
+- **Added**: `claude attach <name>` and `claude logs <name>` accept part of a session name. `/claude-api managed-agents-onboard` sets up the Managed Agents pattern a page describes, or a Console quickstart template, as `ant` files. Claude Code warns when a managed settings file links outside the managed settings folder, and `/status` and doctor warn when managed settings ignore user sandbox `allowRead` paths or allowed domains.
+- **Changed**: Interactive WebSearch uses a budget that refills at 100 calls per hour (`CLAUDE_CODE_WEB_SEARCH_REFILLS_PER_HOUR` sets the rate) instead of ending after 200 calls. A project's settings files can no longer turn on Claude in Chrome or set `CLAUDE_CODE_DISABLE_ATTACHMENTS`, and `pyright` and more forms of `ps` ask for permission. An in-process teammate's `agent_id` in Agent results is its agent ID, with the `name@team` address in `teammate_id`.
+- **Fixed** (security): Bash permission checks no longer auto-approve read-only commands such as `rg` or `git grep` whose arguments the shell still expands as wildcards, or commands whose variable names zsh reads differently from bash. Permission rules apply after a PreToolUse hook rewrites a tool call's input, and Read deny rules cover pasted or dragged image paths, @-mentioned folders and links swapped mid-read.
+- **Fixed**: WebFetch reports how much page text past 100,000 characters went unread and takes an `offset` to read on. Scheduled tasks survive compactions made from this version on and `/background` hand-offs, resumed subagents and teammates keep their earlier thinking and prompt cache, and long sessions with hundreds of images no longer get stuck on "Request rejected as unprocessable by the model" errors.
 
 ### v2.1.289 (2026-10-03)
 
