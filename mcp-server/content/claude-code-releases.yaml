@@ -3,8 +3,8 @@
 # Purpose: Track Claude Code product releases for documentation sync
 # Maintained: Manual updates when new releases are announced
 
-latest: "2.1.292"
-updated: "2026-10-07"
+latest: "2.1.296"
+updated: "2026-10-10"
 
 # ════════════════════════════════════════════════════════════════
 # RELEASES (newest first, condensed highlights only)
@@ -14,6 +14,40 @@ releases:
   # ─────────────────────────────────────────────────────────────
   # 2.1.x Series (January-August 2026)
   # ─────────────────────────────────────────────────────────────
+
+  - version: "2.1.296"
+    date: "2026-10-09"
+    highlights:
+      - "Added `autoCompactWindow` in subagent frontmatter and `--agents`, `CLAUDE_CODE_WORKFLOW_SUBAGENT_MODEL` for workflow agents, an `allow_large` option on the Read tool and a `code` key in Claude apps gateway `managed.policies[]` for Claude Desktop's Code tab"
+      - "Fixed Bash permission checks auto-approving commands that assign and use `BASH_ARGV0`, managed `PreToolUse` deny hooks with `\"continue\": false` refusing the call without ending the turn, and Git Bash `rm -rf /c/Users/<name>` not asking in bypass permissions mode on Windows"
+      - "Fixed Edit and NotebookEdit corrupting non-ASCII characters in non-UTF-8 files (such edits are now refused), PowerShell commands over about 1 KB always asking for permission, and headless sessions starting MCP servers switched off for the folder"
+      - "Changed the default limit on up-front MCP tool descriptions and server instructions from 2,048 to 4,096 characters, and Sonnet 5.5 cache reads are priced at $0.10 per Mtok in `/cost`, the status line and `--max-budget-usd`"
+    breaking:
+      - "Edit and NotebookEdit refuse to edit files that are not valid UTF-8 (Windows-1252, Shift-JIS, GBK) instead of replacing their non-ASCII characters. A turn or `!` command started while `←` moves the session to the background is now stopped instead of finishing out of sight."
+
+  - version: "2.1.295"
+    date: "2026-10-08"
+    highlights:
+      - "Added `onFailure: \"block\"` for command and HTTP hooks (a hook that can't start, times out or exits unexpectedly blocks the action), Program Status Protocol (OSC 7501) terminal status and `CLAUDE_CODE_RETRY_WATCHDOG_MAX_WAIT_MS`"
+      - "Added per-upstream `models` lists, `timeouts.upstream_ttfb_ms` on cloud upstreams and `upstream_request_id` audit fields to the Claude apps gateway, plus `$.ui.notify` and richer `Button` children for mods"
+      - "Fixed every request failing on a `[1m]` model when a gateway or cloud provider refuses the context-1m beta, `--tools` and `--restricted` not covering built-in tools that register after launch, Claude in Chrome deny rules written with port 80, and a terminal freeze on responses of tens of thousands of lines"
+      - "Changed subagents to preload at most 32 skills from the `skills` field, claude.ai connectors to negotiate MCP protocol 2026-07-28 by default, and MCP tool descriptions loaded through tool search to be cut at 16,384 characters instead of 2,048"
+    breaking:
+      - "claude.ai connectors negotiate MCP protocol version 2026-07-28 by default on installs that fetch no flags; `MCP_PROTOCOL_NEGOTIATION=legacy` opts out. WebSocket (`ws`) MCP messages over 16 MiB close the connection."
+      - "Subagents preload at most 32 skills from the `skills` field, each once; a subagent with the Skill tool can still invoke the rest. Ctrl+C at the idle prompt of an attached background session leaves a pending `/loop` wakeup alone; press Esc to stop it."
+
+  - version: "2.1.294"
+    date: "2026-10-08"
+    highlights:
+      - "Fixed `prompt` and `agent` hooks written as instructions (such as \"Block commands that...\") allowing what they should block, and improved how instruction-style Stop and SubagentStop `prompt` hooks are judged"
+
+  - version: "2.1.293"
+    date: "2026-10-07"
+    highlights:
+      - "⭐ Added Claude Haiku 5.5 (`claude-haiku-5-5`), now the default Haiku model on the Anthropic API, with a 1M context window and $0.10/$0.50 per Mtok ($0.50/$2.50 for prompts over 100K)"
+      - "Added `agentType` to the `subagentStatusLine` payload and `isDeferred` to `$.tool.register` for mods"
+      - "Fixed Claude treating its own last actions before a compaction as done and redoing finished work, an HTTP MCP memory leak, path-scoped rules and nested CLAUDE.md files not loading when Claude reads a file through `cat`, `head`, `tail`, `sed -n` or `grep`, and messages lost when `←` moved a session to the background"
+      - "Reverted the 2.1.281 auto mode denial message change and the 2.1.290 fix for cloud sessions staying asleep after a container restart lost a pending wakeup"
 
   - version: "2.1.292"
     date: "2026-10-06"
@@ -2193,6 +2227,7 @@ breaking_summary:
     - "Removed # shortcut for quick memory (v2.0.70)"
     - "`modelPicker:setAsDefault` keybinding renamed to `modelPicker:thisSessionOnly` (v2.1.153)"
   security:
+    - "Bash commands that assign and use `BASH_ARGV0` prompt instead of auto-approving, managed `PreToolUse` deny hooks with `\"continue\": false` end the turn, cloud sessions run auto mode checks on Claude in Chrome actions and Git Bash `rm -rf /c/Users/<name>` asks in bypass mode (v2.1.296); `--tools` and `--restricted` cover built-in tools registered after launch, Chrome `host:80` deny rules apply to `http://` pages and mod guard hooks no longer see truncated tool input (v2.1.295); instruction-style `prompt` and `agent` hooks block what they describe (v2.1.294)"
     - "Symlinked writes are checked at their actual destination (v2.1.280); background sessions require workspace trust, child sessions inherit setting-source restrictions, NUL permission rules match nothing and command-substitution-only recursive rm prompts (v2.1.281)"
     - "A `sandbox.excludedCommands` glob no longer exempts a whole compound Bash command when one part matches, and subagent results reach the main agent under a header marking them as subagent output (v2.1.277); plugin and marketplace URLs no longer show passwords or tokens, and sandboxed Bash can write to project folders named `hooks/` or `config/` (v2.1.275)"
     - "Unanalyzable Bash commands no longer skip the prompt under `permissions.blockReadsOutsideWorkingDirectories`, and managed MCP restrictions apply alongside server-managed settings (v2.1.273); MCP-config secrets no longer shown in connection errors and worktree-isolated nested shell expansions refused (v2.1.274)"
@@ -2266,6 +2301,7 @@ breaking_summary:
 # MILESTONE FEATURES (quick reference)
 # ════════════════════════════════════════════════════════════════
 milestones:
+  "2.1.293": "Claude Haiku 5.5 becomes the default Haiku model on the Anthropic API with 1M context ($0.10/$0.50 per Mtok)"
   "2.1.287": "Claude Mods let plugins modify deeper Claude Code behavior, with the built-in \"You should know\" side-agent mod; Opus 4.7+ and Fable default to 1M context on Bedrock, Vertex, Foundry and the Claude apps gateway"
   "2.1.284": "Sonnet 5.5 becomes the default Sonnet model on the Anthropic API with 1M context; interactive terminal and VS Code sessions start in auto mode when no permission mode is configured; Ultracode becomes a separate /effort toggle"
   "2.1.280": "Opus 5.5 becomes the default Opus model with 1M context; Pro and Team Standard default to Opus; VS Code adds status, sandbox, Chrome, export and skills dialogs"

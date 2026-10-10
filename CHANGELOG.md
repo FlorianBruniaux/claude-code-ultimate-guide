@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- **Claude Code releases synchronized through 2.1.296**: add the October 7 to 9 summaries from the official changelog (2.1.293 with Claude Haiku 5.5 as the default Haiku model, 2.1.294 hook fix, 2.1.295, 2.1.296), record the Edit non-UTF-8 refusal, backgrounding stop, claude.ai connector MCP protocol default and 32-skill subagent preload cap as breaking changes, add a Haiku 5.5 milestone and security-fix rows, align the release registry and discovery mirrors, and retain npm UTC publication dates.
+
 - Keep nested-fence regression coverage in a synthetic fixture and verify the repaired governance document without requiring its historical malformed fences.
 
 - Allow manual Index Integrity validation through `workflow_dispatch` under the owner-requested CI policy.
