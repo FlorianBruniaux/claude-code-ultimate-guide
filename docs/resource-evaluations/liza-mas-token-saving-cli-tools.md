@@ -2,134 +2,107 @@
 
 **Source**: GitHub org [liza-mas](https://github.com/liza-mas) (Tangi Vass)
 **Context**: Mentioned in a LinkedIn comment on Soufiane Keli's series on LLM token-cost optimization for technical teams
-**Evaluated**: 2026-06-10
-**Evaluator**: Claude Opus 4.8
+**Initially evaluated**: 2026-06-10
+**Initial evaluator**: Claude Opus 4.8
+**Reassessed**: 2026-10-13, against public documentation and selected implementation and test files
 
----
+## Revised decision
 
-## Executive summary
+The original evaluation confused Markdown navigation with TOC generation and mistook an npm distribution wrapper for Stacklit's implementation language. It also missed the value of independently addressable artifacts in concurrent worktrees. Those errors invalidate the original blanket rejection and the runtime-based comparison.
 
-| Tool | Stars | Language | License | Score | Decision |
-|------|-------|----------|---------|-------|----------|
-| scip-search | 0 (now 2 as of 2026-07-28) | Go | Apache-2.0 | 1/5 | Reject |
-| mdtoc | 1 (now 2 as of 2026-07-28) | Go | Apache-2.0 | 1/5 | Reject |
-| functional-clusters | 0 (now 1 as of 2026-07-28) | Go | Apache-2.0 | 1/5 | Reject |
-| stacklit-cli | 2 (now 5 as of 2026-07-28) | Go | MIT | 2/5 | Watch (one-line note only) |
+| Tool | Initial score | Revised score | Decision |
+|------|---------------|---------------|----------|
+| scip-search | 1/5 | 2/5 | Specialized candidate for worktree-local symbol navigation |
+| mdtoc | 1/5 | 3/5 | Eligible for a bounded Markdown-navigation example |
+| functional-clusters | 1/5 | 2/5 | Specialized advisory clustering pipeline |
+| stacklit-cli | 2/5 | 3/5 | Eligible for a CLI-first comparison with upstream Stacklit |
 
-**Roster score: 1/5**: No tool clears the integration gate (score >= 3 required). stacklit-cli earns a single-line watch note as a Go-native variant of the already-documented stacklit.
+These scores assess relevance to the guide, not production readiness. This correction updates evaluations, their index, and watch entries; it does not add new guide sections. mdtoc and stacklit-cli qualify for consideration under the score-3 policy. Representative agent tasks should determine their practical benefit, rather than a GitHub-star threshold.
 
-**Framework boundary correction (2026-09-01)**: Liza exposes these utilities through optional toolchain profiles. Its agent contract defines fallback paths through `rg`, `ast-grep`, and direct reads when an index or utility is unavailable. The scores below assess standalone value to the guide, not whether Liza depends on the utilities to run.
+The 2026-09-01 framework correction still applies: Liza's [toolchain profiles](https://github.com/liza-mas/liza/blob/a22c12381c5d884d2586a48aaaa517bca184f9cf/support-docs/TOOLCHAIN.md) expose optional utilities, and its [agent tool contract](https://github.com/liza-mas/liza/blob/a22c12381c5d884d2586a48aaaa517bca184f9cf/contracts/AGENT_TOOLS.md) provides fallbacks. Standalone value and optionality are separate questions.
 
----
+## Worktree support and index freshness
+
+These tools use files or explicitly selected artifacts rather than requiring one mutable index for all checkouts. The mechanism differs by tool:
+
+| Tool | Documented mechanism | Boundary |
+|------|----------------------|----------|
+| scip-search | Explicit `--index` path; `reroot` copies an existing SCIP index with a new project root | Re-rooting suits a checkout of the same tree. It does not re-index changed source files |
+| mdtoc | Reads supplied Markdown files directly | No persistent index to synchronize; ranges describe the file read |
+| stacklit-cli | Generates a checkout's JSON artifact and accepts explicit input/output paths | Regeneration remains necessary after changes. The optional post-commit recipe skips paths under `.worktrees`, so it does not refresh those worktrees automatically |
+| functional-clusters | Takes explicit SCIP graph and Stacklit architecture export paths | Artifacts must describe the intended checkout; independent files do not establish freshness |
+
+Sources: [SCIP concurrent indexes and re-rooting](https://github.com/liza-mas/scip-search/blob/16384a7564ec9b5cf93580c26e4a76618242ee53/README.md), [mdtoc behavior](https://github.com/liza-mas/mdtoc/blob/37712275e36b5aef9c9651e633b1896e22d917f3/README.md), [Stacklit CLI refresh recipe](https://github.com/liza-mas/stacklit-cli/blob/3c0e04153fe10dde2eeb4ddff72417c7621d5436/USAGE.md), [Functional Clusters inputs](https://github.com/liza-mas/functional-clusters/blob/f1ac506508752660214d4a6d35fd33113177a482/README.md).
+
+Semble's [cache key implementation](https://github.com/MinishLab/semble/blob/0e5e02832ae0340c0feb637d2b7213fe065571fd/src/semble/cache.py) hashes the resolved project path. Distinct worktree directories therefore select distinct index caches. A shared cache directory is not a single shared project index. See the corrected [Semble evaluation](./semble-code-search.md).
+
+No comparative survey was performed to establish that most competing indexers require a centralized index. Worktree compatibility, index reuse, freshness, and concurrent writes need separate evidence.
 
 ## Tool-by-tool analysis
 
 ### scip-search
 
-**Repo**: github.com/liza-mas/scip-search
-**Version**: v0.1.0 (2026-06-10, released same day as this evaluation)
-**Description**: SCIP-based code navigation tool for AI agents. Works with Stacklit and Functional Clusters.
+**Repository**: [liza-mas/scip-search](https://github.com/liza-mas/scip-search)
+**Language / license**: Go / Apache-2.0
 
-| Criterion | Assessment |
-|-----------|------------|
-| Traction | 0 stars, v0.1.0, single author, day-one release |
-| Novelty vs. guide | Overlaps with Serena (LSP-based symbol navigation), grepai (semantic search), and any LSP-aware editor tooling |
-| CC integration | No documented Claude Code integration beyond the Liza framework ecosystem |
-| Claim verifiability | No benchmarks, no independent usage reports |
-| Dependency | Requires a SCIP index; optional in Liza and usable independently when an index is supplied |
+SCIP Search queries prebuilt SCIP artifacts for definitions, references, implementations, and graph-derived navigation. Its [command interface](https://github.com/liza-mas/scip-search/blob/16384a7564ec9b5cf93580c26e4a76618242ee53/README.md) supports independently selected indexes and worktree re-rooting. Language indexers are separate dependencies.
 
-**Score: 1/5**: Too early to evaluate on merit. The checked snapshot had zero external traction, and the core use case (navigating code symbols for AI agents) is already addressed by Serena and grepai in the guide. Liza integration does not make the tool mandatory within Liza or uniquely coupled to it.
+The original evaluation grouped it too loosely with semantic search and live LSP navigation. A SCIP artifact can be selected and copied independently of a running editor or service. Conversely, an index can be stale, and static graph/impact results do not establish a complete runtime call graph.
 
----
+**Score: 2/5.** The artifact model provides a concrete specialized use case. A broader recommendation needs a representative comparison of indexing effort, freshness handling, and navigation accuracy. The historical day-one star count does not decide technical merit.
 
 ### mdtoc
 
-**Repo**: github.com/liza-mas/mdtoc
-**Updated**: 2026-06-07
-**Description**: Markdown parser generating a table of content with line ranges.
+**Repository**: [liza-mas/mdtoc](https://github.com/liza-mas/mdtoc)
+**Language / license**: Go / Apache-2.0
 
-| Criterion | Assessment |
-|-----------|------------|
-| Traction | 1 star, no forks, single author |
-| Novelty vs. guide | Generic utility. Dozens of equivalent tools exist (doctoc, markdown-toc, github-markdown-toc). Not CC-specific. |
-| CC integration | None: no CLAUDE.md template, no hook, no slash command |
-| Claimed reduction | Not stated |
-| Dependency | Standalone, but solves a problem Claude Code handles natively (agent reads file structure) |
+mdtoc emits source ranges and hierarchical `mdq` selectors for Markdown ATX headings. Its [parser](https://github.com/liza-mas/mdtoc/blob/37712275e36b5aef9c9651e633b1896e22d917f3/internal/mdtoc/toc.go) tracks fenced blocks, computes section ends using heading levels, constructs ancestor paths, and flags duplicate selector paths. Its [tests](https://github.com/liza-mas/mdtoc/blob/37712275e36b5aef9c9651e633b1896e22d917f3/internal/mdtoc/toc_test.go) cover fenced-code exclusion, parent ranges, duplicate paths, and escaping. These files were inspected, not executed here.
 
-**Score: 1/5**: A useful personal utility, but out of scope for the guide. Claude Code users do not need a separate TOC generator; agents read structure via Read or ctx_read. No CC-specific value.
+A raw heading regex can match shell comments inside fenced examples and leaves section-end calculation and parent-path reconstruction to the caller. Claude Code's [tools reference](https://code.claude.com/docs/en/tools-reference) documents file reads, pattern search, and language-server operations. Those primitives do not by themselves supply mdtoc's Markdown section contract. An agent can script equivalent parsing or read the whole file, but that does not establish that the utility has no value.
 
----
+The same CLI output can be consumed by Claude Code, Codex, or another agent. Its relevance comes from targeted document navigation, not from requiring a Claude-specific hook. Setext headings are outside the documented scope, and selector compatibility depends on `mdq`. Token savings and agent error reduction were not measured here.
+
+**Score: 3/5.** A concrete addition for agents navigating long specifications. Replace the original rejection with consideration of a short example comparing regex matches, parsed ranges, and targeted reads.
 
 ### functional-clusters
 
-**Repo**: github.com/liza-mas/functional-clusters
-**Updated**: 2026-06-08
-**Description**: Functional Clustering from SCIP and Stacklit indexes.
+**Repository**: [liza-mas/functional-clusters](https://github.com/liza-mas/functional-clusters)
+**Language / license**: Go / Apache-2.0
 
-| Criterion | Assessment |
-|-----------|------------|
-| Traction | 0 stars, single author |
-| Novelty vs. guide | Clustering functions by call graph. Overlaps with grepai trace_graph and Serena symbol navigation |
-| CC integration | None documented |
-| Dependency | Requires both SCIP and Stacklit indexes to run |
-| Standalone value | Cannot be evaluated in isolation; depends on two other liza-mas tools |
+The [current contract](https://github.com/liza-mas/functional-clusters/blob/f1ac506508752660214d4a6d35fd33113177a482/README.md) consumes one or more `scip.graph-export.v1` JSON files and a `stacklit.architecture-export.v1` JSON file, then produces advisory clusters. The [CLI](https://github.com/liza-mas/functional-clusters/blob/f1ac506508752660214d4a6d35fd33113177a482/internal/cli/root.go) exposes `build`, `list`, and `explain`.
 
-**Score: 1/5**: Optional indexed utility rather than a required Liza component. It requires two upstream index sources (SCIP and Stacklit) that had no external traction in the checked snapshot. No evidence of usage outside the liza-mas ecosystem was found.
+The dependency is on artifacts with defined schemas. Consumers do not need upstream tools running during every query. Source and fixtures make isolated evaluation possible, contrary to the original assertion that it cannot be evaluated independently. Generating fresh inputs remains part of an end-to-end assessment.
 
----
+**Score: 2/5.** An inspectable specialized pipeline, with more preparation than direct search. The reviewed material does not establish whether its clusters improve agent navigation or identify functional boundaries on representative repositories.
 
 ### stacklit-cli
 
-**Repo**: github.com/liza-mas/stacklit-cli
-**Updated**: 2026-06-09
-**Description**: One command gives AI agents instant codebase context. ~250 tokens replaces 50,000+ tokens of exploration. Auto-configures Claude Code, Cursor, Aider.
+**Repository**: [liza-mas/stacklit-cli](https://github.com/liza-mas/stacklit-cli)
+**Language / license**: Go / MIT
 
-| Criterion | Assessment |
-|-----------|------------|
-| Traction | 2 stars, very recent |
-| Novelty vs. guide | The documented [stacklit (glincker/stacklit)](https://github.com/glincker/stacklit) solves the identical problem ("~250 tokens replaces 50,000+ tokens") via npm. stacklit-cli is a Go reimplementation. |
-| Differentiator | Go binary with no npm/Node runtime dependency. Different author, different org. |
-| CC integration | Claims auto-configure Claude Code via `stacklit setup` equivalent |
-| License | MIT (documented stacklit: not clearly listed in repo) |
+stacklit-cli is a fork of [glincker/stacklit](https://github.com/glincker/stacklit), whose [implementation is already Go](https://github.com/glincker/stacklit/blob/master/go.mod). Upstream's npm package distributes the binary. The distinction is the CLI interface and extensions, not a Go port of a Node implementation.
 
-**Score: 2/5**: Genuine concept (already documented as stacklit), different implementation runtime (Go vs npm). For teams on Go-native stacks that want to avoid Node, this is worth knowing. But it is not additive to the guide as a new entry. The concept and pattern are covered. Two stars is not enough traction to justify a separate tool section.
+The [fork documentation](https://github.com/liza-mas/stacklit-cli/blob/3c0e04153fe10dde2eeb4ddff72417c7621d5436/README.md) and [command registration](https://github.com/liza-mas/stacklit-cli/blob/3c0e04153fe10dde2eeb4ddff72417c7621d5436/internal/cli/root.go) support these differences:
 
-**Watch-list note**: A one-line variant mention under the existing stacklit entry is appropriate if traction grows. Do not create a new `### stacklit-cli` section.
+- Former MCP queries are CLI commands such as `find-module` and `get-dependencies`. The fork removed the MCP/setup surface. Claude Code integration is a manual instruction to read the index, not automatic configuration.
+- `init-insights` and `ai-summary` maintain curated metadata incorporated by `generate-json`. `derive --ai-summary` reads the stored summary. The documented workflow drafts fresh insights before reconciling existing ones in one agent session; the ordering is prompt-directed, not an access barrier.
+- Parsing uses a configurable worker pool, with a default of 3 and a command-level override. The [engine tests](https://github.com/liza-mas/stacklit-cli/blob/3c0e04153fe10dde2eeb4ddff72417c7621d5436/internal/engine/engine_test.go) compare normalized output across worker counts. They were inspected, not run here. The [dependency file](https://github.com/liza-mas/stacklit-cli/blob/3c0e04153fe10dde2eeb4ddff72417c7621d5436/go.mod) uses gotreesitter v0.53.0.
+- `export-architecture` reads an existing index and writes the schema used by Functional Clusters. `diff` distinguishes a current index (0), stale sources (1), and command failure (2).
 
----
+The [published worker benchmark](https://github.com/liza-mas/stacklit-cli/blob/3c0e04153fe10dde2eeb4ddff72417c7621d5436/specs/benchmarks/map-reduce/benchmark-report.md) documents an earlier implementation and a private workload. It does not establish the current fork's indexing performance after the parser upgrade. Later performance improvements reported by the maintainer lack a matching public benchmark in the inspected material and were not independently reproduced here. Headline token-reduction claims also remain unverified. Worker tuning and the parser upgrade should not be conflated into one measured cause.
 
-## Challenge assessment
+**Score: 3/5.** The interface, insights workflow, and architecture export provide distinct value for a bounded comparison. Prior integration gives upstream no exemption from the same evidence standard. A full recommendation needs representative navigation tasks and reproducible measurements, not 50 stars.
 
-**Challenge agent position**: Are the scores too harsh on stacklit-cli?
+## Challenge and evidence limits
 
-The documented stacklit (glincker) has its own low-traction concerns (the guide does not show its star count). stacklit-cli from liza-mas claims auto-configuration for Claude Code and targets a real pain point (codebase onboarding tokens). With 2 stars on a tool released in the same week, the traction argument against it is the same argument that would disqualify stacklit itself.
+The original challenge accepted upstream Stacklit because it had already been integrated and dismissed the fork for low traction. That was inconsistent. This reassessment asks what each utility supplies, what an agent must still do, and which improvements have been measured.
 
-**Response**: The difference is that stacklit (glincker) was evaluated and documented before this policy was applied strictly; the guide has already committed to that entry. For any new entry, the bar is score >= 3. stacklit-cli reimplements an already-documented concept without demonstrating adoption. If stacklit-cli grows to 50+ stars and shows distinct production usage, re-evaluate. Until then, a one-line variant note is the proportionate response, not a full section.
+Source inspection supports corrected interfaces and artifact boundaries. It does not prove concurrent correctness, agent adoption, production suitability, or token savings. Go was unavailable in this review environment, so no Go tests or CLI behavior checks were run. Test definitions document intended coverage, not a passing result from this review.
 
-**Score maintained: stacklit-cli 2/5.**
+| Candidate | Next comparison needed |
+|-----------|------------------------|
+| mdtoc | Long Markdown with fenced comments, nested headings, and duplicates; compare correctness and total agent tokens against regex plus targeted reads |
+| stacklit-cli | Upstream and fork on the same public repositories; compare extraction, freshness handling, wall time, peak memory, and successful agent navigation |
+| scip-search / functional-clusters | Two divergent worktrees with separately regenerated artifacts; verify paths, freshness, and usefulness of navigation or clustering |
 
----
-
-## Integration decisions
-
-| Tool | Action | Rationale |
-|------|--------|-----------|
-| scip-search | Reject | 0 stars at evaluation, day-one release, no distinct guide value or external usage evidence |
-| mdtoc | Reject | Out of scope, generic utility, no CC value |
-| functional-clusters | Reject | 0 stars at evaluation, multi-index dependency, no external usage evidence |
-| stacklit-cli | Watch only (no guide entry) | Go variant of documented concept, 2 stars |
-
-**Watch-list entry for stacklit-cli**: Add a row with trigger condition "50+ GitHub stars AND practitioner write-up from production use."
-
-**No guide files modified** by this evaluation.
-
-The 2026-09-01 correction clarifies the optional integration boundary. It does not change any score, rejection, or watch trigger.
-
----
-
-## Files modified
-
-- `docs/resource-evaluations/liza-mas-token-saving-cli-tools.md` (this file)
-- `docs/resource-evaluations/README.md` (index row)
-- `docs/resource-evaluations/watch-list.md` (stacklit-cli row)
-- `CHANGELOG.md` ([Unreleased] entry)
+The [watch list](./watch-list.md) tracks mdtoc and stacklit-cli pending these comparisons. No new guide section or production recommendation is implied by this correction.

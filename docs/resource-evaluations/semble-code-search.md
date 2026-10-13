@@ -7,6 +7,7 @@
 **Version evaluated**: v0.3.3 (2026-06-05)
 **Evaluated**: 2026-06-10
 **Evaluator**: Claude Opus 4.8
+**Worktree correction**: 2026-10-13, against the current public cache implementation; original score and integration decision unchanged
 
 ---
 
@@ -52,11 +53,13 @@ Key facts, verified against the repo:
 
 ---
 
-## Critical fact: Semble requires an index
+## Semble requires an index and can separate worktree caches
 
-Community posts (including the one that prompted this evaluation) describe Semble as "without index, therefore compatible with worktrees." This is false. The Semble README states explicitly: "It requires building an index on first run, then caches it automatically."
+The original evaluation rejected the description "without index, therefore compatible with worktrees." The index-free premise is incorrect: Semble builds and caches indexes. The inference that indexing makes it incompatible with worktrees was also incorrect.
 
-This matters for two reasons. First, the "worktree-compatible" claim collapses: each new worktree requires its own index build. Second, the differentiation with grepai is not "index-free vs. index-based" but rather "no external service vs. Ollama required." The latter is a real distinction, even if the former is not.
+The [current cache implementation](https://github.com/MinishLab/semble/blob/0e5e02832ae0340c0feb637d2b7213fe065571fd/src/semble/cache.py) hashes each local project's resolved path, then selects an index within that project's cache directory. Distinct worktree directories therefore select separate caches even when the parent cache location is shared. Each directory needs its own initial build; that is a setup cost, not an incompatibility. This source inspection establishes path-based separation, not a runtime test of simultaneous indexing or search across divergent worktrees.
+
+The useful distinction from the documented grepai setup remains the absence of an Ollama service, rather than the absence of an index. There is no basis here for claiming that most other indexers require one shared index across worktrees.
 
 No guide content should describe Semble as index-free.
 

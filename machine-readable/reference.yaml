@@ -1290,7 +1290,7 @@ deep_dive:
   liza_framework_governance: "Go supervisors enforce state/merge/TDD gates + adversarial doer/reviewer pairs + YAML blackboard audit trail + circuit breaker (explicit stop-the-line) + 55+ failure-mode behavioral contract"
   liza_framework_evaluation: "docs/resource-evaluations/liza-mas-framework.md"
   multica_evaluation: "docs/resource-evaluations/2026-09-05-multica.md"
-  liza_satellite_tools_rejected: "docs/resource-evaluations/liza-mas-token-saving-cli-tools.md (scip-search/mdtoc/functional-clusters/stacklit-cli rejected 2026-06-10; framework itself is a separate, higher-scored object)"
+  liza_satellite_tools_evaluation: "docs/resource-evaluations/liza-mas-token-saving-cli-tools.md (reassessed 2026-10-13: mdtoc/stacklit-cli 3/5, scip-search/functional-clusters 2/5; worktree artifacts and CLI fork corrected; runtime and savings unverified; framework evaluated separately)"
   # Anthropic AI-native SDLC playbook: intent.md upstream document + closed Maintain-to-Plan loop (added 2026-08-26)
   ai_native_sdlc_playbook_source: "https://claude.com/blog/the-ai-native-sdlc-playbook"
   ai_native_sdlc_playbook_evaluation: "docs/resource-evaluations/2026-08-26-anthropic-ai-native-sdlc-playbook.md"
