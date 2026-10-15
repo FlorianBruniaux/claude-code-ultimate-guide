@@ -1,0 +1,63 @@
+CHANGELOG.md
+  s_98ad015decc1d1::t_90a37f3f78eabe 9-10
+docs/resource-evaluations/README.md
+  s_64104967e715dd::t_4841e65b172c41 40
+docs/resource-evaluations/wikiskill-persistent-skill-evolution.md
+  s_e827e256e15185::t_ee65b2c1974fa3 1-92
+guide/core/agent-harness.md
+  s_e827e256e15185::t_0d62565009b75a 599-603
+guide/core/memory-systems.md
+  s_edae00164c4bc3::t_70ad29c6d378f3 49,818,901-925
+llms-full.txt
+  s_e827e256e15185::t_71ae0939355b02 73
+llms.txt
+  s_e827e256e15185::t_adbc396f754322 40
+machine-readable/llms.txt
+  s_edae00164c4bc3::t_5abf26b76b2bf5 40
+machine-readable/reference.yaml
+  s_e827e256e15185::t_68e84d8b9a46bc 195-197
+mcp-server/content/llms.txt
+  s_98ad015decc1d1::t_cb86ac7fab748c 40
+mcp-server/content/reference.yaml
+  s_edae00164c4bc3::t_6c76e4ad39acdf 195-197
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "a7603eccc8992455235042e72cca78176810bd56",
+  "prompts": {},
+  "sessions": {
+    "s_64104967e715dd": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a13f31-c9b6-7f52-adc8-1ffb8966e03b",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_98ad015decc1d1": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a13f7c-bcb1-77d1-84b1-1e065c83b980",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_e827e256e15185": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a12567-61ab-7c62-8b43-ea0028444170",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_edae00164c4bc3": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a135ea-f172-7f02-944f-04532cb53a51",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
