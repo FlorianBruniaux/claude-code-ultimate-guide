@@ -37,6 +37,7 @@ Guide version 3.44.1, tracking Claude Code up to v2.1.296 (October 2026).
 - Agentic pentesting: guide/security/agentic-pentesting.md compares DarkMoon and Strix, exploit evidence, model data exposure, and evaluation requirements; source inspection and bounded local checks, no shared performance benchmark
 
 - Harness control cases: Walkinglabs and AutoHarness evaluations distinguish structural scores, test coverage, activation and observed effects. The local review-control-demo.py has 13 tests with a simulated destination, not a live merge gate.
+- WikiSkill: persistent proposal history, revisable wiki patterns, strict skill validation and executor-specific transfer. Full skill injection leaves routing untested; production gains are unmeasured. See docs/resource-evaluations/wikiskill-persistent-skill-evolution.md.
 - Human supervision: comprehension, independent judgment, usable evidence, attention and recovery exercises; proposed practices without a local human trial. Three infographic topics are available in English and French.
 
 ## Machine-readable entry points

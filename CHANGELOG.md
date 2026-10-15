@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- Integrate WikiSkill's persistent proposal history and separate knowledge/skill layers into the memory and harness references. Add a primary-source evaluation with corrected append-only and rollback claims, reported benchmark results, negative transfer, full-injection limits and a proposed local validation protocol. Refresh discovery indexes and MCP mirrors; no optimizer or model evaluation was run.
+
 - Correct the Liza CLI evaluation against public sources: document worktree-local artifacts, mdtoc's parsed section ranges and selectors, and stacklit-cli's CLI-first fork of an already-Go upstream with insights, parallel parsing, and architecture export. Revise the four scores to 2/3/2/3, replace the star-count gate with reproducible comparisons, and correct Semble's worktree-cache inference. Align the framework cross-reference and machine-readable/MCP indexes. Keep runtime, concurrency, token, and later indexing-performance claims unverified; no new guide section added.
 
 - **Claude Code releases synchronized through 2.1.296**: add the October 7 to 9 summaries from the official changelog (2.1.293 with Claude Haiku 5.5 as the default Haiku model, 2.1.294 hook fix, 2.1.295, 2.1.296), record the Edit non-UTF-8 refusal, backgrounding stop, claude.ai connector MCP protocol default and 32-skill subagent preload cap as breaking changes, add a Haiku 5.5 milestone and security-fix rows, align the release registry and discovery mirrors, and retain npm UTC publication dates.

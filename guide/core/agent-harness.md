@@ -596,6 +596,11 @@ This section uses *meta-harness* in that research sense. Databricks and Omnigent
 | [Meta-Harness](https://arxiv.org/abs/2603.28052), 2026 preprint | End-to-end harness code | +7.7 points with four times fewer context tokens; +4.7 points across five held-out models on 200 math problems | TerminalBench search and final evaluation reuse the same 89 tasks; total search compute is not reduced to one comparable cost figure |
 | [Agentic Harness Engineering](https://arxiv.org/abs/2604.25850), 2026 preprint | Prompt, tools, middleware, skills, subagents, and memory | Terminal-Bench 2 pass@1 rises from 69.7% to 77.0% over ten iterations | Coding-focused preprint; external replication remains limited |
 | [HarnessOpt-Bench](https://arxiv.org/abs/2608.06301), 2026 preprint | The optimizer itself | Five optimizer models, four downstream tasks, 111 scored runs | Benchmark protocol, not a production optimizer |
+| [WikiSkill](https://arxiv.org/abs/2608.27454v1), August 2026 preprint | Procedural skills, with a persistent wiki of patterns and proposal outcomes | Gemini-3.5-Flash averages 49.5% without skills and 68.1% with WikiSkill across five benchmarks | Full skill injection bypasses retrieval and activation; neither coding-agent production performance nor cost savings is established |
+
+WikiSkill adds a useful distinction to the [meta loop](#three-loop-horizons): restoring a rejected skill should not erase the evidence explaining its rejection. Its harness records proposal diffs and validation outcomes while the wiki persists. Pattern pages can be edited, and promotion requires a strict score improvement, so equal scores are rejected too. See the [source evaluation](../../docs/resource-evaluations/wikiskill-persistent-skill-evolution.md).
+
+Skill discovery and execution also need separate evaluation. [WikiSkill's transfer experiments](https://arxiv.org/html/2608.27454v1#S4.SS2.SSS2) include both benefits and regressions: Qwen-3.5-4B skills reduce Gemini-3.5-Flash's SpreadsheetBench score from 50.5% to 18.1%. Evaluate a promoted skill on the intended executor and tools; a stronger proposer or a portable file format does not establish useful transfer.
 
 The evidence is promising but young. Do not promote a candidate because its development score improved. A credible optimization run needs:
 

@@ -70,6 +70,7 @@ This guide is the most comprehensive community resource for Claude Code. It cove
 - The catalog separates 42 strict runtimes from 16 adjacent control planes.
 - Multica is classified as an adjacent control plane: its server coordinates issue, chat, and scheduled runs while a daemon on a connected computer executes external coding-agent CLIs.
 - Its profile documents the server/local execution split, server-stored run data, daemon-user permission boundary, Git enforcement boundary, restricted licence, and untested runtime status.
+- WikiSkill separates execution traces, accumulated knowledge and active skills. Rejected proposal diffs and validation outcomes persist while active skills roll back; pattern pages remain revisable. See `guide/core/memory-systems.md` section 6.8 and `docs/resource-evaluations/wikiskill-persistent-skill-evolution.md` for reported benchmarks, negative transfer and the limits of full skill injection. No native skill-routing or production benefit was measured here.
 
 ---
 

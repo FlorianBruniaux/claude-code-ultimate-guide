@@ -46,6 +46,7 @@ Memory in Claude Code has no single canonical source. It spans native CC feature
    - [4.7 Why the Team Gap Is Structural](#47-why-the-team-gap-is-structural)
 5. [Multi-Agent Shared Memory](#5-multi-agent-shared-memory)
 6. [Architecture Patterns](#6-architecture-patterns)
+   - [6.8 Compile experience into skills (WikiSkill)](#68-compile-experience-into-skills-wikiskill)
 7. [Risks and Security](#7-risks-and-security)
 8. [Decision Frameworks](#8-decision-frameworks)
 9. [Benchmarks and Evaluation](#9-benchmarks-and-evaluation)
@@ -814,7 +815,7 @@ Adoption accelerated across frameworks in 2025-2026. The relationship: MCP handl
 
 ## 6. Architecture patterns
 
-Five patterns crystallize from this survey. They don't compose well together, and most tools implement exactly one.
+The patterns below cover session recall, shared state, retrieval, and compilation of experience into skills. They solve different problems; combining them needs its own evaluation.
 
 ### 6.1 Hook-Driven lifecycle compression
 
@@ -894,6 +895,31 @@ PRAGMA wal_autocheckpoint=10000;   -- checkpoint on idle, not every commit
 ```
 
 Single dedicated writer connection, N read connections pooled. `busy_timeout=30000` as a safety net, not a primary mechanism.
+
+---
+
+### 6.8 Compile experience into skills (WikiSkill)
+
+[WikiSkill](https://arxiv.org/html/2608.27454v1#S3), an August 2026 preprint by Tang et al., separates knowledge used to improve procedures from procedures used to execute tasks. Unlike the [experience playbooks in §3.7](#37-file-based-experience-playbooks-orf-diffmem), the inference agent does not retrieve the accumulated wiki. It receives the active skills.
+
+| Layer | Contents | Update rule |
+|---|---|---|
+| Raw | Training execution traces | Immutable within the experiment |
+| Wiki | Failure and success patterns, evolution log, proposal diffs and outcomes | Pattern pages can be revised; history survives rejected skill proposals |
+| Skills | Active procedures linked to their motivating patterns | One skill per proposal; retain only a strict validation-score improvement |
+
+The maintainer consolidates traces into patterns. The proposer inspects that knowledge and produces a candidate skill change. An outer harness evaluates the candidate and records its diff, score and acceptance decision. Equal or lower validation scores restore the previous skill set, while the wiki retains the failed attempt. The wiki is persistent, not wholly append-only: pattern pages support replacement and insertion as well as appending.
+
+For a repository workflow, adapt this as a proposed maintenance procedure:
+
+1. Preserve an authorized, redacted failure trace and a valid neighboring case, with source and environment identifiers.
+2. Record the diagnosed cause separately from the candidate instruction. Link the candidate back to the evidence.
+3. Evaluate one candidate change against the active baseline on reserved tasks. Record the diff, dataset version, executor model, tool budget, scores and decision, including rejection.
+4. Restore the previous active procedure on rejection; retain the explanation so the next proposal can inspect it. Reconsider the rejection if the task, tools or evidence change.
+
+This is an adaptation, not a native Claude Code feature or an implemented optimizer in this guide. Keep the [promotion safeguards](#qualify-learned-rules-before-promotion): a benchmark gain cannot authorize a policy change or override a mandatory protection.
+
+**Evidence limits:** the paper injects all active skill content into the system prompt, so it does not test skill retrieval, activation, BM25 routing or progressive disclosure. Its wiki-access ablation concerns skill development and does not establish protection against hallucination or prompt injection. The wiki has no automated pruning, and long-horizon operation remains outside the study. See the [source evaluation](../../docs/resource-evaluations/wikiskill-persistent-skill-evolution.md) for results, negative transfer and the proposed local experiment.
 
 ---
 

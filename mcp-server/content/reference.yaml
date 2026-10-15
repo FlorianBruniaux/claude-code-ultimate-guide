@@ -192,6 +192,9 @@ deep_dive:
   agent_harness_digital_twin: "guide/core/agent-harness.md#5-digital-twin-testing"
   agent_harness_model_harness_pair: "guide/core/agent-harness.md#the-core-claim"
   agent_harness_optimizer: "guide/core/agent-harness.md#11-harness-optimizers-and-meta-harnesses"
+  wikiskill_evaluation: "docs/resource-evaluations/wikiskill-persistent-skill-evolution.md"
+  wikiskill_persistent_proposal_history: "guide/core/memory-systems.md#68-compile-experience-into-skills-wikiskill"
+  wikiskill_executor_transfer: "guide/core/agent-harness.md#11-harness-optimizers-and-meta-harnesses"
   agent_harness_meta_harness_overload: "guide/core/agent-harness.md#0-four-layers-four-responsibilities"  # research optimizer versus product dispatcher or orchestrator usage
   agent_harness_optimizer_landscape: "guide/ecosystem/agent-harness-landscape.md#harness-optimizers-and-meta-harnesses"
   agent_harness_evaluation_protocol: "guide/core/agent-harness.md#11-harness-optimizers-and-meta-harnesses"
