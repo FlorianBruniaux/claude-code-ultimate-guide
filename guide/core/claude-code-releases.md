@@ -17,12 +17,15 @@ keywords:
 > **Release dates**: UTC publication dates from the [official npm package metadata](https://registry.npmjs.org/@anthropic-ai%2Fclaude-code). Only versions with upstream changelog entries are included.
 > **Machine-readable**: [claude-code-releases.yaml](../../machine-readable/claude-code-releases.yaml)
 
-**Latest**: v2.1.296 | **Updated**: 2026-10-10
+**Latest**: v2.1.301 | **Updated**: 2026-10-16
 
 ---
 
 ## Quick jump
 
+- [v2.1.301](#v21301-2026-10-15): retry watchdog usage-limit cap, classifier fields on `tool_decision` events, `WorktreeCreate` worktree removal and Grep/Glob failure fixes
+- [v2.1.300](#v21300-2026-10-14): cache-write split in OpenTelemetry, validated hook `updatedInput`, SessionEnd and MCP schema 400 fixes
+- [v2.1.299](#v21299-2026-10-14): ⭐ idle compaction before prompt cache expiry, sandbox symlink and `--plugin-dir` escape fixes, MCP allow rules scoped to the named server
 - [v2.1.296](#v21296-2026-10-09): subagent `autoCompactWindow`, Read `allow_large`, `BASH_ARGV0` permission fix and Edit refusing non-UTF-8 files
 - [v2.1.295](#v21295-2026-10-08): `onFailure: "block"` hooks, OSC 7501 terminal status, `[1m]` beta fallback and a 32-skill subagent preload cap
 - [v2.1.294](#v21294-2026-10-08): instruction-style `prompt` and `agent` hooks block what they describe
@@ -62,6 +65,26 @@ keywords:
 ---
 
 ## 2.1.x series (January-August 2026)
+
+### v2.1.301 (2026-10-15)
+
+- **Added**: `CLAUDE_CODE_RETRY_WATCHDOG_MAX_USAGE_LIMIT_WAIT_MS` makes unattended retry mode (`CLAUDE_CODE_RETRY_WATCHDOG`) end a request at a usage limit that resets too far away instead of waiting. OpenTelemetry `tool_decision` events carry `classifier_verdict` and `permission_mode`, so auto mode classifier decisions can be told apart from permission rules, plus `classifier_category` naming the built-in rule a classifier block matched when `OTEL_LOG_TOOL_DETAILS=1`. Vim mode gains the `%` motion, mods gain multi-line `rows` on `Input`, and the `claude-api` skill covers OpenTelemetry tracing with the `ant` CLI.
+- **Changed**: A mod hook's `.catch` handler runs only when the hook throws or times out, and `$.env.set` resolves with `{}` once the variable is set or unset, or with `{ deny }` when the write is not made. Switching to a model with a smaller context window first has the previous model summarize a conversation that is too long, and a long-running subagent's progress trail updates incrementally.
+- **Fixed**: Quitting no longer removes a worktree made by a `WorktreeCreate` hook without asking when it may hold unpushed commits. Grep and Glob return an error instead of no matches when the search program fails, workflow agents no longer skip their step while the run reports success, and the `fable` and `best` aliases retry once on the previous Fable model when the newest one is not available to the organization. A switch to a smaller-context model no longer spends usage credits on a summary without asking, conversations behind gateways that rename the model are no longer compacted over and over, Read no longer reads binary files such as .xlsm, .parquet, .epub and .heic as text, skills stay listed after `/rewind`, and skills or commands with very many argument names no longer stall (only the first 64 names, each up to 64 characters, are filled in).
+
+### v2.1.300 (2026-10-14)
+
+- **Added**: The OpenTelemetry `api_request` event splits cache writes into `cache_creation_5m_tokens` and `cache_creation_1h_tokens`, and trace spans carry GenAI semantic-convention attributes such as `gen_ai.provider.name`, `gen_ai.conversation.id`, `gen_ai.tool.name` and `error.type`. `/advisor` arrives on Claude Platform on AWS (no advisor runs until you pick one), and mods gain `virtualText` prompt decorations, `$.ui.view({ agentId })`, a `dir` prop for right-to-left text, the `prompt.change` hook and the ability to rewrite a workflow agent's `prompt` and `model` in `agent.spawn`.
+- **Changed**: `updatedInput` from PreToolUse and PermissionRequest hooks is validated like Claude's own input: unknown keys are dropped and input the tool rejects denies the call. Exit force-kills background commands still running 1.5 seconds after being asked to stop, large requests to api.anthropic.com use gzip even with telemetry disabled (`CLAUDE_CODE_GZIP_REQUEST_BODIES=0` turns it off), and local session transcripts also record each API request's system prompt, tools and parameters. `claude remote-control` rejects the removed `--sandbox` and `--no-sandbox` flags, `claude gateway` stops at start on a `desktop:` policy key it cannot serve, `CLAUDE_CODE_PROVIDER_MANAGED_BY_HOST` sessions ignore CA-bundle, tool-proxy and git TLS variables in settings, and a `setMode` update in a Cowork cloud `PermissionRequest` hook's allow is ignored.
+- **Fixed** (security): A login refused by `forceLoginOrgUUID` no longer leaves the refused organization's token stored or live after `/login`.
+- **Fixed**: Write, Edit and NotebookEdit in Cowork cloud sessions no longer report success for a path on your own computer where the file never arrived. SessionEnd hooks run on exit while a background command is still running, plugin `WorktreeCreate` and `WorktreeRemove` hooks run under `--worktree`, and agent hooks honor their `model` (aliases resolve, an unavailable model falls back to the caller's instead of allowing the action). A conversation no longer fails every turn with a 400 error when the API rejects an MCP tool's input schema, automatic tool search (`ENABLE_TOOL_SEARCH=auto`) no longer turns off mid-conversation, headless and Agent SDK resumes keep their compaction state, and Claude no longer polls a background command's output file or sleeps while it runs.
+
+### v2.1.299 (2026-10-14)
+
+- **Added** ⭐: Idle compaction in the terminal: a conversation of 200K+ tokens left idle for about 54 minutes is compacted before its one-hour prompt cache expires, so the next message does not reprocess it all. `CLAUDE_CODE_IDLE_COMPACT_MIN_TOKENS` changes the 200K minimum and `"idleCompaction": false` in settings.json turns it off. `CLAUDE_CODE_DISABLE_FILE_MENTIONS` gives Claude the paths of `@` file mentions instead of their contents, agent view takes `/effort` and `/fast` as defaults for new sessions, `/usage` warns about max effort, workflows, always-on context and large tool results, and `claude plugin eval` takes `--disallow-tools`.
+- **Changed**: MCP allow rules and agent `tools:` lists reach only the server they name: `mcp__a` no longer allows a server named `a__b` or `a_`; write `mcp__<server>__*` with the server's whole normalized name. `UserPromptSubmit` hooks run before a skill or custom slash command expands, so a blocking hook also stops its embedded shell commands, and a skill's own front-matter `UserPromptSubmit` hook first runs on the following prompt. Actions a plugin hook can block are refused when the hook cannot receive them or answer, Write refuses Windows-1252, Shift-JIS, GBK or UTF-16BE files instead of converting them to UTF-8, and skills or commands whose names carry hidden, direction-changing or blank-like characters, `<` or `>` are not offered until renamed. Requests to claude.ai's connector proxy, Anthropic-hosted MCP servers and the cloud MCP proxy no longer follow HTTP redirects, cloud session and Remote Control MCP connectors negotiate protocol 2026-07-28 by default (`MCP_PROTOCOL_NEGOTIATION=legacy` opts out), the resume command printed at exit names the session by its ID, and `claude plugin test` render trees carry `part: { plugin }`.
+- **Fixed** (security): A sandboxed shell command can no longer write into a `--plugin-dir` folder whose code runs outside the sandbox, reach a macOS denied path by its real location through a symlink, or keep glob `allowRead` and `allowWrite` grants after the starting directory is replaced by a symlink. Plan mode no longer runs a write that a `PreToolUse` or mod `tool.check` hook allowed, deny and ask rules apply to MCP servers whose normalized name contains `__`, mod hooks are no longer handed values with `__proto__` keys removed, and Windows PreToolUse and PermissionRequest hooks without a shell fail closed when Git for Windows is missing. Requests to Anthropic no longer carry a third-party gateway's API key when `ANTHROPIC_BASE_URL` is set, MCP servers wait for policy checks before being connected or started, and an agent teammate's task description no longer keeps part of a credential from its prompt.
+- **Fixed**: Sessions behind a custom `ANTHROPIC_BASE_URL` with a gateway-specific model name no longer end with "automatic compaction failed" near 200K tokens, and streams through it wait 300 seconds instead of 180. Read no longer garbles UTF-16LE files with a byte-order mark, ScheduleWakeup fires while a background task runs in SDK, IDE and Remote Control sessions, scheduled tasks no longer fire again during the repeated hour when daylight saving time ends, `SendMessage` finds a subagent by name after a restart, and replies cut at the output token limit after a non-streaming fallback no longer end the turn silently.
 
 ### v2.1.296 (2026-10-09)
 
@@ -3756,6 +3779,8 @@ keywords:
 
 | Version | Issue |
 |---------|-------|
+| v2.1.300 | A login refused by `forceLoginOrgUUID` no longer leaves the refused organization's token stored, hook `updatedInput` is validated like Claude's own input (unknown keys dropped, rejected input denies the call) |
+| v2.1.299 | Sandboxed commands can no longer write into a `--plugin-dir` folder, reach macOS denied paths through a symlink or keep glob grants after a symlink swap; plan mode no longer runs writes a hook allowed; third-party gateway API keys stay out of Anthropic requests; MCP servers wait for policy checks; Windows guard hooks fail closed without Git for Windows |
 | v2.1.296 | Bash commands that assign and use `BASH_ARGV0` prompt instead of auto-approving, managed `PreToolUse` deny hooks with `"continue": false` end the turn, cloud sessions run auto mode checks on Claude in Chrome actions, Git Bash `rm -rf /c/Users/<name>` asks in bypass mode on Windows |
 | v2.1.295 | `--tools` and `--restricted` cover built-in tools registered after launch, Claude in Chrome `host:80` deny rules apply to `http://` pages, mod guard hooks no longer see truncated tool input or miss calls made during a mod reload |
 | v2.1.294 | Instruction-style `prompt` and `agent` hooks ("Block commands that...") block what they describe instead of allowing it |
@@ -3796,6 +3821,7 @@ keywords:
 
 | Version | Key Features |
 |---------|--------------|
+| **v2.1.299** | Idle compaction before the one-hour prompt cache expires; sandbox `--plugin-dir` and symlink escape fixes; MCP allow rules scoped to the named server |
 | **v2.1.293** | Claude Haiku 5.5 becomes the default Haiku model on the Anthropic API with 1M context ($0.10/$0.50 per Mtok) |
 | **v2.1.287** | Claude Mods let plugins modify deeper Claude Code behavior, with the built-in "You should know" side-agent mod; Opus 4.7+ and Fable default to 1M context on Bedrock, Vertex, Foundry and the Claude apps gateway |
 | **v2.1.284** | Sonnet 5.5 becomes the default Sonnet model on the Anthropic API with 1M context; interactive terminal and VS Code sessions start in auto mode when no permission mode is configured; Ultracode becomes a separate `/effort` toggle |
