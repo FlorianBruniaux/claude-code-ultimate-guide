@@ -7,7 +7,7 @@ Guide version 3.44.1, tracking Claude Code up to v2.1.301 (October 2026).
 ## What is covered
 
 - Getting started: installation, CLAUDE.md setup, vocabulary, first session, 7-module learning path (8-11h)
-- Concept distinctions: guide/core/ai-concept-boundaries.md compares context/window/memory, model/product/harness, assistant/workflow/agent, tool/MCP, instructions/access controls, evaluation/production evidence; six original scenario checks, with attributed selective adaptation from Lexigraph (CC BY 4.0). Source limits: docs/resource-evaluations/lexigraph-ai-lexicon.md.
+- Concept distinctions: guide/core/ai-concept-boundaries.md compares context/window/memory, model/product/harness, assistant/workflow/agent, tool/MCP, instructions/access controls, evaluation/production evidence, and architecture/size/modality/task labels; seven original scenario checks, with attributed selective adaptation from Lexigraph (CC BY 4.0). Source limits: docs/resource-evaluations/lexigraph-ai-lexicon.md.
 - Executable learning: installable learning-path skill with prerequisite gates, local evidence, scheduled reviews, and a tested seven-module companion project
 - Context window management: 1M-token context on Sonnet 5, Opus 5.5, and Fable 5.1, context rot, /compact and /clear thresholds, auto-compact
 - Context engineering: managing what the model sees, when and in what shape; token audit workflow, compression tools, ejection discipline, maturity model

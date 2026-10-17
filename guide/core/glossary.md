@@ -7,7 +7,7 @@ description: "Definitions for Claude Code terminology"
 
 Definitions for terms used throughout this guide. For model-level concepts (tokens, temperature, RAG), see the [Anthropic platform glossary](https://platform.claude.com/docs/en/about-claude/glossary).
 
-For practical comparisons, read [AI Concept Boundaries](./ai-concept-boundaries.md): context versus memory, model versus harness, workflow versus agent, tools versus MCP, instructions versus execution controls, evaluation versus production evidence. It includes six scenarios with corrections, selectively adapted from Lexigraph with attribution.
+For practical comparisons, read [AI Concept Boundaries](./ai-concept-boundaries.md): context versus memory, model versus harness, workflow versus agent, tools versus MCP, instructions versus execution controls, evaluation versus production evidence, and model architecture, size class, modality, and task labels. It includes seven scenarios with corrections, selectively adapted from Lexigraph with attribution.
 
 ---
 

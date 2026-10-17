@@ -1,6 +1,6 @@
 ---
 title: "Claude Code: Architecture Internals Diagrams"
-description: "Agentic loop, illustrative tool families, request context, and subagent boundaries"
+description: "Agentic loop, illustrative tool families, request context, subagent boundaries, and model pipelines"
 tags: [architecture, internals, master-loop, tools]
 ---
 
@@ -247,3 +247,86 @@ A worktree does not isolate external services.
 > **Source**: [Sub-agent architecture](../core/architecture.md#4-sub-agent-architecture)
 >
 > **Official reference**: [Fork context and optional worktree isolation](https://code.claude.com/docs/en/sub-agents#how-forks-differ-from-other-subagents).
+
+---
+
+### Three model pipelines: dense, MoE, and VLM
+
+This is a conceptual simplification. Dense versus mixture-of-experts (MoE) describes how the layers are built, and text-only versus vision-language (VLM) describes which inputs the model accepts. These are different axes that can combine: an MoE model can also accept images. Anthropic does not publicly document Claude's internal architecture, so the diagrams show published open designs, not Claude. For the axis table, see [architecture, size class, modality and task](../core/ai-concept-boundaries.md#architecture-size-class-modality-and-task).
+
+```mermaid
+flowchart LR
+    subgraph DENSE["Dense decoder LLM"]
+        D1["Text"] --> D2["Tokenizer"]
+        D2 --> D3["Token embeddings"]
+        D3 --> D4["Stack of transformer layers<br/>attention + feed-forward"]
+        D4 --> D5["Next-token probabilities"]
+        D5 --> D6["Sampled token"]
+        D6 -.->|"appended to input, repeat"| D3
+    end
+    subgraph MOE["MoE variant of the layer"]
+        M1["Token states<br/>after attention"] --> M2["Router<br/>scores N experts per token"]
+        M2 -->|"top-k, Mixtral: 2 of 8"| M3["Selected experts<br/>replace the feed-forward block"]
+        M2 -.->|"not selected"| M4["Idle experts"]
+        M3 --> M5["Weighted sum<br/>by router weights"]
+        M5 --> M6["Layer output"]
+        M7["Note: all experts stored,<br/>only k compute"] -.- M3
+    end
+    subgraph VLM["Vision-language model"]
+        V1["Image"] --> V2["Vision encoder"]
+        V2 --> V3["Projection into the<br/>LLM embedding space"]
+        V4["Text tokens<br/>embedded"] --> V5["Merged sequence"]
+        V3 --> V5
+        V5 --> V6["Language model<br/>dense or MoE"]
+        V6 --> V7["Text output"]
+    end
+    style D1 fill:#6DB3F2,color:#222
+    style D2 fill:#6DB3F2,color:#222
+    style D3 fill:#6DB3F2,color:#222
+    style D4 fill:#6DB3F2,color:#222
+    style D5 fill:#6DB3F2,color:#222
+    style D6 fill:#6DB3F2,color:#222
+    style M1 fill:#6DB3F2,color:#222
+    style M2 fill:#6DB3F2,color:#222
+    style M3 fill:#6DB3F2,color:#222
+    style M4 fill:#6DB3F2,color:#222
+    style M5 fill:#6DB3F2,color:#222
+    style M6 fill:#6DB3F2,color:#222
+    style M7 fill:#6DB3F2,color:#222
+    style V1 fill:#6DB3F2,color:#222
+    style V2 fill:#6DB3F2,color:#222
+    style V3 fill:#6DB3F2,color:#222
+    style V4 fill:#6DB3F2,color:#222
+    style V5 fill:#6DB3F2,color:#222
+    style V6 fill:#6DB3F2,color:#222
+    style V7 fill:#6DB3F2,color:#222
+```
+
+<details>
+<summary>ASCII version</summary>
+
+```
+Dense : text -> tokenizer -> token embeddings
+        -> stack of transformer layers (attention + feed-forward)
+        -> next-token probabilities -> sampled token
+        -> appended to input, repeat
+
+MoE variant of the layer:
+        token states after attention -> router (scores N experts per token)
+        -> top-k, Mixtral: 2 of 8 -> selected experts
+           (replace the feed-forward block) -> weighted sum by router
+           weights -> layer output
+        not selected -> idle experts
+        Note: all experts stored, only k compute.
+
+VLM   : image -> vision encoder -> projection into the LLM embedding space
+        text tokens embedded ----------------------------+
+        projected image + embedded text -> merged sequence
+        -> language model (dense or MoE) -> text output
+```
+
+</details>
+
+> Experts are not whole sub-models: they sit inside each layer, in place of the feed-forward block.
+>
+> Sources: [Phi-3 technical report](https://ar5iv.labs.arxiv.org/html/2404.14219) (transformer decoder architecture), [Anthropic glossary](https://platform.claude.com/docs/en/about-claude/glossary) (autoregressive language model), [Attention Is All You Need](https://ar5iv.labs.arxiv.org/html/1706.03762) (original transformer, encoder-decoder), [Mixtral of Experts](https://arxiv.org/html/2401.04088), [Switch Transformers](https://ar5iv.labs.arxiv.org/html/2101.03961), [LLaVA](https://ar5iv.labs.arxiv.org/html/2304.08485), [Claude vision docs](https://platform.claude.com/docs/en/build-with-claude/vision) (images consume tokens).

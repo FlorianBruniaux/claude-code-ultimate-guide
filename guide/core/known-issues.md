@@ -432,7 +432,7 @@ Users sometimes report shorter responses, more conservative suggestions, or unex
 
 **Probabilistic inference**: Temperature above 0 means every inference run is non-deterministic. Two runs of the same prompt will produce different token sequences. This is fundamental to how language models work.
 
-**MoE routing variance**: Claude uses a Mixture of Experts architecture. On each forward pass, a routing mechanism selects which expert weights to activate. Different runs activate different combinations, producing different outputs even for semantically identical inputs.
+**Batch-dependent numerics**: Even at temperature 0, outputs can differ between identical requests. [Anthropic's glossary](https://platform.claude.com/docs/en/about-claude/glossary) notes that temperature 0 is not fully deterministic. [Thinking Machines](https://thinkingmachines.ai/blog/defeating-nondeterminism-in-llm-inference/) analyzes open-source inference stacks and traces much of this to kernels that are not batch invariant: the result of a request depends on how many other requests are processed with it, and server load changes that. Anthropic does not document the cause for Claude, and does not publicly document Claude's internal architecture, so this guide does not attribute the variance to a specific design.
 
 **Infrastructure variance**: In production, requests hit different servers with different load levels, hardware generations, and thermal states. These factors influence numerical precision in floating-point arithmetic during inference, creating subtle but real output differences.
 
@@ -442,10 +442,10 @@ Users sometimes report shorter responses, more conservative suggestions, or unex
 
 | Signal | What You See | What It Means |
 |--------|-------------|---------------|
-| Response length | Shorter, less detailed than usual | Routing hit a more conservative path |
+| Response length | Shorter, less detailed than usual | A different generation path (sampling, or numeric differences at temperature 0) was more conservative |
 | Refusals | Edge cases that normally work get refused | Different safety calibration on this run |
-| Code style | More verbose or more minimal than expected | Expert mix activated differently |
-| Creativity | More conservative, less inventive suggestions | Not a capability loss, a sampling outcome |
+| Code style | More verbose or more minimal than expected | Different tokens early in the response (from sampling or numeric differences) shaped the rest |
+| Creativity | More conservative, less inventive suggestions | Not a capability loss, a variance outcome |
 | Verbosity | More caveats and disclaimers than usual | Normal variance in token probabilities |
 
 ### What this is NOT
@@ -463,7 +463,7 @@ Users sometimes report shorter responses, more conservative suggestions, or unex
 
 **Fresh context before important work**: Run `/clear` before a high-stakes task. Accumulated session noise from earlier exploratory work can skew subsequent outputs even within the same session.
 
-**Reformulate and retry**: If an output seems off compared to your expectations, try the same request with different framing. A second formulation often routes through different expert paths and produces a better result.
+**Reformulate and retry**: If an output seems off compared to your expectations, try the same request with different framing. A second formulation often takes a different generation path and produces a better result.
 
 **Compare against a known-good prompt**: If you have a prompt from a previous session that produced excellent output, use it as a reference. If today's version of that prompt produces visibly worse output consistently, that warrants closer investigation (and potentially a GitHub issue if reproducible).
 

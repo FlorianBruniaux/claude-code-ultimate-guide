@@ -28,12 +28,12 @@ deep_dive:
   distribution_channels_registry: "machine-readable/distribution-channels.yaml"
   learning_path_slides: "docs/distribution/claude-code-learning-path-slides.pptx"
   quick_win_video_briefs: "docs/distribution/quick-win-video-series.md"
-  # Visual Diagrams Series (49 Mermaid diagrams)
+  # Visual Diagrams Series (50 Mermaid diagrams)
   mermaid_diagrams:
     path: "guide/diagrams/"
-    description: "49 Mermaid diagrams: model selection, agent lifecycle, memory hierarchy, security threats, multi-agent patterns, observed AI fluency behaviors, context engineering, enterprise governance"
+    description: "50 Mermaid diagrams: model selection, agent lifecycle, memory hierarchy, security threats, multi-agent patterns, observed AI fluency behaviors, context engineering, enterprise governance, dense, MoE and vision-language model pipelines"
     files: 12
-    total_diagrams: 49
+    total_diagrams: 50
   # Individual diagram files (all 12; see guide/diagrams/README.md for the full navigation table)
   diagram_foundations: "guide/diagrams/01-foundations.md"
   diagram_context_and_sessions: "guide/diagrams/02-context-and-sessions.md#context-management-zones"
@@ -119,6 +119,8 @@ deep_dive:
   ai_concept_tool_mcp: "guide/core/ai-concept-boundaries.md#tool-and-mcp"
   ai_concept_execution_controls: "guide/core/ai-concept-boundaries.md#instructions-permissions-and-sandbox"
   ai_concept_evaluation_evidence: "guide/core/ai-concept-boundaries.md#evaluation-and-production-evidence"
+  ai_concept_model_axes: "guide/core/ai-concept-boundaries.md#architecture-size-class-modality-and-task"
+  diagram_model_pipelines: "guide/diagrams/04-architecture-internals.md#three-model-pipelines-dense-moe-and-vlm"
   ai_concept_scenario_checks: "guide/core/ai-concept-boundaries.md#check-your-understanding"
   lexigraph_evaluation: "docs/resource-evaluations/lexigraph-ai-lexicon.md"
   translation_status_guide: "guide/core/translations.md"
@@ -531,6 +533,7 @@ deep_dive:
   harness_autoharness_evaluation: "docs/resource-evaluations/autoharness-2026.md"
   harness_human_oversight_evaluation: "docs/resource-evaluations/human-oversight-agents-2608-23642.md"
   harness_review_infographics: "guide/images/harness-review/README.md"
+  model_axes_infographics: "guide/images/model-axes/README.md"
   review_admission_worksheet: "examples/workflows/review-admission.md"
   review_queue_measurements: "guide/ops/team-metrics.md#measure-the-shared-verification-queue"
   review_comprehension_exercise: "examples/learning-project/review-comprehension-exercise.md"
@@ -3085,6 +3088,7 @@ section_maps:
     - "tool-and-mcp"
     - "instructions-permissions-and-sandbox"
     - "evaluation-and-production-evidence"
+    - "architecture-size-class-modality-and-task"
     - "check-your-understanding"
     - "sources-and-adaptation"
   "guide/core/architecture.md":

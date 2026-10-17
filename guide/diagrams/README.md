@@ -1,12 +1,12 @@
 ---
 title: "Claude Code: Visual Diagrams"
-description: "49 Mermaid interactive diagrams covering all major Claude Code concepts"
+description: "50 Mermaid interactive diagrams covering all major Claude Code concepts"
 tags: [reference, architecture, diagrams, mermaid]
 ---
 
 # Claude Code: Visual diagrams
 
-49 Mermaid diagrams organized in 12 thematic files. Each includes an ASCII fallback and links to the guide and current product documentation. Conceptual models and organization policies are labelled as such; they do not guarantee product behavior, performance or compliance.
+50 Mermaid diagrams organized in 12 thematic files. Each includes an ASCII fallback and links to the guide and current product documentation. Conceptual models and organization policies are labelled as such; they do not guarantee product behavior, performance or compliance.
 
 > For ASCII-only diagrams and a printable visual reference → [visual-reference.md](../core/visual-reference.md)
 
@@ -45,7 +45,7 @@ All diagrams use the consistent Bold Guy palette:
 | [01-foundations.md](./01-foundations.md) | 4 | conceptual context model, workflow pipeline, decision tree, permission modes |
 | [02-context-and-sessions.md](./02-context-and-sessions.md) | 4 | Context zones, memory hierarchy, session resumption, fresh context |
 | [03-configuration-system.md](./03-configuration-system.md) | 4 | Config precedence, skills vs commands vs agents, agent lifecycle, hooks |
-| [04-architecture-internals.md](./04-architecture-internals.md) | 4 | Master loop, tool categories, system prompt assembly, sub-agent isolation |
+| [04-architecture-internals.md](./04-architecture-internals.md) | 5 | Master loop, tool categories, system prompt assembly, sub-agent isolation, model pipelines |
 | [05-mcp-ecosystem.md](./05-mcp-ecosystem.md) | 4 | MCP ecosystem map, MCP architecture, rug pull attack, config hierarchy |
 | [06-development-workflows.md](./06-development-workflows.md) | 5 | TDD cycle, spec-first pipeline, plan-driven, iterative refinement, AI fluency paths |
 | [07-multi-agent-patterns.md](./07-multi-agent-patterns.md) | 6 | Agent topologies, worktrees, dual-instance, horizontal scaling, decision matrix, cross-session messaging |
@@ -54,7 +54,7 @@ All diagrams use the consistent Bold Guy palette:
 | [10-adoption-and-learning.md](./10-adoption-and-learning.md) | 3 | Onboarding paths, UVAL protocol, trust calibration |
 | [11-context-engineering.md](./11-context-engineering.md) | 4 | 3-layer context system, context budget checks, modular architecture, rule placement |
 | [12-enterprise-governance.md](./12-enterprise-governance.md) | 3 | Governance risk tiers, MCP approval workflow, data classification |
-| **Total** | **49** | |
+| **Total** | **50** | |
 
 ---
 
@@ -71,6 +71,7 @@ All diagrams use the consistent Bold Guy palette:
 2. [System Prompt Assembly](./04-architecture-internals.md#system-prompt-assembly): How context is built
 3. [4-Layer Context System](./01-foundations.md#chatbot-to-context-system-4-layer-model): The transformation model
 4. [Tool Categories](./04-architecture-internals.md#tool-categories--selection): What tools are available
+5. [Model Pipelines](./04-architecture-internals.md#three-model-pipelines-dense-moe-and-vlm): Dense, MoE and VLM designs compared
 
 ### "I'm worried about security"
 1. [MCP Rug Pull Attack](./05-mcp-ecosystem.md#mcp-rug-pull-attack-chain): How a trusted tool description can change

@@ -153,7 +153,7 @@ An agent is one component of a larger system. The surrounding harness controls c
 | [Agentic Tools](./guide/ecosystem/agentic-tools.md) | Compare selected coding agents and orchestration products |
 | [Agent Evaluation](./guide/roles/agent-evaluation.md) | Test behavior, regressions, and task-level outcomes |
 | [Harness Glossary](./guide/core/glossary.md) | Align terminology across design and review |
-| [AI Concept Boundaries](./guide/core/ai-concept-boundaries.md) | Resolve six common confusions with repository examples and comprehension checks |
+| [AI Concept Boundaries](./guide/core/ai-concept-boundaries.md) | Resolve seven common confusions with repository examples and comprehension checks |
 
 ### Context and memory
 
