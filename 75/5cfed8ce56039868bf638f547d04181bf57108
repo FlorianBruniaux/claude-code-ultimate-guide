@@ -1,0 +1,39 @@
+CHANGELOG.md
+  s_766292561fda56::t_ded5c43daf01d0 9-10
+guide/security/security-hardening.md
+  s_3906704dcc30be::t_3db419bb0073ad 1245,1247,1249,1251-1257,1259,1261,1263-1274,1278-1282
+guide/ultimate-guide.fr.md
+  s_766292561fda56::t_26e1b8da0939bb 8345-8346,8411-8412,8416-8417,8446,8450,8452-8454,8457-8458,8490-8491,10823
+guide/ultimate-guide.md
+  s_766292561fda56::t_f15c9042a2fecf 8193-8194,8259-8260,8264-8265,8294,8298,8300-8302,8305-8306,8338-8339,10651
+machine-readable/reference.yaml
+  s_766292561fda56::t_bc5bb817b554e8 1083-1084,1087,1091,1097,1160,1217-1220,1388,1390-1391,1393,1397,1401-1402,1405,1412,1456,1468,1470-1471,1474,1477,1524,1546,1675,1677,1679-1683,1732,1782,1806,1826,2593-2594,2598,3811
+mcp-server/content/reference.yaml
+  s_766292561fda56::t_cb5d766bac5301 1083-1084,1087,1091,1097,1160,1217-1220,1388,1390-1391,1393,1397,1401-1402,1405,1412,1456,1468,1470-1471,1474,1477,1524,1546,1675,1677,1679-1683,1732,1782,1806,1826,2593-2594,2598,3811
+mcp-server/src/lib/chapter-ranges.generated.json
+  s_766292561fda56::t_8ce558d52c99f2 2-4,33,37-38,42-43,47-48,52-53,57-58,62-63,67-68
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "755cfed8ce56039868bf638f547d04181bf57108",
+  "prompts": {},
+  "sessions": {
+    "s_3906704dcc30be": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a14336-e649-7071-93d7-a5cd0931ab43",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_766292561fda56": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a3a1deea-8893-42c3-82aa-20605bd626ec",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
