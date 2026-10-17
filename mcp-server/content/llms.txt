@@ -41,6 +41,9 @@ Guide version 3.44.1, tracking Claude Code up to v2.1.301 (October 2026).
 - WikiSkill: persistent proposal history, revisable wiki patterns, strict skill validation and executor-specific transfer. Full skill injection leaves routing untested; production gains are unmeasured. See docs/resource-evaluations/wikiskill-persistent-skill-evolution.md.
 - Human supervision: comprehension, independent judgment, usable evidence, attention and recovery exercises; proposed practices without a local human trial. Three infographic topics are available in English and French.
 
+- Architect-engineer handoffs: versioned self-contained contracts, ADRs, separate task/run/decision state, live-state reconciliation on resume, and review feedback. See guide/workflows/dual-instance-planning.md; role separation has no guaranteed cost or quality benefit, and Honkonen's eng CLI is custom tooling.
+- Harness improvement: recoverable local quality requirements, semantic ownership, MLD observations before memory promotion, isolated curation candidates and versioned publication, worker requalification and four clocks. Selectively adapted from lopopolo/harness-engineering, an anthology rather than a runtime; no local gains measured.
+
 ## Machine-readable entry points
 
 - machine-readable/reference.yaml: full index with file paths, anchors and line numbers into the guide

@@ -1,7 +1,7 @@
 {
-  "sourceSha256": "8cd7cb70a7fa91aaeee0ff624eb4144ff258e5abb2881742461b465f3658959e",
-  "referenceSha256": "c0e48ce2534dc88d499234b407ae63979dc085831791556231a8bb56e0fa8647",
-  "lineCount": 26188,
+  "sourceSha256": "42659f137f870835e429b4fd759aaba232f4412b1a612c79c7f3d856c36b0130",
+  "referenceSha256": "76bab70051f29722fd20534b4a7ecca0a4f71904b47067af077045b0dfe6cf41",
+  "lineCount": 25931,
   "ranges": [
     {
       "from": 1,
@@ -50,22 +50,22 @@
     },
     {
       "from": 14222,
-      "to": 23737,
+      "to": 23480,
       "slug": "09-advanced-patterns"
     },
     {
-      "from": 23738,
-      "to": 25022,
+      "from": 23481,
+      "to": 24765,
       "slug": "10-reference"
     },
     {
-      "from": 25023,
-      "to": 25687,
+      "from": 24766,
+      "to": 25430,
       "slug": "11-ai-ecosystem"
     },
     {
-      "from": 25688,
-      "to": 26188,
+      "from": 25431,
+      "to": 25931,
       "slug": "12-appendices"
     }
   ]

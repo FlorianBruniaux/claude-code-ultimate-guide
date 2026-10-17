@@ -814,7 +814,7 @@ Every agent session follows the same ten-step sequence, from boot to commit. Def
 
 ### The continuity artifact: `progress.md`
 
-`progress.md` is the file that lets the READ step happen in seconds rather than minutes. It lives in the project root, stays under 50 lines, and is written for the next agent session, not for a human reviewer. That distinction matters. A handoff document (WRAP UP and HANDOFF steps) is verbose by design: it tells a human what happened, why decisions were made, and what to watch for. `progress.md` does something narrower. It records the active feature ID, the last commit hash, any current blockers, and the single next action the agent should take. No prose, no narrative.
+`progress.md` is a compact starting point for the next session. It records the active feature, inspected revision, blockers, and next action. A handoff can carry more context: decisions, acceptance criteria, evidence, and ownership. Either artifact can serve a human or an agent. Choose by the information needed, not by a fixed audience split.
 
 ```markdown
 # Session Progress
@@ -836,11 +836,11 @@ Finish chunking implementation, then run: npm test -- --grep 'chunking'
 None
 ```
 
-The next session reads this at the READ step, picks up `active_feature: feat-002`, checks the last commit hash to orient itself in git history, and moves directly to the next action. No cold-start briefing required.
+At the READ step, use this as a route into the task, then verify the relevant live state and current authorization before acting. The recorded commit and status are historical claims; they do not establish that tests still pass or that a previous external action should be repeated.
 
 ### How this composes with the handoff triad
 
-The handoff triad pattern (create, resume, update) documented earlier in this workflow and `progress.md` serve different audiences reading the same session boundary. `progress.md` gives the agent a machine-readable starting point. The handoff document gives the human reviewer a narrative account of what changed and why. Neither replaces the other, and the two are updated at the same step (WRAP UP), which keeps them synchronized without extra overhead.
+The handoff triad (create, resume, update) and `progress.md` may coexist when their roles are clear: a compact pointer and a fuller contract. Choose an authoritative owner for each fact and link derived summaries to it. Writing both at WRAP UP does not itself prevent drift. Reconcile the revision, acceptance evidence, blockers, and next owner when resuming. See [dual-instance handoffs](dual-instance-planning.md#plan-template) and [cross-session contracts](cross-session-messaging.md).
 
 ### The COMMIT step as a session boundary
 

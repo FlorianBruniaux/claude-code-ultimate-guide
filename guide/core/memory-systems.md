@@ -561,6 +561,20 @@ ORF is inspired by Google's **ReasoningBank** (arXiv 2509.25140, "Scaling Agent 
 
 **A fourth data point, private rather than shared.** [Executor](https://github.com/UsefulSoftwareCo/executor) (MIT, an integration governance layer, evaluated separately) runs three plain-file memory conventions in its own repository: `MISTAKES.md`, `DESIRES.md`, `LEARNINGS.md`, one per contributor-facing category. Same substrate as ORF and DiffMem, Markdown committed to a working tree, and the same three-part split ORF uses (a mistake, a missing capability, an environment discovery) collapsed into three files instead of one directory of playbooks. The one design choice that departs from both: all three are gitignored. ORF's playbooks, DiffMem's memory branch, and this guide's own `/retex` entries are all committed and shared across a team; Executor's three files are private working memory, visible only to the session or contributor that wrote them, never merged into the shared history. That is a real, deliberate trade-off between two things memory systems usually conflate: a durable record everyone can search, versus a low-friction scratchpad nobody has to curate for other readers. This is the fourth data point on the file-based track, and the only example here that chose the opposite default.
 
+#### MLD: observations for the harness builder
+
+[Mistakes, Learnings, and Desires (MLD)](https://github.com/lopopolo/harness-engineering/blob/226c8d35fb6ea3ed55467753dba6dea2b5fd5778/docs/feedback/mld.md) uses similar files for a different purpose: telemetry consumed by the person or process improving the harness. A mistake identifies a failed trajectory, a learning records a discovery, and a desire identifies a missing tool, document, or other external capability. These are agent self-reports, not automatically trustworthy memory for the next run.
+
+Keep raw observations separate from active instructions. For each candidate:
+
+1. Attach the run, repository revision, observed behavior, and relevant diff or tool evidence.
+2. Corroborate the interpretation with tests, review, or the authoritative source. Separate agent self-report from external judgment.
+3. Choose the owner of the fix: code, parser, fixture, tool, document, task contract, or instruction. A model error or faulty test does not automatically imply a missing rule.
+4. Evaluate the proposed change in a fresh session, including a permitted case and a recurrence case.
+5. Promote only the supported change, with provenance and a review or expiry condition. Retain rejected observations for analysis without serving them as established guidance.
+
+For example, an agent's claim that it needed another API tool might instead expose a broken route to an existing tool. Inspect the failed calls before expanding the action surface. MLD does not establish complete or honest reporting, causal attribution, or access to hidden reasoning. See [the update loop](context-engineering.md#the-update-loop) and [source evaluation](../../docs/resource-evaluations/lopopolo-harness-engineering.md).
+
 #### The lesson: match retrieval to query shape
 
 DiffMem built BM25 and abandoned it. That reads at first like evidence against BM25. It is the opposite. DiffMem's queries are natural-language questions about people and events (a companion recalling "what did the user say about their sister in March"). That is a semantic query shape, where keyword ranking underperforms and an LLM reasoning over `git blame` wins. A coding-agent memory has the inverse query shape: error strings, stack traces, and code symbols, where term overlap is high and lexical ranking (BM25) is not just sufficient, it often beats embeddings while costing a fraction of an LLM loop. Same files, same Git, opposite retrieval, because the queries differ. Do not copy a tool's retrieval choice without first checking that your queries look like theirs.

@@ -1,752 +1,187 @@
 ---
 title: "Dual-Instance Planning Workflow"
-description: "Use two Claude instances with distinct roles for planning and implementation"
+description: "Separate planning and implementation with versioned handoffs, explicit ownership, and evidence-based review"
 tags: [workflow, architecture, design-patterns]
 ---
 
 # Dual-Instance planning workflow
 
-> **Confidence**: Tier 2, based on practitioner experience (Jon Williams, Feb 2026). Pattern validated through personal transition Cursor → Claude Code over 6 months.
+Use separate sessions for architecture and implementation when a task benefits from an explicit design contract. The architect explores alternatives with the human; the engineer receives selected requirements, implements them, and returns reviewable evidence.
 
-Use two Claude instances with distinct roles: one for planning and review (Claude Zero), one for implementation (Claude One). Separation of concerns improves plan quality and reduces implementation errors.
-
----
+**Evidence**: practitioner accounts from [Jon Williams](https://www.linkedin.com/posts/thatjonwilliams_ive-been-using-cursor-for-six-months-now-activity-7424481861802033153-k8bu) and [Sami Honkonen](https://samihonkonen.com/posts/how-the-architect-talks-to-the-engineer/). Neither supplies a controlled comparison establishing lower cost, fewer defects, or reviewer independence. The protocol below adapts their ideas for this guide; it is not a native Claude Code feature.
 
 ## Table of contents
 
 1. [TL;DR](#tldr)
-2. [When to Use This Pattern](#when-to-use-this-pattern)
+2. [When to use this pattern](#when-to-use-this-pattern)
 3. [Setup](#setup)
-4. [Complete Workflow](#complete-workflow)
-5. [Plan Template](#plan-template)
-6. [Cost Analysis](#cost-analysis)
-7. [Tips and Troubleshooting](#tips-and-troubleshooting)
-8. [See Also](#see-also)
-
----
+4. [Complete workflow](#complete-workflow)
+5. [Plan template](#plan-template)
+6. [Cost analysis](#cost-analysis)
+7. [Tips and troubleshooting](#tips-and-troubleshooting)
+8. [See also](#see-also)
 
 ## TL;DR
 
-```
-1. Launch Claude Zero (planner): explores, writes plans, reviews
-2. Launch Claude One (implementer): reads plans, codes, commits
-3. Human gatekeeper: approve plans before implementation
-4. Plans directory: Review/ → Active/ → Completed/
-5. Cost: ~$100-200/month (vs $500-1K for Boris horizontal pattern)
-```
+1. The architect resolves the design with the human and writes a self-contained handoff.
+2. The authorized decision owner approves an identified contract revision and assigns the engineer.
+3. The engineer checks the live repository, implements within scope, and submits a diff with verification evidence.
+4. The architect reviews the implementation against requirements and applicable decisions.
+5. The authorized merge owner closes the task after acceptance; durable decisions remain discoverable.
 
-**Best for**: Solo devs, spec-heavy work, quality > speed, budget <$300/month
-
----
+Share the selected contract and relevant evidence. Keep exploratory conversation out of the handoff unless it explains a constraint or rejected alternative the engineer needs.
 
 ## When to use this pattern
 
-### ✅ Use when
-
-- **Complex specifications**: Requirements need clarification through interview-style questions
-- **Quality-critical features**: Security, payments, data migrations
-- **Learning phase**: New codebase, unfamiliar patterns
-- **Product designers coding**: Non-dev background, need planning rigor
-- **Budget constraints**: $100-200/month (vs $500-1K for parallel multi-instance)
-- **Spec-heavy workflows**: Detailed requirements, many edge cases
-
-### ❌ Don't use when
-
-- **Simple changes**: Typo fixes, trivial refactors (use single instance)
-- **Exploratory coding**: Problem space unknown (planning overhead not justified)
-- **Tight deadlines**: Speed > quality (accept correction loops)
-- **High-volume parallel features**: Use Boris pattern (Section 9.17) instead
-- **Very limited budget**: <$100/month (use Sonnet, single instance)
+Use it for ambiguous requirements, consequential architecture decisions, or work that will continue in another session or environment. A single session can be sufficient for a bounded change with clear acceptance criteria. Separation adds authoring, coordination, and review work, so evaluate that overhead on your own task mix.
 
 ### Comparison to other patterns
 
-| Pattern | Scaling Axis | Cost/Month | Best For |
-|---------|--------------|------------|----------|
-| **Single instance** | None | $50-100 | Most developers, general use |
-| **Dual-instance (Jon)** | Vertical (plan ↔ implement) | $100-200 | Spec-heavy, quality focus |
-| **Multi-instance (Boris)** | Horizontal (5-15 parallel) | $500-1,000 | Teams, high-volume shipping |
+| Pattern | What it separates | Main coordination need |
+|---|---|---|
+| Single instance | Planning and execution phases in one session | Retain requirements and verify the result |
+| Dual-instance | Architecture conversation and implementation context | Versioned handoff, ownership, review feedback |
+| Parallel instances | Concurrent units of work | Isolated edits, dependency handling, integration |
 
----
+These choices can compose. Two role prompts do not enforce tool permissions, and separate contexts do not make reviews informationally independent.
 
 ## Setup
 
-### Step 1: Create directory structure
+From your project root, create an optional plan directory:
 
 ```bash
-cd ~/projects/your-project
 mkdir -p .claude/plans/{Review,Active,Completed}
 ```
 
-**Directory roles**:
-- `Review/`: Plans awaiting human approval
-- `Active/`: Approved plans under implementation
-- `Completed/`: Archived plans (learning resource)
+`Review/`, `Active/`, and `Completed/` are coordination conventions. Moving a file does not establish approval, prevent duplicate dispatch, or grant permission to commit, push, or deploy. Record the decision owner, approved contract revision, and assigned engineer in the task system you already use. Concurrent dispatch needs an ownership mechanism that can reject a second claim if duplicate execution matters.
 
-**Add to .gitignore**:
-```bash
-# .gitignore
-.claude/plans/Review/
-.claude/plans/Active/
-# Optional: commit Completed/ for team learning
+Keep durable decisions in a discoverable location such as `docs/decisions/`. If plans are private or ignored, the handoff must still be accessible to its intended recipient. Choose one authoritative contract and link other representations to its revision.
+
+### Architect session
+
+```text
+Explore the requested change and resolve material requirements with me.
+Write the selected contract using the Plan template below.
+Identify assumptions, alternatives, acceptance criteria, and open blockers.
+Your implementation review must also challenge the plan's assumptions.
+Implementation and external actions require their own authorized scope.
 ```
 
-### Step 2: Launch Claude Zero (planner)
+### Engineer session
 
-**Terminal 1**:
-```bash
-cd ~/projects/your-project
-claude
+```text
+Read the approved handoff and applicable project instructions.
+Check the repository state and assignment before changing files.
+Implement within scope, preserving unrelated changes.
+Report changed files, revision, checks actually run, and remaining limits.
+If an assumption changes the contract, return a concrete amendment for decision.
 ```
 
-**First message** (role enforcement):
-```
-You are Claude Zero (Planner).
-
-Your role:
-- Explore codebase using Plan Mode (Shift+Tab twice)
-- Interview user about requirements
-- Write detailed plans to .claude/plans/Review/
-- Review implementations after Claude One completes them
-- NEVER edit code directly
-- NEVER commit changes
-
-Start by acknowledging this role.
-```
-
-Claude Zero confirms: "Understood. I am Claude Zero (Planner). I will explore, plan, and review, but never touch code."
-
-### Step 3: Launch Claude One (implementer)
-
-**Terminal 2** (new session):
-```bash
-cd ~/projects/your-project
-claude
-```
-
-**First message** (role enforcement):
-```
-You are Claude One (Implementer).
-
-Your role:
-- Read approved plans from .claude/plans/Active/
-- Implement exactly as specified
-- Commit changes after each logical step
-- Report completion back to user
-- NEVER create plans
-- NEVER skip approval steps
-
-Start by acknowledging this role.
-```
-
-Claude One confirms: "Understood. I am Claude One (Implementer). I execute approved plans only."
-
----
+Configure tool access appropriate to each role using the project's [permission and sandbox controls](../security/security-hardening.md). A role prompt is an instruction, not proof that writes or external actions are blocked. Use separate worktrees when sessions can edit concurrently.
 
 ## Complete workflow
 
-### Phase 1: Planning (Claude Zero)
+### Phase 1: Planning
 
-#### Step 1.1: Initiate planning
+The architect reads current code and existing decisions, then clarifies questions that affect scope or acceptance. The handoff must stand on its own: objective, exclusions, base revision and relevant working-tree state, files or symbols, implementation approach, acceptance checks, applicable ADRs, blockers, action permissions, and next owner.
 
-**You** (to Claude Zero):
-```
-# Enter Plan Mode (Shift+Tab twice), then:
-
-Implement JWT authentication for the API:
-- Access tokens (15min expiry)
-- Refresh tokens (7 day expiry)
-- Middleware to protect routes
-- Logout capability (revoke refresh tokens)
-```
-
-#### Step 1.2: Claude Zero explores
-
-Claude Zero (in Plan Mode):
-- Reads existing auth code
-- Searches for auth patterns in codebase
-- Identifies dependencies (libraries, env vars)
-
-#### Step 1.3: Claude Zero interviews you
-
-Claude Zero asks clarifying questions:
-```
-Before I draft the plan, I need to clarify:
-
-1. Should we support multiple concurrent sessions per user?
-   (e.g., user logged in on phone + laptop simultaneously)
-
-2. Where should refresh tokens be stored?
-   - Database table
-   - Redis
-   - Other
-
-3. Which routes should be protected?
-   - All /api/* routes?
-   - Specific routes only?
-
-4. Do you want rate limiting on login attempts?
-
-5. Success criteria for "done"?
-   - Tests passing?
-   - Postman collection?
-   - Documentation updated?
-```
-
-**You answer**, Claude Zero refines understanding.
-
-#### Step 1.4: Claude Zero writes plan
-
-Claude Zero creates `.claude/plans/Review/auth-jwt.md`:
-
-```markdown
-# Plan: JWT Authentication
-
-**Created**: 2026-02-04
-**Author**: Claude Zero
-**Estimated effort**: 3-4 hours
-**Risk level**: Medium (security-critical)
-
-## Summary
-Implement JWT-based authentication with access/refresh token pattern.
-Support multiple concurrent sessions per user.
-Refresh tokens stored in database with revocation capability.
-
-## Requirements Clarified
-- Multiple sessions per user: YES
-- Refresh token storage: Database (new table)
-- Protected routes: All /api/* except /api/auth/*
-- Rate limiting: YES (5 attempts per 15min)
-- Success criteria: Tests pass + Postman collection
-
-## Files to Create
-
-### 1. src/auth/jwt.ts (~120 lines)
-**Purpose**: JWT utility functions
-
-**Exports**:
-- `generateAccessToken(userId: string): string`
-  - Payload: { userId, type: 'access' }
-  - Expiry: 15 minutes
-  - Sign with JWT_SECRET
-
-- `generateRefreshToken(userId: string): string`
-  - Payload: { userId, type: 'refresh', jti: uuid() }
-  - Expiry: 7 days
-  - Sign with JWT_REFRESH_SECRET
-  - jti = unique token ID for revocation
-
-- `verifyAccessToken(token: string): { userId: string } | null`
-  - Verify signature
-  - Check expiry
-  - Return payload or null
-
-- `verifyRefreshToken(token: string): { userId: string, jti: string } | null`
-  - Verify signature
-  - Check expiry
-  - Check not revoked (database lookup)
-  - Return payload or null
-
-**Dependencies**: jsonwebtoken, uuid
-
-### 2. src/middleware/auth.ts (~60 lines)
-**Purpose**: Authentication middleware
-
-**Exports**:
-- `requireAuth(req, res, next)`
-  - Extract token from Authorization header (Bearer format)
-  - Verify using verifyAccessToken()
-  - Attach userId to req.userId
-  - 401 if invalid/missing
-
-**Dependencies**: jwt.ts
-
-### 3. src/db/migrations/YYYYMMDD_create_refresh_tokens.ts (~40 lines)
-**Purpose**: Database table for refresh tokens
-
-**Schema**:
-```sql
-CREATE TABLE refresh_tokens (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-  jti UUID NOT NULL UNIQUE,
-  created_at TIMESTAMP DEFAULT NOW(),
-  expires_at TIMESTAMP NOT NULL,
-  revoked_at TIMESTAMP
-);
-CREATE INDEX idx_refresh_tokens_user_id ON refresh_tokens(user_id);
-CREATE INDEX idx_refresh_tokens_jti ON refresh_tokens(jti);
-```
-
-## Files to Modify
-
-### 1. src/routes/api.ts
-**Location**: Line 23 (after imports)
-**Change**: Add requireAuth middleware to all routes except /auth/*
-
-**Before**:
-```typescript
-router.get('/profile', profileController);
-router.post('/posts', createPostController);
-```
-
-**After**:
-```typescript
-import { requireAuth } from '../middleware/auth';
-router.get('/profile', requireAuth, profileController);
-router.post('/posts', requireAuth, createPostController);
-```
-
-### 2. src/routes/auth.ts
-**Location**: Create new file OR add to existing auth routes
-**Changes**:
-- POST /auth/login → return { accessToken, refreshToken }
-- POST /auth/refresh → exchange refresh token for new access token
-- POST /auth/logout → revoke refresh token
-
-### 3. src/config/env.ts
-**Location**: Line 15 (after existing secrets)
-**Add**:
-```typescript
-JWT_SECRET: process.env.JWT_SECRET || '',
-JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET || '',
-```
-
-### 4. .env.example
-**Add**:
-```
-JWT_SECRET=your-secret-here-min-32-chars
-JWT_REFRESH_SECRET=your-refresh-secret-here-min-32-chars
-```
-
-## Implementation Steps (Sequential)
-
-1. **Install dependencies**
-   ```bash
-   npm install jsonwebtoken uuid
-   npm install --save-dev @types/jsonwebtoken @types/uuid
-   ```
-
-2. **Create JWT utilities** (jwt.ts)
-   - Implement all 4 functions
-   - Add error handling (try/catch on verify)
-
-3. **Run database migration** (refresh_tokens table)
-   - Test migration up/down
-
-4. **Create auth middleware** (auth.ts)
-   - Implement requireAuth
-   - Test with mock token
-
-5. **Create/update auth routes** (auth.ts routes)
-   - POST /auth/login
-   - POST /auth/refresh
-   - POST /auth/logout
-
-6. **Protect existing routes** (api.ts)
-   - Apply requireAuth to all /api/* routes
-
-7. **Add JWT secrets to .env**
-   - Generate secure random strings (64 chars)
-
-8. **Write tests**
-   - Unit tests for jwt.ts functions
-   - Integration tests for auth flow
-   - Test token expiry
-   - Test revocation
-
-9. **Create Postman collection**
-   - Login → get tokens
-   - Access protected route with access token
-   - Refresh access token
-   - Logout → revoke refresh token
-   - Verify revoked token rejected
-
-## Success Criteria
-
-- [ ] POST /auth/login returns accessToken + refreshToken
-- [ ] Protected routes return 401 without valid access token
-- [ ] Protected routes return 200 with valid access token
-- [ ] POST /auth/refresh exchanges refresh token for new access token
-- [ ] POST /auth/logout revokes refresh token
-- [ ] Revoked refresh tokens are rejected on /auth/refresh
-- [ ] Expired access tokens are rejected
-- [ ] Multiple sessions per user work (different refresh tokens)
-- [ ] All tests pass (npm test)
-- [ ] Postman collection works end-to-end
-
-## Security Checklist
-
-- [ ] JWT secrets are in .env (never committed)
-- [ ] JWT secrets are ≥32 characters
-- [ ] Refresh tokens stored in database (not just JWT)
-- [ ] Refresh tokens have unique jti for revocation
-- [ ] Access tokens have short expiry (15min)
-- [ ] Authorization header validated (Bearer format)
-- [ ] Token verification errors are caught (no crashes)
-
-## Risks & Mitigation
-
-| Risk | Impact | Mitigation |
-|------|--------|------------|
-| JWT secrets leaked | High | .env in .gitignore, never log secrets |
-| Token expiry too long | Medium | 15min access, 7 day refresh (short enough) |
-| No rate limiting on login | Medium | Add rate limiting (5 attempts/15min) |
-| Refresh token table grows indefinitely | Low | Add cleanup job (delete expired tokens) |
-
-## Questions for Implementer (Claude One)
-
-If you encounter these scenarios during implementation:
-
-1. **Existing user login flow**: Integrate with existing login logic, don't replace entire auth system
-2. **Database ORM**: Use existing ORM (Prisma/TypeORM/Knex) for refresh_tokens table
-3. **Error messages**: Return generic "Invalid token" (don't leak whether token is expired vs invalid signature)
-
-## Estimated Effort Breakdown
-
-- JWT utilities: 45 min
-- Database migration: 15 min
-- Middleware: 30 min
-- Auth routes: 60 min
-- Protect existing routes: 15 min
-- Tests: 90 min
-- Postman collection: 15 min
-
-**Total**: ~4 hours
-
----
-
-**Plan approved?** → Move to `.claude/plans/Active/auth-jwt.md`
-```
+For example, a CSV export change might require existing filters to be preserved, correct escaping of commas and quotes, and no new access to records the requester cannot read. Identify the export service and its tests by path and symbol. Line numbers are optional navigation aids tied to the inspected revision; invented future line ranges add no evidence.
 
 ### Phase 2: Human review
 
-**You review** `.claude/plans/Review/auth-jwt.md`:
+The authorized decision owner checks the contract before dispatch. Existing authorization can cover the next action without a redundant confirmation. An unresolved decision that changes scope or external effects must be settled before dependent work.
 
-**Checklist**:
-- [ ] All requirements covered?
-- [ ] Approach makes sense for this codebase?
-- [ ] Security considerations addressed?
-- [ ] Estimated effort realistic?
-- [ ] Success criteria clear and testable?
-- [ ] Files to create/modify are correct paths?
+Record approval against the contract revision. An amendment affecting scope, constraints, or acceptance requires a new recorded decision; a silent edit after approval invalidates the previous binding.
 
-**If approved**:
-```bash
-mv .claude/plans/Review/auth-jwt.md .claude/plans/Active/
-```
+An **ADR** records a durable architectural choice: context, decision, alternatives, and consequences. A handoff records the current unit of work. Many small tasks need no ADR. In Honkonen's account, an ADR moves from Proposed to Accepted when the human gives the green light, then stays Accepted as implementation proceeds. Later decisions can supersede it independently of ticket status.
 
-**If changes needed**, ask Claude Zero to revise:
-```
-(to Claude Zero): Update the plan:
-- Change refresh token expiry to 30 days instead of 7
-- Add password reset flow to scope
-```
+### Phase 3: Implementation
 
-### Phase 3: Implementation (Claude One)
+The engineer verifies the base, relevant files, assignment, and applicability of approved decisions. If the repository changed, inspect the impact before resuming. Run checks supporting the acceptance criteria and report failures and unknowns explicitly. A passing check establishes only what it covers.
 
-**You** (to Claude One):
-```
-Implement .claude/plans/Active/auth-jwt.md
+Honkonen uses a self-contained Linear handoff comment plus optional ADRs. His engineer submits a GitHub PR, and the architect reviews it there. His custom `eng review <run> --feedback "..."` command carries feedback back to the engineer. This belongs to his tooling; it is not a Claude Code command. Use your existing issue, file, or review channel with equivalent traceability.
 
-Follow the plan exactly. Commit after each logical step.
-Report back when complete.
-```
+### Phase 4: Verification
 
-Claude One:
-1. Reads plan file
-2. Installs dependencies
-3. Creates jwt.ts
-4. Creates database migration
-5. Runs migration
-6. Creates auth middleware
-7. Updates routes
-8. Adds env vars
-9. Writes tests
-10. Creates Postman collection
+Keep coordination state, execution state, and acceptance evidence distinct:
 
-**Claude One commits** after each step:
-```
-feat: add JWT utility functions
-feat: create refresh_tokens table migration
-feat: add auth middleware
-feat: protect API routes with JWT auth
-test: add JWT auth flow tests
-```
+| Task state | Next responsible role | Evidence needed in this example protocol |
+|---|---|---|
+| Backlog | Architect and decision owner | Captured request; unresolved design visible |
+| Todo | Assigned engineer | Accessible handoff, approved revision, blockers resolved |
+| In Progress | Engineer | Claimed assignment, active run or recorded interruption |
+| In Review | Designated reviewer | Diff at an identified revision, required check results |
+| Done | Authorized merge owner | Accepted revision integrated; required post-merge verification recorded |
 
-### Phase 4: Verification (Claude Zero)
+These are proposed conventions, not locks or permission grants. A run can be queued, running, failed, or awaiting review while its ticket remains In Progress. An ADR can remain Accepted through later ticket states. Define recovery for a stalled run without treating ticket status as execution evidence.
 
-**You** (to Claude Zero):
-```
-Review the JWT implementation Claude One just completed.
-Check against the plan in .claude/plans/Active/auth-jwt.md.
-```
+The architect checks requirements, code, tests, and design assumptions. Because this reviewer helped create the plan, checking only plan compliance can preserve a shared mistake. Use independent acceptance criteria and deterministic checks, plus additional review where risk justifies it. See [reviewer-independence evaluation](../roles/agent-evaluation.md#evaluate-judgment-allocation-and-reviewer-independence).
 
-Claude Zero reviews:
-- Code structure matches plan?
-- All success criteria met?
-- Security checklist completed?
-- Tests passing?
-- Any code smells or issues?
-
-**Claude Zero report**:
-```
-✅ Review complete: auth-jwt.md
-
-Code Quality: 9/10
-- All files created as planned
-- Success criteria met (9/9)
-- Security checklist complete
-- Tests pass (15/15)
-
-Minor suggestions:
-1. Consider adding refresh token rotation (security best practice)
-2. Add JSDoc comments to jwt.ts functions
-3. Consider extracting magic numbers (15min, 7 days) to config
-
-Critical issues: None
-
-Ready to archive plan to Completed/.
-```
+Return actionable feedback tied to the reviewed revision: affected file or symbol, observed defect, acceptance criterion, and expected correction. Automated review comments need assessment. Required checks and repository policy determine whether integration is permitted.
 
 ### Phase 5: Archive
 
-**If approved**:
-```bash
-mv .claude/plans/Active/auth-jwt.md .claude/plans/Completed/
-```
+After authorized integration and required verification, close the ticket and archive the plan. Keep the ADR discoverable. Record the accepted revision, check results, unresolved follow-ups, and next owner where applicable.
 
-**Plan is now archived** for future reference and team learning.
-
----
+Compress the summary for future readers while retaining links to audit history. Repeated flaky checks, failed recovery, and operational incidents may deserve their own issue; omitting noise from a task summary does not justify deleting that evidence.
 
 ## Plan template
 
-Save this template to `.claude/plan-template.md` for consistent plan structure:
+Save this as a plan file or task comment. This template is a guide adaptation, not a reproduction of Honkonen's tooling.
 
 ```markdown
-# Plan: [Feature Name]
+# Contract: [task ID and objective]
 
-**Created**: [Date]
-**Author**: Claude Zero
-**Estimated effort**: [Hours]
-**Risk level**: Low | Medium | High
+## Scope
+- Desired behavior and explicit exclusions:
+- Base revision and relevant uncommitted state:
+- Contract revision and authoritative location:
 
-## Summary
-[2-3 sentence overview of what this plan accomplishes]
+## Decisions
+- Applicable ADRs and status:
+- Selected approach and important rejected alternatives:
+- Assumptions and unresolved blockers:
 
-## Requirements Clarified
-[List of requirements confirmed through interview]
-- Requirement 1: [Answer]
-- Requirement 2: [Answer]
+## Implementation
+- Relevant paths and symbols at the inspected revision:
+- Ordered steps, dependencies, and boundaries to preserve:
 
-## Files to Create
+## Acceptance
+- Observable success criteria:
+- Checks, fixtures, and expected evidence:
+- What these checks cannot establish:
 
-### 1. [File path] (~[Lines] lines)
-**Purpose**: [What this file does]
-
-**Exports**:
-- `functionName(params): returnType`
-  - [What it does]
-  - [Key implementation details]
-
-**Dependencies**: [Libraries, other files]
-
-## Files to Modify
-
-### 1. [File path]
-**Location**: Line [N] ([Context: after what, before what])
-**Change**: [What to change]
-
-**Before**:
-```[language]
-[Existing code snippet]
+## Ownership and authorization
+- Decision owner and approval bound to contract revision:
+- Assigned engineer and assignment record:
+- Permitted actions and limits:
+- Reviewer, merge owner, and next owner:
 ```
 
-**After**:
-```[language]
-[Modified code snippet]
-```
-
-## Implementation Steps (Sequential)
-
-1. **[Step name]**
-   - [Substep]
-   - [Substep]
-
-2. **[Step name]**
-   - [Substep]
-
-## Success Criteria
-
-- [ ] [Testable criterion 1]
-- [ ] [Testable criterion 2]
-
-## Security Checklist (if applicable)
-
-- [ ] [Security item 1]
-- [ ] [Security item 2]
-
-## Risks & Mitigation
-
-| Risk | Impact | Mitigation |
-|------|--------|------------|
-| [Risk] | [High/Med/Low] | [How to prevent/handle] |
-
-## Questions for Implementer (Claude One)
-
-If you encounter these scenarios during implementation:
-1. [Scenario]: [Guidance]
-
-## Estimated Effort Breakdown
-
-- [Task 1]: [Time]
-- [Task 2]: [Time]
-
-**Total**: [Hours]
-
----
-
-**Plan approved?** → Move to `.claude/plans/Active/[filename].md`
-```
-
----
+For session continuity, reuse [handoff-create](../../examples/skills/handoff-create/SKILL.md), [handoff-resume](../../examples/skills/handoff-resume/SKILL.md), and [handoff-update](../../examples/skills/handoff-update/SKILL.md). Historical completion entries must be reconciled with live state before acting.
 
 ## Cost analysis
 
-### Dual-Instance vs single instance with corrections
+### Dual-instance vs single instance with corrections
 
-| Scenario | Single Instance | Dual Instance | Savings |
-|----------|----------------|---------------|---------|
-| **Simple feature** (login form) | 1 session × $5 = **$5** | 2 sessions × $3 = $6 | +$1 (single wins) |
-| **Medium feature** (auth system) | 1 session × $15 + 2 corrections × $10 = **$35** | 2 sessions × $12 = $24 | **$11 saved** |
-| **Complex feature** (ambiguous spec) | 1 session × $20 + 3 corrections × $15 = **$65** | 2 sessions × $18 = $36 | **$29 saved** |
+There is no universal correction-loop count at which two instances become cheaper or faster. Compare equivalent tasks under the same acceptance rule and budget policy. Include planning, implementation, retries, review, coordination, human attention, and rework in cost per accepted task. Keep billed API cost separate from subscription expenditure and quota use.
 
-**Breakeven point**: Features requiring ≥2 correction loops → dual-instance is cheaper.
-
-### Monthly budget estimates
-
-**Assumptions**:
-- 20 working days/month
-- 2 features per day (mix of simple + complex)
-- Historical Opus 5 pricing ($5/1M input, $25/1M output). These hypothetical amounts are not current Opus 5.5 costs; use $4/$20 and measured token counts for a new estimate.
-
-| Profile | Features/Month | Single Instance | Dual Instance | Savings |
-|---------|----------------|----------------|---------------|---------|
-| **Light user** | 20 simple | $100 | $120 | -$20 (single wins) |
-| **Moderate user** | 30 mixed (60% medium, 40% simple) | $650 | $480 | **$170 saved** |
-| **Heavy user** | 40 complex | $2,000 | $1,200 | **$800 saved** |
-
-**Recommendation**:
-- Simple features only → Single instance
-- Medium/complex features → Dual instance saves money and time
-
----
+Report [four clocks](../roles/agent-evaluation.md#evaluation-epochs-and-four-clocks): feedback latency, run duration, human attention, and elapsed time to the accepted result. A shorter engineer run can coexist with a longer review queue. Use repeated paired tasks and report uncertainty before claiming a benefit.
 
 ## Tips and troubleshooting
 
-### Role enforcement
-
-**Problem**: Claude Zero starts editing code.
-
-**Solution**: Remind in every request:
-```
-(to Claude Zero): Remember: you are Claude Zero (Planner only).
-Do not edit code. Write plan to .claude/plans/Review/
-```
-
-**Prevention**: Use CLAUDE.md to enforce roles:
-
-```markdown
-# .claude/CLAUDE.md
-
-## If you are Claude Zero (Planner):
-- Use Plan Mode (Shift+Tab twice) for all exploration
-- Save all plans to .claude/plans/Review/[feature].md
-- NEVER edit code
-- NEVER commit changes
-- Review implementations after Claude One completes them
-
-## If you are Claude One (Implementer):
-- Read plans from .claude/plans/Active/
-- Implement exactly as specified
-- Commit after each logical step
-- NEVER create plans
-```
-
-### Context pollution
-
-**Problem**: Claude One's context is polluted with planning discussions.
-
-**Solution**: Use separate terminal sessions (separate contexts):
-- Terminal 1 = Claude Zero (planning context)
-- Terminal 2 = Claude One (implementation context)
-
-**Never share context** between Claude Zero and Claude One.
-
-### Plan drift
-
-**Problem**: Claude One deviates from plan during implementation.
-
-**Solution**: Include this in plan:
-```markdown
-## Implementation Rules for Claude One
-
-- Follow plan steps sequentially (don't skip or reorder)
-- If you encounter blockers, STOP and report (don't improvise)
-- Commit after each step (granular history)
-- If unclear, ask user (don't guess)
-```
-
-### Overhead management
-
-**Problem**: Moving files between directories is manual overhead.
-
-**Solution**: Create bash aliases:
-
-```bash
-# Add to ~/.bashrc or ~/.zshrc
-
-# Move plan to Active (approve)
-approve-plan() {
-    mv ".claude/plans/Review/$1.md" ".claude/plans/Active/"
-    echo "✅ Approved: $1.md → Active/"
-}
-
-# Move plan to Completed (archive)
-complete-plan() {
-    mv ".claude/plans/Active/$1.md" ".claude/plans/Completed/"
-    echo "✅ Completed: $1.md → Archived"
-}
-
-# List plans by status
-plans() {
-    echo "📋 Review:"
-    ls -1 .claude/plans/Review/ 2>/dev/null || echo "  (empty)"
-    echo ""
-    echo "🔄 Active:"
-    ls -1 .claude/plans/Active/ 2>/dev/null || echo "  (empty)"
-    echo ""
-    echo "✅ Completed:"
-    ls -1 .claude/plans/Completed/ 2>/dev/null | tail -5 || echo "  (empty)"
-}
-```
-
-**Usage**:
-```bash
-plans                     # List all plans
-approve-plan auth-jwt     # Approve plan
-complete-plan auth-jwt    # Archive completed plan
-```
-
----
+- **Context handoff**: send the selected contract and relevant source links. Add missing facts when discovered; avoid forwarding the whole exploratory transcript by default.
+- **Plan drift**: distinguish implementation adjustments within scope from changes to requirements or acceptance. Amend the latter explicitly.
+- **Resume**: inspect live state before relying on old completion claims. Do not blindly repeat a migration, push, or other side effect whose outcome is unclear.
+- **Duplicate work**: name an owner and record a claim. Concurrent dispatch needs enforceable assignment if duplicates matter.
+- **Overhead**: start with the existing issue and a short handoff. Add an orchestrator only when a demonstrated coordination failure warrants it.
 
 ## See also
 
-- **Main guide**: [Section 9.17.1](#alternative-pattern-dual-instance-planning-vertical-separation) (overview and comparison)
-- **Plan Mode**: [plan-driven.md](plan-driven.md) (foundation for planning workflows)
-- **Multi-Instance (Boris)**: [Section 9.17](#917-scaling-patterns-multi-instance-workflows) (horizontal scaling alternative)
-- **Cost optimization**: [Section 8.10](#cost-optimization-tips) (budget management)
+- [Main guide overview and comparison](../ultimate-guide.md#alternative-pattern-dual-instance-planning-vertical-separation)
+- [Plan-driven development](plan-driven.md)
+- [Cross-session messaging contracts](cross-session-messaging.md)
+- [Task management and continuity](task-management.md#the-continuity-artifact-progressmd)
+- [Source evaluation: Honkonen's protocol](../../docs/resource-evaluations/honkonen-architect-engineer.md)
 
-**External resources**:
-- [Jon Williams LinkedIn post](https://www.linkedin.com/posts/thatjonwilliams_ive-been-using-cursor-for-six-months-now-activity-7424481861802033153-k8bu) (original pattern description, Feb 3, 2026)
-- [10 Tips from Claude Code Team](https://paddo.dev/blog/claude-code-team-tips/) (team workflows including plan-first approach)
+**Sources**: [Jon Williams's practitioner post](https://www.linkedin.com/posts/thatjonwilliams_ive-been-using-cursor-for-six-months-now-activity-7424481861802033153-k8bu), February 3, 2026; [Sami Honkonen, How the architect talks to the engineer](https://samihonkonen.com/posts/how-the-architect-talks-to-the-engineer/), August 24, 2026. The article and its author's LinkedIn post are one account, not independent corroboration.
