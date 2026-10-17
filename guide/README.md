@@ -15,6 +15,7 @@ Core documentation for mastering Claude Code, organized by topic.
 | File | Description | Time |
 |------|-------------|------|
 | [**learning-path/**](./learning-path/README.md) | **Structured 7-module learning path** for beginners: Installation, Core Loop, Memory, Agents, Skills, Hooks, Advanced Patterns | 8-11 hours |
+| [core/ai-concept-boundaries.md](./core/ai-concept-boundaries.md) | Six practical concept distinctions, repository examples, and six comprehension scenarios; selective Lexigraph adaptation with attribution | Self-paced |
 | [learning-path/01-installation.md](./learning-path/01-installation.md) | Module 01: Install Claude Code and verify it works | 15 min |
 | [learning-path/02-core-loop.md](./learning-path/02-core-loop.md) | Module 02: Understand the interaction loop and context | 45 min |
 | [learning-path/03-memory.md](./learning-path/03-memory.md) | Module 03: Create CLAUDE.md and configure memory | 1 hour |

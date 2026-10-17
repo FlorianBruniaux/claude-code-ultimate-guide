@@ -37,6 +37,7 @@ Les documents de travail bruts (prompts Perplexity, audits clients) restent dans
 
 | Ressource | Score Initial | Score Final | Décision | Fichier |
 |-----------|---------------|-------------|----------|---------|
+| **Lexigraph** (bilingual AI lexicon and concept comparisons) | 3/5 | **3/5** | Selective adaptation: six concept distinctions and original comprehension exercises; CC BY 4.0 attribution, export gaps and answer-position bias documented | [lexigraph-ai-lexicon.md](./lexigraph-ai-lexicon.md) |
 | **Lopopolo: Harness Engineering anthology** | 4/5 | **4/5** | Selective integration: truth ownership, local quality bar, MLD telemetry, curated publication, worker epochs and four clocks; no executed playbook or local gain claimed | [lopopolo-harness-engineering.md](./lopopolo-harness-engineering.md) |
 | **Honkonen: architect-engineer protocol** | 4/5 | **4/5** | Integrate into existing dual-instance workflow and handoff templates; remove unsupported cost/quality guarantees; custom eng tooling is not a Claude Code feature | [honkonen-architect-engineer.md](./honkonen-architect-engineer.md) |
 | **WikiSkill** (persistent knowledge for skill evolution) | 4/5 | **4/5** | Selective integration: retain rejected proposals, separate learning from execution, evaluate model transfer; benchmark evidence does not establish native skill routing or production gains | [wikiskill-persistent-skill-evolution.md](./wikiskill-persistent-skill-evolution.md) |

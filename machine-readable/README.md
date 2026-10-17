@@ -93,6 +93,12 @@ python3 -m unittest scripts/test-check-distribution-channels.py
 
 The MCP package exposes the same registry as `claude-code-guide://distribution-channels`.
 
+### Concept distinctions
+
+Start with [AI Concept Boundaries](../guide/core/ai-concept-boundaries.md) when a question confuses context with memory, a model with its harness, an agent with a workflow, a tool with MCP, instructions with enforced access, evaluation results with production evidence. Each distinction links to the detailed guide and has an original [scenario check](../guide/core/ai-concept-boundaries.md#check-your-understanding).
+
+The [Lexigraph evaluation](../docs/resource-evaluations/lexigraph-ai-lexicon.md) records the source, CC BY 4.0 attribution, export gaps, and reasons for selective adaptation. The concept page adapts the teaching structure and selected distinctions; it does not import the corpus, quiz bank, or infographics. Use the guide's product references for runtime behavior.
+
 ### Harness controls and supervision
 
 - [Runnable control and recovery simulation](../examples/workflows/review-control-demo.py): 13 local tests, simulated destination, no live GitHub acceptance claim.
