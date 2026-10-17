@@ -702,7 +702,7 @@ deep_dive:
   # Native Claude Code Sandbox (Official docs, v2.1.0+) - Added 2026-02-02
   sandbox_native_guide: "guide/security/sandbox-native.md"
   sandbox_native_why: "guide/security/sandbox-native.md#1-why-native-sandboxing"  # Why Native Sandboxing
-  sandbox_native_os_primitives: "guide/security/sandbox-native.md:68"  # Seatbelt vs bubblewrap
+  sandbox_native_os_primitives: "guide/security/sandbox-native.md#2-os-primitives"  # Seatbelt vs bubblewrap
   sandbox_native_filesystem: "guide/security/sandbox-native.md#3-filesystem-isolation"  # Filesystem isolation
   sandbox_native_network: "guide/security/sandbox-native.md#4-network-isolation"  # Network proxy architecture
   sandbox_native_modes: "guide/security/sandbox-native.md:7"  # Auto-allow vs Regular

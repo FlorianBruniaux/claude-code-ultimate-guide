@@ -5,6 +5,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
+
+- Fix the native sandbox OS-primitives index route by replacing its stale line reference with the stable section anchor; synchronize the MCP reference mirror and regenerate the bound chapter metadata.
+
 - **AI model terms sorted by axis**: add a seventh distinction to AI Concept Boundaries ("Architecture, size class, modality, and task") with an 8-row table (LLM, MoE, SLM, VLM, MLM, LAM, LCM, SAM), a seventh scenario and primary sources. It explains why lists of "AI architectures" mix internal designs, size classes, modalities, training objectives and product labels. Add a dense, MoE and VLM pipeline diagram to the architecture internals series (50 diagrams) and two reviewed Gemini infographics (`guide/images/model-axes/`). Define MoE total versus active parameters before the local inference fit table. Correct `known-issues.md`, which stated without a source that Claude uses a Mixture of Experts architecture: Anthropic does not publicly document Claude's architecture, so temperature-0 variance is now attributed to batch-dependent inference numerics. Update discovery indexes, counts and MCP mirrors. Mermaid rendering of the new diagram was not verified locally (the sandbox blocks headless Chrome).
 
 
