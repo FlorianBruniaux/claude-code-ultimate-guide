@@ -1,0 +1,63 @@
+CHANGELOG.md
+  s_592023fb892cc1::t_8037b71ce4f01a 39-40
+docs/resource-evaluations/README.md
+  s_592023fb892cc1::t_43d0ad009fd114 41-42,126
+docs/resource-evaluations/honkonen-architect-engineer.md
+  s_592023fb892cc1::t_8bbabb3e23d4a0 1-40
+docs/resource-evaluations/lopopolo-harness-engineering.md
+  s_592023fb892cc1::t_6d55be468426c2 1-41
+examples/skills/handoff-create/SKILL.md
+  s_592023fb892cc1::t_96d47417c451dc 26,45,52,74-76
+examples/skills/handoff-resume/SKILL.md
+  s_592023fb892cc1::t_25be689da5f129 3,23,25,29-32
+examples/skills/handoff-update/SKILL.md
+  s_592023fb892cc1::t_f897c6583bb38e 30-31,34,38
+guide/core/context-engineering.md
+  s_592023fb892cc1::t_0cfb0e233e340a 1010,1012-1017,1020,1699-1706,1725
+guide/core/memory-systems.md
+  s_592023fb892cc1::t_e0a1831583ed2f 564-577
+guide/roles/agent-evaluation.md
+  s_592023fb892cc1::t_e9033165cc2a1b 49-63
+guide/ultimate-guide.md
+  s_592023fb892cc1::t_a4e2ff6b05d33d 18937,18939,18943,18947,18951-18955,18957,18959,18963-18968,18970,18972,18974,18978,18980,18984,18988,18992-18995,23155,23157,23159-23164,23166,23168,23170,23174,23232-23247,23259
+guide/workflows/dual-instance-planning.md
+  s_592023fb892cc1::t_065e63825a4192 3,9,11,16,18-22,26-30,32,36,40-44,46,50,56,58,60,62-67,70,72-77,80,84,86,88,92,94,96,98,100,102,104,106,108-114,116,118,120,124,126,130,133,135-138,140-143,145-147,149-152,154-158,161,165,167,169,173-177,181-185,187
+guide/workflows/task-management.md
+  s_592023fb892cc1::t_575d9f0b756396 817,839,843
+llms-full.txt
+  s_592023fb892cc1::t_83bd141fc17a54 346-351
+llms.txt
+  s_592023fb892cc1::t_98ad77dba7a568 44-46
+machine-readable/README.md
+  s_592023fb892cc1::t_a8c2c9f6d9d153 3,9-12,17-18,21,23,108-120,208,218-219
+machine-readable/llms.txt
+  s_592023fb892cc1::t_1f96bb2a2a0a96 44-46
+machine-readable/reference.yaml
+  s_592023fb892cc1::t_7a283309d4f137 141,1420,1428-1431,1437-1438,1471,1485-1486,1489,1492,1539,1561,1680,1690,1692,1694-1698,1747,1797,1821,2057-2067,2071,3936-3937
+machine-readable/translations.json
+  s_592023fb892cc1::t_b48c6380fa4cb4 3-4,24,26-27,51,71-72,114-115,190-191
+mcp-server/content/llms.txt
+  s_592023fb892cc1::t_04255c626ba767 44-46
+mcp-server/content/reference.yaml
+  s_592023fb892cc1::t_395ebe0536d972 141,1420,1428-1431,1437-1438,1471,1485-1486,1489,1492,1539,1561,1680,1690,1692,1694-1698,1747,1797,1821,2057-2067,2071,3936-3937
+mcp-server/content/translations.json
+  s_592023fb892cc1::t_b573cc0a06cca3 3-4,24,26-27,51,71-72,114-115,190-191
+mcp-server/src/lib/chapter-ranges.generated.json
+  s_592023fb892cc1::t_305d4838f130a8 2-4,53,57-58,62-63,67-68
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "f15fb580993b53a3e7f9f3a55a3ae0e864153692",
+  "prompts": {},
+  "sessions": {
+    "s_592023fb892cc1": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a13ef9-a7a2-70c0-810c-f2b1bb109816",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
