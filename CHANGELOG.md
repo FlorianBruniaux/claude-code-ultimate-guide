@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Normalize historical changelog punctuation while preserving dates, numbers, code blocks and literal quotations; format quoted labels as inline literals.
 
+- Correct the release-tracking command to use the automatic Claude Code RSS source while retaining manual guide news. Replace the divergent Codex command copy with a generated delegate to the canonical workflow, add shared routing scenarios, portable example paths and scoped recovery guidance.
+
 - Integrate WikiSkill's persistent proposal history and separate knowledge/skill layers into the memory and harness references. Add a primary-source evaluation with corrected append-only and rollback claims, reported benchmark results, negative transfer, full-injection limits and a proposed local validation protocol. Refresh discovery indexes and MCP mirrors; no optimizer or model evaluation was run.
 
 - Correct the Liza CLI evaluation against public sources: document worktree-local artifacts, mdtoc's parsed section ranges and selectors, and stacklit-cli's CLI-first fork of an already-Go upstream with insights, parallel parsing, and architecture export. Revise the four scores to 2/3/2/3, replace the star-count gate with reproducible comparisons, and correct Semble's worktree-cache inference. Align the framework cross-reference and machine-readable/MCP indexes. Keep runtime, concurrency, token, and later indexing-performance claims unverified; no new guide section added.

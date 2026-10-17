@@ -96,27 +96,15 @@ echo "X.Y.Z" > VERSION
 - Reason: [major features added / significant updates / breaking changes in CC]
 ```
 
-### 4.5. Add RSS Entry (for notable CC releases)
+### 4.5. Verify the automatic Claude Code RSS source
 
-Add an entry to `src/data/rss-entries.ts` in the landing repo **only if** at least one of:
-- Release has ⭐ feature(s)
-- Release has breaking changes
-- Release has ≥3 highlights
+The landing RSS implementation in `src/pages/rss.xml.ts` emits Claude Code release items automatically from `src/data/releases.ts`. Update that release registry within the authorized landing scope; do not add a second manual Claude Code release item to `src/data/rss-entries.ts`.
 
-If none of these → skip (patch/bugfix-only releases don't need an RSS entry).
+Manual RSS entries remain available for guide-side news, including a release of the guide itself. Follow `docs/workflows/landing-sync.md` for that separate branch. A Claude Code CLI release and a guide release are different events.
 
-Entry format:
-```typescript
-{
-  type: 'guide_release',
-  title: 'Claude Code vX.Y.Z',
-  date: 'Mon DD, YYYY',
-  description: '[1-2 sentences: main feature(s), plain text no HTML]',
-  link: 'https://cc.bruniaux.com/releases/#vX.Y.Z',
-},
-```
+Inspect the current RSS implementation for the emitted release link instead of copying a historical anchor example. After an authorized landing build, check the generated feed for duplicate items for the updated CLI release and confirm its link matches the implementation. Report an unavailable build or feed as unverified.
 
-Prepend at the top of the `rssEntries` array.
+Done when the updated CLI release is supplied by the automatic source, no duplicate manual item was introduced, and feed verification passed or its limitation was reported.
 
 ### 4.7. Sync MCP Server Content
 
@@ -157,7 +145,7 @@ If mismatches, fix before committing.
 #### Guide Repository
 
 ```bash
-cd /Users/florianbruniaux/Sites/perso/claude-code-ultimate-guide
+cd /path/to/claude-code-ultimate-guide
 
 git add \
   VERSION \
@@ -194,7 +182,7 @@ git push
 #### Landing Repository
 
 ```bash
-cd /Users/florianbruniaux/Sites/perso/claude-code-ultimate-guide-landing
+cd ../claude-code-ultimate-guide-landing
 
 git add index.html
 
@@ -323,7 +311,7 @@ Committing changes...
 
 ## Implementation Notes
 
-- **Atomicity**: If any step fails, rollback git changes (`git reset --hard`)
+- **Recovery**: If a step fails, stop and report the partial state. Preserve pre-existing and concurrent edits; restore only changes owned by this operation after checking that their current state still matches what it wrote. Do not use `git reset --hard`.
 - **Idempotency**: Can be run multiple times safely
 - **Validation**: Always verify sync before committing
 - **User confirmation**: Ask before version bump if ambiguous

@@ -1,0 +1,23 @@
+{
+  "skill": "source-command-update-infos-release",
+  "positive": [
+    "Mets à jour le suivi des releases Claude Code dans le guide et le landing.",
+    "Synchronise la dernière version CLI Claude Code avec le registre des releases du guide.",
+    "Exécute update-infos-release pour actualiser les releases Claude Code sans bump du guide.",
+    "Actualise les notes de version Claude Code dans claude-code-ultimate-guide et ses miroirs MCP.",
+    "Prépare update-infos-release minor pour le guide Claude Code, sans publier.",
+    "Update the Claude Code Ultimate Guide release tracking and synchronize its landing release registry.",
+    "Run update-infos-release to record the latest Claude Code CLI release in the guide.",
+    "Ajoute la nouvelle release Claude Code au YAML de suivi du guide et vérifie la synchronisation."
+  ],
+  "negative": [
+    "Mets à jour la version de Codex CLI installée sur mon Mac.",
+    "Rédige les release notes de mon application Next.js.",
+    "Écris une entrée de blog pour présenter un nouveau livre blanc.",
+    "Clone ce repo GitHub et classe-le dans external-repos avec un audit.",
+    "Vérifie si mon application Codex a une mise à jour disponible.",
+    "Revois les mémoires du guide et propose des règles sans les appliquer.",
+    "Fais une revue de cette pull request.",
+    "Synchronise le calendrier et mes événements."
+  ]
+}
