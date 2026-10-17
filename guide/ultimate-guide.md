@@ -8190,6 +8190,8 @@ This is the terminal equivalent of what the Context7 MCP server does. Useful whe
 
 The Claude Code community has created specialized skill collections for specific domains. One notable collection focuses on cybersecurity and penetration testing.
 
+> **Model safeguards come first (checked October 17, 2026)**: Anthropic's [Cyber Verification Program](https://www.anthropic.com/news/cyber-verification-program) states that generally available models "have conservative cyber safeguards that block most cyber work". They remain usable for code review, patching known issues, finding vulnerabilities in source code you own, and security-alert triage. Authorized penetration testing and red teaming require Red Team Access, which is open to organizations only. Installing a skill does not change these safeguards. Eligibility and the application form are on the same page.
+
 **Repository**: [zebbern/claude-code-guide](https://github.com/zebbern/claude-code-guide)
 **Skills Directory**: [/skills](https://github.com/zebbern/claude-code-guide/tree/main/skills)
 
@@ -8254,8 +8256,12 @@ Then reference in an agent:
 name: security-auditor
 description: Security testing specialist for penetration testing
 tools: Read, Grep, Bash
+skills:
+  - sql-injection-testing
 ---
 ```
+
+The `skills` field preloads the full skill content into the subagent at startup. It controls preloading, not access: the subagent can still invoke other skills through the Skill tool unless `Skill` is removed from its tools ([subagent reference](https://code.claude.com/docs/en/sub-agents)).
 
 #### Important Disclaimer
 
@@ -8285,17 +8291,18 @@ The most important pattern with claude-red is loading skills **without permanent
 
 **Option 1: Read directly in session**: Ask Claude to read a skill file and apply its methodology. The context disappears when the session closes.
 
-**Option 2: `--system-file` at launch**: Load one or more skills at session start via CLI:
+**Option 2: `--append-system-prompt-file` at launch**: Append one or more skills to the default system prompt for a single session. Claude Code has no `--system-file` flag. Prefer the append form: `--system-prompt-file` replaces the default prompt, including its tool guidance and safety instructions ([CLI reference](https://code.claude.com/docs/en/cli-reference#system-prompt-flags)).
 
 ```bash
 # Single skill
-claude --system-file path/to/Skills/utility/offensive-fast-checking/SKILL.md
+claude --append-system-prompt-file path/to/Skills/utility/offensive-fast-checking/SKILL.md
 
-# Multiple skills (concatenated)
-cat Skills/utility/offensive-fast-checking/SKILL.md \
-    Skills/web/offensive-sqli/SKILL.md \
-  | claude --system-file /dev/stdin
+# Multiple skills (bash or zsh process substitution)
+claude --append-system-prompt-file <(cat Skills/utility/offensive-fast-checking/SKILL.md \
+    Skills/web/offensive-sqli/SKILL.md)
 ```
+
+Both forms were checked with canary instructions on Claude Code 2.1.302 in print mode (`-p`). The interactive launch was not tested.
 
 **Option 3: Project-level `.claude/skills/`**: Symlink only the relevant skills into the target repo's `.claude/skills/`, run the audit, then remove the directory. Zero pollution beyond the repo boundary.
 
@@ -8328,6 +8335,8 @@ Tailor the skill list to your actual stack: a Rust CLI project would load fuzzin
 #### Ethical & Legal Scope
 
 > Use only on systems you own or have explicit written authorization to test. The repository's [SECURITY.md](https://github.com/SnailSploit/Claude-Red/blob/main/SECURITY.md) details scope: authorized engagements, bug bounty programs, CTF competitions, and internal security research only. Misuse may violate computer-crime statutes (CFAA, Computer Misuse Act).
+>
+> Written authorization answers the Usage Policy's security-research exception. It does not lift the model's real-time cyber safeguards, which depend on your access tier.
 
 ---
 
@@ -10639,7 +10648,7 @@ Security hooks are critical for protecting your system.
 
 > **Advanced patterns**: For comprehensive security including Unicode injection detection, MCP config integrity verification, and CVE-specific mitigations, see [Security Hardening Guide](./security/security-hardening.md).
 
-> **Claude Code Security (research preview)**: Anthropic offers a dedicated codebase vulnerability scanner that traces data flows across files, challenges findings internally before surfacing them (adversarial validation), and generates patch suggestions. Separate from the Security Auditor Agent above (waitlist access only). See [Security Hardening Guide → Claude Code as Security Scanner](./security/security-hardening.md#claude-code-as-security-scanner-research-preview).
+> **Claude Security plugin**: Anthropic's multi-agent vulnerability scanner installs with `/plugin install claude-security@claude-plugins-official` on paid plans and API access. It maps the architecture, builds a threat model, sends each finding to independent verifiers, and writes patches you apply yourself. A managed Claude Security service is available on the Enterprise plan. See [Security Hardening Guide → Claude Code as Security Scanner](./security/security-hardening.md#claude-code-as-security-scanner).
 >
 > **Validated at scale**: In a March 2026 partnership with Mozilla, Claude Opus 4.6 scanned ~6,000 C++ files in Firefox's JS engine in two weeks, surfacing 22 confirmed vulnerabilities (14 high severity), roughly one fifth of all high-severity Firefox CVEs fixed in 2025. Demonstrates the model's practical depth for production security work, well beyond surface-level linting.
 

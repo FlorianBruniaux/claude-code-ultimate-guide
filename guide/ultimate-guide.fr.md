@@ -8342,6 +8342,8 @@ Il s'agit de l'équivalent en terminal de ce que fait le serveur MCP Context7. U
 
 La communauté Claude Code a créé des collections de skills spécialisées pour des domaines spécifiques. Une collection notable se concentre sur la cybersécurité et les tests d'intrusion.
 
+> **Les garde-fous du modèle passent en premier (vérifié le 17 octobre 2026)** : le [Cyber Verification Program](https://www.anthropic.com/news/cyber-verification-program) d'Anthropic indique que les modèles en accès général « have conservative cyber safeguards that block most cyber work ». Ils restent utilisables pour la revue de code, la correction de failles connues, la recherche de vulnérabilités dans un code source qui vous appartient et le tri d'alertes de sécurité. Les tests d'intrusion et le red teaming autorisés exigent le niveau Red Team Access, réservé aux organisations. Installer un skill ne modifie pas ces garde-fous. L'éligibilité et le formulaire de candidature figurent sur la même page.
+
 **Dépôt** : [zebbern/claude-code-guide](https://github.com/zebbern/claude-code-guide)
 **Répertoire des skills** : [/skills](https://github.com/zebbern/claude-code-guide/tree/main/skills)
 
@@ -8406,8 +8408,12 @@ Puis référencez dans un agent :
 name: security-auditor
 description: Security testing specialist for penetration testing
 tools: Read, Grep, Bash
+skills:
+  - sql-injection-testing
 ---
 ```
+
+Le champ `skills` précharge le contenu complet du skill dans le subagent au démarrage. Il contrôle le préchargement, pas l'accès : le subagent peut toujours invoquer d'autres skills via l'outil Skill, sauf si `Skill` est retiré de ses outils ([référence des subagents](https://code.claude.com/docs/en/sub-agents)).
 
 #### Avertissement important
 
@@ -8437,17 +8443,18 @@ Le schéma le plus important avec claude-red est de charger les skills **sans le
 
 **Option 1, lecture directe en session** : Demandez à Claude de lire un fichier skill et d'appliquer sa méthodologie. Le contexte disparaît à la fermeture de la session.
 
-**Option 2, `--system-file` au lancement** : Chargez un ou plusieurs skills au démarrage de la session via CLI :
+**Option 2, `--append-system-prompt-file` au lancement** : ajoutez un ou plusieurs skills au prompt système par défaut, le temps d'une session. Claude Code n'a pas de flag `--system-file`. Préférez la forme qui ajoute : `--system-prompt-file` remplace le prompt par défaut, y compris ses consignes d'outils et de sécurité ([référence CLI](https://code.claude.com/docs/en/cli-reference#system-prompt-flags)).
 
 ```bash
 # Single skill
-claude --system-file path/to/Skills/utility/offensive-fast-checking/SKILL.md
+claude --append-system-prompt-file path/to/Skills/utility/offensive-fast-checking/SKILL.md
 
-# Multiple skills (concatenated)
-cat Skills/utility/offensive-fast-checking/SKILL.md \
-    Skills/web/offensive-sqli/SKILL.md \
-  | claude --system-file /dev/stdin
+# Multiple skills (bash or zsh process substitution)
+claude --append-system-prompt-file <(cat Skills/utility/offensive-fast-checking/SKILL.md \
+    Skills/web/offensive-sqli/SKILL.md)
 ```
+
+Les deux formes ont été vérifiées avec des consignes témoins sur Claude Code 2.1.302 en mode non interactif (`-p`). Le lancement interactif n'a pas été testé.
 
 **Option 3, `.claude/skills/` au niveau du projet** : Créez des liens symboliques uniquement vers les skills pertinents dans le répertoire `.claude/skills/` du dépôt cible, effectuez l'audit, puis supprimez le répertoire. Aucune pollution au-delà des limites du dépôt.
 
@@ -8480,6 +8487,8 @@ Adaptez la liste des skills à votre stack réelle : un projet CLI en Rust charg
 #### Périmètre éthique et légal
 
 > À utiliser uniquement sur des systèmes que vous possédez ou pour lesquels vous disposez d'une autorisation écrite explicite pour tester. Le fichier [SECURITY.md](https://github.com/SnailSploit/Claude-Red/blob/main/SECURITY.md) du dépôt détaille le périmètre : engagements autorisés, programmes de bug bounty, compétitions CTF et recherche interne en sécurité uniquement. Un usage abusif peut violer les législations sur la cybercriminalité (CFAA, Computer Misuse Act).
+>
+> Une autorisation écrite répond à l'exception de la politique d'usage pour la recherche en sécurité. Elle ne lève pas les garde-fous cyber du modèle, qui dépendent de votre niveau d'accès.
 
 ---
 
@@ -10811,7 +10820,7 @@ Les hooks de sécurité sont essentiels pour protéger votre système.
 
 > **Configurations avancées** : Pour une sécurité complète incluant la détection d'injection Unicode, la vérification d'intégrité des configurations MCP et les mitigations spécifiques aux CVE, consultez le [Guide de renforcement de la sécurité](./security/security-hardening.md).
 
-> **Sécurité Claude Code (aperçu de recherche)** : Anthropic propose un scanner de vulnérabilités de base de code dédié qui trace les flux de données entre fichiers, soumet les résultats à une validation interne avant de les exposer (validation adversariale), et génère des suggestions de correctifs. Distinct de l'Agent Auditeur de Sécurité présenté ci-dessus, accès sur liste d'attente uniquement. Voir [Guide de renforcement de la sécurité → Claude Code en tant que scanner de sécurité](./security/security-hardening.md#claude-code-as-security-scanner-research-preview).
+> **Plugin Claude Security** : le scanner de vulnérabilités multi-agents d'Anthropic s'installe avec `/plugin install claude-security@claude-plugins-official` sur les plans payants et l'accès API. Il cartographie l'architecture, construit un modèle de menaces, soumet chaque résultat à des vérificateurs indépendants et écrit des correctifs que vous appliquez vous-même. Un service Claude Security managé est disponible sur le plan Enterprise. Voir [Guide de renforcement de la sécurité → Claude Code en tant que scanner de sécurité](./security/security-hardening.md#claude-code-as-security-scanner).
 >
 > **Validé à grande échelle** : Dans le cadre d'un partenariat avec Mozilla en mars 2026, Claude Opus 4.6 a analysé ~6 000 fichiers C++ du moteur JS de Firefox en deux semaines, révélant 22 vulnérabilités confirmées (14 de sévérité élevée), soit environ un cinquième de tous les CVE Firefox de haute sévérité corrigés en 2025. Cela démontre la profondeur pratique du modèle pour les travaux de sécurité en production, bien au-delà d'un simple lint de surface.
 

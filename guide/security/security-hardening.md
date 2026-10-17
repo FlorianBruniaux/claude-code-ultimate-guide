@@ -1242,33 +1242,44 @@ exit 0
 
 ---
 
-## Claude Code as security scanner (research preview)
+## Claude Code as security scanner
 
-Beyond securing Claude Code itself, Anthropic offers a dedicated vulnerability scanning feature: **Claude Code Security**.
+Beyond securing Claude Code itself, Anthropic ships vulnerability scanning in three forms. The earlier waitlist-only preview described here has been replaced by the following options, checked against the [official Claude Security documentation](https://code.claude.com/docs/en/claude-security) on October 17, 2026.
 
-> ⚠️ **Research preview**: Access via waitlist only. Not yet in GA. Details: [claude.com/solutions/claude-code-security](https://claude.com/solutions/claude-code-security)
+### The official layers
 
-### What it does
-
-- Scans your entire codebase for vulnerabilities using contextual reasoning (traces data flows cross-files)
-- **Adversarial validation**: findings are challenged internally before surfacing to reduce false positives
-- Generates patch suggestions that preserve code structure and style
-- Requires human review and approval before any fix is applied
-
-### How it differs from the Security Auditor Agent
-
-| | Security Auditor Agent (today) | Claude Code Security (preview) |
+| Stage | Tool | What it covers |
 |---|---|---|
-| **Access** | Available now, any plan | Waitlist only |
-| **Scope** | OWASP Top 10, rule-based | Whole codebase, semantic analysis |
-| **Patches** | No (reports only) | Yes (with human approval) |
-| **Model** | Configurable | Anthropic's most capable models |
+| In session | [Security guidance plugin](https://code.claude.com/docs/en/security-guidance) | Common vulnerabilities in code Claude writes, fixed in the same session |
+| On demand, single pass | `/security-review` | One security pass over the current branch |
+| On demand, deep scan | Claude Security plugin | Multi-agent scan of a repository or diff, with independently reviewed findings and patches |
+| On pull request | [Code Review](https://code.claude.com/docs/en/code-review), Team and Enterprise plans | Multi-agent correctness and security review |
+| Managed | [Claude Security](https://claude.com/product/claude-security), Enterprise plan | Hosted scanning of connected repositories |
+
+### The Claude Security plugin
+
+Install it from the official marketplace, then open its menu:
+
+```text
+/plugin install claude-security@claude-plugins-official
+/claude-security
+```
+
+It requires a paid plan, Anthropic API access, or a supported third-party provider, plus `python3` 3.9 or later. Agents map the architecture, build a threat model, hunt, and pass every candidate to independent verifiers before it reaches the report.
+
+- **Outputs**: a timestamped `CLAUDE-SECURITY-<timestamp>/` directory with a Markdown report, JSONL, SARIF 2.1.0 with CWE classes, and a revision stamp naming the scanned commit
+- **Patches**: drafted in a scratch copy, reviewed by a separate agent, written to `patches/F<n>.patch`, and never applied automatically
+- **Limits**: scans are nondeterministic, so two runs on the same code can differ. The plugin complements static analysis, dependency scanning, and code review; it does not replace them
+
+These properties come from the documentation. This guide has not run a scan to compare its findings with other tools.
 
 ### When to use which
 
-- **Now** → Use the [Security Auditor Agent](../../examples/agents/security-auditor.md) + [Security Patcher Agent](../../examples/agents/security-patcher.md) for full detect-then-patch coverage
-- **Now** → Use the [Security Gate Hook](../../examples/hooks/bash/security-gate.sh) to block vulnerable patterns at write time
-- **Waitlist** → Join the preview for deeper semantic analysis once your team needs it
+- Use the [Security Auditor Agent](../../examples/agents/security-auditor.md) and [Security Patcher Agent](../../examples/agents/security-patcher.md) when you want a template you can read, edit, and pin in your own repository
+- Use the [Security Gate Hook](../../examples/hooks/bash/security-gate.sh) to block listed patterns at write time
+- Use the Claude Security plugin for a deeper scan of a repository or a branch diff, then review each patch in its own pull request
+
+Security professionals who need more than defensive review should check Anthropic's [Cyber Verification Program](https://www.anthropic.com/news/cyber-verification-program) first: as of October 6, 2026, it states that generally available models block most cyber work, and that Red Team Access is open to organizations only.
 
 ---
 

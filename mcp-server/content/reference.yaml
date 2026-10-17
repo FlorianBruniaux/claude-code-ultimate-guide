@@ -1102,21 +1102,21 @@ deep_dive:
   implementer_agent: "examples/agents/implementer.md"
   architecture_reviewer_agent: "examples/agents/architecture-reviewer.md"
   # Opus 4.6 Features (Feb 2026) - Added 2026-02-09, line numbers updated 2026-02-21
-  opus_4_6_adaptive_thinking: 14358  # anchor: adaptive-thinking-opus-46-including-opus-48
-  opus_4_6_effort_parameter: 14358  # anchor: adaptive-thinking-opus-46-including-opus-48
+  opus_4_6_adaptive_thinking: 14367  # anchor: adaptive-thinking-opus-46-including-opus-48
+  opus_4_6_effort_parameter: 14367  # anchor: adaptive-thinking-opus-46-including-opus-48
   opus_4_6_pricing: "guide/ultimate-guide.md#pricing-model-rates-checked-october-6-2026"
   opus_4_6_api_breaking_changes: "guide/ultimate-guide.md#api-breaking-changes-opus-46" # was line 14920
-  opus_4_6_assistant_prefill_removed: 14391  # anchor: api-breaking-changes-opus-46
+  opus_4_6_assistant_prefill_removed: 14400  # anchor: api-breaking-changes-opus-46
   # Summarize from Here (v2.1.32+) - Added 2026-02-09
   summarize_from_here: 1822  # anchor: context-recovery-strategies | Context Recovery Strategies section
   # Agent Teams Hook Events (v2.1.32+) - Added 2026-02-09
-  hook_teammate_idle: 9767  # anchor: event-types
+  hook_teammate_idle: 9776  # anchor: event-types
   hook_task_completed: "guide/ultimate-guide.md#event-types"  # was bare int 23701, inside a code fence (comment/example text happened to share the key's words)
   # Agent Memory Field (v2.1.32+) - Added 2026-02-09
   agent_memory_frontmatter: 6429  # anchor: frontmatter-fields | memory field in agent frontmatter
   # Xcode Integration (Feb 2026) - Added 2026-02-09
   xcode_integration: "guide/ultimate-guide.md#xcode-integration-feb-2026" # was line 12556
-  claude_agent_sdk: 15360  # anchor: xcode-integration-feb-2026
+  claude_agent_sdk: 15369  # anchor: xcode-integration-feb-2026
   # Task Management System (v2.1.16+) - Added 2026-01-26
   task_management_system: "guide/ultimate-guide.md#task-management-system" # was line 4808
   task_management_comparison: "guide/ultimate-guide.md#task-management-system" # was line 4808
@@ -1179,7 +1179,7 @@ deep_dive:
   community_skills_iac: "guide/ultimate-guide.md#infrastructure-as-code-skills"  # was 8558, drifted
   # Automatic skill generation (meta-skill)
   claudeception: "https://github.com/blader/Claudeception"
-  claudeception_guide: 8386  # anchor: automatic-skill-generation-claudeception
+  claudeception_guide: 8395  # anchor: automatic-skill-generation-claudeception
   # Skill Lifecycle: Automatic improvement (added 2026-01-24)
   skill_lifecycle: "guide/ultimate-guide.md#5x-skill-lifecycle--retirement"
   claude_reflect_system: "guide/ultimate-guide.md#automatic-skill-improvement-claude-reflect-system" # was line 8863
@@ -1236,10 +1236,10 @@ deep_dive:
   skills_marketplace_status: "Community (Vercel Labs), launched Jan 21, 2026"
   skills_marketplace_changelog: "https://vercel.com/changelog/introducing-skills-the-open-agent-skills-ecosystem"
   # Plugin System & Community Marketplaces (updated 2026-03-06)
-  plugins_system: 13547
-  plugins_commands: 13561
-  plugins_marketplace: 13588  # anchor: marketplace-management
-  plugins_community_marketplaces: 13890  # anchor: community-marketplaces
+  plugins_system: 13556
+  plugins_commands: 13570
+  plugins_marketplace: 13597  # anchor: marketplace-management
+  plugins_community_marketplaces: 13899  # anchor: community-marketplaces
   plugins_featured_community: "guide/ultimate-guide.md#featured-community-plugins" # Vitals + SE-CoVe comparison section
   plugins_recommended: "examples/plugins/"
   plugins_se_cove: "examples/plugins/se-cove.md"
@@ -1407,31 +1407,31 @@ deep_dive:
   hooks: "guide/ultimate-guide.md#7-hooks"  # was bare int 3469, inside a code fence (comment/example text happened to share the key's words)
   hook_templates: "guide/ultimate-guide.md#73-hook-templates" # was line 25386
   security_hooks: "guide/ultimate-guide.md#74-security-hooks" # was line 10794
-  security_gate_hook_line: 10695  # anchor: advanced-pattern-model-as-security-gate
+  security_gate_hook_line: 10704  # anchor: advanced-pattern-model-as-security-gate
   security_gate_hook_source: "https://paddo.dev/blog/claude-code-team-tips/"
-  mcp_servers: 11621  # anchor: 8-mcp-servers
-  serena_indexation: 11778  # anchor: serena-semantic-code-analysis
+  mcp_servers: 11630  # anchor: 8-mcp-servers
+  serena_indexation: 11787  # anchor: serena-semantic-code-analysis
   serena_mcp: "guide/ultimate-guide.md#serena-semantic-code-analysis"  # was bare int 794, inside a code fence (comment/example text happened to share the key's words)
-  doobidoo_memory_mcp: 12511  # anchor: doobidoo-memory-service-semantic-memory
+  doobidoo_memory_mcp: 12520  # anchor: doobidoo-memory-service-semantic-memory
   mcp_memory_stack_patterns: "guide/ultimate-guide.md#mcp-memory-stack-complementarity-patterns" # was line 13011
   mcp_config: "guide/ultimate-guide.md#mcp-configuration-location"  # was bare int 794, inside a code fence (comment/example text happened to share the key's words)
   mcp_security: "guide/ultimate-guide.md#86-mcp-security" # was line 14568
-  cicd: 14484  # anchor: 93-cicd-integration
+  cicd: 14493  # anchor: 93-cicd-integration
   ide_integration: "guide/ultimate-guide.md#94-ide-integration" # was line 15881
   feedback_loops: "guide/ultimate-guide.md#95-tight-feedback-loops" # was line 15966
   batch_operations: "guide/ultimate-guide.md#99-batch-operations-pattern" # was line 16671
-  pitfalls: 16298  # anchor: 911-common-pitfalls--best-practices
-  git_best_practices: 16764
+  pitfalls: 16307  # anchor: 911-common-pitfalls--best-practices
+  git_best_practices: 16773
   cost_optimization: 2141  # anchor: cost-awareness--optimization
   session_teleportation: "guide/ultimate-guide.md#916-session-teleportation" # was line 19161
-  remote_control: 22377  # anchor: 922-remote-control-mobile-access
+  remote_control: 22386  # anchor: 922-remote-control-mobile-access
   multi_instance_workflows: "guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows" # was line 19268
   boris_cherny_case_study: "guide/ultimate-guide.md#real-world-case-boris-cherny-interval" # was line 19421
   boris_cherny_team_patterns: "guide/ultimate-guide.md#boris-chernys-3-principles-for-ai-teams" # was line 6779
   # Dual-Instance Planning Pattern (Jon Williams, Feb 2026)
   dual_instance_planning: "guide/ultimate-guide.md#alternative-pattern-dual-instance-planning-vertical-separation" # was line 19474
   dual_instance_workflow: "guide/workflows/dual-instance-planning.md"
-  dual_instance_overview: 18935  # anchor: alternative-pattern-dual-instance-planning-vertical-separation
+  dual_instance_overview: 18944  # anchor: alternative-pattern-dual-instance-planning-vertical-separation
   dual_instance_setup: "guide/workflows/dual-instance-planning.md#setup"
   dual_instance_complete_workflow: "guide/workflows/dual-instance-planning.md#complete-workflow"
   dual_instance_plan_template: "guide/workflows/dual-instance-planning.md#plan-template"
@@ -1475,7 +1475,7 @@ deep_dive:
   team_tips_paddo_source: "Boris Cherny thread (x.com/bcherny/status/2017742741636321619)"
   team_tips_paddo_evaluation: "docs/resource-evaluations/paddo-team-tips-eval.md"
   team_tips_paddo_score: "4/5"
-  anthropic_study_metrics: 19199  # anchor: anthropic-internal-study-august-2025
+  anthropic_study_metrics: 19208  # anchor: anthropic-internal-study-august-2025
   # Contribution Metrics (Jan 2026 - platform feature, not CLI release)
   contribution_metrics: "guide/ultimate-guide.md#contribution-metrics-january-2026" # was line 20045
   contribution_metrics_source: "https://claude.com/blog/contribution-metrics"
@@ -1487,16 +1487,16 @@ deep_dive:
   git_worktree_status_command: "examples/skills/git-worktree-status/SKILL.md"
   git_worktree_remove_command: "examples/skills/git-worktree-remove/SKILL.md"
   git_worktree_clean_command: "examples/skills/git-worktree-clean/SKILL.md"
-  git_worktrees_multi_instance: 16948  # anchor: git-worktrees-for-parallel-development
+  git_worktrees_multi_instance: 16957  # anchor: git-worktrees-for-parallel-development
   advanced_worktree_tooling: "guide/ultimate-guide.md#advanced-tooling-for-worktree-management-optional" # was line 19838
-  worktree_tooling_self_assessment: 19040  # anchor: do-i-need-worktrunk-self-assessment
-  anthropic_internal_study: 19199  # anchor: anthropic-internal-study-august-2025
+  worktree_tooling_self_assessment: 19049  # anchor: do-i-need-worktrunk-self-assessment
+  anthropic_internal_study: 19208  # anchor: anthropic-internal-study-august-2025
   multi_instance_costs: "guide/ultimate-guide.md#cost-benefit-analysis"  # was 19268, drifted
   orchestration_frameworks: "guide/ultimate-guide.md#orchestration-frameworks" # was line 20104
-  headless_pm_framework: 19296  # anchor: headless-pm-open-source
+  headless_pm_framework: 19305  # anchor: headless-pm-open-source
   multi_instance_implementation: "guide/ultimate-guide.md#implementation-guide-progressive-scaling"  # was 19268, drifted
   multi_instance_monitoring: "guide/ultimate-guide.md#monitoring--observability"  # was 19268, drifted
-  multi_instance_decision_matrix: 19525  # anchor: decision-matrix | Multi-instance selection matrix
+  multi_instance_decision_matrix: 19534  # anchor: decision-matrix | Multi-instance selection matrix
   # External orchestration systems
   external_orchestrators:
     gas_town:
@@ -1543,7 +1543,7 @@ deep_dive:
       published: "2026-01-21"
       guide_section: "README.md:338"
   # Section 9.18 - Codebase Design for Agent Productivity
-  codebase_design_agents: 19630
+  codebase_design_agents: 19580
   codebase_design_source: "https://marmelab.com/blog/2026/01/21/agent-experience.html"
   codebase_design_author: "François Zaninotto (Marmelab)"
   codebase_design_llms_txt: "guide/ultimate-guide.md#9184-machine-readable-documentation-architecture"
@@ -1565,7 +1565,7 @@ deep_dive:
   # Section 9.20 - Agent Teams (v2.1.32+ experimental)
   agent_teams: "guide/workflows/agent-teams.md"
   agent_teams_quick_start: "guide/workflows/agent-teams-quick-start.md"  # Practical 8-10 min guide with copy-paste patterns
-  agent_teams_overview: 21882  # anchor: 920-agent-teams-multi-agent-coordination
+  agent_teams_overview: 21891  # anchor: 920-agent-teams-multi-agent-coordination
   agent_teams_architecture: "guide/workflows/agent-teams.md#2-architecture-deep-dive"
   agent_teams_setup: "guide/workflows/agent-teams.md#3-setup--configuration"
   agent_teams_use_cases: "guide/workflows/agent-teams.md#4-production-use-cases"
@@ -1694,15 +1694,15 @@ deep_dive:
   openai_harness_engineering: "docs/resource-evaluations/2026-02-11-openai-harness-engineering.md"  # Score 5/5: OpenAI Codex team, 1M lines, 5 months, 3 engineers, no manual code
   commands_table: "guide/ultimate-guide.md#101-commands-table" # was line 47
   shortcuts_table: 446  # anchor: quick-actions--shortcuts
-  troubleshooting: 24026  # anchor: 104-troubleshooting
+  troubleshooting: 24035  # anchor: 104-troubleshooting
   cheatsheet: "guide/ultimate-guide.md#105-cheatsheet" # was line 25158
-  daily_workflow: 24486  # anchor: 106-daily-workflow--checklists
+  daily_workflow: 24495  # anchor: 106-daily-workflow--checklists
   # AI Ecosystem (Section 11, ~line 10525)
-  ai_ecosystem: 24752  # anchor: 11-ai-ecosystem-complementary-tools
-  ai_ecosystem_complementarity: 24752
-  ai_ecosystem_tool_matrix: 24793  # anchor: 112-tool-matrix
-  ai_ecosystem_workflows: 24928  # anchor: 113-practical-workflows
-  ai_ecosystem_integration: 25056  # anchor: 114-integration-patterns
+  ai_ecosystem: 24761  # anchor: 11-ai-ecosystem-complementary-tools
+  ai_ecosystem_complementarity: 24761
+  ai_ecosystem_tool_matrix: 24802  # anchor: 112-tool-matrix
+  ai_ecosystem_workflows: 24937  # anchor: 113-practical-workflows
+  ai_ecosystem_integration: 25065  # anchor: 114-integration-patterns
   ai_ecosystem_detailed: "guide/ecosystem/ai-ecosystem.md"
   ai_ecosystem_coding_environments: "guide/ecosystem/ai-ecosystem.md#6-ide-ade-and-hybrid-coding-environments"
   ai_ecosystem_goose: "guide/ecosystem/ai-ecosystem.md#111-goose-open-source-alternative-block"
@@ -1751,7 +1751,7 @@ deep_dive:
   cowork_prompts: "https://github.com/FlorianBruniaux/claude-cowork-guide/tree/main/prompts"
   cowork_workflows: "https://github.com/FlorianBruniaux/claude-cowork-guide/tree/main/workflows"
   cowork_section: "guide/ecosystem/ai-ecosystem.md#10-claude-cowork-research-preview"
-  cowork_ultimate_guide: 25110  # anchor: for-non-developers-claude-cowork
+  cowork_ultimate_guide: 25119  # anchor: for-non-developers-claude-cowork
   # Team Knowledge Infrastructure (guide/ecosystem/team-knowledge-base.md) - Added 2026-06-23
   team_knowledge_guide: "guide/ecosystem/team-knowledge-base.md"
   team_knowledge_three_way: "guide/ecosystem/team-knowledge-base.md#the-one-tool-for-three-needs-trap"  # static docs vs live systems vs team workflows
@@ -1801,7 +1801,7 @@ deep_dive:
   # Appendix
   appendix_a_file_locations: "guide/ultimate-guide.md#appendix-a-file-locations-reference" # was line 26179
   appendix_b_faq: "guide/ultimate-guide.md#appendix-b-faq" # was line 26357
-  faq_clawdbot_vs_claudecode: 25612
+  faq_clawdbot_vs_claudecode: 25621
   faq_product_managers: "guide/ultimate-guide.md#can-product-managers-use-claude-code" # was line 26428
   appendix_c_resource_evaluation: "guide/ultimate-guide.md#appendix-c-resource-evaluation-process" # was line 26493
   appendix_d_myths_vs_reality: "guide/ultimate-guide.md#appendix-d-myths-vs-reality" # was line 26536
@@ -1825,7 +1825,7 @@ deep_dive:
   # Onboarding matrix required keys (added for v2.0.0 adaptive architecture)
   rules: "guide/ultimate-guide.md#the-golden-rules"  # was bare int 89, a blank line; drifted 1 line from the real heading
   workflow: "guide/ultimate-guide.md#the-workflow"  # was bare int 58, a blank line; drifted 1 line from the real heading
-  fix: 24026  # anchor: 104-troubleshooting | onboarding matrix repair route
+  fix: 24035  # anchor: 104-troubleshooting | onboarding matrix repair route
   architecture: "guide/core/architecture.md"  # was bare int 1280 into ultimate-guide.md, inside a code fence; the comment ("Architecture internals") and its siblings on this line (production_safety, security_hardening) are all plain paths to the dedicated file
   production_safety: "guide/security/production-safety.md"  # Production safety rules
   security_hardening: "guide/security/security-hardening.md"  # Security best practices
@@ -1845,7 +1845,7 @@ deep_dive:
   security_startup_hooks: "guide/security/security-hardening.md#16-startup-hooks-code-execution-before-your-first-prompt"  # §1.6 SessionStart/folderOpen hooks as a persistence vector, Shai-Hulud keyv case study, agent commit impersonation
   security_supply_chain_triage: "examples/scripts/supply-chain-triage.py"  # npm supply chain triage: lockfiles, preinstall droppers, payload hashes, startup hooks, revocation watchers, egress
   security_update_threat_db: "examples/skills/update-threat-db/SKILL.md"  # /update-threat-db — research & update threat database
-  security_cc_scanner: "guide/security/security-hardening.md#claude-code-as-security-scanner-research-preview"  # Claude Code Security (research preview) — Anthropic native vuln scanner, adversarial validation, patch suggestions
+  security_cc_scanner: "guide/security/security-hardening.md#claude-code-as-security-scanner"  # Official layers: security-guidance plugin, /security-review, Claude Security plugin, Code Review, managed Claude Security (checked 2026-10-17)
   security_patcher_agent: "examples/agents/security-patcher.md"  # Agent: applies patches from security-auditor findings, human approval gate, Write/Edit tools
   security_gate_hook: "examples/hooks/bash/security-gate.sh"  # PreToolUse hook: blocks 7 vuln patterns at write time (SQLi, XSS, hardcoded secrets, eval, weak hash, cmd injection, path traversal)
   security_pr_review_workflow: "guide/security/security-hardening.md#41-pr-security-review-workflow"  # PR security review workflow — 3-agent pipeline, git hook integration
@@ -2612,12 +2612,12 @@ hook_events:
   # Total: 33 events (updated 2026-09-29, source: official hooks reference, Claude Code v2.1.284)
 
 # Hook Execution Model (v2.1.0+)
-hooks_execution_model: 9880  # Section in ultimate-guide.md
-hooks_session_scoped: 10045  # Session-scoped hooks (ephemeral, no settings.json, skills use this)
+hooks_execution_model: 9889  # Section in ultimate-guide.md
+hooks_session_scoped: 10054  # Session-scoped hooks (ephemeral, no settings.json, skills use this)
 hooks_async_support: "v2.1.0+ - add 'async: true' for non-blocking execution; 'asyncRewake: true' for background with exit-2 wakeup"
 hooks_async_use_cases: "logging, notifications, formatting, metrics (no feedback needed)"
 hooks_sync_use_cases: "validation, type checking, security (feedback required)"
-hooks_decision_matrix: 9925  # anchor: decision-matrix | Hook Execution Model
+hooks_decision_matrix: 9934  # anchor: decision-matrix | Hook Execution Model
 hooks_async_limitations: "no exit code feedback for blocking (exit 2 ignored), no real-time systemMessage, no guaranteed execution order. Note: additionalContext IS delivered on the next conversation turn after the background process exits."
 hooks_async_bug_fix: "v2.1.23 - fixed cancellation in headless streaming"
 
@@ -3840,7 +3840,7 @@ section_maps:
     - "part-3-response-when-things-go-wrong"
     - "appendix-quick-reference"
     - "part-4-integration-in-your-daily-workflow"
-    - "claude-code-as-security-scanner-research-preview"
+    - "claude-code-as-security-scanner"
     - "remote-control-security"
     - "cross-session-messaging-threat-model"
   "guide/workflows/agent-teams-quick-start.md":

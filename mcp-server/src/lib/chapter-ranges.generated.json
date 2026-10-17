@@ -1,7 +1,7 @@
 {
-  "sourceSha256": "42659f137f870835e429b4fd759aaba232f4412b1a612c79c7f3d856c36b0130",
-  "referenceSha256": "326bd1fd266229e92ac0de1b25253dcef3087d2c9b72cfb353a98e77a91f1264",
-  "lineCount": 25931,
+  "sourceSha256": "69bdbde8cf576430caa9d821779a428a83ebafd81c72dcd6fe6ea0cd87cea192",
+  "referenceSha256": "efb33f0d6ba0c4ec80acc438d547f91f5f5b4dca824c5794c6fe9293f38561c0",
+  "lineCount": 25940,
   "ranges": [
     {
       "from": 1,
@@ -30,42 +30,42 @@
     },
     {
       "from": 7241,
-      "to": 8800,
+      "to": 8809,
       "slug": "05-skills"
     },
     {
-      "from": 8801,
-      "to": 9737,
+      "from": 8810,
+      "to": 9746,
       "slug": "06-commands"
     },
     {
-      "from": 9738,
-      "to": 11630,
+      "from": 9747,
+      "to": 11639,
       "slug": "07-hooks"
     },
     {
-      "from": 11631,
-      "to": 14221,
+      "from": 11640,
+      "to": 14230,
       "slug": "08-mcp"
     },
     {
-      "from": 14222,
-      "to": 23480,
+      "from": 14231,
+      "to": 23489,
       "slug": "09-advanced-patterns"
     },
     {
-      "from": 23481,
-      "to": 24765,
+      "from": 23490,
+      "to": 24774,
       "slug": "10-reference"
     },
     {
-      "from": 24766,
-      "to": 25430,
+      "from": 24775,
+      "to": 25439,
       "slug": "11-ai-ecosystem"
     },
     {
-      "from": 25431,
-      "to": 25931,
+      "from": 25440,
+      "to": 25940,
       "slug": "12-appendices"
     }
   ]
