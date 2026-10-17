@@ -4,7 +4,7 @@
 # Purpose: Condensed index for LLMs to quickly answer user questions about Claude Code
 
 version: "3.44.1"
-updated: "2026-10-06"
+updated: "2026-10-17"
 
 # ════════════════════════════════════════════════════════════════
 # DEEP DIVE - Line numbers in guide/ultimate-guide.md
@@ -112,6 +112,15 @@ deep_dive:
   # Glossary (alphabetical term reference)
   glossary: "guide/core/glossary.md"
   glossary_description: "120+ terms: Claude Code-specific, community-coined patterns, AI engineering concepts. Alphabetical table with Category + Subcategory. Excludes standard CS/DevOps terms."
+  ai_concept_boundaries: "guide/core/ai-concept-boundaries.md"
+  ai_concept_context_memory: "guide/core/ai-concept-boundaries.md#context-context-window-and-memory"
+  ai_concept_model_harness: "guide/core/ai-concept-boundaries.md#model-product-and-harness"
+  ai_concept_workflow_agent: "guide/core/ai-concept-boundaries.md#assistant-workflow-and-agent"
+  ai_concept_tool_mcp: "guide/core/ai-concept-boundaries.md#tool-and-mcp"
+  ai_concept_execution_controls: "guide/core/ai-concept-boundaries.md#instructions-permissions-and-sandbox"
+  ai_concept_evaluation_evidence: "guide/core/ai-concept-boundaries.md#evaluation-and-production-evidence"
+  ai_concept_scenario_checks: "guide/core/ai-concept-boundaries.md#check-your-understanding"
+  lexigraph_evaluation: "docs/resource-evaluations/lexigraph-ai-lexicon.md"
   translation_status_guide: "guide/core/translations.md"
   translation_registry: "machine-readable/translations.json"
   # Context Engineering (consolidated reference)
@@ -3051,6 +3060,15 @@ section_maps:
     - "9-reference-architecture"
     - "10-practitioner-video-evidence"
     - "11-harness-optimizers-and-meta-harnesses"
+  "guide/core/ai-concept-boundaries.md":
+    - "context-context-window-and-memory"
+    - "model-product-and-harness"
+    - "assistant-workflow-and-agent"
+    - "tool-and-mcp"
+    - "instructions-permissions-and-sandbox"
+    - "evaluation-and-production-evidence"
+    - "check-your-understanding"
+    - "sources-and-adaptation"
   "guide/core/architecture.md":
     - "source-transparency"
     - "where-claude-code-sits-in-the-harness-stack"

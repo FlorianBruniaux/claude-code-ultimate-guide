@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- Add AI Concept Boundaries: six practical distinctions with repository examples and six original comprehension exercises, selectively adapted from Lexigraph under CC BY 4.0 with attribution and product-specific qualifications. Document incomplete comparison exports, quiz answer-position bias, and reuse limits in a source evaluation. Link the page from the glossary, navigation, and machine-readable/MCP discovery surfaces; no source quiz bank or infographic imported.
+
 - Normalize historical changelog punctuation while preserving dates, numbers, code blocks and literal quotations; format quoted labels as inline literals.
 
 - Integrate WikiSkill's persistent proposal history and separate knowledge/skill layers into the memory and harness references. Add a primary-source evaluation with corrected append-only and rollback claims, reported benchmark results, negative transfer, full-injection limits and a proposed local validation protocol. Refresh discovery indexes and MCP mirrors; no optimizer or model evaluation was run.

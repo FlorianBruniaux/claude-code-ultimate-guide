@@ -37,6 +37,7 @@ Les documents de travail bruts (prompts Perplexity, audits clients) restent dans
 
 | Ressource | Score Initial | Score Final | Décision | Fichier |
 |-----------|---------------|-------------|----------|---------|
+| **Lexigraph** (bilingual AI lexicon and concept comparisons) | 3/5 | **3/5** | Selective adaptation: six concept distinctions and original comprehension exercises; CC BY 4.0 attribution, export gaps and answer-position bias documented | [lexigraph-ai-lexicon.md](./lexigraph-ai-lexicon.md) |
 | **WikiSkill** (persistent knowledge for skill evolution) | 4/5 | **4/5** | Selective integration: retain rejected proposals, separate learning from execution, evaluate model transfer; benchmark evidence does not establish native skill routing or production gains | [wikiskill-persistent-skill-evolution.md](./wikiskill-persistent-skill-evolution.md) |
 | **Mistral Large 4** (October 6 public preview) | 3/5 | **3/5** | Selective integration: API pricing, benchmark evidence, procurement, and future weight-deployment limits; parameters clarified, context and planned release dates differ across sources | [mistral-large-4.md](./mistral-large-4.md) |
 | **shunt** (spotify/portal-ai-plugins, hook-enforced delegation to a cheaper model) | 3/5 | **3/5** | Integrated as a pattern: context-engineering-tools.md §3 and the cost levers table; 90% figure scoped to Claude's context on 3 private scenarios; Portal-only; `~` path bypass and PDF blocking confirmed live | [spotify-portal-shunt.md](./spotify-portal-shunt.md) |

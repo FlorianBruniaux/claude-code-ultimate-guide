@@ -38,6 +38,8 @@ This guide is the most comprehensive community resource for Claude Code. It cove
 
 ## Guide Structure (11 Sections + Architecture)
 
+**AI Concept Boundaries** (`guide/core/ai-concept-boundaries.md`): six practical distinctions covering context/memory, model/harness responsibilities, workflow versus agent decisions, tools/MCP, instructions versus access controls, evaluation versus production evidence. Includes six original comprehension scenarios with corrections. Selectively adapted from Anthony Capirchio / The Operating Shift's Lexigraph under CC BY 4.0; source review and export limitations are in `docs/resource-evaluations/lexigraph-ai-lexicon.md`. No source quiz bank is imported, and the exercises are not a validated proficiency assessment.
+
 **Architecture Deep Dive** (`guide/core/architecture.md`):
 - Master Loop: `while(tool_call)`, no DAGs, no classifiers, no RAG
 - 8 Core Tools: Bash, Read, Edit, Write, Grep, Glob, Task, TodoWrite
