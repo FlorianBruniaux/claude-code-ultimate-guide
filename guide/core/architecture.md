@@ -802,7 +802,7 @@ Claude Code includes built-in **native sandboxing** using OS-level primitives fo
 | **macOS** | Seatbelt (TrustedBSD MAC) | Built-in, kernel-level system call filtering |
 | **Linux/WSL2** | bubblewrap (namespaces + seccomp) | Requires: `sudo apt-get install bubblewrap socat` |
 | **WSL1** | ❌ Not supported | bubblewrap needs kernel features unavailable |
-| **Windows** | ⏳ Planned | Not yet available |
+| **Windows** | ❌ Not supported | Commands run unsandboxed; use WSL2 |
 
 **Isolation Model**:
 
