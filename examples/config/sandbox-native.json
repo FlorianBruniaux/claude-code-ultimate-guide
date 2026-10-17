@@ -1,9 +1,10 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
-  "description": "Native sandbox configuration, field-verified on Claude Code 2.1.220. Place in ~/.claude/settings.json: filesystem.disabled, network.strictAllowlist, network.tlsTerminate, credentials mask entries and allowAppleEvents are all ignored from project settings. Path prefixes are ~/ for home and / for absolute; there is no ${HOME} or ${CWD} interpolation.",
+  "description": "Native sandbox configuration, field-verified on Claude Code 2.1.220 and rechecked against the official sandboxing page and v2.1.302 in October 2026. Place in ~/.claude/settings.json: filesystem.disabled, network.strictAllowlist, network.tlsTerminate, credentials mask entries and allowAppleEvents are all ignored from project settings. Path prefixes are ~/ for home and / for absolute; there is no ${HOME} or ${CWD} interpolation.",
 
   "sandbox": {
     "enabled": true,
+    "failIfUnavailable": true,
     "autoAllowBashIfSandboxed": true,
     "allowUnsandboxedCommands": false,
 
@@ -39,6 +40,7 @@
         "code.claude.com",
         "github.com",
         "api.github.com",
+        "codeload.github.com",
         "*.githubusercontent.com",
         "gitlab.com",
         "*.gitlab.com",
@@ -87,11 +89,12 @@
   },
 
   "comments": {
-    "excludedCommands": "Use the glob form. A bare entry like \"docker\" matches only the zero-argument string and never fires (anthropics/claude-code#10524). Scope to subcommands, not binaries: a matching glob unsandboxes the ENTIRE Bash invocation, including commands that run before the excluded one (#81157). Git over SSH needs these entries because the proxy handles HTTP and HTTPS but not port 22, and it blocks the ssh-agent socket.",
+    "excludedCommands": "Use the glob form. A bare entry like \"docker\" matches only the zero-argument string and never fires (anthropics/claude-code#10524). Since v2.1.277 every command in a call must match, so a chained, piped, redirected or cd-prefixed call stays sandboxed; before that, one match unsandboxed the whole call (#81157). An excluded command has full access and no proxy, so scope to subcommands, never to package managers or interpreters (npm, pnpm, node): their postinstall scripts would run unsandboxed. The git network entries are for SSH remotes on macOS, where git's SSH tunnel cannot authenticate to the sandbox proxy; on Linux and WSL2 they work sandboxed once the host is allowed, and an HTTPS remote avoids them everywhere.",
+    "failIfUnavailable": "Without it, a sandbox that cannot start (missing dependency, unsupported platform such as native Windows) lets commands run unsandboxed. With it, Claude Code exits at startup instead.",
     "filesystem.allowWrite": "Writes default to the working directory plus the session temp directory. List the roots you actually work in, plus the tool caches that live outside them, or the first dependency fetch fails. Claude Code's own settings.json stays denied at every scope no matter what you allow here.",
-    "network.allowedDomains": "No domain is pre-allowed. A missing host hangs to timeout (HTTP 000, curl exit 28) rather than erroring cleanly, so recognize the hang. The proxy decides on the client-supplied hostname and does not terminate TLS, so a broad entry is an egress path rather than a restriction. Add network.strictAllowlist once this list has survived a week of real work.",
+    "network.allowedDomains": "No domain is pre-allowed. What happens to a missing host depends on the permission mode: a prompt in manual mode, a refusal naming the host in auto mode unless the command declared it with per-command allowed_domains (v2.1.271+). The proxy decides on the client-supplied hostname and does not terminate TLS, so a broad entry is an egress path rather than a restriction. Add network.strictAllowlist once this list has survived a week of real work; it also disables per-command lists.",
     "credentials.files": "The default read policy covers the entire machine and there is no built-in denylist, so ~/.ssh and ~/.aws are readable by every sandboxed command until listed here.",
-    "credentials.envVars": "Sandboxed commands inherit the parent environment unchanged, so a credentials.files entry alone still leaves your tokens exposed. deny affects sandboxed Bash only, so MCP servers keep their credentials. Switch a variable to mode \"mask\" with injectHosts only when a CLI actually breaks without it, and note that mask requires network.tlsTerminate or it fails closed.",
+    "credentials.envVars": "Sandboxed commands inherit the parent environment unchanged, so a credentials.files entry alone still leaves your tokens exposed. deny affects sandboxed Bash only, so MCP servers keep their credentials. Verify with a set/unset probe: on v2.1.302, denied variables exported from the shell profile were still visible inside the sandbox. Switch a variable to mode \"mask\" with injectHosts only when a CLI actually breaks without it, and note that mask requires network.tlsTerminate or it fails closed.",
     "permissions.ask": "The sandbox bounds what a command touches; it does not decide whether the command runs. A content-scoped ask rule is the only human checkpoint that survives every permission mode, auto mode included, and it fires even for sandboxed commands."
   }
 }

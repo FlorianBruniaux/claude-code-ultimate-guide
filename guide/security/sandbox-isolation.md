@@ -294,7 +294,7 @@ Claude Code includes built-in **native sandboxing** using OS-level primitives fo
 
 **WSL1**: ❌ Not supported (bubblewrap needs kernel features unavailable)
 
-**Windows native**: ⏳ Planned (not yet available)
+**Windows native**: ❌ Not supported, commands run unsandboxed (use WSL2, or set `failIfUnavailable: true` to refuse to start)
 
 ### Quick start
 
@@ -317,24 +317,27 @@ sudo dnf install bubblewrap socat      # Fedora
 ```json
 {
   "sandbox": {
+    "enabled": true,
+    "failIfUnavailable": true,
     "autoAllowBashIfSandboxed": true,
     "network": {
-      "policy": "deny",
       "allowedDomains": [
         "api.anthropic.com",
-        "registry.npmjs.com",
+        "registry.npmjs.org",
         "github.com"
       ]
+    },
+    "credentials": {
+      "files": [
+        { "path": "~/.ssh", "mode": "deny" },
+        { "path": "~/.aws", "mode": "deny" }
+      ]
     }
-  },
-  "permissions": {
-    "deny": [
-      "Read(~/.ssh/**)", "Read(~/.aws/**)",
-      "Edit(~/.ssh/**)", "Edit(~/.aws/**)"
-    ]
   }
 }
 ```
+
+There is no `network.policy` key; add `"strictAllowlist": true` under `network` to refuse every unlisted host without a prompt. `sandbox.credentials` is the mechanism the sandbox documents for hiding credential files from Bash; see [Native Sandboxing](./sandbox-native.md#default-behavior) for why a `permissions.deny` read rule alone is not enough.
 
 ### When to use native vs Docker
 
@@ -391,7 +394,7 @@ npx @anthropic-ai/sandbox-runtime <command-to-sandbox>
 npx @anthropic-ai/sandbox-runtime node mcp-server.js
 ```
 
-**Repository**: [github.com/anthropic-experimental/sandbox-runtime](https://github.com/anthropic-experimental/sandbox-runtime)
+**Repository**: [github.com/anthropics/sandbox-runtime](https://github.com/anthropics/sandbox-runtime)
 
 ### Deep dive
 

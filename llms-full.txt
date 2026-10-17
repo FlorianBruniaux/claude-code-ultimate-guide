@@ -63,9 +63,10 @@ This guide is the most comprehensive community resource for Claude Code. It cove
 **Security & Sandboxing** (`guide/security/sandbox-native.md`, `guide/core/settings-reference.md`):
 - Two independent layers: filesystem (write CWD + session temp, read the whole machine) and network (no domain pre-allowed, proxy does not terminate TLS)
 - The default read policy covers `~/.ssh` and `~/.aws` and there is no built-in denylist; `sandbox.credentials.files` and `credentials.envVars` are what actually protect them
-- `excludedCommands` bare-name form never matches, use the glob form; a matching glob unsandboxes the entire Bash invocation including earlier commands (anthropics/claude-code#10524, #81157)
-- Git over SSH needs an exception: the proxy handles HTTP/HTTPS but not port 22 and blocks the ssh-agent socket
-- No curl/wget blocklist exists; a missing domain hangs to timeout rather than erroring
+- `excludedCommands` bare-name form never matches, use the glob form; since v2.1.277 every command in a call must match, so a chained, piped, redirected or `cd`-prefixed call stays sandboxed (anthropics/claude-code#10524, #81157)
+- Git over SSH needs an exception on macOS only (its SSH tunnel cannot authenticate to the sandbox proxy); on Linux/WSL2 it works once the host is allowed, and an HTTPS remote avoids it everywhere
+- No curl/wget blocklist exists; a missing domain prompts in manual mode and is refused, naming the host, in auto mode, where commands can declare hosts per command (`allowed_domains`, v2.1.271+)
+- `failIfUnavailable: true` stops a sandbox that cannot start from silently running commands unsandboxed; native Windows has no sandbox
 - Writes to Claude Code's own settings.json are denied at every scope, so a sandboxed script cannot widen its own policy
 
 **Agent Harnesses and Orchestration** (`guide/core/agent-harness.md`, `guide/ecosystem/agent-harness-landscape.md`, `guide/ecosystem/agentic-tools.md`):

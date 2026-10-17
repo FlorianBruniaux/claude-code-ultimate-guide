@@ -504,9 +504,11 @@ Commands that bypass the sandbox and run directly in your environment.
 
 > **Use the glob form, not the bare name.** A bare entry such as `"git"` matches only the zero-argument string `git`, so it never fires on a real invocation and the command stays sandboxed. Write `"git *"` instead. The bare form is what the published JSON schema suggests, which is why this is easy to get wrong: you configure something that does nothing, notice the command is still sandboxed, and only then find the glob form ([anthropics/claude-code#10524](https://github.com/anthropics/claude-code/issues/10524)). Verified on 2.1.220: `"git"` had no effect, `"git *"` worked immediately.
 
-> **A match unsandboxes the entire Bash invocation.** When an entry matches anywhere in a compound command, every other command in that same call runs unsandboxed too, including commands that execute *before* the excluded one. With `"git *"` present, `git status && cat ~/.ssh/id_ed25519` reads the key, because `filesystem.denyRead`, `credentials`, and the network allowlist are all suspended for that call ([anthropics/claude-code#81157](https://github.com/anthropics/claude-code/issues/81157), open as of 2026-07-25 on 2.1.220).
+> **Every command in a call must match (v2.1.277+).** Claude Code checks entries against the whole command line it sends. `npm ci && docker compose build` stays sandboxed unless another entry covers `npm ci`, and a redirect to a file, a `cd`, a loop or a `$(...)` substitution keeps the whole call sandboxed. Before v2.1.277, one matching command unsandboxed the entire call, including commands that ran before it ([anthropics/claude-code#81157](https://github.com/anthropics/claude-code/issues/81157)). Entries match the text of the call: `git -C <path> push`, `/usr/local/bin/docker` and a script that calls the tool internally do not match.
 >
-> Scope entries to the subcommands that genuinely need to leave the sandbox rather than the whole binary. Git over SSH is the common case: only the network operations need an exception, so list those and leave local git confined.
+> An excluded command runs with no filesystem limit and no proxy, so it can reach any host, not only `allowedDomains`. Scope entries to the subcommands that genuinely need to leave the sandbox rather than the whole binary. Git over SSH on macOS is the common case (on Linux and WSL2 it works sandboxed once the host is allowed): only the network operations need an exception, so list those and leave local git confined.
+>
+> When the sandbox is admin-required (`allowUnsandboxedCommands: false` from managed settings or `--settings`, or managed `allowManagedDomainsOnly`), entries in a repository's `.claude/settings.json` and `.claude/settings.local.json` are ignored (v2.1.282+).
 >
 > ```json
 > "excludedCommands": [
@@ -515,14 +517,16 @@ Commands that bypass the sandbox and run directly in your environment.
 > ]
 > ```
 >
-> This keeps `git status`, `git diff`, `git log`, `git add`, and `git commit` inside the sandbox, so the bypass window only opens on the calls that actually talk to a remote.
+> This keeps `git status`, `git diff`, `git log`, `git add`, and `git commit` inside the sandbox.
 
 #### `sandbox.allowUnsandboxedCommands`
 **Type:** boolean
 **Scope:** all
 **Default:** `true`
 
-Allow commands to opt out of the sandbox via the `dangerouslyDisableSandbox` parameter. Set to `false` for strict sandboxing where all commands must run inside the sandbox or be in `excludedCommands`.
+Allow commands to opt out of the sandbox via the `dangerouslyDisableSandbox` parameter. Set to `false` for strict sandboxing where all commands must run inside the sandbox or be in `excludedCommands`. The `/sandbox` Overrides tab shows `false` as **Strict sandbox mode**.
+
+Since v2.1.285, a `false` in user settings, `--settings` or managed settings holds even when a project sets `true` (before, the project's `true` won). A `false` from managed settings or `--settings` also makes the sandbox admin-required: Claude Code then ignores the repository settings that would loosen it, `excludedCommands` included. See [admin-required sandbox](../security/sandbox-native.md#admin-required-sandbox).
 
 #### `sandbox.enableWeakerNestedSandbox`
 **Type:** boolean
@@ -557,7 +561,7 @@ Allow all Unix socket connections in the sandbox. Overrides `allowUnixSockets`. 
 **Scope:** all
 **Default:** `false`
 
-Allow binding to localhost ports (macOS only).
+Allow binding to localhost ports (macOS only). Sandboxed commands can then listen on network ports and connect to any port on localhost, which includes every other service listening there; an unauthenticated local service such as a debugger can then act for the command outside the sandbox. On Linux and WSL2 a sandboxed command's `localhost` is private to it and this key has no effect.
 
 #### `sandbox.network.allowedDomains`
 **Type:** array of strings
@@ -587,12 +591,12 @@ HTTP proxy port for a custom proxy (1–65535). If not specified, Claude runs it
 
 SOCKS5 proxy port for a custom proxy (1–65535).
 
-#### `sandbox.network.deniedDomains` `⚠️ Unverified`
+#### `sandbox.network.deniedDomains`
 **Type:** array of strings
 **Scope:** all
 **Default:** `[]`
 
-Network domain denylist for the sandbox. Not confirmed in official documentation.
+Domains sandboxed commands can never reach, even when a broader `allowedDomains` wildcard would permit them. A denied host is refused in every permission mode, and a per-command `allowed_domains` list in auto mode cannot open it. Set in managed settings or `--settings`, it also stops a repository from setting proxy ports (v2.1.285+). IPv6 addresses use the bracketed form, `"[::1]"` or `"[::1]:443"` (v2.1.229+).
 
 #### `sandbox.filesystem.allowWrite`
 **Type:** array of strings
@@ -646,7 +650,7 @@ Project settings cannot set it, so a checked-out repository cannot switch filesy
 **Default:** `[]`
 **Since:** v2.1.187
 
-Credential files to hide from sandboxed commands. `mode` accepts only `"deny"`, which blocks reads the same way `filesystem.denyRead` does.
+Credential files to hide from sandboxed commands. `mode` accepts `"deny"`, which blocks reads the same way `filesystem.denyRead` does, and `"mask"` (v2.1.221+). With `mask`, on Linux and WSL2 sandboxed commands read a sentinel copy and the proxy substitutes the real value on egress; on macOS the file is simply unreadable, the same effect as `deny`, so a tool that authenticates with it stops working inside the sandbox. Partial masking uses `extract` (a regex marking the secret), `decode: "jwt"` with `maskClaims`, `onExtractNoMatch` and `maskDuplicates` (v2.1.224+). The default `onExtractNoMatch: "warn"` skips the entry when the pattern matches nothing, leaving the real file readable; use `deny` when the secret may be present but the pattern may miss it. A `mask` entry on a directory, a glob, a file over 8 MiB or a non-UTF-8 file falls back to `deny`. `mask` is honored only from user, managed and `--settings` settings.
 
 The sandbox's default read policy covers the **entire machine**, and there is no built-in credential denylist, so `~/.ssh` and `~/.aws/credentials` are readable by every sandboxed command until you list them. Paths follow the same prefix rules as `sandbox.filesystem.*`, and `deny` entries merge across every scope: any scope can add one, no scope can remove one another scope added.
 
@@ -675,7 +679,9 @@ Verified on 2.1.220: with the entry in place, `ls ~/.ssh` from a sandboxed comma
 
 Environment variables to withhold from sandboxed commands. Sandboxed commands otherwise inherit the parent environment as-is, credentials included, which is the gap a `credentials.files` entry alone leaves open.
 
-`deny` unsets the variable before each sandboxed command runs. It affects sandboxed Bash only, so MCP servers keep their credentials: they run as separate processes, not as sandboxed commands.
+`deny` unsets the variable before each sandboxed command runs. It affects sandboxed Bash only, so MCP servers keep their credentials: they run as separate processes, not as sandboxed commands. Wildcards such as `AWS_*` are not supported; list each variable. Measure before trusting it: on v2.1.302 two denied variables exported from `~/.zshrc` were still set inside a sandboxed command, while a denied variable present only in Claude Code's launch environment was removed (see [Default behavior](../security/sandbox-native.md#default-behavior)).
+
+For structured values such as a `DATABASE_URL` or a JWT, `extract`, `decode`, `maskClaims` and `onExtractNoMatch` keep parsing tools working (v2.1.224+). AWS SigV4 requests need `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` masked together so the proxy can re-sign them (v2.1.221+); group differently named variables with `credentials.awsPairs`, and use `credentials.sigv4` to forward streaming uploads, presigned URLs or SigV4A requests the proxy cannot re-sign (both v2.1.224+). `claude doctor` warns when TLS termination is unavailable or an `injectHosts` entry can never match.
 
 `mask` protects the credential while keeping the tool that authenticates with it working. The command sees a per-session sentinel; when a request leaves the sandbox for one of the credential's `injectHosts`, the proxy substitutes the real value. The command and anything it logs never hold the real credential. Each `injectHosts` entry must itself be covered by `allowedDomains`, and `network.tlsTerminate` is required because the proxy has to see request contents to substitute. Without it, masking fails closed: the sentinel reaches the server unchanged and authentication fails, and Claude Code reports the misconfiguration at startup.
 
@@ -702,7 +708,7 @@ To strip Anthropic and cloud provider credentials from **all** subprocesses rega
 **Scope:** user, managed, `--settings` (project settings ignored)
 **Since:** v2.1.199
 
-Make the built-in proxy terminate TLS itself. Required by `credentials.envVars` `mask` entries. It enables credential substitution; it does not add content filtering.
+Make the built-in proxy terminate TLS itself. Required by `mask` entries in `credentials.envVars` and `credentials.files`. It enables credential substitution; it does not add content filtering.
 
 #### `sandbox.network.strictAllowlist`
 **Type:** boolean
