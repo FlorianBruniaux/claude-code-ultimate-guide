@@ -1,26 +1,26 @@
 # Machine-Readable References
 
-Files optimized for LLM/AI consumption. Sizes below are measured, not targets.
+Files optimized for LLM/AI consumption. Numeric sizes are rounded from current file bytes (KiB). Token estimates use characters divided by four as a rough budgeting heuristic, not a model-specific token count.
 
 ## Contents
 
 | File | Description | Size | Est. tokens |
 |------|-------------|------|-------------|
-| [reference.yaml](./reference.yaml) | Master index: file paths, section anchors and line numbers into `guide/ultimate-guide.md` and the thematic guides. Also holds decision trees, CLI and env reference, permission and MCP config, agent and skill templates, onboarding question flow. | ~260 KB | ~44K |
-| [claude-code-releases.yaml](./claude-code-releases.yaml) | Condensed history of official Claude Code releases: per-version highlights, `breaking_summary` grouped by category, `milestones` quick reference. Source of truth for `guide/core/claude-code-releases.md`. | ~123 KB | ~27K |
-| [cowork-reference.yaml](./cowork-reference.yaml) | Index for Claude Cowork (Claude Desktop, non-dev audience). Paths resolve against the dedicated [claude-cowork-guide](https://github.com/FlorianBruniaux/claude-cowork-guide) repo, not this one. | ~21 KB | ~5K |
-| [agentsec-security-feed.v1.json](./agentsec-security-feed.v1.json) | AgentSec database metadata, detector coverage, security counters, and reviewed incident fiches consumed by the landing. | ~8 KB | ~2K |
+| [reference.yaml](./reference.yaml) | Master index: file paths, section anchors and line numbers into `guide/ultimate-guide.md` and the thematic guides. Also holds decision trees, CLI and env reference, permission and MCP config, agent and skill templates, onboarding question flow. | ~301 KiB | ~75K |
+| [claude-code-releases.yaml](./claude-code-releases.yaml) | Condensed history of official Claude Code releases: per-version highlights, `breaking_summary` grouped by category, `milestones` quick reference. Source of truth for `guide/core/claude-code-releases.md`. | ~170 KiB | ~43K |
+| [cowork-reference.yaml](./cowork-reference.yaml) | Index for Claude Cowork (Claude Desktop, non-dev audience). Paths resolve against the dedicated [claude-cowork-guide](https://github.com/FlorianBruniaux/claude-cowork-guide) repo, not this one. | ~21 KiB | ~4K |
+| [agentsec-security-feed.v1.json](./agentsec-security-feed.v1.json) | AgentSec database metadata, detector coverage, security counters, and reviewed incident fiches consumed by the landing. | ~125 KiB | ~32K |
 | [agent-harnesses.json](./agent-harnesses.json) | Immutable normalized Agent Harness Map: pinned 160-project upstream snapshot, 33 guide supplements, 42 strict runtimes, 16 adjacent control planes, evidence states, and project URLs. | Generated | Generated |
 | `agent-harnesses-github.json` | Optional reviewed GitHub observation sidecar: stars, archive state, language, SPDX signal, branch and push timestamp, bound to the catalog checksum. It is not committed until a complete verified collection is promoted. | Volatile | Volatile |
 | [agent-harnesses-github.schema.json](./agent-harnesses-github.schema.json) | JSON Schema for the volatile GitHub observation sidecar. | Generated | N/A |
 | [agent-harnesses.schema.json](./agent-harnesses.schema.json) | JSON Schema for validating the normalized harness catalog before publication. | Generated | N/A |
-| [translations.json](./translations.json) | Dated registry of canonical, project-maintained, and community editions: URLs, maintainers, status, source commits, attribution, coverage, pinned lag, and bilingual publication roots. | ~10 KB | ~3K |
-| [distribution-channels.yaml](./distribution-channels.yaml) | JSON-compatible YAML registry for publication channels, attributed URLs, asset states, dates, and 30-day outcome fields. | ~8 KB | ~2K |
+| [translations.json](./translations.json) | Dated registry of canonical, project-maintained, and community editions: URLs, maintainers, status, source commits, attribution, coverage, pinned lag, and bilingual publication roots. | ~11 KiB | ~3K |
+| [distribution-channels.yaml](./distribution-channels.yaml) | JSON-compatible YAML registry for publication channels, attributed URLs, asset states, dates, and 30-day outcome fields. | ~8 KiB | ~2K |
 | [navigation.json](./navigation.json) | Shared `Start`, `Build`, `Scale`, `Resources`, and `Updates` navigation contract for the repository README and public landing sitemap. Each public route can point back to its canonical repository source. | Generated | <2K |
 | [navigation.schema.json](./navigation.schema.json) | JSON Schema for the shared navigation contract. | Generated | N/A |
-| [llms.txt](./llms.txt) | Standard LLM context file for repository indexation: topic coverage, entry points, key URLs. | ~5 KB | ~1K |
+| [llms.txt](./llms.txt) | Standard LLM context file for repository indexation: topic coverage, entry points, key URLs. | ~10 KiB | ~3K |
 
-`reference.yaml` is a full index, not a summary. Loading it whole costs roughly 44K tokens, so prefer grepping it for the topic you need and following the resulting path or line number, rather than pasting the entire file into context.
+`reference.yaml` is a full index, not a summary. Search for the topic you need and follow the resulting path or line number, rather than loading the entire index into context.
 
 Root-level `llms.txt` and `llms-full.txt` cover the same AI-indexation role for crawlers. Keep root `llms.txt`, `machine-readable/llms.txt`, and `mcp-server/content/llms.txt` byte-identical.
 
@@ -98,6 +98,19 @@ The MCP package exposes the same registry as `claude-code-guide://distribution-c
 - [Runnable control and recovery simulation](../examples/workflows/review-control-demo.py): 13 local tests, simulated destination, no live GitHub acceptance claim.
 - [Walkinglabs](../docs/resource-evaluations/learn-harness-engineering-2026.md) and [AutoHarness](../docs/resource-evaluations/autoharness-2026.md): inspected teaching and maintenance cases, with targeted failure evidence.
 - [Human oversight position paper](../docs/resource-evaluations/human-oversight-agents-2608-23642.md) and [bilingual infographics](../guide/images/harness-review/README.md): practices to evaluate, not observed local human outcomes.
+
+### Handoffs, context ownership, and harness improvement
+
+| Need | Entry point |
+|---|---|
+| Architect-engineer contract, ADRs, task/run states, review feedback | [Dual-instance planning](../guide/workflows/dual-instance-planning.md), [plan template](../guide/workflows/dual-instance-planning.md#plan-template), and [source evaluation](../docs/resource-evaluations/honkonen-architect-engineer.md) |
+| Stable contracts versus organizational knowledge and live state | [Knowledge boundary](../guide/ultimate-guide.md#9252-what-the-agent-cant-see-doesnt-exist) |
+| Local quality requirements, semantic owners, canonical examples, migration completion | [Recoverable quality bar](../guide/ultimate-guide.md#make-the-local-quality-bar-recoverable) |
+| Agent observations before memory promotion | [MLD telemetry](../guide/core/memory-systems.md#mld-observations-for-the-harness-builder) and [evidence-based update loop](../guide/core/context-engineering.md#the-update-loop) |
+| Candidate isolation, publication rights, revision pinning, and expiry | [Curated-context publication](../guide/core/context-engineering.md#publication-contract-for-curated-context) |
+| Requalification after upgrades; separate feedback, run, attention, acceptance clocks | [Evaluation epochs and four clocks](../guide/roles/agent-evaluation.md#evaluation-epochs-and-four-clocks) |
+
+These additions adapt practitioner material. [Lopopolo's anthology](../docs/resource-evaluations/lopopolo-harness-engineering.md) is a context corpus, not an executable runtime. Honkonen's `eng` commands belong to his custom tooling. Neither source establishes measured local quality, cost, or delivery gains.
 
 ### Agent harness landscape
 
@@ -186,7 +199,7 @@ diff -q machine-readable/agent-harnesses-github.json mcp-server/content/agent-ha
 
 ## Maintenance
 
-`version` and `updated` at the top of `reference.yaml` must track the root `VERSION` file. Run `./scripts/sync-version.sh --check` before committing.
+`version` at the top of `reference.yaml` must match the root `VERSION` file; `updated` records the index revision date. Run `./scripts/sync-version.sh --check` before committing.
 
 `latest` in `claude-code-releases.yaml` also controls the Claude Code version sentence in all three `llms.txt` mirrors. A release update must change root `llms.txt`, `machine-readable/llms.txt`, and `mcp-server/content/llms.txt` together. The MCP documentation test enforces both byte equality and version parity:
 
@@ -195,6 +208,8 @@ diff -q machine-readable/agent-harnesses-github.json mcp-server/content/agent-ha
 ```
 
 The same test runs inside `npm run release:check` in CI. It proves local registry-to-index consistency, not that the release registry matches Anthropic's current changelog.
+
+Keep `reference.yaml` byte-identical to `mcp-server/content/reference.yaml` after an index edit. Update discovery descriptions when coverage changes, and retain source evaluations separately from implementation evidence.
 
 Anchors and line numbers drift when guide files are restructured. After a large edit to `guide/`, verify that every `path#anchor` in `reference.yaml` still resolves to a real heading, and that every `path:N` stays within its file.
 

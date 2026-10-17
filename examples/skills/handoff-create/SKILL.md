@@ -23,7 +23,7 @@ Include exactly these sections:
 
 ## Scope
 
-[What needs to be done. Be specific about boundaries: what is in scope and what is explicitly out of scope]
+[In-scope behavior and exclusions. Include the contract revision, base commit and relevant working-tree state, acceptance criteria, applicable ADRs, blockers, permitted actions, and next owner. Mark unknowns explicitly.]
 
 ## Files
 
@@ -42,14 +42,14 @@ Include exactly these sections:
 
 ## Work Done
 
-[Completed tasks. Append-only: never remove prior entries. Include commit hashes when available]
+[Historical completion claims. Append-only: never remove prior entries. Include revisions, checks actually run, and evidence links when available.]
 
 - [x] Task A completed (commit: abc1234)
 - [x] Task B completed
 
 ## Status
 
-[Current state: what is done, what remains, test status, blockers]
+[Last observed state and observation time: what is done, what remains, checks and their scope, blockers. Distinguish ticket state, run state, and acceptance.]
 
 ## Next Steps
 
@@ -71,7 +71,9 @@ Include exactly these sections:
 ## Rules
 
 - Keep it under 600 words total. A resuming agent should be able to load this and proceed within 30 seconds of reading.
-- Use `path/to/file:line` format for all file references. Line numbers matter.
+- Use real paths and symbols; add `:line` only when verified at the recorded revision.
+- Make the handoff self-contained without copying the exploratory transcript. Preserve source links and distinguish observation from interpretation.
+- A handoff records authorization; it does not grant new permissions.
 - "Work Done" is append-only. Never remove previous entries.
 - Do not include the full git diff or full file contents. Include only the code snippets that are non-obvious.
 

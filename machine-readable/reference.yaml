@@ -4,7 +4,7 @@
 # Purpose: Condensed index for LLMs to quickly answer user questions about Claude Code
 
 version: "3.44.1"
-updated: "2026-10-06"
+updated: "2026-10-17"
 
 # ════════════════════════════════════════════════════════════════
 # DEEP DIVE - Line numbers in guide/ultimate-guide.md
@@ -129,7 +129,7 @@ deep_dive:
   context_signal_taxonomy: "guide/core/context-engineering.md#10-signal-taxonomy-and-causal-attribution"
   context_signal_taxonomy_description: "Five-category friction signal taxonomy (syntactic/semantic/procedural/alignment/performance) + YAML event schema + per-pattern tracking dict. Replaces flat friction_score."
   context_loop_closure: "guide/core/context-engineering.md#11-loop-closure-pr-based-curation"
-  context_loop_closure_description: "PR-based Curator mechanism: diff + canary A/B results + friction evidence + suggestion escalation. Multi-timescale (real-time/weekly/quarterly). Signal locality options (local cron / pushed store / hosted env)."
+  context_loop_closure_description: "PR-based Curator: diff, friction evidence, task-representative probes and review; isolate candidates, verify persistence rights and audience, publish identified revisions, separate self-feedback from approval, define expiry."
   context_ejection: "guide/core/context-engineering.md#12-ejection-disciplined-de-engineering"
   context_ejection_description: "Automated detection of dormant rules and negative-ROI skills for archival. Three heuristics: activation threshold, ROI tracking, profile overlap >80%."
   context_self_audit: "guide/core/context-engineering.md#13-constitutional-and-self-consistency-audits"
@@ -1402,7 +1402,7 @@ deep_dive:
   git_best_practices: 16764
   cost_optimization: 2141  # anchor: cost-awareness--optimization
   session_teleportation: "guide/ultimate-guide.md#916-session-teleportation" # was line 19161
-  remote_control: 22650  # anchor: 922-remote-control-mobile-access
+  remote_control: 22377  # anchor: 922-remote-control-mobile-access
   multi_instance_workflows: "guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows" # was line 19268
   boris_cherny_case_study: "guide/ultimate-guide.md#real-world-case-boris-cherny-interval" # was line 19421
   boris_cherny_team_patterns: "guide/ultimate-guide.md#boris-chernys-3-principles-for-ai-teams" # was line 6779
@@ -1410,17 +1410,17 @@ deep_dive:
   dual_instance_planning: "guide/ultimate-guide.md#alternative-pattern-dual-instance-planning-vertical-separation" # was line 19474
   dual_instance_workflow: "guide/workflows/dual-instance-planning.md"
   dual_instance_overview: 18935  # anchor: alternative-pattern-dual-instance-planning-vertical-separation
-  dual_instance_setup: "guide/workflows/dual-instance-planning.md#dual-instance-planning-workflow"
-  dual_instance_complete_workflow: "guide/workflows/dual-instance-planning.md#dual-instance-planning-workflow"
-  dual_instance_plan_template: "guide/workflows/dual-instance-planning.md#dual-instance-planning-workflow"
-  dual_instance_cost_analysis: "guide/workflows/dual-instance-planning.md:614"
+  dual_instance_setup: "guide/workflows/dual-instance-planning.md#setup"
+  dual_instance_complete_workflow: "guide/workflows/dual-instance-planning.md#complete-workflow"
+  dual_instance_plan_template: "guide/workflows/dual-instance-planning.md#plan-template"
+  dual_instance_cost_analysis: "guide/workflows/dual-instance-planning.md#cost-analysis"
   dual_instance_comparison: "guide/ultimate-guide.md#comparison-boris-horizontal-vs-jon-vertical"  # was 19474, drifted
   dual_instance_source: "https://www.linkedin.com/posts/thatjonwilliams_ive-been-using-cursor-for-six-months-now-activity-7424481861802033153-k8bu"
   dual_instance_author: "Jon Williams (Product Designer, UK)"
   dual_instance_date: "2026-02-03"
   dual_instance_pattern: "Vertical separation (planner vs implementer) - orthogonal to Boris horizontal scaling"
-  dual_instance_cost: "$100-200/month (vs $500-1K Boris pattern)"
-  dual_instance_audience: "Solo devs, spec-heavy work, quality > speed"
+  dual_instance_cost: "No universal budget or correction-loop break-even; compare full cost per accepted task including planning, review, coordination and rework"
+  dual_instance_audience: "Tasks needing explicit design decisions or a handoff across sessions; measure coordination overhead"
   # Plan-Validate-Execute Pipeline (Mar 2026)
   plan_pipeline_workflow: "guide/workflows/plan-pipeline.md"
   plan_pipeline_philosophy: "non-prescriptive AI-first + No Bandaids first principles + ADR learning loop"
@@ -1453,7 +1453,7 @@ deep_dive:
   team_tips_paddo_source: "Boris Cherny thread (x.com/bcherny/status/2017742741636321619)"
   team_tips_paddo_evaluation: "docs/resource-evaluations/paddo-team-tips-eval.md"
   team_tips_paddo_score: "4/5"
-  anthropic_study_metrics: 19472  # anchor: anthropic-internal-study-august-2025
+  anthropic_study_metrics: 19199  # anchor: anthropic-internal-study-august-2025
   # Contribution Metrics (Jan 2026 - platform feature, not CLI release)
   contribution_metrics: "guide/ultimate-guide.md#contribution-metrics-january-2026" # was line 20045
   contribution_metrics_source: "https://claude.com/blog/contribution-metrics"
@@ -1467,14 +1467,14 @@ deep_dive:
   git_worktree_clean_command: "examples/skills/git-worktree-clean/SKILL.md"
   git_worktrees_multi_instance: 16948  # anchor: git-worktrees-for-parallel-development
   advanced_worktree_tooling: "guide/ultimate-guide.md#advanced-tooling-for-worktree-management-optional" # was line 19838
-  worktree_tooling_self_assessment: 19313  # anchor: do-i-need-worktrunk-self-assessment
-  anthropic_internal_study: 19472  # anchor: anthropic-internal-study-august-2025
+  worktree_tooling_self_assessment: 19040  # anchor: do-i-need-worktrunk-self-assessment
+  anthropic_internal_study: 19199  # anchor: anthropic-internal-study-august-2025
   multi_instance_costs: "guide/ultimate-guide.md#cost-benefit-analysis"  # was 19268, drifted
   orchestration_frameworks: "guide/ultimate-guide.md#orchestration-frameworks" # was line 20104
-  headless_pm_framework: 19569  # anchor: headless-pm-open-source
+  headless_pm_framework: 19296  # anchor: headless-pm-open-source
   multi_instance_implementation: "guide/ultimate-guide.md#implementation-guide-progressive-scaling"  # was 19268, drifted
   multi_instance_monitoring: "guide/ultimate-guide.md#monitoring--observability"  # was 19268, drifted
-  multi_instance_decision_matrix: 19798  # anchor: decision-matrix | Multi-instance selection matrix
+  multi_instance_decision_matrix: 19525  # anchor: decision-matrix | Multi-instance selection matrix
   # External orchestration systems
   external_orchestrators:
     gas_town:
@@ -1521,7 +1521,7 @@ deep_dive:
       published: "2026-01-21"
       guide_section: "README.md:338"
   # Section 9.18 - Codebase Design for Agent Productivity
-  codebase_design_agents: 19903
+  codebase_design_agents: 19630
   codebase_design_source: "https://marmelab.com/blog/2026/01/21/agent-experience.html"
   codebase_design_author: "François Zaninotto (Marmelab)"
   codebase_design_llms_txt: "guide/ultimate-guide.md#9184-machine-readable-documentation-architecture"
@@ -1543,7 +1543,7 @@ deep_dive:
   # Section 9.20 - Agent Teams (v2.1.32+ experimental)
   agent_teams: "guide/workflows/agent-teams.md"
   agent_teams_quick_start: "guide/workflows/agent-teams-quick-start.md"  # Practical 8-10 min guide with copy-paste patterns
-  agent_teams_overview: 22155  # anchor: 920-agent-teams-multi-agent-coordination
+  agent_teams_overview: 21882  # anchor: 920-agent-teams-multi-agent-coordination
   agent_teams_architecture: "guide/workflows/agent-teams.md#2-architecture-deep-dive"
   agent_teams_setup: "guide/workflows/agent-teams.md#3-setup--configuration"
   agent_teams_use_cases: "guide/workflows/agent-teams.md#4-production-use-cases"
@@ -1662,7 +1662,7 @@ deep_dive:
   session_lifecycle_verification_hook: "examples/hooks/bash/verification-gate.sh"  # PostToolUse independent evaluator hook
   atdd_with_agents: "guide/core/methodologies.md#tier-3-behavior--acceptance"  # ATDD + Gherkin for agentic workflows
   harness_agents_md_as_toc: "guide/ultimate-guide.md#9251-agentsmd-as-toc-not-encyclopedia"  # AGENTS.md as ~100-line TOC pointing to docs/ hierarchy, not encyclopedia
-  harness_knowledge_boundary: "guide/ultimate-guide.md#9252-what-the-agent-cant-see-doesnt-exist"  # "What agent can't see doesn't exist": encode Slack/docs as repo markdown
+  harness_knowledge_boundary: "guide/ultimate-guide.md#9252-what-the-agent-cant-see-doesnt-exist"  # Authorized discoverable sources; stable contracts, organizational context and live state retain their owners
   harness_knowledge_base: "guide/ultimate-guide.md#9253-the-knowledge-base-structure"  # Structured docs/ with design-docs/, exec-plans/, product-specs/, references/
   harness_observability_stack: "guide/ultimate-guide.md#9254-agent-readable-observability"  # Ephemeral per-worktree observability: Vector + VictoriaLogs/Metrics/Traces + LogQL/PromQL/TraceQL
   harness_taste_invariants: "guide/ultimate-guide.md#9255-enforcing-architecture-and-taste"  # Taste invariants + custom linters with agent-readable error messages
@@ -1672,15 +1672,15 @@ deep_dive:
   openai_harness_engineering: "docs/resource-evaluations/2026-02-11-openai-harness-engineering.md"  # Score 5/5: OpenAI Codex team, 1M lines, 5 months, 3 engineers, no manual code
   commands_table: "guide/ultimate-guide.md#101-commands-table" # was line 47
   shortcuts_table: 446  # anchor: quick-actions--shortcuts
-  troubleshooting: 24283  # anchor: 104-troubleshooting
+  troubleshooting: 24026  # anchor: 104-troubleshooting
   cheatsheet: "guide/ultimate-guide.md#105-cheatsheet" # was line 25158
-  daily_workflow: 24743  # anchor: 106-daily-workflow--checklists
+  daily_workflow: 24486  # anchor: 106-daily-workflow--checklists
   # AI Ecosystem (Section 11, ~line 10525)
-  ai_ecosystem: 25009  # anchor: 11-ai-ecosystem-complementary-tools
-  ai_ecosystem_complementarity: 25009
-  ai_ecosystem_tool_matrix: 25050  # anchor: 112-tool-matrix
-  ai_ecosystem_workflows: 25185  # anchor: 113-practical-workflows
-  ai_ecosystem_integration: 25313  # anchor: 114-integration-patterns
+  ai_ecosystem: 24752  # anchor: 11-ai-ecosystem-complementary-tools
+  ai_ecosystem_complementarity: 24752
+  ai_ecosystem_tool_matrix: 24793  # anchor: 112-tool-matrix
+  ai_ecosystem_workflows: 24928  # anchor: 113-practical-workflows
+  ai_ecosystem_integration: 25056  # anchor: 114-integration-patterns
   ai_ecosystem_detailed: "guide/ecosystem/ai-ecosystem.md"
   ai_ecosystem_coding_environments: "guide/ecosystem/ai-ecosystem.md#6-ide-ade-and-hybrid-coding-environments"
   ai_ecosystem_goose: "guide/ecosystem/ai-ecosystem.md#111-goose-open-source-alternative-block"
@@ -1729,7 +1729,7 @@ deep_dive:
   cowork_prompts: "https://github.com/FlorianBruniaux/claude-cowork-guide/tree/main/prompts"
   cowork_workflows: "https://github.com/FlorianBruniaux/claude-cowork-guide/tree/main/workflows"
   cowork_section: "guide/ecosystem/ai-ecosystem.md#10-claude-cowork-research-preview"
-  cowork_ultimate_guide: 25367  # anchor: for-non-developers-claude-cowork
+  cowork_ultimate_guide: 25110  # anchor: for-non-developers-claude-cowork
   # Team Knowledge Infrastructure (guide/ecosystem/team-knowledge-base.md) - Added 2026-06-23
   team_knowledge_guide: "guide/ecosystem/team-knowledge-base.md"
   team_knowledge_three_way: "guide/ecosystem/team-knowledge-base.md#the-one-tool-for-three-needs-trap"  # static docs vs live systems vs team workflows
@@ -1779,7 +1779,7 @@ deep_dive:
   # Appendix
   appendix_a_file_locations: "guide/ultimate-guide.md#appendix-a-file-locations-reference" # was line 26179
   appendix_b_faq: "guide/ultimate-guide.md#appendix-b-faq" # was line 26357
-  faq_clawdbot_vs_claudecode: 25869
+  faq_clawdbot_vs_claudecode: 25612
   faq_product_managers: "guide/ultimate-guide.md#can-product-managers-use-claude-code" # was line 26428
   appendix_c_resource_evaluation: "guide/ultimate-guide.md#appendix-c-resource-evaluation-process" # was line 26493
   appendix_d_myths_vs_reality: "guide/ultimate-guide.md#appendix-d-myths-vs-reality" # was line 26536
@@ -1803,7 +1803,7 @@ deep_dive:
   # Onboarding matrix required keys (added for v2.0.0 adaptive architecture)
   rules: "guide/ultimate-guide.md#the-golden-rules"  # was bare int 89, a blank line; drifted 1 line from the real heading
   workflow: "guide/ultimate-guide.md#the-workflow"  # was bare int 58, a blank line; drifted 1 line from the real heading
-  fix: 24283  # anchor: 104-troubleshooting | onboarding matrix repair route
+  fix: 24026  # anchor: 104-troubleshooting | onboarding matrix repair route
   architecture: "guide/core/architecture.md"  # was bare int 1280 into ultimate-guide.md, inside a code fence; the comment ("Architecture internals") and its siblings on this line (production_safety, security_hardening) are all plain paths to the dedicated file
   production_safety: "guide/security/production-safety.md"  # Production safety rules
   security_hardening: "guide/security/security-hardening.md"  # Security best practices
@@ -2039,9 +2039,21 @@ deep_dive:
   # ── Printable cheatsheet (standalone file, distinct from the in-guide section at line 19597)
   cheatsheet_file: "guide/cheatsheet.md"
 
+  # Evidence-based handoffs, context ownership and harness improvement
+  context_publication_contract: "guide/core/context-engineering.md#publication-contract-for-curated-context"
+  context_evidence_update_loop: "guide/core/context-engineering.md#the-update-loop"
+  harness_anthology_evaluation: "docs/resource-evaluations/lopopolo-harness-engineering.md"
+  harness_local_quality_bar: "guide/ultimate-guide.md#make-the-local-quality-bar-recoverable"
+  harness_worker_epochs: "guide/roles/agent-evaluation.md#evaluation-epochs-and-four-clocks"
+  memory_mld_observations: "guide/core/memory-systems.md#mld-observations-for-the-harness-builder"
+  dual_instance_handoff_contract: "guide/workflows/dual-instance-planning.md#plan-template"
+  dual_instance_coordination_states: "guide/workflows/dual-instance-planning.md#phase-4-verification"
+  dual_instance_honkonen_evaluation: "docs/resource-evaluations/honkonen-architect-engineer.md"
+
 # ════════════════════════════════════════════════════════════════
 # DECISION TREE (most important - en premier)
 # ════════════════════════════════════════════════════════════════
+
 decide:
   simple_task: "just ask Claude"
   complex_task: "/plan first, then use Tasks API (v2.1.16+) or TodoWrite"
@@ -3896,15 +3908,9 @@ section_maps:
     - "when-to-use-this-pattern"
     - "setup"
     - "complete-workflow"
-    - "files-to-modify"
-    - "implementation-steps-sequential"
-    - "success-criteria"
-    - "security-checklist"
-    - "risks--mitigation"
-    - "questions-for-implementer-claude-one"
-    - "estimated-effort-breakdown"
     - "plan-template"
-    - "security-checklist-if-applicable"
+    - "cost-analysis"
+    - "tips-and-troubleshooting"
   "guide/workflows/dynamic-workflows.md":
     - "1-when-to-use-workflows-vs-agent-tool-vs-skills"
     - "2-primitive-reference"

@@ -340,6 +340,12 @@ Model: Sonnet | Ctx: 89.5k | Cost: $2.11 | Ctx(u): 56.0%
 
 Choose the smallest control structure that safely solves the need: a bounded loop for one repeated task; an explicit graph for routing, joins, parallelism, interruption, or durable recovery; a repository harness for repeatable project behavior; and an orchestrator for several runs or queues. Specify success, failure, timeout, budget, and escalation before execution. See [Loop & Graph Engineering](https://cc.bruniaux.com/guide/loop-graph-engineering/) and compare products in the [Agent Harness Map](https://cc.bruniaux.com/guide/agent-harness-landscape/).
 
+Architect-engineer handoffs use a self-contained versioned contract, applicable ADRs, an assigned next owner, and revision-bound review evidence. Task status, run status, and decision status are distinct. Reconcile historical completion claims with live state on resume. See `guide/workflows/dual-instance-planning.md` and `docs/resource-evaluations/honkonen-architect-engineer.md`; separation does not guarantee lower cost, better quality, or reviewer independence.
+
+Repository context routes to authorized owners of stable contracts, organizational knowledge, and live operational state. MLD (Mistakes, Learnings, Desires) supplies observations for corroboration before promotion. Curated candidates stay outside served context until reviewed publication with provenance, audience, revision, and expiry. See `docs/resource-evaluations/lopopolo-harness-engineering.md` for the anthology's evidence limits and integrated locations.
+
+Requalify after material model, host, harness, or action-interface changes. Measure feedback latency, run duration, human attention, and time to accepted outcome separately. See `guide/roles/agent-evaluation.md#evaluation-epochs-and-four-clocks`.
+
 Evaluate the exact model-harness pair for a bounded coding task. Introduce orchestration only when coordination is the constraint. A harness optimizer sits outside the four operating layers and changes candidate harnesses under a separate evaluation protocol.
 
 ---

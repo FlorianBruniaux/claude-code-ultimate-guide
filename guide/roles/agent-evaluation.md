@@ -46,6 +46,21 @@ For optimizer or meta-harness experiments, split development and held-out tasks,
 
 For a multi-agent control plane, separate workflow correctness from task correctness. [Liza](https://github.com/liza-mas/liza) provides concrete orchestration signals such as lease recovery, forbidden state transitions, reviewer verdicts, worktree cleanup, and merge eligibility. Those tests show whether the control plane followed its contract. They do not show that the final patch satisfies the user's requirements, so pair them with repository tests, requirement-level review, intervention counts, recovery drills, and repeated real-ticket outcomes. The [Liza profile](../ecosystem/agentic-tools.md#48-liza) records the pinned evidence boundary.
 
+### Evaluation epochs and four clocks
+
+Start a new evaluation epoch when a material change to the model, host, harness, or action interface changes the worker being tested. Record the boundary and requalify representative tasks before treating results as comparable. After an upgrade, test whether old prompt workarounds, wrappers, or checks still earn their maintenance cost; retire redundant components only with evidence that the required behavior remains covered.
+
+Keep four measurements separate:
+
+| Clock | Boundary | Example interpretation |
+|---|---|---|
+| Feedback latency | Relevant action to actionable result | Slow tests delay the next correction |
+| Run duration | Worker start to completed run | A run occupies execution capacity |
+| Human attention | Active human effort across preparation, supervision, review, and recovery | Short runs can still demand extensive intervention |
+| Time to accepted outcome | Defined task start to accepted, integrated result | A review queue can dominate delivery |
+
+Record boundaries, task class, failures, and repeated-run uncertainty. Faster feedback does not establish less human work or faster acceptance. This adapts the anthology's [fixed-worker qualification](https://github.com/lopopolo/harness-engineering/blob/226c8d35fb6ea3ed55467753dba6dea2b5fd5778/docs/fixed-worker/README.md) and [four clocks](https://github.com/lopopolo/harness-engineering/blob/226c8d35fb6ea3ed55467753dba6dea2b5fd5778/docs/effectiveness/README.md#keep-four-clocks); its local latency targets are not universal service objectives.
+
 ### Evaluate judgment allocation and reviewer independence
 
 An evaluation should identify not only what ran, but who was allowed to decide. Record the owner of the quality bar, decomposition, tool permissions, acceptance verdict, exceptions, and release decision. A system that automates task execution while silently moving every ambiguous verdict to one human has improved execution capacity, not necessarily end-to-end throughput.

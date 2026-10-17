@@ -28,6 +28,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
+- Integrate selected concepts from Lopopolo's Harness Engineering anthology and Honkonen's architect-engineer account: correct the repository-only knowledge boundary, make local quality requirements and semantic ownership explicit, distinguish MLD observations from active memory, define curated-context publication, and add worker requalification with four separate clocks. Rewrite dual-instance planning around versioned handoffs, ADRs, ownership and evidence, remove unsupported cost/quality guarantees, reconcile handoff history with live state, and synchronize discovery indexes and MCP mirrors. Add two source evaluations without claiming local performance gains or installing tooling. Refresh translation provenance in a follow-up registry commit.
+
 - Refresh the maintained French full guide against every semantic English delta since its recorded source, including Sonnet 5.5, MCP 1.3.6, dated RTK/Caveman measurements, brownfield migration and Bun case-study guidance. Preserve historical evidence and executable identifiers.
 - Review all 26 EN/FR e-books, 116 recap-card sources and two daily cheatsheets against the current guide. Correct unsupported productivity/security promises, distinguish subscription allowances from API prices, and add verification-capacity, FinOps and harness recovery controls. Publication-specific revisions remain independent.
 - Prepare full-guide export revision 1.2.0 and edition 3.44.1; synchronize machine-readable and LLM discovery metadata. Record translation provenance after the canonical source commit, then rebuild and validate the bilingual publication catalog before updating public download links.

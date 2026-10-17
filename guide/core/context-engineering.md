@@ -1007,16 +1007,17 @@ Claude generates wrong pattern
 → Repeat indefinitely
 ```
 
-**Good loop**:
+**Evidence-based loop**:
 ```
-Claude generates wrong pattern
-→ Developer identifies the root cause (missing rule? vague rule? conflicting rules?)
-→ Developer updates CLAUDE.md with a corrected or new rule
-→ Next session: Claude generates correct pattern
-→ Rule stays in config permanently
+Claude generates an unexpected result
+→ Retain the observation, revision, and relevant evidence
+→ Diagnose the cause: source, code, tool, instruction, model, or evaluator
+→ Propose a change at the authoritative owner
+→ Test the candidate in a fresh session against explicit criteria
+→ Publish the supported change, then review or retire it as conditions change
 ```
 
-The update loop is how your configuration system learns from experience. Each bad output is a signal that something is missing or broken in your context engineering. Treat it as a bug report against CLAUDE.md, not just a one-off failure.
+A bad result is a signal to investigate. It is not automatically a bug in CLAUDE.md, and a successful retry does not prove that a new rule caused the improvement. Use [MLD observations](memory-systems.md#mld-observations-for-the-harness-builder) as candidate telemetry, corroborate them, and avoid loading raw self-reports into every later session. Rules need provenance, a scope, and a retirement condition rather than permanent accumulation.
 
 **Practical format for rule updates**:
 
@@ -1695,6 +1696,14 @@ Each Curator PR contains four things:
 
 A human reviews and merges or closes. The Curator never modifies rules directly. This is the "Augmented" in a mature context engineering workflow: the loop closes through human judgment, not automation.
 
+### Publication contract for curated context
+
+A proposed rule or memory should not enter the corpus served to workers merely because the Curator wrote a PR. Keep candidates outside normal retrieval until reviewed. Before publication, record the authoritative source, freshness, audience, unresolved contradictions, and permission to persist the material for that audience. Permission to read a source does not automatically permit republishing it into shared memory.
+
+Publish accepted changes as an identified revision and pin each consuming run to the revision it used. Let later runs adopt a new revision deliberately. Separate the Curator's self-feedback from human review or other external supervision so it cannot count its own proposals as approval. Define expiry, revocation, and what consumers do when a source becomes stale or unavailable.
+
+For example, a candidate observation about a deployment remains isolated while the owner checks the live environment. A durable procedure can then be published with provenance, while volatile health state stays with the operational system. This adapts the anthology's [context-curation proposal](https://github.com/lopopolo/harness-engineering/blob/226c8d35fb6ea3ed55467753dba6dea2b5fd5778/docs/just-in-time-context/README.md#curate-the-route-beside-each-goal); no sidecar service or measured benefit is implied.
+
 ### A/B canary probes
 
 Before proposing a change, the Curator runs a small set of probe prompts against both the current config and the proposed config. Probes are simple, task-representative inputs that exercise the rule being changed.
@@ -1713,7 +1722,7 @@ for probe in $(yq '.probes[].id' "$PROBES_FILE"); do
 done
 ```
 
-Ten to twenty probes per PR is sufficient. Use cosine similarity for a first pass; run LLM-as-judge only on probes where similarity drops below 0.85. This keeps canary costs near zero for most PRs and reserving judgment for the edge cases that actually warrant it.
+A small probe set is an initial check, not proof of sufficient coverage. Choose cases and acceptance criteria for the behavior being changed, including valid alternatives and regressions. Similar wording can conceal a wrong decision, so cosine similarity alone cannot establish correctness. Record probe cost and use independent checks or adjudication where needed; there is no universal similarity threshold that makes a rule safe to publish.
 
 ### Multi-timescale Operation
 

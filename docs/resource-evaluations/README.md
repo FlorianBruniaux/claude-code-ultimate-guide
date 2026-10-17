@@ -37,6 +37,8 @@ Les documents de travail bruts (prompts Perplexity, audits clients) restent dans
 
 | Ressource | Score Initial | Score Final | Décision | Fichier |
 |-----------|---------------|-------------|----------|---------|
+| **Lopopolo: Harness Engineering anthology** | 4/5 | **4/5** | Selective integration: truth ownership, local quality bar, MLD telemetry, curated publication, worker epochs and four clocks; no executed playbook or local gain claimed | [lopopolo-harness-engineering.md](./lopopolo-harness-engineering.md) |
+| **Honkonen: architect-engineer protocol** | 4/5 | **4/5** | Integrate into existing dual-instance workflow and handoff templates; remove unsupported cost/quality guarantees; custom eng tooling is not a Claude Code feature | [honkonen-architect-engineer.md](./honkonen-architect-engineer.md) |
 | **WikiSkill** (persistent knowledge for skill evolution) | 4/5 | **4/5** | Selective integration: retain rejected proposals, separate learning from execution, evaluate model transfer; benchmark evidence does not establish native skill routing or production gains | [wikiskill-persistent-skill-evolution.md](./wikiskill-persistent-skill-evolution.md) |
 | **Mistral Large 4** (October 6 public preview) | 3/5 | **3/5** | Selective integration: API pricing, benchmark evidence, procurement, and future weight-deployment limits; parameters clarified, context and planned release dates differ across sources | [mistral-large-4.md](./mistral-large-4.md) |
 | **shunt** (spotify/portal-ai-plugins, hook-enforced delegation to a cheaper model) | 3/5 | **3/5** | Integrated as a pattern: context-engineering-tools.md §3 and the cost levers table; 90% figure scoped to Claude's context on 3 private scenarios; Portal-only; `~` path bypass and PDF blocking confirmed live | [spotify-portal-shunt.md](./spotify-portal-shunt.md) |
@@ -120,4 +122,4 @@ Ressources surveillées mais pas encore intégrées : [watch-list.md](./watch-li
 
 ---
 
-**Last updated**: 2026-10-06 (198 Markdown files on disk, 75 indexed above; the disk/index gap remains a separate maintenance backlog)
+**Last updated**: 2026-10-17 (201 Markdown files on disk, 78 indexed above; the disk/index gap remains a separate maintenance backlog)

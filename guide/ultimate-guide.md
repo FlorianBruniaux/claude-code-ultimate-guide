@@ -18934,338 +18934,65 @@ The broader team extends Boris's individual workflow with institutional patterns
 
 ### Alternative Pattern: Dual-Instance Planning (Vertical Separation)
 
-While Boris's workflow demonstrates **horizontal scaling** (5-15 instances in parallel), an alternative pattern focuses on **vertical separation**: using two Claude instances with distinct roles for quality-focused workflows.
+Separate architecture and implementation into distinct sessions when a task needs a clear design contract. The architect explores alternatives with the human; the engineer receives selected requirements and returns a reviewable change. This can compose with parallel worktrees.
 
-**Pattern source**: Jon Williams (Product Designer, UK), transition from Cursor to Claude Code after 6 months. [LinkedIn post, Feb 3, 2026](https://www.linkedin.com/posts/thatjonwilliams_ive-been-using-cursor-for-six-months-now-activity-7424481861802033153-k8bu)
+The original practitioner example comes from [Jon Williams](https://www.linkedin.com/posts/thatjonwilliams_ive-been-using-cursor-for-six-months-now-activity-7424481861802033153-k8bu), February 3, 2026. [Sami Honkonen's architect-engineer account](https://samihonkonen.com/posts/how-the-architect-talks-to-the-engineer/), August 24, 2026, adds a concrete handoff protocol. These accounts do not establish general cost savings, defect reduction, or reviewer independence.
 
 #### When to Use Dual-Instance Pattern
 
-This pattern is **orthogonal** to Boris's approach: instead of scaling breadth (more features in parallel), it scales depth (separation of planning and execution phases).
-
-| Your Context | Use Dual-Instance? | Monthly Cost |
-|--------------|-------------------|--------------|
-| **Solo dev, spec-heavy work** | ✅ Yes | $100-200 |
-| **Small team, complex requirements** | ✅ Yes | $150-300 |
-| **Product designers coding** | ✅ Yes | $100-200 |
-| **High-volume parallel features** | ❌ No, use Boris pattern | $500-1K+ |
-
-**Use when**:
-- You need plan verification before execution
-- Specs are complex or ambiguous (interview-based clarification helps)
-- Lower budget than Boris pattern ($100-200/month vs $500-1K+)
-- Quality > speed (willing to sacrifice parallelism for better plans)
-
-**Don't use when**:
-- You need to ship 10+ features simultaneously (use Boris pattern)
-- Plans are straightforward (single instance with `/plan` is enough)
-- Budget is very limited (<$100/month)
+Use it when material requirements need resolution, architecture decisions should persist, or implementation will continue in another context. A bounded change with clear acceptance criteria may need only one session. Compare coordination and review overhead against the problems the separation actually prevents.
 
 #### Setup: Two Instances, Two Roles
 
-```
-┌─────────────────────────────────────────────────────┐
-│         DUAL-INSTANCE ARCHITECTURE                  │
-├─────────────────────────────────────────────────────┤
-│                                                     │
-│  ┌──────────────────┐                               │
-│  │  Claude Zero     │  Planning & Review            │
-│  │  (Planner)       │  - Explores codebase          │
-│  └────────┬─────────┘  - Writes plans               │
-│           │            - Reviews implementations    │
-│           │            - NEVER touches code         │
-│           ▼                                          │
-│  ┌─────────────────┐                                │
-│  │  Plans/Review/  │  Human review checkpoint       │
-│  │  Plans/Active/  │                                │
-│  └────────┬────────┘                                │
-│           │                                          │
-│           ▼                                          │
-│  ┌──────────────────┐                               │
-│  │  Claude One      │  Implementation                │
-│  │  (Implementer)   │  - Reads approved plans       │
-│  └──────────────────┘  - Writes code                │
-│                        - Commits changes            │
-│                        - Reports completion         │
-│                                                     │
-│  Key: Separation of concerns = fewer mistakes      │
-│                                                     │
-└─────────────────────────────────────────────────────┘
-```
-
-**Setup steps**:
-
-1. **Create directory structure**:
-```bash
-mkdir -p .claude/plans/{Review,Active,Completed}
-```
-
-2. **Launch Claude Zero** (Terminal 1):
-```bash
-cd ~/projects/your-project
-claude
-# Set role in first message:
-# "You are Claude Zero. Your role: explore codebase, write plans,
-#  review implementations. NEVER edit code. Save all plans to
-#  .claude/plans/Review/"
-```
-
-3. **Launch Claude One** (Terminal 2):
-```bash
-cd ~/projects/your-project
-claude
-# Set role in first message:
-# "You are Claude One. Your role: read plans from .claude/plans/Active/,
-#  implement them, commit changes, report back."
-```
+Use a planner session and an engineer session. A shared plan file or task comment carries the selected contract. Optional directories such as `.claude/plans/Review/`, `Active/`, and `Completed/` organize that work; moving a file does not enforce approval or grant external-action permissions. Role prompts guide behavior; configure tool permissions separately.
 
 #### Workflow: 5 Steps
 
-**Step 1: Planning (Claude Zero)**
+1. **Design**: architect and human resolve objective, scope, constraints, and acceptance criteria.
+2. **Handoff**: record the contract revision, base state, affected paths or symbols, implementation steps, tests, blockers, permitted actions, and assigned engineer. Link applicable ADRs for durable decisions.
+3. **Implement**: engineer checks the live state, implements within scope, and returns a diff plus actual verification results.
+4. **Review**: architect checks requirements, code, tests, and assumptions. Feedback identifies the reviewed revision and expected correction.
+5. **Close**: authorized integration and required verification precede completion. Archive the task summary and preserve durable decisions and audit links.
 
-```
-You (to Claude Zero): /plan
+In Honkonen's setup, the initial handoff is a self-contained Linear comment; the reply is a GitHub PR. Review feedback goes through his custom `eng review <run> --feedback "..."` command, not through Linear. That command is not built into Claude Code. Adopt the contract using channels already available to your team.
 
-Implement JWT authentication for the API.
-- Support access tokens (15min expiry)
-- Support refresh tokens (7 day expiry)
-- Middleware to validate tokens on protected routes
-```
-
-Claude Zero explores codebase, interviews you about requirements:
-- "Should we support multiple sessions per user?"
-- "Do you want token revocation (logout) capability?"
-- "Which routes should be protected vs public?"
-
-Claude Zero writes plan to `.claude/plans/Review/auth-jwt.md`:
-
-```markdown
-# Plan: JWT authentication
-
-## Summary
-Add JWT-based authentication with access/refresh tokens.
-Support token revocation for logout.
-
-## Files to create
-- src/auth/jwt.ts (line 1-120)
-  - generateAccessToken(userId)
-  - generateRefreshToken(userId)
-  - verifyToken(token)
-
-- src/middleware/auth.ts (line 1-45)
-  - requireAuth middleware
-  - Token validation logic
-
-## Files to modify
-- src/routes/api.ts (line 23)
-  - Add auth middleware to protected routes
-
-- src/config/env.ts (line 15)
-  - Add JWT_SECRET, JWT_REFRESH_SECRET env vars
-
-## Implementation steps
-1. Install jsonwebtoken library
-2. Create JWT utility functions
-3. Create auth middleware
-4. Add JWT secrets to .env
-5. Protect existing routes
-6. Write tests for auth flow
-
-## Success criteria
-- POST /auth/login returns access + refresh token
-- Protected routes reject without valid token
-- POST /auth/refresh exchanges refresh token for new access token
-- POST /auth/logout revokes refresh token
-
-## Risks
-- Token secrets must be in .env (never committed)
-- Refresh token storage needs database table
-```
-
-**Step 2: Human Review**
-
-You review `.claude/plans/Review/auth-jwt.md`:
-- Is the approach correct?
-- Are all requirements covered?
-- Any security issues?
-
-If approved, move to Active:
-```bash
-mv .claude/plans/Review/auth-jwt.md .claude/plans/Active/
-```
-
-**Step 3: Implementation (Claude One)**
-
-```
-You (to Claude One): Implement .claude/plans/Active/auth-jwt.md
-```
-
-Claude One reads the plan file, implements all steps, commits.
-
-**Step 4: Verification (Claude Zero)**
-
-```
-You (to Claude Zero): Review the JWT implementation Claude One just completed.
-```
-
-Claude Zero reviews:
-- Code matches plan?
-- Security best practices followed?
-- Tests cover success criteria?
-
-**Step 5: Archive**
-
-If approved:
-```bash
-mv .claude/plans/Active/auth-jwt.md .claude/plans/Completed/
-```
+Ticket status marks whose turn it is. Execution status records what a dispatched run is doing. ADR status records whether an architectural decision is proposed, accepted, or superseded. These states serve different purposes: an Accepted ADR can outlive many tickets, and an In Progress ticket does not prove that a run is healthy or uniquely assigned.
 
 #### Comparison: Boris (Horizontal) vs Jon (Vertical)
 
-| Dimension | Boris Pattern | Jon Pattern (Dual-Instance) |
-|-----------|---------------|----------------------------|
-| **Scaling axis** | Horizontal (5-15 instances, parallel features) | Vertical (2 instances, separated phases) |
-| **Primary goal** | Speed via parallelism | Quality via separation of concerns |
-| **Monthly cost** | $500-1,000 (Opus × 5-15) | $100-200 (Opus × 2 sequential) |
-| **Entry barrier** | High (worktrees, CLAUDE.md 2.5K, orchestration) | Low (2 terminals, Plans/ directory) |
-| **Audience** | Teams, high-volume, 10+ devs | Solo devs, product designers, spec-heavy |
-| **Context pollution** | Isolated by worktrees (git branches) | Isolated by role separation (planner vs implementer) |
-| **Accountability** | Git history (commits per instance) | Human-in-the-loop (review plans before execution) |
-| **Tooling required** | Worktrees, teleport, `/commit-push-pr` | Plans/ directory structure |
-| **Coordination** | Self-orchestrated (Boris steers 10 sessions) | Human gatekeeper (approve plans) |
-| **Best for** | Shipping 10+ features/day, experienced teams | Complex specs, quality-critical, budget-conscious |
+| Dimension | Horizontal scaling | Vertical separation |
+|---|---|---|
+| Unit organized | Concurrent work items | Architecture and implementation roles |
+| Coordination | Isolated edits, dependencies, integration | Approved contract, assignment, review feedback |
+| Main risk to test | Conflicting work and review queues | Handoff omissions and shared design mistakes |
+| Cost evidence | Measure accepted output including orchestration | Measure accepted output including planning and review |
 
-**Key insight**: These patterns are **not mutually exclusive**. You can use dual-instance for complex features (planning rigor) and Boris pattern for high-volume simple features (speed).
+The patterns can compose. Instance count alone determines neither throughput nor subscription expenditure.
 
 #### Cost Analysis: 2 Instances vs Correction Loops
 
-**Question**: Is it cheaper to use 2 instances (planner + implementer) or 1 instance with correction loops?
-
-| Scenario | 1 Instance (Corrections) | 2 Instances (Dual) | Winner |
-|----------|-------------------------|-------------------|--------|
-| **Simple feature** (login form) | 1 session × $5 = $5 | 2 sessions × $3 each = $6 | 1 instance |
-| **Complex spec** (auth system) | 1 session × $15 + 2 correction loops × $10 = $35 | 2 sessions × $12 each = $24 | 2 instances |
-| **Ambiguous requirements** | 1 session × $20 + 3 correction loops × $15 = $65 | 2 sessions × $18 each = $36 | 2 instances |
-
-**Breakeven point**: For features requiring ≥2 correction loops, dual-instance is cheaper and faster.
-
-**Hidden cost savings**:
-- **Context pollution**: Planner doesn't see implementation details → cleaner reasoning
-- **Fewer hallucinations**: Plans have file paths + line numbers → implementer is grounded
-- **Learning**: Review step catches mistakes before they compound
+There is no demonstrated universal break-even point at two correction loops. Compare equivalent tasks under the same acceptance rule, including planning, failed attempts, coordination, human attention, review, and rework. Keep API billing, subscription spend, and quota use separate. See [evaluation epochs and four clocks](roles/agent-evaluation.md#evaluation-epochs-and-four-clocks).
 
 #### Agent-Ready Plans: Best Practices
 
-The key to dual-instance efficiency is **plan structure**. Jon Williams emphasizes "agent-ready plans with specific file references and line numbers."
+Provide selected decisions rather than the whole exploratory conversation. A plan should contain enough evidence and source routes for the engineer to proceed without reconstructing the architect's context. Use real paths and symbols at an identified revision; line numbers are navigation hints that may drift.
 
-**Bad plan** (vague):
-```markdown
-## Implementation
-Add authentication to the API.
-Update the routes.
-Create middleware.
-```
-
-**Good plan** (agent-ready):
-```markdown
-## Implementation
-
-### Step 1: Create JWT utilities
-**File**: src/auth/jwt.ts (new file, ~120 lines)
-**Functions**:
-- Line 10-30: generateAccessToken(userId: string): string
-- Line 35-55: generateRefreshToken(userId: string): string
-- Line 60-85: verifyToken(token: string): { userId: string } | null
-
-**Dependencies**: jsonwebtoken (npm install)
-
-### Step 2: Create auth middleware
-**File**: src/middleware/auth.ts (new file, ~45 lines)
-**Export**:
-- Line 15-40: requireAuth middleware (checks Authorization header)
-
-**Imports**: jwt.ts (Step 1)
-
-### Step 3: Protect routes
-**File**: src/routes/api.ts
-**Location**: Line 23 (after imports, before route definitions)
-**Change**: Import requireAuth, apply to /api/protected routes
-
-**Example**:
-router.get('/profile', requireAuth, profileController)
-```
-
-**Why agent-ready plans work**:
-- File paths → Claude One knows exactly where to work
-- Line numbers → Reduces guessing, fewer file reads
-- Dependencies explicit → No surprises during implementation
-- Examples included → Claude One understands expected structure
-
-**Template**: See [guide/workflows/dual-instance-planning.md](workflows/dual-instance-planning.md) for full plan template.
+For example, a CSV export contract can name the existing export service, require preservation of current filters and access boundaries, and specify fixtures covering quotes, commas, and inaccessible records. These are observable criteria; predicted line counts are not.
 
 #### Tips for Success
 
-**1. Role enforcement**:
-Set roles in **first message** of each session:
-- Claude Zero: "NEVER edit code, only write plans to .claude/plans/Review/"
-- Claude One: "ONLY implement plans from .claude/plans/Active/, never plan"
-
-**2. Plans directory in .gitignore**:
-```bash
-# .gitignore
-.claude/plans/Review/    # Work in progress
-.claude/plans/Active/    # Under implementation
-# Don't ignore Completed/ (optional: archive for team learning)
-```
-
-**3. Use /plan mode**:
-Claude Zero should start with `/plan` for safe exploration:
-```
-/plan
-
-[Your feature request]
-```
-
-**4. Interview prompts**:
-Encourage Claude Zero to ask clarifying questions:
-```
-"Interview me about requirements before drafting the plan.
-Ask about edge cases, success criteria, and constraints."
-```
-
-**5. Review checklist**:
-When Claude Zero reviews Claude One's implementation:
-- [ ] Code matches plan structure?
-- [ ] All files from plan created/modified?
-- [ ] Tests cover success criteria?
-- [ ] Security best practices followed?
-- [ ] No TODO comments for core functionality?
+Bind approval to an identified contract revision. Reconcile old completion claims with live state when resuming. Do not repeat side effects blindly. Amend the contract when requirements change, and record who owns the next action.
 
 #### Limitations
 
-**When dual-instance doesn't help**:
-- **Trivial changes**: Typo fixes, simple refactors → 1 instance faster
-- **Exploratory coding**: Unknown problem space → planning overhead not justified
-- **Tight deadlines**: Speed > quality → use 1 instance, accept corrections
-- **Very limited budget**: <$100/month → use Sonnet, 1 instance
-
-**Overhead**:
-- **Manual coordination**: You move plans between directories (no automation)
-- **Context switching**: Managing 2 terminal sessions
-- **Slower iteration**: Plan → approve → implement (vs immediate execution)
-
-**Partial adoption**: You can use this pattern selectively:
-- Dual-instance for complex features
-- Single instance for simple tasks
-- No need to commit to one pattern exclusively
+A planner reviewing its own design can preserve a shared error. Separate context is not proof of independent judgment. Use independent acceptance criteria, executable checks, and risk-appropriate additional review. Evaluate the added coordination cost before extending the pattern.
 
 #### See Also
 
-- **Workflow guide**: [dual-instance-planning.md](workflows/dual-instance-planning.md), full workflow with templates
-- **Plan Mode**: Section 9.1 "The Trinity", foundation for planning
-- **Multi-Instance (Boris)**: Section 9.17, horizontal scaling alternative
-- **Cost optimization**: Section 8.10, budget management strategies
-
-**External resource**: [Jon Williams LinkedIn post](https://www.linkedin.com/posts/thatjonwilliams_ive-been-using-cursor-for-six-months-now-activity-7424481861802033153-k8bu) (Feb 3, 2026)
+- [Dual-instance workflow, state table and plan template](workflows/dual-instance-planning.md)
+- [Cross-session messaging contracts](workflows/cross-session-messaging.md)
+- [Reviewer-independence evaluation](roles/agent-evaluation.md#evaluate-judgment-allocation-and-reviewer-independence)
+- [Honkonen source evaluation](../docs/resource-evaluations/honkonen-architect-engineer.md)
 
 ---
 
@@ -23425,25 +23152,26 @@ The docs/ hierarchy does the heavy lifting. The agent reads only what it needs f
 
 ### 9.25.2 What the Agent Can't See Doesn't Exist
 
-Agents have one knowledge boundary: the repository. Everything that exists outside the repository (Slack threads, video calls, Google Docs, tacit understanding between teammates) does not exist for the agent. This is not a limitation to work around. It is a design constraint that shapes how a team must operate.
+An agent works from information in its context and sources it can actually discover and read through authorized tools. The repository is an important owner of stable contracts, but organizational knowledge and live operational state may belong elsewhere. A configured connector does not prove that a source was retrieved, is current, or is appropriate for the task.
 
-A decision made in a Slack thread and not encoded as a markdown file in the repo will be violated by the agent on the next task. Not because the agent is careless, but because it genuinely does not know. The same is true of conventions discussed in a code review but not written into a linter rule or doc. The same is true of architecture decisions made six months ago that "everyone on the team knows."
+Keep each kind of truth with its owner and provide a retrieval route:
 
-The practical test: "If a new engineer joined the team today with no onboarding, would they know this from reading the repo?" If not, the agent doesn't know it either.
+| Information | Owner and route | What to verify |
+|---|---|---|
+| Architecture and conventions | Repository ADRs, targeted rules, canonical examples | Applicable revision, exceptions, and checks |
+| Task requirements and approvals | Authoritative issue or versioned handoff | Contract revision, decision owner, next actor |
+| Organizational context | Authorized documentation or knowledge system | Audience, source authority, freshness |
+| Deployment and incident state | Live operational system | Environment, observation time, query scope |
 
-Three categories require particular attention:
+For example, preserve a durable architecture decision in `docs/decisions/` and link it from the issue that prompted it. Query current deployment health from its operational owner rather than presenting an old Markdown snapshot as current truth. Copying a source into the repo creates another surface to maintain and requires appropriate persistence and audience permissions.
 
-**Decisions**: architectural choices, rejected alternatives, tradeoffs accepted. These belong in docs/design-docs/ as design records, not in someone's memory. A design record does not need to be long. A short document that states the decision, the alternatives considered, and the reason for the choice is sufficient and survives every team change.
+When review changes a durable decision, update its authoritative record and retrieval route before the next session needs it. When a task changes, update its contract. Make missing or stale evidence explicit rather than assuming that a new engineer or agent can infer it.
 
-**Conventions**: naming rules, structural patterns, file organization. These belong in linter rules (so they are enforced, not just documented) or in targeted docs that AGENTS.md links to. A convention that lives only in a README section will drift.
-
-**Plans**: what is being built, why, and in what sequence. These belong in exec plans (see §9.25.3). A plan that exists only in a project management tool the agent cannot read is not a plan for the agent.
-
-The corollary: when a human makes a decision during code review or changes direction mid-task, that decision must be written into the repo before the next agent session. Review comment responses that change architecture are not repo content. Writing them into a design doc or updating an exec plan is the required step, not optional cleanup.
+This adapts the anthology's [ownership of different kinds of truth](https://github.com/lopopolo/harness-engineering/blob/226c8d35fb6ea3ed55467753dba6dea2b5fd5778/docs/last-mile-deployment/README.md#keep-each-kind-of-truth-with-its-owner). See also [context beyond the repository](core/agent-harness.md#context-beyond-the-repository).
 
 ### 9.25.3 The Knowledge Base Structure
 
-A structured docs/ hierarchy turns the knowledge boundary from a liability into an asset. When all relevant context is in the repo and consistently organized, the agent can navigate to exactly what it needs for any task.
+A structured docs/ hierarchy makes repository-owned context discoverable. It can also route the agent to authorized external owners when the required information belongs elsewhere.
 
 The structure the OpenAI Codex team converged on:
 
@@ -23501,7 +23229,22 @@ This approach requires infrastructure that not every team has available. The pat
 
 ### 9.25.5 Enforcing Architecture and Taste
 
-At agent throughput levels, the natural tendency toward entropy accelerates. Agents replicate patterns they observe in the codebase. If an imperfect pattern exists anywhere, it will be reproduced everywhere within a few sessions. The compounding is faster than with human developers because the agent works faster and is more likely to generalize from examples. Architecture must be enforced, not documented.
+Existing code supplies examples for later changes. Inconsistent patterns and unfinished migrations can leave competing precedents for an agent to follow. This motivates canonical examples and executable constraints where appropriate; it does not establish a fixed propagation rate or require the same architecture in every project.
+
+#### Make the local quality bar recoverable
+
+Functional requirements alone leave choices about compatibility, accessibility, maintainability, and acceptable risk unresolved. Give each requirement an authoritative owner, an accessible representation, and evidence suited to the claim:
+
+| Local requirement | Authoritative owner | Representation | Evidence |
+|---|---|---|---|
+| Support a declared input format | Boundary schema or parser | Typed value and canonical example | Valid, malformed, and compatibility fixtures |
+| Preserve keyboard access | Product accessibility requirement | Component example and interaction contract | Keyboard behavior checks and relevant human review |
+| Keep generated versions aligned | Version manifest | Derived discovery files | Equality check plus navigation checks |
+| Respect a latency budget | Service requirement | Benchmark procedure and workload | Measured result under declared conditions |
+
+One concept can have multiple derived representations without multiple competing definitions. Parse uncertain input at its boundary, then pass the validated representation to consumers. When migrating a pattern, repair the scoped existing population and add a check that prevents new violations. Once ownership removes the need for downstream duplicate checks, evaluate retiring those checks rather than stacking more controls indefinitely.
+
+Adapted from [Lopopolo's domain-modeling synthesis](https://github.com/lopopolo/harness-engineering/blob/226c8d35fb6ea3ed55467753dba6dea2b5fd5778/docs/domain-modeling/README.md). These are design practices to evaluate, not measured productivity gains. The following OpenAI architecture is one reported implementation.
 
 **Layered domain architecture**
 
@@ -23513,7 +23256,7 @@ Types → Config → Repo → Service → Runtime → UI
 
 Each layer may depend only on layers below it. Cross-cutting concerns (auth, connectors, telemetry, feature flags) are available only through explicit Provider interfaces, not by importing directly. Violations are build failures enforced by custom linters and structural tests.
 
-This is the kind of architecture typically deferred in early-stage products with the reasoning "we'll add this structure when we have more engineers." At agent throughput levels, the reasoning inverts: without this structure, agents will introduce cross-layer dependencies within days, and the resulting tangle is difficult to reverse. Layered architecture becomes a prerequisite rather than a future optimization.
+Choose dependency boundaries that fit the domain, then test the violations that matter. The reported layer order is an example, not a prerequisite for every agent-assisted project.
 
 **Taste invariants and custom linters**
 
