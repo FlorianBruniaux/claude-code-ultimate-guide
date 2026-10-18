@@ -209,12 +209,12 @@ The keys worth knowing under `sandbox` are `excludedCommands`,
 Two of them mislead.
 
 `credentials.envVars` in `deny` mode unsets the variable before each sandboxed
-command, but measure before trusting it. On 2.1.302, a denied variable present
-only in Claude Code's launch environment was gone inside the sandbox, while two
-denied variables exported by the user's shell profile were still set. The shell
-the Bash tool starts is initialized from that profile; whether that re-exports
-them is the likely mechanism, not a verified one. Check with a probe that prints
-only `set` or `unset`, never the value.
+command, but a shell startup file can set it again. zsh reads `~/.zshenv` at
+every start, so on 2.1.302 two denied variables exported there were still set
+inside the sandbox, while a denied variable present only in Claude Code's launch
+environment was gone. Check with a probe that prints only `set` or `unset`,
+never the value, and compare `zsh -c` with `zsh -f -c`. Fix it by guarding the
+export with `[[ -n $CLAUDECODE ]] ||`, then re-run the probe.
 
 `allowUnsandboxedCommands: false` does not neutralize `excludedCommands` from
 your own settings. The first closes the per-invocation escape hatch, the second

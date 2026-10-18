@@ -227,7 +227,15 @@ The profile applies to `bwrap` itself, not to the commands it runs inside the sa
 
 > **"Entire computer" includes your credentials.** There is no built-in denylist, so `~/.ssh` and `~/.aws/credentials` are readable by every sandboxed command until you list them in [`sandbox.credentials.files`](../core/settings-reference.md#sandboxcredentialsfiles) or `filesystem.denyRead`. Enabling the sandbox does not protect them; declaring them does.
 
-> **Check that denied environment variables are really gone.** `sandbox.credentials.envVars` in `deny` mode unsets a variable before each sandboxed command. On v2.1.302, a probe that printed only `set` or `unset` found a denied variable present only in Claude Code's launch environment correctly removed, while two denied variables exported from `~/.zshrc` were still set inside the sandboxed command. The Bash tool initializes its shell from your profile, which likely re-exports them; that mechanism is inferred, not verified. Until it is settled, keep secrets out of your shell profile, or load them only in the terminals that need them, and re-run the probe after any change.
+> **Check that denied environment variables are really gone.** `sandbox.credentials.envVars` in `deny` mode unsets a variable before each sandboxed command. On v2.1.302, a probe that printed only `set` or `unset` found a denied variable present only in Claude Code's launch environment correctly removed, while two denied variables exported from `~/.zshenv` were still set inside the sandboxed command. The cause is the shell, not the sandbox: zsh reads `~/.zshenv` at every start, interactive or not, so the shell the Bash tool launches re-exports the variables after the sandbox has removed them. `env -u VAR zsh -c 'echo ${VAR:+set}'` prints `set`, while the same call with `zsh -f` (no startup files) prints nothing. The same applies to any startup file the Bash tool's shell reads.
+
+Guard the export so it is skipped inside Claude Code, which sets `CLAUDECODE=1` for the commands it runs. Your terminal still exports it, and MCP servers keep it because they inherit the environment of the process that launched Claude Code:
+
+```bash
+[[ -n $CLAUDECODE ]] || export MY_API_KEY="..."
+```
+
+Re-run the probe after the change.
 
 **Do not rely on a `permissions.deny` read rule alone to keep a secret from Bash.** The official documentation says `Read` deny rules are merged into the sandbox configuration, and v2.1.236 made macOS wildcard read-denies such as `**/.env` take precedence inside allowed read regions. Field measurements disagree with each other, so test on your own machine before trusting the rule:
 
