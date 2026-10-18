@@ -327,6 +327,8 @@ VLM   : image -> vision encoder -> projection into the LLM embedding space
 
 </details>
 
+> **Source**: [Architecture, size class, modality and task](../core/ai-concept-boundaries.md#architecture-size-class-modality-and-task)
+
 > Experts are not whole sub-models: they sit inside each layer, in place of the feed-forward block.
 >
 > Sources: [Phi-3 technical report](https://ar5iv.labs.arxiv.org/html/2404.14219) (transformer decoder architecture), [Anthropic glossary](https://platform.claude.com/docs/en/about-claude/glossary) (autoregressive language model), [Attention Is All You Need](https://ar5iv.labs.arxiv.org/html/1706.03762) (original transformer, encoder-decoder), [Mixtral of Experts](https://arxiv.org/html/2401.04088), [Switch Transformers](https://ar5iv.labs.arxiv.org/html/2101.03961), [LLaVA](https://ar5iv.labs.arxiv.org/html/2304.08485), [Claude vision docs](https://platform.claude.com/docs/en/build-with-claude/vision) (images consume tokens).
