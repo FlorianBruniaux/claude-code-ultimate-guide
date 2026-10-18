@@ -128,15 +128,98 @@ Full-guide wrappers are `whitepapers/guide-export.qmd` and
 `whitepapers/guide-export-fr.qmd`. Preprocessed Markdown is generated and ignored.
 See [translation maintenance](translations.md) for the evidence registry.
 
-## Typst templates — 3 copies, always sync
+## Typst templates: update the copy used by the source
 
-`whitepapers/fr/_extensions/whitepaper/typst-template.typ` (used for FR rendering)
-`whitepapers/en/_extensions/whitepaper/typst-template.typ` (used for EN rendering)
-`whitepapers/_extensions/whitepaper/typst-template.typ` (fallback/reference)
+The source locations currently use these templates:
 
-**Quarto uses the `_extensions/` closest to the .qmd**: patching the root copy has no effect on fr/ or en/.
+| Source | Template |
+| --- | --- |
+| `whitepapers/fr/*.qmd` | `whitepapers/fr/_extensions/whitepaper/typst-template.typ` |
+| `whitepapers/en/*.qmd` | `whitepapers/en/_extensions/whitepaper/typst-template.typ` |
+| Full-guide wrappers in `whitepapers/` | `whitepapers/_extensions/whitepaper/typst-template.typ` |
 
-## PDF deployment checklist — 3 files to update
+Editing the root copy does not update the FR or EN copies. Review a shared fix
+against all three templates, preserving their intended differences. Do not
+assume that a parent extension will be available after removing a local copy.
+
+Recap cards use `whitepapers/_extensions/recap-card/`. Their FR and EN source
+directories expose it through `_extensions` directory symlinks. Keep those
+working links. The older `recap-card-template.typ` under the whitepaper extension
+already differs from the dedicated card template; compare changes before
+copying between them.
+
+## Quarto/Typst troubleshooting
+
+Record the installed toolchain before comparing results. Targeted reproductions
+on Quarto 1.10.19, bundled Pandoc 3.10 and Typst 0.15.1 confirmed the cases below;
+they do not validate the complete publication catalog.
+
+```bash
+quarto --version
+quarto pandoc --version
+quarto typst --version
+```
+
+### A list becomes part of its introductory paragraph
+
+With the default Pandoc Markdown reader, list items immediately following a
+paragraph without a blank line can remain inside that paragraph. Add a blank
+line before the first bullet or checkbox in the source. This is a parsing issue,
+not the normal tight-list representation (`BulletList` items containing `Plain`).
+
+`scripts/render-publications.py` already selects
+`markdown+lists_without_preceding_blankline`, and the full-guide preprocessor
+already inserts separators. For a manual render, from the cloned repository
+root:
+
+```bash
+cd whitepapers/fr
+quarto render 00-introduction-serie.qmd --to whitepaper-typst \
+  -M from:markdown+lists_without_preceding_blankline
+```
+
+The reader option is documented in the
+[Pandoc manual](https://pandoc.org/MANUAL.html#extension-lists_without_preceding_blankline).
+A Lua list filter cannot recover a list that the reader never parsed.
+
+### A literal file mention becomes a citation in a callout title
+
+A bare `@file` in the Markdown title becomes a citation and can fail Typst
+compilation when there is no bibliography. Preserve file mentions as inline code:
+
+```markdown
+::: {.callout-note title="Memo `@file`"}
+
+Callout content.
+
+:::
+```
+
+This also works when the title is a heading inside the callout. A single
+backslash before `@file` in the quoted `title` attribute did not prevent the
+citation in the tested version. Keep genuine bibliography citations unchanged.
+
+### A custom Typst format cannot load its template
+
+`recap-card-typst` selects extension `recap-card` and base format `typst`.
+With the default template, the two template-function partials used here are
+`typst-template.typ` and `typst-show.typ`; arbitrary renamed partials were rejected.
+Other supported partial slots exist, as described by
+[Quarto's custom Typst formats](https://quarto.org/docs/output-formats/typst-custom.html).
+
+Quarto expands the partials into the generated `.typ`. Do not add an import of
+`typst-template.typ` inside `typst-show.typ` to connect those two files.
+Imports of separate Typst libraries are a different case and need resolvable
+resource paths. Keep these two partial files as regular files: a symlink for
+`typst-template.typ` omitted its definition in the reproduction, although the
+existing `_extensions` directory symlinks worked.
+
+For a failing source, render with `--debug` in a scratch copy, inspect the
+retained `.typ` and the complete compiler log, then rerun the publication
+validator. Review font warnings too: compilation with fallback fonts does not
+establish the intended typography or pagination.
+
+## PDF deployment checklist: 3 files to update
 
 When pushing updated PDFs to the landing/portfolio, **3 files must always be updated together**. Missing any one of them causes old files to be served.
 

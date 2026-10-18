@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- **Quarto/Typst publication troubleshooting**: document the existing list-reader protection and manual render option, preserve literal file mentions in callout titles, and identify active templates and supported partial names. Distinguish working extension-directory symlinks from the tested partial-file symlink failure; retain font and full-catalog validation limits.
+
 - Add the `**Source**` guide link the landing diagram build requires to the dense, MoE and VLM pipelines diagram in `guide/diagrams/04-architecture-internals.md`; its absence stopped the landing deploy at the "Build diagrams data" step.
 
 - **Security scanner and offensive-skill corrections (checked October 17, 2026)**: replace the outdated waitlist-only Claude Code Security preview in `guide/security/security-hardening.md` and the main guide with the official layers (security-guidance plugin, `/security-review`, the `claude-security@claude-plugins-official` plugin, Code Review, managed Claude Security on Enterprise). Replace the nonexistent `--system-file` flag in the claude-red section with `--append-system-prompt-file`, checked with canary instructions on Claude Code 2.1.302 in print mode. Add a dated note to the cybersecurity skill sections: per Anthropic's Cyber Verification Program, generally available models block most cyber work and Red Team Access is open to organizations only. Add the `skills` field to the zebbern agent example. Mirror the changes in `guide/ultimate-guide.fr.md` without recording a French refresh, and update the `security_cc_scanner` anchor in both reference indexes.
