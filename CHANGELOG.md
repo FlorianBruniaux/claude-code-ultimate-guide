@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- Fix the MCP chapter-boundary regression test to locate named guide headings instead of frozen line numbers, preserving checks immediately before and at each transition. Regenerate the MCP product manifest from the current guide, index, and release bundle so the release contract checks current counts and source metadata. Refresh translation provenance and its MCP mirror after committed guide edits, preserving the French edition's recorded source and stale status.
+
 - **Quarto/Typst publication troubleshooting**: document the existing list-reader protection and manual render option, preserve literal file mentions in callout titles, and identify active templates and supported partial names. Distinguish working extension-directory symlinks from the tested partial-file symlink failure; retain font and full-catalog validation limits.
 
 - Add the `**Source**` guide link the landing diagram build requires to the dense, MoE and VLM pipelines diagram in `guide/diagrams/04-architecture-internals.md`; its absence stopped the landing deploy at the "Build diagrams data" step.

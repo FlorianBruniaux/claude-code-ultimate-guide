@@ -30,18 +30,27 @@ test('the bundled session-scoped hooks reference links to the rendered Hooks cha
 })
 
 test('real rendered chapter transitions route boundary lines inclusively', async () => {
-  // Independent oracle checked against guide 3.44.1 headings and landing splitter rules.
-  // Keep these expectations independent of chapter-ranges.generated.json.
+  // Named source headings are an independent oracle: adding prose shifts their
+  // lines without changing the expected routing. Do not read generated ranges.
   const boundaries = [
-    [259, '00-introduction', '01-quick-start'], [1635, '01-quick-start', '02-core-workflow'],
-    [4816, '02-core-workflow', '03-memory-files'], [6352, '03-memory-files', '04-agents'],
-    [7241, '04-agents', '05-skills'], [8801, '05-skills', '06-commands'],
-    [9738, '06-commands', '07-hooks'], [11631, '07-hooks', '08-mcp'],
-    [14222, '08-mcp', '09-advanced-patterns'], [23738, '09-advanced-patterns', '10-reference'],
-    [25023, '10-reference', '11-ai-ecosystem'], [25688, '11-ai-ecosystem', '12-appendices'],
+    ['## 1.1 Installation', '00-introduction', '01-quick-start'],
+    ['## 📌 Section 2 TL;DR (2 minutes)', '01-quick-start', '02-core-workflow'],
+    ['## 📌 Section 3 TL;DR (90 seconds)', '02-core-workflow', '03-memory-files'],
+    ['## 📌 Section 4 TL;DR (60 seconds)', '03-memory-files', '04-agents'],
+    ['## 5.0 Two kinds of skills', '04-agents', '05-skills'],
+    ['## 6.1 Slash Commands', '05-skills', '06-commands'],
+    ['## 📌 Section 7 TL;DR (60 seconds)', '06-commands', '07-hooks'],
+    ['## 8.1 What is MCP', '07-hooks', '08-mcp'],
+    ['## 📌 Section 9 TL;DR (3 minutes)', '08-mcp', '09-advanced-patterns'],
+    ['## 📌 Section 10 TL;DR (1 minute)', '09-advanced-patterns', '10-reference'],
+    ['## 11.1 Why Complementarity Matters', '10-reference', '11-ai-ecosystem'],
+    ['## Appendix A: File Locations Reference', '11-ai-ecosystem', '12-appendices'],
   ]
+  const lines = readFileSync(join(guideRoot, 'guide/ultimate-guide.md'), 'utf8').split(/\r?\n/)
   await withUrls(({ guideSiteUrl }) => {
-    for (const [start, previous, next] of boundaries) {
+    for (const [heading, previous, next] of boundaries) {
+      assert.equal(lines.filter(line => line === heading).length, 1, `Unique chapter heading: ${heading}`)
+      const start = lines.indexOf(heading) + 1
       assert.equal(guideSiteUrl('guide/ultimate-guide.md', start - 1), `https://cc.bruniaux.com/guide/ultimate-guide/${previous}/`)
       assert.equal(guideSiteUrl('guide/ultimate-guide.md', start), `https://cc.bruniaux.com/guide/ultimate-guide/${next}/`)
     }
