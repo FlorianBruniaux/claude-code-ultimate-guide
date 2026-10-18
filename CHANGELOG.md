@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- **Claude Code releases synchronized through 2.1.302**: add the October 16 summary from the official changelog (`CLAUDE_CODE_AUTO_MODE_MODEL` for the client-side auto mode classifier, an `Idle compaction` toggle in `/config`, the Claude Design shutdown notice, `claude -p` and Agent SDK sessions starting in `default` mode on third-party providers, fork subagents on by default outside the terminal, and fixes for compaction stops, mid-session provider switches, oversized image reads and MCP protocol 2026-07-28 servers). Update the condensed YAML and its MCP copy, the human-readable release page and the version sentence of the three `llms.txt` mirrors.
+
 - Refresh Conductor's four-agent local/cloud workspace profile and document Vibe Kanban's announced vendor shutdown and community/local continuation beside the historical harness catalog. Evaluate Emdash, Superset, Escouade, and Opcode: add three concise workspace comparisons, retain Opcode evaluation-only, and reuse existing Nimbalyst/Claudio coverage. Correct Superset's Elastic License and Escouade's current GPL labels, stale AO/Windows comparisons, and the unified-admin gap. Record a current Escouade copy-helper symlink probe with dummy files and explicit runtime limits; update navigation, evaluation index, and machine-readable/MCP references without claiming an application trial or productivity gain.
 
 - Fix the native sandbox OS-primitives index route by replacing its stale line reference with the stable section anchor; synchronize the MCP reference mirror and regenerate the bound chapter metadata.

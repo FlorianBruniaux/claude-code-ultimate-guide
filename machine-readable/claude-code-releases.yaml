@@ -3,8 +3,8 @@
 # Purpose: Track Claude Code product releases for documentation sync
 # Maintained: Manual updates when new releases are announced
 
-latest: "2.1.301"
-updated: "2026-10-16"
+latest: "2.1.302"
+updated: "2026-10-18"
 
 # ════════════════════════════════════════════════════════════════
 # RELEASES (newest first, condensed highlights only)
@@ -14,6 +14,16 @@ releases:
   # ─────────────────────────────────────────────────────────────
   # 2.1.x Series (January-August 2026)
   # ─────────────────────────────────────────────────────────────
+
+  - version: "2.1.302"
+    date: "2026-10-16"
+    highlights:
+      - "Added `CLAUDE_CODE_AUTO_MODE_MODEL` to choose the model of the client-side auto mode classifier, an `Idle compaction` row in `/config` to turn idle compaction off or on, and a notice in `/design-sync` and `/design-login` that standalone Claude Design (claude.ai/design) closes by December 14, 2026"
+      - "Fixed a \"Prompt is too long\" error when stopping a turn during compaction, Vertex or Bedrock requests failing after a mid-session switch, the Read tool loading an image of any size into memory (image sources over 128 MB are now refused), a prompt cache miss when a mid-session tool was reloaded through ToolSearch, and `claude plugin` subcommands exiting before a queued settings write finished"
+      - "Fixed MCP servers showing no tools when they negotiate protocol 2026-07-28 but omit `resultType`, `ttlMs` or `cacheScope`, prompt suggestions spending usage credits, worktree isolation refusing to start under git 2.56+ with a stray `.git` file, and Windows refusing every file write on exFAT or FAT32 drives"
+      - "Changed prompt and agent hooks to run at most 12 of one event at a time, the desktop app and VS Code to always run main-conversation subagents in the background, and the server-side auto mode classifier to compact a conversation too long for its safety check instead of denying every checked tool call"
+    breaking:
+      - "`claude -p` and Agent SDK sessions with no permission mode start in `default` mode on third-party providers, with telemetry off or on a fresh install (`--permission-mode auto` keeps auto). Fork subagents are on by default in `claude -p`, the Agent SDK, the desktop app and VS Code (`CLAUDE_CODE_FORK_SUBAGENT=0` turns them off)."
 
   - version: "2.1.301"
     date: "2026-10-15"

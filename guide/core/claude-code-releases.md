@@ -17,12 +17,13 @@ keywords:
 > **Release dates**: UTC publication dates from the [official npm package metadata](https://registry.npmjs.org/@anthropic-ai%2Fclaude-code). Only versions with upstream changelog entries are included.
 > **Machine-readable**: [claude-code-releases.yaml](../../machine-readable/claude-code-releases.yaml)
 
-**Latest**: v2.1.301 | **Updated**: 2026-10-16
+**Latest**: v2.1.302 | **Updated**: 2026-10-18
 
 ---
 
 ## Quick jump
 
+- [v2.1.302](#v21302-2026-10-16): `CLAUDE_CODE_AUTO_MODE_MODEL`, idle compaction toggle in `/config`, `claude -p` default mode on third-party providers and fork subagents on by default outside the terminal
 - [v2.1.301](#v21301-2026-10-15): retry watchdog usage-limit cap, classifier fields on `tool_decision` events, `WorktreeCreate` worktree removal and Grep/Glob failure fixes
 - [v2.1.300](#v21300-2026-10-14): cache-write split in OpenTelemetry, validated hook `updatedInput`, SessionEnd and MCP schema 400 fixes
 - [v2.1.299](#v21299-2026-10-14): ⭐ idle compaction before prompt cache expiry, sandbox symlink and `--plugin-dir` escape fixes, MCP allow rules scoped to the named server
@@ -65,6 +66,12 @@ keywords:
 ---
 
 ## 2.1.x series (January-August 2026)
+
+### v2.1.302 (2026-10-16)
+
+- **Added**: `CLAUDE_CODE_AUTO_MODE_MODEL` chooses the model used by the client-side auto mode classifier; it does not change server-side auto mode. `/config` gains an `Idle compaction` row to turn idle compaction off or back on, and the notice shown after an idle compaction says how. `/design-sync` and `/design-login` warn that standalone Claude Design (claude.ai/design) closes by December 14, 2026.
+- **Changed**: `claude -p` and Agent SDK sessions with no permission mode start in `default` mode on third-party providers, with telemetry off or on a fresh install; `--permission-mode auto` keeps auto. Fork subagents (`subagent_type: "fork"`) are on by default in `claude -p`, the Agent SDK, the desktop app and VS Code, as in the terminal (`CLAUDE_CODE_FORK_SUBAGENT=0` turns them off), and the desktop app and VS Code always run the main conversation's subagents in the background. Prompt and agent hooks run at most 12 of one event at a time, and the server-side auto mode classifier compacts a conversation too long for its safety check instead of denying every checked tool call.
+- **Fixed**: Stopping a turn during compaction no longer fails with "Prompt is too long", requests no longer fail with "diagnostics: Extra inputs are not permitted" after switching to Vertex or Bedrock mid-session, and the Read tool refuses image sources over 128 MB instead of loading any size into memory. A tool added mid-session no longer misses the prompt cache when reloaded through ToolSearch or after compaction, `claude plugin` subcommands wait for queued settings writes, MCP servers negotiating protocol 2026-07-28 without `resultType`, `ttlMs` or `cacheScope` show their tools again, prompt suggestions no longer spend usage credits, worktree isolation works under git 2.56+ with a stray `.git` file, and Windows no longer refuses every file write on exFAT or FAT32 drives.
 
 ### v2.1.301 (2026-10-15)
 
