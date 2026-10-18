@@ -6,7 +6,7 @@ Files optimized for LLM/AI consumption. Numeric sizes are rounded from current f
 
 | File | Description | Size | Est. tokens |
 |------|-------------|------|-------------|
-| [reference.yaml](./reference.yaml) | Master index: file paths, section anchors and line numbers into `guide/ultimate-guide.md` and the thematic guides. Also holds decision trees, CLI and env reference, permission and MCP config, agent and skill templates, onboarding question flow. | ~301 KiB | ~75K |
+| [reference.yaml](./reference.yaml) | Master index: file paths, section anchors and line numbers into `guide/ultimate-guide.md` and the thematic guides. Also holds decision trees, CLI and env reference, permission and MCP config, agent and skill templates, onboarding question flow. | ~304 KiB | ~76K |
 | [claude-code-releases.yaml](./claude-code-releases.yaml) | Condensed history of official Claude Code releases: per-version highlights, `breaking_summary` grouped by category, `milestones` quick reference. Source of truth for `guide/core/claude-code-releases.md`. | ~170 KiB | ~43K |
 | [cowork-reference.yaml](./cowork-reference.yaml) | Index for Claude Cowork (Claude Desktop, non-dev audience). Paths resolve against the dedicated [claude-cowork-guide](https://github.com/FlorianBruniaux/claude-cowork-guide) repo, not this one. | ~21 KiB | ~4K |
 | [agentsec-security-feed.v1.json](./agentsec-security-feed.v1.json) | AgentSec database metadata, detector coverage, security counters, and reviewed incident fiches consumed by the landing. | ~125 KiB | ~32K |
@@ -18,7 +18,7 @@ Files optimized for LLM/AI consumption. Numeric sizes are rounded from current f
 | [distribution-channels.yaml](./distribution-channels.yaml) | JSON-compatible YAML registry for publication channels, attributed URLs, asset states, dates, and 30-day outcome fields. | ~8 KiB | ~2K |
 | [navigation.json](./navigation.json) | Shared `Start`, `Build`, `Scale`, `Resources`, and `Updates` navigation contract for the repository README and public landing sitemap. Each public route can point back to its canonical repository source. | Generated | <2K |
 | [navigation.schema.json](./navigation.schema.json) | JSON Schema for the shared navigation contract. | Generated | N/A |
-| [llms.txt](./llms.txt) | Standard LLM context file for repository indexation: topic coverage, entry points, key URLs. | ~10 KiB | ~3K |
+| [llms.txt](./llms.txt) | Standard LLM context file for repository indexation: topic coverage, entry points, key URLs. | ~11 KiB | ~3K |
 
 `reference.yaml` is a full index, not a summary. Search for the topic you need and follow the resulting path or line number, rather than loading the entire index into context.
 
