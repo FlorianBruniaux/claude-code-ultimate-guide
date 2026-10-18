@@ -12,7 +12,7 @@ This is not a list of AI tools that complement Claude Code generally. It covers 
 
 These extensions may observe, configure, or coordinate Claude Code, but they do not necessarily own an agent loop. Use the [Agent Harness Map](./agent-harness-landscape.md) for the strict runtime comparison and a wider sourced directory, [Agent Harness Engineering](../core/agent-harness.md) for the layer boundaries, and [Agent Tools: Beyond Claude Code](./agentic-tools.md) for runtime-adjacent frameworks and control planes. Evaluate, observe, and secure an added tool through [Agent Evaluation](../roles/agent-evaluation.md), [Session Observability](../ops/observability.md), and [Security Hardening](../security/security-hardening.md). The [glossary](../core/glossary.md) defines the distinctions.
 
-> **Verification history**: Initial catalog checked in June 2026; selected entries were updated through September 2026. Check each tool's source before installation. 40+ tools across 17 categories.
+> **Verification history**: Initial catalog checked in June 2026; selected entries were updated through October 2026. Check each tool's source before installation. 40+ tools across 17 categories.
 
 ## Table of contents
 
@@ -1377,56 +1377,43 @@ A universal terminal frontend for AI coding agents. Supports Claude Code alongsi
 
 ### Conductor
 
-A macOS desktop app for orchestrating multiple Claude Code (and Codex) instances in parallel using git worktrees, with integrated diff viewing, PR workflow, and GitHub automation.
+A macOS desktop app that coordinates coding agents in Git workspaces, with local or cloud execution, diff review, and a pull-request workflow. Documentation reviewed on October 17, 2026.
 
 | Attribute | Details |
 |-----------|---------|
 | **Source** | [conductor.build](https://conductor.build) |
-| **Docs** | [docs.conductor.build](https://docs.conductor.build) |
+| **Docs** | [Conductor documentation](https://www.conductor.build/docs) |
 | **Install** | Download from [conductor.build](https://conductor.build) |
-| **Platform** | macOS only (Windows/Linux planned) |
+| **Platform** | macOS client; local workspaces or cloud Linux sandboxes |
+| **Agents** | Claude Code, Codex, Cursor, OpenCode |
 | **Author** | Melty Labs |
 
-**Workspace management**:
+**Workflow**: create a workspace for a feature or fix, run an agent, inspect its changes, send line-level feedback, then create or review a PR. A workspace keeps its branch, files, terminal, and conversation together. The [diff viewer](https://www.conductor.build/docs/reference/diff-viewer) supports file and commit review; [Checks](https://www.conductor.build/docs/reference/checks) brings together PR state, CI, comments, and todos where available. Checks can block or discourage merging depending on the workflow; their presence does not prove that a required test ran.
 
-- One workspace per feature/bugfix, created with `⌘⇧N` or from a GitHub issue or Linear issue directly
-- Workspaces organized by status: backlog → in progress → in review → done (v0.35.0)
-- Group workspaces across multiple repos in a single view (v0.35.2)
-- **Next Workspace** button (v0.36.4): jumps to the next workspace awaiting your input, so you never manually scan for blocked agents
-- Archive completed workspaces while preserving full chat history
+**Local and cloud**: local workspaces use Git worktrees on the Mac. [Cloud workspaces](https://www.conductor.build/docs/cloud) run in Linux sandboxes with configured dependencies and environment variables, and can continue while the laptop is closed until the workspace sleeps. Organizations can share cloud workspaces and chats. This extends execution beyond the desktop; it does not add a Windows or Linux desktop client.
 
-**Diff viewer & code editing**:
+**Permission boundary**: a [Git worktree](https://www.conductor.build/docs/concepts/git-worktrees) separates working files while sharing Git history and references. Local agents run with the user's account permissions. Cloud execution uses Vercel sandboxes, but users can explicitly allow cloud agents to act on their local machine. Review that setting before treating the cloud workspace as isolated from the Mac. See [security and permissions](https://www.conductor.build/docs/reference/security-and-permissions).
 
-- Integrated diff viewer in the chat panel, turn-by-turn diffs per agent message (v0.22.0)
-- Open diff with `⌘D`; navigate file-by-file without leaving Conductor
-- **Manual Mode** (v0.37.0): built-in file editor with syntax highlighting and `⌘F` search, covers quick edits without opening a separate IDE
-- Comment directly on diffs and send feedback to Claude (v0.10.0)
+**When to test it**: you use a Mac and want agent execution, diff feedback, and PR checks in one workspace, including a cloud option. It is a proprietary product; agent-provider access and cloud availability have their own requirements. These are documented capabilities, not a measured productivity gain.
 
-**GitHub & CI integration**:
+### Desktop agent workspace comparison
 
-- View GitHub Actions logs in the Checks tab (v0.33.2)
-- Failing CI checks forwarded automatically to Claude for fixes (v0.12.0)
-- Edit PR titles and descriptions directly in the Checks tab (v0.34.1)
-- Sync PR comments from GitHub to Conductor (v0.25.4)
-- Todos block workspace until checked off before merge (v0.28.4)
-- Create PR with `⌘⇧P`
+These tools host or coordinate existing coding agents. Their workspace features do not establish ownership of the underlying model-and-tool loop. The table highlights a reason to test each one rather than repeating a complete feature inventory. Sources reviewed on October 17, 2026.
 
-**Linear & other integrations**:
+| Tool | Distinct workflow to evaluate | Constraint that affects adoption |
+|---|---|---|
+| [Conductor](#conductor) | Local or cloud workspaces with diff feedback and PR checks | macOS client; local-machine access can be enabled for cloud agents |
+| [Emdash](https://github.com/generalaction/emdash/blob/761520624f1cafa740f5c88ddaf083b4fde2cc59/README.md) | Run installed agent CLIs locally or on your own SSH/SFTP machines, with a worktree per task | macOS, Windows, Linux; Apache-2.0. For supported agents it installs lifecycle hooks in user-level configuration. Review those changes; agent CLIs may still send prompts and context to their providers |
+| [Superset](https://github.com/superset-sh/superset/blob/e547103d8570a39327c051b80144e45c59203052/README.md) | Review diffs, send PR-line feedback to an agent, and preview each worktree's dev server in a browser pane; select UI elements to supply context | macOS primary, Linux experimental, Windows unavailable in this snapshot. [Elastic License 2.0](https://github.com/superset-sh/superset/blob/e547103d8570a39327c051b80144e45c59203052/LICENSE.md), source-available; remote/cloud/mobile capabilities have separate requirements |
+| [Escouade](https://github.com/guillaume-gagnaire/escouade/blob/b74b6526b3ba94df049a9a8ad1466e37706fe175/README.md) | FR/EN interface; Kanban tickets with acceptance criteria, dependencies and retry loops; an MCP server can operate tickets and agents | Windows, macOS, Linux; Claude Code is the current engine. GPL-3.0-or-later, with versions through 1.7.7 under MIT. MCP can also authorize actions and trigger ticket validation, tests and delivery: review its authority before enabling automation |
+| [Nimbalyst](./agentic-tools.md#47-nimbalyst) | Edit and review plans, diagrams, and implementation together | See the existing profile for supported agents and limitations |
+| [Vibe Kanban](./agent-harness-landscape.md#vibe-kanban-maintenance-status) | Existing Kanban control plane over external coding agents | Bloop announced its shutdown and a community/local continuation; check the dated maintenance note before relying on remote services |
 
-- Attach Linear issues to messages or open a Conductor workspace directly from a Linear issue (v0.15.0, v0.36.5)
-- Deeplinks to Linear, Slack, VS Code within AI-generated responses
-- Mermaid diagram support with pan/zoom and fullscreen
+For example, evaluate Superset on a UI change that needs both browser inspection and code review; evaluate Emdash when the repository must stay on an SSH machine. For Escouade, verify a ticket's tests and diff independently of the agent's acceptance-criteria report. Worktrees separate Git working files; they do not sandbox processes or prevent merge conflicts.
 
-**Agent support**:
+**Escouade file-copy caveat**: a standalone probe of the pinned revision's worktree-copy helper reproduced an overwrite outside the worktree through a destination symlink. This was a helper test with dummy files, not an application-wide security audit. Use a disposable repository and disable automatic secret-file copying for a trial; see the [evidence and reproduction boundary](../../docs/resource-evaluations/agent-workspace-cockpits.md#escouade).
 
-- Claude Code (default) + Codex side by side (v0.18.0); keyboard-navigable model picker
-- Slash command autocomplete (e.g. `/restart` to restart Claude Code process)
-
-**Reported workflow pattern (community)**:
-
-Users working across 5+ parallel features on multiple repos report the following flow: create one workspace per feature (GitHub issue or Linear issue as context), let agents run, use the **Next Workspace** button to process only workspaces awaiting input, review diffs in-app, merge from the Checks tab. Reported combination with BMAD: one workspace per epic, one Claude agent for implementation and a second for the next story, described as a significant productivity multiplier for spec-driven development.
-
-**Limitations**: macOS only (as of Mar 2026). Proprietary (not open source). Overlaps with multi-agent orchestration tools listed below.
+The [source evaluation](../../docs/resource-evaluations/agent-workspace-cockpits.md) records the three selective additions and why Opcode did not receive another profile. Existing Nimbalyst and Claudio coverage is referenced there rather than duplicated.
 
 ---
 
@@ -1442,11 +1429,11 @@ The open source, cross-platform equivalent of Conductor above: a desktop app and
 | **Platform** | Windows, macOS, Linux, plus a headless CLI mode |
 | **Stars** | 8,100+ (July 2026, 5 months after creation) |
 
-**What it adds over Conductor**: 23 supported agent CLI harnesses (Claude Code, Codex, Cursor, Aider, Goose, Devin, and 18 others) instead of 2, and it runs on any OS instead of macOS only. The core pattern is the same: isolated git worktree per session, a local daemon watching PR state, and automatic "nudges" sent back to the right agent session when CI fails, a reviewer comments, or a merge conflict appears.
+**Comparison scope**: the July 2026 evaluation documented broad agent-CLI support, desktop builds across Windows/macOS/Linux, and a headless mode. Conductor now documents four agents and cloud execution, so the former "23 versus 2" comparison no longer applies. AO's documented pattern is a Git worktree per session, a daemon watching PR state, and automatic "nudges" sent back to the agent when CI fails, a reviewer comments, or a merge conflict appears.
 
 **Two things worth knowing before adopting it**: the desktop app sends anonymized usage events (and redacted session recordings) to PostHog by default, disable it by setting `VITE_AO_POSTHOG_KEY` to an empty string before building. And despite some secondary coverage describing a "retry twice, then escalate to a human" mechanism for CI failures, that logic does not appear in the project's own README, architecture doc, or status doc as of July 2026, the documented behavior is a direct nudge back to the agent, not a bounded retry-then-escalate policy.
 
-**When to choose AO over Conductor**: you're not on macOS, you use an agent CLI other than Claude Code or Codex, or you want the option to self-host without a proprietary desktop app. Conductor remains more polished and better integrated with Linear/Slack at this stage; AO is younger (416 open issues as of July 2026) and trades that maturity for openness and platform reach.
+**When to evaluate AO**: you need a desktop client outside macOS, a headless deployment, or an open-source orchestration layer. Check support for your exact agent CLI and compare recovery behavior on a representative task; the July evaluation does not establish a current reliability or usability ranking.
 
 Full evaluation: [`docs/resource-evaluations/agent-orchestrator-composio.md`](../../docs/resource-evaluations/agent-orchestrator-composio.md).
 
@@ -1472,7 +1459,7 @@ A cross-platform desktop and web app for agentic AI development. Maintains full 
 - **Chat management**: Branching/forking, message queuing, slash commands, context management, desktop notifications
 - **Configuration**: VS Code theme import, localization (i18n), color/font customization, web mode
 
-**Windows gap**: All other "Alternative UIs" in this section are macOS/Linux only. Piebald is the only GUI option with native Windows support (no WSL required).
+**Windows support**: Piebald offers a native Windows GUI. Emdash and Escouade also document Windows builds; compare their workflows in the [desktop workspace table](#desktop-agent-workspace-comparison).
 
 **Relation to Piebald-AI org**: The same team maintains [claude-code-system-prompts](https://github.com/Piebald-AI/claude-code-system-prompts), the most comprehensive public reverse-engineering of Claude Code's internal system prompts, cited throughout this guide.
 
@@ -1944,7 +1931,7 @@ As of February 2026, the community tooling ecosystem has notable gaps:
 | **Skills usage analytics** | ✅ **FILLED**: [Skillsight](https://github.com/PackmindHub/skillsight) (Packmind, launched May 2026): self-hosted OTEL dashboard showing which skills are actually invoked per user/session. Deploy with caveats (see [Skills Observability](#skills-observability)). |
 | **Visual skills editor** | No GUI for creating/editing `.claude/skills/`: must edit YAML/Markdown manually |
 | **Visual hooks editor** | No GUI for managing hooks in `settings.json`: requires JSON editing |
-| **Unified admin panel** | No single dashboard combining config, sessions, cost, and MCP management |
+| **Unified admin panel** | Partial overlap: Opcode documents session, usage, MCP, and instruction management. This refresh did not validate an end-to-end administration workflow; see the [cockpit evaluation](../../docs/resource-evaluations/agent-workspace-cockpits.md#opcode) |
 | **Session replay** | ✅ **FILLED**: Entire CLI (launched Feb 2026) provides rewindable checkpoints with full context replay |
 | **Automated `.claude/` security scanning** | ✅ **FILLED**: [AgentShield](https://github.com/affaan-m/agentshield) (launched Feb 2026): 102-rule scanner with A–F grading, `--fix`, and GitHub Action integration |
 | **Agent-native issue tracking** | No established tool for markdown-based, git-committable issue tracking with Claude Code. [fp.dev](https://fp.dev/) is an early-stage solution (local-first, `/fp-plan` + `/fp-implement` skills, diff viewer) but lacks adoption signals and requires Apple Silicon for the desktop app. The Tasks API covers state persistence but issues aren't git-committable. |

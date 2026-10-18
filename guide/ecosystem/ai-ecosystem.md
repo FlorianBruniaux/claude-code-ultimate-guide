@@ -1261,6 +1261,8 @@ The [Agent Harness Landscape](./agent-harness-landscape.md#interface-execution-a
 
 An interface match is only a shortlist. Permission controls, repository isolation, execution location, recovery, model access, and accepted-task cost still require a representative trial.
 
+For desktop products that coordinate existing agent CLIs, use the [desktop workspace comparison](./third-party-tools.md#desktop-agent-workspace-comparison). It compares Conductor, Emdash, Superset, Escouade, Nimbalyst, and Vibe Kanban by workflow and adoption constraints; their interface alone does not make them new runtime harnesses.
+
 ### Hybrid workflow
 
 **Morning session (strategic)**:

@@ -323,6 +323,8 @@ No single repository needs to cover learning, installation, curation, reference 
 
 This short list was reviewed on 2026-08-31. Project activity, installation methods, and scope can change. Browse the public [Ecosystem](https://cc.bruniaux.com/ecosystem/) and [Compare](https://cc.bruniaux.com/compare/) pages first. The [AI Ecosystem source](./guide/ecosystem/ai-ecosystem.md), [Third-Party Tools source](./guide/ecosystem/third-party-tools.md), and [Resource Evaluations](./docs/resource-evaluations/) retain the deeper evidence.
 
+For desktop workspaces over existing agent CLIs, see the [October 2026 workspace comparison](./guide/ecosystem/third-party-tools.md#desktop-agent-workspace-comparison), including Conductor's local/cloud workflow and Vibe Kanban's maintenance note.
+
 ## Updates
 
 Guide changes and Claude Code product releases answer different questions:

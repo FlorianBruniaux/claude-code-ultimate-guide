@@ -27,6 +27,7 @@ This page answers *which layer and which project*. [Agent Harness Engineering](.
 | How should a repository prepare instructions, setup, state, and verification for any runtime? | [Repository Harness Engineering](../ultimate-guide.md#925-harness-engineering) |
 | How should a shortlist be evaluated and instrumented? | [Agent Evaluation](../roles/agent-evaluation.md) and [Observability](../ops/observability.md) |
 | Which systems optimize a harness rather than run tasks directly? | [Harness Optimizers and Meta-Harnesses](#harness-optimizers-and-meta-harnesses) |
+| Which desktop workspace should coordinate existing agent CLIs? | [Desktop agent workspace comparison](./third-party-tools.md#desktop-agent-workspace-comparison): Conductor, Emdash, Superset, Escouade, Nimbalyst, and Vibe Kanban |
 
 These pages are linked but deliberately not merged. The engineering reference explains stable mechanisms. This map is a dated evidence snapshot whose projects, licences, features, and GitHub signals need a separate refresh cycle.
 
@@ -168,6 +169,14 @@ The runtime/control-plane distinction also appears in Dax Raad's [May 2026 OpenC
 | [vibe-kanban](https://github.com/BloopAI/vibe-kanban)<br><small>★ 27,893 · 2026-08-23</small> | Kanban-style fleet manager for running Claude Code, Codex, or any coding agent across many tasks at once. | No; evidence claimed | <abbr title="Not established from the pinned sources">?</abbr> |
 | [Vigilante](https://github.com/aliengiraffe/vigilante)<br><small>★ 37 · 2026-08-28</small> | The README explicitly calls Vigilante a control plane over supported headless coding-agent CLIs. | No; evidence confirmed | <abbr title="Not established from the pinned sources">?</abbr> |
 <!-- END GENERATED: adjacent-control-planes -->
+
+### Vibe Kanban maintenance status
+
+**Status reviewed October 17, 2026**: Bloop [announced its shutdown on April 10, 2026](https://www.vibekanban.com/blog/shutdown), with Vibe Kanban intended to continue as an open-source, community-maintained project. The announcement scheduled remote services for removal after 30 days, including hosted Kanban issues, comments, projects, and organizations, and stated that local workspaces would continue to function. It also described a data-export feature.
+
+That announcement establishes the vendor's plan, not a live test of each service or evidence of sustained community maintenance. Verify the version, export path, and services your workflow needs before adopting it. The generated Vibe Kanban rows on this page retain the August 23 catalog snapshot; their feature summary and stars are historical and do not establish current hosted availability.
+
+For alternatives, use the [desktop workspace comparison](./third-party-tools.md#desktop-agent-workspace-comparison). Emdash, Superset, and Escouade are documented there as selective additions, without inflating the strict-runtime count or duplicating their profiles in this generated catalog.
 
 ### Liza: a repository harness and control plane combined
 
