@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- Allow `Index Integrity` to run automatically on pushes by `FlorianBruniaux` that match its existing `main` branch and path filters, through a dedicated repository Actions policy. Preserve manual dispatch for that workflow and the owner-only, manual-only policy for other repository workflows; pull-request and scheduled triggers remain restricted. These controls are GitHub repository settings, not workflow YAML changes. GitHub-managed features exempt from Actions policies retain their existing behavior.
+
 - Fix the MCP chapter-boundary regression test to locate named guide headings instead of frozen line numbers, preserving checks immediately before and at each transition. Regenerate the MCP product manifest from the current guide, index, and release bundle so the release contract checks current counts and source metadata. Refresh translation provenance and its MCP mirror after committed guide edits, preserving the French edition's recorded source and stale status.
 
 - **Quarto/Typst publication troubleshooting**: document the existing list-reader protection and manual render option, preserve literal file mentions in callout titles, and identify active templates and supported partial names. Distinguish working extension-directory symlinks from the tested partial-file symlink failure; retain font and full-catalog validation limits.
