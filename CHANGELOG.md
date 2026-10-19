@@ -6,7 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+<<<<<<< Updated upstream
 - Allow `Index Integrity` to run automatically on pushes by `FlorianBruniaux` that match its existing `main` branch and path filters, through a dedicated repository Actions policy. Preserve manual dispatch for that workflow and the owner-only, manual-only policy for other repository workflows; pull-request and scheduled triggers remain restricted. These controls are GitHub repository settings, not workflow YAML changes. GitHub-managed features exempt from Actions policies retain their existing behavior.
+=======
+- **Search metadata and first-screen answers (October 2026 search audit)**: add `title` and `description` frontmatter to eight guide pages that published the site's default description (learning-path modules 01, 02, 03 and 06, `settings-reference`, `tools-reference`, `team-knowledge-base`, `og-image-generation`). Add a short "Claude Code and the Agent SDK" section to `guide/core/architecture.md`, sourced from the official Agent SDK overview, because the page is shown for Agent SDK searches without defining the SDK. Move the loop and graph definitions to the first lines of `guide/core/loop-graph-engineering.md`. Turn the RTK vs lean-ctx comparison in `guide/ecosystem/third-party-tools.md` into a linkable heading, and replace an absolute link without a trailing slash in `guide/core/memory-systems.md` with a relative link. Index the two new anchors in both `reference.yaml` copies and regenerate the MCP product manifest and chapter metadata.
+>>>>>>> Stashed changes
 
 - Fix the MCP chapter-boundary regression test to locate named guide headings instead of frozen line numbers, preserving checks immediately before and at each transition. Regenerate the MCP product manifest from the current guide, index, and release bundle so the release contract checks current counts and source metadata. Refresh translation provenance and its MCP mirror after committed guide edits, preserving the French edition's recorded source and stale status.
 

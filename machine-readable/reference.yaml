@@ -412,6 +412,8 @@ deep_dive:
   rtk_evaluation: "docs/resource-evaluations/rtk-evaluation.md"
   rtk_guide: "guide/ultimate-guide.md#command-output-optimization-with-rtk"
   rtk_third_party: "guide/ecosystem/third-party-tools.md#rtk-rust-token-killer"
+  architecture_agent_sdk: "guide/core/architecture.md#claude-code-and-the-agent-sdk"  # Claude Code product vs Agent SDK library
+  rtk_vs_lean_ctx: "guide/ecosystem/third-party-tools.md#rtk-vs-lean-ctx-complementary-layers"  # Shell output vs file-read compression layers
   rtk_claude_md: "examples/claude-md/rtk-optimized.md"
   rtk_skill: "examples/skills/rtk-optimizer/SKILL.md"
   rtk_hook: "examples/hooks/bash/rtk-auto-wrapper.sh"

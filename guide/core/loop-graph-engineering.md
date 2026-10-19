@@ -12,11 +12,13 @@ keywords:
 
 # Loop & graph engineering
 
+A **loop** specifies an agent's feedback and stopping. A **graph** specifies its executable topology. A graph can contain a loop, but neither term establishes that an acceptance decision is correct.
+
 > **Status:** Loop engineering is practitioner vocabulary, not a formal standard. Graph engineering is an emerging research label, not a settled discipline. The underlying mechanisms, such as state machines, workflow graphs, checkpoints, and review gates, are mature engineering techniques.
 >
 > **Use this page for:** designing the feedback and topology of an agent system. For runtime-harness components, security controls, and optimizer research, see [Agent Harness Engineering](./agent-harness.md). For product classification, see the [Agent Harness Landscape](../ecosystem/agent-harness-landscape.md).
 
-Explicit contracts make feedback, stopping, routing, and acceptance testable; a longer prompt alone does not define those controls. A **loop** specifies feedback and stopping. A **graph** specifies the executable topology. A graph can contain a loop, but neither term establishes that an acceptance decision is correct.
+Explicit contracts make feedback, stopping, routing, and acceptance testable; a longer prompt alone does not define those controls.
 
 [Agent Harness Engineering](./agent-harness.md) owns the distinctions between a model, a runtime harness, a repository harness, and an orchestrator. Use it to identify which layer owns context, tools, permissions, verification, recovery, or coordination. This page focuses on the loop and graph contracts that make feedback and routing inspectable.
 

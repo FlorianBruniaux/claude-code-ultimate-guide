@@ -1,3 +1,8 @@
+---
+title: "Module 03: Memory & config"
+description: "Learning Path Module 03: make Claude Code remember your preferences and project rules, and build your first CLAUDE.md file. 1 hour, intermediate."
+---
+
 # Module 03: Memory & config
 
 **Time**: 1 hour | **Complexity**: ⭐⭐ Intermediate

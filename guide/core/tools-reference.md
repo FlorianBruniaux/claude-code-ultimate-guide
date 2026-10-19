@@ -1,3 +1,8 @@
+---
+title: "Built-in tools reference"
+description: "The built-in tools Claude Code uses to read, edit and run things, with the exact names used in permission rules, hooks and subagent definitions."
+---
+
 # Built-in tools reference
 
 Claude Code ships with a set of built-in tools it uses to read, modify, and execute things in your environment. You do not install or configure them; they are always present.

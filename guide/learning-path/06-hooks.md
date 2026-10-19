@@ -1,3 +1,8 @@
+---
+title: "Module 06: Hooks and events"
+description: "Learning Path Module 06: add a Claude Code hook that decides from structured input, fails closed on malformed input, and is testable without a session."
+---
+
 # Module 06: Hooks and events
 
 **Time:** 1 hour | **Complexity:** Intermediate

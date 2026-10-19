@@ -1,3 +1,8 @@
+---
+title: "Module 02: Core loop"
+description: "Learning Path Module 02: how the Claude Code decision loop and context work, and how to structure requests effectively. 45 minutes, beginner."
+---
+
 # Module 02: Core loop
 
 **Time**: 45 minutes | **Complexity**: ⭐ Beginner

@@ -1,3 +1,8 @@
+---
+title: "Dynamic OG image generation with Astro"
+description: "Generate social preview images at build time with Astro, so shared links show current stats instead of a stale static PNG."
+---
+
 # Dynamic OG image generation with Astro
 
 Generate social preview images automatically at build time instead of maintaining stale static PNGs. Every share on Twitter/X, LinkedIn, or Slack will show accurate, up-to-date stats.

@@ -396,7 +396,7 @@ lean-ctx registers as a global MCP server (`~/.claude.json`) and installs three 
 
 Results are lower on Markdown-heavy repos, because the AST parser finds less structure to compress in documentation files than in TypeScript or Rust source.
 
-**RTK vs lean-ctx: complementary layers**
+#### RTK vs lean-ctx: complementary layers
 
 Both tools reduce token consumption but operate at different points in the pipeline and do not conflict:
 

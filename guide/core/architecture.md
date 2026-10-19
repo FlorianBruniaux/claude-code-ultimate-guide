@@ -36,6 +36,10 @@ Claude Code is a **runtime harness**: it owns the iterative model-and-tool loop 
 
 Read [Agent Harness Engineering](./agent-harness.md) for the four-layer model and the mechanics inside a runtime. Use the [Agent Harness Map](../ecosystem/agent-harness-landscape.md) when comparing products that own a coding loop. Use [Agent Tools: Beyond Claude Code](../ecosystem/agentic-tools.md) for the broader set of frameworks, control planes, and runtime-adjacent tools. The [glossary](./glossary.md) defines the terms used across those pages.
 
+### Claude Code and the Agent SDK
+
+Claude Code is the product you run in a terminal, an IDE or the desktop app. The Claude Agent SDK is a library that embeds Claude Code's agent in your own Python or TypeScript application. According to the [official Agent SDK overview](https://code.claude.com/docs/en/agent-sdk/overview), it runs the Claude Code binary and provides the same tools, agent loop and context management, including permissions, sessions, hooks, subagents and MCP. The loop and context mechanics on this page therefore also describe agents built with the SDK. The SDK-only loop limit is covered in [Controlling loop depth with max_turns](#controlling-loop-depth-with-max_turns). For how the SDK compares with other agent frameworks, see [Agent Tools §3.4](../ecosystem/agentic-tools.md#34-anthropic-agent-sdk).
+
 ---
 
 ## TL;DR - 5 bullet summary

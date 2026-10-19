@@ -1,3 +1,8 @@
+---
+title: "Team knowledge base for Claude Code + Cowork"
+description: "Set up a shared company knowledge base that both Claude Code and Claude Cowork can read: shared docs, live systems and reusable workflows."
+---
+
 # Team knowledge base for Claude Code + Cowork
 
 **Reading time**: 18 minutes

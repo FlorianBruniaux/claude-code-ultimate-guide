@@ -1,3 +1,8 @@
+---
+title: "Claude Code settings reference"
+description: "Reference for Claude Code settings.json options and environment variables, with links to the official settings and environment variable docs."
+---
+
 # Claude Code settings reference
 
 > Complete reference for `settings.json` configuration and environment variables. Covers all confirmed settings as of Claude Code v2.1.162.

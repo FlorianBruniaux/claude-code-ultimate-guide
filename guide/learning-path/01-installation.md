@@ -1,3 +1,8 @@
+---
+title: "Module 01: Installation & setup"
+description: "Learning Path Module 01: install Claude Code, verify that it runs, and send your first command. 15 minutes, beginner."
+---
+
 # Module 01: Installation & setup
 
 **Time**: 15 minutes | **Complexity**: ⭐ Beginner
