@@ -1529,6 +1529,7 @@ This section covers tools for running **multiple Claude Code instances in parall
 | [Piebald](#piebald) | Desktop/web app | Multi-provider + Windows + hooks compat (also listed above) |
 | [YYLO](#yylo) | Task and merge lifecycle CLI | Typed task → worktree → merge-gate boundaries for coding agents (60 stars, 2026-09-17) |
 | [swe-mux](https://github.com/jatoran/swe-mux) | Desktop/web workspace | Live per-session status for Claude Code, Codex, OpenCode and Pi, the same sessions on your phone over Tailscale, sessions survive restarts (Apache-2.0, 2026-09-23) |
+| [Concord](#concord) | Coordination layer (MCP server) | Agents in one repo claim tasks and files, get overlap warnings before editing, and prompt each other across harnesses (562 stars, 2026-10-20) |
 
 ---
 
@@ -1621,6 +1622,43 @@ yy merge status             # observe the queue
 **Limitations**: Early adoption, 60 stars and roughly 900 npm downloads per month as of September 2026. Merge composes and lands work; it does not review it, and there is no OS-level sandbox below the agent runtimes. English documentation only.
 
 > **When to use**: when several coding agents work in parallel on one repository and you want the typed task → worktree → merge-gate boundary that dispatch-first orchestrators leave to the operator. Symphony's spec states "if you want a review loop or a merge gate, you build that yourself"; YYLO is a ready-built merge-gate layer, while the review loop itself stays with your project's own checks.
+
+---
+
+### Concord
+
+An MCP server that gives coding agents working in the same repository a shared work state: who is present, which task and files each agent has claimed, overlap warnings before anyone edits, prompts and replies between agents running in different harnesses, and handoffs with review evidence. Concord does not spawn agents or create worktrees; it sits beside whatever runs them (a terminal, a worktree runner, a desktop app).
+
+| Attribute | Details |
+|-----------|---------|
+| **Source** | [GitHub: Get-Concord-AI/concord-mcp](https://github.com/Get-Concord-AI/concord-mcp) |
+| **Install** | `npm install -g @concord-ai/concord-mcp`, then `concord setup` in the repository |
+| **Language** | TypeScript (Node.js 22.12+) |
+| **License** | MIT |
+| **Clients** | Claude Code, Codex, Cursor, Gemini CLI, Grok Build, Goose, Google Antigravity; any MCP client can use the tools |
+
+**Key features**:
+
+- `concord setup` registers the server for Claude Code, Cursor, Gemini, Grok and Codex and writes tool instructions into `CLAUDE.md`, `AGENTS.md` and `.cursor/rules/`, merging into existing config; it is safe to re-run
+- Five MCP tools: `start_work` claims a task and its expected files or modules and returns overlaps with other agents' active claims; `inspect_work` shows who is present, active work and stale claims; `update_work` records context or sends a prompt or reply to another agent; `transfer_work` assigns, hands off and reassigns; `finish_work` records evidence and marks work review-ready or complete
+- Linked git worktrees resolve to the primary checkout, so every worktree of a repository shares one Concord workspace: sessions started by a worktree runner see each other's claims before their branches meet
+- Ownership changes are versioned: if two agents act on the same task version, only the first transition succeeds, and every change is kept in an append-only history
+- State is a SQLite database in the repository's `.concord/` directory, which ignores itself through its own `.gitignore`; `HANDOFF.md` and `REVIEW_PACKET.md` are exported for humans
+- Optional Claude Code `PreToolUse` hook (`concord setup --claude-hooks`) that warns when an edit touches a file claimed by another active task, and blocks it when the session's own task is set in `CONCORD_TASK`
+
+**Usage**:
+
+```bash
+npm install -g @concord-ai/concord-mcp
+cd your-repo && concord setup   # register the MCP server and agent instructions, then restart agent sessions
+concord status                  # roster, active work, overlaps, stale claims, review-ready tasks
+concord dashboard               # read-only live TUI of agents, tasks and alerts
+concord adapters status         # which installed agents can receive live prompts, and how
+```
+
+**Limitations**: Young project: v0.14.2, 562 stars and about 3,400 npm downloads in the 30 days to 2026-10-18. Coordination is cooperative: agents have to call the tools (setup installs instructions asking them to), and outside the opt-in Claude Code hook nothing stops an agent from editing a claimed file. Live prompt delivery depends on the receiving harness; Goose sessions cannot receive prompts yet, and a prompt to an unreachable agent fails rather than being rerouted. State is local to one checkout and its worktrees unless you sign in to the optional Concord Cloud mode. Telemetry is on by default: operation names, outcomes and timings, with no code, file paths, messages or task content; the server stores the request IP and a derived country with no automatic expiry. Disable it with `CONCORD_TELEMETRY_DISABLED=1` (or `DO_NOT_TRACK=1`). The first interactive `concord setup` also offers a global mode (default yes) that registers Concord at user level and adds a short section to user instruction files such as `~/.claude/CLAUDE.md`; `concord setup --no-global` removes exactly what it added.
+
+> **When to use**: when two or more agents, often in different harnesses (say Claude Code and Codex), work in the same repository at the same time and you want them to divide the work before they edit rather than discover the collision at merge time. Worktree runners such as multiclaude or claude-squad keep each agent's files apart; Concord adds the shared view of who is doing what across those worktrees. It complements them and does not replace them.
 
 ---
 
