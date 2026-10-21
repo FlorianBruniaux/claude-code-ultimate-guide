@@ -324,6 +324,34 @@ Claude Code plugin focused on surfacing where context budget is actually going, 
 
 ---
 
+### Brow
+
+A macOS app that shows the usage limits of every Claude Code account on the Mac beside the MacBook notch. It reads each account's limit percentages from Anthropic's usage endpoint with that account's sign-in token from the macOS Keychain, rather than estimating them from local session logs.
+
+| Attribute | Details |
+|-----------|---------|
+| **Source** | [GitHub: efim0v/brow](https://github.com/efim0v/brow) |
+| **Website** | [efim0v.github.io/brow](https://efim0v.github.io/brow/) |
+| **Install** | `brew install --cask efim0v/tap/brow` |
+| **Language** | Swift (SwiftUI + AppKit) |
+| **License** | GPL-3.0 |
+| **Platform** | macOS 26 or later; the prebuilt app is Apple silicon only |
+| **Version** | 0.2.2 (2026-10-13) |
+
+**Key features**:
+
+- 5-hour, weekly and model-specific weekly limits of each account, as percent used, with the time until each resets
+- A calendar of weekly resets and estimated subscription renewals across accounts
+- A copyable command that starts Claude Code as a given account
+- Sign-in in a separate browser profile per account (Chrome, Chromium, Brave or Edge), so re-authenticating one account leaves the others signed in
+- Works with a single account too: it picks up `~/.claude` by itself
+
+**Limitations**: New project, public since October 2026. The app is signed ad hoc and not notarized, so the first launch needs **Open Anyway** in System Settings. The usage endpoint is not a documented public API and may change. If the normal token refresh fails, a fallback (on by default, can be turned off) runs a one-turn `claude -p` request that spends a little of that account's limit and starts its 5-hour window. Claude accounts only; no notifications.
+
+**When to choose Brow over ccusage**: when you keep several Claude subscriptions and want to see which account still has room right now. ccusage reports tokens and estimated cost from local logs; Claude Code's own `/usage` and the status line's `rate_limits` cover only the account a session runs as.
+
+---
+
 ### A note on the Layer 4 billing blind spot
 
 API-level gateways (Helicone, Portkey, Langfuse, Bifrost, Compresr) intercept HTTP calls and measure token usage at the API layer. This works well for applications calling the Anthropic API directly. It does not work for Claude Code Max or Pro subscriptions, because Claude Code connects directly to Anthropic servers using subscription credentials rather than an API key. There is no HTTP layer for a gateway to intercept.
@@ -1528,6 +1556,7 @@ This section covers tools for running **multiple Claude Code instances in parall
 | [Conductor](#conductor) | Desktop app | macOS parallel agents (also listed above) |
 | [Piebald](#piebald) | Desktop/web app | Multi-provider + Windows + hooks compat (also listed above) |
 | [YYLO](#yylo) | Task and merge lifecycle CLI | Typed task → worktree → merge-gate boundaries for coding agents (60 stars, 2026-09-17) |
+| [Grove](#grove) | Menu-bar app + CLI | Per-feature workspaces across several repositories: a git worktree of each, all on one branch; moves sessions between Claude accounts (GPL-3.0, macOS 26+, 2026-10-14) |
 | [swe-mux](https://github.com/jatoran/swe-mux) | Desktop/web workspace | Live per-session status for Claude Code, Codex, OpenCode and Pi, the same sessions on your phone over Tailscale, sessions survive restarts (Apache-2.0, 2026-09-23) |
 
 ---
@@ -1621,6 +1650,35 @@ yy merge status             # observe the queue
 **Limitations**: Early adoption, 60 stars and roughly 900 npm downloads per month as of September 2026. Merge composes and lands work; it does not review it, and there is no OS-level sandbox below the agent runtimes. English documentation only.
 
 > **When to use**: when several coding agents work in parallel on one repository and you want the typed task → worktree → merge-gate boundary that dispatch-first orchestrators leave to the operator. Symphony's spec states "if you want a review loop or a merge gate, you build that yourself"; YYLO is a ready-built merge-gate layer, while the review loop itself stays with your project's own checks.
+
+---
+
+### Grove
+
+A macOS menu-bar app and CLI for running parallel Claude Code sessions on a product split across several repositories. Each feature gets a workspace: one directory holding a git worktree of every chosen repository, all on the same branch, and Claude Code starts in that directory. Claude Code's own `--worktree` works inside a single repository; Grove puts several repositories on one branch side by side.
+
+| Attribute | Details |
+|-----------|---------|
+| **Source** | [GitHub: efim0v/grove](https://github.com/efim0v/grove) |
+| **Website** | [efim0v.github.io/grove](https://efim0v.github.io/grove/) |
+| **Install** | `brew install --cask efim0v/tap/grove` (app), `brew install efim0v/tap/grove-cli` (CLI) |
+| **Language** | Swift |
+| **License** | GPL-3.0 |
+| **Platform** | macOS 26 or later, Apple silicon |
+| **Version** | 0.2.2 (2026-10-13) |
+| **Commands** | `grove scan`, `workspaces`, `sessions`, `create`, `graph`, `doctor`, each with `--json` |
+
+**Key features**:
+
+- Creating a workspace runs `git worktree add` in each repository, applies a branch template (`feat/{name}` by default), links or copies shared files such as `CLAUDE.md` and runs per-repository post-create hooks
+- A workspace can start from another workspace's branches; Grove derives that tree from git
+- Claude Code sessions of every project, workspace and account in one list, showing which are running, waiting for input or closed
+- **Resume as…** continues a session under another account, **Migrate to…** copies it there, **Share** moves it into a store that all linked accounts see
+- Sessions open in cmux (recommended) or Terminal.app
+
+**Limitations**: New project, public since October 2026. The app is signed ad hoc and not notarized. Grove starts, lists and moves Claude Code sessions only; a workspace is an ordinary directory, so another agent CLI can be started in it by hand. Most buttons that start or resume a session open cmux; Terminal.app is available from the launch sheet. Grove points each account's `statusLine.command` at its own wrapper (the previous status line keeps working, and **Stop** restores it), moves a linked account's session files into `~/.claude` behind symbolic links (anything they would overwrite is backed up first), and keeps a transcript mirror (90 days by default, can be turned off).
+
+> **When to use**: when one feature spans several repositories and you run more than one Claude Code session at a time, so that each session sees one consistent branch of the whole product.
 
 ---
 
