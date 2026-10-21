@@ -1776,8 +1776,8 @@ deep_dive:
   # Local vs Cloud LLM Inference Economics (guide/ecosystem/local-vs-cloud-inference.md) - Added 2026-08-25
   local_vs_cloud_guide: "guide/ecosystem/local-vs-cloud-inference.md"
   local_vs_cloud_llmfit: "guide/ecosystem/local-vs-cloud-inference.md#sizing-local-hardware-with-llmfit"  # llmfit CLI, --memory vs --ram, backend-lock caveat
-  local_vs_cloud_hardware_configs: "guide/ecosystem/local-vs-cloud-inference.md#fourteen-comparable-hardware-configurations"  # 14 complete systems, sorted by price, incl. Mac mini M6/M5 Pro and RTX 5060 Ti 16GB entry tier
-  local_vs_cloud_bandwidth_ecc: "guide/ecosystem/local-vs-cloud-inference.md#memory-bandwidth-prefill-and-ecc"  # bandwidth as decode ceiling, measured GB10 vs Strix Halo prefill, no ECC on unified-memory boxes, CUDA decision (rechecked 2026-10-01)
+  local_vs_cloud_hardware_configs: "guide/ecosystem/local-vs-cloud-inference.md#fourteen-comparable-hardware-configurations"  # 14 complete systems, sorted by price (Aug 2026), incl. Mac mini M6/M5 Pro and RTX 5060 Ti 16GB entry tier; DGX Spark $3,999 -> $4,699 -> $6,950 history, 64 GB GB10 OEM variant (rechecked 2026-10-21)
+  local_vs_cloud_bandwidth_ecc: "guide/ecosystem/local-vs-cloud-inference.md#memory-bandwidth-prefill-and-ecc"  # bandwidth as decode ceiling, measured GB10 vs Strix Halo prefill, no ECC on unified-memory boxes, CUDA decision, llama.cpp GB10 context-depth falloff, M5 Ultra 24K-prompt prefill, RTX Spark (N1X) laptops (rechecked 2026-10-21)
   local_vs_cloud_small_team: "guide/ecosystem/local-vs-cloud-inference.md#one-machine-for-a-small-team"  # one desktop for 4-5 people: concurrency measurements, single point of failure, Apple lease vs H100 rental per month
   local_vs_cloud_named_models: "guide/ecosystem/local-vs-cloud-inference.md#what-actually-fits-named-models"  # Llama/Qwen/Mixtral/DeepSeek fit by memory budget
   local_vs_cloud_which_machine: "guide/ecosystem/local-vs-cloud-inference.md#which-local-machine-for-which-usage"  # usage-to-hardware table + Mermaid decision tree
