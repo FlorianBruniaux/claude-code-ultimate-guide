@@ -13,7 +13,7 @@
   "guide": {
     "version": "3.44.1",
     "line_count": 25939,
-    "index_entries": 1954,
+    "index_entries": 1955,
     "claude_code_releases": 271
   },
   "runtime": {
@@ -485,5 +485,5 @@
       ]
     }
   },
-  "source_digest": "sha256:baee0aa9ee4ac2149880c2592ba8cbf4476e296e87ff2b85fd86b2d1f05e2dc2"
+  "source_digest": "sha256:d8c016162807e666c44d2030e2179ea93dc67d2a963c08b75181d181394dde62"
 }
