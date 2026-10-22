@@ -757,6 +757,33 @@ All three listings were read on October 22, 2026. On the same day, apple.com/fr 
 
 **Where I am landing.** One GB10 128 GB on Linux runs execution for the client sessions through vLLM, with no fallback to a cloud API; the MacBook keeps planning and review. It is the cheapest option that has any multi-session evidence, it ships without a three-month wait, and its 15 tok/s-per-session requirement sits well under the reported 45 tok/s per stream. Before buying, I will run the [benchmark protocol](#benchmark-protocol-before-you-buy) on the MacBook with the client's real tasks. Two results would change the decision: open-weight models failing those tasks, or prefill on long contexts, not decode, turning out to be the bottleneck.
 
+### What $1,000 a month of Copilot credits buys
+
+The same client also gives each person $1,000 a month of GitHub Copilot credits, so the cloud side deserves the same measured treatment. Copilot Business and Enterprise include a per-user allowance of GitHub AI Credits; one credit is $0.01 and each model is billed per million tokens ([GitHub, models and pricing](https://docs.github.com/en/copilot/reference/copilot-billing/models-and-pricing), checked October 22, 2026). Claude models cost the same as Anthropic's list prices: Opus 5.5 is $4 input, $0.20 cached input, $5 cache write and $20 output; Sonnet 5.5 is $2 / $0.10 / $2.50 / $10. GPT-6.1 Sol matches Sonnet, and GPT-6 Astra costs $10 input and $50 output.
+
+[![What $1,000 of Copilot credits buys at a measured agentic pace: 874 hours on Haiku 5.5, 329 on Sonnet 5.5 or GPT-6.1 Sol, 219 on GPT-6 Sol, 164 on Opus 5.5 and 44 on GPT-6 Astra, against 176 hours for one full-time session.](../images/local-vs-cloud-copilot-hours.webp)](../images/local-vs-cloud-copilot-hours.webp)
+
+**Per model.** Applying my measured session profile (97.5% of input read from cache, 15 tok/s generated) to those rates, with one full-time session counted as 176 hours (8 hours, 22 days):
+
+| Model | Cost per active hour | Hours for $1,000 | Full-time sessions |
+|---|---|---|---|
+| Haiku 5.5, context over 100K | $1.14 | 874 h | 5 |
+| Sonnet 5.5 | $3.04 | 329 h | 1.9 |
+| GPT-6.1 Sol | $3.04 | 329 h | 1.9 |
+| GPT-6 Sol | $4.58 | 219 h | 1.2 |
+| Opus 5.5 | $6.09 | 164 h | 0.9 |
+| GPT-6 Astra | $22.88 | 44 h | 0.25 |
+
+In raw tokens, $1,000 buys 250 million Opus 5.5 input tokens or 50 million output tokens, twice that on Sonnet 5.5 or GPT Sol. At my mix it covers about 2.6 billion Opus tokens, of which only 64 million are uncached input and 9 million are output. Haiku 5.5 is priced at its long-context tier because agent sessions pass 100K tokens of context; below that it is five times cheaper.
+
+[![How many working days $1,000 lasts on two measured engagements: 5 to 8 days on engagement A ($6,306 over 30 days) and 6 to 7 days on engagement B ($4,886), so a 22-day month would take $2,800 to $4,500 per person.](../images/local-vs-cloud-copilot-days.webp)](../images/local-vs-cloud-copilot-days.webp)
+
+**On real projects.** Repricing 30 days of my Claude Code and Codex logs (September 22 to October 22, 2026, deduplicated calls) at Copilot rates gives $6,306 for one product engagement and $4,886 for another. Per day, that is $203 mean and $129 weekday median for the first, with a worst day at $1,190 driven by GPT-6 Astra in Codex, and $158 mean and $142 median for the second. $1,000 lasts 5 to 8 working days on the first and 6 to 7 on the second. Moving everything to Sonnet 5.5 and GPT-6.1 Sol stretches it to 13.5 and 10 days. At my current pace, a 22-day month would need $2,800 to $4,500 per person. Older models in those logs are priced at Anthropic's list rates, and Codex's long-context tier above 272K tokens is not applied. The biggest unknown is the harness: Copilot's agent is not Claude Code or Codex, and I found no confirmation of how much it caches. Without caching, the bill rises sharply.
+
+[![Copilot credits or a Claude Max subscription: $1,000 of Copilot credits a month against Claude Max 5x at $100 a month, worth about $5,725 at Opus 5.5 API prices, and Claude Max 20x at $200, worth about $11,726.](../images/local-vs-cloud-copilot-vs-max.webp)](../images/local-vs-cloud-copilot-vs-max.webp)
+
+**Against a Claude Max subscription.** Anthropic publishes no token quota for Max, only the relative 5x and 20x multipliers and weekly limits. SemiAnalysis priced a full month of each plan at Opus 5.5 list rates, on an agentic mix of 96.6% cached input: about $5,725 for Max 5x ($100) and $11,726 for Max 20x ($200) ([explainx.ai summary of the SemiAnalysis estimate](https://www.explainx.ai/blog/semianalysis-claude-vs-chatgpt-subscription-api-value-limit-testing-2026), October 2026; the full methodology is subscriber-only). That is 5.7 and 11.7 times the $1,000 Copilot budget for a tenth and a fifth of its price. The figure is a comparison index, not savings, and Anthropic can change the limits without notice.
+
 ---
 
 ## Switching providers at the CLI level
