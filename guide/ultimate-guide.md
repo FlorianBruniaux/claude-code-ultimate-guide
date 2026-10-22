@@ -3919,7 +3919,7 @@ This forces a substantive second attempt with accumulated context rather than in
 
 **Why this works**: Provocation triggers deeper reasoning paths than polite requests. When Claude must *convince* rather than *comply*, it activates more thorough analysis and catches its own shortcuts.
 
-> **Source**: [10 Tips from Inside the Claude Code Team](https://paddo.dev/blog/claude-code-team-tips/) (Boris Cherny thread, Feb 2026)
+> **Source**: [10 Tips from Inside the Claude Code Team](https://paddo.dev/blog/claude-code-team-tips/) (Boris Cherny thread, Jan 2026)
 
 ## 2.9 Semantic anchors
 
@@ -10731,7 +10731,7 @@ exit 2
 
 **Trade-off**: Each gated call adds latency and cost. Use fast-path exemptions for read-only tools and only gate write/execute operations.
 
-> **Source**: [10 Tips from Inside the Claude Code Team](https://paddo.dev/blog/claude-code-team-tips/) (Boris Cherny thread, Feb 2026)
+> **Source**: [10 Tips from Inside the Claude Code Team](https://paddo.dev/blog/claude-code-team-tips/) (Boris Cherny thread, Jan 2026)
 
 ### File Protection Strategy
 
@@ -18937,7 +18937,7 @@ The broader team extends Boris's individual workflow with institutional patterns
 - **Re-plan when stuck**: Rather than pushing through a stalled implementation, the team switches back to Plan Mode. One engineer uses a secondary Claude instance to review plans "as a staff engineer" before resuming execution.
 - **Claude writes its own rules**: After each correction, the team instructs Claude to update CLAUDE.md with the lesson learned. Over time, this compounds into a team-specific ruleset that prevents recurring mistakes.
 
-> **Source**: [10 Tips from Inside the Claude Code Team](https://paddo.dev/blog/claude-code-team-tips/) (Boris Cherny thread, Feb 2026)
+> **Source**: [10 Tips from Inside the Claude Code Team](https://paddo.dev/blog/claude-code-team-tips/) (Boris Cherny thread, Jan 2026)
 
 ---
 

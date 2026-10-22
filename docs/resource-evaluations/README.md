@@ -37,6 +37,7 @@ Les documents de travail bruts (prompts Perplexity, audits clients) restent dans
 
 | Ressource | Score Initial | Score Final | Décision | Fichier |
 |-----------|---------------|-------------|----------|---------|
+| **Grill me** (Cherny gatekeeper, official interview-first spec, Pocock `grill-me`) | 4/5 | **4/5** | Integrated in `guide/workflows/spec-first.md`: three patterns compared, failure modes and opt-out, no controlled study; Cherny thread date corrected to Jan 2026 | [grill-me-interview-patterns.md](./grill-me-interview-patterns.md) |
 | **Desktop agent workspaces** (Conductor, Vibe Kanban, Emdash, Superset, Escouade, Opcode) | 3/3/3/2 | **3/3/3/2** | Refresh existing profiles; keep Opcode evaluation-only. Escouade 1.8.8 local trial: dependency scheduling, restart/resume and test-gated merges verified; parser, file-summary and installation limits recorded, without a productivity ranking | [agent-workspace-cockpits.md](./agent-workspace-cockpits.md) |
 | **Lexigraph** (bilingual AI lexicon and concept comparisons) | 3/5 | **3/5** | Selective adaptation: six concept distinctions and original comprehension exercises; CC BY 4.0 attribution, export gaps and answer-position bias documented | [lexigraph-ai-lexicon.md](./lexigraph-ai-lexicon.md) |
 | **Lopopolo: Harness Engineering anthology** | 4/5 | **4/5** | Selective integration: truth ownership, local quality bar, MLD telemetry, curated publication, worker epochs and four clocks; no executed playbook or local gain claimed | [lopopolo-harness-engineering.md](./lopopolo-harness-engineering.md) |

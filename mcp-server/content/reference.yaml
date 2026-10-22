@@ -1326,6 +1326,7 @@ deep_dive:
   maintain_loop_triage: "guide/diagrams/06-development-workflows.md#spec-first-development-pipeline"  # Maintain loop: Claude drafts intent.md, on-call/service owner triages (fix now, schedule, dismiss)
   document_chain_audit_trail: "guide/ops/ai-traceability.md#the-document-chain-as-a-second-audit-trail"  # intent/spec/plan/diff/review findings = decision trail, complements session execution logs
   agentic_sdlc_naming_adlc: "guide/workflows/spec-first.md#the-pattern"  # agentic SDLC = AI-native SDLC; "ADLC" collides with Salesforce/IBM Agent Development Lifecycle
+  grill_me_interview_patterns: "guide/workflows/spec-first.md#interview-before-the-spec-grill-me"  # Gatekeeper (Cherny) vs official interview-first spec vs Pocock /grill-me; failure modes, no controlled study
   sdlc_to_adlc_post_evaluation: "docs/resource-evaluations/gohel-sdlc-to-adlc-post.md"
   # Agentic Software Factories orientation page (added 2026-07-15)
   agentic_software_factories_hub: "guide/workflows/agentic-software-factories.md"  # single entry point: spectrum, decision tree, file map, governance checklist, velocity-trap case study

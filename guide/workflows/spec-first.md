@@ -16,13 +16,14 @@ Define what you want in CLAUDE.md BEFORE asking Claude to build. One well-struct
 
 1. [TL;DR](#tldr)
 2. [The Pattern](#the-pattern)
-3. [Task Granularity: Sizing Work for Agents](#task-granularity-sizing-work-for-agents)
-4. [CLAUDE.md Spec Templates](#claudemd-spec-templates)
-5. [Step-by-Step Workflow](#step-by-step-workflow)
-6. [Integration with Tools](#integration-with-tools)
-7. [When to Use](#when-to-use)
-8. [Anti-Patterns](#anti-patterns)
-9. [See Also](#see-also)
+3. [Interview Before the Spec (Grill Me)](#interview-before-the-spec-grill-me)
+4. [Task Granularity: Sizing Work for Agents](#task-granularity-sizing-work-for-agents)
+5. [CLAUDE.md Spec Templates](#claudemd-spec-templates)
+6. [Step-by-Step Workflow](#step-by-step-workflow)
+7. [Integration with Tools](#integration-with-tools)
+8. [When to Use](#when-to-use)
+9. [Anti-Patterns](#anti-patterns)
+10. [See Also](#see-also)
 
 ---
 
@@ -69,6 +70,67 @@ intent.md → spec.md → plan.md
 `intent.md` states the problem in plain language before any technical framing exists (see "With intent.md" below). `spec.md` is the technical spec this guide already covers in the rest of this section. `plan.md` is the file-by-file implementation plan (ordering, risk, evidence) approved before Claude writes code, distinct from the spec itself.
 
 > **Naming note: agentic SDLC, AI-native SDLC, "ADLC"**. The playbook states that "agentic SDLC, the AI SDLC, or simply agentic software development" all describe the same shift. Some practitioner posts relabel it "ADLC, the Agentic Development Lifecycle". Be careful with that acronym: Salesforce ([Agentforce architecture guide](https://architect.salesforce.com/docs/architect/fundamentals/guide/agent-development-lifecycle.html)) and IBM ([What is the ADLC?](https://www.ibm.com/think/topics/agent-development-lifecycle-adlc)) already use ADLC for the *Agent* Development Lifecycle, the process for building, testing and operating AI agents as a product. One ADLC is agents building your software; the other is you building agents. When evaluating agents as the product, see [agent-evaluation.md](../roles/agent-evaluation.md) instead.
+
+---
+
+## Interview before the spec (grill me)
+
+Before writing a spec, let Claude question you until the open decisions are settled. "Grill me" now names three different practices, which differ in who questions whom, and when:
+
+| Pattern | Who asks | When | Output |
+|---|---|---|---|
+| Gatekeeper ([Prompting as provocation](../ultimate-guide.md#281-prompting-as-provocation)) | Claude examines you on a finished diff | After implementation, before the PR | A change you can defend |
+| Interview-first spec (official best practice) | Claude interviews you with `AskUserQuestion` | Before implementation | `SPEC.md`, then a fresh session to implement it |
+| `/grill-me` skill (Matt Pocock) | Claude interviews you along a tree of decisions | Before any plan, spec or code, including non-code decisions | Settled decisions in the conversation; nothing is written unless you ask |
+
+### Interview-first spec
+
+The official best practices recommend it for larger features ([Let Claude interview you](https://code.claude.com/docs/en/best-practices)):
+
+```text
+I want to build [brief description]. Interview me in detail using the AskUserQuestion tool.
+
+Ask about technical implementation, UI/UX, edge cases, concerns, and tradeoffs. Don't ask obvious questions, dig into the hard parts I might not have considered.
+
+Keep interviewing until we've covered everything, then write a complete spec to SPEC.md.
+```
+
+Once the spec is written, the docs advise starting a fresh session to implement it, with clean context and the spec as reference.
+
+### The `/grill-me` skill
+
+The first version in [mattpocock/skills](https://github.com/mattpocock/skills) (MIT, February 2026) was two sentences: "Interview me relentlessly about every aspect of this plan until we reach a shared understanding. Walk down each branch of the design tree, resolving dependencies between decisions one-by-one." Later versions added these mechanisms:
+
+- **Recommended answer**: every question comes with the agent's recommendation, so the user reacts instead of composing from scratch.
+- **Facts versus decisions**: the agent looks up anything the codebase or tools can answer; only decisions go to the user.
+- **Frontier rounds**: each round asks every decision whose prerequisites are already settled. A question that depends on another open question waits for a later round.
+- **Confirmation gate**: the agent does not act until the user confirms a shared understanding.
+
+The logic now lives in a `grilling` skill, and `grill-me` is the user-invoked entry point. It writes no files: to keep the decisions, ask for a spec in the same session. The author also advises leaving plan mode off while grilling, because plan mode makes the agent hurry to produce a plan instead of asking.
+
+### Failure modes
+
+Documented by the author ([grill-me docs](https://github.com/mattpocock/skills/blob/main/docs/productivity/grill-me.md), [grilling docs](https://github.com/mattpocock/skills/blob/main/docs/productivity/grilling.md), [9 things people get wrong](https://www.aihero.dev/things-people-get-wrong-with-grill-me-and-grill-with-docs)):
+
+- **Passive agreement**: accepting every recommendation produces a plan the agent wrote. In the author's words: "A session with no pushback from you is a session you didn't need."
+- **Questions talk cannot settle**: layout, feel or performance under load need a throwaway prototype, not more questions.
+- **Scope too large**: hundreds of questions mean the work should be split.
+- **Weaker and faster models** still skip the confirmation gate. The documented fix is a line in `CLAUDE.md` or `AGENTS.md` telling the agent not to implement without permission.
+
+The round format is the default, but some users, including people who read slowly or work in a second language, report that one question at a time works better for them. The author's documented opt-out is one line in `CLAUDE.md`: `When grilling, ask one question at a time.`
+
+### Evidence
+
+No controlled study of grill-me or interview-first workflows (rework, defects, cost) was found as of October 2026. Adjacent benchmark research supports the premise, not the size of the gain in a real workflow. With ten participants answering the model's clarifying questions, [ClarifyGPT](https://github.com/ClarifyGPT/ClarifyGPT) raised GPT-4's Pass@1 on MBPP-sanitized from 70.96% to 80.80%. [HumanEvalComm](https://github.com/jie-jw-wu/human-eval-comm) rewrites HumanEval problems to be ambiguous, inconsistent or incomplete: on those modified problems, ChatGPT's Pass@1 is 31.34% against 65.58% on the originals, and it asks a clarifying question in 14.21% of cases.
+
+### Which one to use
+
+- Diff ready, PR next: the Gatekeeper prompt.
+- Larger feature that needs a written spec: the interview-first prompt.
+- Loose idea with several dependent decisions, or a decision that is not about code: `/grill-me`.
+- Small, reversible or already-decided change: none of them. Ask the one blocking question, or just do it.
+
+> **Source**: [Evaluation of the grill-me patterns](../../docs/resource-evaluations/grill-me-interview-patterns.md)
 
 ---
 
