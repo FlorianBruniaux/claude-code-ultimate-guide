@@ -1,8 +1,8 @@
 # Desktop agent workspaces: selective cockpit evaluation
 
-**Reviewed:** October 17, 2026. **Decision:** refresh Conductor and Vibe Kanban; add short comparative mentions of Emdash, Superset, and Escouade. Keep Opcode in this evaluation without another guide profile.
+**Reviewed:** October 17, 2026; Escouade runtime follow-up on October 22, 2026. **Decision:** refresh Conductor and Vibe Kanban; add short comparative mentions of Emdash, Superset, and Escouade. Keep Opcode in this evaluation without another guide profile. Escouade's editorial score remains 3/5 after the trial.
 
-Scores measure editorial value for this guide, not product reliability, security, or expected productivity. The review used official documentation, pinned repository READMEs and licences, and a targeted Escouade helper probe. No desktop application, provider account, remote integration, paid service, or complete upstream test suite was exercised in this refresh.
+Scores measure editorial value for this guide, not product reliability, security, or expected productivity. The October 17 review used official documentation, pinned repository READMEs and licences, and a targeted Escouade helper probe. The October 22 follow-up ran Escouade 1.8.8 locally with Claude Code and an existing Claude Max subscription. Other desktop applications, other providers, remote integrations, and the complete upstream test suites were not exercised.
 
 ## Existing coverage and duplicate control
 
@@ -22,7 +22,7 @@ The three additions share one [desktop workspace comparison](../../guide/ecosyst
 |---|---|---|---|---|
 | Emdash | 3/5 | 3/5 | Existing agent CLIs on local projects or the user's SSH/SFTP machines; lifecycle-hook configuration boundary | Add one comparative row |
 | Superset | 3/5 | 3/5 | Worktree-specific browser previews, UI-element context, and PR-line feedback to agent sessions | Add one comparative row |
-| Escouade | 3/5 | 3/5 | FR/EN workflow, dependent tickets with acceptance criteria and retries, MCP operation of agents/tickets | Add one row with permission and file-copy caveats |
+| Escouade | 3/5 | 3/5 | FR/EN ticket workflow; local trial verified worktrees, dependency scheduling, restart/resume, and test-gated delivery through MCP | Retain one row; document the bounded trial and its limits without a productivity ranking |
 | Opcode | 2/5 | 2/5 | Consolidates existing session, cost, MCP, instruction, and checkpoint functions | Retain evaluation; no extra profile |
 
 ### Emdash
@@ -45,13 +45,42 @@ The score stays at 3/5: integrate the browser/review mechanism, not an exhaustiv
 
 ### Escouade
 
-The [pinned README](https://github.com/guillaume-gagnaire/escouade/blob/b74b6526b3ba94df049a9a8ad1466e37706fe175/README.md) documents Windows, macOS, and Linux, a French/English interface, a Svelte 5 frontend, a Tauri 2/Rust backend, and Claude Code processes using `stream-json`. Other agent engines are an architectural direction, not established current support.
+The [1.8.8 README](https://github.com/guillaume-gagnaire/escouade/blob/9383ada96cf91190fc719a1fcac7ac72ab00c7c4/README.md) documents Windows, macOS, and Linux, a French/English interface, a Svelte 5 frontend, a Tauri 2/Rust backend, and support for Claude Code, Codex, OpenCode, and GitHub Copilot CLI. The trial below exercised only Claude Code, whose processes use `stream-json`; it does not verify the other adapters or cross-provider handover.
 
 Its contribution is the ticket workflow: acceptance criteria, dependencies, worktrees, repeated agent attempts, and configurable test/delivery actions. An MCP server exposes operation of the workspace to agents. This is a workflow-control layer; a report that criteria are met is not independent acceptance evidence. The current MCP description includes ticket validation, test/merge actions, ticket deletion, and permission responses. Human approval is therefore not an unconditional invariant of every path.
 
-The licence is [GPL-3.0-or-later](https://github.com/guillaume-gagnaire/escouade/blob/b74b6526b3ba94df049a9a8ad1466e37706fe175/README.md#licence); the README explicitly preserves MIT licensing for versions through 1.7.7. An older MIT snapshot must not determine the licence label for the current project.
+The licence is [GPL-3.0-or-later](https://github.com/guillaume-gagnaire/escouade/blob/9383ada96cf91190fc719a1fcac7ac72ab00c7c4/README.md#licence); the README explicitly preserves MIT licensing for versions through 1.7.7. An older MIT snapshot must not determine the licence label for the current project.
 
-**File-copy limitation verified on the current helper:** [`copy_one`](https://github.com/guillaume-gagnaire/escouade/blob/b74b6526b3ba94df049a9a8ad1466e37706fe175/src-tauri/src/testlaunch.rs#L126) creates destination parents and calls `std::fs::copy` without rejecting a destination symlink. A standalone Rust probe using that exact function and dummy files reproduced an overwrite outside the worktree. The calling `copy_worktree_files` function copies ignored files matching configured patterns such as `.env*`.
+#### Escouade runtime trial: October 22, 2026
+
+**Scope and method.** Escouade [1.8.8](https://github.com/guillaume-gagnaire/escouade/releases/tag/v1.8.8) was compiled from the unmodified release source and launched on Apple Silicon macOS in development mode. The evaluator operated the desktop application's official MCP server, whose ticket operations call the same core functions as the UI. This tested the application workflow, not mouse navigation or visual usability. A disposable Git repository, separate application data, disabled automatic file copying, and an explicit pre-merge test command bounded the trial. No remote publication took place.
+
+The task was a small documentation checker using Python's standard library and synthetic Markdown documents. Two Claude Sonnet agents worked in parallel: one extracted headings outside fenced code, the other checked relative file links. A third ticket depended on both and assembled a JSON CLI. Each ticket owned separate implementation and test files. The final branch passed **19 pilot-project tests** (18 written by the agents and one initial fixture check), plus **3 evaluator-authored acceptance tests** created before the agents ran. These are not Escouade's upstream test-suite counts or an independent product audit. The acceptance tests checked heading lines, fenced-code exclusion, encoded paths and fragments, JSON output, and exit codes for valid and broken links.
+
+| Behavior exercised | Observed result |
+|---|---|
+| Dependency enforcement | Starting the integration ticket before its prerequisites finished was refused, with both dependencies named |
+| Parallel work | Two agents ran in separate automatically created worktrees and branches |
+| Interruption and restart | After interrupting both agents and restarting the application, the tickets, branches, and resumable sessions remained available |
+| Permission handling | Command requests appeared in the shared MCP request list and received one-time approvals |
+| Negative test gate | An evaluator-injected failing test prevented the first merge; the target branch remained unchanged. Escouade returned the ticket to the agent for correction even with autopilot off |
+| Delivery and scheduling | After the evaluator removed the deliberate failure and reviewed the results, tests and merges completed. With autopilot enabled, the integration ticket then started automatically from a base containing both prerequisites |
+| Final state | All three tickets were done and merged locally, with no agents or permission requests listed; autopilot was switched off |
+
+The resulting CLI reported the deliberately missing file, ignored a link inside fenced code, and returned the expected exit codes. This was a limited prototype for exercising orchestration, not a replacement for the guide's existing documentation checks.
+
+**Limits encountered.** One ticket stopped with “Bilan des critères manquant” despite an agent-supplied report. A JSON string contained three backticks: [`last_block`](https://github.com/guillaume-gagnaire/escouade/blob/9383ada96cf91190fc719a1fcac7ac72ab00c7c4/src-tauri/src/board.rs#L137-L143) ends the report at their first occurrence, including inside a string. Reissuing the report without those characters unblocked review. This is an observed reporting failure, not a failed implementation test.
+
+- **Tests need explicit configuration.** [`BoardSettings::default`](https://github.com/guillaume-gagnaire/escouade/blob/9383ada96cf91190fc719a1fcac7ac72ab00c7c4/src-tauri/src/model.rs#L924-L946) disables tests before delivery and supplies no test command. Both were configured for the trial; an agent's checked criteria alone do not provide this gate.
+- **File summaries need a Git cross-check.** The MCP agent summary returned `touchedFiles: []` while Git showed new files written through Bash. The desktop Git pane was not evaluated, so this observation applies to that summary only.
+- **Distribution verification failed on the test machine.** `codesign --verify --deep --strict` reported an invalid arm64 signature for the applications extracted from both official macOS downloads, tar.gz and DMG. Building the release source, with CMake added to a temporary build environment, allowed the trial to proceed. The signature failure's cause and behavior on other machines were not established.
+- **The evaluator's launch setup required correction.** A custom launcher initially loaded personal hooks. Both agents were interrupted before editing project files; the launcher was corrected and its effective process options checked before resuming. This setup error is not an Escouade defect, and the isolated MCP/account setup is not representative of ordinary installation effort.
+
+**Adoption judgment.** The verified contribution is a persistent workflow linking tickets, worktrees, review, and delivery, with enforced dependencies. In the evaluator's current Codex workflow, those steps are coordinated through conversations and explicit Git operations. That makes Escouade a candidate for a queue of separable tasks followed by integration. This small prototype could also have been completed in one session: the trial does not establish that this decomposition, or switching tools for a single change, is worthwhile.
+
+There was no equivalent Codex A/B run, measured time or cost advantage, deliberate merge-conflict exercise, provider switch, quota-exhaustion scenario, or OS-confinement test. Runtime records and the pilot repository were retained locally but are not published with this evaluation; the observations above are an evaluator report, not a publicly reproducible benchmark. Public source permalinks support the parser and default-setting findings, not the execution results.
+
+**Earlier file-copy finding, not retested on 1.8.8:** the October 17 probe of the [pinned `copy_one` helper](https://github.com/guillaume-gagnaire/escouade/blob/b74b6526b3ba94df049a9a8ad1466e37706fe175/src-tauri/src/testlaunch.rs#L126) found that it creates destination parents and calls `std::fs::copy` without rejecting a destination symlink. A standalone Rust probe using that exact function and dummy files reproduced an overwrite outside the worktree. The calling `copy_worktree_files` function copies ignored files matching configured patterns such as `.env*`. Automatic copying was disabled in the October 22 runtime trial, so that trial neither revalidates this finding nor demonstrates a fix.
 
 To reproduce the narrow result on Unix in a temporary directory:
 
@@ -63,7 +92,7 @@ To reproduce the narrow result on Unix in a temporary directory:
 
 This verifies the helper's destination-link behavior, not an end-to-end exploit, Windows junction behavior, or every application entry path. No real secret or repository was used. Earlier test counts from a different Escouade revision were not carried forward as current evidence.
 
-Keep the editorial score at 3/5 because the ticket/MCP mechanisms add explanatory value. Use a disposable repository and dummy configuration for a trial, with automatic secret copying disabled; verify tests and delivery permissions before applying it to important work. The mention is not a security recommendation.
+Keep the editorial score at 3/5: the bounded runtime trial confirms useful ticket/MCP behavior but provides no comparative productivity or security evidence. Use a disposable repository and dummy configuration for a trial, with automatic secret copying disabled; verify tests and delivery permissions before applying it to important work. The mention is not a security recommendation.
 
 ### Opcode
 
@@ -83,8 +112,10 @@ Score: 2/5. Keep this traceable evaluation and qualify the previous absolute “
 
 ## Independent technical challenge
 
-A separate technical-writer agent reviewed the candidate decisions and primary sources without editing the guide. It retained the 3/3/3/2 scores and challenged the initial framing on four points: Superset's restrictive licence and hybrid surfaces; Escouade's current GPL licence and MCP authority; Conductor's changed agent/cloud support and stale adjacent comparisons; and the difference between Vibe Kanban's shutdown plan and observed service state. Those corrections are reflected above. The current Escouade helper probe was performed after that review; it is reported separately from the agent's documentary challenge.
+A separate technical-writer agent reviewed the October 17 candidate decisions and primary sources without editing the guide. It retained the 3/3/3/2 scores and challenged the initial framing on four points: Superset's restrictive licence and hybrid surfaces; Escouade's current GPL licence and MCP authority; Conductor's changed agent/cloud support and stale adjacent comparisons; and the difference between Vibe Kanban's shutdown plan and observed service state. Those corrections are reflected above. The October 17 Escouade helper probe was performed after that review; it is reported separately from the agent's documentary challenge.
 
-## What a trial would need to establish
+For the October 22 follow-up, a separate technical-writer agent checked the revision against retained trial records and pinned source. It retained Escouade's 3/5 score and requested clearer test authorship, the enabled-autopilot condition for scheduling, and narrower wording about the retained records. Those clarifications are incorporated above. This was an evidence review, not an independent rerun of the application trial.
 
-Use the same small repository and bounded task for any shortlisted tool. Record whether the user can locate the working branch, agent awaiting input, changed files, actual test command/result, and next delivery action. Include interruption/resume and a conflicting-change case. For SSH/cloud, inspect where code, credentials, hooks, and processes live. Compare those observations with the current workflow before asserting a benefit. No such comparative application trial was run for this evaluation.
+## What further comparative trials need to establish
+
+Use the same small repository and bounded task for any shortlisted tool. Record whether the user can locate the working branch, agent awaiting input, changed files, actual test command/result, and next delivery action. Include interruption/resume and a conflicting-change case. For SSH/cloud, inspect where code, credentials, hooks, and processes live. The Escouade follow-up exercised part of this protocol through MCP, including interruption/resume, but did not compare equivalent runs or evaluate visual usability and conflicts. Those gaps remain before asserting a comparative benefit.
