@@ -1,0 +1,25 @@
+CHANGELOG.md
+  s_e827e256e15185::t_01435f76d95a64 11-12
+docs/resource-evaluations/README.md
+  s_e827e256e15185::t_f32229ea464c61 40
+docs/resource-evaluations/agent-workspace-cockpits.md
+  s_e827e256e15185::t_3508b1b5b2b684 3,5,25,48,52,54-83,95,115-117,119,121
+guide/ecosystem/third-party-tools.md
+  s_e827e256e15185::t_6e2cab9eb50100 1401,1408,1414-1416
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "ed1474b99f6f653fff0d0cd68c2d20c329940ca5",
+  "prompts": {},
+  "sessions": {
+    "s_e827e256e15185": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a12567-61ab-7c62-8b43-ea0028444170",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
