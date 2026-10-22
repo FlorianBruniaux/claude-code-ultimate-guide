@@ -33,13 +33,14 @@ tags: [ecosystem, hardware, local-llm, cloud, cost, benchmarks]
 - [Decision Framework](#decision-framework)
 - [Sizing Self-Hosted Inference for a Team](#sizing-self-hosted-inference-for-a-team)
 - [One Machine for a Small Team](#one-machine-for-a-small-team)
+- [Worked Example: What I Am Weighing in October 2026](#worked-example-what-i-am-weighing-in-october-2026)
 - [Switching Providers at the CLI Level](#switching-providers-at-the-cli-level)
 
 ---
 
 ## Data snapshot date
 
-Every price, spec, and throughput number on this page is a snapshot from **August 2026**, except where a row or paragraph says it was rechecked on **October 1, 2026** (Mac Studio, Strix Halo and Gorgon Halo rows, the bandwidth table, and the small-team section) or on **October 21, 2026** (DGX Spark and GB10 prices, the 64 GB GB10 variant, Strix Halo and Gorgon Halo listings, RTX Spark laptops, and the long-prompt measurements in the bandwidth section). Memory prices rose sharply through 2026: TrendForce reported conventional DRAM contract prices up 93-98% quarter over quarter in Q1 2026 and forecast another 58-63% in Q2 ([TrendForce, June 1, 2026](https://www.trendforce.com/presscenter/news/20260601-13070.html), not re-read for this revision), so 128 GB-class machines can cost markedly more than at launch. GPU prices move by double digits in weeks, cloud providers reprice without notice, and model families get replaced. Treat the tables as a method to reproduce, not a permanent price list. The queries and CLI commands used to produce this page are included so you can rerun them.
+Every price, spec, and throughput number on this page is a snapshot from **August 2026**, except where a row or paragraph says it was rechecked on **October 1, 2026** (Mac Studio, Strix Halo and Gorgon Halo rows, the bandwidth table, and the small-team section) or on **October 21, 2026** (DGX Spark and GB10 prices, the 64 GB GB10 variant, Strix Halo and Gorgon Halo listings, RTX Spark laptops, and the long-prompt measurements in the bandwidth section) or on **October 22, 2026** (the worked example at the end of the page). Memory prices rose sharply through 2026: TrendForce reported conventional DRAM contract prices up 93-98% quarter over quarter in Q1 2026 and forecast another 58-63% in Q2 ([TrendForce, June 1, 2026](https://www.trendforce.com/presscenter/news/20260601-13070.html), not re-read for this revision), so 128 GB-class machines can cost markedly more than at launch. GPU prices move by double digits in weeks, cloud providers reprice without notice, and model families get replaced. Treat the tables as a method to reproduce, not a permanent price list. The queries and CLI commands used to produce this page are included so you can rerun them.
 
 For a live view instead of this fixed snapshot, two trackers update continuously rather than on a fixed schedule: [llm-stats.com](https://llm-stats.com/llm-updates) (benchmark scores, arena votes, and API pricing pulled directly from providers) and [benchlm.ai](https://benchlm.ai/) (401+ models across 46 leaderboard categories, including tokens/sec and time-to-first-token, explicitly excluding algorithmically-generated benchmark data). Neither replaces the hardware-fit math on this page, which still needs `llmfit` against your own target model.
 
@@ -720,6 +721,41 @@ Three practical consequences:
 - **One machine is one point of failure.** Plan a fallback (a second box or a hosted API) if the team depends on it, and keep the [benchmark protocol](#benchmark-protocol-before-you-buy) results so the comparison can be rerun.
 
 **Buying vs leasing vs renting, in monthly terms.** Apple Upgrade leases a Mac Studio from $48.99/month (M5 Max) or $110.10/month (M5 Ultra) over 36 months, excluding tax ([Apple, September 22, 2026](https://www.apple.com/newsroom/2026/09/the-new-mac-mini-and-mac-studio-are-available-today/)). A one-H100 rental at the [hourly rates above](#cloud-gpu-rental-pricing) costs roughly $120-180 a month at two hours a day and $1,460-2,200 a month at 24/7. These are not equivalent machines: the H100 serves larger models and more concurrent requests, and the local box adds setup, maintenance and power that the lease price excludes. Compare them only after the same model passes the same task and latency gates on both.
+
+---
+
+## Worked example: what I am weighing in October 2026
+
+This section is my own case, as the author of this guide, written while I am deciding. It applies the method of this page to one real workload instead of a generic one. Treat the conclusion as one data point, not a recommendation for your setup.
+
+**The workload.** My local Claude Code and Codex logs for the seven days to October 21, 2026 add up to about 511 million uncached input and output tokens, plus 18.3 billion cache reads (a 97.5% cache-hit rate). Counting a session as active when it logged an event in the previous five minutes, I ran 26 agents at the same time at the 95th percentile and 67 at the peak. Averaged over its active minutes, an implementation session needs about 108 tok/s of uncached prompt and 15 tok/s of output. These figures come from my own logs and are not published; the method (deduplicated `usage` per Claude message, cumulative `token_count` deltas for Codex) is reproducible on yours.
+
+**The constraint.** A client engagement asks for 5 to 10 parallel sessions with everything kept local, on a Unix system, against a budget of about €1,000 a month that was planned for API usage. I already own a MacBook Pro M5 Max with 128 GB, so the question is what to buy alongside it.
+
+**What the cloud gives me today.** Dividing each call's output tokens by the time between request and end of response (calls of 200 output tokens or more, seven days to October 22, 2026) gives these medians: Claude Haiku 5.5 171 tok/s, Sonnet 5.5 83, Opus 5.5 76, GPT-6 Sol 55, GPT-6.1 Sol 37, GPT-6 Astra 30. They include queueing, prefill and time to first token, so pure decode is faster; Codex counts reasoning tokens as output.
+
+**Why a sovereign API does not fit the budget.** Scaleway's Paris Generative APIs list Qwen3.6-35B-A3B at €0.25 in / €1.50 out and gpt-oss-120b at €0.15 / €0.60 per million tokens, excluding VAT, with no cached-input price for these two models ([Scaleway pricing](https://www.scaleway.com/fr/tarifs/model-as-a-service/), checked October 22, 2026). A coding agent resends its context on every turn: in my logs, cache reads are 39.4 times the uncached input, so one session sends about 4,400 input tokens per second. At 8 hours a day, 22 days a month, 5 sessions would cost about €3,530 (Qwen3.6-35B-A3B) or €2,100 (gpt-oss-120b) a month, and 10 sessions about €7,060 or €4,200. Pricing only the uncached part, as a first estimate did, understates the bill about 20 times.
+
+[![What to buy alongside my MacBook M5 Max: a GB10 128 GB at €5,608 excluding VAT, about €164 a month over three years and paid back in about six months, is recommended; a Mac Studio M5 Ultra 256 GB costs €10,358, a RTX PRO 6000 workstation €21,990, and the Scaleway API €2,100 to €7,060 a month, over budget.](../images/local-vs-cloud-worked-example-purchase.webp)](../images/local-vs-cloud-worked-example-purchase.webp)
+
+| Option (French prices, excl. VAT) | Purchase | Monthly over 3 years | Pays back vs €1,000/month | OS |
+|---|---|---|---|---|
+| GB10 128 GB: Dell Pro Max with GB10, 2 TB | €5,608.52 ([Dell France](https://www.dell.com/fr-fr/shop/desktop-computers/spd/dellpromaxwithgb10fcm1253)) | ≈€164 | ≈6 months | NVIDIA DGX OS 7 (Linux), no Windows option |
+| Mac Studio M5 Ultra 256 GB, 1 TB | €10,357.50 ([LDLC.pro](https://www.ldlc.pro/fiche/PB00760889.html), "+ de 15 jours") | ≈€297 | ≈10 months | macOS |
+| RTX PRO 6000 Max-Q workstation, 128 GB ECC | from €21,990, final price on quote ([Happy Mining](https://happymining.fr/products/station-ia-threadripper-rtx-pro-6000)) | ≈€631 | ≈22 months | Ubuntu LTS |
+
+All three listings were read on October 22, 2026. On the same day, apple.com/fr quoted 13 to 15 weeks before shipping for a 256 GB / 4 TB M5 Ultra configuration. The monthly column adds electricity at €0.1624/kWh excluding VAT ([Selectra, EDF Tarif Bleu Pro, updated October 8, 2026](https://entreprises.selectra.info/energie/fournisseurs/edf)) for 176 active hours and 544 idle hours a month, with assumed draws of 200 W / 30 W (GB10), 250 W / 20 W (Mac Studio) and 450 W / 80 W (workstation). Those draws are budgeting assumptions, not measurements; at this usage, electricity comes to €8-20 a month per machine. No resale value, financing or maintenance is included, and the payback column assumes the purchase really removes €1,000 of monthly API spend.
+
+[![Models, sessions and throughput per machine, and a bar comparison of speed per call: Claude Opus 5.5 at 76 tok/s and GPT-6.1 Sol at 37 tok/s in the cloud, against about 45 tok/s per session for a GB10 at six sessions and about 80 tok/s per session for a RTX PRO 6000 at four requests.](../images/local-vs-cloud-worked-example-models.webp)](../images/local-vs-cloud-worked-example-models.webp)
+
+**What each machine has been shown to run with several agents.** Evidence is thin and mostly self-reported:
+
+- **GB10, vLLM, 8 concurrent synthetic requests:** 313.4 tok/s aggregate for Qwen3-30B-A3B NVFP4, 289.0 for qwen3-coder-next INT4, 116-153 for gpt-oss-120b MXFP4. Ollama on the same box stays near single-stream speed (60.4 tok/s for 8 requests against 59.2 for one) because it does not batch ([sergioamsilva/dgx-spark-field-notes](https://github.com/sergioamsilva/dgx-spark-field-notes/blob/main/benchmarks/RESULTS.md)).
+- **GB10, one user report:** Qwen3.8 Flash-Next on vLLM with MTP and FP8 KV cache, 265.7 tok/s across 6 streams, 44.6 per stream ([lead list in evanwtf/local-llm issue 722](https://github.com/evanwtf/local-llm/issues/722), numbers self-reported). The same list holds the only measured multi-agent run on two linked Sparks: two Codex agents at 36-38 tok/s combined.
+- **RTX PRO 6000 Max-Q, one user report:** Claude Code with one orchestrator and up to three subagents on Qwen3.8 Flash-Next NVFP4, 326 tok/s aggregate at 4 running requests ([community results](https://github.com/jpezzulli/sglang-rtxpro6000/blob/pennyroyal-main-sm120-final/COMMUNITY-RESULTS.md), scheduler-log samples, not reproduced).
+- **Mac Studio M5 Ultra and MacBook M5 Max:** single-session figures only (76 tok/s for gpt-oss-120b on the M5 Ultra, in the [bandwidth section](#memory-bandwidth-prefill-and-ecc); 32-75 tok/s in self-reported M5 Max posts from the same lead list). No multi-agent measurement found.
+
+**Where I am landing.** One GB10 128 GB on Linux runs execution for the client sessions through vLLM, with no fallback to a cloud API; the MacBook keeps planning and review. It is the cheapest option that has any multi-session evidence, it ships without a three-month wait, and its 15 tok/s-per-session requirement sits well under the reported 45 tok/s per stream. Before buying, I will run the [benchmark protocol](#benchmark-protocol-before-you-buy) on the MacBook with the client's real tasks. Two results would change the decision: open-weight models failing those tasks, or prefill on long contexts, not decode, turning out to be the bottleneck.
 
 ---
 
