@@ -14,7 +14,7 @@ tags: [guide, reference, workflows, agents, hooks, mcp, security]
 
 **Reading time**: ~30-40 hours (full) | ~15 minutes (Quick Start only)
 
-**Last updated**: October 6, 2026
+**Last updated**: October 6, 2026 (full baseline); October 24, 2026 (selective cache and harness corrections)
 
 **Version**: 3.44.1
 
@@ -2153,11 +2153,11 @@ Claude Code v2.1.280 and later defaults to **Opus 5.5** on Pro, Max, Team, Enter
 | Model | Input / MTok | Output / MTok | Cache read / MTok | Context | Default effort in Claude Code |
 |-------|--------------|---------------|-------------------|---------|-------------------------------|
 | Opus 5.5 | $4 | $20 | $0.20 | 1M | `medium` |
-| Sonnet 5.5 | $2 | $10 | $0.20 | 1M | `high` |
+| Sonnet 5.5 | $2 | $10 | $0.10 | 1M | `high` |
 | Haiku 4.5 | $1 | $5 | $0.10 | 200K | No effort parameter |
 | Fable 5.1 | $10 | $50 | $0.25 | 1M | `high` |
 
-These are standard Anthropic API rates in USD, checked October 6, 2026. Subscription allowances, usage credits, cache writes, batch discounts, data residency, and partner-operated cloud pricing are separate. Sonnet 5.5 (`claude-sonnet-5-5`) replaced Sonnet 5 as the default Sonnet on the Anthropic API in Claude Code v2.1.284 (September 28, 2026) at the same $2/$10; Sonnet 5 is now a legacy model, and the September increase once announced for it did not occur. [Official model pricing](https://platform.claude.com/docs/en/about-claude/pricing).
+These are standard Anthropic API rates in USD, checked October 6, 2026; cache-read rates were rechecked October 24, 2026. Subscription allowances, usage credits, cache writes, batch discounts, data residency, and partner-operated cloud pricing are separate. Sonnet 5.5 (`claude-sonnet-5-5`) replaced Sonnet 5 as the default Sonnet on the Anthropic API in Claude Code v2.1.284 (September 28, 2026) at the same $2/$10; Sonnet 5 is now a legacy model, and the September increase once announced for it did not occur. [Official model pricing](https://platform.claude.com/docs/en/about-claude/pricing).
 
 Fast mode supports Opus 5.5 ($8/$40 per MTok), Opus 5 and Opus 4.8 ($10/$50). It is unavailable on Sonnet and Haiku. Anthropic describes up to 2.5 times faster output; this is not a guarantee for every request. Subscription fast mode uses usage credits. [Fast mode reference](https://code.claude.com/docs/en/fast-mode).
 
@@ -2278,98 +2278,82 @@ claude --model opus "Design the entire authentication system"
 
 **Strategy 6: Use prompt caching for repeated context (API)**
 
-If you call the Anthropic API directly (e.g., for custom agents or pipelines), prompt caching cuts costs by up to 90% on repeated prefixes.
+Cache a reusable prefix rather than assuming that retained context is free. The first write and later reads are separate billing operations; misses, expiry, and changes to the prefix affect the result. Claude Code manages its own caching. In custom API pipelines, use automatic caching or explicit `cache_control` breakpoints.
 
 ```python
-# Mark stable sections with cache_control
 response = client.messages.create(
-    model="claude-sonnet-5",
+    model="claude-sonnet-5-5",
     max_tokens=1024,
-    system=[
-        {
-            "type": "text",
-            "text": "<your large system prompt / codebase context>",
-            "cache_control": {"type": "ephemeral"}  # Cache this prefix
-        }
-    ],
-    messages=[{"role": "user", "content": "Fix the bug in auth.ts"}]
+    system=[{
+        "type": "text",
+        "text": "<stable project context>",
+        "cache_control": {"type": "ephemeral"},
+    }],
+    messages=[{"role": "user", "content": "Fix the reported bug."}],
 )
 ```
 
-**Prompt caching economics**:
+**Prompt caching economics**, standard API rates checked October 24, 2026:
 
-| Operation | Cost multiplier | TTL |
-|-----------|-----------------|-----|
-| Cache write | 1.25x base price | 5 minutes (default) |
-| Cache write (extended) | 2x base price | 1 hour |
-| Cache read (hit) | 0.1x base price | — |
-| Latency reduction | Up to 85% for long prompts | — |
+| Operation | Multiplier of base input price | Lifetime |
+|-----------|--------------------------------|----------|
+| Cache write | 1.25x | 5 minutes |
+| Cache write (extended) | 2x | 1 hour |
+| Cache read: Opus 5.5, Sonnet 5.5 | 0.05x | Refreshes the existing entry |
+| Cache read: Fable 5.1, Mythos 5.1 | 0.025x | Refreshes the existing entry |
+| Cache read: other supported models | 0.1x | Refreshes the existing entry |
 
-**Break-even**: 2 cache hits with 5-minute TTL. After that, pure savings.
+For an unchanged prefix, one write plus one cache read costs less than two uncached reads with a five-minute TTL. A one-hour write becomes cheaper after two cache reads. Those comparisons exclude changing suffixes and other work. Cache writes and reads are input billing categories; generated output, including billable reasoning, remains separately charged. [Official API prices](https://platform.claude.com/docs/en/about-claude/pricing).
 
-**Rules**:
-- Max **4 cache breakpoints** per request
-- Cache key = exact prefix match (single character change = cache miss)
-- Place breakpoints after large stable sections: system prompt, tool definitions, codebase context
-- For Claude Code itself: caching is handled automatically by the CLI. This applies to API-based workflows you build on top of Claude
-
-> Docs: [prompt caching](https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching)
+Explicit caching supports up to four breakpoints. Put a breakpoint at the end of the reusable prefix; placing one after a changing timestamp does not automatically cache the stable content before it.
 
 #### How Claude Code handles caching automatically
 
-Claude Code manages prompt caching without any configuration on your part. Understanding the mechanics helps you make decisions that keep cache hit rates high and costs low.
-
 **Cache prefix hierarchy**
 
-Every API call Claude Code makes structures content in this fixed order: `tools → system → messages`. Cache matching always starts from the beginning of this prefix. A stable tool list + stable CLAUDE.md + growing conversation history means the first two layers are almost always cache hits, while only new message turns require fresh computation.
+The API builds cache prefixes in the order `tools → system → messages`. Preserve stable tools and instructions, then append task-specific information. Changing content invalidates reuse from that position onward, rather than necessarily invalidating every earlier cached segment.
 
-**The 20-block lookback: the long-session trap**
+**The 20-block lookback searches for a previous write**
 
-Cache matching uses a bounded lookback of approximately 20 blocks. In a long session with many tool calls and exchanges, blocks from early in the conversation fall outside this window and become cache misses. Practical consequence: very long sessions gradually lose cache efficiency at the message layer. The fix is `/compact`: it compresses the conversation history into a single summary block, resetting the lookback window and restoring high hit rates.
+For each breakpoint, matching checks up to 20 block positions for a prefix that a previous request actually cached. This is not a limit of 20 conversation turns and does not discard old content merely because a session is long. On the Claude API, consecutive `tool_use` blocks count as one position, as do consecutive `tool_result` blocks. If additions move a prior write outside the search window, an earlier explicit breakpoint can preserve access to it. Compaction rewrites history and can require a fresh cache write; it does not guarantee a better hit rate. [Prefix matching](https://platform.claude.com/docs/en/build-with-claude/prompt-caching#structuring-your-prompt).
 
 **Minimum token thresholds by model**
 
-A block must meet a minimum size to be eligible for caching. Blocks smaller than the threshold are never cached, regardless of how stable they are:
+The minimum applies to the cacheable prompt prefix, not to CLAUDE.md or each block in isolation. Current examples from the [cache limitations](https://platform.claude.com/docs/en/build-with-claude/prompt-caching#cache-limitations):
 
-| Model family | Minimum tokens |
+| Models | Minimum prefix tokens |
 |---|---|
-| Claude Opus 5, Fable 5 | 512 |
-| Claude Sonnet 5, Opus 4.8 | 1,024 |
-| Claude Opus 4.7, Opus 4.6, Opus 4.5, Haiku 4.5 | 4,096 |
-| Claude Sonnet 4.6 | 2,048 |
-| Claude Sonnet 4.5, Sonnet 4, Sonnet 3.7, Opus 4.1, Opus 4 | 1,024 |
-| Claude Haiku 3.5, Haiku 3 | 2,048 |
+| Opus 5.5, Sonnet 5.5, Fable 5.1, Haiku 5.5 | 512 |
+| Opus 4.7 | 2,048 |
+| Opus 4.6, Opus 4.5, Haiku 4.5 | 4,096 |
+| Opus 4.8, Sonnet 5, Sonnet 4.6 | 1,024 |
 
-Short CLAUDE.md files (under ~1,000 tokens) may not be cached at all on Sonnet models. If cost optimization matters, make sure your system prompt crosses the threshold for your target model.
+Check the exact model and platform before applying a threshold. A short CLAUDE.md can be part of a sufficiently large cached prefix alongside tools and other instructions; adding filler is not a task-quality improvement.
 
 **Tool result size and cache economics**
 
-Tool results land in the message history and stay there for the rest of the session. Every subsequent API call re-reads that history, at cache read price (0.1x), but still proportional to size. A `git status` output of 500 tokens costs 500 × 0.1x to read on every turn that follows. The same output at 50 tokens (filtered by a tool like RTK) costs 50 × 0.1x: 90% less, compounding across every turn in the session. Compact tool outputs are not just faster to process; they make the entire cached prefix cheaper to maintain.
-
-The same logic applies to cache writes: a smaller history prefix means cheaper initial writes (1.25x × fewer tokens).
+A tool result retained in history can be billed again on subsequent calls. If it is read from cache, its cost is its token count times the model's cache-read rate. Fresh content may first incur a cache write or regular input charge. Smaller useful results can reduce those categories; filtering away needed evidence can also cause extra calls or mistakes. Compare accepted-task outcomes before turning an output-size reduction into a claim about the whole bill.
 
 **Monitoring cache performance in your own pipelines**
 
-When building agents or pipelines on top of the Anthropic API, the response `usage` object exposes cache metrics directly:
-
 ```python
-response = client.messages.create(...)
-
-print(response.usage.cache_creation_input_tokens)  # Tokens written to cache this request
-print(response.usage.cache_read_input_tokens)       # Tokens read from cache (hits)
-print(response.usage.input_tokens)                  # Non-cached input tokens
+print(response.usage.cache_creation_input_tokens)  # Written this request
+print(response.usage.cache_read_input_tokens)      # Reused this request
+print(response.usage.input_tokens)                 # Uncached input
 ```
 
-Calculate your hit rate as `cache_read / (cache_read + cache_creation)` across requests. A ratio above 0.8 means your prompt structure is working well. Low ratios usually mean content in the stable prefix is changing between requests: check for timestamps, random IDs, or dynamic content embedded in your system prompt.
-
-`/usage` includes prompt-cache statistics for the main conversation on supported current versions. For custom API pipelines, inspect the response fields above. See the [cost and cache documentation](https://code.claude.com/docs/en/costs#prompt-cache-statistics).
+Across requests, divide cache-read tokens by the sum of those three categories to report the cached share of input tokens. This is not the fraction of requests with a hit. Record writes, misses, expiry, and generated output separately; no universal hit-rate threshold proves that a workflow is economical. `/usage` exposes cache statistics on supported Claude Code versions. [Cost and cache statistics](https://code.claude.com/docs/en/costs#prompt-cache-statistics).
 
 **Practical rules**
 
-- Keep CLAUDE.md stable between sessions: edits invalidate the system cache one-shot, then it re-warms on the next request
-- Run `/compact` before the conversation gets very long, not after performance degrades
-- Avoid dynamic content in stable sections (dates, random values, per-request context)
-- Larger CLAUDE.md = more expensive cache write, but also more tokens saved per read, profitable after ~2 hits
+- Keep reusable instructions stable while the cache entry is valid.
+- Put changing dates, task state, and per-request context after the stable prefix.
+- Compact when the task needs it, accounting for the rewrite and possible cache rebuild.
+- Retain useful project constraints even when removing them would save input tokens.
+
+#### Cache-aware working state
+
+Keep durable task state in a controller-owned record, then append a current snapshot when needed. Rewriting the first message on every turn invalidates the reusable suffix. Appending preserves earlier messages, subject to cache eligibility, lifetime, and breakpoint placement. Append only at valid message boundaries after required tool results, and verify state claims before using them for acceptance. The [scratchpad example](./core/context-engineering.md#scratchpad-pattern) demonstrates message assembly, not persistence or a measured cache hit.
 
 **Known cache bugs (v2.1.69+)**
 
@@ -17538,7 +17522,7 @@ You: "Implement the caching layer following the plan"
 | 200 lines | 2,000-3,500 tokens | Upper limit |
 | 500+ lines | 5,000+ tokens | Consider splitting |
 
-Note: These are loaded **once at session start**, not per request. A 200-line CLAUDE.md costs ~2K tokens upfront but doesn't grow during the session. The concern is the cumulative effect when combined with multiple `@includes` and all files in `.claude/rules/`.
+Session loading and API billing are different events. Instructions can enter the conversation once and remain in the prefix sent on later calls, where they incur cache-read, cache-write, or uncached-input charges. Root imports load with their referring file; conditional rules load on matching operations. Measure the content actually loaded and its billing categories instead of treating it as a one-time token expense. A larger input count does not by itself establish the largest cost: include generated output, billable reasoning, corrections, and human review in cost per accepted task.
 
 > **Research boundary**: [Gloaguen et al., section 4.2](https://arxiv.org/html/2602.11988v1) report average inference-cost increases of 20% and 23% for LLM-generated files on SWE-bench Lite and AGENTbench, respectively. Those are results for the tested configurations, not a surcharge for every instruction file. Cost, reasoning tokens and success rate are different measures.
 
@@ -22948,6 +22932,19 @@ Five subsystems make up a complete harness:
 
 The most common failure modes map directly to missing subsystems. Agents that forget context between sessions are missing State. Agents that redo completed work are missing State. Agents that declare done before tests pass are missing Feedback.
 
+### Size the repository harness to the task
+
+For a bounded change with clear acceptance criteria, one session and the appropriate checks can be sufficient. Add a plan, feature registry, progress note, or extra agent when it supports a durable decision, coordination, review, or recovery. Keep permission enforcement and required verification even when the model needs fewer procedural instructions.
+
+Boucard's [frugal-harness article](https://blog.octo.com/harnais-agentiques-%2812%29--pourquoi-les-bonnes-pratiques-d%27hier-coutent-cher-aujourd%27hui) supplies an illustrative comparison at Opus 5.5 standard API rates, checked October 24, 2026:
+
+| Operation | Marginal cost |
+|---|---|
+| Read 50,000 tokens from an existing cache at $0.20/million | $0.01 |
+| Generate a 5,000-token note at $20/million | $0.10 |
+
+[Official prices](https://platform.claude.com/docs/en/about-claude/pricing) support this arithmetic. It excludes the initial cache write, misses, expiry, later note reads, and any effect on quality. A note may still save review or recovery work. The article does not demonstrate that plans and reviews are generally obsolete. Compare total cost per accepted task, including failed attempts, coordination, human review, and rework. See [the source evaluation](../docs/resource-evaluations/boucard-frugal-agent-harnesses.md) and [component-level experiments](./core/agent-harness.md#7-test-distribution-and-component-stacking-anti-patterns).
+
 ### The Verification Gap
 
 An agent can announce "done" while tests fail, types are broken or the build does not compile. The harness needs a completion boundary that checks execution evidence independently of that announcement. A model's confidence cannot establish that a command ran on the candidate revision.
@@ -22992,7 +22989,7 @@ For a sequential feature workflow, WIP=1 is a useful starting policy: one featur
 
 ### The Session Lifecycle
 
-A reliable session follows this sequence every time, not just at startup:
+For multi-session feature work with explicit task records, this sequence is one possible contract. A small, clear change can use the relevant setup and verification directly, without creating every artifact below. Recheck setup when dependencies or environment state warrant it, and preserve the checks required by the task:
 
 | Step | Action | Subsystem |
 |------|--------|-----------|
@@ -23005,13 +23002,13 @@ A reliable session follows this sequence every time, not just at startup:
 | 7. UPDATE | Set feature status to `passing`, record evidence | State |
 | 8. LOG | Update `progress.md` with what changed and what's next | State |
 | 9. CLEANUP | Remove temp files, leave repo in restartable state | Environment |
-| 10. COMMIT | Commit only when verification passes and state is clean | — |
+| 10. COMMIT | Commit when authorized and required verification passes | — |
 
 Steps 2 (INIT) and 6 (VERIFY) are where most harness failures occur. INIT that silently continues past broken dependencies produces confusing errors for the rest of the session. VERIFY that runs but doesn't block completion produces false positives that erode trust in the agent's output.
 
 ### feature_list.json: Structured Scope Tracking
 
-A plain text task list is insufficient for reliable agent operation: no machine-readable state, no evidence field, no dependency ordering. `feature_list.json` adds structure that both the agent and your tooling can read.
+Use a structured feature registry when a controller needs machine-readable state, evidence, or dependency ordering across tasks and sessions. `feature_list.json` is one format for that contract. A bounded task can use a smaller record; the format itself does not establish reliable execution.
 
 Each feature needs three things: a description of the expected behavior, the verification command that proves it works, and a status field the agent updates throughout the session.
 
@@ -23072,7 +23069,7 @@ echo "Next: read feature_list.json and pick one not_started feature"
 
 Context windows are finite. Every session that ends without a handoff note forces the next session to reconstruct context from scratch: reading git log, grepping for recent changes, inferring what was in progress. This reconstruction is expensive and imprecise, and it's where subtle errors get introduced.
 
-`progress.md` eliminates the reconstruction cost. It's a short, structured note written at the end of every session, read at the start of the next.
+`progress.md` can reduce reconstruction work when another session or worker must resume. Write the needed state, decisions, evidence, and next action at that handoff. A completed bounded task does not require an extra progress file solely to satisfy this example.
 
 ```markdown
 # Session progress
@@ -23208,7 +23205,7 @@ docs/
 └── SECURITY.md            # Security requirements and patterns
 ```
 
-**Exec plans as first-class artifacts**: for any non-trivial task, the agent creates a plan document before writing code. Simple changes get ephemeral plans: a short markdown file with the approach and expected outcome, created at the start of the task and moved to completed/ when done. Complex tasks get full exec plans with progress logs, decision records, and explicit notes on alternatives rejected. The separation of active/ and completed/ keeps the agent's attention on current work while preserving a searchable history of past decisions. The tech-debt-tracker.md is the backlog for known quality issues; the background cleanup agents described in §9.25.5 populate it and address issues incrementally rather than through a disruptive periodic cleanup.
+**Exec plans for decisions and handoffs**: use a versioned plan when uncertainty, cross-system changes, coordination, or recovery makes the selected decisions worth preserving. A small change with a clear scope can proceed directly with acceptance criteria and suitable verification. Keep longer plans focused on selected decisions, progress, and rejected alternatives that matter for later work. Active and completed directories are organizational options, not proof of approval or mandatory artifacts for every task. This conditional use is consistent with [Anthropic's planning guidance](https://code.claude.com/docs/en/best-practices#explore-first-then-plan-then-code).
 
 **generated/ directory**: certain documentation must track code exactly. Database schemas, API surface areas, generated type definitions. These go in generated/ and are produced by automated scripts, not written by hand. The doc-gardening agent (described below) enforces the invariant that generated/ files match the actual runtime state.
 
@@ -25936,4 +25933,4 @@ We'll evaluate and add it to this section if it meets quality criteria.
 
 **Contributions**: Issues and PRs welcome.
 
-**Last updated**: October 6, 2026 | **Version**: 3.44.1
+**Last updated**: October 6, 2026 (full baseline); October 24, 2026 (selective cache and harness corrections) | **Version**: 3.44.1

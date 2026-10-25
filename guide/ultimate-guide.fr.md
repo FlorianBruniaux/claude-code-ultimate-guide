@@ -14,7 +14,7 @@ tags: [guide, reference, workflows, agents, hooks, mcp, security]
 
 **Temps de lecture** : ~30-40 heures (complet) | ~15 minutes (Quick Start uniquement)
 
-**Dernière mise à jour** : 6 octobre 2026
+**Dernière mise à jour** : 6 octobre 2026 (rafraîchissement complet) ; 24 octobre 2026 (corrections ciblées du cache et des harnais)
 
 **Version** : 3.44.1
 
@@ -2193,11 +2193,11 @@ Claude Code v2.1.280 et les versions suivantes utilisent **Opus 5.5** par défau
 | Modèle | Entrée / MTok | Sortie / MTok | Lecture du cache / MTok | Contexte | Effort par défaut dans Claude Code |
 |-------|--------------|---------------|-------------------|---------|-------------------------------|
 | Opus 5.5 | $4 | $20 | $0.20 | 1M | `medium` |
-| Sonnet 5.5 | $2 | $10 | $0.20 | 1M | `high` |
+| Sonnet 5.5 | $2 | $10 | $0.10 | 1M | `high` |
 | Haiku 4.5 | $1 | $5 | $0.10 | 200K | Pas de paramètre d'effort |
 | Fable 5.1 | $10 | $50 | $0.25 | 1M | `high` |
 
-Il s'agit des tarifs standard de l'API Anthropic en USD, vérifiés le 6 octobre 2026. Les allocations des abonnements, les crédits d'usage, les écritures du cache, les remises par lot, la résidence des données et les tarifs des clouds partenaires sont distincts. Sonnet 5.5 (`claude-sonnet-5-5`) a remplacé Sonnet 5 comme Sonnet par défaut sur l’API Anthropic dans Claude Code v2.1.284 (28 septembre 2026), aux mêmes tarifs de $2/$10 ; Sonnet 5 est désormais un modèle legacy, et la hausse annoncée pour septembre n’a pas eu lieu. [Tarifs officiels des modèles](https://platform.claude.com/docs/en/about-claude/pricing).
+Il s'agit des tarifs standard de l'API Anthropic en USD, vérifiés le 6 octobre 2026. Les allocations des abonnements, les crédits d'usage, les écritures du cache, les remises par lot, la résidence des données et les tarifs des clouds partenaires sont distincts. Sonnet 5.5 (`claude-sonnet-5-5`) a remplacé Sonnet 5 comme Sonnet par défaut sur l’API Anthropic dans Claude Code v2.1.284 (28 septembre 2026), aux mêmes tarifs de $2/$10 ; Sonnet 5 est désormais un modèle legacy, et la hausse annoncée pour septembre n’a pas eu lieu. [Tarifs officiels des modèles](https://platform.claude.com/docs/en/about-claude/pricing). Les tarifs de lecture du cache ont été revérifiés le 24 octobre 2026.
 
 Le mode rapide prend en charge Opus 5.5 ($8/$40 par MTok), Opus 5 et Opus 4.8 ($10/$50). Il n'est pas disponible sur Sonnet et Haiku. Anthropic décrit une sortie jusqu'à 2.5 fois plus rapide, sans garantie pour chaque requête. Le mode rapide des abonnements utilise des crédits d'usage. [Référence du mode rapide](https://code.claude.com/docs/en/fast-mode).
 
@@ -2318,98 +2318,82 @@ claude --model opus "Design the entire authentication system"
 
 **Stratégie 6 : Utiliser la mise en cache des invites pour un contexte répété (API)**
 
-Si vous appelez l'API Anthropic directement (par exemple pour des agents ou pipelines personnalisés), la mise en cache des invites réduit les coûts jusqu'à 90 % sur les préfixes répétés.
+Mettez en cache un préfixe réutilisable sans supposer que le contexte conservé est gratuit. L'écriture initiale et les lectures suivantes sont des opérations facturées séparément ; les échecs de cache, l'expiration et les modifications du préfixe changent le résultat. Claude Code gère son propre cache. Dans vos pipelines API, utilisez le cache automatique ou des points explicites `cache_control`.
 
 ```python
-# Marquer les sections stables avec cache_control
 response = client.messages.create(
-    model="claude-sonnet-5",
+    model="claude-sonnet-5-5",
     max_tokens=1024,
-    system=[
-        {
-            "type": "text",
-            "text": "<your large system prompt / codebase context>",
-            "cache_control": {"type": "ephemeral"}  # Cache this prefix
-        }
-    ],
-    messages=[{"role": "user", "content": "Fix the bug in auth.ts"}]
+    system=[{
+        "type": "text",
+        "text": "<contexte stable du projet>",
+        "cache_control": {"type": "ephemeral"},
+    }],
+    messages=[{"role": "user", "content": "Corrige le défaut signalé."}],
 )
 ```
 
-**Économie de la mise en cache des invites** :
+**Économie de la mise en cache**, tarifs API standard vérifiés le 24 octobre 2026 :
 
-| Opération | Multiplicateur de coût | TTL |
-|-----------|-----------------|-----|
-| Écriture en cache | 1,25× le prix de base | 5 minutes (par défaut) |
-| Écriture en cache (étendue) | 2× le prix de base | 1 heure |
-| Lecture en cache (succès) | 0,1× le prix de base | — |
-| Réduction de latence | Jusqu'à 85 % pour les longues invites | — |
+| Opération | Multiplicateur du prix d'entrée de base | Durée |
+|-----------|----------------------------------------|-------|
+| Écriture en cache | 1,25× | 5 minutes |
+| Écriture en cache étendue | 2× | 1 heure |
+| Lecture : Opus 5.5, Sonnet 5.5 | 0,05× | Renouvelle l'entrée existante |
+| Lecture : Fable 5.1, Mythos 5.1 | 0,025× | Renouvelle l'entrée existante |
+| Lecture : autres modèles compatibles | 0,1× | Renouvelle l'entrée existante |
 
-**Seuil de rentabilité** : 2 succès de cache avec TTL de 5 minutes. Au-delà, économies pures.
+Pour un préfixe inchangé, une écriture suivie d'une lecture en cache coûte moins que deux lectures sans cache avec un TTL de cinq minutes. Une écriture d'une heure devient moins chère après deux lectures en cache. Ces comparaisons excluent les suffixes variables et le reste du travail. Les écritures et lectures du cache sont des catégories d'entrée ; la sortie générée, raisonnement facturable compris, reste facturée séparément. [Tarifs API officiels](https://platform.claude.com/docs/en/about-claude/pricing).
 
-**Règles** :
-- Maximum **4 points de rupture de cache** par requête
-- Clé de cache = correspondance exacte du préfixe (un seul caractère de différence = échec de cache)
-- Placez les points de rupture après les grandes sections stables : invite système, définitions d'outils, contexte de la base de code
-- Pour Claude Code lui-même : la mise en cache est gérée automatiquement par le CLI, cela s'applique aux workflows basés sur l'API que vous construisez par-dessus Claude
-
-> Documentation : [prompt caching](https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching)
+Le cache explicite accepte jusqu'à quatre points de rupture. Placez le point à la fin du préfixe réutilisable ; le placer après un horodatage variable ne met pas automatiquement en cache la partie stable qui le précède.
 
 #### Comment Claude Code gère la mise en cache automatiquement
 
-Claude Code gère la mise en cache des invites sans aucune configuration de votre part. Comprendre les mécanismes vous aide à prendre des décisions qui maintiennent des taux de succès de cache élevés et des coûts bas.
-
 **Hiérarchie des préfixes de cache**
 
-Chaque appel API effectué par Claude Code structure le contenu dans cet ordre fixe : `tools → system → messages`. La correspondance de cache commence toujours depuis le début de ce préfixe. Une liste d'outils stable + un CLAUDE.md stable + un historique de conversation croissant signifie que les deux premières couches sont presque toujours des succès de cache, tandis que seuls les nouveaux tours de messages nécessitent un calcul frais.
+L'API construit les préfixes dans l'ordre `tools → system → messages`. Préservez les outils et instructions stables, puis ajoutez les informations propres à la tâche. Une modification invalide la réutilisation à partir de sa position, sans nécessairement invalider tous les segments antérieurs déjà en cache.
 
-**Le lookback de 20 blocs : le piège des longues sessions**
+**Le lookback de 20 blocs recherche une écriture antérieure**
 
-La correspondance de cache utilise un lookback borné d'environ 20 blocs. Dans une longue session avec de nombreux appels d'outils et échanges, les blocs du début de la conversation tombent hors de cette fenêtre et deviennent des échecs de cache. Conséquence pratique : les très longues sessions perdent progressivement l'efficacité du cache au niveau de la couche des messages. La solution est `/compact` : il compresse l'historique de la conversation en un seul bloc de résumé, réinitialisant la fenêtre de lookback et restaurant des taux de succès élevés.
+Pour chaque point de rupture, la recherche inspecte jusqu'à 20 positions de blocs pour retrouver un préfixe réellement mis en cache lors d'une requête précédente. Ce n'est pas une limite de 20 tours de conversation : l'ancien contenu ne sort pas du cache simplement parce que la session est longue. Sur l'API Claude, une suite de blocs `tool_use` compte pour une position, comme une suite de blocs `tool_result`. Si les ajouts placent une ancienne écriture hors de cette fenêtre, un point explicite antérieur peut permettre de la retrouver. La compaction réécrit l'historique et peut exiger une nouvelle écriture ; elle ne garantit pas un meilleur taux de succès du cache. [Correspondance des préfixes](https://platform.claude.com/docs/en/build-with-claude/prompt-caching#structuring-your-prompt).
 
 **Seuils minimaux de tokens par modèle**
 
-Un bloc doit atteindre une taille minimale pour être éligible à la mise en cache. Les blocs plus petits que le seuil ne sont jamais mis en cache, quelle que soit leur stabilité :
+Le minimum concerne le préfixe réutilisable, pas CLAUDE.md ou chaque bloc pris isolément. Exemples actuels des [limites du cache](https://platform.claude.com/docs/en/build-with-claude/prompt-caching#cache-limitations) :
 
-| Famille de modèles | Tokens minimaux |
+| Modèles | Tokens minimaux du préfixe |
 |---|---|
-| Claude Opus 4.7, Opus 4.6, Opus 4.5, Haiku 4.5 | 4 096 |
-| Claude Sonnet 4.6 | 2 048 |
-| Claude Opus 5, Fable 5 | 512 |
-| Claude Sonnet 5, Opus 4.8 | 1 024 |
-| Claude Sonnet 4.5, Sonnet 4, Sonnet 3.7, Opus 4.1, Opus 4 | 1 024 |
-| Claude Haiku 3.5, Haiku 3 | 2 048 |
+| Opus 5.5, Sonnet 5.5, Fable 5.1, Haiku 5.5 | 512 |
+| Opus 4.7 | 2 048 |
+| Opus 4.6, Opus 4.5, Haiku 4.5 | 4 096 |
+| Opus 4.8, Sonnet 5, Sonnet 4.6 | 1 024 |
 
-Les fichiers CLAUDE.md courts (moins de ~1 000 tokens) peuvent ne pas être mis en cache du tout sur les modèles Sonnet. Si l'optimisation des coûts est importante, assurez-vous que votre invite système dépasse le seuil pour votre modèle cible.
+Vérifiez le modèle et la plateforme avant d'appliquer un seuil. Un court CLAUDE.md peut appartenir à un préfixe assez grand avec les outils et d'autres instructions ; ajouter du remplissage n'améliore pas la qualité de la tâche.
 
 **Taille des résultats d'outils et économie du cache**
 
-Les résultats des outils atterrissent dans l'historique des messages et y restent pour le reste de la session. Chaque appel API ultérieur relit cet historique, au prix de lecture en cache (0,1×), mais toujours proportionnel à la taille. Une sortie `git status` de 500 tokens coûte 500 × 0,1× à lire à chaque tour qui suit. La même sortie à 50 tokens (filtrée par un outil comme RTK) coûte 50 × 0,1×, 90 % de moins, en se cumulant à chaque tour de la session. Des sorties d'outils compactes ne sont pas seulement plus rapides à traiter ; elles rendent l'ensemble du préfixe mis en cache moins coûteux à maintenir.
+Un résultat d'outil conservé dans l'historique peut être facturé de nouveau lors des appels suivants. En cas de lecture depuis le cache, son coût correspond au nombre de tokens multiplié par le tarif de lecture du modèle. Le contenu nouveau peut d'abord entraîner une écriture en cache ou une facturation d'entrée normale. Des résultats utiles plus courts peuvent réduire ces catégories ; retirer une preuve nécessaire peut aussi provoquer des appels ou erreurs supplémentaires. Comparez les tâches acceptées avant de transformer une réduction de sortie d'outil en affirmation sur la facture complète.
 
-La même logique s'applique aux écritures en cache : un préfixe d'historique plus petit signifie des écritures initiales moins chères (1,25× × moins de tokens).
-
-**Surveiller les performances du cache dans vos propres pipelines**
-
-Lors de la construction d'agents ou de pipelines sur l'API Anthropic, l'objet `usage` de la réponse expose directement les métriques de cache :
+**Surveiller le cache dans vos propres pipelines**
 
 ```python
-response = client.messages.create(...)
-
-print(response.usage.cache_creation_input_tokens)  # Tokens écrits en cache lors de cette requête
-print(response.usage.cache_read_input_tokens)       # Tokens lus depuis le cache (succès)
-print(response.usage.input_tokens)                  # Tokens d'entrée non mis en cache
+print(response.usage.cache_creation_input_tokens)  # Écrits pendant cette requête
+print(response.usage.cache_read_input_tokens)      # Réutilisés pendant cette requête
+print(response.usage.input_tokens)                 # Entrée sans cache
 ```
 
-Calculez votre taux de succès comme `cache_read / (cache_read + cache_creation)` entre les requêtes. Un ratio supérieur à 0,8 signifie que la structure de votre invite fonctionne bien. Les ratios faibles signifient généralement que le contenu du préfixe stable change entre les requêtes, vérifiez la présence d'horodatages, d'identifiants aléatoires ou de contenu dynamique intégré dans votre invite système.
-
-`/usage` inclut les statistiques du cache de prompts de la conversation principale dans les versions actuelles compatibles. Pour les pipelines API personnalisés, inspectez les champs de réponse ci-dessus. Voir la [documentation des coûts et du cache](https://code.claude.com/docs/en/costs#prompt-cache-statistics).
+Sur l'ensemble des requêtes, divisez les tokens lus en cache par la somme de ces trois catégories pour obtenir la part des tokens d'entrée réutilisés. Ce n'est pas la proportion de requêtes avec un succès de cache. Relevez séparément écritures, échecs, expiration et sortie générée ; aucun seuil universel de succès ne prouve la rentabilité du workflow. `/usage` expose ces statistiques dans les versions compatibles de Claude Code. [Coûts et statistiques du cache](https://code.claude.com/docs/en/costs#prompt-cache-statistics).
 
 **Règles pratiques**
 
-- Gardez le CLAUDE.md stable entre les sessions, les modifications invalident le cache système en une seule fois, puis il se rechauffe à la requête suivante
-- Exécutez `/compact` avant que la conversation ne devienne très longue, pas après que les performances se dégradent
-- Évitez le contenu dynamique dans les sections stables (dates, valeurs aléatoires, contexte par requête)
-- Un CLAUDE.md plus grand = écriture en cache plus coûteuse, mais aussi plus de tokens économisés par lecture, rentable après ~2 succès
+- Gardez les instructions réutilisables stables tant que l'entrée de cache est valide.
+- Placez dates variables, état de tâche et contexte par requête après le préfixe stable.
+- Compactez lorsque la tâche le demande, en comptant la réécriture et l'éventuelle reconstruction du cache.
+- Conservez les contraintes utiles au projet même si les retirer économiserait des tokens d'entrée.
+
+#### Un état de travail compatible avec le cache {#cache-aware-working-state}
+
+Conservez l'état durable de la tâche dans un registre détenu par le contrôleur, puis ajoutez un instantané courant lorsque c'est utile. Réécrire le premier message à chaque tour invalide le suffixe réutilisable. Ajouter l'instantané à la suite préserve les messages antérieurs, sous réserve des seuils, de la durée du cache et des points de rupture. Respectez les frontières de messages après les résultats d'outils requis, et vérifiez les déclarations d'état avant de les utiliser pour accepter le travail. L'[exemple de scratchpad](./core/context-engineering.md#scratchpad-pattern) montre l'assemblage des messages, sans démontrer une persistance ou un succès de cache mesuré.
 
 **Bugs de cache connus (v2.1.69+)**
 
@@ -17749,7 +17733,7 @@ You: "Implement the caching layer following the plan"
 | 200 lignes | 2 000-3 500 tokens | Limite supérieure |
 | 500+ lignes | 5 000+ tokens | Envisager de diviser |
 
-Note : Ceux-ci sont chargés **une fois au démarrage de la session**, pas par requête. Un CLAUDE.md de 200 lignes coûte environ 2K tokens au départ mais ne croît pas pendant la session. La préoccupation concerne l'effet cumulatif combiné à plusieurs `@includes` et tous les fichiers dans `.claude/rules/`.
+Le chargement dans la session et la facturation API sont deux événements distincts. Les instructions peuvent entrer une fois dans la conversation et rester dans le préfixe envoyé aux appels suivants, avec des frais de lecture du cache, d'écriture ou d'entrée sans cache. Les imports racine suivent leur fichier ; les règles conditionnelles se chargent lors des opérations correspondantes. Mesurez le contenu réellement chargé et ses catégories de facturation plutôt que d'y voir une dépense unique. Un volume d'entrée supérieur ne prouve pas que son coût domine : incluez sortie générée, raisonnement facturable, corrections et revue humaine dans le coût par tâche acceptée.
 
 > **Portée de la recherche** : [Gloaguen et al., section 4.2](https://arxiv.org/html/2602.11988v1) rapportent des hausses moyennes du coût d’inférence de 20 % et 23 % avec des fichiers générés par LLM sur SWE-bench Lite et AGENTbench, respectivement. Ces résultats concernent les configurations testées ; ils ne constituent pas un surcoût applicable à chaque fichier d’instructions. Coût, tokens de raisonnement et taux de réussite sont des mesures différentes.
 
@@ -23468,6 +23452,19 @@ Cinq sous-systèmes constituent un harness complet :
 
 Les modes d'échec les plus courants se mappent directement sur des sous-systèmes manquants. Les agents qui oublient le contexte entre les sessions n'ont pas de State. Les agents qui refont un travail déjà accompli n'ont pas de State. Les agents qui déclarent avoir terminé avant que les tests passent n'ont pas de Feedback.
 
+### Adapter le harness de dépôt à la tâche {#size-the-repository-harness-to-the-task}
+
+Pour un changement borné avec des critères d'acceptation clairs, une session et les contrôles adaptés peuvent suffire. Ajoutez un plan, un registre de fonctionnalités, une note de progression ou un agent supplémentaire lorsque cela sert une décision durable, la coordination, la revue ou la reprise. Conservez les permissions et les vérifications requises même lorsque le modèle demande moins d'instructions procédurales.
+
+L'[article de Boucard sur les harnais frugaux](https://blog.octo.com/harnais-agentiques-%2812%29--pourquoi-les-bonnes-pratiques-d%27hier-coutent-cher-aujourd%27hui) propose une comparaison illustrative aux tarifs API standard d'Opus 5.5, vérifiés le 24 octobre 2026 :
+
+| Opération | Coût marginal |
+|---|---|
+| Lire 50 000 tokens dans un cache existant à 0,20 $/million | 0,01 $ |
+| Générer une note de 5 000 tokens à 20 $/million | 0,10 $ |
+
+Les [tarifs officiels](https://platform.claude.com/docs/en/about-claude/pricing) confirment ce calcul. Il exclut l'écriture initiale du cache, les échecs, l'expiration, les lectures ultérieures de la note et tout effet sur la qualité. Une note peut malgré tout éviter du travail de revue ou de reprise. L'article ne démontre pas que plans et revues sont généralement obsolètes. Comparez le coût complet par tâche acceptée, avec les tentatives échouées, la coordination, la revue humaine et les reprises. Voir l'[évaluation de la source](../docs/resource-evaluations/boucard-frugal-agent-harnesses.md) et les [expériences par composant](./core/agent-harness.md#7-test-distribution-and-component-stacking-anti-patterns).
+
 ### Le fossé de vérification
 
 Un agent peut annoncer « terminé » alors que les tests échouent, que les types sont incorrects ou que le build ne compile pas. Le harness doit contrôler les preuves d’exécution avant de considérer le travail terminé, indépendamment de cette annonce. La confiance du modèle ne démontre pas qu’une commande a été exécutée sur la révision candidate.
@@ -23512,7 +23509,7 @@ Pour un workflow séquentiel, WIP=1 constitue une politique de départ utile : u
 
 ### Le cycle de vie de session
 
-Une session fiable suit cette séquence à chaque fois, pas seulement au démarrage :
+Pour un travail sur plusieurs sessions avec des registres de tâches explicites, cette séquence constitue un contrat possible. Un petit changement clair peut utiliser directement la configuration et les vérifications utiles, sans créer tous les artefacts ci-dessous. Revérifiez la configuration lorsque les dépendances ou l'environnement le justifient, en conservant les contrôles requis par la tâche :
 
 | Étape | Action | Sous-système |
 |-------|--------|--------------|
@@ -23525,13 +23522,13 @@ Une session fiable suit cette séquence à chaque fois, pas seulement au démarr
 | 7. UPDATE | Passer le statut de la fonctionnalité à `passing`, enregistrer les preuves | State |
 | 8. LOG | Mettre à jour `progress.md` avec ce qui a changé et ce qui suit | State |
 | 9. CLEANUP | Supprimer les fichiers temporaires, laisser le dépôt dans un état redémarrable | Environment |
-| 10. COMMIT | Committer uniquement quand la vérification passe et que l'état est propre | — |
+| 10. COMMIT | Committer lorsque cette action est autorisée et que les vérifications requises passent | — |
 
 Les étapes 2 (INIT) et 6 (VERIFY) sont là où la plupart des défaillances de harness surviennent. Un INIT qui continue silencieusement malgré des dépendances cassées produit des erreurs confuses pour le reste de la session. Un VERIFY qui s'exécute mais ne bloque pas la complétion produit des faux positifs qui érodent la confiance dans les résultats de l'agent.
 
 ### feature_list.json : suivi de portée structuré
 
-Une liste de tâches en texte brut est insuffisante pour un fonctionnement fiable de l'agent : pas d'état lisible par machine, pas de champ de preuve, pas d'ordonnancement par dépendances. `feature_list.json` ajoute une structure que l'agent et vos outils peuvent lire.
+Utilisez un registre structuré lorsque le contrôleur doit lire l'état, les preuves ou les dépendances entre tâches et sessions. `feature_list.json` est un format possible pour ce contrat. Une tâche bornée peut employer un registre plus petit ; le format ne démontre pas à lui seul une exécution fiable.
 
 Chaque fonctionnalité a besoin de trois choses : une description du comportement attendu, la commande de vérification qui prouve son bon fonctionnement, et un champ de statut que l'agent met à jour tout au long de la session.
 
@@ -23592,7 +23589,7 @@ echo "Next: read feature_list.json and pick one not_started feature"
 
 Les fenêtres de contexte sont finies. Toute session qui se termine sans note de transfert oblige la session suivante à reconstruire le contexte depuis zéro : lire le git log, faire des grep sur les modifications récentes, déduire ce qui était en cours. Cette reconstruction est coûteuse et imprécise, et c'est là que des erreurs subtiles sont introduites.
 
-`progress.md` élimine le coût de reconstruction. C'est une note courte et structurée rédigée à la fin de chaque session et lue au début de la suivante.
+`progress.md` peut réduire le travail de reconstruction lorsqu'une autre session ou un autre intervenant doit reprendre. Consignez alors l'état utile, les décisions, les preuves et la prochaine action. Une tâche bornée terminée ne demande pas un fichier de progression supplémentaire uniquement pour respecter cet exemple.
 
 ```markdown
 # Session progress
@@ -23727,7 +23724,7 @@ docs/
 └── SECURITY.md            # Exigences de sécurité et patrons
 ```
 
-**Les plans d'exécution comme artefacts de première classe** : pour toute tâche non triviale, l'agent crée un document de plan avant d'écrire du code. Les changements simples reçoivent des plans éphémères : un court fichier markdown décrivant l'approche et le résultat attendu, créé au début de la tâche et déplacé dans completed/ une fois terminé. Les tâches complexes reçoivent des plans d'exécution complets avec journaux de progression, registres de décisions et notes explicites sur les alternatives rejetées. La séparation entre active/ et completed/ focalise l'attention de l'agent sur le travail en cours tout en conservant un historique consultable des décisions passées. Le tech-debt-tracker.md est le backlog des problèmes de qualité connus, alimenté par les agents de nettoyage en arrière-plan décrits au §9.25.5, traités de manière incrémentale plutôt que lors d'un nettoyage périodique perturbateur.
+**Des plans pour les décisions et les transmissions** : utilisez un plan versionné lorsque l'incertitude, les changements entre systèmes, la coordination ou la reprise justifient de conserver les décisions retenues. Un petit changement au périmètre clair peut avancer directement avec des critères d'acceptation et des vérifications adaptées. Centrez les plans plus longs sur les décisions, la progression et les alternatives rejetées utiles à la suite. Les dossiers active/ et completed/ sont des options de classement, pas une preuve d'approbation ni des artefacts obligatoires pour chaque tâche. Cet usage conditionnel suit les [conseils de planification d'Anthropic](https://code.claude.com/docs/en/best-practices#explore-first-then-plan-then-code).
 
 **Répertoire generated/** : certaines documentations doivent refléter exactement le code. Schémas de base de données, surfaces d'API, définitions de types générés. Ceux-ci vont dans generated/ et sont produits par des scripts automatisés, pas rédigés à la main. L'agent de jardinage de documentation (décrit ci-dessous) applique l'invariant selon lequel les fichiers de generated/ correspondent à l'état réel à l'exécution.
 
@@ -26503,4 +26500,4 @@ Nous l'évaluerons et l'ajouterons à cette section s'il répond aux critères d
 
 **Contributions** : Issues et PRs bienvenus.
 
-**Dernière mise à jour** : 6 octobre 2026 | **Version** : 3.44.1
+**Dernière mise à jour** : 6 octobre 2026 (rafraîchissement complet) ; 24 octobre 2026 (corrections ciblées du cache et des harnais) | **Version** : 3.44.1

@@ -406,6 +406,19 @@ Tests are necessary, but a green suite is not a complete proof bundle. Simon Wil
 
 Do not assume that stacking planning, tools, memory, reflection, and retrieval is monotonic. [Cross-Component Interference](https://arxiv.org/abs/2605.05716) tested all 32 subsets of five components on HotpotQA and GSM8K. A single-tool configuration exceeded the all-in system by 32% on HotpotQA; a three-component subset exceeded it by 79% on GSM8K. This is a preprint over two benchmarks, but its design supports a strong engineering rule: start with the smallest sufficient harness and require each added component to pass a paired ablation and regression test.
 
+### Price generated artifacts against cached context
+
+Bruno Boucard's [frugal-harness article](https://blog.octo.com/harnais-agentiques-%2812%29--pourquoi-les-bonnes-pratiques-d%27hier-coutent-cher-aujourd%27hui) (October 23, 2026) makes a useful marginal-cost comparison. At standard Opus 5.5 API rates checked October 24, 2026:
+
+| Illustrative operation | Calculation | Cost |
+|---|---|---|
+| Read an existing 50,000-token cached prefix | 50,000 × $0.20 / million | $0.01 |
+| Generate a 5,000-token intermediate note | 5,000 × $20 / million | $0.10 |
+
+The [official prices](https://platform.claude.com/docs/en/about-claude/pricing) support the arithmetic, not a measured saving. This comparison excludes the initial cache write, misses, expiry, later reads of the note, and any change in task outcome. Larger input volume can still dominate a bill. Compare the complete [cost per accepted task](../ops/subscription-strategy.md#5-optimize-cost-per-accepted-task-not-cost-per-token), including failed attempts, coordination, review, and rework.
+
+A note can preserve a business decision, enable human review, or let another worker resume. Remove it only when that function remains covered. A more capable model does not itself replace permission enforcement, verification, or recovery. Requalify old workarounds after a model change using [evaluation epochs](../roles/agent-evaluation.md#evaluation-epochs-and-four-clocks). The article supplies practitioner framing and illustrative volumes, without a controlled comparison between model generations or evidence that planning and review are generally obsolete. See the [source evaluation](../../docs/resource-evaluations/boucard-frugal-agent-harnesses.md).
+
 ### Test review constraints separately
 
 [SWE-Gate](https://arxiv.org/html/2609.04167v1) separates functional tests from constraints derived from code reviews. With those constraints supplied, 221 of 644 functionally passing model-instance repairs still violated constraint tests. The denominator spans four backends over 303 synthesized Python repair instances; it is not 644 independent production PRs. The [replication repository](https://github.com/DeepSoftwareAnalytics/SWE-Gate) is available, but was not run for this guide.

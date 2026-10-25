@@ -121,7 +121,7 @@ Put shared defaults in persistent files and keep task-specific requests in the c
 
 **Markdown files as shared persistent memory work better than a dedicated database for this purpose.** A plain Markdown file that multiple agents or sessions can read and append to serves as durable, human-readable memory without the operational overhead of standing up a store. Pairing that memory with a rules file that documents project conventions (naming, code style, architectural boundaries) gives the model the same onboarding a new engineer would need; without it, output quality and adherence to project style both suffer. (*Alex Gavrilescu, Devoxx, 2025. Konstantin Pavlov, 2025, reaches the same conclusion independently.*)
 
-**A dedicated "research, then plan, then implement" sequence, each stage handed off through its own document, reduces rework on non-trivial tasks.** The pattern: a research document capturing findings with file and line-number references, then a plan document reviewed before any code changes, then implementation against that plan. Splitting research from planning from execution keeps each stage's context focused and gives a natural checkpoint to catch a wrong assumption before it propagates into code. (*Emmanuel Sciara, Dev With AI Meetup, 2026*)
+**A documented research, plan, and implementation handoff is a candidate for work that needs durable decisions or coordination.** Emmanuel Sciara describes this pattern at Dev With AI Meetup (2026): research with source references, a reviewed plan, then implementation. That practitioner account does not establish a general reduction in rework. For a bounded change with clear acceptance criteria, one session can be sufficient. Retain an artifact when it helps a person review a decision, another worker resume, or a later check establish acceptance; compare that value with its generation, reading, and maintenance cost.
 
 ### Static vs. dynamic context
 
@@ -1886,7 +1886,9 @@ Before auditing your overhead, calibrate against what practitioners observe on r
 | Complete PR with tests | 500K-2M tokens |
 | Long session with compaction | 5M-20M+ tokens |
 
-The dominant cost driver is input tokens, not output. A 1,000-line file re-read five times in the same session adds roughly 50K input tokens on its own. MCP tools that return verbose JSON (Notion, Datadog, GitHub API responses) compound this quickly: a single Datadog query can push 20-50K tokens into context before the model even processes the data.
+The largest token category need not be the largest billed cost. Separate uncached input, cache writes, cache reads, and generated output, including billable reasoning. A file is loaded into the conversation when read, but retained content can be sent and charged again on later model calls. Cache reads discount that reuse; they do not make it free. Fresh or changed content and expired cache entries have a different cost.
+
+Measure each category at the rate for the actual model and billing path. With a stable cached prefix, an unnecessary generated note or correction can cost more than many cached input tokens; with large uncached inputs, input can dominate. Neither category dominates every workflow. Include failed attempts, coordination, human review, and rework in [cost per accepted task](../ops/subscription-strategy.md#5-optimize-cost-per-accepted-task-not-cost-per-token). The [worked comparison](./agent-harness.md#price-generated-artifacts-against-cached-context) is illustrative, not a measured session saving.
 
 Team-level perspective: in a Slack community survey of Claude Code power users (May 2026), individual heavy users reported 300-430M tokens per day on complex agentic workflows; median team usage ran closer to 40K tokens per request across a mixed team (simple and complex tasks combined), with heavy users reaching 85K+.
 
@@ -2333,47 +2335,33 @@ Keep the persistent facts block under 500 tokens. Beyond that, retrieval with re
 
 ### Scratchpad pattern
 
-The scratchpad pattern gives the model persistent working memory across turns without relying on context accumulation. A synthetic assistant message at the start of the conversation holds structured state; the orchestrator updates it programmatically after each turn.
+A scratchpad records task state outside the model's context window. A controller can persist it in a file or store, then append the current snapshot when the next decision needs it. The backing record supplies durability; a prompt message alone does not.
+
+Keep the reusable prompt prefix unchanged. Replacing a scratchpad in the first message changes the cache key from that point onward. Appending a snapshot after existing messages preserves their prefix, subject to cache lifetime, eligibility, and breakpoint placement. [Anthropic's cache-prefix documentation](https://platform.claude.com/docs/en/build-with-claude/prompt-caching#structuring-your-prompt).
 
 ```python
-def initialize_scratchpad(task_spec: dict) -> str:
-    return f"""<scratchpad>
-<task>{task_spec['description']}</task>
-<status>in_progress</status>
-<completed_steps>[]</completed_steps>
-<pending_steps>{json.dumps(task_spec['steps'])}</pending_steps>
-<working_notes></working_notes>
-</scratchpad>"""
+import json
+from copy import deepcopy
 
-def update_scratchpad(scratchpad: str, updates: dict) -> str:
-    for key, value in updates.items():
-        scratchpad = re.sub(
-            f"<{key}>.*?</{key}>",
-            f"<{key}>{value}</{key}>",
-            scratchpad,
-            flags=re.DOTALL
-        )
-    return scratchpad
 
-# Conversation structure:
-messages = [
-    {"role": "assistant", "content": initialize_scratchpad(task)},
-    {"role": "user", "content": "Continue the task from your scratchpad."}
+def append_working_state(history: list[dict], state: dict) -> list[dict]:
+    snapshot = json.dumps(state, ensure_ascii=False, sort_keys=True)
+    return [
+        *deepcopy(history),
+        {"role": "user", "content": f"Current task state:\n{snapshot}"},
+    ]
+
+
+# Illustrative state supplied by the controller's durable record.
+history = [
+    {"role": "user", "content": "Implement the approved change."},
+    {"role": "assistant", "content": "The targeted test passed."},
 ]
-
-# After each turn, update the scratchpad with new state
-new_scratchpad = update_scratchpad(
-    messages[0]["content"],
-    {
-        "completed_steps": json.dumps(completed),
-        "pending_steps": json.dumps(remaining),
-        "working_notes": latest_notes
-    }
-)
-messages[0]["content"] = new_scratchpad
+state = {"completed_steps": ["targeted_test"], "pending_steps": ["review"]}
+next_messages = append_working_state(history, state)
 ```
 
-The scratchpad stays in the primacy position (it is the first message) across all turns. Working notes accumulate there rather than growing the conversation history.
+This example assembles messages only. It does not implement persistence, verify the reported state, or demonstrate a cache hit. Append snapshots at valid message boundaries, after any required tool results, and supply controller-validated state. Send changed state when useful rather than duplicating it on every call. Appending still grows history; compact or offload completed phases when needed and account for the cache rebuild that a rewritten prefix can require.
 
 **Scratchpad vs rolling summary:** Use a scratchpad when you need structured state with programmatic update. Use rolling summaries when the accumulated context is unstructured conversation and you need to compress it.
 

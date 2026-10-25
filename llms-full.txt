@@ -349,6 +349,8 @@ Repository context routes to authorized owners of stable contracts, organization
 
 Requalify after material model, host, harness, or action-interface changes. Measure feedback latency, run duration, human attention, and time to accepted outcome separately. See `guide/roles/agent-evaluation.md#evaluation-epochs-and-four-clocks`.
 
+Price uncached input, cache writes, cache reads and generated output separately; a file loaded once can remain billable on later calls. Keep changing working state after the stable prefix, and retain plans or handoffs when they support decisions, review or recovery. Boucard's $0.01 cached-prefix versus $0.10 generated-note example is illustrative, not a measured task saving. See `guide/core/agent-harness.md#price-generated-artifacts-against-cached-context` and `docs/resource-evaluations/boucard-frugal-agent-harnesses.md`.
+
 Evaluate the exact model-harness pair for a bounded coding task. Introduce orchestration only when coordination is the constraint. A harness optimizer sits outside the four operating layers and changes candidate harnesses under a separate evaluation protocol.
 
 ---
