@@ -57,7 +57,11 @@
         "agentpatterns-ai",
         "aicodingpatterns",
         "claude-docs-sub-agents"
-      ]
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/factory-method.webp",
+        "alt": "Factory Method card (GoF creational). Classic: A creator decides which product to build. In Claude Code: Subagent definitions and the Agent tool. Breaks when: A definition without a tools field inherits every tool. Check: Give every write-capable agent an explicit tools allowlist."
+      }
     },
     {
       "id": "singleton",
@@ -92,7 +96,11 @@
         "aicodingpatterns",
         "kage-ai",
         "claude-docs-memory"
-      ]
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/singleton.webp",
+        "alt": "Singleton card (GoF creational). Classic: One shared instance with one global access point. In Claude Code: CLAUDE.md hierarchy and auto memory. Breaks when: Parallel writers to one memory file overwrite each other. Check: Append from two sessions at once and look for lost entries."
+      }
     },
     {
       "id": "adapter",
@@ -122,7 +130,18 @@
         "aicodingpatterns",
         "apc",
         "claude-docs-mcp"
-      ]
+      ],
+      "videos": [
+        {
+          "source": "yt-pjothbhlbao",
+          "t": 1262,
+          "point": "The speakers explain that each vendor exposes its own APIs through an MCP server layer, a unified wrapper the LLM can use."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/adapter.webp",
+        "alt": "Adapter card (GoF structural). Classic: Convert one interface into the one a client expects. In Claude Code: MCP servers. Breaks when: Mirroring every endpoint crowds the context with near-duplicate tools. Check: Run /mcp and /context, then defer the tools nobody used."
+      }
     },
     {
       "id": "composite",
@@ -152,7 +171,18 @@
         "agentpatterns-ai",
         "aicodingpatterns",
         "claude-docs-env-vars"
-      ]
+      ],
+      "videos": [
+        {
+          "source": "yt-srfxsjegc6q",
+          "t": 6741,
+          "point": "The speakers show an agent in a sequence that is itself a loop of two agents, so a workflow is used like a single sub agent."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/composite.webp",
+        "alt": "Composite card (GoF structural). Classic: Treat one object and a tree of objects alike. In Claude Code: Nested subagents, capped by spawn depth. Breaks when: Each nesting layer multiplies token use. Check: Set the spawn depth explicitly and log every spawned subagent."
+      }
     },
     {
       "id": "decorator",
@@ -187,7 +217,23 @@
         "aicodingpatterns",
         "agentpatterns-ai",
         "claude-docs-hooks"
-      ]
+      ],
+      "videos": [
+        {
+          "source": "yt-sw3plfxfwj4",
+          "t": 703,
+          "point": "The speaker explains Spring AI advisors as a filter or pre-processor that wraps calls to and from the model and can mutate or log each request."
+        },
+        {
+          "source": "yt-tqc1qofivcq",
+          "t": 6430,
+          "point": "An Anthropic speaker says hooks fire as events in the Agent SDK and are used for deterministic verification or for inserting context."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/decorator.webp",
+        "alt": "Decorator card (GoF structural). Classic: Add behavior by wrapping, in a fixed order. In Claude Code: UserPromptSubmit and PostToolUse hooks. Breaks when: Matching hooks run in parallel, so there is no fixed order. Check: Make each hook pass when it runs alone."
+      }
     },
     {
       "id": "facade",
@@ -215,7 +261,11 @@
       "sources": [
         "agentpatterns-ai",
         "claude-docs-memory"
-      ]
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/facade.webp",
+        "alt": "Facade card (GoF structural). Classic: One simple entry point to a complex subsystem. In Claude Code: CLAUDE.md. Breaks when: CLAUDE.md is context, not enforced configuration. Check: Back each must-never rule with a hook or a deny rule."
+      }
     },
     {
       "id": "chain-of-responsibility",
@@ -252,7 +302,11 @@
         "ahep",
         "aicodingpatterns",
         "claude-docs-permissions"
-      ]
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/chain-of-responsibility.webp",
+        "alt": "Chain of Responsibility card (GoF behavioral). Classic: Pass a request along handlers until one handles it. In Claude Code: Permission rules: deny, then ask, then allow. Breaks when: Specificity does not win: a broad deny beats a narrow allow. Check: Add a deny and a narrower allow, confirm the command stays blocked."
+      }
     },
     {
       "id": "command",
@@ -283,7 +337,11 @@
         "ahep",
         "claude-docs-tools-reference",
         "claude-docs-hooks"
-      ]
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/command.webp",
+        "alt": "Command card (GoF behavioral). Classic: Turn a request into an object you can queue, log or check. In Claude Code: Tool calls and PreToolUse hooks. Breaks when: The model writes the arguments, and unchecked they run as written. Check: Replay an out-of-scope tool input and assert the hook blocks it."
+      }
     },
     {
       "id": "mediator",
@@ -318,7 +376,18 @@
         "sarkar-2025",
         "claude-docs-sub-agents",
         "claude-docs-agent-teams"
-      ]
+      ],
+      "videos": [
+        {
+          "source": "yt-2czyyrtzilg",
+          "t": 529,
+          "point": "In orchestration, every call goes through the orchestrator and agents never call each other."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/mediator.webp",
+        "alt": "Mediator card (GoF behavioral). Classic: Components talk through one coordinator. In Claude Code: The main conversation coordinating subagents. Breaks when: Workers return transcripts and flood the coordinator's context. Check: Ask each subagent for a bounded final report."
+      }
     },
     {
       "id": "memento",
@@ -348,7 +417,18 @@
         "agentpatterns-ai",
         "ahep",
         "claude-docs-checkpointing"
-      ]
+      ],
+      "videos": [
+        {
+          "source": "yt-bzissg7h7da",
+          "t": 14,
+          "point": "The speaker argues agents need a save button: runtime checkpoints that let you replay, diff and decide, instead of read-only traces."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/memento.webp",
+        "alt": "Memento card (GoF behavioral). Classic: Snapshot the state and restore it later. In Claude Code: Checkpoints and /rewind. Breaks when: Only Claude's file edits are tracked, not Bash or external changes. Check: Change an untouched file with Bash, rewind, and see it survive."
+      }
     },
     {
       "id": "observer",
@@ -379,7 +459,18 @@
         "aicodingpatterns",
         "kage-ai",
         "claude-docs-hooks"
-      ]
+      ],
+      "videos": [
+        {
+          "source": "yt-msfmqw92y8q",
+          "t": 44,
+          "point": "The speaker defines hooks as actions guaranteed to fire on agent events, such as just before a file read or when the conversation stops."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/observer.webp",
+        "alt": "Observer card (GoF behavioral). Classic: Subscribers are notified when state changes. In Claude Code: Hooks on PreToolUse, PostToolUse, Stop and SubagentStop. Breaks when: Hooks that assume an order, while matching hooks run in parallel. Check: Run each hook alone on a recorded event."
+      }
     },
     {
       "id": "strategy",
@@ -417,7 +508,18 @@
         "kage-ai",
         "claude-docs-model-config",
         "claude-docs-sub-agents"
-      ]
+      ],
+      "videos": [
+        {
+          "source": "yt-fvxy8opoi8o",
+          "t": 106,
+          "point": "The speaker argues that one model for every task is overkill and that routing each task to a fitting model cuts cost and risk."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/strategy.webp",
+        "alt": "Strategy card (GoF behavioral). Classic: Swap the algorithm behind one interface. In Claude Code: The model field per subagent and /model. Breaks when: The model switches silently, with no record of cost or origin. Check: Pin the model per subagent and review /usage after the run."
+      }
     },
     {
       "id": "template-method",
@@ -457,7 +559,18 @@
         "ahep",
         "claude-docs-skills",
         "claude-docs-hooks"
-      ]
+      ],
+      "videos": [
+        {
+          "source": "yt-nmwgxvm-to",
+          "t": 421,
+          "point": "The speaker describes Stripe's blueprints: agent skills interwoven with deterministic code in a fixed workflow."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/template-method.webp",
+        "alt": "Template Method card (GoF behavioral). Classic: A fixed skeleton calls the steps. In Claude Code: Skills that define a procedure, plus a Stop hook. Breaks when: A prose skeleton is not enforced, so steps get skipped. Check: Block completion with a Stop hook when the artifact is missing."
+      }
     },
     {
       "id": "pipes-and-filters",
@@ -489,7 +602,23 @@
         "hohpe-eip",
         "claude-docs-headless",
         "claude-docs-cli-reference"
-      ]
+      ],
+      "videos": [
+        {
+          "source": "yt-sw3plfxfwj4",
+          "t": 2291,
+          "point": "The speaker pipes git log into claude -p to generate release notes and calls it pipes and filters all over again."
+        },
+        {
+          "source": "yt-x9bai7rbhqk",
+          "t": 491,
+          "point": "The speakers present the sequence pattern, calling one agent after another, also known as prompt chaining."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/pipes-and-filters.webp",
+        "alt": "Pipes and Filters card (Enterprise integration). Classic: Steps connected by channels, one after another. In Claude Code: claude -p in a shell pipeline. Breaks when: Free text from one step is misread by the next. Check: Use JSON output and validate it between steps."
+      }
     },
     {
       "id": "content-based-router",
@@ -525,7 +654,23 @@
         "hohpe-eip",
         "claude-docs-sub-agents",
         "claude-docs-skills"
-      ]
+      ],
+      "videos": [
+        {
+          "source": "yt-utm3frgbun0",
+          "t": 252,
+          "point": "Doctolib's Alfred has a route agent that uses an intention classification model to send each request to a specialized agent."
+        },
+        {
+          "source": "yt-prih-9homfi",
+          "t": 821,
+          "point": "The speaker describes a router that receives a message and decides which agent gets it, by LLM or plain if and else."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/content-based-router.webp",
+        "alt": "Content-Based Router card (Enterprise integration). Classic: Route each message by its content. In Claude Code: Delegation and skill selection by description. Breaks when: Overlapping descriptions route the same request differently. Check: Rerun a routing test set after every description change."
+      }
     },
     {
       "id": "scatter-gather",
@@ -561,7 +706,23 @@
         "hohpe-eip",
         "claude-docs-sub-agents",
         "claude-docs-workflows"
-      ]
+      ],
+      "videos": [
+        {
+          "source": "yt-prih-9homfi",
+          "t": 786,
+          "point": "The speaker describes calling several agents in parallel, waiting for all results and passing them to a summarizer."
+        },
+        {
+          "source": "yt-5akdmangfnk",
+          "t": 46,
+          "point": "In a demo, the agent fans out 15 subagents in parallel and then picks the best result."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/scatter-gather.webp",
+        "alt": "Scatter-Gather card (Enterprise integration). Classic: Send to many recipients and aggregate the replies. In Claude Code: Parallel subagents and dynamic workflows. Breaks when: The gather step averages contradictions, and cost grows per branch. Check: List disagreements and compare cost with a single agent."
+      }
     },
     {
       "id": "bulkhead",
@@ -596,7 +757,11 @@
         "kage-ai",
         "claude-docs-sub-agents",
         "claude-docs-worktrees"
-      ]
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/bulkhead.webp",
+        "alt": "Bulkhead card (Distributed and resilience). Classic: Isolate resources so one failure cannot sink everything. In Claude Code: Subagent context isolation and worktrees. Breaks when: The context is isolated, but the checkout is shared. Check: Give parallel writers their own worktree."
+      }
     },
     {
       "id": "circuit-breaker",
@@ -641,7 +806,23 @@
         "fowler-circuit-breaker",
         "claude-docs-cli-reference",
         "claude-docs-sub-agents"
-      ]
+      ],
+      "videos": [
+        {
+          "source": "yt-2czyyrtzilg",
+          "t": 1011,
+          "point": "The speaker applies the circuit breaker to agent-to-agent calls: after repeated failures the circuit opens, fails fast, then half-opens to test recovery."
+        },
+        {
+          "source": "yt-gjx19pnhmsw",
+          "t": 1056,
+          "point": "In a demo, an agent that exceeds its per-run budget is killed immediately, which the speaker calls a simple circuit breaker."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/circuit-breaker.webp",
+        "alt": "Circuit Breaker card (Distributed and resilience). Classic: Stop calling a failing dependency and fail fast. In Claude Code: Turn and budget caps on a run. Breaks when: Static caps, often set on one layer only. Check: Run a looping task with both caps and expect an error exit."
+      }
     },
     {
       "id": "saga",
@@ -676,7 +857,23 @@
         "srinivasan-2026",
         "apc",
         "claude-docs-checkpointing"
-      ]
+      ],
+      "videos": [
+        {
+          "source": "yt-2czyyrtzilg",
+          "t": 1142,
+          "point": "The speaker presents the compensation or saga pattern: each agent has execute and compensate, and on failure the orchestrator walks backward calling compensate."
+        },
+        {
+          "source": "yt-hd9-v56fnri",
+          "t": 730,
+          "point": "The speaker says a multi-step agent that fails midway must reverse the whole transaction across systems and needs a defined compensation operation."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/saga.webp",
+        "alt": "Saga card (Distributed and resilience). Classic: Local steps, each with a compensating action. In Claude Code: No native saga: checkpoints plus scripted compensation. Breaks when: Rewind undoes local edits, not a push or an API call. Check: Write and test a compensation for each side effect."
+      }
     },
     {
       "id": "sidecar",
@@ -706,7 +903,11 @@
         "claude-docs-sandboxing",
         "claude-docs-hooks",
         "claude-docs-permissions"
-      ]
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/sidecar.webp",
+        "alt": "Sidecar card (Distributed and resilience). Classic: Cross-cutting policy runs next to the service. In Claude Code: Hooks, permissions and sandboxing around the loop. Breaks when: Policy in the prompt, or a hook that fails open. Check: Name the enforcing layer for every safety rule."
+      }
     },
     {
       "id": "event-sourcing",
@@ -734,7 +935,23 @@
       "sources": [
         "kage-ai",
         "claude-docs-sessions"
-      ]
+      ],
+      "videos": [
+        {
+          "source": "yt-vi-2nasppag",
+          "t": 105,
+          "point": "The speaker wants to build a coding agent harness that is purely event sourced, because the agent already keeps a log of events."
+        },
+        {
+          "source": "yt-upwgam2mkhy",
+          "t": 259,
+          "point": "The speaker argues the log is the durable history from which every view of the agent (debugging, auditing, compaction) is a projection."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/event-sourcing.webp",
+        "alt": "Event Sourcing card (Distributed and resilience). Classic: Store every change as an event, replay to rebuild. In Claude Code: Session transcripts with --resume and --continue. Breaks when: Resuming restores the conversation, not the same answers. Check: Keep the transcript as an audit trail and pin inputs elsewhere."
+      }
     }
   ],
   "native": [
@@ -758,7 +975,23 @@
         "claude-docs-sub-agents",
         "claude-docs-workflows",
         "kim-liu-2026"
-      ]
+      ],
+      "videos": [
+        {
+          "source": "yt-ow1we5pzk-o",
+          "t": 276,
+          "point": "The speaker describes Factory's Missions system as an orchestrator that plans, workers that execute, and validators that verify."
+        },
+        {
+          "source": "yt-2czyyrtzilg",
+          "t": 501,
+          "point": "Orchestration is presented as a central workflow orchestrator that calls each agent directly."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/orchestrator-workers.webp",
+        "alt": "Orchestrator-workers card (agent-native pattern). What it does: A model splits the task at runtime, delegates, and synthesizes. In Claude Code: Subagents and dynamic workflows. What is new: The model draws the decomposition, and it pays on parallel work."
+      }
     },
     {
       "id": "evaluator-optimizer",
@@ -779,7 +1012,23 @@
         "anthropic-building-effective-agents",
         "claude-docs-sub-agents",
         "claude-docs-hooks"
-      ]
+      ],
+      "videos": [
+        {
+          "source": "yt-mr-waveprwe",
+          "t": 1141,
+          "point": "The speakers describe a generator and evaluator split into separate contexts, where the evaluator tests the result with Playwright and feeds critique back."
+        },
+        {
+          "source": "yt-ow1we5pzk-o",
+          "t": 334,
+          "point": "A separate validator role verifies the work, including end-to-end behavior, instead of only reading the code."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/evaluator-optimizer.webp",
+        "alt": "Evaluator-optimizer card (agent-native pattern). What it does: One call answers, another evaluates and sends feedback. In Claude Code: A reviewer subagent and a Stop hook that runs the real tests. What is new: The judge is a model, so both sides can accept a wrong answer."
+      }
     },
     {
       "id": "plan-then-execute",
@@ -795,7 +1044,18 @@
       "sources": [
         "nibzard",
         "claude-docs-permission-modes"
-      ]
+      ],
+      "videos": [
+        {
+          "source": "yt-wnx-s-rxvxk",
+          "t": 22,
+          "point": "The speaker plans every change in plan mode, has the AI execute the plan, then tests and commits."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/plan-then-execute.webp",
+        "alt": "Plan-then-execute card (agent-native pattern). What it does: Plan read-only before any file changes. In Claude Code: Plan mode. What is new: The same model executes the plan, so review the plan."
+      }
     },
     {
       "id": "context-isolation",
@@ -811,7 +1071,23 @@
       "sources": [
         "lance-martin",
         "claude-docs-sub-agents"
-      ]
+      ],
+      "videos": [
+        {
+          "source": "yt-5akdmangfnk",
+          "t": 110,
+          "point": "Subagents give context isolation: each runs in its own context window and returns only its results, so the main agent's context stays clean."
+        },
+        {
+          "source": "yt-z-c11pv-uvu",
+          "t": 917,
+          "point": "The speaker names the anti-pattern of letting every subtask dump its full output into the primary thread and says to isolate subtask output instead."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/context-isolation.webp",
+        "alt": "Context isolation card (agent-native pattern). What it does: Run a noisy side task in its own context and return the conclusion. In Claude Code: Subagents return only their final response. What is new: The protected resource is the context window."
+      }
     },
     {
       "id": "context-compaction",
@@ -828,7 +1104,23 @@
         "lance-martin",
         "nibzard",
         "claude-docs-context-window"
-      ]
+      ],
+      "videos": [
+        {
+          "source": "yt-wp3hjuxd918",
+          "t": 535,
+          "point": "The speakers define compaction as keeping the smallest context that can still answer the question and dropping or saving the rest."
+        },
+        {
+          "source": "yt-upwgam2mkhy",
+          "t": 272,
+          "point": "The speaker explains that a log can grow forever while a model's view cannot, so the log must be compacted into a smaller lossy representation."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/context-compaction.webp",
+        "alt": "Context compaction card (agent-native pattern). What it does: Summarize near the window limit and continue from the summary. In Claude Code: Auto compaction and /compact. What is new: Lossy by design: what the summary drops is gone."
+      }
     },
     {
       "id": "progressive-disclosure",
@@ -849,7 +1141,18 @@
         "lance-martin",
         "claude-docs-skills",
         "claude-docs-mcp"
-      ]
+      ],
+      "videos": [
+        {
+          "source": "yt-gmaqkinjv1e",
+          "t": 265,
+          "point": "The speaker says skills brought progressive disclosure, which MCP tools lacked, and later ties Claude Code tool search to the same idea for MCP tools."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/progressive-disclosure.webp",
+        "alt": "Progressive disclosure card (agent-native pattern). What it does: Short descriptions first, full instructions on demand. In Claude Code: Skills and MCP tool search. What is new: A vague description hides a capability."
+      }
     },
     {
       "id": "deterministic-gate",
@@ -870,7 +1173,23 @@
         "anthropic-steering",
         "claude-docs-memory",
         "claude-docs-hooks"
-      ]
+      ],
+      "videos": [
+        {
+          "source": "yt-rbjwzzk2lu0",
+          "t": 967,
+          "point": "An Anthropic speaker describes a proxy layer that counts and compares, returns a 403 when a budget is crossed or a delete is attempted, and cannot be talked out of the rule by prompt injection."
+        },
+        {
+          "source": "yt-3csi8qaon-s",
+          "t": 146,
+          "point": "The speaker uses a PreToolUse hook that blocks a tool call before it executes, turning CLAUDE.md instructions into deterministic hooks."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/deterministic-gate.webp",
+        "alt": "Deterministic gate card (agent-native pattern). What it does: What must always happen runs outside the model. In Claude Code: PreToolUse hooks and deny rules. What is new: Draw the line between suggestion and enforcement on purpose."
+      }
     },
     {
       "id": "goal-loop",
@@ -891,7 +1210,18 @@
         "nibzard",
         "claude-docs-goal",
         "claude-docs-hooks"
-      ]
+      ],
+      "videos": [
+        {
+          "source": "yt-mr-waveprwe",
+          "t": 506,
+          "point": "The speakers explain the Ralph loop: feed one prompt to the CLI and run it in a loop until all tasks are complete, with a stop hook and a max iteration count in Anthropic's plugin."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/goal-loop.webp",
+        "alt": "Goal loop card (agent-native pattern). What it does: Keep working until a stated condition is met. In Claude Code: /goal and Stop hook continuation. What is new: A model judges the goal, so make it checkable."
+      }
     }
   ],
   "anti_patterns": [
@@ -1345,6 +1675,338 @@
       "author": "Claude Code docs",
       "url": "https://code.claude.com/docs/en/security",
       "kind": "official"
+    },
+    {
+      "id": "osmani-2026",
+      "title": "Agent Harness Engineering",
+      "author": "Addy Osmani",
+      "url": "https://addyosmani.com/blog/agent-harness-engineering/",
+      "kind": "article"
+    },
+    {
+      "id": "bockeler-2026",
+      "title": "Harness engineering for coding agent users",
+      "author": "Birgitta Böckeler (martinfowler.com)",
+      "url": "https://martinfowler.com/articles/harness-engineering.html",
+      "kind": "article"
+    },
+    {
+      "id": "willison-agentic-patterns",
+      "title": "Agentic Engineering Patterns",
+      "author": "Simon Willison",
+      "url": "https://simonwillison.net/guides/agentic-engineering-patterns/",
+      "kind": "article"
+    },
+    {
+      "id": "ng-2024",
+      "title": "Agentic Design Patterns Part 1 (The Batch)",
+      "author": "Andrew Ng",
+      "url": "https://www.deeplearning.ai/the-batch/how-agents-can-improve-llm-performance/",
+      "kind": "article"
+    },
+    {
+      "id": "huyen-2025",
+      "title": "Agents",
+      "author": "Chip Huyen",
+      "url": "https://huyenchip.com/2025/01/07/agents.html",
+      "kind": "article"
+    },
+    {
+      "id": "weng-2023",
+      "title": "LLM Powered Autonomous Agents",
+      "author": "Lilian Weng",
+      "url": "https://lilianweng.github.io/posts/2023-06-23-agent/",
+      "kind": "article"
+    },
+    {
+      "id": "agents-best-practices",
+      "title": "agents-best-practices",
+      "author": "DenisSergeevitch",
+      "url": "https://github.com/DenisSergeevitch/agents-best-practices",
+      "kind": "catalog"
+    },
+    {
+      "id": "awesome-agentic-system-design",
+      "title": "Awesome Agentic System Design",
+      "author": "gtzheng",
+      "url": "https://github.com/gtzheng/Awesome-Agentic-System-Design",
+      "kind": "catalog"
+    },
+    {
+      "id": "agentic-design-patterns-code",
+      "title": "Agentic-Design-Patterns",
+      "author": "josephsenior",
+      "url": "https://github.com/josephsenior/Agentic-Design-Patterns",
+      "kind": "catalog"
+    },
+    {
+      "id": "yt-2czyyrtzilg",
+      "title": "From Chaos to Choreography: Multi-Agent Orchestration Patterns That Actually Work",
+      "author": "Sandipan Bhaumik",
+      "url": "https://www.youtube.com/watch?v=2czYyrTzILg",
+      "kind": "video"
+    },
+    {
+      "id": "yt-3csi8qaon-s",
+      "title": "How to actually force Claude Code to use the right CLI (don't use CLAUDE.md)",
+      "author": "Matt Pocock",
+      "url": "https://www.youtube.com/watch?v=3CSi8QAoN-s",
+      "kind": "video"
+    },
+    {
+      "id": "yt-5akdmangfnk",
+      "title": "Dynamic Subagents: How to Run Parallel Agents Reliably in Deep Agents",
+      "author": "Colin (LangChain)",
+      "url": "https://www.youtube.com/watch?v=5AkdMangfNk",
+      "kind": "video"
+    },
+    {
+      "id": "yt-5wks1w-auky",
+      "title": "Slow down to speed up: AI and software engineering",
+      "author": "The Pragmatic Engineer",
+      "url": "https://www.youtube.com/watch?v=5wks1W-auKY",
+      "kind": "video"
+    },
+    {
+      "id": "yt-aph1vx0olmq",
+      "title": "Deterministic Infra for Non-Deterministic AI Agents",
+      "author": "Nishant Gupta",
+      "url": "https://www.youtube.com/watch?v=APh1Vx0oLmQ",
+      "kind": "video"
+    },
+    {
+      "id": "yt-fvxy8opoi8o",
+      "title": "Preferences Over Benchmarks: Model Routing",
+      "author": "Archana Kamath and Tyler Gillam",
+      "url": "https://www.youtube.com/watch?v=FvxY8oPoI8o",
+      "kind": "video"
+    },
+    {
+      "id": "yt-gjx19pnhmsw",
+      "title": "FinOps for AI Agents: Who Spent All the Tokens?",
+      "author": "Tisha Chawla and Susheem Koul",
+      "url": "https://www.youtube.com/watch?v=GJX19pNhmSw",
+      "kind": "video"
+    },
+    {
+      "id": "yt-gmaqkinjv1e",
+      "title": "Skill Issue: How We Used AI to Make Agents Actually Good at Supabase",
+      "author": "Pedro Rodrigues",
+      "url": "https://www.youtube.com/watch?v=GmAQKINjv1E",
+      "kind": "video"
+    },
+    {
+      "id": "yt-nmwgxvm-to",
+      "title": "Stripe's Coding Agents Ship 1,300 PRs EVERY Week - Here's How They Do It",
+      "author": "Cole Medin",
+      "url": "https://www.youtube.com/watch?v=NMWgXvm--to",
+      "kind": "video"
+    },
+    {
+      "id": "yt-pjothbhlbao",
+      "title": "Unifying AI integration with Model Context Protocol",
+      "author": "Christian Tzolov and Dariusz Jędrzejczyk (Devoxx)",
+      "url": "https://www.youtube.com/watch?v=PJOthBhLbao",
+      "kind": "video"
+    },
+    {
+      "id": "yt-prih-9homfi",
+      "title": "Akka: an enterprise runtime for resilient agentic AI",
+      "author": "Renato Guerra Cavalcanti (Devoxx)",
+      "url": "https://www.youtube.com/watch?v=PrIh_9HomfI",
+      "kind": "video"
+    },
+    {
+      "id": "yt-srfxsjegc6q",
+      "title": "From LLM orchestration to autonomous agents: Agentic AI patterns with LangChain4j",
+      "author": "Clement Escoffier (Devoxx)",
+      "url": "https://www.youtube.com/watch?v=SrFXsjeGc6Q",
+      "kind": "video"
+    },
+    {
+      "id": "yt-sw3plfxfwj4",
+      "title": "Bootiful Spring AI",
+      "author": "Mark Pollack, Christian Tzolov, Josh Long, James Ward (Devoxx)",
+      "url": "https://www.youtube.com/watch?v=Sw3PlFXfWj4",
+      "kind": "video"
+    },
+    {
+      "id": "yt-tqc1qofivcq",
+      "title": "Claude Agent SDK [Full Workshop]",
+      "author": "Thariq Shihipar",
+      "url": "https://www.youtube.com/watch?v=TqC1qOfiVcQ",
+      "kind": "video"
+    },
+    {
+      "id": "yt-upwgam2mkhy",
+      "title": "The Log Is The Agent",
+      "author": "Ishaan Sehgal",
+      "url": "https://www.youtube.com/watch?v=UPwGaM2MKHY",
+      "kind": "video"
+    },
+    {
+      "id": "yt-wnx-s-rxvxk",
+      "title": "I was an AI skeptic. Then I tried plan mode",
+      "author": "Matt Pocock",
+      "url": "https://www.youtube.com/watch?v=WNx-s-RxVxk",
+      "kind": "video"
+    },
+    {
+      "id": "yt-wp3hjuxd918",
+      "title": "Context Engineering in 2026",
+      "author": "Louis-François Bouchard, Omar Solano and Samridhi Vaid (Towards AI)",
+      "url": "https://www.youtube.com/watch?v=WP3hjUXd918",
+      "kind": "video"
+    },
+    {
+      "id": "yt-x9bai7rbhqk",
+      "title": "Agentic AI Patterns",
+      "author": "Kevin Dubois and Mario Fusco (Devoxx)",
+      "url": "https://www.youtube.com/watch?v=X9baI7RBhqk",
+      "kind": "video"
+    },
+    {
+      "id": "yt-z-c11pv-uvu",
+      "title": "Anthropic's CCA Exam as a Field-Guide for Agentic Engineering",
+      "author": "Frank Coyle",
+      "url": "https://www.youtube.com/watch?v=Z-c11pV_uvU",
+      "kind": "video"
+    },
+    {
+      "id": "yt-bzissg7h7da",
+      "title": "Your Agents Need a Save Button",
+      "author": "Hamza Tahir",
+      "url": "https://www.youtube.com/watch?v=bZISsg7H7DA",
+      "kind": "video"
+    },
+    {
+      "id": "yt-hd9-v56fnri",
+      "title": "AI Agents Are Just Distributed Systems Now",
+      "author": "Salman Munaf",
+      "url": "https://www.youtube.com/watch?v=hD9-V56FNRI",
+      "kind": "video"
+    },
+    {
+      "id": "yt-mr-waveprwe",
+      "title": "Anthropic Workshop: Build Agents That Run for Hours",
+      "author": "Ash Prabaker and Andrew Wilson",
+      "url": "https://www.youtube.com/watch?v=mR-WAvEPRwE",
+      "kind": "video"
+    },
+    {
+      "id": "yt-msfmqw92y8q",
+      "title": "Watch This If Your Coding Agent is Ignoring Your Rules (You Need Hooks)",
+      "author": "Cole Medin",
+      "url": "https://www.youtube.com/watch?v=msfMqW92Y8Q",
+      "kind": "video"
+    },
+    {
+      "id": "yt-ow1we5pzk-o",
+      "title": "The Multi-Agent Architecture That Actually Ships",
+      "author": "Luke Alvoeiro",
+      "url": "https://www.youtube.com/watch?v=ow1we5PzK-o",
+      "kind": "video"
+    },
+    {
+      "id": "yt-rbjwzzk2lu0",
+      "title": "Give the Agent a Budget, Not a Token",
+      "author": "Sachin Malhotra",
+      "url": "https://www.youtube.com/watch?v=rbjWzZK2LU0",
+      "kind": "video"
+    },
+    {
+      "id": "yt-utm3frgbun0",
+      "title": "Alfred le système Agentic AI de Doctolib au service des professionnels de santé",
+      "author": "Goulven Le Dû (Doctolib)",
+      "url": "https://www.youtube.com/watch?v=uTM3fRgbUN0",
+      "kind": "video"
+    },
+    {
+      "id": "yt-vi-2nasppag",
+      "title": "Make your own event-sourced agent harness using stream processors",
+      "author": "Jonas Templestein",
+      "url": "https://www.youtube.com/watch?v=vi-2nasppAg",
+      "kind": "video"
+    }
+  ],
+  "further_reading": [
+    {
+      "source": "osmani-2026",
+      "note": "April 19, 2026. A catalog of harness practices: Git as durable state, compaction, skills with progressive disclosure, hooks as the enforcement layer, planner, generator and evaluator splits, and turning each agent mistake into a permanent rule.",
+      "patterns": [
+        "context-compaction",
+        "progressive-disclosure",
+        "deterministic-gate",
+        "evaluator-optimizer",
+        "goal-loop"
+      ]
+    },
+    {
+      "source": "bockeler-2026",
+      "note": "April 2, 2026. A mental model of feedforward guides and feedback sensors, each computational or inferential, with a human steering the loop.",
+      "patterns": [
+        "deterministic-gate",
+        "evaluator-optimizer"
+      ]
+    },
+    {
+      "source": "willison-agentic-patterns",
+      "note": "A guide of practical patterns for coding agents: subagents, red/green TDD, running the tests first, manual testing and anti-patterns.",
+      "patterns": [
+        "context-isolation",
+        "evaluator-optimizer"
+      ]
+    },
+    {
+      "source": "ng-2024",
+      "note": "March 2024. The four agentic design patterns that popularized the term: reflection, tool use, planning and multi-agent collaboration.",
+      "patterns": [
+        "evaluator-optimizer",
+        "plan-then-execute",
+        "orchestrator-workers"
+      ]
+    },
+    {
+      "source": "huyen-2025",
+      "note": "January 2025. Tool use, planning and plan validation, reflection, failure modes and agent evaluation.",
+      "patterns": [
+        "plan-then-execute",
+        "evaluator-optimizer"
+      ]
+    },
+    {
+      "source": "weng-2023",
+      "note": "June 2023. The planning, memory and tool-use decomposition that most later catalogs start from.",
+      "patterns": [
+        "plan-then-execute",
+        "context-compaction"
+      ]
+    },
+    {
+      "source": "agents-best-practices",
+      "note": "An MIT-licensed Agent Skill for designing and auditing harnesses, built on one rule: the model proposes actions, the harness validates, authorizes, executes and records them.",
+      "patterns": [
+        "deterministic-gate",
+        "sidecar"
+      ]
+    },
+    {
+      "source": "awesome-agentic-system-design",
+      "note": "An MIT-licensed reading hub on orchestration, context and memory, tools and protocols, evaluation and production safety.",
+      "patterns": [
+        "context-isolation",
+        "context-compaction"
+      ]
+    },
+    {
+      "source": "agentic-design-patterns-code",
+      "note": "MIT-licensed, small runnable Python implementations of workflow patterns such as chaining, routing, parallelization, reflection and planning.",
+      "patterns": [
+        "pipes-and-filters",
+        "content-based-router",
+        "scatter-gather",
+        "evaluator-optimizer"
+      ]
     }
   ]
 }

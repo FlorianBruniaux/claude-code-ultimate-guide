@@ -16,7 +16,25 @@
         "doc": { "type": "string", "pattern": "^https://code\\.claude\\.com/docs/" }
       }
     },
-    "sourceRefs": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/id" } }
+    "sourceRefs": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/id" } },
+    "infographic": {
+      "type": "object",
+      "required": ["file", "alt"],
+      "additionalProperties": false,
+      "properties": {
+        "file": { "type": "string", "pattern": "^guide/images/ai-design-patterns/patterns/[a-z0-9-]+\\.webp$" },
+        "alt": { "type": "string", "minLength": 40 }
+      }
+    },
+    "videoRefs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["source", "t", "point"],
+        "additionalProperties": false,
+        "properties": { "source": { "$ref": "#/$defs/id" }, "t": { "type": "integer", "minimum": 0 }, "point": { "type": "string", "minLength": 1 } }
+      }
+    }
   },
   "properties": {
     "version": { "type": "string" },
@@ -57,7 +75,9 @@
           "provenance": { "enum": ["third-party", "own-synthesis"] },
           "failure_mode": { "type": "string" },
           "verify": { "type": "string" },
-          "sources": { "$ref": "#/$defs/sourceRefs" }
+          "sources": { "$ref": "#/$defs/sourceRefs" },
+          "infographic": { "$ref": "#/$defs/infographic" },
+          "videos": { "$ref": "#/$defs/videoRefs" }
         }
       }
     },
@@ -73,7 +93,9 @@
           "summary": { "type": "string" },
           "why_new": { "type": "string" },
           "claude_code": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/mechanism" } },
-          "sources": { "$ref": "#/$defs/sourceRefs" }
+          "sources": { "$ref": "#/$defs/sourceRefs" },
+          "infographic": { "$ref": "#/$defs/infographic" },
+          "videos": { "$ref": "#/$defs/videoRefs" }
         }
       }
     },
@@ -113,7 +135,7 @@
           "title": { "type": "string" },
           "author": { "type": "string" },
           "url": { "type": "string", "pattern": "^https://" },
-          "kind": { "enum": ["crosswalk", "catalog", "paper", "vendor", "article", "classic", "official"] }
+          "kind": { "enum": ["crosswalk", "catalog", "paper", "vendor", "article", "classic", "official", "video"] }
         }
       }
     }

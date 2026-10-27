@@ -45,6 +45,7 @@ def validate(data: dict) -> list[str]:
     errors: list[str] = []
     source_ids = [s["id"] for s in data["sources"]]
     known_sources = set(source_ids)
+    sources_by_id = {s["id"]: s for s in data["sources"]}
     family_ids = {f["id"] for f in data["families"]}
     category_ids = {c["id"] for c in data["anti_pattern_categories"]}
     pattern_ids: list[str] = []
@@ -58,6 +59,19 @@ def validate(data: dict) -> list[str]:
         for ref in refs:
             if ref not in known_sources:
                 errors.append(f"{owner}: unknown source {ref!r}")
+
+    def check_media(owner: str, row: dict) -> None:
+        infographic = row.get("infographic")
+        if infographic:
+            expected = f"guide/images/ai-design-patterns/patterns/{row['id']}.webp"
+            if infographic["file"] != expected:
+                errors.append(f"{owner}: infographic must be {expected}")
+            elif not (ROOT / infographic["file"]).is_file():
+                errors.append(f"{owner}: missing infographic {infographic['file']}")
+        for video in row.get("videos", []):
+            source = sources_by_id.get(video["source"])
+            if source is None or source["kind"] != "video":
+                errors.append(f"{owner}: video {video['source']!r} is not a video source")
 
     def check_mechanisms(owner: str, mechanisms: list[dict]) -> None:
         if not mechanisms:
@@ -79,6 +93,7 @@ def validate(data: dict) -> list[str]:
             errors.append(f"{owner}: unknown provenance {row['provenance']!r}")
         check_mechanisms(owner, row["claude_code"])
         check_refs(owner, row["sources"])
+        check_media(owner, row)
         analogue_sources = []
         for analogue in row["agent_analogue"]:
             check_refs(owner, analogue["sources"])
@@ -106,6 +121,7 @@ def validate(data: dict) -> list[str]:
             errors.append(f"{owner}: id must equal the heading slug {slugify(row['name'])!r}")
         check_mechanisms(owner, row["claude_code"])
         check_refs(owner, row["sources"])
+        check_media(owner, row)
 
     known_patterns = set(pattern_ids)
     if len(known_patterns) != len(pattern_ids):
@@ -121,6 +137,12 @@ def validate(data: dict) -> list[str]:
             if ref not in known_patterns:
                 errors.append(f"{owner}: unknown pattern {ref!r}")
         check_refs(owner, row["sources"])
+
+    for item in data.get("further_reading", []):
+        check_refs(f"further reading {item['source']}", [item["source"]])
+        for ref in item["patterns"]:
+            if ref not in known_patterns:
+                errors.append(f"further reading {item['source']}: unknown pattern {ref!r}")
 
     for ref in [c["source"] for c in data["anti_pattern_categories"] if c["source"]]:
         if ref not in known_sources:
@@ -170,6 +192,23 @@ class Renderer:
     def mechanisms(self, mechanisms: list[dict]) -> str:
         return "; ".join(f"[{m['name']}]({m['doc']})" for m in mechanisms)
 
+    def infographic(self, row: dict) -> list[str]:
+        if "infographic" not in row:
+            return []
+        image = row["infographic"]
+        return [f"![{image['alt']}](../{image['file'].removeprefix('guide/')})", ""]
+
+    def videos(self, row: dict) -> list[str]:
+        lines = []
+        for video in row.get("videos", []):
+            source = self.sources[video["source"]]
+            minutes, seconds = divmod(video["t"], 60)
+            lines.append(
+                f"- **Watch:** {source['author']}, [{source['title']}]({source['url']}&t={video['t']}s) "
+                f"at {minutes}:{seconds:02d}: {video['point']}"
+            )
+        return lines
+
     def crosswalk_table(self) -> str:
         lines = [
             "| Classic pattern | Family | Agent analogue | In Claude Code | Evidence | Mapping |",
@@ -208,11 +247,13 @@ class Renderer:
                             "",
                             f"`{family_label}` `{CONSENSUS_LABELS[row['consensus']]}` `{PROVENANCE_LABELS[row['provenance']]}`",
                             "",
+                            *self.infographic(row),
                             f"- **Classic intent:** {row['classic_intent']}",
                             analogue_block,
                             f"- **In Claude Code:** {self.mechanisms(row['claude_code'])}",
                             f"- **Failure mode:** {row['failure_mode']}",
                             f"- **How to verify:** {row['verify']}",
+                            *self.videos(row),
                         ]
                     )
                 )
@@ -226,11 +267,13 @@ class Renderer:
                     [
                         f"### {row['name']}",
                         "",
+                        *self.infographic(row),
                         row["summary"],
                         "",
                         f"- **What is new:** {row['why_new']}",
                         f"- **In Claude Code:** {self.mechanisms(row['claude_code'])}",
                         f"- **Sources:** {self.cite(row['sources'])}",
+                        *self.videos(row),
                     ]
                 )
             )
@@ -249,17 +292,28 @@ class Renderer:
             )
         return "\n".join(lines)
 
+    def further_reading(self) -> str:
+        lines = []
+        for item in self.data.get("further_reading", []):
+            source = self.sources[item["source"]]
+            related = ", ".join(f"[{self.titles[p]}](#{p})" for p in item["patterns"])
+            lines.append(f"- {source['author']}, [{source['title']}]({source['url']}): {item['note']} Related: {related}.")
+        return "\n".join(lines)
+
     def sources_list(self) -> str:
         groups = [
             ("Crosswalks and catalogs", {"crosswalk", "catalog"}),
             ("Papers", {"paper"}),
             ("Vendor guidance and articles", {"vendor", "article"}),
+            ("Talks", {"video"}),
             ("Classic references", {"classic"}),
             ("Claude Code documentation", {"official"}),
         ]
         out = []
         for title, kinds in groups:
             items = [s for s in self.data["sources"] if s["kind"] in kinds]
+            if not items:
+                continue
             out.append(f"**{title}**")
             out.append("")
             out.extend(f"- {s['author']}, [{s['title']}]({s['url']})" for s in items)
@@ -272,6 +326,7 @@ class Renderer:
             "pattern-cards": self.pattern_cards(),
             "native-cards": self.native_cards(),
             "anti-patterns-table": self.anti_patterns_table(),
+            "further-reading": self.further_reading(),
             "sources": self.sources_list(),
         }
 

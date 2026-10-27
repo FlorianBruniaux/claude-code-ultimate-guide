@@ -198,7 +198,8 @@ deep_dive:
   ai_design_patterns_choose: "guide/core/ai-design-patterns.md#choose-a-pattern"
   ai_design_patterns_anti_patterns: "guide/core/ai-design-patterns.md#anti-patterns"
   ai_design_patterns_dataset: "machine-readable/ai-design-patterns.json"
-  ai_design_patterns_infographics: "guide/images/ai-design-patterns/README.md"
+  ai_design_patterns_infographics: "guide/images/ai-design-patterns/README.md"  # overview, one card per pattern, four diagrams
+  ai_design_patterns_further_reading: "guide/core/ai-design-patterns.md#further-reading"  # Osmani, Böckeler, Willison, Ng, Huyen, Weng, three repositories; talks linked per card
   agent_harness_definition: "guide/core/agent-harness.md#the-core-claim"
   agent_harness_entry_points: "guide/core/agent-harness.md#choose-the-right-entry-point"
   agent_harness_four_layers: "guide/core/agent-harness.md#0-four-layers-four-responsibilities"

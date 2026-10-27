@@ -32,7 +32,8 @@ The tables on this page are generated from [`machine-readable/ai-design-patterns
 8. [Choose a pattern](#choose-a-pattern)
 9. [Anti-patterns](#anti-patterns)
 10. [Classic side](#classic-side)
-11. [Sources](#sources)
+11. [Further reading](#further-reading)
+12. [Sources](#sources)
 
 ---
 
@@ -54,6 +55,10 @@ Three generations of patterns solve the same kind of problem at different scales
 - **Agent patterns** (Anthropic's [Building effective agents](https://www.anthropic.com/engineering/building-effective-agents), 2024, and the catalogs that followed) describe how a harness steers a model that chooses its next action itself.
 
 Jia Huang's [Pattern Evolution](https://kage-ai.com/research/pattern-evolution/) frames the third step as the shift from a structure chosen at design time to a decision taken at runtime by a model working with incomplete information. That shift is why each card below carries a failure mode: the classic name describes the structure, and the card states which behavior the harness no longer guarantees.
+
+Practitioners make the same connection on stage. Frank Coyle (UC Berkeley) recalls the 1990s movement: "We now have patterns for agents, but there's also anti-patterns" ([talk, 2:13](https://www.youtube.com/watch?v=Z-c11pV_uvU&t=133s)). Nishant Gupta (Meta Superintelligence Labs) maps the older layer directly: "Distributed systems have solved something similar for decades" ([talk, 6:03](https://www.youtube.com/watch?v=APh1Vx0oLmQ&t=363s)). On The Pragmatic Engineer, the case is that agents need the guardrails of enterprise patterns: "old patterns are seeming to coming back" ([episode, 44:04](https://www.youtube.com/watch?v=5wks1W-auKY&t=2644s)). Talks for individual patterns are linked from each card under **Watch**.
+
+![Overview of the 29 patterns on this page in six columns: GoF creational (Factory Method, Singleton), GoF structural (Adapter, Composite, Decorator, Facade), GoF behavioral (Chain of Responsibility, Command, Mediator, Memento, Observer, Strategy, Template Method), Enterprise integration (Pipes and Filters, Content-Based Router, Scatter-Gather), Distributed and resilience (Bulkhead, Circuit Breaker, Saga, Sidecar, Event Sourcing), and Agent-native (Orchestrator-workers, Evaluator-optimizer, Plan-then-execute, Context isolation, Context compaction, Progressive disclosure, Deterministic gate, Goal loop).](../images/ai-design-patterns/overview-en.webp)
 
 ## How to read
 
@@ -109,6 +114,8 @@ A row enters the table only when three conditions hold: a public source maps the
 
 `GoF creational` `Consensus` `Our mapping`
 
+![Factory Method card (GoF creational). Classic: A creator decides which product to build. In Claude Code: Subagent definitions and the Agent tool. Breaks when: A definition without a tools field inherits every tool. Check: Give every write-capable agent an explicit tools allowlist.](../images/ai-design-patterns/patterns/factory-method.webp)
+
 - **Classic intent:** Let a creator decide which concrete product to instantiate, behind a common interface.
 - **Agent side:** Subagent spawning from a named definition ([AgentPatterns.ai](https://agentpatterns.ai/patterns/agent-design/classical-se-patterns-agent-analogues/), [Esther Aznar, Ivan Garcia Villar](https://aicodingpatterns.com/patterns/patrones-gof-patrones-agenticos-mapeo-completo/))
 - **In Claude Code:** [Subagent definitions and the Agent tool](https://code.claude.com/docs/en/sub-agents)
@@ -118,6 +125,8 @@ A row enters the table only when three conditions hold: a public source maps the
 ### Singleton
 
 `GoF creational` `Divergent` `Our mapping`
+
+![Singleton card (GoF creational). Classic: One shared instance with one global access point. In Claude Code: CLAUDE.md hierarchy and auto memory. Breaks when: Parallel writers to one memory file overwrite each other. Check: Append from two sessions at once and look for lost entries.](../images/ai-design-patterns/patterns/singleton.webp)
 
 - **Classic intent:** Guarantee one shared instance of a component with a global access point.
 - **Agent side, sources disagree:**
@@ -131,25 +140,33 @@ A row enters the table only when three conditions hold: a public source maps the
 
 `GoF structural` `Consensus` `Our mapping`
 
+![Adapter card (GoF structural). Classic: Convert one interface into the one a client expects. In Claude Code: MCP servers. Breaks when: Mirroring every endpoint crowds the context with near-duplicate tools. Check: Run /mcp and /context, then defer the tools nobody used.](../images/ai-design-patterns/patterns/adapter.webp)
+
 - **Classic intent:** Convert the interface of an existing component into the interface a client expects.
 - **Agent side:** Tool adapter that exposes an external system to the model ([Esther Aznar, Ivan Garcia Villar](https://aicodingpatterns.com/patterns/patrones-gof-patrones-agenticos-mapeo-completo/), [Marco Nissen](https://github.com/agentpatternscatalog/patterns))
 - **In Claude Code:** [MCP servers](https://code.claude.com/docs/en/mcp)
 - **Failure mode:** The adapter mirrors every upstream endpoint, so tool definitions crowd the context and the model picks among near-duplicate tools.
 - **How to verify:** Run /mcp and /context, then remove or defer the tools that no task in the last sprint used.
+- **Watch:** Christian Tzolov and Dariusz Jędrzejczyk (Devoxx), [Unifying AI integration with Model Context Protocol](https://www.youtube.com/watch?v=PJOthBhLbao&t=1262s) at 21:02: The speakers explain that each vendor exposes its own APIs through an MCP server layer, a unified wrapper the LLM can use.
 
 ### Composite
 
 `GoF structural` `Consensus` `Our mapping`
+
+![Composite card (GoF structural). Classic: Treat one object and a tree of objects alike. In Claude Code: Nested subagents, capped by spawn depth. Breaks when: Each nesting layer multiplies token use. Check: Set the spawn depth explicitly and log every spawned subagent.](../images/ai-design-patterns/patterns/composite.webp)
 
 - **Classic intent:** Treat a single object and a tree of objects through the same interface.
 - **Agent side:** An agent that delegates to agents that can delegate again ([AgentPatterns.ai](https://agentpatterns.ai/patterns/agent-design/classical-se-patterns-agent-analogues/), [Esther Aznar, Ivan Garcia Villar](https://aicodingpatterns.com/patterns/patrones-gof-patrones-agenticos-mapeo-completo/))
 - **In Claude Code:** [Nested subagents (spawn depth)](https://code.claude.com/docs/en/sub-agents)
 - **Failure mode:** Recursion without a budget: each layer multiplies token use. Claude Code caps nesting with CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH, which can be adjusted but not removed.
 - **How to verify:** Set CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH explicitly for automated runs and log spawned subagents with a SubagentStop hook.
+- **Watch:** Clement Escoffier (Devoxx), [From LLM orchestration to autonomous agents: Agentic AI patterns with LangChain4j](https://www.youtube.com/watch?v=SrFXsjeGc6Q&t=6741s) at 112:21: The speakers show an agent in a sequence that is itself a loop of two agents, so a workflow is used like a single sub agent.
 
 ### Decorator
 
 `GoF structural` `Divergent` `Our mapping`
+
+![Decorator card (GoF structural). Classic: Add behavior by wrapping, in a fixed order. In Claude Code: UserPromptSubmit and PostToolUse hooks. Breaks when: Matching hooks run in parallel, so there is no fixed order. Check: Make each hook pass when it runs alone.](../images/ai-design-patterns/patterns/decorator.webp)
 
 - **Classic intent:** Add behavior to an object by wrapping it, without changing its class.
 - **Agent side, sources disagree:**
@@ -158,10 +175,14 @@ A row enters the table only when three conditions hold: a public source maps the
 - **In Claude Code:** [UserPromptSubmit and PostToolUse hooks](https://code.claude.com/docs/en/hooks)
 - **Failure mode:** A classic decorator stack has a fixed order. Matching hooks run in parallel, so a wrapper that assumes another wrapper already ran is a race.
 - **How to verify:** Write each hook so it passes when run alone, and test it with the other hooks disabled.
+- **Watch:** Mark Pollack, Christian Tzolov, Josh Long, James Ward (Devoxx), [Bootiful Spring AI](https://www.youtube.com/watch?v=Sw3PlFXfWj4&t=703s) at 11:43: The speaker explains Spring AI advisors as a filter or pre-processor that wraps calls to and from the model and can mutate or log each request.
+- **Watch:** Thariq Shihipar, [Claude Agent SDK [Full Workshop]](https://www.youtube.com/watch?v=TqC1qOfiVcQ&t=6430s) at 107:10: An Anthropic speaker says hooks fire as events in the Agent SDK and are used for deterministic verification or for inserting context.
 
 ### Facade
 
 `GoF structural` `Single source` `Named by a source`
+
+![Facade card (GoF structural). Classic: One simple entry point to a complex subsystem. In Claude Code: CLAUDE.md. Breaks when: CLAUDE.md is context, not enforced configuration. Check: Back each must-never rule with a hook or a deny rule.](../images/ai-design-patterns/patterns/facade.webp)
 
 - **Classic intent:** Offer one simple entry point in front of a complex subsystem.
 - **Agent side:** Project instruction file as the single entry point for conventions ([AgentPatterns.ai](https://agentpatterns.ai/patterns/agent-design/classical-se-patterns-agent-analogues/))
@@ -172,6 +193,8 @@ A row enters the table only when three conditions hold: a public source maps the
 ### Chain of Responsibility
 
 `GoF behavioral` `Divergent` `Our mapping`
+
+![Chain of Responsibility card (GoF behavioral). Classic: Pass a request along handlers until one handles it. In Claude Code: Permission rules: deny, then ask, then allow. Breaks when: Specificity does not win: a broad deny beats a narrow allow. Check: Add a deny and a narrower allow, confirm the command stays blocked.](../images/ai-design-patterns/patterns/chain-of-responsibility.webp)
 
 - **Classic intent:** Pass a request along a chain of handlers until one of them handles it.
 - **Agent side, sources disagree:**
@@ -185,6 +208,8 @@ A row enters the table only when three conditions hold: a public source maps the
 
 `GoF behavioral` `Consensus` `Our mapping`
 
+![Command card (GoF behavioral). Classic: Turn a request into an object you can queue, log or check. In Claude Code: Tool calls and PreToolUse hooks. Breaks when: The model writes the arguments, and unchecked they run as written. Check: Replay an out-of-scope tool input and assert the hook blocks it.](../images/ai-design-patterns/patterns/command.webp)
+
 - **Classic intent:** Turn a request into an object that can be queued, logged, checked, or undone.
 - **Agent side:** A tool call: a named action with structured arguments ([Esther Aznar, Ivan Garcia Villar](https://aicodingpatterns.com/patterns/patrones-gof-patrones-agenticos-mapeo-completo/), [Ashish Patel](https://github.com/ashishpatel26/agent-harness-engineering-pattern))
 - **In Claude Code:** [Tool calls and PreToolUse hooks](https://code.claude.com/docs/en/tools-reference)
@@ -195,35 +220,46 @@ A row enters the table only when three conditions hold: a public source maps the
 
 `GoF behavioral` `Consensus` `Our mapping`
 
+![Mediator card (GoF behavioral). Classic: Components talk through one coordinator. In Claude Code: The main conversation coordinating subagents. Breaks when: Workers return transcripts and flood the coordinator's context. Check: Ask each subagent for a bounded final report.](../images/ai-design-patterns/patterns/mediator.webp)
+
 - **Classic intent:** Centralize how a set of components talk, so they do not reference each other directly.
 - **Agent side:** Orchestrator that coordinates workers which never talk to each other ([Esther Aznar, Ivan Garcia Villar](https://aicodingpatterns.com/patterns/patrones-gof-patrones-agenticos-mapeo-completo/), [Sarkar and Sarkar](https://arxiv.org/abs/2506.05364))
 - **In Claude Code:** [Main conversation coordinating subagents](https://code.claude.com/docs/en/sub-agents); [Agent teams (experimental, off by default; peer messaging, the non-mediated alternative)](https://code.claude.com/docs/en/agent-teams)
 - **Failure mode:** The mediator becomes the bottleneck: if workers return transcripts instead of summaries, the coordinating context fills with material it never reads again.
 - **How to verify:** Check that each subagent prompt asks for a bounded final report, and compare /context before and after a delegation.
+- **Watch:** Sandipan Bhaumik, [From Chaos to Choreography: Multi-Agent Orchestration Patterns That Actually Work](https://www.youtube.com/watch?v=2czYyrTzILg&t=529s) at 8:49: In orchestration, every call goes through the orchestrator and agents never call each other.
 
 ### Memento
 
 `GoF behavioral` `Consensus` `Our mapping`
+
+![Memento card (GoF behavioral). Classic: Snapshot the state and restore it later. In Claude Code: Checkpoints and /rewind. Breaks when: Only Claude's file edits are tracked, not Bash or external changes. Check: Change an untouched file with Bash, rewind, and see it survive.](../images/ai-design-patterns/patterns/memento.webp)
 
 - **Classic intent:** Capture an object's state so it can be restored later without exposing its internals.
 - **Agent side:** Checkpoint and rewind of agent state ([AgentPatterns.ai](https://agentpatterns.ai/patterns/agent-design/classical-se-patterns-agent-analogues/), [Ashish Patel](https://github.com/ashishpatel26/agent-harness-engineering-pattern))
 - **In Claude Code:** [Checkpointing and /rewind](https://code.claude.com/docs/en/checkpointing)
 - **Failure mode:** The snapshot is partial. The docs state that checkpoints only track changes made through Claude's file editing tools; Bash commands and external processes are not captured, and edits made by a background subagent usually are not either.
 - **How to verify:** Use a Bash command to change a file Claude has not edited in this session, rewind, and confirm the change survives. Commit with git before risky shell work or delegated edits.
+- **Watch:** Hamza Tahir, [Your Agents Need a Save Button](https://www.youtube.com/watch?v=bZISsg7H7DA&t=14s) at 0:14: The speaker argues agents need a save button: runtime checkpoints that let you replay, diff and decide, instead of read-only traces.
 
 ### Observer
 
 `GoF behavioral` `Consensus` `Named by a source`
+
+![Observer card (GoF behavioral). Classic: Subscribers are notified when state changes. In Claude Code: Hooks on PreToolUse, PostToolUse, Stop and SubagentStop. Breaks when: Hooks that assume an order, while matching hooks run in parallel. Check: Run each hook alone on a recorded event.](../images/ai-design-patterns/patterns/observer.webp)
 
 - **Classic intent:** Notify subscribers automatically when a subject changes state.
 - **Agent side:** Lifecycle hooks that react to agent events ([AgentPatterns.ai](https://agentpatterns.ai/patterns/agent-design/classical-se-patterns-agent-analogues/), [Esther Aznar, Ivan Garcia Villar](https://aicodingpatterns.com/patterns/patrones-gof-patrones-agenticos-mapeo-completo/))
 - **In Claude Code:** [Hooks (PreToolUse, PostToolUse, Stop, SubagentStop)](https://code.claude.com/docs/en/hooks)
 - **Failure mode:** Subscribers assume an order. The docs state that matching hooks run in parallel, each one runs to completion, and for permission decisions the most restrictive result applies: one hook's deny does not stop a sibling hook's side effects.
 - **How to verify:** Run each hook alone against a recorded event payload; a hook that only passes after another one is not an observer.
+- **Watch:** Cole Medin, [Watch This If Your Coding Agent is Ignoring Your Rules (You Need Hooks)](https://www.youtube.com/watch?v=msfMqW92Y8Q&t=44s) at 0:44: The speaker defines hooks as actions guaranteed to fire on agent events, such as just before a file read or when the conversation stops.
 
 ### Strategy
 
 `GoF behavioral` `Consensus` `Our mapping`
+
+![Strategy card (GoF behavioral). Classic: Swap the algorithm behind one interface. In Claude Code: The model field per subagent and /model. Breaks when: The model switches silently, with no record of cost or origin. Check: Pin the model per subagent and review /usage after the run.](../images/ai-design-patterns/patterns/strategy.webp)
 
 - **Classic intent:** Swap one algorithm for another behind the same interface at runtime.
 - **Agent side, main reading first:**
@@ -232,10 +268,13 @@ A row enters the table only when three conditions hold: a public source maps the
 - **In Claude Code:** [model field per subagent and /model](https://code.claude.com/docs/en/model-config)
 - **Failure mode:** The strategy changes silently. Nobody can tell afterwards which model produced which result or what the switch cost.
 - **How to verify:** Pin model in each subagent definition and check /usage or the session transcript after a run.
+- **Watch:** Archana Kamath and Tyler Gillam, [Preferences Over Benchmarks: Model Routing](https://www.youtube.com/watch?v=FvxY8oPoI8o&t=106s) at 1:46: The speaker argues that one model for every task is overkill and that routing each task to a fitting model cuts cost and risk.
 
 ### Template Method
 
 `GoF behavioral` `Divergent` `Our mapping`
+
+![Template Method card (GoF behavioral). Classic: A fixed skeleton calls the steps. In Claude Code: Skills that define a procedure, plus a Stop hook. Breaks when: A prose skeleton is not enforced, so steps get skipped. Check: Block completion with a Stop hook when the artifact is missing.](../images/ai-design-patterns/patterns/template-method.webp)
 
 - **Classic intent:** Fix the skeleton of an algorithm and let subclasses fill in some steps.
 - **Agent side, sources disagree:**
@@ -244,40 +283,55 @@ A row enters the table only when three conditions hold: a public source maps the
 - **In Claude Code:** [Skills that define a procedure](https://code.claude.com/docs/en/skills); [Stop hook as the final step check](https://code.claude.com/docs/en/hooks)
 - **Failure mode:** A prose skeleton is not enforced: the model can skip or reorder a step, unlike a base class that calls the steps itself.
 - **How to verify:** Give the last step an artifact (a file, a test run) and block completion with a Stop hook when the artifact is missing.
+- **Watch:** Cole Medin, [Stripe's Coding Agents Ship 1,300 PRs EVERY Week - Here's How They Do It](https://www.youtube.com/watch?v=NMWgXvm--to&t=421s) at 7:01: The speaker describes Stripe's blueprints: agent skills interwoven with deterministic code in a fixed workflow.
 
 ### Pipes and Filters
 
 `Enterprise integration` `Consensus` `Our mapping`
+
+![Pipes and Filters card (Enterprise integration). Classic: Steps connected by channels, one after another. In Claude Code: claude -p in a shell pipeline. Breaks when: Free text from one step is misread by the next. Check: Use JSON output and validate it between steps.](../images/ai-design-patterns/patterns/pipes-and-filters.webp)
 
 - **Classic intent:** Process a message through a sequence of independent steps connected by channels.
 - **Agent side:** Pipeline where each agent or model call is a filter ([Roan Brasil](https://github.com/roanbrasil/agents-integration-patterns), [Marco Nissen](https://github.com/agentpatternscatalog/patterns))
 - **In Claude Code:** [Print mode in a shell pipeline (claude -p)](https://code.claude.com/docs/en/headless)
 - **Failure mode:** A filter emits free text that the next filter misreads, and the error travels down the pipe.
 - **How to verify:** Use --output-format json between steps and validate the shape before the next filter runs.
+- **Watch:** Mark Pollack, Christian Tzolov, Josh Long, James Ward (Devoxx), [Bootiful Spring AI](https://www.youtube.com/watch?v=Sw3PlFXfWj4&t=2291s) at 38:11: The speaker pipes git log into claude -p to generate release notes and calls it pipes and filters all over again.
+- **Watch:** Kevin Dubois and Mario Fusco (Devoxx), [Agentic AI Patterns](https://www.youtube.com/watch?v=X9baI7RBhqk&t=491s) at 8:11: The speakers present the sequence pattern, calling one agent after another, also known as prompt chaining.
 
 ### Content-Based Router
 
 `Enterprise integration` `Consensus` `Our mapping`
+
+![Content-Based Router card (Enterprise integration). Classic: Route each message by its content. In Claude Code: Delegation and skill selection by description. Breaks when: Overlapping descriptions route the same request differently. Check: Rerun a routing test set after every description change.](../images/ai-design-patterns/patterns/content-based-router.webp)
 
 - **Classic intent:** Route each message to a destination based on its content.
 - **Agent side:** Classifier that sends a request to a specialized handler ([Roan Brasil](https://github.com/roanbrasil/agents-integration-patterns), [Anthropic](https://www.anthropic.com/engineering/building-effective-agents))
 - **In Claude Code:** [Automatic delegation by subagent description](https://code.claude.com/docs/en/sub-agents); [Skill selection by description](https://code.claude.com/docs/en/skills)
 - **Failure mode:** Overlapping descriptions route the same request to different handlers from one run to the next.
 - **How to verify:** Keep a set of routing prompts with the expected subagent or skill, and rerun it after every description change.
+- **Watch:** Goulven Le Dû (Doctolib), [Alfred le système Agentic AI de Doctolib au service des professionnels de santé](https://www.youtube.com/watch?v=uTM3fRgbUN0&t=252s) at 4:12: Doctolib's Alfred has a route agent that uses an intention classification model to send each request to a specialized agent.
+- **Watch:** Renato Guerra Cavalcanti (Devoxx), [Akka: an enterprise runtime for resilient agentic AI](https://www.youtube.com/watch?v=PrIh_9HomfI&t=821s) at 13:41: The speaker describes a router that receives a message and decides which agent gets it, by LLM or plain if and else.
 
 ### Scatter-Gather
 
 `Enterprise integration` `Consensus` `Our mapping`
+
+![Scatter-Gather card (Enterprise integration). Classic: Send to many recipients and aggregate the replies. In Claude Code: Parallel subagents and dynamic workflows. Breaks when: The gather step averages contradictions, and cost grows per branch. Check: List disagreements and compare cost with a single agent.](../images/ai-design-patterns/patterns/scatter-gather.webp)
 
 - **Classic intent:** Send a request to several recipients and aggregate their replies.
 - **Agent side:** Parallel agents followed by a synthesis step ([Esther Aznar, Ivan Garcia Villar](https://aicodingpatterns.com/patterns/patrones-gof-patrones-agenticos-mapeo-completo/), [Roan Brasil](https://github.com/roanbrasil/agents-integration-patterns))
 - **In Claude Code:** [Parallel subagents](https://code.claude.com/docs/en/sub-agents); [Dynamic workflows](https://code.claude.com/docs/en/workflows)
 - **Failure mode:** The gather step averages contradicting answers instead of reconciling them, and token cost grows with every branch.
 - **How to verify:** Make the synthesis step list disagreements explicitly, and compare the run's cost with a single-agent baseline.
+- **Watch:** Renato Guerra Cavalcanti (Devoxx), [Akka: an enterprise runtime for resilient agentic AI](https://www.youtube.com/watch?v=PrIh_9HomfI&t=786s) at 13:06: The speaker describes calling several agents in parallel, waiting for all results and passing them to a summarizer.
+- **Watch:** Colin (LangChain), [Dynamic Subagents: How to Run Parallel Agents Reliably in Deep Agents](https://www.youtube.com/watch?v=5AkdMangfNk&t=46s) at 0:46: In a demo, the agent fans out 15 subagents in parallel and then picks the best result.
 
 ### Bulkhead
 
 `Distributed and resilience` `Consensus` `Our mapping`
+
+![Bulkhead card (Distributed and resilience). Classic: Isolate resources so one failure cannot sink everything. In Claude Code: Subagent context isolation and worktrees. Breaks when: The context is isolated, but the checkout is shared. Check: Give parallel writers their own worktree.](../images/ai-design-patterns/patterns/bulkhead.webp)
 
 - **Classic intent:** Isolate resources per consumer so one failure cannot sink the whole system.
 - **Agent side:** Per-agent isolation of context, tools, and budget ([Esther Aznar, Ivan Garcia Villar](https://aicodingpatterns.com/patterns/patrones-gof-patrones-agenticos-mapeo-completo/), [Jia Huang](https://kage-ai.com/research/pattern-evolution/))
@@ -289,6 +343,8 @@ A row enters the table only when three conditions hold: a public source maps the
 
 `Distributed and resilience` `Consensus` `Our mapping`
 
+![Circuit Breaker card (Distributed and resilience). Classic: Stop calling a failing dependency and fail fast. In Claude Code: Turn and budget caps on a run. Breaks when: Static caps, often set on one layer only. Check: Run a looping task with both caps and expect an error exit.](../images/ai-design-patterns/patterns/circuit-breaker.webp)
+
 - **Classic intent:** Stop calling a failing dependency after repeated failures, and fail fast.
 - **Agent side, main reading first:**
   - Hard caps on turns, cost, and loop depth ([AgentPatterns.ai](https://agentpatterns.ai/patterns/agent-design/classical-se-patterns-agent-analogues/), [Esther Aznar, Ivan Garcia Villar](https://aicodingpatterns.com/patterns/patrones-gof-patrones-agenticos-mapeo-completo/), [James Davies](https://github.com/jlldavies/go4-llm-design-patterns))
@@ -296,20 +352,28 @@ A row enters the table only when three conditions hold: a public source maps the
 - **In Claude Code:** [--max-turns and --max-budget-usd (print mode)](https://code.claude.com/docs/en/cli-reference); [maxTurns in subagent frontmatter](https://code.claude.com/docs/en/sub-agents)
 - **Failure mode:** The breaker is static, not failure-triggered, and often set on one layer only: --max-turns has no limit by default and counts turns, not cost, so it needs --max-budget-usd beside it.
 - **How to verify:** Run the automated job with --max-turns and --max-budget-usd set, on a task designed to loop, and check that it exits with an error.
+- **Watch:** Sandipan Bhaumik, [From Chaos to Choreography: Multi-Agent Orchestration Patterns That Actually Work](https://www.youtube.com/watch?v=2czYyrTzILg&t=1011s) at 16:51: The speaker applies the circuit breaker to agent-to-agent calls: after repeated failures the circuit opens, fails fast, then half-opens to test recovery.
+- **Watch:** Tisha Chawla and Susheem Koul, [FinOps for AI Agents: Who Spent All the Tokens?](https://www.youtube.com/watch?v=GJX19pNhmSw&t=1056s) at 17:36: In a demo, an agent that exceeds its per-run budget is killed immediately, which the speaker calls a simple circuit breaker.
 
 ### Saga
 
 `Distributed and resilience` `Consensus` `Our mapping`
+
+![Saga card (Distributed and resilience). Classic: Local steps, each with a compensating action. In Claude Code: No native saga: checkpoints plus scripted compensation. Breaks when: Rewind undoes local edits, not a push or an API call. Check: Write and test a compensation for each side effect.](../images/ai-design-patterns/patterns/saga.webp)
 
 - **Classic intent:** Run a long transaction as local steps, each with a compensating action if a later step fails.
 - **Agent side:** Compensating actions for an agent plan ([AgentPatterns.ai](https://agentpatterns.ai/patterns/agent-design/classical-se-patterns-agent-analogues/), [Esther Aznar, Ivan Garcia Villar](https://aicodingpatterns.com/patterns/patrones-gof-patrones-agenticos-mapeo-completo/), [Jia Huang](https://kage-ai.com/research/pattern-evolution/), [Vasundra Srinivasan](https://arxiv.org/abs/2605.20173))
 - **In Claude Code:** [No native saga: checkpoints plus scripted compensation](https://code.claude.com/docs/en/checkpointing)
 - **Failure mode:** Rewind is mistaken for compensation. It restores local file edits only; a push, an API call, or a database write stays done.
 - **How to verify:** For every side-effecting step in an agent plan, write down its compensating action before the run, and test that action once.
+- **Watch:** Sandipan Bhaumik, [From Chaos to Choreography: Multi-Agent Orchestration Patterns That Actually Work](https://www.youtube.com/watch?v=2czYyrTzILg&t=1142s) at 19:02: The speaker presents the compensation or saga pattern: each agent has execute and compensate, and on failure the orchestrator walks backward calling compensate.
+- **Watch:** Salman Munaf, [AI Agents Are Just Distributed Systems Now](https://www.youtube.com/watch?v=hD9-V56FNRI&t=730s) at 12:10: The speaker says a multi-step agent that fails midway must reverse the whole transaction across systems and needs a defined compensation operation.
 
 ### Sidecar
 
 `Distributed and resilience` `Single source` `Our mapping`
+
+![Sidecar card (Distributed and resilience). Classic: Cross-cutting policy runs next to the service. In Claude Code: Hooks, permissions and sandboxing around the loop. Breaks when: Policy in the prompt, or a hook that fails open. Check: Name the enforcing layer for every safety rule.](../images/ai-design-patterns/patterns/sidecar.webp)
 
 - **Classic intent:** Attach cross-cutting capabilities (logging, policy, networking) next to a service instead of inside it.
 - **Agent side:** The agent harness around the model loop ([Jia Huang](https://kage-ai.com/research/pattern-evolution/))
@@ -321,11 +385,15 @@ A row enters the table only when three conditions hold: a public source maps the
 
 `Distributed and resilience` `Single source` `Our mapping`
 
+![Event Sourcing card (Distributed and resilience). Classic: Store every change as an event, replay to rebuild. In Claude Code: Session transcripts with --resume and --continue. Breaks when: Resuming restores the conversation, not the same answers. Check: Keep the transcript as an audit trail and pin inputs elsewhere.](../images/ai-design-patterns/patterns/event-sourcing.webp)
+
 - **Classic intent:** Store every state change as an event, and rebuild state by replaying the log.
 - **Agent side:** The trace log as the event stream of an agent run ([Jia Huang](https://kage-ai.com/research/pattern-evolution/))
 - **In Claude Code:** [Session transcripts, --resume and --continue](https://code.claude.com/docs/en/sessions)
 - **Failure mode:** Replay is assumed to reproduce the result. Resuming a session restores the conversation, but the model calls that follow are not deterministic.
 - **How to verify:** Treat the transcript as an audit trail, not a replay log: pin the inputs you need to reproduce outside it.
+- **Watch:** Jonas Templestein, [Make your own event-sourced agent harness using stream processors](https://www.youtube.com/watch?v=vi-2nasppAg&t=105s) at 1:45: The speaker wants to build a coding agent harness that is purely event sourced, because the agent already keeps a log of events.
+- **Watch:** Ishaan Sehgal, [The Log Is The Agent](https://www.youtube.com/watch?v=UPwGaM2MKHY&t=259s) at 4:19: The speaker argues the log is the durable history from which every view of the agent (debugging, auditing, compaction) is a projection.
 
 <!-- END GENERATED: pattern-cards -->
 
@@ -359,67 +427,96 @@ These patterns sit close to classic ones, but they depend on two things classic 
 
 ### Orchestrator-workers
 
+![Orchestrator-workers card (agent-native pattern). What it does: A model splits the task at runtime, delegates, and synthesizes. In Claude Code: Subagents and dynamic workflows. What is new: The model draws the decomposition, and it pays on parallel work.](../images/ai-design-patterns/patterns/orchestrator-workers.webp)
+
 A central model breaks a task down at runtime, delegates the parts, and synthesizes the results.
 
 - **What is new:** Closest classic pattern: Mediator. The difference is that the model decides the decomposition during the run instead of the designer drawing it. Delegation pays on parallel work: in Google Research's controlled study, every multi-agent variant degraded a sequential planning task by 39 to 70%.
 - **In Claude Code:** [Subagents](https://code.claude.com/docs/en/sub-agents); [Dynamic workflows](https://code.claude.com/docs/en/workflows)
 - **Sources:** [Anthropic](https://www.anthropic.com/engineering/building-effective-agents), [Claude Code docs: Subagents](https://code.claude.com/docs/en/sub-agents), [Claude Code docs: Dynamic workflows](https://code.claude.com/docs/en/workflows), [Yubin Kim, Xin Liu (Google Research)](https://research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work/)
+- **Watch:** Luke Alvoeiro, [The Multi-Agent Architecture That Actually Ships](https://www.youtube.com/watch?v=ow1we5PzK-o&t=276s) at 4:36: The speaker describes Factory's Missions system as an orchestrator that plans, workers that execute, and validators that verify.
+- **Watch:** Sandipan Bhaumik, [From Chaos to Choreography: Multi-Agent Orchestration Patterns That Actually Work](https://www.youtube.com/watch?v=2czYyrTzILg&t=501s) at 8:21: Orchestration is presented as a central workflow orchestrator that calls each agent directly.
 
 ### Evaluator-optimizer
+
+![Evaluator-optimizer card (agent-native pattern). What it does: One call answers, another evaluates and sends feedback. In Claude Code: A reviewer subagent and a Stop hook that runs the real tests. What is new: The judge is a model, so both sides can accept a wrong answer.](../images/ai-design-patterns/patterns/evaluator-optimizer.webp)
 
 One call produces an answer, another evaluates it and sends feedback, in a loop.
 
 - **What is new:** The test oracle is itself a model, so the loop can converge on a wrong answer both sides accept.
 - **In Claude Code:** [Reviewer subagent with its own context](https://code.claude.com/docs/en/sub-agents); [Stop hook that runs the real tests](https://code.claude.com/docs/en/hooks)
 - **Sources:** [Anthropic](https://www.anthropic.com/engineering/building-effective-agents), [Claude Code docs: Subagents](https://code.claude.com/docs/en/sub-agents), [Claude Code docs: Hooks reference](https://code.claude.com/docs/en/hooks)
+- **Watch:** Ash Prabaker and Andrew Wilson, [Anthropic Workshop: Build Agents That Run for Hours](https://www.youtube.com/watch?v=mR-WAvEPRwE&t=1141s) at 19:01: The speakers describe a generator and evaluator split into separate contexts, where the evaluator tests the result with Playwright and feeds critique back.
+- **Watch:** Luke Alvoeiro, [The Multi-Agent Architecture That Actually Ships](https://www.youtube.com/watch?v=ow1we5PzK-o&t=334s) at 5:34: A separate validator role verifies the work, including end-to-end behavior, instead of only reading the code.
 
 ### Plan-then-execute
+
+![Plan-then-execute card (agent-native pattern). What it does: Plan read-only before any file changes. In Claude Code: Plan mode. What is new: The same model executes the plan, so review the plan.](../images/ai-design-patterns/patterns/plan-then-execute.webp)
 
 Separate a read-only planning phase from the phase that changes files.
 
 - **What is new:** The plan is produced by the same model that will execute it, so the human review point is the plan, not the code.
 - **In Claude Code:** [Plan mode](https://code.claude.com/docs/en/permission-modes)
 - **Sources:** [Nikola Balic and contributors](https://github.com/nibzard/awesome-agentic-patterns), [Claude Code docs: Permission modes](https://code.claude.com/docs/en/permission-modes)
+- **Watch:** Matt Pocock, [I was an AI skeptic. Then I tried plan mode](https://www.youtube.com/watch?v=WNx-s-RxVxk&t=22s) at 0:22: The speaker plans every change in plan mode, has the AI execute the plan, then tests and commits.
 
 ### Context isolation
+
+![Context isolation card (agent-native pattern). What it does: Run a noisy side task in its own context and return the conclusion. In Claude Code: Subagents return only their final response. What is new: The protected resource is the context window.](../images/ai-design-patterns/patterns/context-isolation.webp)
 
 Run a noisy side task in its own context and return only its conclusion.
 
 - **What is new:** Closest classic pattern: Bulkhead. Here the resource being protected is the context window, not threads or connections.
 - **In Claude Code:** [Subagents return only their final response](https://code.claude.com/docs/en/sub-agents)
 - **Sources:** [Lance Martin](https://rlancemartin.github.io/2026/01/09/agent_design/), [Claude Code docs: Subagents](https://code.claude.com/docs/en/sub-agents)
+- **Watch:** Colin (LangChain), [Dynamic Subagents: How to Run Parallel Agents Reliably in Deep Agents](https://www.youtube.com/watch?v=5AkdMangfNk&t=110s) at 1:50: Subagents give context isolation: each runs in its own context window and returns only its results, so the main agent's context stays clean.
+- **Watch:** Frank Coyle, [Anthropic's CCA Exam as a Field-Guide for Agentic Engineering](https://www.youtube.com/watch?v=Z-c11pV_uvU&t=917s) at 15:17: The speaker names the anti-pattern of letting every subtask dump its full output into the primary thread and says to isolate subtask output instead.
 
 ### Context compaction
+
+![Context compaction card (agent-native pattern). What it does: Summarize near the window limit and continue from the summary. In Claude Code: Auto compaction and /compact. What is new: Lossy by design: what the summary drops is gone.](../images/ai-design-patterns/patterns/context-compaction.webp)
 
 Summarize the conversation when it approaches the window limit, and continue from the summary.
 
 - **What is new:** State is lossy by design: what the summary drops is no longer in the model's context for the rest of the session.
 - **In Claude Code:** [Auto compaction and /compact](https://code.claude.com/docs/en/context-window)
 - **Sources:** [Lance Martin](https://rlancemartin.github.io/2026/01/09/agent_design/), [Nikola Balic and contributors](https://github.com/nibzard/awesome-agentic-patterns), [Claude Code docs: Context window](https://code.claude.com/docs/en/context-window)
+- **Watch:** Louis-François Bouchard, Omar Solano and Samridhi Vaid (Towards AI), [Context Engineering in 2026](https://www.youtube.com/watch?v=WP3hjUXd918&t=535s) at 8:55: The speakers define compaction as keeping the smallest context that can still answer the question and dropping or saving the rest.
+- **Watch:** Ishaan Sehgal, [The Log Is The Agent](https://www.youtube.com/watch?v=UPwGaM2MKHY&t=272s) at 4:32: The speaker explains that a log can grow forever while a model's view cannot, so the log must be compacted into a smaller lossy representation.
 
 ### Progressive disclosure
+
+![Progressive disclosure card (agent-native pattern). What it does: Short descriptions first, full instructions on demand. In Claude Code: Skills and MCP tool search. What is new: A vague description hides a capability.](../images/ai-design-patterns/patterns/progressive-disclosure.webp)
 
 Load short descriptions first and the full instructions only when they are needed.
 
 - **What is new:** Selection happens by the model reading descriptions, so a vague description hides a capability. Skills preloaded through a subagent's skills field are the exception: their full content loads at launch.
 - **In Claude Code:** [Skills: descriptions at start, full content on use](https://code.claude.com/docs/en/skills); [MCP tool search](https://code.claude.com/docs/en/mcp)
 - **Sources:** [Lance Martin](https://rlancemartin.github.io/2026/01/09/agent_design/), [Claude Code docs: Skills](https://code.claude.com/docs/en/skills), [Claude Code docs: MCP](https://code.claude.com/docs/en/mcp)
+- **Watch:** Pedro Rodrigues, [Skill Issue: How We Used AI to Make Agents Actually Good at Supabase](https://www.youtube.com/watch?v=GmAQKINjv1E&t=265s) at 4:25: The speaker says skills brought progressive disclosure, which MCP tools lacked, and later ties Claude Code tool search to the same idea for MCP tools.
 
 ### Deterministic gate
+
+![Deterministic gate card (agent-native pattern). What it does: What must always happen runs outside the model. In Claude Code: PreToolUse hooks and deny rules. What is new: Draw the line between suggestion and enforcement on purpose.](../images/ai-design-patterns/patterns/deterministic-gate.webp)
 
 Put anything that must always happen in code that runs outside the model's judgment.
 
 - **What is new:** Closest classic patterns: Sidecar and Chain of Responsibility. The difference is that the rest of the system is probabilistic, so the line between suggestion and enforcement has to be drawn on purpose.
 - **In Claude Code:** [PreToolUse hooks](https://code.claude.com/docs/en/hooks); [Permission deny rules](https://code.claude.com/docs/en/permissions)
 - **Sources:** [Anthropic](https://claude.com/resources/articles/steering-claude-code-skills-hooks-rules-subagents-and-more), [Claude Code docs: Memory (CLAUDE.md)](https://code.claude.com/docs/en/memory), [Claude Code docs: Hooks reference](https://code.claude.com/docs/en/hooks)
+- **Watch:** Sachin Malhotra, [Give the Agent a Budget, Not a Token](https://www.youtube.com/watch?v=rbjWzZK2LU0&t=967s) at 16:07: An Anthropic speaker describes a proxy layer that counts and compares, returns a 403 when a budget is crossed or a delete is attempted, and cannot be talked out of the rule by prompt injection.
+- **Watch:** Matt Pocock, [How to actually force Claude Code to use the right CLI (don't use CLAUDE.md)](https://www.youtube.com/watch?v=3CSi8QAoN-s&t=146s) at 2:26: The speaker uses a PreToolUse hook that blocks a tool call before it executes, turning CLAUDE.md instructions into deterministic hooks.
 
 ### Goal loop
+
+![Goal loop card (agent-native pattern). What it does: Keep working until a stated condition is met. In Claude Code: /goal and Stop hook continuation. What is new: A model judges the goal, so make it checkable.](../images/ai-design-patterns/patterns/goal-loop.webp)
 
 Keep the agent working until a stated completion condition is met.
 
 - **What is new:** Whether the goal is met is judged by a model, so the condition must be checkable.
 - **In Claude Code:** [/goal](https://code.claude.com/docs/en/goal); [Stop hook continuation](https://code.claude.com/docs/en/hooks)
 - **Sources:** [Nikola Balic and contributors](https://github.com/nibzard/awesome-agentic-patterns), [Claude Code docs: Keep Claude working toward a goal](https://code.claude.com/docs/en/goal), [Claude Code docs: Hooks reference](https://code.claude.com/docs/en/hooks)
+- **Watch:** Ash Prabaker and Andrew Wilson, [Anthropic Workshop: Build Agents That Run for Hours](https://www.youtube.com/watch?v=mR-WAvEPRwE&t=506s) at 8:26: The speakers explain the Ralph loop: feed one prompt to the CLI and run it in a loop until all tasks are complete, with a stop hook and a max iteration count in Anthropic's plugin.
 
 <!-- END GENERATED: native-cards -->
 
@@ -476,6 +573,24 @@ The first three categories come from the MAST taxonomy of multi-agent failures (
 
 The guide already ships a skill that detects the 23 GoF patterns in a codebase: [`examples/skills/design-patterns/`](../../examples/skills/design-patterns/), described in [Example 3: Design Patterns Analyzer Skill](../ultimate-guide.md#example-3-design-patterns-analyzer-skill). Use it on the code an agent produces; use this page on the harness that produces it.
 
+## Further reading
+
+Practitioner writing and repositories that cover the same ground from other angles. None of them uses this page's crosswalk; the related links point to the closest card here.
+
+<!-- BEGIN GENERATED: further-reading -->
+
+- Addy Osmani, [Agent Harness Engineering](https://addyosmani.com/blog/agent-harness-engineering/): April 19, 2026. A catalog of harness practices: Git as durable state, compaction, skills with progressive disclosure, hooks as the enforcement layer, planner, generator and evaluator splits, and turning each agent mistake into a permanent rule. Related: [Context compaction](#context-compaction), [Progressive disclosure](#progressive-disclosure), [Deterministic gate](#deterministic-gate), [Evaluator-optimizer](#evaluator-optimizer), [Goal loop](#goal-loop).
+- Birgitta Böckeler (martinfowler.com), [Harness engineering for coding agent users](https://martinfowler.com/articles/harness-engineering.html): April 2, 2026. A mental model of feedforward guides and feedback sensors, each computational or inferential, with a human steering the loop. Related: [Deterministic gate](#deterministic-gate), [Evaluator-optimizer](#evaluator-optimizer).
+- Simon Willison, [Agentic Engineering Patterns](https://simonwillison.net/guides/agentic-engineering-patterns/): A guide of practical patterns for coding agents: subagents, red/green TDD, running the tests first, manual testing and anti-patterns. Related: [Context isolation](#context-isolation), [Evaluator-optimizer](#evaluator-optimizer).
+- Andrew Ng, [Agentic Design Patterns Part 1 (The Batch)](https://www.deeplearning.ai/the-batch/how-agents-can-improve-llm-performance/): March 2024. The four agentic design patterns that popularized the term: reflection, tool use, planning and multi-agent collaboration. Related: [Evaluator-optimizer](#evaluator-optimizer), [Plan-then-execute](#plan-then-execute), [Orchestrator-workers](#orchestrator-workers).
+- Chip Huyen, [Agents](https://huyenchip.com/2025/01/07/agents.html): January 2025. Tool use, planning and plan validation, reflection, failure modes and agent evaluation. Related: [Plan-then-execute](#plan-then-execute), [Evaluator-optimizer](#evaluator-optimizer).
+- Lilian Weng, [LLM Powered Autonomous Agents](https://lilianweng.github.io/posts/2023-06-23-agent/): June 2023. The planning, memory and tool-use decomposition that most later catalogs start from. Related: [Plan-then-execute](#plan-then-execute), [Context compaction](#context-compaction).
+- DenisSergeevitch, [agents-best-practices](https://github.com/DenisSergeevitch/agents-best-practices): An MIT-licensed Agent Skill for designing and auditing harnesses, built on one rule: the model proposes actions, the harness validates, authorizes, executes and records them. Related: [Deterministic gate](#deterministic-gate), [Sidecar](#sidecar).
+- gtzheng, [Awesome Agentic System Design](https://github.com/gtzheng/Awesome-Agentic-System-Design): An MIT-licensed reading hub on orchestration, context and memory, tools and protocols, evaluation and production safety. Related: [Context isolation](#context-isolation), [Context compaction](#context-compaction).
+- josephsenior, [Agentic-Design-Patterns](https://github.com/josephsenior/Agentic-Design-Patterns): MIT-licensed, small runnable Python implementations of workflow patterns such as chaining, routing, parallelization, reflection and planning. Related: [Pipes and Filters](#pipes-and-filters), [Content-Based Router](#content-based-router), [Scatter-Gather](#scatter-gather), [Evaluator-optimizer](#evaluator-optimizer).
+
+<!-- END GENERATED: further-reading -->
+
 ## Sources
 
 Licenses differ. Text and diagrams from sources without a stated license are cited and linked, never copied. Several widely shared repositories that describe Claude Code design patterns are built from leaked source code; they are excluded, and every Claude Code mechanism on this page is sourced from the official documentation only.
@@ -492,6 +607,9 @@ Licenses differ. Text and diagrams from sources without a stated license are cit
 - Ashish Patel, [Agent Harness Engineering Patterns](https://github.com/ashishpatel26/agent-harness-engineering-pattern)
 - Marco Nissen, [Agent Patterns Catalog](https://github.com/agentpatternscatalog/patterns)
 - Nikola Balic and contributors, [Awesome Agentic Patterns](https://github.com/nibzard/awesome-agentic-patterns)
+- DenisSergeevitch, [agents-best-practices](https://github.com/DenisSergeevitch/agents-best-practices)
+- gtzheng, [Awesome Agentic System Design](https://github.com/gtzheng/Awesome-Agentic-System-Design)
+- josephsenior, [Agentic-Design-Patterns](https://github.com/josephsenior/Agentic-Design-Patterns)
 
 **Papers**
 
@@ -507,6 +625,42 @@ Licenses differ. Text and diagrams from sources without a stated license are cit
 - Anthropic, [Building effective agents](https://www.anthropic.com/engineering/building-effective-agents)
 - Anthropic, [Steering Claude Code: skills, hooks, rules, subagents and more](https://claude.com/resources/articles/steering-claude-code-skills-hooks-rules-subagents-and-more)
 - Lance Martin, [Agent design patterns](https://rlancemartin.github.io/2026/01/09/agent_design/)
+- Addy Osmani, [Agent Harness Engineering](https://addyosmani.com/blog/agent-harness-engineering/)
+- Birgitta Böckeler (martinfowler.com), [Harness engineering for coding agent users](https://martinfowler.com/articles/harness-engineering.html)
+- Simon Willison, [Agentic Engineering Patterns](https://simonwillison.net/guides/agentic-engineering-patterns/)
+- Andrew Ng, [Agentic Design Patterns Part 1 (The Batch)](https://www.deeplearning.ai/the-batch/how-agents-can-improve-llm-performance/)
+- Chip Huyen, [Agents](https://huyenchip.com/2025/01/07/agents.html)
+- Lilian Weng, [LLM Powered Autonomous Agents](https://lilianweng.github.io/posts/2023-06-23-agent/)
+
+**Talks**
+
+- Sandipan Bhaumik, [From Chaos to Choreography: Multi-Agent Orchestration Patterns That Actually Work](https://www.youtube.com/watch?v=2czYyrTzILg)
+- Matt Pocock, [How to actually force Claude Code to use the right CLI (don't use CLAUDE.md)](https://www.youtube.com/watch?v=3CSi8QAoN-s)
+- Colin (LangChain), [Dynamic Subagents: How to Run Parallel Agents Reliably in Deep Agents](https://www.youtube.com/watch?v=5AkdMangfNk)
+- The Pragmatic Engineer, [Slow down to speed up: AI and software engineering](https://www.youtube.com/watch?v=5wks1W-auKY)
+- Nishant Gupta, [Deterministic Infra for Non-Deterministic AI Agents](https://www.youtube.com/watch?v=APh1Vx0oLmQ)
+- Archana Kamath and Tyler Gillam, [Preferences Over Benchmarks: Model Routing](https://www.youtube.com/watch?v=FvxY8oPoI8o)
+- Tisha Chawla and Susheem Koul, [FinOps for AI Agents: Who Spent All the Tokens?](https://www.youtube.com/watch?v=GJX19pNhmSw)
+- Pedro Rodrigues, [Skill Issue: How We Used AI to Make Agents Actually Good at Supabase](https://www.youtube.com/watch?v=GmAQKINjv1E)
+- Cole Medin, [Stripe's Coding Agents Ship 1,300 PRs EVERY Week - Here's How They Do It](https://www.youtube.com/watch?v=NMWgXvm--to)
+- Christian Tzolov and Dariusz Jędrzejczyk (Devoxx), [Unifying AI integration with Model Context Protocol](https://www.youtube.com/watch?v=PJOthBhLbao)
+- Renato Guerra Cavalcanti (Devoxx), [Akka: an enterprise runtime for resilient agentic AI](https://www.youtube.com/watch?v=PrIh_9HomfI)
+- Clement Escoffier (Devoxx), [From LLM orchestration to autonomous agents: Agentic AI patterns with LangChain4j](https://www.youtube.com/watch?v=SrFXsjeGc6Q)
+- Mark Pollack, Christian Tzolov, Josh Long, James Ward (Devoxx), [Bootiful Spring AI](https://www.youtube.com/watch?v=Sw3PlFXfWj4)
+- Thariq Shihipar, [Claude Agent SDK [Full Workshop]](https://www.youtube.com/watch?v=TqC1qOfiVcQ)
+- Ishaan Sehgal, [The Log Is The Agent](https://www.youtube.com/watch?v=UPwGaM2MKHY)
+- Matt Pocock, [I was an AI skeptic. Then I tried plan mode](https://www.youtube.com/watch?v=WNx-s-RxVxk)
+- Louis-François Bouchard, Omar Solano and Samridhi Vaid (Towards AI), [Context Engineering in 2026](https://www.youtube.com/watch?v=WP3hjUXd918)
+- Kevin Dubois and Mario Fusco (Devoxx), [Agentic AI Patterns](https://www.youtube.com/watch?v=X9baI7RBhqk)
+- Frank Coyle, [Anthropic's CCA Exam as a Field-Guide for Agentic Engineering](https://www.youtube.com/watch?v=Z-c11pV_uvU)
+- Hamza Tahir, [Your Agents Need a Save Button](https://www.youtube.com/watch?v=bZISsg7H7DA)
+- Salman Munaf, [AI Agents Are Just Distributed Systems Now](https://www.youtube.com/watch?v=hD9-V56FNRI)
+- Ash Prabaker and Andrew Wilson, [Anthropic Workshop: Build Agents That Run for Hours](https://www.youtube.com/watch?v=mR-WAvEPRwE)
+- Cole Medin, [Watch This If Your Coding Agent is Ignoring Your Rules (You Need Hooks)](https://www.youtube.com/watch?v=msfMqW92Y8Q)
+- Luke Alvoeiro, [The Multi-Agent Architecture That Actually Ships](https://www.youtube.com/watch?v=ow1we5PzK-o)
+- Sachin Malhotra, [Give the Agent a Budget, Not a Token](https://www.youtube.com/watch?v=rbjWzZK2LU0)
+- Goulven Le Dû (Doctolib), [Alfred le système Agentic AI de Doctolib au service des professionnels de santé](https://www.youtube.com/watch?v=uTM3fRgbUN0)
+- Jonas Templestein, [Make your own event-sourced agent harness using stream processors](https://www.youtube.com/watch?v=vi-2nasppAg)
 
 **Classic references**
 
