@@ -1205,7 +1205,7 @@ Set in your shell before launching `claude`, or configure under the `env` key in
 | `ANTHROPIC_SMALL_FAST_MODEL_AWS_REGION` | AWS region for the Haiku-class model on Bedrock when `ANTHROPIC_DEFAULT_HAIKU_MODEL` is also set |
 | `CLAUDE_CODE_SUBAGENT_MODEL` | Override model for subagents (e.g. `haiku`) |
 | `CLAUDE_CODE_EFFORT_LEVEL` | Effort level: `low`, `medium`, `high`, `xhigh`, `max`, or `auto`. Takes precedence over `/effort` and the `effortLevel` setting |
-| `FALLBACK_FOR_ALL_PRIMARY_MODELS` | Any non-empty value triggers fallback to `--fallback-model` after repeated overload errors on any primary model, not just Opus |
+| `FALLBACK_FOR_ALL_PRIMARY_MODELS` `⚠️ Not in official list` (checked 2026-10-27) | Any non-empty value triggers fallback to `--fallback-model` after repeated overload errors on any primary model, not just Opus |
 | `CLAUDE_CODE_DISABLE_LEGACY_MODEL_REMAP` | Set to `1` to prevent automatic remapping of Opus 4.0 and 4.1 to the current Opus version on the Anthropic API |
 
 ### Cloud providers
@@ -1292,7 +1292,7 @@ Set in your shell before launching `claude`, or configure under the `env` key in
 | `CLAUDE_CODE_MAX_CONTEXT_TOKENS` | Override context window size Claude Code assumes for the active model. Only takes effect when `DISABLE_COMPACT` is also set |
 | `CLAUDE_CODE_MAX_TURNS` | Cap the number of agentic turns per session. Equivalent to `--max-turns` (the flag takes precedence when both are set) |
 | `CLAUDE_CODE_MAX_RETRIES` | Override the number of retries for failed API requests (default: 10) |
-| `CLAUDE_CODE_MAX_TOOL_USE_CONCURRENCY` | Maximum read-only tools and subagents executing in parallel (default: 10) |
+| `CLAUDE_CODE_MAX_TOOL_USE_CONCURRENCY` `⚠️ Not in official list` (checked 2026-10-27) | Maximum read-only tools and subagents executing in parallel (default: 10) |
 | `CLAUDE_ASYNC_AGENT_STALL_TIMEOUT_MS` | Stall timeout in milliseconds for background subagents (default: 600000) |
 | `TASK_MAX_OUTPUT_LENGTH` | No effect since TaskOutput was removed in v2.1.278 |
 | `MAX_STRUCTURED_OUTPUT_RETRIES` | Retries when model response fails `--json-schema` validation in non-interactive mode (default: 5) |
@@ -1323,11 +1323,11 @@ Set in your shell before launching `claude`, or configure under the `env` key in
 | `CLAUDE_CODE_GLOB_HIDDEN` | Set to `false` to exclude dotfiles from Glob tool results (dotfiles included by default) |
 | `CLAUDE_CODE_GLOB_NO_IGNORE` | Set to `false` to make the Glob tool respect `.gitignore` patterns |
 | `CLAUDE_CODE_GLOB_TIMEOUT_SECONDS` | Glob tool file discovery timeout in seconds (default: 20, 60 on WSL) |
-| `CLAUDE_CODE_USE_NATIVE_FILE_SEARCH` | Set to `1` to discover commands/subagents using Node.js file APIs instead of ripgrep |
+| `CLAUDE_CODE_USE_NATIVE_FILE_SEARCH` `⚠️ Not in official list` (checked 2026-10-27) | Set to `1` to discover commands/subagents using Node.js file APIs instead of ripgrep |
 | `CLAUDE_CODE_PERFORCE_MODE` | Set to `1` to enable Perforce-aware write protection (edits fail on files lacking owner-write bit) |
 | `CLAUDE_CODE_POWERSHELL_RESPECT_EXECUTION_POLICY` | Set to `1` to stop Claude Code from passing `-ExecutionPolicy Bypass` when spawning PowerShell |
 | `CLAUDE_CODE_FORK_SUBAGENT` | Controls fork mode, which is on by default: Claude can start forks that inherit the full conversation context. See the [official variable list](https://code.claude.com/docs/en/env-vars) for the off value and per-surface behavior |
-| `CLAUDE_CODE_AUTO_BACKGROUND_TASKS` | Set to `1` to force-enable automatic backgrounding of long-running agent tasks |
+| `CLAUDE_AUTO_BACKGROUND_TASKS` | Set to `1` to force-enable automatic backgrounding of long-running agent tasks: a subagent moves to the background after about two minutes. `CLAUDE_CODE_WORKER_CHECKIN_SCHEDULE` sets the check-in reminders |
 | `CLAUDE_CODE_REMOTE` | Set automatically to `true` when running as a cloud session |
 | `CLAUDE_CODE_REMOTE_SESSION_ID` | Set automatically in cloud sessions to the current session ID |
 | `CLAUDE_CODE_SESSION_ID` | Set automatically to the current session ID in Bash/PowerShell subprocesses, hook commands, and MCP stdio subprocesses |
@@ -1521,7 +1521,7 @@ Standard OTEL exporter variables (`OTEL_METRICS_EXPORTER`, `OTEL_LOGS_EXPORTER`,
 
 | Variable | Description |
 |----------|-------------|
-| `CLAUDE_CODE_TEAM_NAME` | Team name for agent teams. Set automatically on agent team members |
+| `CLAUDE_CODE_TEAM_NAME` `⚠️ Not in official list` (checked 2026-10-27) | Team name for agent teams. Set automatically on agent team members |
 | `CLAUDE_CODE_TASK_LIST_ID` | Share a task list across sessions. Set the same ID in multiple Claude Code instances to coordinate on a shared task list |
 
 ### Unverified variables
@@ -1564,6 +1564,179 @@ Checked against the [official settings reference](https://code.claude.com/docs/e
 | `CLAUDE_CODE_DISABLE_FILE_MENTIONS` | Environment | `1` stops expanding `@` file mentions; Claude gets the paths and reads them with its tools (v2.1.299) |
 | `CLAUDE_CODE_DISABLE_ULTRAREVIEW_TRUST_CHECK` | Environment | `1` lets `claude ultrareview` run in an untrusted folder when it cannot ask, such as CI; or pass `--trust-workspace` (v2.1.309) |
 | `MCP_PROTOCOL_NEGOTIATION` | Environment | `legacy` skips the probe for MCP protocol revision 2026-07-28 on the v2 MCP client runtime |
+
+### Further settings keys in the official reference
+
+These keys appear in the [official settings reference](https://code.claude.com/docs/en/settings-reference) (read October 27, 2026) without a dedicated entry above. Descriptions are the first sentence of the official entry; read it for types, defaults and precedence.
+
+| Key | Scope | Purpose |
+|-----|-------|---------|
+| `advisorModel` | Any file | Pick which model answers when Claude calls the server-side advisor tool. |
+| `agentPushNotifEnabled` | Any file | Allow Claude to send a push notification to your phone when it decides one is worth sending, for example when a long task finishes. |
+| `appendPlugins` | User or managed | List the managed plugins whose mods run after every mod a user installs, in the listed order. |
+| `askUserQuestionTimeout` | User or managed | Let an unanswered `AskUserQuestion` dialog auto-continue after a period of idle time, submitting whatever options you had already selected. |
+| `autoContinueAtUsageLimit` | User or managed | After a claude.ai usage limit stops your session, wait in the open session and continue the task automatically after the reset. |
+| `awaySummaryEnabled` | Any file | Show a one-line session recap when you return to the terminal after a few minutes away. |
+| `browserExternalPageTools` | Managed | Stop Claude from using its tools to read or act on external pages in the desktop app's Browser pane. |
+| `claudeInChromeDefaultEnabled` | Global config | Start every interactive CLI session with Chrome integration on, without passing `--chrome` each time. |
+| `copyFullResponse` | Global config | Make `/copy` copy the full response every time, without showing the picker. |
+| `copyOnSelect` | Global config | Copy text to your clipboard automatically when you finish selecting it with the mouse in fullscreen rendering or agent view. |
+| `defaultToAgentsView` | Global config | Open agent view instead of a new conversation when you run `claude` with no arguments. |
+| `diffTool` | Global config | Choose where Claude Code shows the diff of an `Edit` or `Write` change it proposes when a VS Code or JetBrains IDE is connected: `"auto"` opens it in the IDE's diff viewer, `"terminal"` keeps it in the terminal. |
+| `disableAgentView` | Any file | Turn off background agents and agent view: `claude agents`, `--bg`, `/background`, and the on-demand supervisor. |
+| `disableArtifact` | Any file | > [!WARNING] |
+| `disableBrowserExternalNavigation` | Managed | Turn off external browsing in the desktop app's Browser pane for people and Claude alike. |
+| `disableCommandPluginSources` | Managed | Block the `command` plugin source, which installs a plugin by running a marketplace-declared command on the user's machine. |
+| `disableDesktopLocalSessions` | Managed | Turn off Code sessions that run on the device in the desktop app, for deployments where developers should work on remote machines over SSH. |
+| `disableMobileSimulatorTools` | Managed | Block Claude's tools for the desktop app's iOS Simulator pane. |
+| `disableRemoteControl` | Any file | Turn off Remote Control: Claude Code then refuses `claude remote-control`, the `--remote-control` flag, auto-start, and the in-session toggle, and reports that your organization's policy disabled it. |
+| `disableSideloadFlags` | Managed | Reject the `--plugin-dir`, `--plugin-url`, `--agents`, and `--mcp-config` CLI flags at startup, which users could otherwise pass to bypass `strictKnownMarketplaces` for a single run. |
+| `disableWorkflows` | Any file | Turn off dynamic workflows and the bundled workflow commands for everyone your settings reach, such as an organization through managed settings. |
+| `enableArtifact` | Any file | Turn off the Artifact tool, which publishes session output as a private web page on claude.ai. |
+| `enableWorkflows` | Any file | Turn dynamic workflows on or off for yourself when your plan's default isn't what you want. |
+| `externalEditorContext` | Global config | When you press `Ctrl+G`, Claude Code opens the prompt you're typing in your external editor. |
+| `fileCheckpointingEnabled` | Any file | Have Claude Code snapshot files before each edit so `/rewind` can restore them. |
+| `gatewayInternalNetworks` | Managed | Declare the public IPv4 blocks that your organization numbers its internal network from, so `/login` accepts a cloud gateway there. |
+| `gcpAuthRefresh` | Any file | Run your own command to refresh Google Cloud Application Default Credentials when Claude Code finds they've expired or can't be loaded, so Google Cloud's Agent Platform requests keep working without you re-authenticating by hand. |
+| `inputNeededNotifEnabled` | Any file | Get a push notification on your phone when a permission prompt or question is waiting for your input. |
+| `leftArrowOpensAgents` | Global config | Press `←` on an empty prompt to background the session and open agent view. |
+| `managedSourcesBehavior` | Managed | Choose whether Claude Code applies only the highest-priority managed source your organization delivers, or combines every admin source it delivers. |
+| `minimumVersion` | Any file | Keep background auto-updates and `claude update` from installing any version below this one, so moving to the `"stable"` channel doesn't downgrade you from a newer `"latest"` build. |
+| `permissionExplainerEnabled` | Global config | > [!WARNING] |
+| `policyHelper` | Managed | Run an executable you deploy that computes managed settings at startup, so you can derive policy from device posture, identity, or a remote service instead of a static file. |
+| `policyHelper.path` | Managed | Name the helper executable Claude Code runs. |
+| `policyHelper.refreshIntervalMs` | Managed | Have Claude Code re-run the helper in the background on an interval so policy changes reach a running session. |
+| `policyHelper.timeoutMs` | Managed | Set how long Claude Code waits for the helper before treating the run as failed. |
+| `prStatusFooterEnabled` | Global config | Show a badge in the prompt footer for the current branch's open pull request or merge request, with a colored underline that shows its status. |
+| `preferredNotifChannel` | Any file | Choose how Claude Code notifies you when a task completes or a permission prompt is waiting. |
+| `prependPlugins` | User or managed | List the managed plugins whose mods run before every mod a user installs, in the listed order. |
+| `processWrapper` | User or managed | On macOS and Linux, place a corporate launcher command in front of the background processes Claude Code starts. |
+| `promptSuggestionEnabled` | Any file | Show or hide prompt suggestions, the grayed-out predictions that appear in your prompt input. |
+| `remote.defaultEnvironmentId` | Any file | Pick the default cloud environment for cloud sessions you create from the CLI, such as with `claude --cloud`. |
+| `remoteControlAtStartup` | Any file | Connect Remote Control automatically when each interactive session starts, instead of waiting for `/remote-control`. |
+| `sandbox.credentials.allowPlaintextInject` | User or managed | Allow `mask` substitution on plain HTTP requests as well as TLS-terminated HTTPS. |
+| `sandbox.credentials.awsPairs` | User or managed | Group masked environment variables that form one AWS credential for SigV4 re-signing when your credential lives in variables with non-standard names. |
+| `sandbox.credentials.sigv4` | User or managed | Choose what the sandbox proxy does with AWS request forms it can't re-sign: `streaming` for aws-chunked streaming uploads, `presigned` for presigned URLs, and `sigv4a` for SigV4A asymmetric signatures. |
+| `sandbox.ignoreViolations` | Any file | Silence sandbox violation reports for paths you expect a command to probe and be refused, such as a tool that checks `/etc/hosts` on startup, so those denials don't show up as violations or in what Claude sees. |
+| `skillListingBudgetFraction` | Any file | Each turn, Claude sees a listing of your skills with their descriptions, and Claude Code caps that listing at a share of the context window. |
+| `skillListingMaxDescChars` | Any file | Each turn, Claude sees a listing of your skills that shows each skill's `description` and `when_to_use` text. |
+| `skipAutoPermissionPrompt` | User or managed | Skip the one-time notice describing auto mode that Claude Code shows when you first enter auto mode yourself, for example through your own settings or the mode selector, rather than when the built-in default starts a session in it. |
+| `skipDangerousModePermissionPrompt` | User, local, or managed | Skip the confirmation dialog Claude Code shows before a session enters `bypassPermissions` mode, whether from `--dangerously-skip-permissions` or from `defaultMode: "bypassPermissions"`. |
+| `sshConfigs` | User or managed | Add SSH connections to the Desktop environment selector. |
+| `sshHostAllowlist` | Managed | Limit the hosts a Desktop SSH session can connect to. |
+| `sshHostCommands` | User or managed | Add SSH connections whose host comes from a command to the Desktop environment selector. |
+| `strictPluginOnlyCustomization` | Managed | Block skills, agents, hooks, and MCP servers from user and project sources, so they can come only from plugins or managed settings. |
+| `strictPluginOnlyCustomization.agents` | Managed | Lock the `agents` surface. |
+| `strictPluginOnlyCustomization.hooks` | Managed | Lock the `hooks` surface: |
+| `strictPluginOnlyCustomization.mcp` | Managed | Lock the `mcp` surface. |
+| `strictPluginOnlyCustomization.skills` | Managed | Lock the `skills` surface. |
+| `switchModelsOnFlag` | Any file | Choose what happens when a safety classifier flags a request: switch to the fallback model and continue, or pause so you can choose between switching and editing the prompt. |
+| `syntaxHighlightingDisabled` | Any file | Claude Code colors code by language in the diffs, code blocks, and file previews it shows in the terminal, with its built-in highlighter; no plugin or language server is involved. |
+| `teammateDefaultModel` | Global config | > [!WARNING] |
+| `terminalTitleFromRename` | Any file | Claude Code sets your terminal tab's title. |
+| `timeFormat` | Any file | Choose how Claude Code writes the times it shows in the interface, such as the `done 6:05 PM` at the end of each turn duration message and the timestamps in the transcript viewer. |
+| `timeZone` | Any file | Show the times in the interface in a time zone other than your system's. |
+| `viewMode` | Any file | Set the transcript view Claude Code starts in: `"default"`, `"verbose"`, or `"focus"`. |
+| `workflowKeywordTriggerEnabled` | Any file | Choose whether typing the keyword `ultracode` in a prompt triggers a dynamic workflow. |
+| `worktree.location` | User | Choose the folder on a remote machine where Desktop SSH sessions create their worktrees, instead of `<project-root>/.claude/worktrees/`. |
+
+### Further environment variables in the official list
+
+These variables appear in the [official environment variable list](https://code.claude.com/docs/en/env-vars) (read October 27, 2026) without a row above. Descriptions are the first sentence of the official entry.
+
+| Variable | Purpose |
+|----------|---------|
+| `ANTHROPIC_DEFAULT_FABLE_MODEL_DESCRIPTION` | Display description for the pinned Fable model in the `/model` picker. |
+| `ANTHROPIC_DEFAULT_FABLE_MODEL_NAME` | Display name for the pinned Fable model in the `/model` picker. |
+| `ANTHROPIC_DEFAULT_FABLE_MODEL_SUPPORTED_CAPABILITIES` | Comma-separated list of capabilities the pinned Fable model supports, for example `effort,thinking`. |
+| `ANTHROPIC_FEDERATION_RULE_ID` | Federation rule ID for Workload Identity Federation. |
+| `ANTHROPIC_FOUNDRY_AUTH_TOKEN` | Bearer token for Microsoft Foundry authentication, such as a Microsoft Entra access token. |
+| `ANTHROPIC_ORGANIZATION_ID` | Organization ID for Workload Identity Federation. |
+| `ANTHROPIC_PROFILE` | Name of the Anthropic profile to authenticate with, such as one created by `ant auth login` or by signing in to a Console account without an API key. |
+| `API_FORCE_IDLE_TIMEOUT` | Override the 5-minute body idle timeout that aborts a streaming model response when no bytes arrive. |
+| `BETA_TRACING_ENDPOINT` | OTLP/HTTP endpoint for detailed beta tracing: with `ENABLE_BETA_TRACING_DETAILED=1`, logs and traces go there instead of to the configured exporters. |
+| `CLAUDE_AUTO_BACKGROUND_TASKS` | Set to `1` to force-enable automatic backgrounding of long-running agent tasks. |
+| `CLAUDE_AX_PREPARK_MS` | In screen reader mode, how many milliseconds Claude Code waits before it writes a new or changed line. |
+| `CLAUDE_AX_STARTUP_QUIET_MS` | In screen reader mode, how many milliseconds Claude Code holds the first interface render after the startup confirmation line. |
+| `CLAUDE_BYTE_STREAM_IDLE_TIMEOUT_MS` | Timeout in milliseconds for the byte-level streaming idle watchdog; when set, it takes precedence over `CLAUDE_STREAM_IDLE_TIMEOUT_MS` for that watchdog and leaves the event-level watchdog unchanged. |
+| `CLAUDE_CODE_ARTIFACT_AUTO_OPEN` | Set to `0` to stop Claude Code from opening the browser automatically when a new artifact is published |
+| `CLAUDE_CODE_ARTIFACT_COMMENTS` | Set to `0` to stop Claude reading and replying to comments on an artifact. |
+| `CLAUDE_CODE_ARTIFACT_COMMENTS_AUTOREACT` | Set to `0` to stop Claude replying on its own to comments sent to it. |
+| `CLAUDE_CODE_ARTIFACT_PUBLISH_EDITS` | Set to `0` to stop Claude from applying small changes to an artifact's file as part of publishing it. |
+| `CLAUDE_CODE_AUTO_BACKGROUND_WORKER_CHECKIN_SECONDS` | Removed in v2.1.283. |
+| `CLAUDE_CODE_AWS_CHAIN_RESOLVE_TIMEOUT_MS` | Time in milliseconds Claude Code waits for the AWS default credential provider chain to produce credentials before the request fails with `AWS default-chain credential resolve timed out` (default: `60000`). |
+| `CLAUDE_CODE_BASH_EDIT_DIFF` | Set to `0` to turn off the diff of the files that changed while a Bash command ran, or `1` to record it in every permission mode. |
+| `CLAUDE_CODE_BG_TASKS_REPORT_RUNNING` | Set to `0` to make a non-interactive session report an idle status to its host at every turn end, even while background work is still running. |
+| `CLAUDE_CODE_BRIDGE_SESSION_ID` | Set automatically in Bash tool and hook command subprocesses while the session has an active Remote Control connection, and removed when the connection ends. |
+| `CLAUDE_CODE_BS_AS_CTRL_BACKSPACE` | Set to `0` to make Claude Code read the `0x08` byte, also written `^H`, as plain Backspace, or `1` to read it as Ctrl+Backspace. |
+| `CLAUDE_CODE_CONNECT_TIMEOUT_MS` | Removed in v2.1.186 and now a no-op. |
+| `CLAUDE_CODE_DISABLE_ADVISOR_TOOL` | Set to `1` to disable the advisor tool. |
+| `CLAUDE_CODE_DISABLE_ARTIFACT` | Set to `1` to turn off the Artifact tool, which publishes session output as a private web page on claude.ai. |
+| `CLAUDE_CODE_DISABLE_AUTH_REFRESH_LOCK` | Set to `1` to make a Claude Code process run its `gcpAuthRefresh` or `awsAuthRefresh` command itself instead of waiting while another process runs it. |
+| `CLAUDE_CODE_DISABLE_BEDROCK_CONTENT_TYPE_DEFAULT` | Set to `1` to stop Claude Code from treating an Amazon Bedrock streaming response with a missing or empty `Content-Type` header as Amazon Bedrock's binary event stream. |
+| `CLAUDE_CODE_DISABLE_BEDROCK_CONTENT_TYPE_GUARD` | Set to `1` to skip the check that an Amazon Bedrock streaming response carries the `application/vnd.amazon.eventstream` content-type. |
+| `CLAUDE_CODE_DISABLE_BG_EXIT_HANDOFF` | Set to `1` to stop a background session's in-flight work when the supervisor stops, restarts, or updates that session's process, instead of handing it to the session's next process. |
+| `CLAUDE_CODE_DISABLE_CFC_PROMPT` | Set to `1` to keep the Claude in Chrome browser tools available while omitting the Chrome section of the system prompt and the `/claude-in-chrome` bundled skill. |
+| `CLAUDE_CODE_DISABLE_EXPLORE_PLAN_AGENTS` | Set to `1` to disable the built-in Explore and Plan subagents. |
+| `CLAUDE_CODE_DISABLE_INLINE_SHELL_RM_PROMPT` | Set to `1` to stop Claude Code from reading scripts passed to a shell with `-c`, such as `bash -c 'rm -rf ~'`, for critical-path removals. |
+| `CLAUDE_CODE_DISABLE_MCP_TASK_BACKGROUND` | Set to `1` so that Claude waits for the result of an MCP task in an interactive session. |
+| `CLAUDE_CODE_DISABLE_MODEL_ACCESS_FALLBACK` | Set to `1` to stop Claude Code on Amazon Bedrock and Google Cloud's Agent Platform from switching to an older model when your account loses access to a session's model mid-session; the refused request fails at once instead. |
+| `CLAUDE_CODE_DISABLE_MOUNTED_DRIVE_RM_PROMPT` | Set to `1` to turn off the mounted drive prompt for paths such as `/Volumes/USB`. |
+| `CLAUDE_CODE_DISABLE_MTLS_RELOAD_ON_STALE_CONNECTION` | Set to `1` to stop Claude Code from re-reading the mTLS client certificate and key when an API request fails with a connection-level error, such as a connection reset or a TLS handshake error. |
+| `CLAUDE_CODE_DISABLE_NOTIFICATION_PRESENCE_CHECK` | Set to `1` to send the `PushNotification` tool's desktop notification even while you are typing in or focused on the terminal. |
+| `CLAUDE_CODE_DISABLE_PERMISSION_PROMPT_NOTIFY_HOOKS` | Set to `1` to stop Claude Code from running your `Notification` hooks for unanswered permission requests in sessions where Claude Code sends them to the Agent SDK's `canUseTool` callback, which is how Claude Desktop and the VS Code extension host Claude Code. |
+| `CLAUDE_CODE_DISABLE_POWERSHELL_CMD_RM_DENY` | Set to `1` to turn off the PowerShell tool check that denies the `cmd` built-ins `rd`, `rmdir`, `del`, and `erase` on a system path, such as a drive root or your home directory. |
+| `CLAUDE_CODE_DISABLE_REFUSAL_FALLBACK` | Set to `1` to turn off the automatic model switch when a safety classifier flags a request, the behavior the `switchModelsOnFlag` setting controls |
+| `CLAUDE_CODE_DISABLE_STRUCTURED_OUTPUTS` | Set to `1` to stop Claude Code from sending the structured-output `output_config.format` field and the `anthropic-beta` value that pairs with it, for an LLM gateway whose upstream rejects them. |
+| `CLAUDE_CODE_DISABLE_WINDOWS_SHELL_LAUNCHER` | Set to `1` to start PowerShell tool commands on Windows directly instead of through the `cmd.exe` launcher. |
+| `CLAUDE_CODE_EMIT_SESSION_STATE_EVENTS` | Set to `1` to add `session_state_changed` messages, which carry the session's state, to the message stream. |
+| `CLAUDE_CODE_ENABLE_CFC` | Set to `1` to start a CLI session with Chrome integration on, or `0` to start with it off. |
+| `CLAUDE_CODE_ENABLE_OPUS_4_7_FAST_MODE` | Removed in v2.1.142, when the fast mode default moved from Opus 4.6 to Opus 4.7 |
+| `CLAUDE_CODE_ENABLE_SHARE_BUNDLE` | Set to `1` to make `/share` save its report and the whole session transcript to a local archive under `~/.claude/feedback-bundles/` instead of sending the report to Anthropic. |
+| `CLAUDE_CODE_FORCE_SESSION_PERSISTENCE` | Set to `1` to force transcript persistence, prompt history, and `claude agents` registration even when this `claude` was launched from inside another Claude Code session. |
+| `CLAUDE_CODE_FORCE_STRIKETHROUGH` | Set to `1` to force strikethrough rendering for `~~text~~` in Claude's responses when your terminal supports it but is not auto-detected, such as over SSH without `TERM_PROGRAM` forwarded. |
+| `CLAUDE_CODE_FORCE_TERMINAL_IMAGES` | Set to `1` to draw mod `Image` elements as pictures when your terminal draws kitty graphics protocol images with Unicode placeholders and you still see an `Image`'s dimmed `alt` text. |
+| `CLAUDE_CODE_GATEWAY_MODEL_DISCOVERY_TIMEOUT_MS` | Timeout in milliseconds for the gateway model discovery request that `CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY` turns on (default: `3000`). |
+| `CLAUDE_CODE_NONBLOCKING_STDOUT` | Set to `1` to write terminal output through a second non-blocking file descriptor, so a terminal that stops reading, such as a paused tmux control-mode pane or a stalled SSH connection, can't freeze Claude Code mid-session. |
+| `CLAUDE_CODE_OTEL_DIAG_STDERR` | Set to `1` to write OpenTelemetry exporter diagnostic errors to stderr. |
+| `CLAUDE_CODE_PLUGIN_DIRS` | Plugin directories to load for the session, each loaded the way a `--plugin-dir` flag loads it. |
+| `CLAUDE_CODE_PLUGIN_DIR_WATCH` | Controls whether Claude Code reloads a mod when the mod's files change. |
+| `CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS` | Ceiling in milliseconds on idle waiting for background work, such as subagents and workflows, after the final turn in non-interactive mode with the `-p` flag. |
+| `CLAUDE_CODE_PROMPT_CACHE_TTL` | Set `5m` or `1h`, the only values Claude Code accepts, to choose the prompt cache TTL for the main conversation: your interactive, `-p`, and SDK turns, plus the helpers that run inline with them. |
+| `CLAUDE_CODE_RESUME_INTERRUPTED_TURN_MAX_AGE_MS` | Maximum age in milliseconds of the last transcript message for a session that ended mid-turn to continue automatically on resume. |
+| `CLAUDE_CODE_SEND_FEEDBACK` | Set to `0` to turn off Claude-drafted feedback for a session. |
+| `CLAUDE_CODE_SKIP_AWS_CRED_CACHE` | Set to `1` to turn off the in-process cache of credentials resolved from the AWS default credential provider chain, so Claude Code resolves the chain on every API request. |
+| `CLAUDE_CODE_SKIP_FAST_MODE_ORG_CHECK` | Set to `1` to skip the client-side fast mode availability check, for proxies that intercept the check's request rather than refuse it. |
+| `CLAUDE_CODE_SKIP_MODEL_ACCESS_MEMORY` | The startup model checks on Amazon Bedrock and Google Cloud's Agent Platform remember on this machine which models they found your account can't invoke, for up to a day. |
+| `CLAUDE_CODE_STARTUP_FAILURE_RESULTS` | Set to `1` to have a session started with `--output-format stream-json` write a result message naming why Claude Code refused to start for startup failures that otherwise end with stderr alone. |
+| `CLAUDE_CODE_SUBAGENT_PROMPT_CACHE_TTL` | Set `5m` or `1h`, the only values Claude Code accepts, to choose the prompt cache TTL for requests outside the main conversation, such as subagents, workflows, and background work. |
+| `CLAUDE_CODE_SYNC_SKILLS_INSTALL_TIMEOUT_MS` | Timeout in milliseconds for the skills resync that runs mid-session when an app built on the Agent SDK reloads skills (default: 30000). |
+| `CLAUDE_CODE_TOOL_MEMORY_CGROUP_EXCLUDE` | On Linux and WSL, set to a comma-separated list of the kinds of processes Claude Code excludes from the tool memory cap, such as `mcp` or `lsp`. |
+| `CLAUDE_CODE_TRANSCRIPT_LOCAL_GC` | Set to `1` to limit how large the transcript file of a long `-p` or Agent SDK session grows. |
+| `CLAUDE_CODE_USER_DIALOG_TIMEOUT_MS` | Deadline in milliseconds before Claude Code cancels a dialog it forwards to a remote client such as a Remote Control or SDK host, or the approval dialog for a held cross-session message; permission prompts and `AskUserQuestion` questions use their own... |
+| `CLAUDE_CODE_WARN_DISK_FREE_GIB` | Set to a whole number of GiB, such as `10`, to have Claude Code warn Claude when free space on the working directory's filesystem falls below that amount. |
+| `CLAUDE_CODE_WARN_MEMORY_FREE_GIB` | On Linux and WSL, set to a whole number of GiB such as `4` to have Claude Code warn Claude when available memory falls below that amount. |
+| `CLAUDE_CODE_WORKER_CHECKIN_SCHEDULE` | When `CLAUDE_AUTO_BACKGROUND_TASKS` is set to `1`, how long Claude Code waits before each reminder to Claude to check on background subagents that are still running. |
+| `CLAUDE_CODE_WORKFLOW_MAX_CONCURRENT_AGENTS` | How many agents a single workflow run executes at once, from `1` to `256`. |
+| `CLAUDE_CODE_YOU_SHOULD_KNOW_DEBUG` | Set to `1` to show, above the prompt, a line for each of the last three checks the You should know mod made in this session. |
+| `CLAUDE_JOB_DIR` | Set by Claude Code in each background session to that session's `~/.claude/jobs/<id>` directory. |
+| `CLAUDE_STREAM_FIRST_BYTE_TIMEOUT_MS` | Deadline in milliseconds for the first response byte of a streaming request, on the connections where the first-byte deadline runs. |
+| `CLAUDE_SUBAGENT_BG_SHELL_MAX_MS` | Removed in v2.1.260 and now a no-op. |
+| `DISABLE_PROMPT_CACHING_FABLE` | Set to `1` to disable prompt caching for Fable models |
+| `ENABLE_BETA_TRACING_DETAILED` | Set to `1`, and set `BETA_TRACING_ENDPOINT` to your OTLP/HTTP collector endpoint, to turn on detailed beta tracing, which adds content-bearing span attributes and the `claude_code.hook` span. |
+| `MCP_DISCOVERY_CACHE` | Turns the MCP discovery cache on or off. |
+| `MCP_DISCOVERY_CACHE_MAX_STALE_S` | Maximum age, in seconds, of a discovery-cache entry (default: 14400, or 4 hours). |
+| `MCP_DISCOVERY_CACHE_STRIKES` | At a start where a discovery-cache entry is older than `MCP_DISCOVERY_CACHE_TTL_S`, Claude Code refreshes it in the background. |
+| `MCP_DISCOVERY_CACHE_TTL_S` | Seconds for which Claude Code uses a discovery-cache entry without refreshing it (default: 900). |
+| `OTEL_ATTRIBUTE_VALUE_LENGTH_LIMIT` | Standard OpenTelemetry SDK limit on attribute value length. |
+| `OTEL_METRICS_INCLUDE_REPOSITORY` | Set to `true` to tag OpenTelemetry metrics and events with `vcs.*` attributes identifying the session's repository (default: excluded). |
+| `VERTEX_REGION_CLAUDE_5_5_OPUS` | Override region for Claude Opus 5.5 when using Google Cloud's Agent Platform. |
+| `VERTEX_REGION_CLAUDE_5_5_SONNET` | Override region for Claude Sonnet 5.5 when using Google Cloud's Agent Platform. |
+| `VERTEX_REGION_CLAUDE_5_OPUS` | Override region for Claude Opus 5 when using Google Cloud's Agent Platform. |
+| `VERTEX_REGION_CLAUDE_5_SONNET` | Override region for Claude Sonnet 5 when using Google Cloud's Agent Platform. |
+| `VERTEX_REGION_CLAUDE_FABLE_5` | Override region for Claude Fable 5 when using Google Cloud's Agent Platform. |
+| `VERTEX_REGION_CLAUDE_FABLE_5_1` | Override region for Claude Fable 5.1 when using Google Cloud's Agent Platform. |
+| `VERTEX_REGION_CLAUDE_HAIKU_5_5` | Override region for Claude Haiku 5.5 when using Google Cloud's Agent Platform. |
 
 ## Complete example
 

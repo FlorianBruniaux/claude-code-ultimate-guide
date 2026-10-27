@@ -5,10 +5,10 @@ card-number: "T11"
 category: "Technique"
 difficulty: "intermediate"
 guide-version: "3.44.1"
-wp-version: "1.0.1"
+wp-version: "1.0.2"
 author: "Florian BRUNIAUX"
 version: "3.44.1"
-date: "2026-10-06"
+date: "2026-10-27"
 layout: "two-col"
 lang: fr
 format:
@@ -17,7 +17,7 @@ format:
 
 ## Les 5 outils de recherche natifs
 
-Claude Code propose 5 outils distincts pour trouver et lire des informations dans un projet. Chacun a un rôle précis, et les mélanger sans stratégie coûte des tokens inutilement.
+Claude Code propose 5 outils distincts pour trouver et lire des informations dans un projet. Chacun a un rôle précis, et les mélanger sans stratégie coûte des tokens inutilement. `Glob` et `Grep` sont dans le jeu d'outils par défaut sur Windows uniquement ; sous macOS, Linux et WSL, Claude cherche avec `find` et `grep` via `Bash`, sauf activation (par exemple avec `--tools`).
 
 | Outil | Rôle | Coût tokens |
 |-------|------|-------------|

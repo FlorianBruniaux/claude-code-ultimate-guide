@@ -7527,6 +7527,36 @@ Un catalogue reste donc utile même sans installation : il expose des workflows,
 | Évaluations définies | Validation du type « ça semble marcher » | Montée en capacité : surveiller régulièrement ; Préférence encodée : stable |
 | Critères de retrait clairs | Aucun plan de cycle de vie | Montée en capacité : court à moyen terme ; Préférence encodée : long terme |
 
+### Skills et workflows embarqués {#bundled-skills-and-workflows}
+
+Claude Code fournit des **skills embarqués** à base de prompts : on les appelle comme ses propres skills, avec `/` et le nom, et ils donnent à Claude des instructions pour orchestrer le travail avec ses outils. Claude en invoque certains automatiquement quand c'est pertinent ; d'autres, comme `/verify`, ne s'exécutent que sur invocation. Quelques-uns dépendent d'une fonction, comme `/workflow-authoring`, qui exige les workflows dynamiques. Liste vérifiée sur la [référence officielle des commandes](https://code.claude.com/docs/en/commands) le 27 octobre 2026 :
+
+| Commande | Type | Rôle |
+|---------|------|------|
+| `/artifact-capabilities` | Skill | Charger la référence des capacités d'exécution qu'un artefact publié peut utiliser, comme appeler vos connecteurs ou proposer un téléchargement de fichier, y compris celles dont dispose votre compte. |
+| `/artifact-diagramming` | Skill | Charger les consignes de diagrammes que Claude suit dans les artefacts : quand un diagramme aide, quoi dessiner et comment écrire un SVG inline qui reste lisible en thème clair et sombre. |
+| `/batch <instruction>` | Skill | Orchestrer en parallèle des modifications à grande échelle dans une base de code. |
+| `/claude-api [migrate\|upgrade\|api-version\|managed-agents-onboard\|managed-agents-secure\|prompt-audit\|cost-optimize\|build-eval\|hillclimb\|preserved-thinking-migration]` | Skill | Charger la documentation de référence de l'API Claude et des Managed Agents pour le langage de votre projet. |
+| `/claude-in-chrome [task]` | Skill | Faire exécuter une tâche à Claude dans votre navigateur, comme tester une page, remplir un formulaire ou lire les journaux de console, via Claude dans Chrome. |
+| `/code-review [low\|medium\|high\|xhigh\|max\|ultra] [--fix] [--comment] [--max-findings n\|all\|default] [pr#\|branch\|path]` | Skill | Examiner le diff courant, ou un numéro de PR, une branche ou un chemin passé en argument, pour y trouver des bugs de correction. |
+| `/dataviz [request]` | Skill | Conseils de conception pour graphiques et dashboards. |
+| `/debug [description]` | Skill | Activer les journaux de débogage de la session courante et diagnostiquer les problèmes en lisant le journal de débogage de session. |
+| `/deep-research <question>` | Workflow | Répartir des recherches web sur une question, récupérer et recouper les sources, puis rédiger un rapport sourcé |
+| `/design [brief]` | Skill | Esquisser des maquettes d'interface, des parcours d'écrans, des landing pages ou des affiches sous forme de planches sur un seul canevas, publié comme artefact Claude Design, par exemple `/design a settings screen for a mobile banking app`. |
+| `/design-sync [hint]` | Skill | Convertir le design system React de votre dépôt et l'envoyer à Claude Design, pour que les designs produits utilisent vos vrais composants. |
+| `/doctor [prompt-audit [path]]` | Skill | Lancer un contrôle de configuration qui diagnostique les problèmes d'installation, de paramètres, d'extensions et de `CLAUDE.md`, et propose des corrections que Claude applique après votre confirmation. |
+| `/fewer-permission-prompts` | Skill | Analyser vos transcriptions pour trouver les appels Bash et MCP courants en lecture seule, puis ajouter une liste d'autorisation priorisée au `.claude/settings.json` du projet pour réduire les demandes de permission |
+| `/loop [interval] [prompt]` | Skill | Exécuter un prompt de façon répétée tant que la session reste ouverte. |
+| `/run` | Skill | Lancer et piloter l'application de votre projet pour voir une modification fonctionner, et pas seulement passer les tests. |
+| `/run-skill-generator` | Skill | Apprendre à `/run` et `/verify` à construire, lancer et piloter l'application de votre projet depuis un environnement vierge, en écrivant un skill par projet |
+| `/simplify [target]` | Skill | Examiner le code modifié pour y trouver des simplifications possibles et appliquer les corrections. |
+| `/slides [brief]` | Skill | Créer une nouvelle présentation sous forme d'artefact Claude Slides remplie à partir de votre brief, par exemple `/slides a quarterly review of the platform team`. |
+| `/update-config [request]` | Skill | Décrire un changement de paramètres, comme autoriser une commande, définir une variable d'environnement ou ajouter un hook, et Claude modifie le fichier `settings.json` correspondant. |
+| `/verify` | Skill | Confirmer qu'une modification fait ce qu'elle doit en construisant l'application de votre projet, en la lançant et en observant le résultat, plutôt qu'en se fiant aux tests ou aux vérifications de types. |
+| `/workflow-authoring` | Skill | Charger la référence de rédaction des scripts de workflow dynamique : API de script, comportement à la reprise, schémas de qualité et exemples détaillés. |
+
+Pour désactiver tous les skills embarqués, définissez `disableBundledSkills: true` ; pour en désactiver un seul, définissez-le sur `"off"` dans `skillOverrides`. `/doctor` reste saisissable même dans ce cas ; masquez-le avec `DISABLE_DOCTOR_COMMAND` ou une entrée `skillOverrides`. `/plugin-authoring` n'est pas un skill embarqué mais un skill issu d'un plugin intégré, que vous désactivez dans `/plugin`. Les commandes intégrées comme `/auto-mode-setup` ne sont pas affectées par `disableBundledSkills`.
+
 <a id="52-creating-skills"></a>
 
 ## 5.2 Créer des skills
@@ -8972,46 +9002,46 @@ Claude Code fournit environ 100 commandes intégrées. La liste complète par ca
 | Commande | Action |
 |---------|--------|
 | `/help` | Afficher toutes les commandes |
-| `/clear` | Effacer la conversation |
-| `/compact` | Résumer le contexte |
-| `/status` | Afficher les informations de session |
-| `/context` | Détail du contexte/décompte des tokens avec suggestions d'action |
+| `/clear [name]` (`/reset`, `/new`) | Effacer la conversation et repartir de zéro |
+| `/compact [instructions]` | Résumer le contexte, avec éventuellement des instructions de focalisation |
+| `/status` | Ouvrir les paramètres sur l'onglet Status : version, modèle, compte, connectivité |
+| `/context [all]` | Détail du contexte/décompte des tokens avec suggestions d'action |
 | `/usage` (`/cost`, `/stats`) | Coût de session, limites de l’offre et détail par modèle (fusion de `/cost` et `/stats` en v2.1.118) |
-| `/plan` | Passer en mode Plan |
+| `/plan [description]` | Passer en mode Plan, avec éventuellement la tâche de départ |
 | `/rewind` (`/checkpoint`, `/undo`) | Revenir à un point de contrôle de la conversation et/ou du code |
 | `/resume` (`/continue`) | Reprendre une session avec un sélecteur interactif |
-| `/voice` | Activer/désactiver la saisie vocale (maintenir Espace pour parler, relâcher pour envoyer) |
-| `/recap` | Afficher un résumé du contexte lors du retour à une session après une pause |
-| `/config` | Éditeur de configuration interactif, ou `key=value` pour définir directement une valeur |
-| `/model` | Changer de modèle (sonnet/opus/opusplan) |
-| `/effort [level]` | Choisir la profondeur du thinking : low/medium/high/xhigh/max/ultracode ; sans argument, ouvrir le curseur interactif |
-| `/focus` | Activer/désactiver la vue focalisée (interface minimaliste, masque les métadonnées) |
-| `/tui [fullscreen]` | Passer au rendu TUI plein écran sans scintillement |
-| `/copy` | Sélecteur interactif : copier un bloc de code ou une réponse complète |
-| `/loop [interval] [prompt]` (`/proactive`) | Exécuter un prompt à intervalle récurrent |
-| `/code-review [level]` | Relire le diff pour trouver bugs et améliorations. `--fix` les applique, `ultra` lance la revue cloud |
-| `/simplify` | Relire le code modifié et corriger la sur-ingénierie (ne recherche plus les bugs depuis v2.1.154) |
-| `/batch` | Modifications à grande échelle via des agents worktree parallèles |
+| `/voice [hold\|tap\|off]` | Activer/désactiver la saisie vocale ou choisir son mode (maintenir Espace pour parler, relâcher pour envoyer). Nécessite un compte Claude.ai |
+| `/recap` | Résumé de la session en cours en une ligne, à la demande |
+| `/config [key=value ...]` (`/settings`) | Éditeur de configuration interactif, ou `key=value` pour définir directement une valeur |
+| `/model [model]` | Changer de modèle et l'enregistrer par défaut (sonnet/opus/opusplan) ; sans argument, ouvrir un sélecteur |
+| `/effort [level\|auto\|status\|ultracode [on\|off]]` | Régler l\'effort : low/medium/high/xhigh/max (`max` reste propre à la session) ou `auto` ; `status` l\'affiche |
+| `/focus` | Activer/désactiver la vue focalisée : dernier prompt, résumé des outils en une ligne, réponse finale. Rendu plein écran uniquement |
+| `/tui [default\|fullscreen]` | Choisir le moteur de rendu du terminal et le relancer en conservant la conversation ; `fullscreen` est le rendu sans scintillement |
+| `/copy [N]` | Copier la N-ième réponse récente ; sélecteur interactif pour les blocs de code ou la réponse complète |
+| `/loop [interval] [prompt]` (`/proactive`) | Skill embarqué : exécuter un prompt de façon répétée tant que la session reste ouverte |
+| `/code-review [level]` | Skill embarqué : relire le diff pour trouver bugs et améliorations. `--fix` les applique, `ultra` lance la revue cloud |
+| `/simplify [target]` | Skill embarqué : quatre agents parallèles relisent le code modifié (réutilisation, simplification, efficacité, niveau d'abstraction) puis corrigent. Ne recherche pas les bugs, utiliser `/code-review` |
+| `/batch <instruction>` | Skill embarqué : modifications à grande échelle via des agents worktree parallèles. Nécessite un dépôt git ou un hook `WorktreeCreate` |
 | `/subtask <task>` | Confier une tâche annexe à un sous-agent issu d’un fork qui rend compte ici (v2.1.212+) |
 | `/insights` | Générer un rapport d'analyse d'utilisation |
 | `/btw [question]` | Question rapide via une superposition éphémère : lecture seule, sans outils, réponse unique, ne pollue pas l'historique principal |
-| `/doctor` (`/checkup`) | Vérifier installation, paramètres, hooks, volume de `CLAUDE.md`, skills inutilisés et serveurs MCP |
-| `/skill-doctor` | Rapport de skills dans le terminal : coût de contexte visible et skills jamais invoqués ; exclut les skills embarqués et d’entreprise, indisponible via Remote Control (v2.1.252+) |
+| `/doctor [prompt-audit [path]]` (`/checkup`) | Skill embarqué : contrôle complet de l'installation, des paramètres, des hooks, du volume de `CLAUDE.md`, des skills inutilisés et des serveurs MCP |
+| `/skill-doctor` | Rapport de skills dans le terminal : coût de contexte visible et skills jamais invoqués ; exclut les skills embarqués et d’entreprise, indisponible via Remote Control, exige la récupération des feature flags (v2.1.252+) |
 | `/release-notes` | Parcourir le changelog de Claude Code de façon interactive |
-| `/fewer-permission-prompts` | Analyser les transcriptions et proposer une liste d'outils en lecture seule autorisés (livrée sous le nom `/less-permission-prompts` en v2.1.111) |
+| `/fewer-permission-prompts` | Skill embarqué : analyser les transcriptions et proposer une liste d'outils en lecture seule autorisés (livrée sous le nom `/less-permission-prompts` en v2.1.111) |
 | `/team-onboarding` | Générer un guide d’intégration à partir de 30 jours d’historique de sessions |
-| `/terminal-setup` | Configurer Shift+Enter dans le terminal (VS Code, Cursor, Zed, Alacritty) |
-| `/reload-plugins` | Recharger les plugins actifs sans redémarrer |
-| `/mcp` | Afficher le statut des serveurs MCP |
+| `/terminal-setup` | Configurer les raccourcis de saut de ligne : Shift+Enter dans VS Code, Cursor, Devin Desktop, Alacritty, Zed ; Option+Enter dans Apple Terminal |
+| `/reload-plugins [--force]` | Recharger les plugins actifs sans redémarrer |
+| `/mcp` | Gérer les connexions MCP et OAuth (aussi `reconnect`, `enable`, `disable`) |
 | `/memory` | Afficher/modifier les fichiers mémoire |
-| `/plugin` | Gérer les plugins (installer, lister, mettre à jour) |
+| `/plugin [subcommand]` | Gérer les plugins : menu sans argument, ou `list`, `install`, `enable`, `disable` directement |
 | `/keybindings` | Modifier les raccourcis clavier (ouvre ~/.claude/keybindings.json) |
-| `/setup-bedrock` | Assistant de configuration Bedrock interactif |
-| `/setup-vertex` | Assistant de configuration Vertex AI interactif |
-| `/ultrareview` | Revue de code parallèle dans le cloud ; alias de `/code-review ultra` (Pro/Max) |
-| `/goal [condition]` | Définir une condition d'achèvement. Claude travaille de façon autonome sur plusieurs tours jusqu'à ce que la condition soit remplie, affichant une superposition en direct avec le temps écoulé, le nombre de tours et l'utilisation des tokens. Exemple : `/goal all tests pass and build is green` (v2.1.139) |
-| `/scroll-speed` | Curseur interactif pour régler la vitesse de défilement à la molette. Les modifications prennent effet immédiatement avec un aperçu en direct. (v2.1.139) |
-| `/exit` | Quitter Claude Code |
+| `/setup-bedrock` | Assistant de configuration Bedrock interactif (visible uniquement avec `CLAUDE_CODE_USE_BEDROCK=1`) |
+| `/setup-vertex` | Assistant de configuration Google Cloud Agent Platform (Vertex AI) interactif (visible uniquement avec `CLAUDE_CODE_USE_VERTEX=1`) |
+| `/ultrareview [PR or branch]` | Revue de code parallèle multi-agents dans le cloud ; alias de `/code-review ultra`. 3 exécutions gratuites sur Pro et Max, puis crédits d'utilisation |
+| `/goal [condition\|clear]` | Définir une condition d\'achèvement. Claude travaille de façon autonome sur plusieurs tours jusqu\'à ce que la condition soit remplie, affichant une superposition en direct avec le temps écoulé, le nombre de tours et l\'utilisation des tokens. Exemple : `/goal all tests pass and build is green` (v2.1.139) |
+| `/scroll-speed` | Curseur interactif pour régler la vitesse de défilement à la molette. Les modifications prennent effet immédiatement avec un aperçu en direct. Rendu plein écran uniquement, pas dans le terminal JetBrains (v2.1.139) |
+| `/exit` (`/quit`) | Quitter Claude Code |
 
 
 ### La commande /btw
@@ -24076,7 +24106,7 @@ Notation : `<arg>` est requis, `[arg]` est facultatif ; les alias suivent la com
 | `/rewind` (`/checkpoint`, `/undo`) | Revenir à un point de contrôle de conversation et/ou de code, ou résumer depuis un message choisi |
 | `/copy [N]` | Copier la N-ième réponse récente. Si elle contient du code, ouvrir un sélecteur ; `w` écrit dans un fichier |
 | `/export [filename]` | Exporter la conversation en texte brut vers un fichier ou le presse-papiers |
-| `/teleport` (`/tp`) | Rapatrier une session Claude Code sur le web dans ce terminal, branche et conversation comprises |
+| `/teleport` (`/tp`) | Rapatrier une session Claude Code sur le web dans ce terminal, branche et conversation comprises. Nécessite un abonnement claude.ai |
 | `/remote-control` (`/rc`) | Rendre cette session pilotable depuis claude.ai ou l'application mobile |
 | `/desktop` (`/app`) | Continuer la session dans l'application Claude Code Desktop |
 | `/exit` (`/quit`) | Quitter le CLI. Dans une session en arrière-plan attachée, se détacher et la laisser fonctionner |
@@ -24090,7 +24120,7 @@ Notation : `<arg>` est requis, `[arg]` est facultatif ; les alias suivent la com
 | `/compact [instructions]` | Résumer la conversation pour libérer du contexte. Les instructions facultatives ciblent le résumé |
 | `/autocompact [auto\|<tokens>]` | Définir et enregistrer la fenêtre de compaction automatique, ou rétablir le défaut du modèle |
 | `/context [all]` | Afficher une grille colorée de l'utilisation du contexte et des suggestions d'optimisation. `all` développe le détail par élément en plein écran |
-| `/btw [question]` | Poser une question annexe dans un panneau éphémère en lecture seule, sans outils ni pollution de l'historique. Sans question, rouvrir le dernier panneau (v2.1.212+) |
+| `/btw [question]` | Poser une question annexe dans un panneau éphémère en lecture seule, sans outils ni pollution de l'historique. Sans question, afficher votre question annexe la plus récente (v2.1.212+) |
 | `/memory` | Modifier les fichiers `CLAUDE.md`, activer/désactiver la mémoire automatique et parcourir ses entrées |
 | `/add-dir <path>` | Ajouter un répertoire de travail accessible pendant la session. La plupart des configurations `.claude/` n'y sont pas découvertes |
 | `/cd <path>` | Déplacer la session vers un autre répertoire sans perdre le cache de prompt (v2.1.169+) |
@@ -24102,13 +24132,13 @@ Notation : `<arg>` est requis, `[arg]` est facultatif ; les alias suivent la com
 | Commande | Action |
 |---------|--------|
 | `/model [model]` | Changer de modèle et l'enregistrer par défaut. Les flèches gauche/droite règlent l'effort. `s` limite le choix à la session |
-| `/effort [level\|auto\|status]` | Régler l'effort : `low`, `medium`, `high`, `xhigh`, `max` ou `ultracode`. `max` reste propre à la session ; `ultracode` active les workflows dynamiques à `xhigh` ; `auto` efface le niveau enregistré pour le modèle |
+| `/effort [level\|auto\|status\|ultracode [on\|off]]` | Régler l\'effort : `low`, `medium`, `high`, `xhigh`, `max` ou `auto` ; `status` l\'affiche. `max` reste propre à la session ; `auto` efface le niveau enregistré pour le modèle. `ultracode` active les workflows dynamiques à `xhigh` pour la session, et `ultracode on\|off` exige v2.1.284+ |
 | `/fast [on\|off]` | Activer/désactiver le mode rapide : même modèle, sortie plus rapide, prix supérieur |
 | `/plan [description]` | Entrer en mode planification, avec éventuellement la tâche de départ |
 | `/goal [condition\|clear]` | Définir une condition de fin. Claude poursuit sur plusieurs tours jusqu'à confirmation par un évaluateur, avec un panneau indiquant temps écoulé, tours et tokens (v2.1.139+) |
 | `/advisor [model\|off]` | Activer l'outil conseiller : un second modèle consulté aux moments clés. Accepte `fable` si disponible, `opus`, `sonnet` ou un identifiant complet |
 | `/permissions` (`/allowed-tools`) | Gérer règles d'autorisation, de demande et de refus, répertoires de travail et refus récents du mode Auto |
-| `/fewer-permission-prompts` | Analyser les transcriptions pour trouver les appels Bash/MCP courants en lecture seule, puis proposer une liste d'autorisation pour `.claude/settings.json`. Livrée comme `/less-permission-prompts` en v2.1.111, puis renommée |
+| `/fewer-permission-prompts` | **Skill embarqué.** Analyser les transcriptions pour trouver les appels Bash/MCP courants en lecture seule, puis proposer une liste d'autorisation pour `.claude/settings.json`. Livrée comme `/less-permission-prompts` en v2.1.111, puis renommée |
 | `/sandbox` | Activer/désactiver la sandbox sur les plateformes compatibles |
 
 <a id="parallel-and-scheduled-work"></a>
@@ -24118,15 +24148,15 @@ Notation : `<arg>` est requis, `[arg]` est facultatif ; les alias suivent la com
 | Commande | Action |
 |---------|--------|
 | `/tasks` (`/bashes`) | Afficher et gérer le travail en arrière-plan de la session, y compris les sous-agents terminés |
-| `/batch <instruction>` | Décomposer une modification de toute la base en 5 à 30 unités, puis lancer un sous-agent par unité dans son propre worktree, chacun ouvrant une PR |
-| `/list-agents` (`/peers`) | Lister les sous-agents, coéquipiers et autres sessions joignables lorsque la messagerie intersessions est activée |
-| `/workflow-authoring` | Charger la référence de rédaction des scripts de workflow dynamique lorsque cette fonction est activée |
+| `/batch <instruction>` | **Skill embarqué.** Décomposer une modification de toute la base en 5 à 30 unités, puis lancer un sous-agent par unité dans son propre worktree, chacun ouvrant une PR. Nécessite un dépôt git ou un hook `WorktreeCreate` (hors git : v2.1.281+) |
+| `/list-agents` (`/peers`) | Lister les sous-agents, coéquipiers et autres sessions joignables lorsque la messagerie intersessions est activée (v2.1.224+) |
+| `/workflow-authoring` | **Skill embarqué.** Charger la référence de rédaction des scripts de workflow dynamique lorsque cette fonction est activée (v2.1.248+) |
 | `/workflows` | Ouvrir la vue de progression pour suivre, suspendre, reprendre ou enregistrer les exécutions |
-| `/loop [interval] [prompt]` (`/proactive`) | Répéter un prompt tant que la session reste ouverte. Sans intervalle, Claude détermine le rythme ; sans prompt, exécuter le contrôle de maintenance ou `.claude/loop.md` |
-| `/schedule [description]` (`/routines`) | Créer, actualiser, lister ou exécuter des routines sur l'infrastructure cloud gérée par Anthropic |
-| `/deep-research <question>` | Répartir des recherches web, recouper les sources et rédiger un rapport sourcé. Invocation manuelle uniquement depuis v2.1.218 |
+| `/loop [interval] [prompt]` (`/proactive`) | **Skill embarqué.** Répéter un prompt tant que la session reste ouverte. Sans intervalle, Claude détermine le rythme ; sans prompt, exécuter le contrôle de maintenance ou `.claude/loop.md` |
+| `/schedule [description]` (`/routines`) | Créer, actualiser, lister ou exécuter des tâches planifiées cloud (anciennement routines) sur l'infrastructure cloud gérée par Anthropic |
+| `/deep-research <question>` | **Workflow embarqué.** Répartir des recherches web, recouper les sources et rédiger un rapport sourcé. Invocation manuelle uniquement depuis v2.1.218 |
 | `/autofix-pr [prompt]` | Lancer une session cloud surveillant la PR de la branche courante et poussant des corrections après un échec CI ou un commentaire de revue. Nécessite `gh` |
-| `/remote-env` | Choisir l'environnement par défaut des agents cloud |
+| `/remote-env` | Choisir l'environnement cloud par défaut des sessions cloud lancées depuis le CLI |
 
 <a id="review-and-ship"></a>
 
@@ -24135,14 +24165,14 @@ Notation : `<arg>` est requis, `[arg]` est facultatif ; les alias suivent la com
 | Commande | Action |
 |---------|--------|
 | `/diff` | Afficher interactivement les modifications non commitées et les diffs par tour |
-| `/code-review [low\|medium\|high\|xhigh\|max\|ultra] [--fix] [--comment] [target]` | Examiner le diff pour les bugs et simplifications. `--fix` applique les corrections, `--comment` publie des commentaires de PR et `ultra` lance la revue cloud. `--max-findings <n>|all` plafonne ou lève le nombre de constats jusqu'à ce que vous passiez `default` (v2.1.288). Sous-agent en arrière-plan depuis v2.1.218 |
+| `/code-review [low\|medium\|high\|xhigh\|max\|ultra] [--fix] [--comment] [--max-findings n\|all\|default] [target]` | **Skill embarqué.** Examiner le diff pour les bugs et simplifications. `--fix` applique les corrections, `--comment` les publie sur la pull request GitHub ou la merge request GitLab (GitLab : v2.1.257+) et `ultra` lance la revue cloud. `--max-findings` plafonne ou lève le nombre de constats jusqu\'à ce que vous passiez `default` (v2.1.288). Sous-agent en arrière-plan depuis v2.1.218 |
 | `/review [level] [--fix] [--comment] [target]` | Alias de `/code-review` depuis v2.1.223 ; mêmes cibles, niveaux d'effort et options |
 | `/ultrareview [PR or branch]` | Revue approfondie multi-agents dans le cloud. Alias de `/code-review ultra`. Trois exécutions gratuites sur Pro et Max, puis crédits d'utilisation |
 | `/security-review` | Examiner le diff de branche contre la branche par défaut d'origin pour les risques d'injection, d'authentification et d'exposition des données. Nécessite un remote `origin` |
-| `/simplify [target]` | Quatre agents parallèles examinent réutilisation, simplification, efficacité et niveau d'abstraction, puis appliquent les corrections. Depuis v2.1.154, les bugs de correction relèvent de `/code-review` |
-| `/verify` | Confirmer une modification en construisant l'application, en la lançant et en observant le résultat, au-delà des tests (v2.1.145+) |
-| `/run` | Lancer et piloter l'application du projet pour voir fonctionner une modification (v2.1.145+) |
-| `/run-skill-generator` | Écrire un skill de projet qui apprend à `/run` et `/verify` à construire, lancer et piloter l'application (v2.1.145+) |
+| `/simplify [target]` | **Skill embarqué.** Quatre agents parallèles examinent réutilisation, simplification, efficacité et niveau d'abstraction, puis appliquent les corrections. Depuis v2.1.154, les bugs de correction relèvent de `/code-review` |
+| `/verify` | **Skill embarqué**, ne s'exécute que sur invocation. Confirmer une modification en construisant l'application, en la lançant et en observant le résultat, au-delà des tests (v2.1.145+) |
+| `/run` | **Skill embarqué.** Lancer et piloter l'application du projet pour voir fonctionner une modification (v2.1.145+) |
+| `/run-skill-generator` | **Skill embarqué.** Écrire un skill de projet qui apprend à `/run` et `/verify` à construire, lancer et piloter l'application (v2.1.145+) |
 
 <a id="configuration-and-extensions"></a>
 
@@ -24151,33 +24181,39 @@ Notation : `<arg>` est requis, `[arg]` est facultatif ; les alias suivent la com
 | Commande | Action |
 |---------|--------|
 | `/output-style [style]` | Lister ou sélectionner Default, Proactive, Concise, Explanatory, Learning ou un style personnalisé (v2.1.269+) |
-| `/auto-mode-setup` | Préparer des entrées d'environnement du mode Auto à partir du projet et des sessions récentes, puis les examiner avant enregistrement |
-| `/update-config [request]` | Demander à Claude de modifier le fichier de paramètres approprié pour le changement décrit |
+| `/auto-mode-setup` | Préparer des entrées d'environnement du mode Auto à partir du projet et des sessions récentes, puis les examiner avant enregistrement. Exige v2.1.228+ sur Pro, Max ou Team, v2.1.283+ sur Enterprise ou avec une clé API Console |
+| `/update-config [request]` | **Skill embarqué.** Demander à Claude de modifier le fichier de paramètres approprié pour le changement décrit |
 | `/import [codex\|gemini\|cursor] [--dry-run] [--yes]` | Importer la configuration d'un autre agent local ; examiner d'abord avec `--dry-run`. Des restrictions de fournisseur et de feature flags s'appliquent |
-| `/artifacts` | Parcourir, joindre ou ouvrir les artefacts accessibles là où la fonction est disponible |
-| `/design [brief]` | Créer des planches de design modifiables sous forme d'artefact dans les sessions Anthropic compatibles |
+| `/artifacts` | Parcourir, joindre ou ouvrir les artefacts accessibles là où la fonction est disponible (v2.1.208+) |
+| `/artifact-capabilities` | **Skill embarqué.** Charger la référence des capacités d'exécution qu'un artefact publié peut utiliser, comme appeler des connecteurs ou proposer un téléchargement de fichier |
+| `/artifact-diagramming` | **Skill embarqué.** Charger les consignes de diagrammes pour les artefacts : quand un diagramme aide et comment garder un SVG inline lisible en thème clair et sombre (v2.1.221+) |
+| `/design [brief]` | **Skill embarqué.** Créer des planches de design modifiables sous forme d'artefact Claude Design dans les sessions Anthropic compatibles (v2.1.265+). Indisponible sur Bedrock, Agent Platform, Foundry et Claude Platform on AWS |
+| `/design consent`, `/design revoke` | Donner à Claude l'accès à Claude Design, ou le retirer. Saisir `/design consent` vous-même quand c'est demandé |
+| `/slides [brief]` | **Skill embarqué.** Créer une nouvelle présentation sous forme d'artefact Claude Slides à partir de votre brief (v2.1.265+, là où les artefacts sont disponibles) |
 | `/config [key=value ...]` (`/settings`) | Ouvrir les paramètres ou définir directement une clé, par exemple `/config theme=dark`. `/config --help` liste les clés modifiables |
 | `/init` | Générer un premier `CLAUDE.md`. Examinez les instructions produites et testez leur utilité avant de commiter ; [les effets des fichiers de contexte varient selon la configuration](../docs/resource-evaluations/agents-md-empirical-study-2602-11988.md). `CLAUDE_CODE_NEW_INIT=1` ajoute un parcours interactif pour skills, hooks et mémoire personnelle |
 | `/hooks` | Afficher la configuration des hooks d'événements d'outils |
-| `/mcp [reconnect <server>\|enable\|disable [<server>\|all]]` | Gérer connexions MCP et OAuth. En mode `-p`, afficher un résumé textuel de l'état |
+| `/mcp [reconnect (<server>\|all)\|enable\|disable [<server>\|all]]` | Gérer connexions MCP et OAuth. En mode `-p`, afficher un résumé textuel de l\'état |
 | `/plugin [subcommand]` | Gérer les plugins avec les sous-commandes `list`, `install`, `enable`, `disable` |
+| `/plugin-authoring` | Charger la référence qu'utilise Claude pour écrire un mod ; skill d'un plugin intégré que vous pouvez désactiver dans `/plugin` (v2.1.287+) |
 | `/reload-plugins [--force]` | Recharger les plugins actifs sans redémarrer. Ignorer avec avertissement si le rechargement invaliderait le cache de prompt, sauf si forcé |
 | `/reload-skills` | Réexaminer les répertoires de skills et de commandes pour appliquer leurs modifications pendant la session (v2.1.152+) |
 | `/skills` | Lister les skills. Saisir pour filtrer, `t` pour trier par coût en tokens, `Space` pour changer la visibilité |
 | `/agents` | Rappeler de demander à Claude de gérer les sous-agents, ou de modifier `.claude/agents/` directement. Était un gestionnaire interactif avant v2.1.198 |
 | `/keybindings` | Ouvrir `~/.claude/keybindings.json` |
 | `/statusline` | Configurer la ligne d'état, éventuellement à partir du prompt shell |
-| `/terminal-setup` | Configurer les raccourcis du terminal pour Shift+Enter. Apparaît seulement dans les terminaux qui en ont besoin |
+| `/terminal-setup` | Installer un raccourci Shift+Enter pour le saut de ligne dans VS Code, Cursor, Devin Desktop, Alacritty ou Zed ; Option+Enter dans Apple Terminal ; accès au presse-papiers pour `/copy` dans iTerm2. Apparaît seulement dans les terminaux qui en ont besoin |
 | `/setup-bedrock` | Assistant Amazon Bedrock interactif, visible uniquement avec `CLAUDE_CODE_USE_BEDROCK=1` |
 | `/setup-vertex` | Assistant Google Cloud Agent Platform interactif, visible uniquement avec `CLAUDE_CODE_USE_VERTEX=1` |
 | `/web-setup` | Connecter GitHub à Claude Code sur le web avec les identifiants locaux de `gh` |
-| `/install-github-app` | Installer l'application GitHub Claude pour un dépôt, avec possibilité de configurer workflows GitHub Actions et secrets |
+| `/install-github-app` | Installer l'application GitHub Claude pour un dépôt, avec possibilité de configurer workflows GitHub Actions et secrets. Dépôts github.com uniquement |
 | `/install-slack-app` | Installer l'application Slack Claude par un parcours OAuth dans le navigateur |
 | `/chrome` | Configurer Claude dans Chrome |
-| `/design-login` | Autoriser l'accès au design system pour `/design-sync` avec le compte claude.ai |
-| `/design-sync [hint]` | Convertir le design system React du dépôt et l'envoyer à Claude Design pour utiliser les vrais composants. La première synchronisation peut prendre des heures sur un grand dépôt. API Anthropic uniquement |
-| `/claude-api [subcommand]` | Référence API et workflows : `migrate`, `upgrade`, `managed-agents-onboard`, `prompt-audit`, `cost-optimize`, `build-eval`, `hillclimb` |
-| `/dataviz [request]` | Conseils de graphiques et dashboards avec un validateur exécutable du contraste et du daltonisme (v2.1.198+) |
+| `/claude-in-chrome [task]` | **Skill embarqué.** Exécuter une tâche dans votre navigateur via Claude dans Chrome, comme tester une page ou lire les journaux de console. Disponible quand l'intégration Chrome est activée, par exemple avec `claude --chrome` |
+| `/design-login` | Autoriser l'accès au design system pour `/design-sync` avec le compte claude.ai. Le site autonome claude.ai/design ferme le 14 décembre 2026 |
+| `/design-sync [hint]` | **Skill embarqué.** Convertir le design system React du dépôt et l'envoyer à Claude Design pour utiliser les vrais composants. La première synchronisation peut prendre des heures sur un grand dépôt. API Anthropic uniquement. Le site autonome claude.ai/design ferme le 14 décembre 2026 |
+| `/claude-api [subcommand]` | **Skill embarqué.** Référence API et workflows : `migrate`, `upgrade`, `api-version`, `managed-agents-onboard`, `managed-agents-secure`, `prompt-audit`, `cost-optimize`, `build-eval`, `hillclimb`, `preserved-thinking-migration` |
+| `/dataviz [request]` | **Skill embarqué.** Conseils de graphiques et dashboards avec un validateur exécutable du contraste et du daltonisme (v2.1.198+) |
 
 <a id="interface-and-display"></a>
 
@@ -24199,13 +24235,13 @@ Notation : `<arg>` est requis, `[arg]` est facultatif ; les alias suivent la com
 
 | Commande | Action |
 |---------|--------|
-| `/doctor` (`/checkup`) | Contrôle complet : installation, `PATH`, paramètres illisibles, skills et serveurs MCP inutilisés face à leur coût de contexte, hooks lents, volume de `CLAUDE.md`, dérive des versions. Rapport d'abord, demande avant modification (v2.1.205+) |
+| `/doctor [prompt-audit [path]]` (`/checkup`) | **Skill embarqué.** Contrôle complet : installation, `PATH`, paramètres illisibles, skills et serveurs MCP inutilisés face à leur coût de contexte, hooks lents, volume de `CLAUDE.md`, dérive des versions. Rapport d'abord, demande avant modification (v2.1.205+). `prompt-audit` audite plutôt vos instructions (v2.1.283+) |
 | `/skill-doctor` | Signaler le coût de contexte des skills visibles et ceux jamais invoqués. Exclut skills intégrés et d'entreprise, exige la récupération des feature flags et ne fonctionne pas via Remote Control. À lancer dans le terminal (v2.1.252+) |
-| `/debug [description]` | Activer les journaux de débogage de session et diagnostiquer à partir de ceux-ci |
-| `/heapdump` | Écrire un instantané du tas et une répartition mémoire dans `~/Desktop`. ⚠️ Contient toute la conversation et des identifiants ; ne jamais le partager |
+| `/debug [description]` | **Skill embarqué.** Activer les journaux de débogage de session et diagnostiquer à partir de ceux-ci |
+| `/heapdump` | Écrire un instantané du tas et une répartition mémoire dans `~/Desktop`. ⚠️ Contient toute la conversation et des identifiants ; ne jamais le partager. Masquée dans le menu des commandes, la saisir en entier |
 | `/status` | Ouvrir l'onglet Status des paramètres : version, modèle, compte, connectivité. Fonctionne pendant la réponse de Claude |
 | `/usage` (`/cost`, `/stats`) | Coût de session, limites du forfait et activité. Sur les forfaits payants, ventilation par skill, sous-agent, plugin et serveur MCP |
-| `/insights` | Produire un rapport sur les sessions : domaines de projet, interactions et difficultés |
+| `/insights` | Produire un rapport sur les sessions : domaines de projet, interactions et difficultés. Indisponible dans les sessions cloud |
 | `/release-notes` | Sélecteur interactif de changelog. Depuis v2.1.208, les notes restent hors de la conversation visible par Claude |
 | `/help` | Afficher l'aide et les commandes disponibles |
 | `/bug [report]` (`/share`) | Signaler un bug ou partager la conversation avec écran de consentement. Sur les fournisseurs tiers, repli vers une archive locale sous `~/.claude/feedback-bundles/` (v2.1.212+) |
@@ -24222,7 +24258,7 @@ Notation : `<arg>` est requis, `[arg]` est facultatif ; les alias suivent la com
 | `/login` | Se connecter au compte Anthropic |
 | `/logout` | Se déconnecter |
 | `/upgrade` | Ouvrir la page de changement de forfait. Masquée sur Enterprise |
-| `/rate-limit-options` | Afficher les choix d'attente/continuation, crédits et changement de forfait après une limite d'abonnement ; saisir cette commande cachée en entier |
+| `/rate-limit-options` | Afficher les choix d'attente et de continuation, crédits d'utilisation et changement de forfait lorsqu'une limite d'utilisation claude.ai bloque une requête. Nécessite un abonnement claude.ai ; les choix d'attente exigent v2.1.234+ |
 | `/usage-credits` | Configurer les crédits d'utilisation, ou les demander à l'administrateur lorsque la limite est atteinte. Anciennement `/extra-usage` |
 | `/privacy-settings` | Consulter et modifier les paramètres de confidentialité. Pro et Max uniquement |
 | `/passes` | Partager une semaine gratuite de Claude Code. Visible uniquement pour les comptes éligibles |
@@ -24281,6 +24317,13 @@ Les serveurs MCP ajoutent leurs propres commandes `/mcp__<server>__<prompt>`, d�
 | `Ctrl+A` | Aller au début de la ligne |
 | `Ctrl+E` | Aller à la fin de la ligne |
 | `Ctrl+W` | Supprimer le mot précédent |
+| `Ctrl+U` | Supprimer du curseur au début de la ligne (conservé pour le collage) |
+| `Ctrl+Y` | Coller le texte supprimé en dernier avec `Ctrl+K`, `Ctrl+U` ou `Ctrl+W` |
+| `Alt+B` / `Alt+F` | Reculer / avancer d'un mot (Option comme Meta sur macOS) |
+| `Alt+D` | Supprimer jusqu'à la fin du mot |
+| `Ctrl+_` / `Ctrl+Shift+-` | Annuler la dernière modification de la saisie |
+| `Ctrl+Z` | Suspendre Claude Code vers le shell (Unix) ; `fg` le reprend |
+| `Left` / `Right` (flèches) | Changer d'onglet dans les dialogues de permission et les menus |
 | `Ctrl+G` / `Ctrl+X Ctrl+E` | Éditer le prompt ou la réponse au dialogue dans un éditeur externe |
 | `Tab` | Autocomplétion des chemins de fichiers |
 | `↑` / `↓` | Naviguer dans l'historique des commandes |
@@ -24375,23 +24418,24 @@ Référence complète de tous les flags, sous-commandes et variables d'environne
 |------|-------|-------------|
 | `--continue` | `-c` | Continuer la conversation la plus récente dans le répertoire courant |
 | `--resume <ID>` | `-r` | Reprendre une session spécifique par UUID ou nom, ou afficher un sélecteur interactif |
-| `--from-pr <NUMBER\|URL>` | | Reprendre les sessions liées à une pull request GitHub spécifique |
+| `--from-pr <NUMBER\|URL>` | | Ouvrir le sélecteur de sessions filtré sur celles liées à une pull request. Accepte un numéro de PR ou une URL GitHub, GitLab ou Bitbucket |
 | `--fork-session` | | Créer un nouvel ID de session lors d'une reprise (à utiliser avec `--resume` ou `--continue`) |
 | `--session-id <UUID>` | | Utiliser un UUID de session spécifique |
 | `--no-session-persistence` | | Désactiver la persistance de session (mode impression uniquement) |
 | `--name <NAME>` | `-n` | Définir un nom d'affichage pour la session, visible dans `/resume` et le titre du terminal |
-| `--remote` | | Créer une nouvelle session web sur claude.ai |
+| `--remote` | | Alias obsolète de `--cloud` |
+| `--cloud` | | Avec une description de tâche, créer une session cloud. Avec un ID de session ou une URL claude.ai/code et `-p`, mettre un message en file dans cette session |
 | `--teleport` | | Reprendre une session web dans votre terminal local |
-| `--bg` | | Démarrer la session en tant qu'agent en arrière-plan et revenir immédiatement. Affiche l'ID de session et les commandes de gestion |
+| `--bg`, `--background` | | Démarrer la session en tant qu'agent en arrière-plan et revenir immédiatement. Affiche l'ID de session et les commandes de gestion. À combiner avec `--exec` ou `--agent`. Incompatible avec `-p` |
 | `--exec <CMD>` | | Exécuter une commande shell en tant que tâche d'arrière-plan soutenue par PTY au lieu de démarrer une session Claude. À utiliser avec `--bg` |
 
 #### Modèle & Configuration
 
 | Flag | Abrégé | Description |
 |------|-------|-------------|
-| `--model <NAME>` | | Définir le modèle avec un alias (`sonnet`, `opus`, `haiku`) ou un ID de modèle complet |
-| `--fallback-model <NAME>` | | Modèle de repli automatique lorsque le modèle par défaut est surchargé (mode impression uniquement) |
-| `--effort <LEVEL>` | | Définir le niveau d'effort : `low`, `medium`, `high`, `xhigh`, `max`. Les niveaux disponibles dépendent du modèle |
+| `--model <NAME>` | | Définir le modèle avec un alias (`sonnet`, `opus`, `haiku`, `fable`) ou un ID de modèle complet. Prend le pas sur le paramètre `model` |
+| `--fallback-model <NAME>` | | Modèle(s) de repli automatique lorsque le modèle principal est surchargé ou indisponible. Liste séparée par des virgules, essayée dans l'ordre |
+| `--effort <LEVEL>` | | Définir le niveau d'effort : `low`, `medium`, `high`, `xhigh`, `max`, `ultracode` (v2.1.203+). Les niveaux disponibles dépendent du modèle |
 | `--betas <LIST>` | | En-têtes bêta à inclure dans les requêtes API (utilisateurs avec clé API uniquement) |
 
 #### Sortie & Format
@@ -24413,10 +24457,10 @@ Référence complète de tous les flags, sous-commandes et variables d'environne
 | Flag | Abrégé | Description |
 |------|-------|-------------|
 | `--dangerously-skip-permissions` | | Ignorer TOUTES les invites de permission (à utiliser avec une extrême prudence) |
-| `--allow-dangerously-skip-permissions` | | Activer le contournement des permissions comme option sans l'activer |
-| `--permission-mode <MODE>` | | Démarrer dans le mode spécifié : `default`, `plan`, `acceptEdits`, `bypassPermissions` |
+| `--allow-dangerously-skip-permissions` | | Ajouter `bypassPermissions` au cycle `Shift+Tab` sans démarrer dedans |
+| `--permission-mode <MODE>` | | Démarrer dans le mode spécifié : `default`, `plan`, `acceptEdits`, `auto`, `dontAsk`, `bypassPermissions` (`manual` est un alias de `default`, v2.1.200+) |
 | `--allowedTools <TOOLS>` | | Outils s'exécutant sans invite (syntaxe de règle de permission) |
-| `--disallowedTools <TOOLS>` | | Outils entièrement retirés du contexte du modèle |
+| `--disallowedTools <TOOLS>` | | Règles de refus. Un nom d'outil seul retire l'outil du contexte ; une règle ciblée comme `Bash(rm *)` refuse seulement les appels correspondants |
 | `--tools <TOOLS>` | | Restreindre les outils intégrés que Claude peut utiliser (utiliser `""` pour tout désactiver) |
 | `--permission-prompt-tool <TOOL>` | | Outil MCP pour gérer les invites de permission en mode non interactif |
 
@@ -24425,10 +24469,10 @@ Référence complète de tous les flags, sous-commandes et variables d'environne
 | Flag | Abrégé | Description |
 |------|-------|-------------|
 | `--system-prompt <TEXT>` | | Remplacer l'intégralité de l'invite système par un texte personnalisé |
-| `--system-prompt-file <PATH>` | | Charger l'invite système depuis un fichier, en remplaçant l'invite par défaut (mode impression uniquement) |
+| `--system-prompt-file <PATH>` | | Charger l'invite système depuis un fichier, en remplaçant l'invite par défaut |
 | `--append-system-prompt <TEXT>` | | Ajouter du texte personnalisé à l'invite système par défaut |
-| `--append-system-prompt-file <PATH>` | | Ajouter le contenu d'un fichier à l'invite par défaut (mode impression uniquement) |
-| `--exclude-dynamic-system-prompt-sections` | | Déplacer les sections spécifiques à la machine (répertoire de travail, info d'environnement, chemins mémoire) vers le premier message utilisateur. Améliore la réutilisation du cache d'invite pour différents utilisateurs exécutant la même tâche. À utiliser avec `-p` pour les charges de travail multi-utilisateurs scriptées |
+| `--append-system-prompt-file <PATH>` | | Ajouter le contenu d'un fichier à l'invite par défaut |
+| `--exclude-dynamic-system-prompt-sections` | | Déplacer le contexte propre à l'utilisateur (comme l'emplacement de la mémoire automatique) vers le premier message utilisateur. Améliore la réutilisation du cache d'invite pour les utilisateurs et machines exécutant la même tâche. Invite système par défaut uniquement. À utiliser avec `-p` pour les charges de travail multi-utilisateurs scriptées |
 
 #### Agent & Subagent
 
@@ -24436,7 +24480,20 @@ Référence complète de tous les flags, sous-commandes et variables d'environne
 |------|-------|-------------|
 | `--agent <NAME>` | | Spécifier un agent pour la session courante |
 | `--agents <JSON>` | | Définir des subagents personnalisés dynamiquement via JSON |
-| `--teammate-mode <MODE>` | | Définir l'affichage de l'équipe d'agents : `auto`, `in-process`, `tmux` |
+| `--advisor <model>` | | Activer l'outil conseiller côté serveur pour la session avec `fable`, `opus`, `sonnet` ou un ID de modèle complet ; prend le pas sur `advisorModel` |
+| `--autocompact <auto\|tokens>` | | Définir la fenêtre de compaction automatique pour cette session sans modifier les paramètres enregistrés, par exemple `--autocompact 500k` (v2.1.221+) |
+| `--append-subagent-system-prompt` | | Ajouter du texte personnalisé à la fin de l'invite système de chaque subagent, subagents imbriqués compris, sauf un subagent forké, qui réutilise l'invite de la conversation. |
+| `--append-subagent-system-prompt-file` | | Charger du texte depuis un fichier et l'ajouter aux invites système des subagents. |
+| `--ax-screen-reader` | | Produire une sortie adaptée aux lecteurs d'écran : texte plat sans bordures décoratives ni animations. |
+| `--desktop` | | Ouvrir l'application Claude Desktop sur le répertoire courant et quitter sans démarrer de session dans le terminal. |
+| `--environment <environment-id>` | | Créer une nouvelle session cloud qui s'exécute sur l'environnement auto-hébergé portant cet ID. |
+| `--ref <branch>` | | Avec `--environment`, baser le checkout de la nouvelle session sur une référence nommée plutôt que sur le `HEAD` local |
+| `--restricted` | | Démarrer en mode restreint. |
+| `--safe-mode` | | Démarrer avec toutes les personnalisations désactivées pour diagnostiquer une configuration défaillante : CLAUDE.md, skills, plugins, hooks, serveurs MCP, commandes et agents personnalisés, styles de sortie, workflows, thèmes personnalisés, raccourcis clavier personnalisés, ligne d'état et commandes de suggestion de fichiers, serveurs LSP et mémoire automatique ne sont pas chargés. |
+| `--system-prompt-snapshot` | | Passer `off` pour reconstruire l'invite système à chaque requête au lieu de réutiliser celle enregistrée à la première requête de la conversation, par exemple pendant que vous itérez sur le texte de `--append-system-prompt` entre des reprises avec `--continue`. |
+| `--forward-subagent-text` | | Émettre le texte et les blocs de réflexion des subagents dans le flux de sortie sous forme de messages `assistant` et `user` avec `parent_tool_use_id` renseigné, afin de reconstituer la transcription de chaque subagent. |
+| `--permission-prompts` | | Définir qui répond aux invites de permission en mode impression. |
+| `--teammate-mode <MODE>` | | Définir l'affichage de l'équipe d'agents : `in-process` (par défaut), `auto`, `tmux`, `iterm2` |
 
 #### MCP & Plugins
 
@@ -24452,8 +24509,8 @@ Référence complète de tous les flags, sous-commandes et variables d'environne
 | Flag | Abrégé | Description |
 |------|-------|-------------|
 | `--add-dir <PATH>` | | Ajouter des répertoires de travail supplémentaires auxquels Claude peut accéder |
-| `--worktree` | `-w` | Démarrer Claude dans un worktree git isolé (branché depuis HEAD) |
-| `--tmux` | | Créer une session tmux pour le worktree. Nécessite `--worktree`. Passer `--tmux=classic` pour le tmux traditionnel |
+| `--worktree` | `-w` | Démarrer Claude dans un worktree git isolé dans `<repo>/.claude/worktrees/<name>`. `#<number>` ou une URL de PR/MR le branche depuis cette PR/MR |
+| `--tmux` | | Créer une session tmux pour le worktree. Nécessite `--worktree`. Utilise les volets natifs d'iTerm2 lorsqu'ils sont disponibles. Passer `--tmux=classic` pour le tmux traditionnel |
 
 #### Budget & Limites
 
@@ -24469,23 +24526,23 @@ Référence complète de tous les flags, sous-commandes et variables d'environne
 | `--chrome` | | Activer l'intégration du navigateur Chrome pour l'automatisation web |
 | `--no-chrome` | | Désactiver l'intégration du navigateur Chrome pour cette session |
 | `--ide` | | Se connecter automatiquement à l'IDE au démarrage si exactement un IDE valide est disponible |
-| `--channels` | | Activer les canaux MCP (Aperçu Research). Supporte l'authentification OAuth claude.ai et par clé API. Les organisations gérées nécessitent `channelsEnabled: true` dans managed-settings. (v2.1.128) |
-| `--remote-control` | `--rc` | Démarrer une session interactive avec Remote Control activé pour pouvoir également la contrôler depuis claude.ai ou l'application Claude |
+| `--channels` | | Serveurs MCP dont Claude doit écouter les notifications de canal (Aperçu Research). Entrées `plugin:<name>@<marketplace>` séparées par des espaces. Nécessite une authentification claude.ai ou par clé API Console. Les organisations gérées nécessitent `channelsEnabled: true` dans managed-settings (v2.1.128) |
+| `--remote-control` | `--rc` | Démarrer une session interactive avec Remote Control activé pour pouvoir également la contrôler depuis claude.ai ou l'application Claude. Un nom de session peut être passé en option |
 | `--remote-control-session-name-prefix <PREFIX>` | | Préfixe pour les noms de session Remote Control générés automatiquement. Par défaut, le nom d'hôte de la machine |
 
 #### Initialisation & Maintenance
 
 | Flag | Abrégé | Description |
 |------|-------|-------------|
-| `--init` | | Exécuter les hooks d'initialisation et démarrer le mode interactif |
-| `--init-only` | | Exécuter les hooks d'initialisation et quitter sans démarrer une session |
-| `--maintenance` | | Exécuter les hooks de maintenance et quitter |
+| `--init` | | Exécuter les hooks Setup avec le matcher `init` avant la session (mode impression uniquement) |
+| `--init-only` | | Exécuter les hooks Setup et `SessionStart`, puis quitter sans démarrer de conversation |
+| `--maintenance` | | Exécuter les hooks Setup avec le matcher `maintenance` avant la session (mode impression uniquement) |
 
 #### Débogage & Diagnostics
 
 | Flag | Abrégé | Description |
 |------|-------|-------------|
-| `--debug <CATEGORIES>` | | Activer le mode débogage avec filtrage optionnel par catégorie (ex. : `"api,hooks"`) |
+| `--debug <CATEGORIES>` | | Activer le mode débogage avec filtrage optionnel par catégorie (ex. : `--debug="api,hooks"` ; le filtre ne s'applique que sous la forme `=`) |
 | `--debug-file <PATH>` | | Écrire les journaux de débogage dans un chemin de fichier spécifique. Active implicitement le mode débogage. Prend la priorité sur `CLAUDE_CODE_DEBUG_LOGS_DIR` |
 | `--dangerously-load-development-channels` | | Activer les canaux absents de la liste d'autorisation approuvée, pour le développement local. Nécessite une confirmation |
 
@@ -24493,7 +24550,7 @@ Référence complète de tous les flags, sous-commandes et variables d'environne
 
 | Flag | Abrégé | Description |
 |------|-------|-------------|
-| `--bare` | | Mode minimal : ignorer la découverte automatique des hooks, skills, plugins, serveurs MCP, mémoire automatique et CLAUDE.md. Les appels scriptés démarrent plus rapidement. Définit `CLAUDE_CODE_SIMPLE` |
+| `--bare` | | Mode minimal : ignorer la découverte automatique des hooks, skills, commandes personnalisées, subagents, plugins, serveurs MCP, mémoire automatique et CLAUDE.md. Les appels scriptés démarrent plus rapidement. Définit `CLAUDE_CODE_SIMPLE` |
 | `--settings <PATH\|JSON>` | | Chemin vers un fichier JSON de paramètres ou une chaîne JSON inline à charger |
 | `--setting-sources <LIST>` | | Sources séparées par des virgules à charger : `user`, `project`, `local` |
 | `--disable-slash-commands` | | Désactiver tous les skills et slash commands pour cette session |
@@ -24512,25 +24569,34 @@ Commandes de premier niveau exécutées sous la forme `claude <subcommand>` :
 | Sous-commande | Description |
 |------------|-------------|
 | `claude "query"` | Démarrer le REPL avec une invite initiale |
-| `claude agents` | Ouvrir la vue Agent : liste toutes les sessions (en cours / en attente / terminées) avec aperçu et réponse inline (v2.1.139+) |
-| `claude attach <ID>` | Attacher une session d'arrière-plan dans le terminal courant |
-| `claude auto-mode defaults` | Afficher les règles du classificateur auto mode intégré en JSON. Utiliser `claude auto-mode config` pour voir la configuration effective avec les paramètres appliqués |
+| `claude agents` | Ouvrir la vue Agent : liste toutes les sessions (en cours / en attente / terminées) avec aperçu et réponse inline ; `--json` affiche les sessions actives pour les scripts (v2.1.139+) |
+| `claude attach <id\|name>` | Attacher une session d'arrière-plan dans le terminal courant. Les noms partiels exigent v2.1.290+ |
+| `claude auto-mode defaults` | Afficher les règles du classificateur auto mode intégré en JSON ; `--label <prefix>` filtre les règles. Utiliser `claude auto-mode config` pour voir la configuration effective avec les paramètres appliqués |
+| `claude auto-mode reset` | Rétablir la configuration auto mode par défaut en supprimant la section `autoMode` de votre fichier de paramètres utilisateur. |
 | `claude auth login / logout / status` | Gérer l'authentification Claude Code |
 | `claude daemon status` | Afficher l'état du superviseur de sessions en arrière-plan, la version, le répertoire de socket et le nombre de workers. Quitte avec le code 1 si le superviseur ne fonctionne pas |
 | `claude daemon stop --any` | Arrêter le superviseur de sessions en arrière-plan et les sessions qu'il héberge. Passer `--keep-workers` pour laisser les sessions en arrière-plan s'exécuter |
-| `claude doctor` | Exécuter des diagnostics depuis la ligne de commande |
-| `claude install` | Installer ou changer les builds natifs de Claude Code |
-| `claude logs <ID>` | Afficher la sortie récente d'une session en arrière-plan |
+| `claude daemon logs` | Suivre le fichier journal du superviseur de sessions en arrière-plan (`~/.claude/daemon.log`) jusqu'à `Ctrl+C` |
+| `claude daemon run` | Exécuter le superviseur de sessions en arrière-plan au premier plan de ce terminal, en affichant son journal |
+| `claude doctor` | Afficher des diagnostics en lecture seule de l'installation et des paramètres sans démarrer de session. Le `/doctor` en session peut aussi appliquer des corrections |
+| `claude gateway` | Démarrer le serveur passerelle auto-hébergé des applications Claude, pour les administrateurs qui déploient SSO et politiques devant Claude Code sur Amazon Bedrock, l'Agent Platform de Google Cloud ou Microsoft Foundry. |
+| `claude install [version]` | Installer ou réinstaller le binaire natif. Accepte une version, `stable` ou `latest` |
+| `claude import [source]` | Démarrer une session interactive qui exécute `/import` pour récupérer la configuration d'autres agents de code ; accepte `--dry-run` et `--yes`. Indisponible sur Bedrock, Vertex, Foundry ou Claude Platform on AWS, et avec la récupération des feature flags désactivée. Exige v2.1.213+ |
+| `claude logs <id\|name>` | Afficher la sortie récente d'une session en arrière-plan. Les noms partiels exigent v2.1.290+ |
+| `claude purge [path]` | Supprimer tout l'état local de Claude Code pour un projet (transcriptions, listes de tâches, journaux de débogage, historique des modifications de fichiers, historique des prompts, son entrée dans `~/.claude.json`). Sans `[path]`, choisir de façon interactive. `--dry-run` prévisualise, `-y/--yes` ignore la confirmation, `-i/--interactive` confirme chaque élément, `--all` couvre tous les projets. Irréversible |
 | `claude mcp add / remove / list / get / enable` | Configurer les serveurs MCP |
-| `claude plugin` | Gérer les plugins Claude Code |
+| `claude mcp login <name>` | Lancer le flux OAuth d'un serveur MCP configuré sans ouvrir le panneau interactif `/mcp`. |
+| `claude mcp logout <name>` | Effacer les identifiants OAuth enregistrés pour un serveur MCP |
+| `claude self-hosted-runner` | Démarrer un processus runner qui enregistre cette machine ou ce conteneur auprès d'un environnement auto-hébergé et héberge des sessions cloud Claude Code sur votre infrastructure. |
+| `claude plugin` | Gérer les plugins Claude Code (alias `claude plugins`) |
 | `claude remote-control` | Démarrer un serveur Remote Control pour contrôler Claude Code depuis claude.ai ou l'application Claude |
 | `claude respawn <ID>` | Redémarrer une session en arrière-plan (en cours ou arrêtée) avec sa conversation intacte. Utiliser `--all` pour redémarrer toutes les sessions en cours |
 | `claude rm <ID>` | Supprimer une session en arrière-plan de la liste. La transcription de conversation reste sur le disque pour `/resume` |
-| `claude setup-token` | Créer un token de longue durée pour l'utilisation par abonnement |
+| `claude setup-token` | Générer un token OAuth de longue durée pour la CI et les scripts. L'affiche sans l'enregistrer. Nécessite un abonnement Claude |
 | `claude stop <ID>` | Arrêter une session en arrière-plan (alias : `claude kill`) |
-| `claude update` / `claude upgrade` | Mettre à jour vers la dernière version |
-| `claude project purge [path]` | Supprimer tout l'état Claude Code d'un projet : transcriptions, tâches, historique de fichiers, entrée de configuration. Options : `--dry-run`, `-y/--yes`, `-i/--interactive`, `--all`. (v2.1.126) |
-| `claude ultrareview [target]` | Exécuter `/ultrareview` de manière non interactive depuis CI/scripts. `target` : numéro de PR, branche, ou branche courante si omis. `--json` pour une sortie lisible par machine. Quitte avec 0 en cas de succès, 1 en cas d'échec. (v2.1.120) |
+| `claude update` / `claude upgrade` | Mettre à jour vers la dernière version (`claude upgrade` ne figure pas dans la référence CLI officielle, vérifié le 2026-10-27) |
+| `claude project purge [path]` | Absente de la référence officielle des commandes (vérifié le 2026-10-27) ; la commande officielle est `claude purge` ci-dessus. Ancien texte du guide : supprimer tout l'état Claude Code d'un projet, options `--dry-run`, `-y/--yes`, `-i/--interactive`, `--all` (v2.1.126) |
+| `claude ultrareview [target]` | Exécuter `/ultrareview` de manière non interactive depuis CI/scripts. `target` : numéro de PR, branche, ou branche courante si omis. `--json` pour une sortie lisible par machine, `--timeout <minutes>` pour remplacer la valeur par défaut de 45 minutes, `--post` pour publier les constats sur une PR github.com en un seul commentaire (v2.1.227+). Quitte avec 0 en cas de succès, 1 en cas d'échec. (v2.1.120) |
 | `claude plugin prune` | Supprimer les dépendances de plugins auto-installées orphelines. Cascade avec `claude plugin uninstall --prune`. (v2.1.121) |
 | `claude plugin details <name>` | Afficher l'inventaire des composants du plugin (skills, agents, commandes, hooks, serveurs MCP) et le coût estimé en tokens par session. (v2.1.139) |
 

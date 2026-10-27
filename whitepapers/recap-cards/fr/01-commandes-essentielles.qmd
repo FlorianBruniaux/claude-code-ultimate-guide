@@ -22,12 +22,12 @@ format:
 | `Cmd+Esc` / `Ctrl+Esc` | Lancer depuis VS Code ou Cursor |
 | `Shift+Tab` | Parcourir les modes de permission ; démarrage en auto depuis v2.1.283 sauf réglage contraire |
 | `Shift+Enter` | Nouvelle ligne |
-| `Ctrl+C` | Interrompre la génération |
+| `Ctrl+C` | Interrompre (au repos : vide la saisie) |
 | `Ctrl+R` | Rechercher dans l'historique |
 | `Ctrl+B` | Tâches en arrière-plan |
 | `Alt+T` | Thinking si permis, sauf Opus/Sonnet/Haiku 5.5 et Fable |
-| `Esc` ; `Esc` × 2 | Annuler ; rewind au checkpoint |
-| `↑` / `↓` ; `Tab` | Historique ; compléter un chemin |
+| `Esc` ; `Esc` × 2 | Interrompre ou fermer un dialogue ; menu de rewind |
+| `↑` / `↓` ; `Tab` | Historique ; accepter l'autocomplétion |
 | `Ctrl+X Ctrl+K` | Arrêter les sous-agents en arrière-plan |
 | `Ctrl+Enter` / `Ctrl+X Ctrl+S` | Envoyer les messages en attente |
 
@@ -57,19 +57,19 @@ claude --dangerously-skip-permissions
 | `/clear` ; `/new` | Réinitialiser la conversation ; alias |
 | `/compact` | Résumer l'historique et libérer du contexte |
 | `/model` | Choisir : Entrée enregistre, s = session |
-| `/status` ; `/context` | Compte/configuration ; répartition du contexte |
-| `/usage` ; `/cost` | Usage par modèle ; alias (v2.1.118) |
+| `/status` ; `/context` | Onglet Status (version, modèle, compte) ; répartition du contexte |
+| `/usage` ; `/cost` | Coût, limites du forfait, stats ; alias |
 | `/plan` | Planifier sans modifier l'implémentation |
-| `/recap` | Résumé de session (v2.1.108) |
-| `/undo` | Alias `/rewind`, checkpoint (v2.1.108) |
-| `/ultrareview` | Revue multi-agent (v2.1.114) |
-| `/branch` | Bifurquer la conversation (v2.1.77) |
+| `/recap` | Résumé d'une ligne de la session |
+| `/undo` | Alias `/rewind`, checkpoint |
+| `/ultrareview` | Revue multi-agent dans le cloud |
+| `/branch` | Créer une branche de la conversation ici |
 | `/rename [nom]` | Nommer la session |
 | `/resume` | Sélecteur de sessions à reprendre |
 | `/voice` | Saisie vocale |
 | `/fast` | Opus 5.5 fast : $8/$40 par MTok |
 
-`/effort` : `low`, `medium`, `high`, `xhigh`, `max` (`xhigh` depuis v2.1.114). `/loop [int] [prompt]` planifie une tâche récurrente, par exemple `/loop 5m check deploy`.
+`/effort` : `low`, `medium`, `high`, `xhigh`, `max`. `/loop [int] [prompt]` (skill intégré) relance un prompt en boucle, par exemple `/loop 5m check deploy`.
 
 ## Commandes personnalisées
 

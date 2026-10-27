@@ -39,7 +39,7 @@ which claude && claude --version
 | `/powerup` | Interactive animated lessons teaching Claude Code features |
 | `/clear` | Reset conversation |
 | `/compact` | Free up context |
-| `/status` | Account and active settings sources |
+| `/status` | Status tab: version, model, account, connectivity |
 | `/context` | Detailed token breakdown |
 | `/plan` | Enter Plan Mode (no changes) |
 | Approve the plan | Exit Plan Mode (`Shift+Tab` to leave without approving) |
@@ -53,29 +53,29 @@ which claude && claude --version
 | `/rc` | Start remote control session (Pro/Max/Team/Enterprise) |
 | `/mobile` | Get Claude mobile app download links |
 | `/fast` | Toggle fast mode (Opus 5.5: $8/$40 per MTok) |
-| `/voice` | Toggle voice input (hold Space to speak) |
-| `/recap` | Session context summary on return to a break |
+| `/voice` | Toggle voice dictation (hold or tap Space) |
+| `/recap` | One-line summary of the current session, on demand |
 | `/effort [level]` | Thinking depth: low/medium/high/xhigh/max |
-| `/loop [interval] [prompt]` | Run a prompt on repeat (self-paced when no interval is given) |
+| `/loop [interval] [prompt]` | Run a prompt on repeat (self-paced when no interval is given); bundled skill |
 | `/goal [condition]` | Autonomous multi-turn mode until condition is met |
 | `/rename [name]` | Name or rename the current session |
-| `/debug` | Systematic troubleshooting |
-| `/exit` | Quit (or Ctrl+D) |
+| `/debug` | Enable debug logging and troubleshoot from the log (bundled skill) |
+| `/exit` | Quit (alias `/quit`, or Ctrl+D) |
 
 # Keyboard shortcuts
 
 | Shortcut | Action |
 |----------|--------|
 | `Shift+Tab` | Cycle permission modes |
-| `Esc × 2` | Rewind (undo) |
-| `Ctrl+C` | Interrupt |
+| `Esc × 2` | Rewind menu (empty prompt) or clear draft |
+| `Ctrl+C` | Interrupt (idle: clear input, press twice to exit) |
 | `Ctrl+R` | Search command history |
-| `Ctrl+L` | Clear screen (keeps context) |
+| `Ctrl+L` | Redraw screen (keeps context) |
 | `Ctrl+B` | Background tasks |
 | `Ctrl+X Ctrl+K` | Kill all background agents  |
 | `Alt+T` | Toggle thinking where supported (not on Opus/Sonnet/Haiku 5.5, Fable) |
 | `Space` (hold) | Voice input (requires `/voice`) |
-| `Tab` | Autocomplete |
+| `Tab` | Accept autocomplete suggestion |
 | `Shift+Enter` | New line |
 | `Ctrl+D` | Exit |
 

@@ -26,7 +26,7 @@ These are selected daily commands. Availability depends on your version, provide
 | `/powerup` | Interactive animated lessons teaching Claude Code features |
 | `/clear` | Reset conversation |
 | `/compact` | Free up context |
-| `/status` | Session state + context usage |
+| `/status` | Settings on the Status tab: version, model, account, connectivity |
 | `/context` | Detailed token breakdown |
 | `/plan` | Enter Plan Mode (no changes). Exit by approving the plan or `Shift+Tab` |
 | `/model` | Select model and save the default; press `s` in the picker for this session only |
@@ -42,25 +42,25 @@ These are selected daily commands. Availability depends on your version, provide
 | `/tasks` | Monitor background tasks |
 | `/remote-env` | Configure cloud environment |
 | `/remote-control` (`/rc`) | Connect this local session to web/mobile; Team/Enterprise require owner enablement |
-| `/mobile` | Get Claude mobile app download links |
+| `/mobile` | QR code to download the Claude mobile app |
 | `/fast` | Toggle faster Opus output; Opus 5.5 costs $8/$40 per MTok in fast mode |
-| `/voice` | Toggle voice input (hold Space to speak, release to send) |
-| `/recap` | Session context summary on return to a break (v2.1.108) |
-| `/effort [level]` | Thinking depth: low/medium/high/xhigh/max/ultracode; no arg = interactive slider (v2.1.111) |
-| `/tui [fullscreen]` | Full-screen flicker-free TUI rendering (v2.1.110) |
-| `/focus` | Toggle minimal focus view, separate from Ctrl+O (v2.1.110) |
-| `/auto-mode-setup` | Guided setup that reads the project and recent sessions to teach auto mode about your environment (v2.1.304) |
+| `/voice [hold\|tap\|off]` | Toggle voice input (hold Space to speak, release to send). Requires a Claude.ai account |
+| `/recap` | One-line summary of the current session on demand (v2.1.108) |
+| `/effort [level\|auto\|status\|ultracode [on\|off]]` | Effort: low/medium/high/xhigh/max (max is session-only) or auto; `status` prints it (v2.1.111) |
+| `/tui [default\|fullscreen]` | Set the renderer and relaunch with the conversation intact; `fullscreen` is flicker-free (v2.1.110) |
+| `/focus` | Toggle minimal focus view (fullscreen rendering only), separate from Ctrl+O (v2.1.110) |
+| `/auto-mode-setup` | Guided setup that reads the project and recent sessions to teach auto mode about your environment (v2.1.228+ on Pro/Max/Team, v2.1.283+ on Enterprise or Console API key) |
 | `/fewer-permission-prompts` | Scan transcripts and propose a read-only tool allowlist (shipped as `/less-permission-prompts` in v2.1.111) |
 | `/btw [question]` | Side question overlay: read-only ephemeral agent, no history pollution, no tools |
 | `/loop [interval] [prompt]` | Repeat on a fixed interval, or let Claude choose the interval when omitted; recurring tasks expire after 7 days (see scheduling reference) |
 | `/usage` (`/cost`, `/stats`) | Token + cost usage per model, plan limits, activity graph (merged in v2.1.118) |
 | `/ultrareview` | Multi-agent cloud code review, now an alias of `/code-review ultra` (v2.1.114). `/code-review --max-findings <n>\|all` caps or lifts the finding count until `default` (v2.1.288) |
-| `/goal [condition]` | Autonomous multi-turn mode: Claude works until condition is met, live overlay shows elapsed/turns/tokens (v2.1.139) |
-| `/scroll-speed` | Tune mouse wheel scroll speed with interactive live-preview slider (v2.1.139) |
+| `/goal [condition\|clear]` | Autonomous multi-turn mode: Claude works until condition is met, live overlay shows elapsed/turns/tokens (v2.1.139) |
+| `/scroll-speed` | Tune mouse wheel scroll speed with interactive live-preview slider; fullscreen rendering only (v2.1.139) |
 | `/rename [name]` | Name or rename the current session |
-| `/copy` | Interactive picker to copy a code block or full response |
+| `/copy [N]` | Copy the Nth-latest response; picker for a code block or the full response |
 | `/doctor` | Full setup checkup: install, settings, hooks, `CLAUDE.md` bloat, unused skills (v2.1.205+). `/doctor prompt-audit` flags prompting patterns written for older models in CLAUDE.md, skills, agents and commands (v2.1.283) |
-| `/debug` | Systematic troubleshooting |
+| `/debug` | Enable debug logging and troubleshoot from the session log |
 | `/exit` | Quit (or Ctrl+D) |
 
 ---
@@ -490,7 +490,7 @@ VERIFY: Empty email shows error, invalid format shows error
 | `-p "query"` | Non-interactive mode (CI/CD) |
 | `-c` / `--continue` | Continue last session |
 | `-r` / `--resume <id>` | Resume specific session |
-| `--teleport` | Teleport session from web |
+| `--teleport` | Resume a cloud session in your local terminal |
 | `remote-control` | Subcommand: start remote control session |
 | `--model sonnet` | Change model |
 | `--add-dir ../lib` | Allow access outside CWD |
@@ -500,7 +500,7 @@ VERIFY: Empty email shows error, invalid format shows error
 | `--system-prompt "..."` | Replace the entire default system prompt |
 | `--append-system-prompt "..."` | Append text to the default system prompt |
 | `--worktree` / `-w` | Run in isolated git worktree |
-| `--dangerously-skip-permissions` | Auto-accept (use carefully) |
+| `--dangerously-skip-permissions` | Skip permission prompts (same as `--permission-mode bypassPermissions`; use carefully) |
 | `--debug` | Debug output |
 | `--allowedTools "Edit,Read"` | Allow these tools without prompting; use `--tools` to restrict availability |
 | `--effort medium` | Choose session effort on a supported model |
@@ -513,7 +513,7 @@ VERIFY: Empty email shows error, invalid format shows error
 
 | Command | Description |
 |---------|-------------|
-| `claude project purge [path]` | Delete all Claude Code state for a project (transcripts, tasks, config). `--dry-run` for preview. (v2.1.126) |
+| `claude purge [path]` | Delete all local Claude Code state for a project (transcripts, tasks, history, config entry). `--dry-run` previews, `--all` covers every project. `claude project purge` is not in the official CLI reference (checked 2026-10-27) |
 | `claude ultrareview [target]` | Non-interactive cloud code review for CI. `--json` output. Exits 0/1. (v2.1.120). Requires workspace trust since v2.1.309: scripts pass `--trust-workspace` |
 | `claude plugin prune` | Remove orphaned auto-installed plugin deps. (v2.1.121) |
 | `claude plugin details <name>` | Show plugin inventory and token cost estimate. (v2.1.139) |

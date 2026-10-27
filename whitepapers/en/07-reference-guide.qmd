@@ -1191,7 +1191,7 @@ Claude will create all 3 tasks and automatically mark #2 as blocked by #1, #3 as
 You: "Research Next.js 15 best practices in background while I work"
 
 # View tasks in progress
-Ctrl+B  # or /tasks
+Ctrl+B  # background a running task; /tasks lists background work
 
 # Retrieve result when ready
 You: "What did the research find?"
@@ -1961,20 +1961,20 @@ This selection groups common commands and shortcuts by practical use. It is not 
 | 4 | Approve the plan | Leave Plan Mode and apply it (`Shift+Tab` leaves without approving) |
 | 5 | `/rewind` | Open checkpoint selection |
 | 6 | `Shift+Tab` | Cycle through permission modes |
-| 7 | `Ctrl+C` | Interrupt Claude mid-execution |
-| 8 | `Esc Esc` | Quick rewind (keyboard alias) |
+| 7 | `Ctrl+C` | Interrupt Claude mid-execution (idle: clears input, second press exits) |
+| 8 | `Esc Esc` | Rewind menu on an empty prompt (clears the draft if the prompt has text) |
 | 9 | `Ctrl+D` | Exit the session |
-| 10 | `Ctrl+L` | Clear screen (context preserved) |
-| 11 | `/status` | View account and settings state |
+| 10 | `Ctrl+L` | Redraw the screen (context preserved) |
+| 11 | `/status` | Open the Status tab: version, model, account, connectivity |
 | 12 | `/model` | Switch model (sonnet / opus / opusplan) |
 | 13 | `/cost` | View current session costs (alias `/usage`) |
 | 14 | `/memory` | Manage persistent memory |
-| 15 | `/tasks` | View background agents |
+| 15 | `/tasks` | View and manage background work (alias `/bashes`) |
 | 16 | `claude --continue` | Resume the last session |
 | 17 | `claude --resume <id>` | Resume a specific session |
 | 18 | `claude -p "..."` | Run a one-shot prompt (non-interactive) |
 | 19 | `Ctrl+R` | Search prompt history |
-| 20 | `Tab` | Autocomplete commands and paths |
+| 20 | `Tab` | Accept an autocomplete suggestion (commands, paths) |
 
 ## Essential commands
 
@@ -1983,12 +1983,12 @@ These eight commands form the core vocabulary of any Claude Code session. They c
 | Command | Action | Usage |
 |---------|--------|-------|
 | `/help` | Contextual help | Anytime |
-| `/status` | Account and settings state | Monitoring |
+| `/status` | Status tab: version, model, account, connectivity | Monitoring |
 | `/context` | Detailed token breakdown | Context analysis |
 | `/compact` | Compress context | When earlier context is no longer needed |
 | `/clear` | Reset session | Task switch |
 | `/plan` | Planning mode (no changes) | Before implementation |
-| `/code-review` | Review the diff for correctness bugs | Before shipping |
+| `/code-review` (bundled skill; alias `/review`) | Review the diff for correctness bugs | Before shipping |
 | `/rewind` | Open checkpoint selection | Claude made an error |
 
 ## Advanced commands
@@ -2000,11 +2000,11 @@ These commands target specific use cases: cost optimization (`/model`, `/cost`, 
 | `/model` | Switch model (sonnet/opus/opusplan) | Cost/quality optimization |
 | `/insights` | Usage analytics + optimization report | Productivity analysis |
 | `/teleport` | Teleport session from web | Web->CLI migration |
-| `/tasks` | Monitor background tasks | Background agents |
+| `/tasks` | View and manage background work, including finished subagents | Background agents |
 | `/remote-env` | Configure cloud environment | Remote setup |
 | `/fast` | Toggle Opus 5.5 fast mode ($8/$40 per MTok, up to 2.5x output speed) | Compare latency and total cost |
-| `/debug` | Systematic troubleshooting | Structured debugging |
-| `/config` | View/modify config | Setup |
+| `/debug` (bundled skill) | Enables debug logging and troubleshoots from the session debug log | Structured debugging |
+| `/config [key=value]` | Open Settings, or set a key directly | Setup |
 | `/cost` | View session costs (alias `/usage`) | Monitoring |
 | `/memory` | Manage persistent memory | Long sessions |
 
@@ -2014,18 +2014,18 @@ The table combines built-in commands and optional custom skills from several rel
 
 | Command | Action | Version |
 |---------|--------|---------|
-| `/loop [interval] [prompt]` | Recurring scheduler (e.g. `/loop 5m check the deploy`) | v2.1.71 |
-| `/simplify` | Detects over-engineering in modified code + auto-fix | v2.1.63 |
-| `/batch` | Large-scale refactors via 5-30 parallel worktree agents | v2.1.63 |
-| `/stats` | Usage chart, favorite model, streak (alias `/usage`) | v2.1.71+ |
+| `/loop [interval] [prompt]` (bundled skill) | Runs a prompt repeatedly while the session stays open (e.g. `/loop 5m check the deploy`) | v2.1.71 |
+| `/simplify` (bundled skill) | Reviews changed code for reuse, simplification and efficiency, then applies the fixes | v2.1.63 |
+| `/batch` (bundled skill) | Large-scale changes orchestrated across the codebase in parallel | v2.1.63 |
+| `/stats` | Alias for `/usage`, opens on the Stats tab | v2.1.71+ |
 | `/rename [name]` | Name or rename the current session | v2.1.71+ |
-| `/copy [N]` | Interactive copy of a code block or the Nth last response | v2.1.71+ |
-| `/effort` | Save per-model effort; **s** applies once, `max` is session-only | v2.1.71+ |
-| `/branch` | Creates a parallel branch/timeline (replaced `/fork` in v2.1.77; `/fork` reappeared as of v2.1.212 with a different meaning: copies the conversation into a separate background session, not a parallel timeline) | v2.1.77 |
-| `/btw [question]` | Ephemeral side question, read-only agent with no history | v2.1.71+ |
+| `/copy [N]` | Copies the last response (or the Nth latest); an interactive picker selects code blocks | v2.1.71+ |
+| `/effort [level\|auto\|status\|ultracode]` | Set the effort level (`low` to `xhigh`, `max` is session-only, `auto` clears the saved choice) | v2.1.71+ |
+| `/branch [name]` | Branches the conversation at this point and switches into the branch; the original stays reachable with `/resume`. `/fork [prompt]` is a different command: it copies the conversation into a new background session | v2.1.77 |
+| `/btw [question]` | Side question about the current session that is not added to the conversation | v2.1.71+ |
 | `/voice` | Enable voice input | v2.1.71+ |
-| `/remote-control` (`/rc`) | Remote control from mobile/browser (Pro/Max/Team/Enterprise) | v2.1.51 |
-| `/mobile` | App Store + Play Store links | v2.1.51+ |
+| `/remote-control` (`/rc`) | Makes this session available for Remote Control from claude.ai or the Claude app (Pro/Max/Team/Enterprise) | v2.1.51 |
+| `/mobile` | QR code to download the Claude mobile app (aliases `/ios`, `/android`) | v2.1.51+ |
 | `/investigate` (custom skill) | Root-cause debugging, 5-phase Iron Law | v3.37.x |
 | `/qa` (custom skill) | Browser QA testing, diff-aware, detects visual regressions | v3.37.x |
 | `/canary` (custom skill) | Post-deploy monitoring, 4 alert levels | v3.37.x |
@@ -2034,22 +2034,22 @@ The table combines built-in commands and optional custom skills from several rel
 | `/autoresearch` (custom skill) | Autonomous code quality loop | v3.37.x |
 | `/loop [interval] [cmd]` | Fixed interval when supplied; otherwise Claude chooses the delay. Custom skills must allow model invocation | v2.1.71 |
 | `/ultrareview` | Cloud-based parallel multi-agent code review (local branch or GitHub PR) | v3.39.1 |
-| `/fewer-permission-prompts` | Auto-generates an allowlist from transcript history to reduce permission prompts (shipped as `/less-permission-prompts` in v2.1.111) | v3.39.1 |
-| `/usage` | Unified command: session costs, stats and usage charts (replaces `/cost` and `/stats`) | v2.1.118 |
-| `/proactive` | Alias for `/loop`: reruns a prompt on repeat while the session stays open | v2.1.105 |
+| `/fewer-permission-prompts` (bundled skill) | Scans transcripts for common read-only Bash and MCP calls and adds a prioritized allowlist to project `.claude/settings.json` | v3.39.1 |
+| `/usage` | Session cost, plan usage limits and activity stats; `/cost` and `/stats` are aliases | v2.1.118 |
+| `/proactive` | Alias for `/loop` | v2.1.105 |
 | `/team-onboarding` | Generates a personalized onboarding guide for the team | v2.1.106 |
 | `/undo` | Alias for `/rewind`: returns to a checkpoint (conversation and/or code) | v2.1.108 |
-| `/recap` | Contextual session recap on return (resuming an interrupted session) | v2.1.108 |
+| `/recap` | One-line summary of the current session on demand (the automatic recap appears after you have been away) | v2.1.108 |
 | `/reload-plugins` | Reload installed plugins without restarting | v2.1.69 |
 | `/tui [default\|fullscreen]` | Pick the terminal renderer and relaunch into it | v2.1.110 |
 | `/focus` | Focus view: last prompt, tool-call summary, final response (fullscreen only) | v2.1.110 |
-| `/keybindings` | Display and configure keyboard shortcuts | v2.1.100+ |
-| `/terminal-setup` | Terminal setup assistant | v2.1.100+ |
+| `/keybindings` | Open your keyboard shortcuts file | v2.1.100+ |
+| `/terminal-setup` | Installs a Shift+Enter newline keybinding in VS Code, Cursor and similar terminals | v2.1.100+ |
 | `/goal [condition]` | Autonomous multi-turn mode: Claude works until the condition is met, live overlay shows elapsed time, turns, and tokens | v2.1.139 |
 | `/scroll-speed` | Tune mouse wheel scroll speed with an interactive real-time slider | v2.1.139 |
 
-::: {.callout-note title="CLI Subcommand: claude project purge (v2.1.126)"}
-`claude project purge [path]`: deletes all Claude Code state for a project (local CLAUDE.md, sessions, local settings). Useful for starting from a clean configuration without deleting source code. This is a CLI command, not a session slash command.
+::: {.callout-note title="CLI Subcommand: claude purge"}
+`claude purge [path]`: deletes all local Claude Code state for a project (transcripts, task lists, debug logs, file-edit history, prompt history lines and the project entry in `~/.claude.json`); `--dry-run` previews it. Useful for starting from a clean configuration without deleting source code. This is a CLI command, not a session slash command.
 :::
 
 
@@ -2097,10 +2097,10 @@ Reliable knowledge cutoffs: Opus 5.5, Sonnet 5.5, Haiku 5.5 and Fable 5.1, June 
 
 ## Keyboard shortcuts
 
-Keyboard shortcuts let you control Claude Code without breaking your flow. The most important is `Shift+Tab`, which cycles through the three permission modes -- this is the central mechanism for fine-grained control over Claude's autonomy.
+Keyboard shortcuts let you control Claude Code without breaking your flow. The most important is `Shift+Tab`, which cycles through the permission modes -- this is the central mechanism for fine-grained control over Claude's autonomy.
 
 ::: {.callout-tip title="Shortcut guide: Permission modes (Shift+Tab)"}
-`Shift+Tab` cycles through 3 permission modes, visible in the prompt:
+`Shift+Tab` cycles through the permission modes, visible in the prompt (Default, acceptEdits, Plan, then Auto and Bypass when available). The three most-used modes:
 
 | Mode | Symbol | Behavior |
 |------|--------|----------|
@@ -2116,13 +2116,13 @@ Use **Plan only** for risky refactorings: review the plan, then `Shift+Tab` back
 | Shortcut | Action | When to use |
 |----------|--------|-------------|
 | `Shift+Tab` | Cycle permission modes | Fine-grained control over authorizations |
-| `Esc` x 2 | Open rewind checkpoint selection | Claude made an error |
+| `Esc` x 2 | Open rewind checkpoint selection on an empty prompt; clears the draft if the prompt has text | Claude made an error |
 | `Ctrl+C` | Interrupt Claude | Stop an ongoing execution |
 | `Ctrl+D` | Exit the session | Clean session exit |
-| `Ctrl+L` | Clear screen | Clean display (context preserved) |
+| `Ctrl+L` | Redraw the screen | Recover a garbled display (context preserved) |
 | `Ctrl+R` | Search prompt history | Find a previous prompt |
 | `Ctrl+B` | Background a running task | Inspect it with `/tasks` |
-| `Tab` | Autocomplete | Commands, file paths |
+| `Tab` | Accept an autocomplete suggestion | Commands, file paths |
 | `Shift+Enter` | New line (without sending) | Multi-line prompts |
 | `Alt+T` | Toggle thinking where supported | No effect on Opus 5.5, Sonnet 5.5, Haiku 5.5 or Fable; summaries are a separate setting |
 | Up / Down | Prompt history | Navigate previous prompts |
@@ -2147,8 +2147,8 @@ CLI flags are used at launch to modify Claude Code's behavior from the start. Th
 | `--bare` | Skip discovery of project/user instructions, hooks, skills, agents, plugins, MCP and auto-memory | `claude -p "..." --bare` |
 | `--channels` | Enable explicitly installed channel plugins | `claude --channels plugin:name@marketplace` |
 | `--console` | API billing (for `claude auth login`) | `claude auth login --console` |
-| `--fork-session` | Fork the current session for parallel exploration | `claude --fork-session` |
-| `--plugin-url <url>` | Fetch a plugin `.zip` archive from a URL and load it for the current session (v2.1.129) | `claude --plugin-url https://ci.example.com/plugin.zip` |
+| `--fork-session` | When resuming, create a new session ID instead of reusing the original (use with `--resume` or `--continue`) | `claude --resume abc123 --fork-session` |
+| `--plugin-url <url>` | Fetch a plugin `.zip` archive from a URL for this session only | `claude --plugin-url https://ci.example.com/plugin.zip` |
 
 ::: {.callout-note title="worktree.sparsePaths: Sparse checkout for monorepos (v2.1.76)"}
 For large monorepos, configure `worktree.sparsePaths` in `.claude/settings.json` to limit checkout to relevant directories during worktree operations:

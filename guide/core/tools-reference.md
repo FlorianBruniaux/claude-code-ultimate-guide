@@ -48,9 +48,10 @@ The tables below cover built-in tools and explicitly marked removed tools. Avail
 |------|-------------|:-------------------:|
 | `Agent` | Spawn a subagent with its own context window to handle a task | No |
 | `Workflow` | Run a dynamic workflow: a script that orchestrates many subagents and returns one result | Yes |
-| `TeamCreate` | Create an agent team with multiple teammates (`CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`) | No |
-| `TeamDelete` | Disband an agent team and clean up teammate processes | No |
+| `TeamCreate` `⚠️ Not in the official tools reference` (checked 2026-10-27) | Create an agent team with multiple teammates (`CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`) | No |
+| `TeamDelete` `⚠️ Not in the official tools reference` (checked 2026-10-27) | Disband an agent team and clean up teammate processes | No |
 | `ListAgents` | List every session this one can reach: subagents, agent-team teammates, other local Claude Code sessions on this machine, cloud sessions, Remote Control sessions on other machines (v2.1.224+) | No |
+| `SubagentHandback` | Deliver a subagent's final report to the conversation that receives its result; provided only in auto mode, to non-fork subagents the Agent tool runs locally | No |
 | `SendMessage` | Send a message to an agent-team teammate, resume a stopped subagent by ID, or message an independent session found via `ListAgents` (cross-session messaging, v2.1.224+) | No |
 
 ### Task management
@@ -89,13 +90,18 @@ The tables below cover built-in tools and explicitly marked removed tools. Avail
 
 | Tool | Description | Permission Required |
 |------|-------------|:-------------------:|
-| `EnterWorktree` | Create an isolated git worktree and switch into it (or switch into an existing one with `path`) | No |
+| `EnterWorktree` | Create an isolated git worktree and switch into it (or switch into an existing one with `path`) | Yes |
 | `ExitWorktree` | Exit a worktree session and return to the original directory | No |
 | `EnterPlanMode` | Switch to plan mode to design an approach before coding | No |
 | `ExitPlanMode` | Present a plan for approval and exit plan mode | Yes |
 | `AskUserQuestion` | Ask multiple-choice questions to gather requirements or clarify ambiguity | No |
 | `Skill` | Execute a skill within the main conversation | Yes |
 | `ShareOnboardingGuide` | Upload `ONBOARDING.md` and return a share link (Pro/Max/Team/Enterprise) | Yes |
+| `Artifact` | Publish an HTML or Markdown file as a private, interactive claude.ai artifact that can then be shared | Yes |
+| `SendUserFile` | Send a generated file (report, diagram, screenshot, build output) to your device with an optional caption; `display` chooses inline rendering or a download card | No |
+| `ReportFindings` | Report code-review findings as a structured list (file, summary, failure scenario, optional category) for the client to render | No |
+| `SendFeedback` | Draft a feedback report about Claude Code and queue it locally; nothing is sent until you choose to send it | No |
+| `EndConversation` | End the session, only in rare cases of sustained abusive input or when you ask for a demonstration | No |
 
 ---
 

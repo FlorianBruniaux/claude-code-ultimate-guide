@@ -39,7 +39,7 @@ which claude && claude --version
 | `/powerup` | Leçons animées interactives sur les fonctionnalités de Claude Code |
 | `/clear` | Réinitialiser la conversation |
 | `/compact` | Libérer du contexte |
-| `/status` | État de la session et sources de configuration |
+| `/status` | Onglet Status : version, modèle, compte, connectivité |
 | `/context` | Détail de la consommation de tokens |
 | `/plan` | Explorer sous les restrictions du mode plan |
 | Approuver le plan | Sortir du Plan Mode (`Shift+Tab` pour sortir sans valider) |
@@ -53,29 +53,29 @@ which claude && claude --version
 | `/rc` | Démarrer une session de contrôle à distance (Pro/Max/Team/Enterprise) |
 | `/mobile` | Récupérer les liens de téléchargement de l'app mobile Claude |
 | `/fast` | Basculer le mode rapide (Opus 5.5 : $8/$40 par MTok) |
-| `/voice` | Activer l'entrée vocale (maintenir Espace pour parler) |
-| `/recap` | Résumé de contexte de session au retour d'une pause |
+| `/voice` | Activer la dictée vocale (maintenir ou taper Espace) |
+| `/recap` | Résumé en une ligne de la session en cours, à la demande |
 | `/effort [niveau]` | Profondeur de réflexion : low/medium/high/xhigh/max |
-| `/loop [intervalle] [prompt]` | Répète un prompt en boucle (rythme autonome sans intervalle) |
+| `/loop [intervalle] [prompt]` | Répète un prompt en boucle (rythme autonome sans intervalle) ; skill intégré |
 | `/goal [condition]` | Mode multi-tours autonome jusqu'à ce que la condition soit remplie |
 | `/rename [nom]` | Nommer ou renommer la session en cours |
-| `/debug` | Débogage systématique |
-| `/exit` | Quitter (ou Ctrl+D) |
+| `/debug` | Active les journaux de débogage et diagnostique à partir du journal (skill intégré) |
+| `/exit` | Quitter (alias `/quit`, ou Ctrl+D) |
 
 # Raccourcis clavier
 
 | Raccourci | Action |
 |----------|--------|
 | `Shift+Tab` | Alterner les modes de permission |
-| `Esc × 2` | Ouvrir le sélecteur de checkpoints |
-| `Ctrl+C` | Interrompre |
+| `Esc × 2` | Menu de rewind (invite vide) ou effacer le brouillon |
+| `Ctrl+C` | Interrompre (au repos : vide la saisie, deux appuis pour quitter) |
 | `Ctrl+R` | Rechercher dans l'historique des commandes |
-| `Ctrl+L` | Effacer l'écran (garde le contexte) |
+| `Ctrl+L` | Redessiner l'écran (garde le contexte) |
 | `Ctrl+B` | Tâches en arrière-plan |
 | `Ctrl+X Ctrl+K` | Tuer tous les agents en arrière-plan  |
 | `Alt+T` | Basculer la réflexion si le modèle le permet (pas sur Opus/Sonnet/Haiku 5.5, Fable) |
 | `Espace` (maintenu) | Entrée vocale (nécessite `/voice`) |
-| `Tab` | Autocomplétion |
+| `Tab` | Accepter la suggestion d'autocomplétion |
 | `Shift+Enter` | Nouvelle ligne |
 | `Ctrl+D` | Quitter |
 

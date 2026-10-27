@@ -5,10 +5,10 @@ card-number: "M09"
 category: "Méthodologie"
 difficulty: "intermediate"
 guide-version: "3.44.1"
-wp-version: "1.0.1"
+wp-version: "1.0.2"
 author: "Florian BRUNIAUX"
 version: "3.44.1"
-date: "2026-10-06"
+date: "2026-10-27"
 layout: "two-col"
 lang: fr
 format:
@@ -75,10 +75,12 @@ Description du résultat attendu.
 
 ## Commandes natives récentes
 
+Ces deux entrées sont des commandes internes. `/simplify`, `/batch`, `/loop` et `/debug` sont des skills intégrés qui fonctionnent comme les vôtres.
+
 | Commande | Usage |
 |----------|-------|
-| `/goal [condition]` | Mode autonome multi-tours : Claude travaille jusqu'à ce que la condition soit remplie, avec overlay temps/tours/tokens (v2.1.139) |
-| `/scroll-speed` | Curseur interactif pour régler la vitesse de défilement de la souris avec aperçu en direct (v2.1.139) |
+| `/goal [condition]` | Mode autonome multi-tours : Claude travaille jusqu'à ce que la condition soit remplie, avec overlay temps/tours/tokens |
+| `/scroll-speed` | Curseur interactif pour régler la vitesse de défilement de la souris avec aperçu en direct |
 
 ## Commandes utiles à créer
 
