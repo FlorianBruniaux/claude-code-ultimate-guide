@@ -1,6 +1,6 @@
 # Desktop agent workspaces: selective cockpit evaluation
 
-**Reviewed:** October 17, 2026; Escouade runtime follow-up on October 22, 2026. **Decision:** refresh Conductor and Vibe Kanban; add short comparative mentions of Emdash, Superset, and Escouade. Keep Opcode in this evaluation without another guide profile. Escouade's editorial score remains 3/5 after the trial.
+**Reviewed:** October 17, 2026; Escouade runtime follow-up on October 22, 2026; Orca documentation follow-up on October 27, 2026. **Decision:** refresh Conductor and Vibe Kanban; add short comparative mentions of Emdash, Superset, Escouade, and Orca. Keep Opcode in this evaluation without another guide profile. Escouade's editorial score remains 3/5 after the trial.
 
 Scores measure editorial value for this guide, not product reliability, security, or expected productivity. The October 17 review used official documentation, pinned repository READMEs and licences, and a targeted Escouade helper probe. The October 22 follow-up ran Escouade 1.8.8 locally with Claude Code and an existing Claude Max subscription. Other desktop applications, other providers, remote integrations, and the complete upstream test suites were not exercised.
 
@@ -14,7 +14,7 @@ Scores measure editorial value for this guide, not product reliability, security
 | Claudio | [Multi-session landscape evaluation](./082-multi-session-management-landscape.md) | Preserve existing coverage; do not present its historical recommendation as a current comparative ranking |
 | Session, cost, and configuration tooling | [Session management](../../guide/ecosystem/third-party-tools.md#session-management), [cost tracking](../../guide/ecosystem/third-party-tools.md#token--cost-tracking), [configuration management](../../guide/ecosystem/third-party-tools.md#configuration-management) | Use these overlaps when deciding whether Opcode needs another profile |
 
-The three additions share one [desktop workspace comparison](../../guide/ecosystem/third-party-tools.md#desktop-agent-workspace-comparison). The AI ecosystem and harness landscape link to it. No additional runtime entry, separate product guide, or duplicate feature inventory was created. A workspace coordinator can be useful while delegating the model/tool loop to Claude Code or another agent runtime.
+The additions share one [desktop workspace comparison](../../guide/ecosystem/third-party-tools.md#desktop-agent-workspace-comparison). The AI ecosystem and harness landscape link to it. No additional runtime entry, separate product guide, or duplicate feature inventory was created. A workspace coordinator can be useful while delegating the model/tool loop to Claude Code or another agent runtime.
 
 ## Candidate decisions
 
@@ -24,6 +24,22 @@ The three additions share one [desktop workspace comparison](../../guide/ecosyst
 | Superset | 3/5 | 3/5 | Worktree-specific browser previews, UI-element context, and PR-line feedback to agent sessions | Add one comparative row |
 | Escouade | 3/5 | 3/5 | FR/EN ticket workflow; local trial verified worktrees, dependency scheduling, restart/resume, and test-gated delivery through MCP | Retain one row; document the bounded trial and its limits without a productivity ranking |
 | Opcode | 2/5 | 2/5 | Consolidates existing session, cost, MCP, instruction, and checkpoint functions | Retain evaluation; no extra profile |
+| Orca (Stably, October 27 addition) | 3/5 | 3/5 | Codex workspace integration, hosted reviews and CI feedback, with documented session-sharing and permission defaults | Add one comparative row and the adoption boundaries below; no runtime claim |
+
+### Orca
+
+**Documentation review: October 27, 2026. No application trial.** This evaluation concerns [stablyai/orca](https://github.com/stablyai/orca), the MIT-licensed desktop environment, not other repositories named Orca. It hosts existing agent CLIs in worktrees, with diff annotations, browser element context, SSH execution, and a mobile companion. These overlap with the existing workspace profiles; they do not justify a second feature catalog.
+
+The useful comparison is a concrete delivery loop. Orca's [hosted review documentation](https://www.onorca.dev/docs/review/github) links worktrees to PRs/MRs and exposes checks and review threads. For a failing GitHub PR, **Fix broken checks** passes failed check names and links to an agent. That documents a feedback action, not proof of unattended repair, correct commit attribution, or successful CI. GitLab review support is documented too; this evaluation exercised neither provider.
+
+Two defaults affect adoption with an existing Codex desktop workflow:
+
+- [Codex integration](https://www.onorca.dev/docs/agents/codex) documents a separate background server per Codex terminal on Codex 0.157 and later. Shared-server features and sessions opened through the Codex desktop app or an IDE do not see those Orca sessions by default. The per-terminal-server setting can be disabled before opening new terminals. A handoff to another agent starts a fresh session with bounded prior context; it is not a native resume. Cross-application continuity remains untested here.
+- [Agent permissions](https://www.onorca.dev/docs/agents/supported) prefill permission-bypass arguments for new terminal launches, including bypassing both approvals and sandbox for Codex. The terminal **Agent Permissions** setting supports Manual mode; native chats have a separate default applied to new chats, and custom agent arguments remain overrides. Inspect the effective launch settings before a trial. Worktree separation is not process confinement.
+
+The [pinned orchestration documentation](https://github.com/stablyai/orca/blob/3ddaa8df6f61e77ef095fba03532b2a13b3b2fdf/docs/site/content/docs/cli/orchestration.mdx), checked on October 27, labels its tasks, dependencies, supervised workers, messages, and decision gates experimental. A durable Run is described as a coordination namespace, not an automatic scheduler by itself.
+
+**Editorial score: 3/5.** Integrate the review-feedback mechanism and Codex adoption boundaries in the shared comparison. Test Orca when a unified daily workspace is the problem; compare AO when project-level PR/CI/review coordination is the problem. Both overlap, so this is a test-selection hypothesis, not a product ranking. Escouade's local dependency/test-gate trial does not establish either alternative's behavior. No measured productivity, security, usability, or reliability advantage is claimed.
 
 ### Emdash
 
@@ -115,6 +131,8 @@ Score: 2/5. Keep this traceable evaluation and qualify the previous absolute “
 A separate technical-writer agent reviewed the October 17 candidate decisions and primary sources without editing the guide. It retained the 3/3/3/2 scores and challenged the initial framing on four points: Superset's restrictive licence and hybrid surfaces; Escouade's current GPL licence and MCP authority; Conductor's changed agent/cloud support and stale adjacent comparisons; and the difference between Vibe Kanban's shutdown plan and observed service state. Those corrections are reflected above. The October 17 Escouade helper probe was performed after that review; it is reported separately from the agent's documentary challenge.
 
 For the October 22 follow-up, a separate technical-writer agent checked the revision against retained trial records and pinned source. It retained Escouade's 3/5 score and requested clearer test authorship, the enabled-autopilot condition for scheduling, and narrower wording about the retained records. Those clarifications are incorporated above. This was an evidence review, not an independent rerun of the application trial.
+
+On October 27, a separate technical-writer agent checked the Orca additions against the linked official documentation. It retained 3/5, confirmed the terminal/chat permission distinction and Codex session-sharing limitation, and requested explicit score attribution in the evaluation index. This was a documentary challenge, not an Orca runtime test.
 
 ## What further comparative trials need to establish
 

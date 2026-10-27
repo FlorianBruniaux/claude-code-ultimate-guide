@@ -1,96 +1,62 @@
-# Évaluation de ressource: Agent orchestrator (AO)
+# Évaluation de ressource : Agent Orchestrator (AO)
 
-**URL**: https://github.com/AgentWrapper/agent-orchestrator
-**Type**: GitHub repository
-**Date d'évaluation**: 2026-07-08
-**Évaluateur**: Claude Code Ultimate Guide Team
-**Version guide**: 3.40.0
+**Source** : [OrchestratorInc/agent-orchestrator](https://github.com/OrchestratorInc/agent-orchestrator), précédemment référencé sous ComposioHQ puis AgentWrapper.
+**Évaluation initiale** : 8 juillet 2026. **Essai avec Codex** : 27 octobre 2026.
+**Décision** : conserver la mention existante et le score éditorial **3/5**. Le suivi des PR et la notification CI sont vérifiés sur un scénario borné; la boucle autonome revue → correction → CI verte ne l'est pas.
 
----
+Ce score mesure l'intérêt pour le guide, pas la fiabilité du produit. Cette réévaluation remplace les comparaisons de juillet fondées sur le nombre d'agents, les étoiles ou les issues, qui ne constituent pas une mesure de maturité ou de productivité.
 
-## 📄 Résumé du contenu
+## Fonctionnement et périmètre
 
-- **Repo renommé** : identifié initialement sous `ComposioHQ/agent-orchestrator` dans une recherche croisée sur le pattern "PRD → tâches → build isolé → gate → merge → audit trail" présenté au meetup GenAI France (Maleus, juillet 2026). L'API GitHub redirige désormais vers `AgentWrapper/agent-orchestrator` (org renommée), même repo (`repositories/1156994049`), 8 129 stars (désormais 8 608 au 28/07/2026), license Apache-2.0
-- **Ce que c'est réellement** : pas un générateur PRD→code, mais un "meta-harness agent IDE" qui supervise plusieurs CLI d'agents de code en parallèle (Claude Code, Codex, Cursor, Aider, Goose, Devin et 18 autres, 23 harnesses au total), chacun dans son propre git worktree, avec app desktop + CLI
-- **Boucle de feedback automatique** : un observateur SCM (GitHub) route les échecs de CI, les commentaires de review et les conflits de merge vers la bonne session d'agent ("nudges"), documenté dans `docs/STATUS.md`
-- **Télémétrie par défaut** : le renderer Electron envoie des événements PostHog anonymisés, avec enregistrement de session (chemins et URLs locaux redacted), désactivable via `VITE_AO_POSTHOG_KEY` vide
-- **Jeune projet à forte croissance** : créé le 2026-02-13, 8 129 stars en moins de 5 mois, mais 416 issues ouvertes signalant un produit encore rugueux
+AO supervise des agents de code existants. Son [architecture documentée](https://github.com/OrchestratorInc/agent-orchestrator/blob/v0.14.6/docs/architecture.md) associe un daemon Go, des clients desktop et CLI, des sessions et worktrees Git, puis des observateurs de l'activité de l'agent et de l'état des PR. Les faits collectés alimentent les statuts affichés et les messages transmis aux sessions. La séparation des worktrees ne confine pas les processus.
 
----
+L'essai a utilisé l'archive officielle macOS arm64 [v0.14.6](https://github.com/OrchestratorInc/agent-orchestrator/releases/tag/v0.14.6), Codex CLI 0.159.2 et une seule session terminal, via la CLI et l'API locale d'AO. Le modèle était celui de la configuration Codex de l'évaluateur; aucun comparatif de modèles n'a été effectué. Le daemon embarqué affichait `dev` : l'identification de la release repose sur l'archive téléchargée et son empreinte vérifiée, pas sur cette chaîne de version.
 
-## 🎯 Score de pertinence: 3/5
+Le dépôt synthétique et la PR utilisés sont privés. Les observations ci-dessous sont celles de l'évaluateur, appuyées par les messages conservés, les réponses AO/GitHub, les annotations de checks et les résultats de tests. Ces preuves ne sont pas publiquement consultables; les liens upstream expliquent le mécanisme et ne constituent pas une reproduction indépendante du pilote.
 
-| Score | Signification |
-|-------|---------------|
-| ~~5~~ | ~~Critique, gap majeur dans le guide~~ |
-| ~~4~~ | ~~Très pertinent - Amélioration significative~~ |
-| **3** | **Pertinent - Complément utile** |
-| ~~2~~ | ~~Marginal - Info secondaire / Redondant~~ |
-| ~~1~~ | ~~Hors scope - Non pertinent~~ |
+## Scénario et résultats observés
 
-**Justification**: `guide/ecosystem/third-party-tools.md` documente déjà Conductor en détail (worktrees isolés, diff viewer, intégration GitHub/Linear, boucle CI→fix automatique) mais le présente comme macOS-only, propriétaire, limité à Claude Code + Codex. AO est le pendant open source direct de ce même pattern : cross-plateforme, Apache-2.0, 23 CLI d'agents supportés au lieu de 2. C'est un gap réel et net, mais pas critique : le pattern lui-même (worktree + CI feedback loop) est déjà documenté via Conductor, AO n'apporte pas un concept nouveau, seulement une variante OSS/cross-plateforme.
+1. Créer une session Codex dans un worktree AO, sur deux branches dédiées à l'essai. Les deux tests initiaux d'une fonction Python de création de slug passent.
+2. Ajouter un troisième test volontairement rouge sur les espaces multiples et tabulations, publier une PR et la rattacher explicitement à la session AO.
+3. Observer la notification CI reçue par Codex, puis sa correction de l'implémentation. Les trois tests passent localement.
+4. Publier un commentaire inline synthétique demandant de rejeter les titres vides ou composés uniquement de blancs avec `ValueError` et d'ajouter deux tests.
+5. Après l'absence de livraison automatique du commentaire, relancer manuellement Codex sans recopier le contenu de la revue. L'agent lit le commentaire sur GitHub, démontre l'échec des deux nouveaux tests, corrige, puis pousse. Les cinq tests passent, vérifiés à nouveau par l'évaluateur.
 
-**Correction importante par rapport à la recherche initiale**: la recherche croisée transmise attribuait à ce projet une logique explicite "retry CI deux fois puis escalade humaine" présentée comme l'implémentation la plus aboutie du principe d'andon cord. Vérification directe du README, de `docs/architecture.md` et `docs/STATUS.md` : cette logique de comptage de tentatives n'apparaît nulle part dans la documentation actuelle. Le comportement réel documenté est plus simple : le daemon détecte les échecs CI/review/conflits et "nudge" l'agent concerné, sans seuil de tentatives ni escalade documentée. Ce point ne doit pas être repris tel quel dans le guide.
+| Capacité | Observation | Limite de preuve |
+|---|---|---|
+| Session et worktree Codex | Créés par AO | Une session seulement |
+| Suivi PR, branche et commit | AO reflète la PR et le même SHA final que GitHub | Rattachement de la PR effectué explicitement |
+| Notification CI vers Codex | Transmise automatiquement avec le job et son URL | Le contenu des logs n'a pas pu être récupéré |
+| Correction du bug initial | Trois tests locaux passent après correction | Approbations nécessaires pour certaines opérations; aucun test distant exécuté |
+| Détection de la revue | Commentaire ingéré avec fichier, ligne et fil non résolu | Commentaire de l'évaluateur, pas une revue indépendante |
+| Livraison automatique de la revue | Non observée pendant plus de cinq minutes après ingestion | Commentaire arrivé pendant une approbation; pas de reprise constatée après retour au repos, ni après édition du commentaire |
+| Correction demandée par la revue | Cinq tests locaux passent après relance manuelle | Ne valide pas le réveil automatique de l'agent |
+| CI distante verte | **Bloquée** | GitHub indique un paiement en échec ou un plafond de dépenses à augmenter; le job ne démarre pas |
 
----
+Le badge CI rouge n'était donc pas un résultat de test rouge. AO a envoyé un message invitant à corriger et pousser, accompagné d'une erreur `BlobNotFound` lors de la récupération des logs. L'évaluateur a dû lire les annotations GitHub pour identifier le blocage de compte et demander à Codex de ne pas multiplier les corrections pour cette cause. La correction du bug volontaire reste prouvée par les tests locaux, séparément.
 
-## ⚖️ Comparatif détaillé
+La PR est restée ouverte, sans fusion; le fil de revue n'a pas été résolu. Le dernier commit poussé était correctement reflété par AO. Les agents et le daemon du pilote ont été arrêtés après collecte des preuves.
 
-| Aspect | Agent Orchestrator (AO) | Conductor (déjà couvert) |
-|--------|--------------------------|----------------------------|
-| Licence | Apache-2.0 (open source) | Propriétaire |
-| Plateforme | Windows, macOS, Linux + CLI headless | macOS uniquement |
-| Agents CLI supportés | 23 (Claude Code, Codex, Cursor, Aider, Goose, Devin...) | 2 (Claude Code, Codex) |
-| Isolation d'exécution | Git worktree par session | Git worktree par workspace |
-| Boucle CI/review/conflits | Automatique, routée vers la session (non quantifiée) | Automatique vers Claude uniquement (v0.12.0+) |
-| Intégrations tierces | GitHub (SCM observer) | GitHub, Linear, Slack, VS Code |
-| Télémétrie | PostHog activé par défaut (opt-out via var d'env) | Non documenté publiquement |
-| Maturité | 5 mois, 416 issues ouvertes | Mature (versionné jusqu'à v0.37.0) |
-| Stars | 8 129 (désormais 8 608 au 28/07/2026) | N/A (propriétaire, pas de repo public) |
+## Limites rencontrées et réglages d'adoption
 
----
+- **Permissions Codex** : dans le [mapping de la release testée](https://github.com/OrchestratorInc/agent-orchestrator/blob/v0.14.6/backend/pkg/agentruntime/command.go#L198), le mode AO `default` passe `--dangerously-bypass-approvals-and-sandbox`. Le pilote a sélectionné `accept-edits` avant lancement et configuré séparément Codex en `workspace-write` avec approbations `on-request`. Ce choix a maintenu des interventions pour les lectures réseau, comptes rendus et push. Il ne faut pas interpréter `default` comme le maintien des protections habituelles de Codex.
+- **Reprise de revue** : la [lifecycle](https://github.com/OrchestratorInc/agent-orchestrator/blob/v0.14.6/backend/internal/lifecycle/reactions.go#L146) diffère les notifications CI/revue pendant une attente de saisie. L'[observateur SCM](https://github.com/OrchestratorInc/agent-orchestrator/blob/v0.14.6/backend/internal/observe/scm/observer.go#L598) évite une nouvelle réaction lorsque les données observées n'ont pas changé. Ces chemins sont compatibles avec l'incident, mais sa cause exacte n'a pas été isolée. L'essai ne prouve pas que toutes les notifications de revue échouent.
+- **Envoi manuel pendant une approbation** : une commande `ao send` a interrompu un compte rendu en attente et le début du message reçu était tronqué dans l'historique. Cet incident n'a pas fait l'objet d'une reproduction isolée permettant d'en attribuer entièrement la cause.
+- **Installation macOS** : le premier contrôle de signature a échoué. Une nouvelle extraction avec `ditto` a passé les contrôles de signature et Gatekeeper a accepté l'application comme notarisée. La cause du premier échec n'a pas été isolée. Le [vérificateur upstream](https://github.com/OrchestratorInc/agent-orchestrator/blob/v0.14.6/frontend/scripts/verify-mac-artifact.sh) décrit la procédure de contrôle recommandée. Les vérifications réussies ont eu lieu après le lancement initial; aucune protection macOS n'a été désactivée.
+- **Télémétrie** : la [documentation de la release](https://github.com/OrchestratorInc/agent-orchestrator/blob/v0.14.6/docs/telemetry.md) décrit des identifiants d'installation et de compte, dont le nom GitHub; elle ne qualifie pas les données de totalement anonymes. Les releases desktop activent la télémétrie distante, avec désactivation dans les réglages de confidentialité. Le pilote a désactivé les contrôles de télémétrie du daemon; aucune capture réseau exhaustive n'a vérifié l'absence d'émission.
 
-## 📍 Recommandations
+Les hashes des fichiers globaux Codex de configuration, d'instructions et de hooks contrôlés sont restés identiques. Cette vérification limitée ne constitue pas un audit complet des effets sur le poste. L'interface graphique, les autres agents, plusieurs PR simultanées, les conflits Git, la reprise après redémarrage, les commentaires de bots, la fusion et la résolution des fils n'ont pas été testés.
 
-**Où intégrer**: `guide/ecosystem/third-party-tools.md`, nouvelle entrée juste après la section Conductor (ligne ~1379), présentée explicitement comme son équivalent open source cross-plateforme plutôt que comme un outil indépendant. Éviter de la rattacher à la catégorie "Full-cycle AI software factories" ajoutée dans `spec-first.md` : ce n'est pas un générateur PRD→code, ce serait une erreur de catégorisation.
+## Apport et décision
 
-**Format suggéré**: tableau attributs + section "How it works" courte + note de vigilance sur la télémétrie par défaut (cohérent avec le ton du guide sur `data-privacy.md`), sans reprendre l'affirmation non vérifiée sur la logique de retry/escalade.
+**Apport vérifié** : réunir la PR, son commit, la CI et les fils de revue autour de la session, et transmettre un échec CI à Codex sans recopier manuellement cet événement. Aucune mesure de temps, de coût ou de productivité ne démontre un avantage sur Codex Desktop ou un autre outil.
 
----
+L'[essai Escouade](./agent-workspace-cockpits.md#escouade) portait sur les dépendances entre tâches, la reprise et les tests avant livraison locale. AO a ici exercé le suivi GitHub. Les scénarios diffèrent : ils ne permettent pas de classer les produits. [Orca](./agent-workspace-cockpits.md#orca) reste une évaluation documentaire, sans essai runtime dans cette comparaison.
 
-## 🔥 Challenge
+**Score maintenu : 3/5.** Conserver AO comme candidat pour le suivi de plusieurs PR, sans recommander un remplacement du fonctionnement existant. Avant adoption, refaire le scénario avec un runner disponible et exiger : un vrai échec de test distant, sa correction suivie d'une CI verte au bon SHA, puis un commentaire arrivé pendant une approbation et livré après déblocage sans relance manuelle.
 
-**Objection testée**: "Un outil de 5 mois avec 416 issues ouvertes, n'est-ce pas trop tôt et trop instable pour l'intégrer ?"
+La formule historique « deux retries CI puis escalade humaine » reste non établie par cet essai. Les limites de notifications de revue présentes dans le code ne prouvent pas cette politique de correction CI.
 
-**Réponse**: La croissance (8 129 stars en 5 mois, soit un rythme largement supérieur à spec-kitty par exemple) et le fait qu'il comble un gap net et vérifiable (seul équivalent OSS cross-plateforme identifié à Conductor) justifient une mention. Le nombre d'issues ouvertes reflète un projet actif avec une communauté qui remonte des bugs, pas nécessairement un signal d'instabilité disqualifiant. Le score reste à 3/5 et non 4/5 précisément à cause de cette jeunesse et de l'absence de différenciation technique vérifiée au-delà du multi-CLI.
+## Revue de l'évaluation
 
-**Risque de non-intégration**: un lecteur qui a lu la section Conductor et cherche un équivalent Linux/Windows ou compatible avec un agent autre que Claude Code/Codex ne trouvera pas d'alternative documentée dans le guide.
-
----
-
-## ✅ Fact-check
-
-| Affirmation | Vérifiée | Source/Commentaire |
-|-------------|----------|---------------------|
-| 8 129 stars, 1 155 forks, 416 issues ouvertes | ✅ | Vérifié via `gh api repositories/1156994049` le 2026-07-08 (redirection depuis `ComposioHQ/agent-orchestrator`) |
-| Licence Apache-2.0 | ✅ | Confirmé par l'API GitHub (`license.spdx_id: Apache-2.0`) et le README |
-| 23 agent CLI supportés | ✅ | Liste énumérée dans le README (claude-code, codex, aider, opencode, grok, droid, amp, agy, crush, cursor, qwen, copilot, goose, auggie, continue, devin, cline, kimi, kiro, kilocode, vibe, pi, autohand) |
-| Isolation par git worktree | ✅ | Confirmé section "How it works" du README, point 3 |
-| Télémétrie PostHog activée par défaut | ✅ | Confirmé section "Telemetry" du README, avec mécanisme d'opt-out documenté |
-| "CI retry runs twice, then escalates" (affirmation de la recherche croisée) | ❌ Non confirmé | Recherché dans README, `docs/architecture.md`, `docs/STATUS.md` : aucune mention d'un compteur de tentatives ou d'un seuil d'escalade. Le comportement réel documenté est un "nudge" automatique sans logique de comptage explicite |
-| Repo créé le 2026-02-13 | ✅ | Champ `created_at` de l'API GitHub |
-
----
-
-## 🎯 Décision finale
-
-| Critère | Valeur |
-|---------|--------|
-| **Score final** | 3/5 |
-| **Action** | ✅ Mention dans `third-party-tools.md`, juste après Conductor, comme équivalent OSS cross-plateforme |
-| **Confiance** | Haute sur les faits vérifiés (stars, licence, agents supportés, télémétrie) ; la comparaison qualitative avec Conductor reste une lecture éditoriale |
-| **Point de vigilance** | Ne pas reprendre l'affirmation "retry twice then escalate" de la recherche source, non confirmée dans la documentation primaire du projet |
-
----
-
-*Rapport généré manuellement pour Claude Code Ultimate Guide v3.40.0*
+Un agent de revue technique distinct a confronté le texte aux preuves conservées et aux sources de la release. Il maintient le score de 3/5 et confirme les limites sur la CI, la relance manuelle et la confidentialité. Il a demandé de retirer l'attribution certaine du premier échec de signature à l'extraction : cette cause n'a pas été isolée. La correction est intégrée ci-dessus. Cette revue documentaire n'est pas une reproduction indépendante de l'essai.

@@ -857,6 +857,9 @@ deep_dive:
   third_party_tools_alternative_uis: "guide/ecosystem/third-party-tools.md#alternative-uis"
   third_party_desktop_workspaces: "guide/ecosystem/third-party-tools.md#desktop-agent-workspace-comparison"
   third_party_desktop_workspaces_evaluation: "docs/resource-evaluations/agent-workspace-cockpits.md"
+  third_party_orca: "https://github.com/stablyai/orca"
+  third_party_orca_evaluation: "docs/resource-evaluations/agent-workspace-cockpits.md#orca"
+  third_party_orca_purpose: "Desktop workspace with hosted review/CI feedback; inspect Codex session-sharing and permission defaults. Documentation review, no runtime trial."
   third_party_vibe_kanban_status: "guide/ecosystem/agent-harness-landscape.md#vibe-kanban-maintenance-status"
   third_party_tools_model_routing: "guide/ecosystem/third-party-tools.md#model-routing"
   third_party_agent_router: "guide/ecosystem/third-party-tools.md#agent-router"  # Per-phase model, effort and skill routing for Claude Code and Codex (FSL-1.1-ALv2, by the guide author, soon: repository not public yet)

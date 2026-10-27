@@ -1437,11 +1437,12 @@ A macOS desktop app that coordinates coding agents in Git workspaces, with local
 
 ### Desktop agent workspace comparison
 
-These tools host or coordinate existing coding agents. Their workspace features do not establish ownership of the underlying model-and-tool loop. The table highlights a reason to test each one rather than repeating a complete feature inventory. Sources reviewed on October 17, 2026, with an Escouade 1.8.8 runtime follow-up on October 22.
+These tools host or coordinate existing coding agents. Their workspace features do not establish ownership of the underlying model-and-tool loop. The table highlights a reason to test each one rather than repeating a complete feature inventory. Sources reviewed on October 17, 2026, with an Escouade 1.8.8 runtime follow-up on October 22 and an Orca documentation review on October 27.
 
 | Tool | Distinct workflow to evaluate | Constraint that affects adoption |
 |---|---|---|
 | [Conductor](#conductor) | Local or cloud workspaces with diff feedback and PR checks | macOS client; local-machine access can be enabled for cloud agents |
+| [Orca (Stably)](https://github.com/stablyai/orca) | Link worktrees to hosted reviews; send failing GitHub check names and links to an agent, annotate diffs, and supply browser element context | MIT; macOS, Windows, Linux. Terminal permission bypass and separate servers per Codex terminal (0.157+) are documented defaults; inspect permissions and session-sharing settings. Documentation reviewed, no runtime trial; see the [Orca evaluation](../../docs/resource-evaluations/agent-workspace-cockpits.md#orca) |
 | [Emdash](https://github.com/generalaction/emdash/blob/761520624f1cafa740f5c88ddaf083b4fde2cc59/README.md) | Run installed agent CLIs locally or on your own SSH/SFTP machines, with a worktree per task | macOS, Windows, Linux; Apache-2.0. For supported agents it installs lifecycle hooks in user-level configuration. Review those changes; agent CLIs may still send prompts and context to their providers |
 | [Superset](https://github.com/superset-sh/superset/blob/e547103d8570a39327c051b80144e45c59203052/README.md) | Review diffs, send PR-line feedback to an agent, and preview each worktree's dev server in a browser pane; select UI elements to supply context | macOS primary, Linux experimental, Windows unavailable in this snapshot. [Elastic License 2.0](https://github.com/superset-sh/superset/blob/e547103d8570a39327c051b80144e45c59203052/LICENSE.md), source-available; remote/cloud/mobile capabilities have separate requirements |
 | [Escouade](https://github.com/guillaume-gagnaire/escouade/blob/9383ada96cf91190fc719a1fcac7ac72ab00c7c4/README.md) | FR/EN Kanban with acceptance criteria, dependencies and retries; a three-ticket local trial verified worktree creation, dependency scheduling, restart/resume, and test-gated merges through MCP | Windows, macOS, Linux; 1.8.8 documents Claude Code, Codex, OpenCode, and Copilot CLI, but the trial used only Claude Code. GPL-3.0-or-later; versions through 1.7.7 were MIT. Enable tests explicitly and review MCP delivery authority |
@@ -1454,29 +1455,31 @@ For example, evaluate Superset on a UI change that needs both browser inspection
 
 **Escouade file-copy caveat**: an earlier standalone probe of the [October 17 revision](https://github.com/guillaume-gagnaire/escouade/blob/b74b6526b3ba94df049a9a8ad1466e37706fe175/src-tauri/src/testlaunch.rs#L126) reproduced an overwrite outside the worktree through a destination symlink. This helper finding was not retested on 1.8.8; automatic copying was disabled in the runtime trial. Use a disposable repository and disable automatic secret-file copying; see the [evidence and reproduction boundary](../../docs/resource-evaluations/agent-workspace-cockpits.md#escouade).
 
-The [source evaluation](../../docs/resource-evaluations/agent-workspace-cockpits.md) records the three selective additions and why Opcode did not receive another profile. Existing Nimbalyst and Claudio coverage is referenced there rather than duplicated.
+The [source evaluation](../../docs/resource-evaluations/agent-workspace-cockpits.md) records the selective additions, Orca's Codex continuity and permission boundaries, and why Opcode did not receive another profile. Existing Nimbalyst and Claudio coverage is referenced there rather than duplicated.
 
 ---
 
 ### Agent orchestrator (AO)
 
-The open source, cross-platform equivalent of Conductor above: a desktop app and CLI that supervise multiple coding agent CLIs in parallel, each in its own git worktree, with an automatic feedback loop for CI failures, review comments, and merge conflicts.
+An open-source desktop app and CLI that coordinate existing coding agents, project worktrees, and PR delivery state. Its daemon observes CI and review events and can send feedback to the associated agent session.
 
 | Attribute | Details |
 |-----------|---------|
-| **Source** | [github.com/AgentWrapper/agent-orchestrator](https://github.com/AgentWrapper/agent-orchestrator) (renamed from `ComposioHQ/agent-orchestrator`, same repo) |
-| **Install** | `npm install -g @aoagents/ao && ao start`, or desktop build for Windows/macOS/Linux |
-| **License** | Apache-2.0 |
-| **Platform** | Windows, macOS, Linux, plus a headless CLI mode |
-| **Stars** | 8,100+ (July 2026, 5 months after creation) |
+| **Source** | [OrchestratorInc/agent-orchestrator](https://github.com/OrchestratorInc/agent-orchestrator), previously referenced as AgentWrapper and ComposioHQ |
+| **Install** | Use the [official desktop releases](https://github.com/OrchestratorInc/agent-orchestrator/releases); the October trial used the embedded daemon through its CLI |
+| **License** | Apache-2.0 at repository root |
+| **Platform** | Desktop builds for Windows, macOS and Linux; only macOS CLI/daemon operation was exercised here |
+| **Trial** | October 27, 2026: AO v0.14.6, Codex CLI 0.159.2, one synthetic repository and PR |
 
-**Comparison scope**: the July 2026 evaluation documented broad agent-CLI support, desktop builds across Windows/macOS/Linux, and a headless mode. Conductor now documents four agents and cloud execution, so the former "23 versus 2" comparison no longer applies. AO's documented pattern is a Git worktree per session, a daemon watching PR state, and automatic "nudges" sent back to the agent when CI fails, a reviewer comments, or a merge conflict appears.
+**Verified in the trial**: AO created the Codex worktree, tracked the PR and final commit, and automatically forwarded a failing GitHub check to Codex. The agent fixed a locally reproduced bug. AO also ingested an inline review comment with its file and line, but delivery to Codex was not observed for more than five minutes after ingestion, including after an approval ended. A manual wake-up was needed to complete the review correction; five local tests then passed.
 
-**Two things worth knowing before adopting it**: the desktop app sends anonymized usage events (and redacted session recordings) to PostHog by default, disable it by setting `VITE_AO_POSTHOG_KEY` to an empty string before building. And despite some secondary coverage describing a "retry twice, then escalate to a human" mechanism for CI failures, that logic does not appear in the project's own README, architecture doc, or status doc as of July 2026, the documented behavior is a direct nudge back to the agent, not a bounded retry-then-escalate policy.
+**Remote CI remained blocked**: GitHub did not start the job because of account billing or a spending limit. AO's notification contained a log-fetch error rather than that diagnosis. Local passing tests do not establish remote CI success. The private trial records are evaluator evidence, not publicly reproducible CI artifacts.
 
-**When to evaluate AO**: you need a desktop client outside macOS, a headless deployment, or an open-source orchestration layer. Check support for your exact agent CLI and compare recovery behavior on a representative task; the July evaluation does not establish a current reliability or usability ranking.
+**Inspect defaults before adoption**: the tested [Codex permission mapping](https://github.com/OrchestratorInc/agent-orchestrator/blob/v0.14.6/backend/pkg/agentruntime/command.go#L198) makes AO's `default` bypass approvals and sandbox. The trial selected `accept-edits` and separately configured Codex with `workspace-write` and `on-request` approvals. The release's [telemetry documentation](https://github.com/OrchestratorInc/agent-orchestrator/blob/v0.14.6/docs/telemetry.md) also describes account-linked data and a privacy setting to disable remote collection; the earlier description of wholly anonymous telemetry is not retained.
 
-Full evaluation: [`docs/resource-evaluations/agent-orchestrator-composio.md`](../../docs/resource-evaluations/agent-orchestrator-composio.md).
+**When to evaluate AO**: test it for consolidated PR/CI/review supervision. Require a real remote red-to-green test and review delivery after an approval before relying on an unattended loop. This trial did not compare speed, cost, graphical usability, or reliability against Codex Desktop, Conductor, Orca, or Escouade. It also does not establish the historical “retry CI twice, then escalate” claim.
+
+Full evaluation and evidence limits: [`Agent Orchestrator with Codex`](../../docs/resource-evaluations/agent-orchestrator-composio.md).
 
 ---
 
