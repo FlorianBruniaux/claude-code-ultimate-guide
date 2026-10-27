@@ -44,12 +44,12 @@ Quick-reference for Claude Code community patterns, workflow terms, and AI engin
 | ccusage | Community CLI tool for tracking Claude Code token consumption, cost per session, and model breakdown. | Ecosystem | Tools |
 | Chain of Verification (CoVe) | Independent verifier pattern: a second agent re-checks the first agent's output to prevent confirmation bias. arXiv:2309.11495. | Workflow | Verification |
 | Checkpoint | A saved session state that can be restored via Esc x2 then /rewind. Created automatically before risky operations. | Claude Code | Session |
-| Claude Haiku 4.5 | Anthropic's fastest and cheapest model. Best for high-volume tasks, simple lookups, and cost-sensitive CI workflows. | Models | Tier |
+| Claude Haiku 5.5 | Anthropic's fastest and cheapest current model: native 1M context, $0.10/$0.50 per MTok for prompts up to 100K tokens (higher above). Best for high-volume tasks, simple lookups, and cost-sensitive CI workflows. | Models | Tier |
 | Claude Opus 5.5 | Current Opus alias on most providers, default from v2.1.280; native 1M context and medium effort. Foundry retains older defaults. | Models | Tier |
 | Claude Fable 5.1 | Explicit higher-cost selection, subject to account access; the Claude apps gateway alias still resolves to Fable 5. | Models | Tier |
-| Claude Sonnet 5 | Native 1M context, $2/$10 per MTok input/output, high effort by default. The sonnet alias depends on provider. | Models | Tier |
+| Claude Sonnet 5.5 | Native 1M context, $2/$10 per MTok input/output, `medium` effort by default in Claude Code. The sonnet alias depends on provider. | Models | Tier |
 | CLAUDE.md | Persistent memory file loaded automatically at session start. Contains project rules, conventions, and context. The foundation of Claude Code configuration. | Claude Code | Memory |
-| Co-Authored-By | Git trailer convention (`Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>`) for attributing AI-assisted commits. | Operations | Attribution |
+| Co-Authored-By | Git trailer convention (`Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>`) for attributing AI-assisted commits. | Operations | Attribution |
 | Comprehension debt | The growing gap between code an AI produces and the developer's actual understanding of what it does and why. | AI Engineering | Risk |
 | Config hierarchy | Three-tier precedence for CLAUDE.md: Local (`.claude/`, gitignored) > Project (committed) > Global (`~/.claude/CLAUDE.md`). More specific always wins over more general. | Claude Code | Configuration |
 | Constitutional AI | Anthropic's value framework (per published system prompt) defining Claude's priority order: safety > ethics > Anthropic principles > user utility. | AI Engineering | Framework |
@@ -59,7 +59,7 @@ Quick-reference for Claude Code community patterns, workflow terms, and AI engin
 | Context packing | Technique of densely encoding information (structured markdown, symbols, tables) to maximize useful signal per token. | AI Engineering | Context |
 | Context rot | The gradual degradation of Claude's situational awareness in long-running sessions as relevant context gets pushed out or buried. | AI Engineering | Context |
 | Context triage | The deliberate decision about what information is worth putting in context upfront vs. loading on demand via tools. | AI Engineering | Context |
-| Context window | Total amount of text (in tokens) Claude can process in a single session. Claude Sonnet 5 has a native 1M-token window; Sonnet 4.6 also has a 1M variant with plan/provider restrictions. | Models | Capacity |
+| Context window | Total amount of text (in tokens) Claude can process in a single session. Claude Sonnet 5.5 has a native 1M-token window; Sonnet 4.6 also has a 1M variant with plan/provider restrictions. | Models | Capacity |
 | Ctrl+B | Keyboard shortcut to background a running task, keeping it alive while you continue other work in the session. | Claude Code | Shortcuts |
 | dangerouslyDisableSandbox | Flag that bypasses Claude Code's native OS-level sandboxing. Should only be used in already-isolated environments. | Security | Configuration |
 | Default Mode | Base permission mode requiring explicit user approval for all file edits, shell commands, and commits. | Claude Code | Permissions |

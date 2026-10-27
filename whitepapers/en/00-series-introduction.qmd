@@ -2,11 +2,11 @@
 title: "Claude Code: From Zero to Productive"
 subtitle: "The fundamentals to get started effectively"
 author: "Florian BRUNIAUX"
-date: "2026-10-06"
+date: "2026-10-27"
 date-format: "MMMM YYYY"
 version: "3.44.1"
 guide-version: "3.44.1"
-wp-version: "1.5.3"
+wp-version: "1.5.4"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -66,7 +66,7 @@ Since late 2025, several agentic capabilities have become available and signific
 | **LSP Tool** | v2.0.74 | IDE-like navigation (symbols, types, refs) in ~50ms, 11 languages |
 | **Remote Control** | v2.1.51 | Control a local session from mobile or browser (Pro/Max/Team/Enterprise) |
 | **MCP Elicitation** | v2.1.76 | MCP servers can request structured data during a task |
-| **1M token context** | v2.1.75 | Native on current Opus, Sonnet and Fable; older models have plan/provider restrictions |
+| **1M token context** | v2.1.75 | Native on current Opus, Sonnet, Haiku and Fable; older models have plan/provider restrictions |
 | **`/loop`** | v2.1.71 | Recurring automation at a fixed interval (e.g. `/loop 5m /qa`) |
 | **`/branch`** | v2.1.78+ | Parallel session forking (`--fork-session`) to explore multiple approaches |
 | **`--bare`** | v2.1.78+ | Scripted mode without hooks/LSP/plugins, ideal for CI/CD |
@@ -167,7 +167,7 @@ Keyboard shortcuts let you switch between Claude Code modes without leaving the 
 | Shortcut | Action |
 |----------|--------|
 | `Shift+Tab` | Cycle: default -> auto-accept -> plan mode |
-| `Alt+T` | Toggle thinking where supported; no effect on Opus 5.5/Fable |
+| `Alt+T` | Toggle thinking where supported; no effect on Opus 5.5, Sonnet 5.5, Haiku 5.5 or Fable |
 | `Ctrl+B` | Run command in background |
 | `Ctrl+R` | Command history |
 | `@file` | Reference a specific file |
@@ -243,7 +243,7 @@ VERIFY: Empty email shows error message
 
 ## Context management
 
-Context is Claude's working memory. Current Opus, Sonnet and Fable models have native 1M windows on the direct API; Haiku 4.5 has 200K. Provider settings and older model variants can differ. Each teammate has an independent window sized by its model. Inspect `/context`:
+Context is Claude's working memory. Current Opus, Sonnet, Haiku and Fable models have native 1M windows on the direct API; Haiku 4.5, the last 200K model, is legacy. Provider settings and older model variants can differ. Each teammate has an independent window sized by its model. Inspect `/context`:
 
 | Zone | Context | Action |
 |------|---------|--------|

@@ -175,7 +175,7 @@ cost per accepted task =
 
 When a trial produces no accepted task, the ratio is undefined. Report zero accepted tasks, total attempts, and total spend instead of hiding the failed trial behind a dollar-per-task number.
 
-At current public API rates, Opus 5.5 costs $4 per million input tokens and $20 per million output tokens, Sonnet 5 costs $2 and $10, and Haiku 4.5 costs $1 and $5. The twofold Opus-to-Sonnet rate difference is meaningful only if both models clear the same quality gate. Source: [Claude model pricing](https://platform.claude.com/docs/en/about-claude/pricing), verified 2026-09-24.
+At current public API rates, Opus 5.5 costs $4 per million input tokens and $20 per million output tokens, Sonnet 5.5 costs $2 and $10, and Haiku 5.5 costs $0.10 and $0.50 for prompts up to 100K tokens. The twofold Opus-to-Sonnet rate difference is meaningful only if both models clear the same quality gate. Source: [Claude model pricing](https://platform.claude.com/docs/en/about-claude/pricing), verified 2026-10-27.
 
 Databricks calls the set of models with the best price for a required quality level the *efficiency frontier*. Use the term as an evaluation discipline, not as a public ranking. A candidate belongs on the organization's frontier only for the task classes, model-harness pair, acceptance gate, and review-cost boundary that were actually tested. Databricks reports more than 30% lower average task cost from its internal Smart Router while roughly matching the most expensive model's quality, but publishes no task sample, paired protocol, or confidence interval. Source: [Databricks, "Managing AI Coding Costs at Scale"](https://www.databricks.com/blog/managing-ai-coding-costs-scale), 2026-08-07.
 

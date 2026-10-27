@@ -5,10 +5,10 @@ card-number: "T16"
 category: "Technique"
 difficulty: "advanced"
 guide-version: "3.44.1"
-wp-version: "1.0.1"
+wp-version: "1.0.2"
 author: "Florian BRUNIAUX"
 version: "3.44.1"
-date: "2026-10-06"
+date: "2026-10-27"
 layout: "two-col"
 lang: fr
 format:
@@ -24,6 +24,8 @@ Depuis v2.1.0, Claude Code intègre un sandbox natif qui isole l'exécution des 
 ## Primitives OS selon la plateforme
 
 **macOS : Seatbelt**. Intégré au système, aucune installation requise. Utilise le framework TrustedBSD Mandatory Access Control pour filtrer les appels système au niveau kernel. Mesurer la surcharge avec vos commandes.
+
+Avant v2.1.309, les commandes Bash sandboxées exécutaient les fichiers de démarrage du shell hors du bac à sable sur macOS et Linux ; mettre à jour vers v2.1.309 ou plus récent.
 
 **Linux / WSL2 : bubblewrap**. Nécessite l'installation de deux paquets.
 

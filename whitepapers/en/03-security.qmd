@@ -2,11 +2,11 @@
 title: "Production Security"
 subtitle: "Permissions, hook examples and threat intelligence"
 author: "Florian BRUNIAUX"
-date: "2026-10-06"
+date: "2026-10-27"
 date-format: "MMMM YYYY"
 version: "3.44.1"
 guide-version: "3.44.1"
-wp-version: "1.4.4"
+wp-version: "1.4.5"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -379,12 +379,12 @@ Despite its usefulness, `permissions.deny` has documented gaps that make it insu
 
 ### Auto mode: Delegation and real limits (v2.1.114+)
 
-Auto mode delegates permission decisions to a dedicated classifier model (Sonnet 5) that evaluates every tool call before it executes. It is an alternative to `--dangerously-skip-permissions`, designed to reduce friction without removing all verification.
+Auto mode delegates permission decisions to a classifier that reviews tool calls before they execute. The classifier is server-side by default (v2.1.278 and later) on the Claude API, Enterprise, Bedrock, Vertex, Foundry and gateways; `CLAUDE_CODE_AUTO_MODE_SERVER=0` opts out, and `CLAUDE_CODE_AUTO_MODE_MODEL` sets the model of the client-side classifier. Since v2.1.283, auto mode is the starting permission mode for interactive terminal and VS Code sessions (earlier versions: only on Pro, Max and Team plans); `permissions.defaultMode` or `--permission-mode` overrides it, and `/auto-mode-setup` (v2.1.304) guides setup. It is an alternative to `--dangerously-skip-permissions`, designed to reduce friction without removing all verification.
 
 **Two-layer defense**
 
 1. **Injection probe**: Before any external content enters Claude's context (file reads, web fetches, shell output), a server-side probe scans for suspicious instructions and injects a warning when detected.
-2. **Transcript classifier** (Sonnet 5): Evaluates each tool call against three categories: scope escalation, unrecognized infrastructure, and prompt injection. It sees only user messages and pending tool calls; tool outputs and Claude's reasoning are stripped to prevent manipulation.
+2. **Transcript classifier**: Evaluates tool calls against three categories: scope escalation, unrecognized infrastructure, and prompt injection. It sees only user messages and pending tool calls; tool outputs and Claude's reasoning are stripped to prevent manipulation.
 
 **Evidence boundary**: Evaluate classifier behavior against your own threat model. No production detection-rate benchmark is established here.
 
@@ -425,6 +425,8 @@ The `PermissionDenied` hook (v2.1.88) fires on every classifier block: ideal for
 - **Modes**: Auto-allow (bash auto-approved within the sandbox) vs Regular permissions (normal prompts apply)
 - **`allowRead`** (v2.1.77+): read-only paths, grants read access without granting write access
 - **`sandbox.credentials`** (v2.1.187): blocks sandboxed commands from reading credential files (`.aws/credentials`, `.ssh/`) and secret environment variables
+
+Before v2.1.309, sandboxed Bash commands on macOS and Linux ran the shell's startup files outside the sandbox; update to v2.1.309 or later.
 
 **Benefits**:
 

@@ -7,7 +7,7 @@ difficulty: "intermediate"
 guide-version: "3.44.1"
 author: "Florian BRUNIAUX"
 version: "3.44.1"
-date: "2026-10-06"
+date: "2026-10-27"
 layout: "two-col"
 lang: en
 format:
@@ -57,6 +57,6 @@ This is a standard-speed example. Opus 5.5 defaults to medium effort in Claude C
 
 Opus 4.6 removed assistant prefill. For schema-constrained JSON, use `output_config.format`; for strict tool inputs, put `strict: true` on the tool definition. A system instruction alone does not guarantee valid JSON.
 
-Current Opus, Sonnet 5.5, and Fable use adaptive thinking. Fixed `budget_tokens` examples belong to older models. Haiku 4.5 supports extended thinking but has no effort parameter.
+Current Opus, Sonnet 5.5, Haiku 5.5, and Fable use adaptive thinking. Fixed `budget_tokens` examples belong to older models. Legacy Haiku 4.5 has no effort parameter.
 
 Verified September 24, 2026. Sources: [Claude Code fast mode](https://code.claude.com/docs/en/fast-mode), [structured outputs](https://platform.claude.com/docs/en/build-with-claude/structured-outputs).

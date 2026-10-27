@@ -2,11 +2,11 @@
 title: "Claude Code Cheatsheet"
 subtitle: "Daily essentials for maximum productivity"
 author: "Florian BRUNIAUX"
-date: "2026-10-06"
+date: "2026-10-27"
 date-format: "MMMM YYYY"
 version: "3.44.1"
 guide-version: "3.44.1"
-wp-version: "1.2.3"
+wp-version: "1.2.4"
 series: "Claude Code Ultimate Guide"
 format:
   cheatsheet-typst:
@@ -73,7 +73,7 @@ which claude && claude --version
 | `Ctrl+L` | Clear screen (keeps context) |
 | `Ctrl+B` | Background tasks |
 | `Ctrl+X Ctrl+K` | Kill all background agents  |
-| `Alt+T` | Toggle thinking where supported |
+| `Alt+T` | Toggle thinking where supported (not on Opus/Sonnet/Haiku 5.5, Fable) |
 | `Space` (hold) | Voice input (requires `/voice`) |
 | `Tab` | Autocomplete |
 | `Shift+Enter` | New line |
@@ -121,7 +121,7 @@ Ask for delegation → Claude may use an available agent
 
 The Bypass mode identifier is `bypassPermissions`.
 
-**Shift+Tab** to switch modes
+**Shift+Tab** to switch modes. Since v2.1.283 new sessions start in auto mode unless `permissions.defaultMode` or `--permission-mode` overrides it; `/auto-mode-setup` guides setup.
 
 # Memory & Settings (2 levels)
 
@@ -186,13 +186,13 @@ The Bypass mode identifier is `bypassPermissions`.
 
 ## Thinking and effort
 
-Opus 5.5, Sonnet 5.5, and Fable 5.1 use adaptive thinking. Haiku 4.5 supports extended thinking but has **no effort parameter**.
+Opus 5.5, Sonnet 5.5, Haiku 5.5, and Fable 5.1 use adaptive thinking. Legacy Haiku 4.5 has **no effort parameter**.
 
 Current adaptive models support `low`, `medium`, `high`, `xhigh`, and `max`. Opus 4.6 and Sonnet 4.6 support `max` but not `xhigh`.
 
 `/effort` saves levels through `xhigh` per model. Use **s** for a session-only choice. `max` is session-only; `/effort auto` clears the active model's saved choice.
 
-`Option+T` / `Alt+T` toggles thinking where supported. It has no effect on Opus 5.5 or Fable, whose thinking is always enabled. Lower effort for bounded work instead.
+`Option+T` / `Alt+T` toggles thinking where supported. It has no effect on Opus 5.5, Sonnet 5.5, Haiku 5.5, or Fable, whose thinking cannot be turned off. Lower effort for bounded work instead.
 
 `ultrathink` adds a reasoning instruction without changing API effort. `think hard` is ordinary prompt text.
 
@@ -204,7 +204,7 @@ Current adaptive models support `low`, `medium`, `high`, `xhigh`, and `max`. Opu
 3. Plan Mode          → Shift+Tab × 2 (for complex tasks)
 4. Describe task      → Clear, specific prompt
 5. Review changes     → Always read the diff!
-6. Accept/Reject      → y/n
+6. Accept/Reject      → Enter/Esc
 7. Verify             → Run tests
 8. Commit             → When task complete
 9. /compact           → When context >70%
@@ -302,8 +302,8 @@ Standard API rates verified October 6, 2026. USD per million input/output tokens
 
 | Model | Input / output | Context | Default effort |
 |-------|----------------|---------|----------------|
-| Haiku 4.5 | $1 / $5 | 200K | Unsupported |
-| Sonnet 5.5 | $2 / $10 | 1M | high |
+| Haiku 5.5 | $0.10 / $0.50 (up to 100K; $0.50 / $2.50 above) | 1M | medium |
+| Sonnet 5.5 | $2 / $10 | 1M | medium |
 | Opus 5.5 | $4 / $20 | 1M | medium |
 | Fable 5.1 | $10 / $50 | 1M | high |
 

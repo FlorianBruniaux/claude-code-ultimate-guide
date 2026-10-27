@@ -6,7 +6,7 @@
 # Strategy:
 #   1. Reads the session JSONL from ~/.claude/projects/ (via session_id from stdin or env)
 #   2. Extracts the first 3 user messages as context
-#   3. Calls claude-haiku-4-5 to generate a 4-6 word title (verb + subject)
+#   3. Calls claude-haiku-5-5 to generate a 4-6 word title (verb + subject)
 #   4. Falls back to a sanitized version of the first message if Haiku fails
 #   5. Updates sessions-index.jsonl (custom index) and the JSONL slug (for /resume)
 #
@@ -163,7 +163,7 @@ if command -v claude &>/dev/null; then
     # CLAUDECODE is unset to prevent the subprocess from inheriting hook context,
     # which could cause unexpected behaviour or infinite loops.
     TITLE=$(printf '%s' "$PROMPT" \
-        | env -u CLAUDECODE timeout 12 claude -p --model claude-haiku-4-5-20251001 2>/dev/null \
+        | env -u CLAUDECODE timeout 12 claude -p --model claude-haiku-5-5 2>/dev/null \
         | head -1 \
         | tr '[:upper:]' '[:lower:]' \
         | sed 's/[^a-z0-9 ]//g' \

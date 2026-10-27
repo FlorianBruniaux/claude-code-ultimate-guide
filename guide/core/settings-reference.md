@@ -5,7 +5,7 @@ description: "Reference for Claude Code settings.json options and environment va
 
 # Claude Code settings reference
 
-> Complete reference for `settings.json` configuration and environment variables. Covers all confirmed settings as of Claude Code v2.1.162.
+> Complete reference for `settings.json` configuration and environment variables. Covers confirmed settings through Claude Code v2.1.310 (last reviewed October 27, 2026). The [official settings reference](https://code.claude.com/docs/en/settings-reference) remains authoritative.
 
 **Sources:** [Official settings docs](https://code.claude.com/docs/en/settings) · [Official env-vars docs](https://code.claude.com/docs/en/env-vars) · [JSON Schema](https://json.schemastore.org/claude-code-settings.json)
 
@@ -300,10 +300,10 @@ Additional working directories that Claude has access to, beyond the current pro
 #### `permissions.defaultMode`
 **Type:** string
 **Scope:** all
-**Default:** `"default"`
-**Values:** `"default"` | `"acceptEdits"` | `"plan"` | `"bypassPermissions"`
+**Default:** unset (built-in starting mode for the surface: `auto` in interactive terminal and VS Code sessions since v2.1.283)
+**Values:** `"default"` (alias `"manual"`) | `"acceptEdits"` | `"plan"` | `"auto"` | `"dontAsk"` | `"bypassPermissions"`
 
-Default permission mode when opening Claude Code. In Remote environments, only `"acceptEdits"` and `"plan"` are honored.
+Default permission mode when opening Claude Code. `auto` and `bypassPermissions` take effect only from user or managed settings (or `--permission-mode`), not from project or local settings. In Remote environments, only `"acceptEdits"` and `"plan"` are honored.
 
 #### `permissions.disableBypassPermissionsMode`
 **Type:** string
@@ -367,7 +367,7 @@ Rules follow the format `Tool` or `Tool(specifier)`. Evaluation order: deny firs
 **Scope:** all
 **Default:** none
 
-Configure custom commands to run at lifecycle events. See the [hooks documentation](https://code.claude.com/docs/en/hooks) and [§7.1 of the guide](../ultimate-guide.md#71-the-event-system) for the full set of 30 hook events, exit codes, and environment variables.
+Configure custom commands to run at lifecycle events. See the [hooks documentation](https://code.claude.com/docs/en/hooks) and [§7.1 of the guide](../ultimate-guide.md#71-the-event-system) for the full set of 33 hook events, exit codes, and environment variables.
 
 #### `disableAllHooks`
 **Type:** boolean
@@ -842,7 +842,7 @@ Per-plugin MCP server configurations, keyed by `plugin@marketplace`.
 **Scope:** all
 **Values:** `"low"` | `"medium"` | `"high"` | `"xhigh"`
 
-Fallback effort for a model without a saved choice. Defaults depend on the model: Opus 5.5 uses `medium`; Sonnet 5 and Fable 5.1 use `high`. Haiku 4.5 has no effort parameter. Opus 5.5 ignores this legacy key in user settings, but explicit project, local, managed, and `--settings` values still apply.
+Fallback effort for a model without a saved choice. Defaults depend on the model: Opus 5.5, Sonnet 5.5 and Haiku 5.5 use `medium`; Fable 5.1 uses `high`. The legacy Haiku 4.5 has no effort parameter. Opus 5.5 ignores this legacy key in user settings, but explicit project, local, managed, and `--settings` values still apply.
 
 #### `modelSettings`
 **Type:** object
@@ -886,9 +886,9 @@ Map Anthropic model IDs to provider-specific model IDs (e.g., Bedrock inference 
 | Alias | Description |
 |-------|-------------|
 | `"default"` | Recommended model for your account type |
-| `"sonnet"` | Sonnet 5 on the Anthropic API; cloud-provider aliases may resolve to 4.6 or 4.5 |
+| `"sonnet"` | Sonnet 5.5 on the Anthropic API; cloud-provider aliases may resolve to 4.6 or 4.5 |
 | `"opus"` | Opus 5.5 on most providers; Opus 4.6 on Foundry |
-| `"haiku"` | Haiku 4.5 on the direct service |
+| `"haiku"` | Haiku 5.5 on the Anthropic API (Claude Code v2.1.293+); Haiku 4.5 on cloud providers |
 | `"fable"` | Fable 5.1 where available; Fable 5 through the Claude apps gateway |
 | `"best"` | Fable where available, otherwise Opus |
 | `"sonnet[1m]"` | Sonnet with 1M token context |
@@ -1286,7 +1286,7 @@ Set in your shell before launching `claude`, or configure under the `env` key in
 | `BASH_DEFAULT_TIMEOUT_MS` | Default bash command timeout in milliseconds (default: 120000) |
 | `BASH_MAX_TIMEOUT_MS` | Maximum bash command timeout in milliseconds (default: 600000) |
 | `BASH_MAX_OUTPUT_LENGTH` | Maximum characters in bash output before saving to a file and sending the path |
-| `MAX_THINKING_TOKENS` | Fixed budget on older extended-thinking models. `0` disables thinking where supported, but not on Opus 5.5 or Fable. The fixed-budget compatibility switch applies only to Opus 4.6 and Sonnet 4.6 |
+| `MAX_THINKING_TOKENS` | Fixed budget on older extended-thinking models. `0` disables thinking where supported, but not on Opus 5.5, Sonnet 5.5, Haiku 5.5 or Fable. The fixed-budget compatibility switch applies only to Opus 4.6 and Sonnet 4.6 |
 | `CLAUDE_CODE_MAX_OUTPUT_TOKENS` | Output limit; default and cap depend on the model. Unrecognized gateway IDs default to 32,000. Values above the known model cap are reduced to that cap |
 | `CLAUDE_CODE_FILE_READ_MAX_OUTPUT_TOKENS` | Override default file read token limit |
 | `CLAUDE_CODE_MAX_CONTEXT_TOKENS` | Override context window size Claude Code assumes for the active model. Only takes effect when `DISABLE_COMPACT` is also set |
@@ -1326,7 +1326,7 @@ Set in your shell before launching `claude`, or configure under the `env` key in
 | `CLAUDE_CODE_USE_NATIVE_FILE_SEARCH` | Set to `1` to discover commands/subagents using Node.js file APIs instead of ripgrep |
 | `CLAUDE_CODE_PERFORCE_MODE` | Set to `1` to enable Perforce-aware write protection (edits fail on files lacking owner-write bit) |
 | `CLAUDE_CODE_POWERSHELL_RESPECT_EXECUTION_POLICY` | Set to `1` to stop Claude Code from passing `-ExecutionPolicy Bypass` when spawning PowerShell |
-| `CLAUDE_CODE_FORK_SUBAGENT` | Set to `1` to make forked subagents the default: spawned agents inherit full conversation context instead of starting fresh |
+| `CLAUDE_CODE_FORK_SUBAGENT` | Controls fork mode, which is on by default: Claude can start forks that inherit the full conversation context. See the [official variable list](https://code.claude.com/docs/en/env-vars) for the off value and per-surface behavior |
 | `CLAUDE_CODE_AUTO_BACKGROUND_TASKS` | Set to `1` to force-enable automatic backgrounding of long-running agent tasks |
 | `CLAUDE_CODE_REMOTE` | Set automatically to `true` when running as a cloud session |
 | `CLAUDE_CODE_REMOTE_SESSION_ID` | Set automatically in cloud sessions to the current session ID |
@@ -1543,6 +1543,27 @@ These appear in community sources or older documentation but are not confirmed i
 | `DISABLE_NON_ESSENTIAL_MODEL_CALLS` `⚠️ Unverified` | Disable flavor text and non-essential model calls |
 
 ---
+
+### Settings added in Claude Code v2.1.275 to v2.1.310
+
+Checked against the [official settings reference](https://code.claude.com/docs/en/settings-reference) and [environment variables](https://code.claude.com/docs/en/env-vars) on October 27, 2026. Release numbers come from the [release tracker](claude-code-releases.md).
+
+| Key or variable | Scope | Effect |
+|-----------------|-------|--------|
+| `idleCompaction` | Any file | `false` turns off idle compaction, which compacts a 200K+ token conversation left idle about 54 minutes before its one-hour prompt cache expires (v2.1.299). `CLAUDE_CODE_IDLE_COMPACT_MIN_TOKENS` changes the threshold (minimum 100,000) |
+| `syncClaudeAiSkills`, `syncClaudeAiPlugins` | User, local, managed, `--settings` | `false` stops syncing the skills or plugins enabled on your claude.ai account into terminal sessions; a repository cannot turn it off for you (v2.1.275) |
+| `maxProseWidth` | Any file | Caps response prose at this many columns (minimum 40); tables and code keep the full width (v2.1.282) |
+| `deniedModels` | Managed | Blocks models by family alias or ID, even when `availableModels` permits them (v2.1.283) |
+| `availableModelsMatch` | Managed | `"exact"` keeps a newer version blocked until it is listed; the default `"prefix"` lets `"claude-opus-5"` permit Opus 5.5 |
+| `allowedProviders` | Managed | Lists the services a machine may reach Claude through (`anthropic`, `bedrock`, gateways...); other providers are refused at startup and login (v2.1.285) |
+| `sandbox.allowNestedUserNamespaces` | User, managed | Lets sandboxed Linux/WSL2 commands create user namespaces (Chromium, nested bubblewrap). Turns off a security boundary: sandboxed code can end up running outside the sandbox (v2.1.305) |
+| `CLAUDE_CODE_AUTO_MODE_SERVER` | Environment | `0` uses Claude Code's own classifier requests instead of server-side auto mode review |
+| `CLAUDE_CODE_AUTO_MODE_MODEL` | Environment | Model for the classifier requests Claude Code sends in auto mode, as a full model ID (v2.1.302) |
+| `CLAUDE_CODE_DISABLE_DANGEROUS_RM_TIMEOUT` | Environment | `1` turns off the time limit and auto-denial on critical-path removals in `auto` and `bypassPermissions` (v2.1.281) |
+| `CLAUDE_CODE_DISABLE_WEB_FETCH` | Environment | `1` turns off WebFetch; WebSearch stays available (v2.1.285) |
+| `CLAUDE_CODE_DISABLE_FILE_MENTIONS` | Environment | `1` stops expanding `@` file mentions; Claude gets the paths and reads them with its tools (v2.1.299) |
+| `CLAUDE_CODE_DISABLE_ULTRAREVIEW_TRUST_CHECK` | Environment | `1` lets `claude ultrareview` run in an untrusted folder when it cannot ask, such as CI; or pass `--trust-workspace` (v2.1.309) |
+| `MCP_PROTOCOL_NEGOTIATION` | Environment | `legacy` skips the probe for MCP protocol revision 2026-07-28 on the v2 MCP client runtime |
 
 ## Complete example
 

@@ -49,7 +49,7 @@ Measure each attempt first, then aggregate every attempt that contributed to an 
 | Tool calls | Each tool invocation adds its result to the next input | Number of Read, Bash, Grep, WebFetch calls |
 | Sub-agent runs | Each sub-agent is its own input plus output cost | Number and depth of delegated tasks |
 
-Output tokens can dominate the bill because output is priced several times higher than input. At Anthropic's public rates verified 2026-09-24, Sonnet 5 costs $2 per million input tokens and $10 per million output tokens, while Opus 5.5 costs $4 and $20. A task that generates a lot of code or long reasoning can therefore cost more on the output side even when its input is larger. Source: [Claude model pricing](https://platform.claude.com/docs/en/about-claude/pricing).
+Output tokens can dominate the bill because output is priced several times higher than input. At Anthropic's public rates verified 2026-10-27, Sonnet 5.5 costs $2 per million input tokens and $10 per million output tokens, while Opus 5.5 costs $4 and $20. A task that generates a lot of code or long reasoning can therefore cost more on the output side even when its input is larger. Source: [Claude model pricing](https://platform.claude.com/docs/en/about-claude/pricing).
 
 ### A concrete calculation
 
@@ -72,7 +72,7 @@ Output side:
   output subtotal        ~20,000 tokens
 ```
 
-At Sonnet 5 public rates verified 2026-09-24 ($2 input, $10 output per million):
+At Sonnet 5.5 public rates verified 2026-10-27 ($2 input, $10 output per million):
 
 ```
 input:  73,000 / 1,000,000 x $2   = $0.146

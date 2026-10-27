@@ -973,7 +973,7 @@ This works well during active sessions but depends on Claude following the instr
 
 #### Approach B: SessionEnd hook (automatic, AI-generated)
 
-A `SessionEnd` hook reads the session's JSONL file directly from `~/.claude/projects/`, extracts the first few user messages as context, and calls `claude -p --model claude-haiku-4-5-20251001` to generate a 4-6 word descriptive title. If Haiku is unavailable, it falls back to a sanitized version of the first message.
+A `SessionEnd` hook reads the session's JSONL file directly from `~/.claude/projects/`, extracts the first few user messages as context, and calls `claude -p --model claude-haiku-5-5` to generate a 4-6 word descriptive title. If Haiku is unavailable, it falls back to a sanitized version of the first message.
 
 The hook updates both `sessions-index.jsonl` (for custom session browsers) and the slug field in the JSONL file (for native `/resume` compatibility).
 
@@ -1049,6 +1049,10 @@ Use for restrictive workflows where you want tight control over which tools run,
 ### Auto Mode (all plans, v2.1.114+)
 
 Auto mode uses a classifier for actions that need review. Reads and some edits skip classification; it does not review every tool call. The classifier and availability can change server-side.
+
+**Starting mode (v2.1.283+)**: interactive terminal and VS Code sessions start in auto mode when no permission mode is configured; on earlier versions this applied only on Pro, Max, and Team plans. `permissions.defaultMode` in user or managed settings, or `--permission-mode`, chooses another mode. `/auto-mode-setup` (v2.1.304) drafts environment entries from the project and recent sessions so the classifier blocks less of your normal work.
+
+**Classifier location**: Claude Code asks the server to review actions by default on direct Anthropic API connections (as Anthropic rolls it out), the cloud providers, and LLM gateways; when the server does not review a session, Claude Code falls back to its own classifier requests. `CLAUDE_CODE_AUTO_MODE_SERVER=0` switches to Claude Code's own classifier requests, whose model `CLAUDE_CODE_AUTO_MODE_MODEL` can set (v2.1.302). See [server-side classifier review](https://code.claude.com/docs/en/permission-modes#server-side-classifier-review).
 
 To request it for one session, run `claude --permission-mode auto`. For a user default, put this in `~/.claude/settings.json`:
 
@@ -1723,7 +1727,7 @@ Context is Claude's "working memory" for your conversation. It includes:
 
 ### The context budget
 
-The context window depends on the selected model and provider. Opus 5.5, Sonnet 5.5 and Fable 5.1 have native **1M-token** windows on the direct API; Haiku 4.5 has **200K**. Inspect `/context` for the active session. Capacity does not guarantee that every detail will be retrieved reliably.
+The context window depends on the selected model and provider. Opus 5.5, Sonnet 5.5, Haiku 5.5 and Fable 5.1 have native **1M-token** windows on the direct API; the legacy Haiku 4.5 has **200K**. Inspect `/context` for the active session. Capacity does not guarantee that every detail will be retrieved reliably.
 
 ### Reading the statusline
 
@@ -2146,18 +2150,18 @@ Claude Code usage can draw from a subscription allowance, usage credits or API b
 
 <a id="pricing-model-verified-september-24-2026"></a>
 
-#### Pricing Model (rates checked October 6, 2026)
+#### Pricing Model (rates checked October 27, 2026)
 
 Claude Code v2.1.280 and later defaults to **Opus 5.5** on Pro, Max, Team, Enterprise, the Anthropic API, Claude Platform on AWS, Bedrock, and Google Cloud's Agent Platform. Microsoft Foundry retains Sonnet 4.5 as its account default. Organization policy, model settings, and environment overrides can change the result. Check `/model` and `/status` for your session.
 
 | Model | Input / MTok | Output / MTok | Cache read / MTok | Context | Default effort in Claude Code |
 |-------|--------------|---------------|-------------------|---------|-------------------------------|
 | Opus 5.5 | $4 | $20 | $0.20 | 1M | `medium` |
-| Sonnet 5.5 | $2 | $10 | $0.10 | 1M | `high` |
-| Haiku 4.5 | $1 | $5 | $0.10 | 200K | No effort parameter |
+| Sonnet 5.5 | $2 | $10 | $0.10 | 1M | `medium` |
+| Haiku 5.5 | $0.10 (prompts up to 100K tokens), $0.50 above | $0.50, $2.50 above 100K | $0.01, $0.05 above 100K | 1M | `medium` |
 | Fable 5.1 | $10 | $50 | $0.25 | 1M | `high` |
 
-These are standard Anthropic API rates in USD, checked October 6, 2026; cache-read rates were rechecked October 24, 2026. Subscription allowances, usage credits, cache writes, batch discounts, data residency, and partner-operated cloud pricing are separate. Sonnet 5.5 (`claude-sonnet-5-5`) replaced Sonnet 5 as the default Sonnet on the Anthropic API in Claude Code v2.1.284 (September 28, 2026) at the same $2/$10; Sonnet 5 is now a legacy model, and the September increase once announced for it did not occur. [Official model pricing](https://platform.claude.com/docs/en/about-claude/pricing).
+These are standard Anthropic API rates in USD, checked October 27, 2026. Subscription allowances, usage credits, cache writes, batch discounts, data residency, and partner-operated cloud pricing are separate. Sonnet 5.5 (`claude-sonnet-5-5`) replaced Sonnet 5 as the default Sonnet on the Anthropic API in Claude Code v2.1.284 (September 28, 2026) at the same $2/$10; Sonnet 5 is now a legacy model, and the September increase once announced for it did not occur. Haiku 5.5 (`claude-haiku-5-5`) replaced Haiku 4.5 as the default `haiku` on the Anthropic API in Claude Code v2.1.293 (October 7, 2026); a Haiku 5.5 request costs more per token when its prompt exceeds 100K tokens. Default effort values come from the [Claude Code model configuration](https://code.claude.com/docs/en/model-config#adjust-effort-level); the Claude API's own default for Sonnet 5.5 is `high`. [Official model pricing](https://platform.claude.com/docs/en/about-claude/pricing).
 
 Fast mode supports Opus 5.5 ($8/$40 per MTok), Opus 5 and Opus 4.8 ($10/$50). It is unavailable on Sonnet and Haiku. Anthropic describes up to 2.5 times faster output; this is not a guarantee for every request. Subscription fast mode uses usage credits. [Fast mode reference](https://code.claude.com/docs/en/fast-mode).
 
@@ -2165,9 +2169,9 @@ Fable 5.1 is available by explicit selection, subject to account and organizatio
 
 #### 200K vs 1M context: Performance, cost & use cases
 
-Opus 5.5, Sonnet 5.5, and Fable 5.1 have native 1M context on the Anthropic API. The older Opus 4.6 and Sonnet 4.6 use a `[1m]` variant with plan-specific access. Gateway and cloud-provider settings can expose a different window; inspect `/context` and the [provider rules](https://code.claude.com/docs/en/model-config#extended-context).
+Opus 5.5, Sonnet 5.5, Haiku 5.5, and Fable 5.1 have native 1M context on the Anthropic API. The older Opus 4.6 and Sonnet 4.6 use a `[1m]` variant with plan-specific access. Gateway and cloud-provider settings can expose a different window; inspect `/context` and the [provider rules](https://code.claude.com/docs/en/model-config#extended-context).
 
-The current native 1M models use their standard rates beyond 200K input tokens. Old beta-header and long-context premium advice for Sonnet 4/4.5 must not be applied to them. Maximum output is 128K for Opus 5.5, Sonnet 5.5, and Fable 5.1, and 64K for Haiku 4.5. [Model specifications](https://platform.claude.com/docs/en/models/overview).
+The current native 1M models use their standard rates beyond 200K input tokens, except Haiku 5.5, whose rates rise for prompts over 100K tokens. Old beta-header and long-context premium advice for Sonnet 4/4.5 must not be applied to them. Maximum output is 128K for Opus 5.5, Sonnet 5.5, Haiku 5.5, and Fable 5.1 (64K for the legacy Haiku 4.5). [Model specifications](https://platform.claude.com/docs/en/models/overview).
 
 **Illustrative token bills, not measured session costs**, without caching or retries:
 
@@ -2754,19 +2758,19 @@ Claude: [Executes the plan]
 
 ### Model aliases
 
-Aliases resolve by provider and can be remapped by configuration. Verified against the [official model configuration](https://code.claude.com/docs/en/model-config) on September 24, 2026:
+Aliases resolve by provider and can be remapped by configuration. Verified against the [official model configuration](https://code.claude.com/docs/en/model-config) on October 27, 2026:
 
-| Provider | `opus` | `sonnet` |
-|----------|--------|----------|
-| Anthropic API | Opus 5.5 | Sonnet 5.5 (since v2.1.284) |
-| Claude Platform on AWS | Opus 5.5 | Sonnet 4.6 |
-| Amazon Bedrock / Google Cloud's Agent Platform | Opus 5.5 | Sonnet 4.5 |
-| Microsoft Foundry | Opus 4.6 | Sonnet 4.5 |
+| Provider | `opus` | `sonnet` | `haiku` |
+|----------|--------|----------|---------|
+| Anthropic API | Opus 5.5 | Sonnet 5.5 (since v2.1.284) | Haiku 5.5 (since v2.1.293) |
+| Claude Platform on AWS | Opus 5.5 | Sonnet 4.6 | Haiku 4.5 |
+| Amazon Bedrock / Google Cloud's Agent Platform | Opus 5.5 | Sonnet 4.5 | Haiku 4.5 |
+| Microsoft Foundry | Opus 4.6 | Sonnet 4.5 | Haiku 4.5 |
 
 | Selection | Meaning |
 |-----------|---------|
 | `default` | Clear the override and use the account or organization default |
-| `haiku` | Haiku family alias; current direct-service model is Haiku 4.5 |
+| `haiku` | Haiku family alias; Haiku 5.5 on the Anthropic API (Claude Code v2.1.293+), Haiku 4.5 on the cloud providers above |
 | `fable` | Fable 5.1, except Fable 5 through the Claude apps gateway |
 | `best` | Same as `fable` where available, otherwise `opus` |
 | `opus[1m]`, `sonnet[1m]` | Request a 1M variant where the provider/model needs one |
@@ -2777,7 +2781,7 @@ Pin a version with its exact provider ID, such as `claude-opus-5-5`, or the appr
 
 `/model <name>` saves a default for new sessions. In the picker, press `s` for this session only. `claude --model <name>` and `ANTHROPIC_MODEL` apply to the launched session. Project and managed settings can reapply on the next launch; resumed sessions usually restore their recorded model. `ANTHROPIC_DEFAULT_MODEL` is a lower-priority default, not a replacement for these overrides.
 
-Use the status line, `/model`, or the API response metadata to identify the active model. Model self-reports are not reliable identification. The current reliable knowledge cutoffs are June 2026 for Opus 5.5, Sonnet 5.5 and Fable 5.1, and February 2025 for Haiku 4.5. [Model specifications](https://platform.claude.com/docs/en/models/overview).
+Use the status line, `/model`, or the API response metadata to identify the active model. Model self-reports are not reliable identification. The current reliable knowledge cutoff is June 2026 for Opus 5.5, Sonnet 5.5, Haiku 5.5 and Fable 5.1 (February 2025 for the legacy Haiku 4.5). [Model specifications](https://platform.claude.com/docs/en/models/overview).
 
 ### OpusPlan mode
 
@@ -2847,17 +2851,17 @@ tools: Write, Edit, Bash
 ```bash
 # Add to ~/.zshrc
 sonnetplan() {
-    ANTHROPIC_DEFAULT_OPUS_MODEL=claude-sonnet-5 \
-    ANTHROPIC_DEFAULT_SONNET_MODEL=claude-haiku-4-5-20251001 \
+    ANTHROPIC_DEFAULT_OPUS_MODEL=claude-sonnet-5-5 \
+    ANTHROPIC_DEFAULT_SONNET_MODEL=claude-haiku-5-5 \
     claude "$@"
 }
 ```
 
 With `sonnetplan`, `/model opusplan` routes:
-- **Plan Mode** → Sonnet 5 (via remapped `opus` alias)
-- **Act Mode** → Haiku 4.5 (via remapped `sonnet` alias)
+- **Plan Mode** → Sonnet 5.5 (via remapped `opus` alias)
+- **Act Mode** → Haiku 5.5 (via remapped `sonnet` alias)
 
-> **Caveat**: The model's self-report (`what model are you?`) is unreliable: models don't always know their own identity. Trust the status bar (`Model: Sonnet 5` in plan mode) or verify via billing dashboard. GitHub issue [#9749](https://github.com/anthropics/claude-code/issues/9749) tracks native support.
+> **Caveat**: The model's self-report (`what model are you?`) is unreliable: models don't always know their own identity. Trust the status bar (`Model: Sonnet 5.5` in plan mode) or verify via billing dashboard. GitHub issue [#9749](https://github.com/anthropics/claude-code/issues/9749) tracks native support.
 
 <a id="pinning-opus-46-community-hack"></a>
 
@@ -3159,7 +3163,7 @@ _Quick jump:_ [Decision Table](#decision-table) · [Effort Levels](#effort-level
 
 | Task | Candidate model | Effort starting point |
 |------|-----------------|-----------------------|
-| Rename, format, bounded extraction | Haiku 4.5 | Not supported |
+| Rename, format, bounded extraction | Haiku 5.5 | Default `medium`; evaluate `low` |
 | Feature work, tests, routine debugging | Sonnet 5.5 or Opus 5.5 | Model default |
 | Architecture or difficult debugging | Opus 5.5 | Increase from `medium` if evaluation warrants it |
 | Long or ambiguous work that misses the quality bar | Evaluate Fable 5.1 | Start at `high` |
@@ -3177,11 +3181,11 @@ Effort controls adaptive reasoning and can change tool use, response length, lat
 
 | Models | Supported Claude Code effort levels | Default |
 |--------|-------------------------------------|---------|
-| Opus 5.5 | `low`, `medium`, `high`, `xhigh`, `max` | `medium` |
+| Opus 5.5, Sonnet 5.5, Haiku 5.5 | `low`, `medium`, `high`, `xhigh`, `max` | `medium` |
 | Sonnet 5, Opus 5 / 4.8, Fable 5 / 5.1 | `low`, `medium`, `high`, `xhigh`, `max` | `high` |
 | Opus 4.7 | `low`, `medium`, `high`, `xhigh`, `max` | `xhigh` |
 | Opus 4.6, Sonnet 4.6 | `low`, `medium`, `high`, `max` | `high` |
-| Haiku 4.5 | No effort parameter | Not applicable |
+| Haiku 4.5 (legacy) | No effort parameter | Not applicable |
 
 `/effort` or the `/model` picker saves supported `low` through `xhigh` choices per model when confirmed with `Enter`; `s` makes the choice session-only. `/effort max` is session-only. Persistent `modelSettings` and `effortLevel` do not accept `max`. `CLAUDE_CODE_EFFORT_LEVEL` can override the session, and organization policy can cap available levels.
 
@@ -3284,7 +3288,7 @@ tools: Read, Grep, Glob
 | Direct factual questions | OFF (low) | Immediate answer sufficient |
 | Security code review | ON (high) | Adversarial reasoning needed |
 
-Thinking toggle: `Option+T` on macOS or `Alt+T` elsewhere, where supported. Opus 5.5 and Fable always use thinking; lower their effort for bounded work instead.
+Thinking toggle: `Option+T` on macOS or `Alt+T` elsewhere, where supported. Opus 5.5, Sonnet 5.5, Haiku 5.5 and Fable always use thinking; lower their effort for bounded work instead.
 
 ---
 
@@ -4620,7 +4624,7 @@ User: "Actually, here's what I need: [refined instruction with specifics]"
 
 ### Context management
 
-Context is model/provider dependent: current Opus, Sonnet and Fable models have native 1M windows on the direct API; Haiku 4.5 has 200K. Older variants have separate access rules. See [200K vs 1M comparison](#200k-vs-1m-context-performance-cost--use-cases). The following sizes are illustrative, not fixed reservations:
+Context is model/provider dependent: current Opus, Sonnet, Haiku and Fable models have native 1M windows on the direct API; the legacy Haiku 4.5 has 200K. Older variants have separate access rules. See [200K vs 1M comparison](#200k-vs-1m-context-performance-cost--use-cases). The following sizes are illustrative, not fixed reservations:
 
 | Component | Approximate Size |
 |-----------|------------------|
@@ -7103,7 +7107,7 @@ The agent's value is in surfacing a coherent perspective that might disagree wit
 │   ORCHESTRATION PATTERN                                     │
 │                                                             │
 │                    ┌──────────────┐                         │
-│                    │   Sonnet 5   │                         │
+│                    │  Sonnet 5.5  │                         │
 │                    │ Orchestrator │                         │
 │                    └──────┬───────┘                         │
 │                           │                                 │
@@ -7119,7 +7123,7 @@ The agent's value is in surfacing a coherent perspective that might disagree wit
 │                           │                                 │
 │                           ▼                                 │
 │                    ┌──────────────┐                         │
-│                    │   Sonnet 5   │                         │
+│                    │  Sonnet 5.5  │                         │
 │                    │  Validator   │                         │
 │                    └──────────────┘                         │
 │                                                             │
@@ -7404,7 +7408,7 @@ skill-name/
 ```yaml
 ---
 name: skill-name
-description: Short description for activation (max 1024 chars)
+description: Short description for activation (max 1024 chars in the spec)
 allowed-tools: Read Grep Bash
 ---
 ```
@@ -7412,19 +7416,29 @@ allowed-tools: Read Grep Bash
 | Field | Spec | Description |
 |-------|------|-------------|
 | `name` | [agentskills.io](https://agentskills.io) | Lowercase, 1-64 chars, hyphens only, no `--`, must match directory name |
-| `description` | [agentskills.io](https://agentskills.io) | What the skill does and when to use it (max 1024 chars) |
-| `allowed-tools` | [agentskills.io](https://agentskills.io) | Space-delimited list of pre-approved tools. Supports wildcard scoping: `Bash(npm run *)`, `Bash(agent-browser:*)`, `Edit(/docs/**)` |
+| `description` | [agentskills.io](https://agentskills.io) | What the skill does and when to use it (max 1024 chars in the spec). Claude Code truncates `description` plus `when_to_use` at 1,536 characters in the skill listing, so put the key use case first |
+| `when_to_use` | **CC only** | Extra trigger phrases or example requests, appended to `description` in the listing and counted in the same 1,536-character cap |
+| `allowed-tools` | [agentskills.io](https://agentskills.io) | Space-delimited list of pre-approved tools. Supports wildcard scoping: `Bash(npm run *)`, `Bash(agent-browser:*)`, `Edit(/docs/**)`. In Claude Code the grant lasts for the turn that invokes the skill and clears with your next message |
+| `disallowed-tools` | **CC only** | Tools removed from the pool while the skill is active, such as `AskUserQuestion` for a background loop; clears with your next message |
 | `license` | [agentskills.io](https://agentskills.io) | License name or reference to bundled file |
 | `compatibility` | [agentskills.io](https://agentskills.io) | Environment requirements (max 500 chars) |
 | `metadata` | [agentskills.io](https://agentskills.io) | Arbitrary key-value pairs (author, version, etc.) |
-| `effort` | **CC only** (v2.1.80+) | `low\|medium\|high`: overrides the session effort level when this skill is invoked. Set `low` for mechanical tasks (commit, format, scaffold), `high` for analysis or architectural reasoning. |
-| `model` | **CC only** | Model to use when this skill runs: `haiku`, `sonnet`, `opus`, or a full model ID. Overrides the session model for this skill's execution. Useful for fast mechanical skills (`haiku`) or deep analysis skills (`opus`). |
+| `effort` | **CC only** (v2.1.80+) | `low`, `medium`, `high`, `xhigh` or `max` (available levels depend on the model): overrides the session effort level when this skill is invoked. Set `low` for mechanical tasks (commit, format, scaffold), `high` for analysis or architectural reasoning. |
+| `model` | **CC only** | Model to use when this skill is active: `haiku`, `sonnet`, `opus`, a full model ID, or `inherit` to keep the active model. The override lasts for the rest of the current turn and is not saved; a value excluded by `availableModels` is ignored. Useful for fast mechanical skills (`haiku`) or deep analysis skills (`opus`). |
+| `arguments` | **CC only** | Named positional arguments for `$name` substitution, as a space-separated string or YAML list |
 | `argument-hint` | **CC only** | Placeholder shown in the slash command menu when the skill accepts `$ARGUMENTS`. Format: `"[--flag] [positional_arg]"`. Example: `"[--verbose] [--max N] <branch>"`. |
 | `disable-model-invocation` | **CC only** | `true` to make skill manual-only (workflow with side effects). This is what replaced `.claude/commands/`: user-invocable workflows now live in `.claude/skills/` with this flag. |
-| `context` | **CC only** | `fork` runs the skill in an isolated subagent. The subagent receives only the inputs passed to it; only its final response returns to the main conversation. File reads, tool calls, and intermediate reasoning inside the forked context do not appear in the parent context window. **Known limitation**: `context: fork` is ignored when the skill is invoked via the `Skill` tool in agent code. Fork behavior only activates when the skill is called as a slash command (e.g., `/my-skill`). |
+| `user-invocable` | **CC only** | `false` hides the skill from the `/` menu so only Claude can invoke it (background knowledge). Default `true` |
+| `context` | **CC only** | `fork` runs the skill in an isolated subagent. The subagent receives only the inputs passed to it; only its final response returns to the main conversation. File reads, tool calls, and intermediate reasoning inside the forked context do not appear in the parent context window. Forked skills run in the background by default (see `background`). **Reported limitation, not in the official skills reference as of October 27, 2026**: `context: fork` was observed to be ignored when the skill is invoked via the `Skill` tool in agent code; test it in your version before relying on either behavior. |
+| `agent` | **CC only** | Subagent type to use when `context: fork` is set |
+| `background` | **CC only** (v2.1.218+) | With `context: fork`, default `true`: the fork runs in the background. `false` waits for its result in the invoking turn |
+| `paths` | **CC only** | Globs that limit automatic activation to work on matching files, relative to the working directory |
+| `shell` | **CC only** | `bash` (default) or `powershell` for `` !`command` `` blocks |
 | `hooks` | **CC only** | Event hooks scoped to this skill's lifetime. Same format as `settings.json` hooks. Hooks are registered when the skill is invoked and removed when the session ends. `Stop` hooks in skills are automatically converted to `SubagentStop`. The `once: true` field on a hook handler is honoured here (fires once per session then removes itself); it is ignored in settings files. |
 
-**`model` per skill**: overrides the model for this skill's execution. The session model is restored after the skill completes.
+Claude Code ignores unknown frontmatter keys silently, so a misspelled field fails without an error. Field list checked against the [official skills reference](https://code.claude.com/docs/en/skills) on October 27, 2026.
+
+**`model` per skill**: overrides the model for the rest of the current turn. The session model resumes with your next prompt.
 
 ```yaml
 ---
@@ -7485,12 +7499,11 @@ effort: medium
 
 Review the changed files for correctness.
 
-${if CLAUDE_EFFORT == "high" or CLAUDE_EFFORT == "xhigh"}
-Also run a full security audit and check all edge cases.
-${end}
+The current effort level is ${CLAUDE_EFFORT}. If it is `high`, `xhigh` or `max`,
+also run a full security audit and check all edge cases.
 ```
 
-This lets one skill serve both quick-scan (low/medium) and thorough (high/xhigh) use cases without maintaining two separate skills.
+Claude Code only substitutes the value; it has no conditional template syntax, so the branching is an instruction Claude reads, not a preprocessor directive. This lets one skill serve both quick-scan (low/medium) and thorough (high and above) use cases without maintaining two separate skills.
 
 **`allowed-tools` wildcard scoping** pre-approves matching commands for the turn that invokes the skill:
 
@@ -9782,7 +9795,7 @@ Hooks run configured handlers for supported lifecycle events. Handler types incl
 
 | Event | When It Fires | Can Block? | Use Case |
 |-------|---------------|------------|----------|
-| `PermissionRequest` | A tool call would show a permission dialog | Yes | Conditional approval logic; not every tool call |
+| `PermissionRequest` | A tool call would show a permission dialog | Only via the JSON `decision` object (exit 2 is ignored) | Conditional approval logic; not every tool call |
 | `PermissionDenied` | A tool call is denied by the auto mode classifier (only fires in auto mode, not on manual user denials) | No | Audit classifier denials, return `retry: true` to let model retry |
 
 **Compaction** (context management):
@@ -9791,6 +9804,13 @@ Hooks run configured handlers for supported lifecycle events. Handler types incl
 |-------|---------------|------------|----------|
 | `PreCompact` | Before context compaction | Yes | Block unwanted auto-compact, save state |
 | `PostCompact` | After context compaction completes | No | Restore state, log compaction |
+
+**Model** (model switches):
+
+| Event | When It Fires | Can Block? | Use Case |
+|-------|---------------|------------|----------|
+| `PreModelSwitch` | Before Claude Code applies a model switch that you or a client requested; `matcher` is the target model name | Yes (exit 2) | Enforce an approved model list, log the reason for a switch |
+| `PostModelSwitch` | After the session model changes, including automatic changes such as restoring the model on resume | No | Audit model changes, reload model-specific context |
 
 **Multi-agent** (orchestration):
 
@@ -9815,8 +9835,9 @@ Hooks run configured handlers for supported lifecycle events. Handler types incl
 |-------|---------------|------------|----------|
 | `CwdChanged` | Working directory changes (e.g. when Claude executes `cd`). Useful with direnv | No | Reload env vars, activate toolchains |
 | `FileChanged` | A watched file changes on disk; `matcher` specifies which filenames to watch | No | Reload config, trigger watchers |
+| `DirectoryAdded` | A working directory is added mid-session via `/add-dir` or the SDK `register_repo_root` request; `matcher` is the source (`slash_command`, `register_repo_root`) | No (the directory is already added) | Load per-directory config, audit added roots |
 | `WorktreeCreate` | A worktree is being created via `--worktree` or `isolation: "worktree"`. Replaces default git behavior | Yes (non-zero exit) | Custom VCS setup (SVN, Perforce) |
-| `WorktreeRemove` | A worktree is being removed (at session exit or when a subagent finishes) | No | Clean up VCS state |
+| `WorktreeRemove` | A worktree that a `WorktreeCreate` hook created is being removed (at session exit or when a subagent finishes) | Yes (non-zero exit fails removal if the directory remains) | Clean up VCS state |
 
 **User interaction** (prompts & notifications):
 
@@ -10024,6 +10045,10 @@ gh pr create --title "..." --body "..."
 | `if` | Permission-rule filter controlling when the hook fires (e.g. `Bash(git *)`, v2.1.85+) |
 | `type` | Hook type: `"command"`, `"http"`, `"mcp_tool"`, `"prompt"`, or `"agent"` |
 | `command` | Shell command to run (for `command` type) |
+| `shell` | `"bash"` or `"powershell"` for a `command` hook; defaults to bash, or PowerShell on Windows without Git Bash. Ignored when `args` is set |
+| `onFailure` | `"continue"` (default) or `"block"` for `command` and `http` hooks: with `"block"`, a hook that cannot start, times out or exits unexpectedly blocks the action instead of letting it through (v2.1.295+). Set it on policy hooks |
+| `url`, `headers`, `allowedEnvVars` | `http` hooks: POST target, extra headers, and the only environment variables allowed in header interpolation |
+| `server`, `tool`, `input` | `mcp_tool` hooks: configured MCP server (`plugin:<plugin>:<server>` for plugin servers), tool name, and arguments with `${path}` substitution from the hook input |
 | `args` | `string[]`, exec form: array of strings spawned directly without a shell. Path placeholders need no quoting. When present, `command` is ignored. Use to avoid shell-injection risks. (v2.1.139) |
 | `prompt` | Prompt text for LLM evaluation (for `prompt`/`agent` types). Use `$ARGUMENTS` as placeholder for hook input JSON |
 | `timeout` | Max execution time in seconds (default: 600s command, 30s prompt, 60s agent) |
@@ -10032,6 +10057,9 @@ gh pr create --title "..." --body "..."
 | `asyncRewake` | If `true`, runs in background but wakes Claude on exit code 2 (implies `async`). Use for background monitoring tasks that need to interrupt Claude on failure |
 | `statusMessage` | Custom spinner message displayed while hook runs |
 | `once` | If `true`, runs only once per session then is removed (skills only) |
+| `continueOnBlock` | `prompt` hooks only: on `PreToolUse`, `PostToolUse` and `TeammateIdle`, feeds an `ok: false` reason back and continues instead of ending the turn. Default `false` |
+
+Fields checked against the [official hooks reference](https://code.claude.com/docs/en/hooks) on October 27, 2026. A policy hook without `onFailure: "block"` fails open: a wrong path or a crashing script lets the action through.
 
 > **Exec form (`args`)**: Use `args: ["program", "arg1", "arg2"]` to spawn the command without a shell interpreter. Useful when paths contain spaces or special characters that would require quoting in `command`. Exec form also avoids shell injection risks in automated contexts.
 
@@ -10160,12 +10188,12 @@ Hooks communicate results through exit codes and optional JSON on stdout. Choose
 
 **Event-specific decision control** varies by event type:
 
-- **PreToolUse**: Uses `hookSpecificOutput` with `permissionDecision` (allow/deny/ask/defer), `permissionDecisionReason`, `updatedInput`, `additionalContext`. When multiple PreToolUse hooks return different decisions, precedence is: `deny` > `defer` > `ask` > `allow` (v2.1.89+).
+- **PreToolUse**: Uses `hookSpecificOutput` with `permissionDecision` (allow/deny/ask/defer), `permissionDecisionReason`, `updatedInput`, `additionalContext`. When multiple PreToolUse hooks return different decisions, precedence is: `deny` > `defer` > `ask` > `allow` (v2.1.89+). The top-level `decision`/`reason` fields are deprecated for this event (`approve` and `block` map to `allow` and `deny`). `defer` is honored only in non-interactive `claude -p` runs, for integrations that pause Claude at a tool call and resume it.
 - **PostToolUse, Stop, SubagentStop, UserPromptSubmit, ConfigChange**: Uses top-level `decision: "block"` with `reason`
-- **TeammateIdle, TaskCompleted**: Exit code 2 only (no JSON decision control)
+- **TeammateIdle, TaskCompleted**: Exit code 2 blocks with stderr feedback; JSON `{"continue": false, "stopReason": "..."}` stops the teammate entirely. `TaskCompleted` ignores `continue: false` when the `TaskUpdate` tool triggered it
 - **PermissionRequest**: Uses `hookSpecificOutput` with `decision.behavior` (allow/deny)
 
-**`continueOnBlock` for prompt hooks**: A `type: "prompt"` hook returns `ok: true` or `ok: false`. On `PostToolUse`, `continueOnBlock: true` feeds a rejection reason back to Claude so it can continue and adjust. Command hooks use the event-specific decision fields instead.
+**`continueOnBlock` for prompt hooks**: A `type: "prompt"` hook returns `ok: true` or `ok: false`. On `PreToolUse`, `PostToolUse` and `TeammateIdle`, an `ok: false` ends the turn (or stops the teammate) by default and shows the reason as a warning; `continueOnBlock: true` feeds the reason back so Claude or the teammate can adjust and continue. On `PostToolUseFailure` and `TaskCreated`, the reason returns as a tool error and the turn continues regardless. Agent hooks have no `continueOnBlock` and behave as if it were `true`. Command hooks use the event-specific decision fields instead.
 
 ```json
 {
@@ -14346,11 +14374,11 @@ The most powerful Claude Code pattern combines three techniques:
 
 ### Extended Thinking (Opus 4.5+) & Adaptive Thinking (Opus 4.6+)
 
-The version labels in this heading preserve existing links. For the current lineup, Opus 5.5, Sonnet 5, and Fable 5.1 use adaptive reasoning. Haiku 4.5 supports extended thinking but has no effort parameter. [Model specifications](https://platform.claude.com/docs/en/models/overview).
+The version labels in this heading preserve existing links. For the current lineup, Opus 5.5, Sonnet 5.5, Haiku 5.5, and Fable 5.1 use adaptive reasoning with the effort parameter. The legacy Haiku 4.5 supports extended thinking but has no effort parameter. [Model specifications](https://platform.claude.com/docs/en/models/overview).
 
 #### Adaptive Thinking (Opus 4.6+, including Opus 4.8)
 
-Effort governs reasoning and can affect tool use, output length, latency, and cost. Use the [current effort table](#effort-levels) rather than assuming every model has the same default. Opus 5.5 defaults to `medium`; Sonnet 5 and Fable 5.1 default to `high`.
+Effort governs reasoning and can affect tool use, output length, latency, and cost. Use the [current effort table](#effort-levels) rather than assuming every model has the same default. Opus 5.5, Sonnet 5.5, and Haiku 5.5 default to `medium` in Claude Code; Fable 5.1 defaults to `high`.
 
 ```python
 response = client.messages.create(
@@ -14362,7 +14390,7 @@ response = client.messages.create(
 )
 ```
 
-Opus 4.7 and later, Sonnet 5, and Fable use adaptive reasoning only. `CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING` and a fixed `MAX_THINKING_TOKENS` budget do not apply to them. The fixed-budget compatibility switch remains specific to Opus 4.6 and Sonnet 4.6.
+Opus 4.7 and later, Sonnet 5 and later, Haiku 5.5, and Fable use adaptive reasoning only. `CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING` and a fixed `MAX_THINKING_TOKENS` budget do not apply to them. The fixed-budget compatibility switch remains specific to Opus 4.6 and Sonnet 4.6.
 
 #### Controlling Thinking Mode
 
@@ -14372,7 +14400,7 @@ Opus 4.7 and later, Sonnet 5, and Fable use adaptive reasoning only. `CLAUDE_COD
 | `--effort high` | Set effort for the launched session |
 | `CLAUDE_CODE_EFFORT_LEVEL` | Explicit environment override |
 | `modelSettings` / `effortLevel` | Persistent settings support `low` through `xhigh`, not `max` |
-| `Option+T` / `Alt+T`, `/config`, `MAX_THINKING_TOKENS=0` | Can disable thinking on supported models; no effect on Opus 5.5 or Fable |
+| `Option+T` / `Alt+T`, `/config`, `MAX_THINKING_TOKENS=0` | Can disable thinking on supported models; no effect on Opus 5.5, Sonnet 5.5, Haiku 5.5 or Fable |
 | `Ctrl+O` | Open the transcript viewer; display does not change billing |
 
 Thinking tokens are billed even when their display is collapsed or redacted. Set `showThinkingSummaries: true` if full summaries should be available in the expanded view. [Thinking controls](https://code.claude.com/docs/en/model-config#extended-thinking).
@@ -16357,7 +16385,7 @@ exit 0  # Allow
 - Use `--add-dir` to allow tool access to directories outside the current working directory
 - Manage thinking mode for cost efficiency:
   - Bounded tasks: lower effort, or disable thinking only where the model supports it
-  - Complex tasks: choose effort explicitly; Opus 5.5 and Fable always use thinking
+  - Complex tasks: choose effort explicitly; Opus 5.5, Sonnet 5.5, Haiku 5.5 and Fable always use thinking
   - `ultrathink` adds a reasoning instruction without changing API effort
 - Set `cleanupPeriodDays` in config to prune old sessions automatically
 - Re-enable thinking summaries if needed: add `"showThinkingSummaries": true` to settings.json (off by default in interactive sessions since v2.1.89)
@@ -16771,7 +16799,7 @@ git commit -m "feat: add user authentication middleware
 - Add session management
 - Create auth error handling
 
-Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>"
+Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 ```
 
 #### AI Attribution Standards
@@ -16813,7 +16841,7 @@ git commit -m "feat: implement user login endpoint [AUTH-42]
 - Generate JWT tokens
 - Return user profile on success
 
-Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>"
+Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 ```
 
 ### Git Amend Workflow
@@ -17988,7 +18016,7 @@ client = anthropic.Anthropic()
 
 # Track spending
 response = client.messages.create(
-    model="claude-sonnet-5",
+    model="claude-sonnet-5-5",
     max_tokens=1024,
     messages=[...],
     metadata={
@@ -18101,7 +18129,7 @@ Total output: 2,500 tokens
 Total cost per request: (26,000 + 2,500) tokens × model price
 ```
 
-**Sonnet 5 pricing (verified September 24, 2026):**
+**Sonnet 5.5 pricing (verified October 27, 2026):**
 - Input: $2 per million tokens
 - Output: $10 per million tokens
 
@@ -19257,7 +19285,7 @@ Multi-instance workflows have hard costs and soft overhead (coordination, superv
 | **10 devs, 2-3 instances** | Sonnet | $720-1,100 | 1.3-2% |
 | **Boris scale (15 instances)** | Opus | $500-1,000 | Justified if 259 PRs/month |
 
-**Calculation basis** (Sonnet 5, published pricing verified September 24, 2026):
+**Calculation basis** (Sonnet 5.5, published pricing verified October 27, 2026):
 - Input: $2/million tokens
 - Output: $10/million tokens
 - Estimate: 30k tokens/instance/day × 20 days
@@ -23513,7 +23541,7 @@ _Quick jump:_ [Commands Table](#101-commands-table) · [Keyboard Shortcuts](#102
 
 ## 10.1 Commands Table
 
-> **Source of truth**: [code.claude.com/docs/en/commands](https://code.claude.com/docs/en/commands) is the official reference and always lists the current set. The tables below mirror it as of September 24, 2026 (tracked CLI v2.1.281), with the guide's own notes and cross-references added. When the two disagree, the official page wins. For launch-time flags rather than in-session commands, see [code.claude.com/docs/en/cli-reference](https://code.claude.com/docs/en/cli-reference) and §10.3.
+> **Source of truth**: [code.claude.com/docs/en/commands](https://code.claude.com/docs/en/commands) is the official reference and always lists the current set. The tables below mirror it as of October 27, 2026 (tracked CLI v2.1.310), with the guide's own notes and cross-references added. When the two disagree, the official page wins. For launch-time flags rather than in-session commands, see [code.claude.com/docs/en/cli-reference](https://code.claude.com/docs/en/cli-reference) and §10.3.
 
 Not every command shows up for every user. Availability depends on platform, plan, and provider: `/desktop` only appears on macOS and x64 Windows with a Claude subscription, `/setup-bedrock` only when `CLAUDE_CODE_USE_BEDROCK=1` is set, `/upgrade` never on Enterprise. Type `/` in a session to see what you actually have.
 
@@ -23586,7 +23614,7 @@ Notation: `<arg>` is required, `[arg]` is optional, aliases follow the command i
 | Command | Action |
 |---------|--------|
 | `/diff` | Interactive viewer for uncommitted changes and per-turn diffs |
-| `/code-review [low\|medium\|high\|xhigh\|max\|ultra] [--fix] [--comment] [target]` | Review the diff for correctness bugs and cleanups. `--fix` applies findings, `--comment` posts inline PR comments, `ultra` runs the cloud review. Runs as a background subagent since v2.1.218 |
+| `/code-review [low\|medium\|high\|xhigh\|max\|ultra] [--fix] [--comment] [target]` | Review the diff for correctness bugs and cleanups. `--fix` applies findings, `--comment` posts inline PR comments, `ultra` runs the cloud review. `--max-findings <n>|all` caps or lifts the number of findings until you pass `default` (v2.1.288). Runs as a background subagent since v2.1.218 |
 | `/review [level] [--fix] [--comment] [target]` | Alias of `/code-review` since v2.1.223; accepts the same targets, effort levels, and flags |
 | `/ultrareview [PR or branch]` | Deep multi-agent cloud review. Now an alias of `/code-review ultra`. 3 free runs on Pro and Max, then usage credits |
 | `/security-review` | Analyze the branch diff against origin's default branch for injection, auth, and data-exposure risks. Needs an `origin` remote |
@@ -23728,7 +23756,7 @@ MCP servers add their own commands as `/mcp__<server>__<prompt>`, discovered fro
 
 | Shortcut | Action |
 |----------|--------|
-| `Alt+T` (`Option+T` on macOS) | Toggle thinking where supported; no effect on Opus 5.5 or Fable |
+| `Alt+T` (`Option+T` on macOS) | Toggle thinking where supported; no effect on Opus 5.5, Sonnet 5.5, Haiku 5.5 or Fable |
 | `Alt+P` (`Option+P` on macOS) | Open the model picker |
 | `Ctrl+X Ctrl+K` | Stop running background subagents |
 | `Ctrl+Enter` / `Ctrl+X Ctrl+S` | Interrupt and send queued messages now |
@@ -25543,8 +25571,8 @@ Set these in your shell profile (`~/.zshrc`, `~/.bashrc`, or Windows System Prop
 |----------|---------|---------|
 | `ANTHROPIC_API_KEY` | API authentication | `sk-ant-api03-...` |
 | `ANTHROPIC_BASE_URL` | Alternative API endpoint | `https://api.deepseek.com/anthropic` |
-| `ANTHROPIC_MODEL` | Default model | `claude-sonnet-5` |
-| `ANTHROPIC_SMALL_FAST_MODEL` | Fast model for simple tasks | `claude-haiku-4-5-20251001` |
+| `ANTHROPIC_MODEL` | Default model | `claude-sonnet-5-5` |
+| `ANTHROPIC_DEFAULT_HAIKU_MODEL` | Model the `haiku` alias resolves to, also used for background tasks (replaces the deprecated `ANTHROPIC_SMALL_FAST_MODEL`) | `claude-haiku-5-5` |
 | `BASH_DEFAULT_TIMEOUT_MS` | Bash command timeout | `60000` |
 | `ANTHROPIC_AUTH_TOKEN` | Alternative auth token | Your auth token |
 | `CLAUDE_CODE_DISABLE_1M_CONTEXT` | Disable 1M context window support (v2.1.50+) | `true` |
@@ -25873,7 +25901,7 @@ You → Coordinate next steps
 
 **Documented, verifiable strengths**:
 
-1. **Context Window**: Model-dependent; current Opus, Sonnet and Fable direct-API models have native 1M windows, while Haiku 4.5 has 200K. Inspect `/context`.
+1. **Context Window**: Model-dependent; current Opus, Sonnet, Haiku and Fable direct-API models have native 1M windows; only the legacy Haiku 4.5 has 200K. Inspect `/context`.
 2. **Sub-Agent System**: Isolated context windows prevent pollution during exploration
 3. **MCP Ecosystem**: 100+ community servers for specialized tasks
 4. **Permission System**: Granular control over tool access and dangerous operations

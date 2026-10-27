@@ -11,6 +11,15 @@ Suivi des versions des ebooks, indépendamment de la version du guide.
 
 ---
 
+## [2026-10-27] Modèles Haiku 5.5, Code Review, hooks, skills et mode auto
+
+- Modèles (WP00, WP01, WP04, WP05, WP07, WP08, cheatsheets, fiche WP04, fiches T13, T18, T19, T21) : Haiku 5.5 devient le modèle Haiku actuel ($0,10/$0,50 jusqu'à 100K de prompt, 1M de contexte). Haiku 4.5 et Sonnet 5 sont marqués historiques. Effort par défaut dans Claude Code : `medium` sur Opus 5.5, Sonnet 5.5 et Haiku 5.5, `high` sur Fable 5.1. Alt+T sans effet sur ces quatre modèles. Tarifs revérifiés le 27 octobre. Idle compaction ajoutée à T19.
+- Code Review (WP05 FR/EN) : seule la ligne Haiku change ; la section Code Review disponible en général, rédigée avant, reste telle quelle.
+- Hooks et skills (WP02 FR/EN, fiches M10 et M11) : champs de frontmatter des skills (`when_to_use`, `user-invocable`, `model`, `paths`, plafond de 1 536 caractères), portée de `continueOnBlock`, `onFailure`, `asyncRewake`, 33 événements.
+- Mode auto et sandbox (WP03 FR/EN, WP07 FR/EN, cheatsheets, fiches 01, T03 et T16) : classifieur côté serveur par défaut, démarrage en mode auto depuis v2.1.283, `/auto-mode-setup`, correctif v2.1.309 des fichiers de démarrage du shell, confirmation Entrée/Échap, valeurs de `--permission-mode`.
+- Versions : WP00 FR/EN 1.5.3 à 1.5.4 ; WP01 FR/EN 1.3.4 à 1.3.5 ; WP02 FR/EN 1.5.5 à 1.5.6 ; WP03 EN 1.4.4 à 1.4.5, FR 1.4.5 à 1.4.6 ; WP04 FR/EN 1.6.0 à 1.6.1 ; WP05 FR/EN 1.7.0 à 1.7.1 ; WP07 FR/EN 1.5.0 à 1.5.1 ; WP08 EN 1.7.0 à 1.7.1 ; cheatsheets FR/EN 1.2.3 à 1.2.4.
+- Fiches : 01, T03, T13, T16, M10, M11 FR/EN 1.0.x à +1 (01 EN 1.0.1 à 1.0.2, 01 FR 1.1.3 à 1.1.4, T03 EN 1.0.2 à 1.0.3, T03 FR 1.1.3 à 1.1.4, les autres 1.0.1 à 1.0.2) ; T18, T19, T21 FR 1.0.1 à 1.0.2 (versions EN sans champ `wp-version`, date mise à jour). Fiche WP04 FR sans frontmatter, texte seul.
+
 ## [2026-10-06] Publications du guide 3.44.1
 
 - Revue des 26 e-books FR/EN, 116 fiches et deux cheatsheets. Les versions propres des ouvrages évoluent selon leurs corrections ou ajouts, sans effacer les écarts de révision historiques entre les langues.

@@ -5,10 +5,10 @@ card-number: "M10"
 category: "Méthodologie"
 difficulty: "intermediate"
 guide-version: "3.44.1"
-wp-version: "1.0.1"
+wp-version: "1.0.2"
 author: "Florian BRUNIAUX"
 version: "3.44.1"
-date: "2026-10-06"
+date: "2026-10-27"
 layout: "two-col"
 lang: fr
 format:
@@ -50,10 +50,13 @@ allowed-tools: Read Grep Bash
 | Champ | Rôle |
 |-------|------|
 | `name` | Kebab-case, 1-64 chars, doit correspondre au dossier |
-| `description` | Déclencheur d'activation (max 1024 chars) |
+| `description` | Déclencheur d'activation ; avec `when_to_use`, tronqué à 1 536 car. dans la liste (1 024 : limite agentskills.io) |
 | `allowed-tools` | Whitelist d'outils (supporte les wildcards) |
 | `argument-hint` | Placeholder dans le menu si le skill accepte `$ARGUMENTS` |
 | `disable-model-invocation` | `true` pour invocation manuelle uniquement |
+| `user-invocable` | `false` masque le skill du menu `/` |
+| `model` / `effort` | Modèle (`inherit` possible) et effort (`low` à `max`) du skill |
+| `context` / `paths` | `fork` : sous-agent ; `paths` : globs limitant l'activation |
 
 ## Skills vs commands
 

@@ -162,7 +162,7 @@ flowchart LR
 - Export as markdown → Feed to Claude Code
 
 **Model Selection**
-- Claude Sonnet 5: Best for technical prose and documentation
+- Claude Sonnet 5.5: Best for technical prose and documentation
 - GPT-4o: Good for code snippets
 - Sonar Pro: Fast factual lookups
 
@@ -3266,7 +3266,7 @@ The agent evaluates its own output against criteria you define, then iterates un
 ```typescript
 const agent = await client.beta.agents.create({
   name: "Report Writer",
-  model: "claude-sonnet-5",
+  model: "claude-sonnet-5-5",
   system: "You write concise executive summaries.",
   tools: [{ type: "agent_toolset_20260401" }],
   outcomes: [
@@ -3301,8 +3301,8 @@ Documented above. One coordinator, N specialists in parallel threads, one level 
 
 | Model | Input | Output | When to use |
 |-------|-------|--------|-------------|
-| Haiku 4.5 | $1/MTok | $5/MTok | Bounded classification, routing, extraction |
-| Sonnet 5 | $2/MTok | $10/MTok | Routine development, subject to task evaluation |
+| Haiku 5.5 | $0.10/MTok ($0.50 over 100K) | $0.50/MTok ($2.50 over 100K) | Bounded classification, routing, extraction |
+| Sonnet 5.5 | $2/MTok | $10/MTok | Routine development, subject to task evaluation |
 | Opus 5.5 | $4/MTok | $20/MTok | Default on the direct service; complex reasoning |
 | Fable 5.1 | $10/MTok | $50/MTok | Explicit escalation where account access permits |
 
@@ -3344,7 +3344,7 @@ curl -fsSL "https://github.com/anthropics/anthropic-cli/releases/download/v${VER
 # Create an agent (interactive YAML)
 ant beta:agents create \
   --name "My Agent" \
-  --model claude-sonnet-5 \
+  --model claude-sonnet-5-5 \
   --system "You are a helpful assistant." \
   --tool '{type: agent_toolset_20260401}'
 

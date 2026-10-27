@@ -5,10 +5,10 @@ card-number: "T21"
 category: "Technique"
 difficulty: "intermediate"
 guide-version: "3.44.1"
-wp-version: "1.0.1"
+wp-version: "1.0.2"
 author: "Florian BRUNIAUX"
 version: "3.44.1"
-date: "2026-10-06"
+date: "2026-10-27"
 layout: "two-col"
 lang: fr
 format:
@@ -58,6 +58,6 @@ Cet exemple utilise la vitesse standard. Opus 5.5 démarre à medium dans Claude
 
 Opus 4.6 a supprimé le préremplissage assistant. Pour du JSON contraint par un schéma, utiliser `output_config.format`. Pour les arguments d'outils, placer `strict: true` sur la définition de l'outil. Une consigne système seule ne garantit pas un JSON valide.
 
-Les Opus actuels, Sonnet 5.5 et Fable utilisent le thinking adaptatif. Les exemples avec `budget_tokens` fixe concernent d'anciens modèles. Haiku 4.5 accepte le thinking étendu, mais pas le paramètre effort.
+Les Opus actuels, Sonnet 5.5, Haiku 5.5 et Fable utilisent le thinking adaptatif. Les exemples avec `budget_tokens` fixe concernent d'anciens modèles. Haiku 4.5 (historique) n'a pas de paramètre effort.
 
 Vérifié le 24 septembre 2026. Sources : [Fast mode Claude Code](https://code.claude.com/docs/en/fast-mode), [sorties structurées](https://platform.claude.com/docs/en/build-with-claude/structured-outputs).

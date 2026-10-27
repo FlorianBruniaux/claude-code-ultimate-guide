@@ -2,11 +2,11 @@
 title: "L'Architecture Démystifiée"
 subtitle: "Pas de RAG, pas de magie noire - juste une boucle"
 author: "Florian BRUNIAUX"
-date: "2026-10-06"
+date: "2026-10-27"
 date-format: "MMMM YYYY"
 version: "3.44.1"
 guide-version: "3.44.1"
-wp-version: "1.6.0"
+wp-version: "1.6.1"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -64,16 +64,16 @@ La boucle action-observation est un modèle pédagogique utile ; elle ne décrit
 
 ## Modèles actuels
 
-Tarifs API standard contrôlés le 6 octobre 2026 à la source officielle. Dollars par million de tokens en entrée/sortie, hors cache.
+Tarifs API standard contrôlés le 27 octobre 2026 à la source officielle. Dollars par million de tokens en entrée/sortie, hors cache.
 
 | Modèle | Entrée / sortie | Contexte | Effort par défaut |
 |--------|-----------------|----------|-------------------|
-| Haiku 4.5 | $1 / $5 | 200K | Non pris en charge |
-| Sonnet 5.5 | $2 / $10 | 1M | high |
+| Haiku 5.5 | $0,10 / $0,50 (prompts jusqu'à 100K ; $0,50 / $2,50 au-delà) | 1M | medium |
+| Sonnet 5.5 | $2 / $10 | 1M | medium |
 | Opus 5.5 | $4 / $20 | 1M | medium |
 | Fable 5.1 | $10 / $50 | 1M | high |
 
-Sonnet 5.5 remplace le modèle historique Sonnet 5 sur l'API directe depuis v2.1.284, au même tarif standard $2/$10. Opus 5.5 est le défaut du service direct, sauf règle du compte. Le modèle seul ne détermine pas le coût d'une tâche.
+L'effort par défaut est celui de Claude Code ; le défaut propre de l'API Claude pour Sonnet 5.5 est `high`. Sonnet 5.5 remplace le modèle historique Sonnet 5 sur l'API directe depuis v2.1.284, au même tarif standard $2/$10. Haiku 4.5 ($1/$5, 200K, sans paramètre effort) est historique. Opus 5.5 est le défaut du service direct, sauf règle du compte. Le modèle seul ne détermine pas le coût d'une tâche.
 
 ## Choisir et enregistrer
 
@@ -81,17 +81,17 @@ Sonnet 5.5 remplace le modèle historique Sonnet 5 sur l'API directe depuis v2.1
 
 Les alias dépendent du fournisseur. `opus` sélectionne 5.5 chez la plupart, mais 4.6 sur Foundry. `sonnet` sélectionne 5.5 sur l'API directe, 4.6 sur Claude Platform on AWS, et 4.5 sur Bedrock, Google et Foundry.
 
-`fable` sélectionne 5.1 si disponible, ou 5 via la passerelle Claude apps. `best` choisit Fable si accessible, sinon Opus. Utiliser un identifiant complet pour fixer une version.
+`haiku` sélectionne 5.5 sur l'API Anthropic depuis v2.1.293, mais reste sur 4.5 sur Claude Platform on AWS, Bedrock, Agent Platform de Google Cloud et Foundry. `fable` sélectionne 5.1 si disponible, ou 5 via la passerelle Claude apps. `best` choisit Fable si accessible, sinon Opus. Utiliser un identifiant complet pour fixer une version.
 
 ## Thinking et effort
 
-Opus 5.5, Sonnet 5.5 et Fable 5.1 utilisent le thinking adaptatif. Haiku 4.5 dispose du thinking étendu mais **pas du paramètre effort**.
+Opus 5.5, Sonnet 5.5, Haiku 5.5 et Fable 5.1 utilisent le thinking adaptatif. Haiku 4.5 (historique) n'a **pas de paramètre effort**.
 
 Les modèles adaptatifs actuels acceptent `low`, `medium`, `high`, `xhigh` et `max`. Opus 4.6 et Sonnet 4.6 acceptent `max`, mais pas `xhigh`.
 
 `/effort` enregistre les niveaux jusqu'à `xhigh` par modèle. **s** limite le choix à la session. `max` reste propre à la session ; `/effort auto` efface le choix enregistré pour le modèle actif.
 
-`Option+T` / `Alt+T` bascule le thinking si le modèle le permet. Ce raccourci n'a pas d'effet sur Opus 5.5 ou Fable, dont le thinking reste actif. Réduire plutôt l'effort pour une tâche bornée.
+`Option+T` / `Alt+T` bascule le thinking si le modèle le permet. Ce raccourci n'a pas d'effet sur Opus 5.5, Sonnet 5.5, Haiku 5.5 ni Fable, dont le thinking ne peut pas être désactivé. Réduire plutôt l'effort pour une tâche bornée.
 
 `ultrathink` ajoute une consigne de réflexion sans changer l'effort API. `think hard` est du texte ordinaire.
 
@@ -251,7 +251,7 @@ Les API et SDK permettent des compositions d’outils, des schémas structurés 
 
 ## Budget de Contexte
 
-La fenêtre dépend du modèle et du fournisseur. Elle accueille les instructions système, les instructions du dépôt, l’historique, les résultats d’outils et la réserve de réponse. Les modèles adaptatifs actuels couverts par le guide disposent de 1M natif ; Haiku 4.5 dispose de 200K.
+La fenêtre dépend du modèle et du fournisseur. Elle accueille les instructions système, les instructions du dépôt, l’historique, les résultats d’outils et la réserve de réponse. Les modèles adaptatifs actuels couverts par le guide disposent de 1M natif ; Haiku 4.5 (200K) est historique, donc aucun modèle de la génération actuelle n'est limité à 200K.
 
 Inspectez les composantes avec `/context` plutôt que de déduire une capacité utile fixe d’un diagramme générique.
 
@@ -259,7 +259,8 @@ Inspectez les composantes avec `/context` plutôt que de déduire une capacité 
 
 | Modèle sur l'API directe | Contexte | Sortie maximale |
 |-------------------------|----------|-----------------|
-| Haiku 4.5 | 200K | 64K |
+| Haiku 5.5 | 1M natif | 128K |
+| Haiku 4.5 (historique) | 200K | 64K |
 | Sonnet 5.5 | 1M natif | 128K |
 | Opus 5.5 | 1M natif | 128K |
 | Fable 5.1 | 1M natif | 128K |
@@ -804,12 +805,13 @@ Malgré la transparence croissante d'Anthropic, plusieurs aspects internes de Cl
 
 | Modèle | Knowledge Cutoff |
 |--------|-----------------|
+| Haiku 5.5 | Juin 2026 |
 | Sonnet 5.5 | Juin 2026 |
 | Opus 5.5 | Juin 2026 |
 | Fable 5.1 | Juin 2026 |
 | Sonnet 4.6 | Août 2025 |
 | Opus 4.6 | Mai 2025 |
-| Haiku 4.5 | Février 2025 |
+| Haiku 4.5 (historique) | Février 2025 |
 
 ## Sources officielles
 

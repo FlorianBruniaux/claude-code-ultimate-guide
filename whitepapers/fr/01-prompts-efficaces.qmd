@@ -2,11 +2,11 @@
 title: "Prompts qui Marchent"
 subtitle: "Une méthode pour des prompts précis et vérifiables"
 author: "Florian BRUNIAUX"
-date: "2026-10-06"
+date: "2026-10-27"
 date-format: "MMMM YYYY"
 version: "3.44.1"
 guide-version: "3.44.1"
-wp-version: "1.3.4"
+wp-version: "1.3.5"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -445,7 +445,7 @@ Now analyze authentication flow.
 
 ## Thinking Modes et Efficacité
 
-Opus 5.5 est le modèle par défaut du service direct ; les politiques d’organisation et fournisseurs peuvent différer. Opus 5.5, Sonnet 5.5 et Fable 5.1 utilisent un raisonnement adaptatif et un contexte natif de 1M tokens. L’effort influence le raisonnement et les appels d’outils. Le thinking reste activé sur Opus 5.5 et Fable ; Haiku 4.5 accepte l’extended thinking mais n’a pas de paramètre d’effort.
+Opus 5.5 est le modèle par défaut du service direct ; les politiques d’organisation et fournisseurs peuvent différer. Opus 5.5, Sonnet 5.5, Haiku 5.5 et Fable 5.1 utilisent un raisonnement adaptatif et un contexte natif de 1M tokens. L’effort influence le raisonnement et les appels d’outils. Le thinking ne peut pas être désactivé sur Opus 5.5, Sonnet 5.5, Haiku 5.5 ni Fable. Dans Claude Code, Opus 5.5, Sonnet 5.5 et Haiku 5.5 utilisent `medium` par défaut et Fable 5.1 utilise `high` ; le défaut propre de l’API Claude pour Sonnet 5.5 est `high`.
 
 Les modèles adaptatifs actuels acceptent `low / medium / high / xhigh / max`. Opus 4.6 et Sonnet 4.6 n’acceptent pas `xhigh`. `/effort` enregistre les niveaux compatibles jusqu’à `xhigh` par modèle ; **s** applique le choix à la session seule. `max` est limité à la session. `/effort ultracode` active les workflows dynamiques avec un raisonnement `xhigh` : ce n’est pas un sixième niveau API.
 
@@ -490,7 +490,7 @@ Currently full table scan, target < 200ms
 ::: {.callout-tip title="Memo -- Thinking Modes en 30 secondes"}
 **Quoi** : Le parametre `effort` calibre le budget de calcul du modele sur 5 paliers (low a max), pas seulement le raisonnement.
 
-**Quand** : évaluer `low`/`medium` pour les tâches bornées et `high`/`xhigh` pour l’analyse. Augmenter l’effort ou comparer les modèles lorsque les échecs mesurés le justifient. Opus 5.5 utilise `medium` par défaut ; Sonnet 5.5 et Fable 5.1 utilisent `high`.
+**Quand** : évaluer `low`/`medium` pour les tâches bornées et `high`/`xhigh` pour l’analyse. Augmenter l’effort ou comparer les modèles lorsque les échecs mesurés le justifient. Dans Claude Code, Opus 5.5, Sonnet 5.5 et Haiku 5.5 utilisent `medium` par défaut ; Fable 5.1 utilise `high`.
 
 **Comment** : exprimer WHAT/WHERE/HOW/VERIFY à tous les niveaux d’effort. Plus de raisonnement ne fournit pas les critères manquants.
 

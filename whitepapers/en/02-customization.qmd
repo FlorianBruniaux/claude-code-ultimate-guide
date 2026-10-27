@@ -2,11 +2,11 @@
 title: "Customizing Claude"
 subtitle: "CLAUDE.md, Agents, Skills: Your Tailor-Made Assistant"
 author: "Florian BRUNIAUX"
-date: "2026-10-06"
+date: "2026-10-27"
 date-format: "MMMM YYYY"
 version: "3.44.1"
 guide-version: "3.44.1"
-wp-version: "1.5.5"
+wp-version: "1.5.6"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -853,7 +853,12 @@ effort: low
 |-------|-------------|
 | `name` | kebab-case identifier |
 | `description` | Activation trigger |
+| `when_to_use` | Extra trigger context; `description` plus `when_to_use` are truncated at 1,536 characters in the skill listing (the 1,024 limit belongs to the agentskills.io spec) |
+| `disable-model-invocation` | Prevents Claude from invoking the skill on its own |
+| `user-invocable` | Set to `false` to hide the skill from the `/` menu |
 | `allowed-tools` | Authorized tools |
+| `model` | Model for the skill; accepts `inherit` |
+| `paths` | Glob patterns that limit when the skill is considered |
 | `context` | `fork` for a subagent; omit for current-session execution |
 | `effort` | A model-supported effort level overriding the session during the skill (v2.1.80+) |
 
@@ -1248,7 +1253,7 @@ This pattern is illustrative, not comprehensive secret detection. The hook does 
 }
 ```
 
-**`continueOnBlock` for prompt hooks**: A prompt hook returns `ok: true` or `ok: false`. On `PostToolUse`, setting `continueOnBlock: true` feeds the rejection reason back to Claude so it can continue and correct its approach:
+**`continueOnBlock` for prompt hooks**: A prompt hook returns `ok: true` or `ok: false`. On `PreToolUse`, `PostToolUse` and `TeammateIdle`, setting `continueOnBlock: true` feeds the `ok: false` reason back to Claude so it can continue and correct its approach; without it the turn ends with a warning. `PostToolUseFailure` and `TaskCreated` (and `TaskCompleted` during a turn) return the reason as a tool error regardless, and agent hooks have no `continueOnBlock`:
 
 ```json
 {

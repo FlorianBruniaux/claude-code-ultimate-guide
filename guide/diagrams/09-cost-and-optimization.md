@@ -60,9 +60,9 @@ Same acceptance gate passes?
 
 > **Source**: [Model selection](../ultimate-guide.md#25-model-selection--thinking-guide)
 
-> **Verified 2026-10-07**: Standard direct API rates per million input/output tokens: Haiku 4.5 $1/$5; Sonnet 5.5 $2/$10; Opus 5.5 $4/$20. The 2x ratios apply to these token classes, not total task costs or subscription prices. Caching, fast mode and other modifiers change billing. [Official API pricing](https://platform.claude.com/docs/en/about-claude/pricing).
+> **Verified 2026-10-27**: Standard direct API rates per million input/output tokens: Haiku 5.5 $0.10/$0.50 (prompts up to 100K tokens); Sonnet 5.5 $2/$10; Opus 5.5 $4/$20. The 2x ratios apply to these token classes, not total task costs or subscription prices. Caching, fast mode and other modifiers change billing. [Official API pricing](https://platform.claude.com/docs/en/about-claude/pricing).
 
-> The `sonnet` and `opus` aliases resolve differently by provider and can change. Sonnet 5 remains documented as a legacy model; this does not establish a retirement date. Check your actual model and allowance before selecting a candidate. Max has usage limits; API billing and rate limits also need a defined budget. [Model aliases](https://code.claude.com/docs/en/model-config#model-aliases), [Current plans and legacy models](https://claude.com/pricing).
+> The `sonnet` and `opus` aliases resolve differently by provider and can change. On the Anthropic API, `sonnet` resolves to Sonnet 5.5 and `haiku` to Haiku 5.5; Sonnet 5 and Haiku 4.5 remain documented as legacy models, which does not establish a retirement date. Check your actual model and allowance before selecting a candidate. Max has usage limits; API billing and rate limits also need a defined budget. [Model aliases](https://code.claude.com/docs/en/model-config#model-aliases), [Current plans and legacy models](https://claude.com/pricing).
 
 
 ---

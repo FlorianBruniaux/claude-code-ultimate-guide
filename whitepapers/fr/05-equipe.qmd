@@ -2,11 +2,11 @@
 title: "Déployer en Équipe"
 subtitle: "De solo à 50 devs : observabilité, CI/CD, adoption"
 author: "Florian BRUNIAUX"
-date: "2026-10-06"
+date: "2026-10-27"
 date-format: "MMMM YYYY"
 version: "3.44.1"
 guide-version: "3.44.1"
-wp-version: "1.7.0"
+wp-version: "1.7.1"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -610,43 +610,45 @@ Un seul secret suffit pour activer toutes les GitHub Actions ci-dessus. La clé 
 
 > 📖 **Pour aller plus loin :** [§9.12 Git Best Practices](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#912-git-best-practices--workflows) (worktrees, branching strategies, pre-commit hooks)
 
-## Code review natif (research preview, v3.36.0+)
+## Code Review natif (disponible en GA, octobre 2026)
 
-::: {.callout-note title="Code Review: Teams/Enterprise uniquement"}
-Depuis mars 2026, Anthropic propose une fonctionnalité **Code Review** intégrée à `claude.ai` (Research Preview). Elle est disponible exclusivement sur les plans Teams et Enterprise.
+::: {.callout-note title="Code Review : Team et Enterprise uniquement"}
+Anthropic a lancé **Code Review** en research preview en mars 2026, puis l'a rendu disponible en GA le 15 octobre 2026. Le service tourne sur l'infrastructure d'Anthropic pour les dépôts GitHub, sur les plans Team et Enterprise uniquement. Il n'est pas disponible avec la Zero Data Retention, la configuration HIPAA ou les clés de chiffrement gérées par le client.
 :::
 
 ### Architecture
 
-Claude analyse automatiquement les PR avec une architecture multi-agents. Chaque commentaire porte un niveau de sévérité explicite :
+Plusieurs agents analysent en parallèle le diff et le code environnant, puis une étape de vérification écarte les faux positifs. Les findings arrivent en commentaires inline, avec un résumé et un check run **Claude Code Review**. Une review n'approuve ni ne bloque jamais une PR, et le check run ne se conclut jamais en échec. Chaque finding porte l'un de trois niveaux de sévérité :
 
-| Niveau | Usage |
-|--------|-------|
-| **critical** | Bloquant, doit être corrigé avant merge |
-| **warning** | Important, devrait être corrigé |
-| **info** | Suggestion ou amélioration non bloquante |
+| Marqueur | Niveau | Sens |
+|----------|--------|------|
+| 🔴 | **Important** | Un bug à corriger avant le merge |
+| 🟡 | **Nit** | Problème mineur, non bloquant |
+| 🟣 | **Pre-existing** | Un bug déjà présent dans le code, non introduit par la PR |
+
+Un Owner choisit un **niveau de review** pour l'organisation, modifiable par dépôt : **Quick** (le plus rapide et le moins cher), **Standard** (par défaut) ou **Deep** (le plus approfondi et le plus cher).
 
 ### Setup
 
-1. Aller sur `claude.ai/admin-settings/claude-code`
-2. Installer la **GitHub App** Claude Code
-3. Choisir le mode de déclenchement :
+1. Un Owner de l'organisation Claude ouvre **Admin settings > Claude Code** sur `claude.ai` et active **Allow code review**
+2. Installer la **GitHub App** Claude (il faut un owner de l'organisation GitHub) et choisir les dépôts
+3. Régler **Review runs** pour chaque dépôt :
 
-| Mode | Comportement |
-|------|--------------|
-| `once` | Review unique à l'ouverture de la PR |
-| `every push` | Review automatique à chaque nouveau commit |
-| `manual` | Review à la demande uniquement |
+| Option | Comportement |
+|--------|--------------|
+| Once after PR creation | Review à l'ouverture, à la réouverture ou au passage en ready |
+| After every push | Review à chaque push ; réglage de départ d'un dépôt nouvellement ajouté |
+| Manual | Review uniquement sur commande en commentaire |
 
-**Déclenchement manuel** : ajouter le commentaire `@claude review` sur n'importe quelle PR.
+**Commandes en commentaire** (accès en écriture requis) : `@claude review` lance une review sans abonner la PR aux pushes suivants ; `@claude review always` l'abonne en plus ; `@claude review stop` met fin à l'abonnement. Les reviews automatiques ignorent les brouillons et les PR issues de forks, mais une commande en commentaire fonctionne sur les deux.
 
 ### Personnalisation
 
-Créer un fichier `REVIEW.md` à la racine du repository pour personnaliser les instructions de review (focus domaines, conventions maison, niveaux de sévérité préférés).
+Créer un fichier `REVIEW.md` à la racine du dépôt pour les règles propres à la review : domaines à surveiller, conventions maison, listes d'exclusion. Code Review le lit depuis la branche de base ou la branche par défaut, jamais depuis les changements de la PR.
 
 ### Tarification
 
-Le Code Review est facturé **hors forfait** (extra usage), indépendamment du plan Teams/Enterprise souscrit. Le coût moyen observé est de **$15-25 par PR**, selon la taille et la complexité des changements.
+Le Code Review est facturé à l'usage de tokens via les crédits d'usage, **hors de l'usage inclus dans le forfait**, et imputé à l'organisation. Il n'existe pas de prix fixe : le coût augmente avec le niveau de review, la taille du changement et la fréquence des reviews. L'article de support d'Anthropic donne une moyenne de **$15-25 par review**. Fixer une limite de dépense mensuelle avant d'activer largement « After every push ».
 
 ## `claude ultrareview` en CI/CD (v2.1.120)
 
@@ -994,7 +996,7 @@ Tarifs API directs standard en USD par million de tokens, contrôlés le 6 octob
 
 | Modèle | Entrée | Sortie | Usage à évaluer |
 |--------|--------|--------|----------------|
-| Haiku 4.5 | $1 | $5 | Tâches bornées |
+| Haiku 5.5 | $0,10 | $0,50 | Tâches bornées ; tarif des prompts jusqu'à 100K ($0,50 / $2,50 au-delà) |
 | Sonnet 5.5 | $2 | $10 | Développement général |
 | Opus 5.5 | $4 | $20 | Analyse et implémentation complexes |
 | Fable 5.1 | $10 | $50 | Raisonnement approfondi selon disponibilité |

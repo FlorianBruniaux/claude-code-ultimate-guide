@@ -4,11 +4,11 @@ subtitle: "Keyboard shortcuts & indispensable slash commands"
 card-number: "T01"
 category: "Technical"
 guide-version: "3.44.1"
-wp-version: "1.0.1"
+wp-version: "1.0.2"
 difficulty: "beginner"
 author: "Florian BRUNIAUX"
 version: "3.44.1"
-date: "2026-10-06"
+date: "2026-10-27"
 layout: "two-col"
 lang: en
 format:
@@ -19,7 +19,7 @@ format:
 
 | Shortcut | Action |
 |----------|--------|
-| `Shift+Tab` | Cycle permission mode (Manual, acceptEdits, Plan) |
+| `Shift+Tab` | Cycle permission mode (Manual, acceptEdits, Plan, auto); sessions start in auto since v2.1.283 unless overridden |
 | `Ctrl+O` | Toggle verbose transcript |
 | `Ctrl+C` | Interrupt generation |
 | `Esc` | Cancel current action |

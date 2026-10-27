@@ -2,11 +2,11 @@
 title: "Claude Code : De Zéro à Productif"
 subtitle: "Les fondamentaux pour démarrer efficacement"
 author: "Florian BRUNIAUX"
-date: "2026-10-06"
+date: "2026-10-27"
 date-format: "MMMM YYYY"
 version: "3.44.1"
 guide-version: "3.44.1"
-wp-version: "1.5.3"
+wp-version: "1.5.4"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -68,7 +68,7 @@ Depuis fin 2025, plusieurs fonctionnalités agentic sont devenues disponibles et
 | **LSP Tool** | v2.0.74 | Navigation IDE-like (symboles, types, refs) en ~50ms, 11 langages supportés |
 | **Remote Control** | v2.1.51 | Piloter une session locale depuis mobile ou navigateur (Pro/Max/Team/Enterprise) |
 | **MCP Elicitation** | v2.1.76 | Les serveurs MCP peuvent demander des données structurées en cours de tâche |
-| **Contexte 1M tokens** | v2.1.75 | 1M natif sur les modèles actuels Opus, Sonnet et Fable ; anciennes variantes soumises à conditions |
+| **Contexte 1M tokens** | v2.1.75 | 1M natif sur les modèles actuels Opus, Sonnet, Haiku et Fable ; anciennes variantes soumises à conditions |
 | **`/loop`** | v2.1.71+ | Intervalle fixe si précisé ; sinon Claude choisit le délai |
 | **`/branch`** | v2.1.78+ | Fork de session en parallèle (`--fork-session`) pour explorer plusieurs approches |
 | **`--bare`** | v2.1.78+ | Mode scripted sans hooks/LSP/plugins, idéal pour CI/CD |
@@ -169,7 +169,7 @@ Les raccourcis clavier accélèrent la navigation entre les modes de Claude Code
 | Raccourci | Action |
 |-----------|--------|
 | `Shift+Tab` | Cycle : default → auto-accept → mode plan |
-| `Alt+T` | Basculer le thinking si pris en charge ; aucun effet sur Opus 5.5/Fable |
+| `Alt+T` | Basculer le thinking si pris en charge ; aucun effet sur Opus 5.5, Sonnet 5.5, Haiku 5.5 ni Fable |
 | `Ctrl+B` | Exécuter une commande en arrière-plan |
 | `Ctrl+R` | Historique des commandes |
 | `@fichier` | Référencer un fichier spécifique |
@@ -247,7 +247,7 @@ VERIFY: Empty email shows error message
 
 ## Gestion du Contexte
 
-Le contexte est la mémoire de travail de Claude. Les modèles actuels Opus, Sonnet et Fable disposent de 1M tokens natifs sur l’API directe ; Haiku 4.5 dispose de 200K. Les fournisseurs et anciennes variantes peuvent différer. Chaque coéquipier a sa propre fenêtre, dimensionnée par son modèle. Consultez `/context` :
+Le contexte est la mémoire de travail de Claude. Les modèles actuels Opus, Sonnet, Haiku et Fable disposent de 1M tokens natifs sur l’API directe ; Haiku 4.5, dernier modèle à 200K, est historique. Les fournisseurs et anciennes variantes peuvent différer. Chaque coéquipier a sa propre fenêtre, dimensionnée par son modèle. Consultez `/context` :
 
 | Zone | Contexte | Action |
 |------|----------|--------|

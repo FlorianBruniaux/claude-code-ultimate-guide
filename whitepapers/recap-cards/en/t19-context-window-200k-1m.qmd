@@ -7,7 +7,7 @@ difficulty: "intermediate"
 guide-version: "3.44.1"
 author: "Florian BRUNIAUX"
 version: "3.44.1"
-date: "2026-10-06"
+date: "2026-10-27"
 layout: "two-col"
 lang: en
 format:
@@ -18,16 +18,17 @@ format:
 
 | Direct API model | Context | Maximum output |
 |------------------|---------|----------------|
-| Haiku 4.5 | 200K | 64K |
+| Haiku 5.5 | 1M native | 128K |
+| Haiku 4.5 (legacy) | 200K | 64K |
 | Sonnet 5.5 | 1M native | 128K |
 | Opus 5.5 | 1M native | 128K |
 | Fable 5.1 | 1M native | 128K |
 
-Guide model snapshot, September 30, 2026. Provider settings can expose different limits. Inspect `/context` for the active session.
+Guide model snapshot, October 27, 2026. Provider settings can expose different limits. Inspect `/context` for the active session.
 
 ## No native-1M premium
 
-Current native 1M models use standard rates beyond 200K input tokens. They do not need the old long-context beta header. Sonnet 5.5 has no 200K variant on the direct API.
+Opus, Sonnet, and Fable 5.x use standard rates beyond 200K input tokens (Haiku 5.5 is priced higher above 100K). They do not need the old long-context beta header. Sonnet 5.5 has no 200K variant on the direct API.
 
 Older Opus 4.6 and Sonnet 4.6 have `[1m]` variants with plan/provider restrictions. Do not transfer their access rules to current models.
 
@@ -53,7 +54,7 @@ Use separate input, output, cache-read, and cache-write counts. A context-window
 
 `/autocompact 500k` saves a smaller compaction window. `/autocompact auto` restores the model default. Native 1M sessions normally compact around 967K.
 
-Load relevant files rather than filling the available window. Split independent tasks when separate contexts help. No fixed percentage guarantees reliable recall.
+Load relevant files rather than filling the available window. Split independent tasks when separate contexts help. No fixed percentage guarantees reliable recall. Idle compaction (v2.1.299) compacts a 200K+ conversation idle about 54 minutes before its one-hour cache expires; `"idleCompaction": false` disables it.
 
 ## Evaluate retrieval
 

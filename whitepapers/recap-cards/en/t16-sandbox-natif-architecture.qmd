@@ -5,10 +5,10 @@ card-number: "T16"
 category: "Technical"
 difficulty: "advanced"
 guide-version: "3.44.1"
-wp-version: "1.0.1"
+wp-version: "1.0.2"
 author: "Florian BRUNIAUX"
 version: "3.44.1"
-date: "2026-10-06"
+date: "2026-10-27"
 layout: "two-col"
 lang: en
 format:
@@ -24,6 +24,8 @@ Since v2.1.0, Claude Code includes a native sandbox that isolates bash command e
 ## OS primitives by platform
 
 **macOS: Seatbelt**. Built into the system, no installation required. Uses the TrustedBSD Mandatory Access Control framework to filter system calls at the kernel level. Measure overhead with your own commands.
+
+Before v2.1.309, sandboxed Bash commands ran the shell's startup files outside the sandbox on macOS and Linux; update to v2.1.309 or later.
 
 **Linux / WSL2: bubblewrap**. Requires installing two packages.
 

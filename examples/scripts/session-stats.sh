@@ -16,8 +16,8 @@
 #   CLAUDE_LOG_DIR - Log directory (default: ~/.claude/logs)
 #
 # Cost rates (per 1K tokens, configurable):
-#   CLAUDE_RATE_INPUT  - Input token rate (default: 0.002 for Sonnet 5)
-#   CLAUDE_RATE_OUTPUT - Output token rate (default: 0.010 for Sonnet 5)
+#   CLAUDE_RATE_INPUT  - Input token rate (default: 0.002 for Sonnet 5.5)
+#   CLAUDE_RATE_OUTPUT - Output token rate (default: 0.010 for Sonnet 5.5)
 
 set -euo pipefail
 

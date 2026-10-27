@@ -91,7 +91,7 @@ export default async function ({ agent, parallel, pipeline, phase, log, args, bu
   const summary = await agent('Summarize the diff in src/api/ added since yesterday.', {
     label: 'API diff summary',
     phase: 'Analyze',
-    model: 'claude-sonnet-5',
+    model: 'claude-sonnet-5-5',
   });
 
   return summary;

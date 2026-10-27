@@ -2,11 +2,11 @@
 title: "Claude Code Cheatsheet"
 subtitle: "L'essentiel au quotidien pour une productivité maximale"
 author: "Florian BRUNIAUX"
-date: "2026-10-06"
+date: "2026-10-27"
 date-format: "MMMM YYYY"
 version: "3.44.1"
 guide-version: "3.44.1"
-wp-version: "1.2.3"
+wp-version: "1.2.4"
 series: "Claude Code Ultimate Guide"
 format:
   cheatsheet-typst:
@@ -73,7 +73,7 @@ which claude && claude --version
 | `Ctrl+L` | Effacer l'écran (garde le contexte) |
 | `Ctrl+B` | Tâches en arrière-plan |
 | `Ctrl+X Ctrl+K` | Tuer tous les agents en arrière-plan  |
-| `Alt+T` | Basculer la réflexion si le modèle le permet |
+| `Alt+T` | Basculer la réflexion si le modèle le permet (pas sur Opus/Sonnet/Haiku 5.5, Fable) |
 | `Espace` (maintenu) | Entrée vocale (nécessite `/voice`) |
 | `Tab` | Autocomplétion |
 | `Shift+Enter` | Nouvelle ligne |
@@ -121,7 +121,7 @@ Demander une délégation   → Claude peut utiliser un agent disponible
 
 L’identifiant du mode Bypass est `bypassPermissions`.
 
-**Shift+Tab** pour changer de mode
+**Shift+Tab** pour changer de mode. Depuis v2.1.283, les nouvelles sessions démarrent en mode auto sauf si `permissions.defaultMode` ou `--permission-mode` en décide autrement ; `/auto-mode-setup` guide la configuration.
 
 # Mémoire & configuration (2 niveaux)
 
@@ -188,13 +188,13 @@ Les préférences personnelles au projet peuvent être placées dans `CLAUDE.loc
 
 ## Thinking et effort
 
-Opus 5.5, Sonnet 5.5 et Fable 5.1 utilisent le thinking adaptatif. Haiku 4.5 dispose du thinking étendu mais **pas du paramètre effort**.
+Opus 5.5, Sonnet 5.5, Haiku 5.5 et Fable 5.1 utilisent le thinking adaptatif. Haiku 4.5 (historique) n'a **pas de paramètre effort**.
 
 Les modèles adaptatifs actuels acceptent `low`, `medium`, `high`, `xhigh` et `max`. Opus 4.6 et Sonnet 4.6 acceptent `max`, mais pas `xhigh`.
 
 `/effort` enregistre les niveaux jusqu'à `xhigh` par modèle. **s** limite le choix à la session. `max` reste propre à la session ; `/effort auto` efface le choix enregistré pour le modèle actif.
 
-`Option+T` / `Alt+T` bascule le thinking si le modèle le permet. Ce raccourci n'a pas d'effet sur Opus 5.5 ou Fable, dont le thinking reste actif. Réduire plutôt l'effort pour une tâche bornée.
+`Option+T` / `Alt+T` bascule le thinking si le modèle le permet. Ce raccourci n'a pas d'effet sur Opus 5.5, Sonnet 5.5, Haiku 5.5 ni Fable, dont le thinking ne peut pas être désactivé. Réduire plutôt l'effort pour une tâche bornée.
 
 `ultrathink` ajoute une consigne de réflexion sans changer l'effort API. `think hard` est du texte ordinaire.
 
@@ -206,7 +206,7 @@ Les modèles adaptatifs actuels acceptent `low`, `medium`, `high`, `xhigh` et `m
 3. Plan Mode             → Shift+Tab × 2 (tâches complexes)
 4. Décrire la tâche      → prompt clair et précis
 5. Vérifier les diffs    → toujours lire avant d'accepter !
-6. Accepter/Rejeter      → y/n
+6. Accepter/Rejeter      → Entrée/Échap
 7. Vérifier              → lancer les tests
 8. Commit                → une fois la tâche terminée
 9. /compact              → quand le contexte dépasse 70%
@@ -305,8 +305,8 @@ Tarifs API standard vérifiés le 6 octobre 2026. Dollars par million de tokens 
 
 | Modèle | Entrée / sortie | Contexte | Effort par défaut |
 |--------|-----------------|----------|-------------------|
-| Haiku 4.5 | $1 / $5 | 200K | Non pris en charge |
-| Sonnet 5.5 | $2 / $10 | 1M | high |
+| Haiku 5.5 | $0,10 / $0,50 (jusqu'à 100K ; $0,50 / $2,50 au-delà) | 1M | medium |
+| Sonnet 5.5 | $2 / $10 | 1M | medium |
 | Opus 5.5 | $4 / $20 | 1M | medium |
 | Fable 5.1 | $10 / $50 | 1M | high |
 

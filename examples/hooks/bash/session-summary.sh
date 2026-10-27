@@ -195,9 +195,13 @@ get_pricing() {
         claude-sonnet-4-5|claude-sonnet-4-6)
             [[ "$type" == "input" ]] && echo "3.00" || echo "15.00"
             ;;
-        claude-sonnet-5)
-            # Published rate remains $2/$10 as of 2026-09-24.
+        claude-sonnet-5-5|claude-sonnet-5)
+            # Published rate $2/$10 for Sonnet 5.5 and Sonnet 5, checked 2026-10-27.
             [[ "$type" == "input" ]] && echo "2.00" || echo "10.00"
+            ;;
+        claude-haiku-5-5)
+            # Prompts up to 100K tokens; $0.50/$2.50 above 100K (checked 2026-10-27).
+            [[ "$type" == "input" ]] && echo "0.10" || echo "0.50"
             ;;
         claude-haiku-4-5)
             [[ "$type" == "input" ]] && echo "1.00" || echo "5.00"

@@ -77,7 +77,7 @@ ChatGPT Pro and Team subscribers get Codex CLI usage included in their plan, mak
 
 | Aspect | Claude Code | Codex CLI |
 |--------|-------------|-----------|
-| **Models** | Claude family (Opus 5.5, Sonnet 5, Haiku 4.5, Fable 5.1) only | GPT-4o, o3, o3-mini, o4-mini, plus future OpenAI models |
+| **Models** | Claude family (Opus 5.5, Sonnet 5.5, Haiku 5.5, Fable 5.1) only | GPT-4o, o3, o3-mini, o4-mini, plus future OpenAI models |
 | **Language** | TypeScript | Rust |
 | **License** | Open source | Apache 2.0 |
 | **Subscription** | Anthropic Claude Max ($20-$200/mo) | OpenAI ChatGPT Pro/Team ($20-$30/mo) |
@@ -282,7 +282,7 @@ pip install aider-install && aider-install
 
 # With Claude
 export ANTHROPIC_API_KEY=sk-ant-...
-aider --model claude-sonnet-5
+aider --model claude-sonnet-5-5
 
 # With GPT-4o
 export OPENAI_API_KEY=sk-...
@@ -608,7 +608,7 @@ pip install swe-agent
 
 # Run on a GitHub issue
 sweagent run \
-  --agent.model.name=claude-sonnet-5 \
+  --agent.model.name=claude-sonnet-5-5 \
   --env.repo.github_url=https://github.com/org/repo \
   --problem_statement.github_url=https://github.com/org/repo/issues/123
 ```
@@ -707,14 +707,14 @@ researcher = Agent(
     role="Technical Researcher",
     goal="Find accurate technical information",
     backstory="Expert at synthesizing documentation and research papers",
-    llm="claude-sonnet-5"
+    llm="claude-sonnet-5-5"
 )
 
 writer = Agent(
     role="Technical Writer",
     goal="Write clear, accurate documentation",
     backstory="Experienced at translating technical concepts",
-    llm="claude-sonnet-5"
+    llm="claude-sonnet-5-5"
 )
 
 task = Task(

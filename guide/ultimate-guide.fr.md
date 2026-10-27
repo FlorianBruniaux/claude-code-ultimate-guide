@@ -981,7 +981,7 @@ Cela fonctionne bien pendant les sessions actives, mais dépend de la cohérence
 
 #### Approche B : hook SessionEnd (automatique, généré par IA)
 
-Un hook `SessionEnd` lit directement le fichier JSONL de la session depuis `~/.claude/projects/`, extrait les premiers messages utilisateur comme contexte, et appelle `claude -p --model claude-haiku-4-5-20251001` pour générer un titre descriptif de 4 à 6 mots. Si Haiku est indisponible, il bascule sur une version assainie du premier message.
+Un hook `SessionEnd` lit directement le fichier JSONL de la session depuis `~/.claude/projects/`, extrait les premiers messages utilisateur comme contexte, et appelle `claude -p --model claude-haiku-5-5` pour générer un titre descriptif de 4 à 6 mots. Si Haiku est indisponible, il bascule sur une version assainie du premier message.
 
 Le hook met à jour à la fois `sessions-index.jsonl` (pour les navigateurs de sessions personnalisés) et le champ slug dans le fichier JSONL (pour la compatibilité native avec `/resume`).
 
@@ -1063,7 +1063,11 @@ Refuse automatiquement les outils sauf ceux pré-approuvés via `/permissions` o
 
 ### Mode Auto (tous les abonnements, v2.1.114+)
 
-Le mode Auto délègue les décisions de permission à un modèle classificateur dédié. Au lieu de s'arrêter pour demander une approbation à chaque action, une seconde instance IA exécutant Sonnet 5 évalue chaque appel d'outil avant son exécution. Les actions sûres sont exécutées automatiquement ; les actions risquées sont bloquées, et Claude reçoit la raison afin de pouvoir essayer une approche différente.
+Le mode Auto délègue les décisions de permission à un modèle classificateur dédié. Au lieu de s'arrêter pour demander une approbation à chaque action, une seconde instance IA évalue chaque appel d'outil avant son exécution. Les actions sûres sont exécutées automatiquement ; les actions risquées sont bloquées, et Claude reçoit la raison afin de pouvoir essayer une approche différente.
+
+**Mode de démarrage (v2.1.283+)** : les sessions interactives du terminal et de VS Code démarrent en mode Auto lorsqu'aucun mode de permission n'est configuré ; sur les versions antérieures, cela ne valait que pour les offres Pro, Max et Team. `permissions.defaultMode` dans les paramètres utilisateur ou gérés, ou `--permission-mode`, choisit un autre mode. `/auto-mode-setup` (v2.1.304) rédige des entrées d'environnement à partir du projet et des sessions récentes pour que le classificateur bloque moins votre travail habituel.
+
+**Emplacement du classificateur** : par défaut, Claude Code demande au serveur de réviser les actions sur les connexions directes à l'API Anthropic (au fil du déploiement par Anthropic), sur les fournisseurs cloud et sur les passerelles LLM ; lorsque le serveur ne révise pas une session, Claude Code se rabat sur ses propres requêtes de classificateur. `CLAUDE_CODE_AUTO_MODE_SERVER=0` bascule vers les requêtes de classificateur propres à Claude Code, dont le modèle peut être défini par `CLAUDE_CODE_AUTO_MODE_MODEL` (v2.1.302). Voir la [révision par le classificateur côté serveur](https://code.claude.com/docs/en/permission-modes#server-side-classifier-review).
 
 ```json
 // .claude/settings.json
@@ -1075,7 +1079,7 @@ Le mode Auto délègue les décisions de permission à un modèle classificateur
 Le mode Auto effectue deux vérifications parallèles sur tout ce que Claude touche :
 
 1. **Sonde d'entrée** : avant que tout contenu entre dans le contexte de Claude (lectures de fichiers, requêtes web, sorties shell, réponses MCP), une sonde côté serveur analyse les injections de prompt. Lorsqu'elle détecte des instructions suspectes, elle ajoute un avertissement au contexte de Claude plutôt que de filtrer silencieusement, afin que Claude sache que ce contenu tente peut-être de le manipuler.
-2. **Classificateur de transcript** (Sonnet 5) : évalue chaque appel d'outil selon trois catégories de risque avant l'exécution. Le classificateur ne voit que les messages utilisateur et les appels d'outils en attente de Claude ; les sorties d'outils et le raisonnement propre à Claude sont supprimés pour éviter la manipulation du raisonnement.
+2. **Classificateur de transcript** : évalue chaque appel d'outil selon trois catégories de risque avant l'exécution. Le classificateur ne voit que les messages utilisateur et les appels d'outils en attente de Claude ; les sorties d'outils et le raisonnement propre à Claude sont supprimés pour éviter la manipulation du raisonnement.
 
 Les trois catégories vérifiées par le classificateur :
 
@@ -1761,7 +1765,7 @@ Le contexte est la « mémoire de travail » de Claude pour votre conversation. 
 
 ### Le budget de contexte
 
-La fenêtre de contexte dépend du modèle et du fournisseur. Opus 5.5, Sonnet 5.5 et Fable 5.1 disposent de **1M tokens** sur l'API directe ; Haiku 4.5 de **200K**. Consultez `/context` pour la session active. La capacité ne garantit pas que chaque détail sera retrouvé de façon fiable.
+La fenêtre de contexte dépend du modèle et du fournisseur. Opus 5.5, Sonnet 5.5, Haiku 5.5 et Fable 5.1 disposent de **1M tokens** sur l'API directe ; l'ancien Haiku 4.5 de **200K**. Consultez `/context` pour la session active. La capacité ne garantit pas que chaque détail sera retrouvé de façon fiable.
 
 ### Lecture de la barre de statut
 
@@ -2186,18 +2190,18 @@ L'utilisation de Claude Code peut consommer l'allocation d'un abonnement, des cr
 
 <a id="pricing-model-verified-september-24-2026"></a>
 
-#### Modèle de tarification (tarifs vérifiés le 6 octobre 2026) {#pricing-model-rates-checked-october-6-2026}
+#### Modèle de tarification (tarifs vérifiés le 27 octobre 2026) {#pricing-model-rates-checked-october-27-2026}
 
 Claude Code v2.1.280 et les versions suivantes utilisent **Opus 5.5** par défaut sur Pro, Max, Team, Enterprise, l'API Anthropic, Claude Platform on AWS, Bedrock et Google Cloud's Agent Platform. Microsoft Foundry conserve Sonnet 4.5 comme modèle par défaut du compte. La politique de l'organisation, les paramètres du modèle et les variables d'environnement peuvent modifier ce choix. Consultez `/model` et `/status` pour votre session.
 
 | Modèle | Entrée / MTok | Sortie / MTok | Lecture du cache / MTok | Contexte | Effort par défaut dans Claude Code |
 |-------|--------------|---------------|-------------------|---------|-------------------------------|
 | Opus 5.5 | $4 | $20 | $0.20 | 1M | `medium` |
-| Sonnet 5.5 | $2 | $10 | $0.10 | 1M | `high` |
-| Haiku 4.5 | $1 | $5 | $0.10 | 200K | Pas de paramètre d'effort |
+| Sonnet 5.5 | $2 | $10 | $0.10 | 1M | `medium` |
+| Haiku 5.5 | $0.10 (prompts jusqu'à 100K tokens), $0.50 au-delà | $0.50, $2.50 au-delà de 100K | $0.01, $0.05 au-delà de 100K | 1M | `medium` |
 | Fable 5.1 | $10 | $50 | $0.25 | 1M | `high` |
 
-Il s'agit des tarifs standard de l'API Anthropic en USD, vérifiés le 6 octobre 2026. Les allocations des abonnements, les crédits d'usage, les écritures du cache, les remises par lot, la résidence des données et les tarifs des clouds partenaires sont distincts. Sonnet 5.5 (`claude-sonnet-5-5`) a remplacé Sonnet 5 comme Sonnet par défaut sur l’API Anthropic dans Claude Code v2.1.284 (28 septembre 2026), aux mêmes tarifs de $2/$10 ; Sonnet 5 est désormais un modèle legacy, et la hausse annoncée pour septembre n’a pas eu lieu. [Tarifs officiels des modèles](https://platform.claude.com/docs/en/about-claude/pricing). Les tarifs de lecture du cache ont été revérifiés le 24 octobre 2026.
+Il s'agit des tarifs standard de l'API Anthropic en USD, vérifiés le 27 octobre 2026. Les allocations des abonnements, les crédits d'usage, les écritures du cache, les remises par lot, la résidence des données et les tarifs des clouds partenaires sont distincts. Sonnet 5.5 (`claude-sonnet-5-5`) a remplacé Sonnet 5 comme Sonnet par défaut sur l’API Anthropic dans Claude Code v2.1.284 (28 septembre 2026), aux mêmes tarifs de $2/$10 ; Sonnet 5 est désormais un modèle legacy, et la hausse annoncée pour septembre n’a pas eu lieu. Haiku 5.5 (`claude-haiku-5-5`) a remplacé Haiku 4.5 comme `haiku` par défaut sur l’API Anthropic dans Claude Code v2.1.293 (7 octobre 2026) ; une requête Haiku 5.5 coûte plus cher par token lorsque son prompt dépasse 100K tokens. Les valeurs d'effort par défaut proviennent de la [configuration des modèles de Claude Code](https://code.claude.com/docs/en/model-config#adjust-effort-level) ; la valeur par défaut propre à l'API Claude pour Sonnet 5.5 est `high`. [Tarifs officiels des modèles](https://platform.claude.com/docs/en/about-claude/pricing).
 
 Le mode rapide prend en charge Opus 5.5 ($8/$40 par MTok), Opus 5 et Opus 4.8 ($10/$50). Il n'est pas disponible sur Sonnet et Haiku. Anthropic décrit une sortie jusqu'à 2.5 fois plus rapide, sans garantie pour chaque requête. Le mode rapide des abonnements utilise des crédits d'usage. [Référence du mode rapide](https://code.claude.com/docs/en/fast-mode).
 
@@ -2205,9 +2209,9 @@ Fable 5.1 est disponible sur sélection explicite, sous réserve d'accès du com
 
 #### Contexte 200K et 1M : performances, coûts et usages {#200k-vs-1m-context-performance-cost--use-cases}
 
-Opus 5.5, Sonnet 5.5 et Fable 5.1 disposent d'un contexte natif de 1M sur l'API Anthropic. Les anciens Opus 4.6 et Sonnet 4.6 utilisent une variante `[1m]` avec un accès dépendant de l'offre. Les passerelles et fournisseurs cloud peuvent exposer une autre fenêtre ; consultez `/context` et les [règles des fournisseurs](https://code.claude.com/docs/en/model-config#extended-context).
+Opus 5.5, Sonnet 5.5, Haiku 5.5 et Fable 5.1 disposent d'un contexte natif de 1M sur l'API Anthropic. Les anciens Opus 4.6 et Sonnet 4.6 utilisent une variante `[1m]` avec un accès dépendant de l'offre. Les passerelles et fournisseurs cloud peuvent exposer une autre fenêtre ; consultez `/context` et les [règles des fournisseurs](https://code.claude.com/docs/en/model-config#extended-context).
 
-Les modèles actuels à 1M natif conservent leurs tarifs standard au-delà de 200K tokens d'entrée. Les anciens conseils sur l'en-tête bêta et le supplément long contexte de Sonnet 4/4.5 ne s'appliquent pas à eux. La sortie maximale est de 128K pour Opus 5.5, Sonnet 5.5 et Fable 5.1, et de 64K pour Haiku 4.5. [Caractéristiques des modèles](https://platform.claude.com/docs/en/models/overview).
+Les modèles actuels à 1M natif conservent leurs tarifs standard au-delà de 200K tokens d'entrée, sauf Haiku 5.5, dont les tarifs augmentent pour les prompts de plus de 100K tokens. Les anciens conseils sur l'en-tête bêta et le supplément long contexte de Sonnet 4/4.5 ne s'appliquent pas à eux. La sortie maximale est de 128K pour Opus 5.5, Sonnet 5.5, Haiku 5.5 et Fable 5.1 (64K pour l'ancien Haiku 4.5). [Caractéristiques des modèles](https://platform.claude.com/docs/en/models/overview).
 
 **Factures de tokens illustratives, sans mesure de sessions**, hors cache et reprises :
 
@@ -2810,19 +2814,19 @@ Claude: [Executes the plan]
 
 ### Alias de modèles
 
-Les alias dépendent du fournisseur et peuvent être redéfinis dans la configuration. Vérification effectuée le 24 septembre 2026 dans la [documentation officielle des modèles](https://code.claude.com/docs/en/model-config) :
+Les alias dépendent du fournisseur et peuvent être redéfinis dans la configuration. Vérification effectuée le 27 octobre 2026 dans la [documentation officielle des modèles](https://code.claude.com/docs/en/model-config) :
 
-| Fournisseur | `opus` | `sonnet` |
-|-------------|--------|----------|
-| Anthropic API | Opus 5.5 | Sonnet 5.5 (depuis v2.1.284) |
-| Claude Platform on AWS | Opus 5.5 | Sonnet 4.6 |
-| Amazon Bedrock / Google Cloud's Agent Platform | Opus 5.5 | Sonnet 4.5 |
-| Microsoft Foundry | Opus 4.6 | Sonnet 4.5 |
+| Fournisseur | `opus` | `sonnet` | `haiku` |
+|-------------|--------|----------|---------|
+| Anthropic API | Opus 5.5 | Sonnet 5.5 (depuis v2.1.284) | Haiku 5.5 (depuis v2.1.293) |
+| Claude Platform on AWS | Opus 5.5 | Sonnet 4.6 | Haiku 4.5 |
+| Amazon Bedrock / Google Cloud's Agent Platform | Opus 5.5 | Sonnet 4.5 | Haiku 4.5 |
+| Microsoft Foundry | Opus 4.6 | Sonnet 4.5 | Haiku 4.5 |
 
 | Sélection | Signification |
 |-----------|---------------|
 | `default` | Supprime la sélection explicite et utilise le modèle par défaut du compte ou de l'organisation |
-| `haiku` | Alias de la famille Haiku ; le modèle actuel du service direct est Haiku 4.5 |
+| `haiku` | Alias de la famille Haiku ; Haiku 5.5 sur l'API Anthropic (Claude Code v2.1.293+), Haiku 4.5 sur les fournisseurs cloud ci-dessus |
 | `fable` | Fable 5.1, sauf via la passerelle des applications Claude, qui utilise Fable 5 |
 | `best` | Équivalent à `fable` lorsque disponible, sinon `opus` |
 | `opus[1m]`, `sonnet[1m]` | Demande une variante 1M lorsque le fournisseur ou le modèle l'exige |
@@ -2833,7 +2837,7 @@ Pour fixer une version, utilisez son identifiant exact chez le fournisseur, par 
 
 `/model <name>` enregistre un choix par défaut pour les nouvelles sessions. Dans le sélecteur, appuyez sur `s` pour limiter le choix à la session en cours. `claude --model <name>` et `ANTHROPIC_MODEL` s'appliquent à la session lancée. Les paramètres du projet et les paramètres gérés peuvent se réappliquer au lancement suivant ; une session reprise retrouve généralement son modèle enregistré. `ANTHROPIC_DEFAULT_MODEL` est un choix par défaut de priorité inférieure, qui ne remplace pas ces sélections explicites.
 
-Utilisez la barre d'état, `/model` ou les métadonnées de réponse de l'API pour identifier le modèle actif. Les déclarations du modèle sur sa propre identité ne sont pas fiables. Les dates limites de connaissances fiables sont juin 2026 pour Opus 5.5, Sonnet 5.5 et Fable 5.1, et février 2025 pour Haiku 4.5. [Caractéristiques des modèles](https://platform.claude.com/docs/en/models/overview).
+Utilisez la barre d'état, `/model` ou les métadonnées de réponse de l'API pour identifier le modèle actif. Les déclarations du modèle sur sa propre identité ne sont pas fiables. La date limite de connaissances fiable est juin 2026 pour Opus 5.5, Sonnet 5.5, Haiku 5.5 et Fable 5.1 (février 2025 pour l'ancien Haiku 4.5). [Caractéristiques des modèles](https://platform.claude.com/docs/en/models/overview).
 
 <a id="opusplan-mode"></a>
 
@@ -2910,18 +2914,18 @@ tools: Write, Edit, Bash
 ```bash
 # Add to ~/.zshrc
 sonnetplan() {
-    ANTHROPIC_DEFAULT_OPUS_MODEL=claude-sonnet-5 \
-    ANTHROPIC_DEFAULT_SONNET_MODEL=claude-haiku-4-5-20251001 \
+    ANTHROPIC_DEFAULT_OPUS_MODEL=claude-sonnet-5-5 \
+    ANTHROPIC_DEFAULT_SONNET_MODEL=claude-haiku-5-5 \
     claude "$@"
 }
 ```
 
 Avec `sonnetplan`, `/model opusplan` utilise :
 
-- En **mode Plan**, Sonnet 5 via l'alias `opus` redéfini.
-- En **mode Act**, Haiku 4.5 via l'alias `sonnet` redéfini.
+- En **mode Plan**, Sonnet 5.5 via l'alias `opus` redéfini.
+- En **mode Act**, Haiku 5.5 via l'alias `sonnet` redéfini.
 
-> **Attention** : la réponse à « quel modèle es-tu ? » n'est pas fiable ; les modèles ne connaissent pas toujours leur propre identité. Fiez-vous à la barre d'état (`Model: Sonnet 5` en mode Plan) ou vérifiez le tableau de bord de facturation. L'issue GitHub [#9749](https://github.com/anthropics/claude-code/issues/9749) suit la prise en charge native de cette combinaison.
+> **Attention** : la réponse à « quel modèle es-tu ? » n'est pas fiable ; les modèles ne connaissent pas toujours leur propre identité. Fiez-vous à la barre d'état (`Model: Sonnet 5.5` en mode Plan) ou vérifiez le tableau de bord de facturation. L'issue GitHub [#9749](https://github.com/anthropics/claude-code/issues/9749) suit la prise en charge native de cette combinaison.
 
 <a id="pinning-opus-46-community-hack"></a>
 
@@ -3242,13 +3246,13 @@ _Accès rapide :_ [Tableau de décision](#decision-table) · [Niveaux d'effort](
 
 | Tâche | Modèle candidat | Effort de départ |
 |-------|-----------------|------------------|
-| Renommage, formatage, extraction bornée | Haiku 4.5 | Non pris en charge |
+| Renommage, formatage, extraction bornée | Haiku 5.5 | `medium` par défaut ; évaluer `low` |
 | Fonctionnalités, tests, débogage courant | Sonnet 5.5 ou Opus 5.5 | Défaut du modèle |
 | Architecture ou débogage difficile | Opus 5.5 | Augmenter depuis `medium` si l'évaluation le justifie |
 | Travail long ou ambigu sous le niveau de qualité attendu | Évaluer Fable 5.1 | Commencer à `high` |
 | Workflow multi-agents | Affecter selon le rôle et les résultats mesurés | Selon le modèle pris en charge |
 
-Le nom d'un modèle ne détermine pas un coût fixe par tâche. Mesurez les tokens d'entrée, de sortie et de cache, les nouvelles tentatives et l'effort de revue avec les mêmes critères d'acceptation. Voir le [tableau de tarification](#pricing-model-rates-checked-october-6-2026).
+Le nom d'un modèle ne détermine pas un coût fixe par tâche. Mesurez les tokens d'entrée, de sortie et de cache, les nouvelles tentatives et l'effort de revue avec les mêmes critères d'acceptation. Voir le [tableau de tarification](#pricing-model-rates-checked-october-27-2026).
 
 <a id="escalating-to-fable"></a>
 
@@ -3264,11 +3268,11 @@ L'effort contrôle le raisonnement adaptatif et peut modifier l'usage des outils
 
 | Modèles | Niveaux d'effort Claude Code pris en charge | Défaut |
 |---------|-------------------------------------------|--------|
-| Opus 5.5 | `low`, `medium`, `high`, `xhigh`, `max` | `medium` |
+| Opus 5.5, Sonnet 5.5, Haiku 5.5 | `low`, `medium`, `high`, `xhigh`, `max` | `medium` |
 | Sonnet 5, Opus 5 / 4.8, Fable 5 / 5.1 | `low`, `medium`, `high`, `xhigh`, `max` | `high` |
 | Opus 4.7 | `low`, `medium`, `high`, `xhigh`, `max` | `xhigh` |
 | Opus 4.6, Sonnet 4.6 | `low`, `medium`, `high`, `max` | `high` |
-| Haiku 4.5 | Aucun paramètre effort | Sans objet |
+| Haiku 4.5 (ancien) | Aucun paramètre effort | Sans objet |
 
 `/effort` et le sélecteur `/model` enregistrent les niveaux pris en charge de `low` à `xhigh` par modèle avec `Enter` ; `s` limite le choix à la session. `/effort max` ne s'applique qu'à la session. Les réglages persistants `modelSettings` et `effortLevel` n'acceptent pas `max`. `CLAUDE_CODE_EFFORT_LEVEL` peut surcharger la session et les règles de l'organisation peuvent plafonner les niveaux disponibles.
 
@@ -4731,7 +4735,7 @@ User: "Actually, here's what I need: [refined instruction with specifics]"
 
 ### Gestion du contexte {#context-management}
 
-Le contexte dépend du modèle et du fournisseur : les modèles actuels Opus, Sonnet et Fable ont une fenêtre native de 1M sur l'API directe ; Haiku 4.5 dispose de 200K. Les variantes anciennes suivent leurs propres règles d'accès. Voir la [comparaison 200K et 1M](#200k-vs-1m-context-performance-cost--use-cases). Les tailles suivantes sont illustratives, pas des réservations fixes :
+Le contexte dépend du modèle et du fournisseur : les modèles actuels Opus, Sonnet, Haiku et Fable ont une fenêtre native de 1M sur l'API directe ; l'ancien Haiku 4.5 dispose de 200K. Les variantes anciennes suivent leurs propres règles d'accès. Voir la [comparaison 200K et 1M](#200k-vs-1m-context-performance-cost--use-cases). Les tailles suivantes sont illustratives, pas des réservations fixes :
 
 | Composant | Taille approximative |
 |-----------|----------------------|
@@ -7239,7 +7243,7 @@ La valeur de l'agent réside dans la mise en avant d'une perspective cohérente 
 │   PATTERN D'ORCHESTRATION                                   │
 │                                                             │
 │                    ┌──────────────┐                         │
-│                    │   Sonnet 5   │                         │
+│                    │  Sonnet 5.5  │                         │
 │                    │ Orchestrateur│                         │
 │                    └──────┬───────┘                         │
 │                           │                                 │
@@ -7255,7 +7259,7 @@ La valeur de l'agent réside dans la mise en avant d'une perspective cohérente 
 │                           │                                 │
 │                           ▼                                 │
 │                    ┌──────────────┐                         │
-│                    │   Sonnet 5   │                         │
+│                    │  Sonnet 5.5  │                         │
 │                    │  Validateur  │                         │
 │                    └──────────────┘                         │
 │                                                             │
@@ -7550,7 +7554,7 @@ skill-name/
 ```yaml
 ---
 name: skill-name
-description: Description courte pour l'activation (max 1024 caractères)
+description: Description courte pour l'activation (max 1024 caractères dans la spec)
 allowed-tools: Read Grep Bash
 ---
 ```
@@ -7558,19 +7562,29 @@ allowed-tools: Read Grep Bash
 | Champ | Spec | Description |
 |-------|------|-------------|
 | `name` | [agentskills.io](https://agentskills.io) | Minuscules, 1-64 caractères, tirets uniquement, pas de `--`, doit correspondre au nom du répertoire |
-| `description` | [agentskills.io](https://agentskills.io) | Ce que fait le skill et quand l'utiliser (max 1024 caractères) |
-| `allowed-tools` | [agentskills.io](https://agentskills.io) | Liste d'outils pré-approuvés séparés par des espaces. Supporte le ciblage par wildcard : `Bash(npm run *)`, `Bash(agent-browser:*)`, `Edit(/docs/**)` |
+| `description` | [agentskills.io](https://agentskills.io) | Ce que fait le skill et quand l'utiliser (max 1024 caractères dans la spec). Claude Code tronque `description` plus `when_to_use` à 1 536 caractères dans la liste des skills : placez le cas d'usage principal en premier |
+| `when_to_use` | **CC uniquement** | Phrases déclencheuses ou exemples de requêtes supplémentaires, ajoutés à `description` dans la liste et comptés dans la même limite de 1 536 caractères |
+| `allowed-tools` | [agentskills.io](https://agentskills.io) | Liste d'outils pré-approuvés séparés par des espaces. Supporte le ciblage par wildcard : `Bash(npm run *)`, `Bash(agent-browser:*)`, `Edit(/docs/**)`. Dans Claude Code, l'autorisation dure le tour qui invoque le skill et s'efface à votre message suivant |
+| `disallowed-tools` | **CC uniquement** | Outils retirés du jeu disponible tant que le skill est actif, comme `AskUserQuestion` pour une boucle en arrière-plan ; s'efface à votre message suivant |
 | `license` | [agentskills.io](https://agentskills.io) | Nom de la licence ou référence au fichier inclus |
 | `compatibility` | [agentskills.io](https://agentskills.io) | Exigences d'environnement (max 500 caractères) |
 | `metadata` | [agentskills.io](https://agentskills.io) | Paires clé-valeur arbitraires (auteur, version, etc.) |
-| `effort` | **CC uniquement** (v2.1.80+) | `low\|medium\|high` : remplace le niveau d'effort de la session lorsque ce skill est invoqué. Définir `low` pour les tâches mécaniques (commit, format, scaffold), `high` pour l'analyse ou le raisonnement architectural. |
-| `model` | **CC uniquement** | Modèle à utiliser lors de l'exécution de ce skill : `haiku`, `sonnet`, `opus`, ou un identifiant de modèle complet. Remplace le modèle de la session pour l'exécution de ce skill. Utile pour les skills mécaniques rapides (`haiku`) ou les skills d'analyse approfondie (`opus`). |
+| `effort` | **CC uniquement** (v2.1.80+) | `low`, `medium`, `high`, `xhigh` ou `max` (les niveaux disponibles dépendent du modèle) : remplace le niveau d'effort de la session lorsque ce skill est invoqué. Définir `low` pour les tâches mécaniques (commit, format, scaffold), `high` pour l'analyse ou le raisonnement architectural. |
+| `model` | **CC uniquement** | Modèle à utiliser lorsque ce skill est actif : `haiku`, `sonnet`, `opus`, un identifiant de modèle complet, ou `inherit` pour conserver le modèle actif. La surcharge dure jusqu'à la fin du tour en cours et n'est pas enregistrée ; une valeur exclue par `availableModels` est ignorée. Utile pour les skills mécaniques rapides (`haiku`) ou les skills d'analyse approfondie (`opus`). |
+| `arguments` | **CC uniquement** | Arguments positionnels nommés pour la substitution `$name`, sous forme de chaîne séparée par des espaces ou de liste YAML |
 | `argument-hint` | **CC uniquement** | Placeholder affiché dans le menu des slash commands lorsque le skill accepte `$ARGUMENTS`. Format : `"[--flag] [positional_arg]"`. Exemple : `"[--verbose] [--max N] <branch>"`. |
 | `disable-model-invocation` | **CC uniquement** | `true` pour rendre le skill uniquement manuel (workflow avec effets de bord). C'est ce qui a remplacé `.claude/commands/` : les workflows invocables par l'utilisateur résident désormais dans `.claude/skills/` avec ce flag. |
-| `context` | **CC uniquement** | `fork` exécute le skill dans un subagent isolé. Le subagent ne reçoit que les entrées qui lui sont transmises ; seule sa réponse finale retourne dans la conversation principale. Les lectures de fichiers, appels d'outils et raisonnements intermédiaires à l'intérieur du contexte forké n'apparaissent pas dans la fenêtre de contexte parente. **Limitation connue** : `context: fork` est ignoré lorsque le skill est invoqué via l'outil `Skill` dans le code d'un agent. Le comportement fork ne s'active que lorsque le skill est appelé en tant que slash command (ex. `/my-skill`). |
+| `user-invocable` | **CC uniquement** | `false` masque le skill du menu `/` pour que seul Claude puisse l'invoquer (connaissance d'arrière-plan). `true` par défaut |
+| `context` | **CC uniquement** | `fork` exécute le skill dans un subagent isolé. Le subagent ne reçoit que les entrées qui lui sont transmises ; seule sa réponse finale retourne dans la conversation principale. Les lectures de fichiers, appels d'outils et raisonnements intermédiaires à l'intérieur du contexte forké n'apparaissent pas dans la fenêtre de contexte parente. Les skills forkés s'exécutent par défaut en arrière-plan (voir `background`). **Limitation signalée, absente de la référence officielle des skills au 27 octobre 2026** : `context: fork` a été observé comme ignoré lorsque le skill est invoqué via l'outil `Skill` dans le code d'un agent ; testez-le dans votre version avant de vous appuyer sur l'un ou l'autre comportement. |
+| `agent` | **CC uniquement** | Type de subagent à utiliser lorsque `context: fork` est défini |
+| `background` | **CC uniquement** (v2.1.218+) | Avec `context: fork`, `true` par défaut : le fork s'exécute en arrière-plan. `false` attend son résultat dans le tour qui l'invoque |
+| `paths` | **CC uniquement** | Globs qui limitent l'activation automatique au travail sur les fichiers correspondants, relatifs au répertoire de travail |
+| `shell` | **CC uniquement** | `bash` (défaut) ou `powershell` pour les blocs `` !`command` `` |
 | `hooks` | **CC uniquement** | Hooks d'événements limités à la durée de vie de ce skill. Même format que les hooks de settings.json. Les hooks sont enregistrés à l'invocation du skill et supprimés en fin de session. Les hooks `Stop` dans les skills sont automatiquement convertis en `SubagentStop`. Le champ `once: true` sur un handler de hook est respecté ici (se déclenche une fois par session puis se supprime) ; il est ignoré dans les fichiers settings. |
 
-**`model` par skill** : remplace le modèle pour l'exécution de ce skill. Le modèle de session est restauré à la fin du skill.
+Claude Code ignore silencieusement les clés de frontmatter inconnues : un champ mal orthographié échoue donc sans erreur. Liste des champs vérifiée dans la [référence officielle des skills](https://code.claude.com/docs/en/skills) le 27 octobre 2026.
+
+**`model` par skill** : remplace le modèle jusqu'à la fin du tour en cours. Le modèle de session reprend à votre prompt suivant.
 
 ```yaml
 ---
@@ -7631,12 +7645,11 @@ effort: medium
 
 Review the changed files for correctness.
 
-${if CLAUDE_EFFORT == "high" or CLAUDE_EFFORT == "xhigh"}
-Also run a full security audit and check all edge cases.
-${end}
+The current effort level is ${CLAUDE_EFFORT}. If it is `high`, `xhigh` or `max`,
+also run a full security audit and check all edge cases.
 ```
 
-Cela permet à un seul skill de servir à la fois les cas d'analyse rapide (low/medium) et approfondie (high/xhigh) sans maintenir deux skills distincts.
+Claude Code ne fait que substituer la valeur ; il n'a pas de syntaxe de template conditionnelle, donc le branchement est une instruction que Claude lit, pas une directive de préprocesseur. Cela permet à un seul skill de servir à la fois les cas d'analyse rapide (low/medium) et approfondie (high et au-delà) sans maintenir deux skills distincts.
 
 **Les wildcards dans `allowed-tools`** préapprouvent les commandes correspondantes pour le tour qui invoque le skill :
 
@@ -9948,7 +9961,7 @@ Les hooks sont des scripts qui s'exécutent automatiquement lorsque des événem
 
 | Événement | Quand il se déclenche | Peut bloquer ? | Cas d'usage |
 |-------|---------------|------------|----------|
-| `PermissionRequest` | La boîte de dialogue de permission apparaît | Oui | Logique d'approbation personnalisée |
+| `PermissionRequest` | La boîte de dialogue de permission apparaît | Uniquement via l'objet JSON `decision` (le code de sortie 2 est ignoré) | Logique d'approbation personnalisée |
 | `PermissionDenied` | Un appel d'outil est refusé par le classificateur en mode automatique (se déclenche uniquement en mode automatique, pas lors des refus manuels de l'utilisateur) | Non | Auditer les refus du classificateur, retourner `retry: true` pour laisser le modèle réessayer |
 
 **Compaction** (gestion du contexte) :
@@ -9957,6 +9970,13 @@ Les hooks sont des scripts qui s'exécutent automatiquement lorsque des événem
 |-------|---------------|------------|----------|
 | `PreCompact` | Avant la compaction du contexte | Oui | Bloquer la compaction automatique non souhaitée, sauvegarder l'état |
 | `PostCompact` | Après la compaction du contexte | Non | Restaurer l'état, journaliser la compaction |
+
+**Modèle** (changements de modèle) :
+
+| Événement | Quand il se déclenche | Peut bloquer ? | Cas d'usage |
+|-------|---------------|------------|----------|
+| `PreModelSwitch` | Avant que Claude Code applique un changement de modèle demandé par vous ou par un client ; `matcher` est le nom du modèle cible | Oui (code de sortie 2) | Imposer une liste de modèles approuvés, journaliser la raison d'un changement |
+| `PostModelSwitch` | Après le changement du modèle de la session, y compris les changements automatiques comme la restauration du modèle à la reprise | Non | Auditer les changements de modèle, recharger le contexte propre au modèle |
 
 **Multi-agent** (orchestration) :
 
@@ -9981,8 +10001,9 @@ Les hooks sont des scripts qui s'exécutent automatiquement lorsque des événem
 |-------|---------------|------------|----------|
 | `CwdChanged` | Le répertoire de travail change (ex. quand Claude exécute `cd`). Utile avec direnv | Non | Recharger les variables d'environnement, activer les chaînes d'outils |
 | `FileChanged` | Un fichier surveillé change sur le disque ; `matcher` précise les noms de fichiers à surveiller | Non | Recharger la configuration, déclencher des observateurs |
+| `DirectoryAdded` | Un répertoire de travail est ajouté en cours de session via `/add-dir` ou la requête SDK `register_repo_root` ; `matcher` est la source (`slash_command`, `register_repo_root`) | Non (le répertoire est déjà ajouté) | Charger la configuration par répertoire, auditer les racines ajoutées |
 | `WorktreeCreate` | Un worktree est en cours de création via `--worktree` ou `isolation: "worktree"`. Remplace le comportement git par défaut | Oui (code de sortie non nul) | Configuration VCS personnalisée (SVN, Perforce) |
-| `WorktreeRemove` | Un worktree est en cours de suppression (à la fin de la session ou quand un sous-agent se termine) | Non | Nettoyer l'état VCS |
+| `WorktreeRemove` | Un worktree créé par un hook `WorktreeCreate` est en cours de suppression (à la fin de la session ou quand un sous-agent se termine) | Oui (un code de sortie non nul fait échouer la suppression si le répertoire subsiste) | Nettoyer l'état VCS |
 
 **Interaction utilisateur** (invites et notifications) :
 
@@ -10192,6 +10213,10 @@ gh pr create --title "..." --body "..."
 | `if` | Filtre par règle de permission contrôlant le déclenchement du hook (ex. `Bash(git *)`), v2.1.85+ |
 | `type` | Type de hook : `"command"`, `"http"`, `"mcp_tool"`, `"prompt"` ou `"agent"` |
 | `command` | Commande shell à exécuter (pour le type `command`) |
+| `shell` | `"bash"` ou `"powershell"` pour un hook `command` ; bash par défaut, ou PowerShell sous Windows sans Git Bash. Ignoré lorsque `args` est défini |
+| `onFailure` | `"continue"` (défaut) ou `"block"` pour les hooks `command` et `http` : avec `"block"`, un hook qui ne peut pas démarrer, expire ou se termine de façon inattendue bloque l'action au lieu de la laisser passer (v2.1.295+). À définir sur les hooks de politique |
+| `url`, `headers`, `allowedEnvVars` | Hooks `http` : cible du POST, en-têtes supplémentaires, et seules variables d'environnement autorisées dans l'interpolation des en-têtes |
+| `server`, `tool`, `input` | Hooks `mcp_tool` : serveur MCP configuré (`plugin:<plugin>:<server>` pour les serveurs de plugin), nom de l'outil, et arguments avec substitution `${path}` depuis l'entrée du hook |
 | `args` | `string[]`, forme exec : tableau de chaînes lancé directement sans shell. Les chemins n'ont pas besoin d'être entre guillemets. Quand ce champ est présent, `command` est ignoré. Permet d'éviter les risques d'injection shell. (v2.1.139) |
 | `prompt` | Texte du prompt pour l'évaluation par LLM (pour les types `prompt`/`agent`). Utiliser `$ARGUMENTS` comme emplacement réservé pour le JSON d'entrée du hook |
 | `timeout` | Durée maximale d'exécution en secondes (défaut : 600s command, 30s prompt, 60s agent) |
@@ -10200,6 +10225,9 @@ gh pr create --title "..." --body "..."
 | `asyncRewake` | Si `true`, s'exécute en arrière-plan mais réveille Claude au code de sortie 2 (implique `async`). À utiliser pour les tâches de surveillance en arrière-plan devant interrompre Claude en cas d'échec |
 | `statusMessage` | Message de spinner personnalisé affiché pendant l'exécution du hook |
 | `once` | Si `true`, ne s'exécute qu'une seule fois par session puis est supprimé (skills uniquement) |
+| `continueOnBlock` | Hooks `prompt` uniquement : sur `PreToolUse`, `PostToolUse` et `TeammateIdle`, renvoie la raison d'un `ok: false` et continue au lieu de terminer le tour. `false` par défaut |
+
+Champs vérifiés dans la [référence officielle des hooks](https://code.claude.com/docs/en/hooks) le 27 octobre 2026. Un hook de politique sans `onFailure: "block"` échoue en mode ouvert : un mauvais chemin ou un script qui plante laisse passer l'action.
 
 > **Forme exec (`args`)** : Utiliser `args: ["program", "arg1", "arg2"]` pour lancer la commande sans interpréteur shell. Utile quand les chemins contiennent des espaces ou des caractères spéciaux qui nécessiteraient des guillemets dans `command`. La forme exec évite également les risques d'injection shell dans les contextes automatisés.
 
@@ -10328,12 +10356,12 @@ Les hooks communiquent leurs résultats via les codes de sortie et optionnelleme
 
 **Le contrôle de décision spécifique à l'événement** varie selon le type d'événement :
 
-- **PreToolUse** : Utilise `hookSpecificOutput` avec `permissionDecision` (allow/deny/ask/defer), `permissionDecisionReason`, `updatedInput`, `additionalContext`. Quand plusieurs hooks PreToolUse retournent des décisions différentes, la priorité est : `deny` > `defer` > `ask` > `allow` (v2.1.89+).
+- **PreToolUse** : Utilise `hookSpecificOutput` avec `permissionDecision` (allow/deny/ask/defer), `permissionDecisionReason`, `updatedInput`, `additionalContext`. Quand plusieurs hooks PreToolUse retournent des décisions différentes, la priorité est : `deny` > `defer` > `ask` > `allow` (v2.1.89+). Les champs `decision`/`reason` de niveau supérieur sont obsolètes pour cet événement (`approve` et `block` correspondent à `allow` et `deny`). `defer` n'est pris en compte que dans les exécutions non interactives `claude -p`, pour les intégrations qui mettent Claude en pause sur un appel d'outil puis le reprennent.
 - **PostToolUse, Stop, SubagentStop, UserPromptSubmit, ConfigChange** : Utilise `decision: "block"` au niveau supérieur avec `reason`
-- **TeammateIdle, TaskCompleted** : Code de sortie 2 uniquement (pas de contrôle de décision JSON)
+- **TeammateIdle, TaskCompleted** : le code de sortie 2 bloque avec un retour sur stderr ; le JSON `{"continue": false, "stopReason": "..."}` arrête entièrement le coéquipier. `TaskCompleted` ignore `continue: false` lorsque l'outil `TaskUpdate` l'a déclenché
 - **PermissionRequest** : Utilise `hookSpecificOutput` avec `decision.behavior` (allow/deny)
 
-**`continueOnBlock` pour les hooks de prompt** : Un hook `type: "prompt"` renvoie `ok: true` ou `ok: false`. Sur `PostToolUse`, `continueOnBlock: true` transmet la raison du refus à Claude afin qu’il puisse continuer et s’adapter. Les hooks de commande utilisent les champs de décision propres à l’événement.
+**`continueOnBlock` pour les hooks de prompt** : Un hook `type: "prompt"` renvoie `ok: true` ou `ok: false`. Sur `PreToolUse`, `PostToolUse` et `TeammateIdle`, un `ok: false` met fin au tour (ou arrête le coéquipier) par défaut et affiche la raison comme avertissement ; `continueOnBlock: true` renvoie la raison pour que Claude ou le coéquipier puisse s’adapter et continuer. Sur `PostToolUseFailure` et `TaskCreated`, la raison revient comme erreur d’outil et le tour continue dans tous les cas. Les hooks d’agent n’ont pas de `continueOnBlock` et se comportent comme s’il valait `true`. Les hooks de commande utilisent les champs de décision propres à l’événement.
 
 ```json
 {
@@ -14524,11 +14552,11 @@ Le pattern Claude Code le plus puissant combine trois techniques :
 
 ### Extended Thinking (Opus 4.5+) & Adaptive Thinking (Opus 4.6+)
 
-Les versions figurant dans ce titre conservent les liens existants. Dans la gamme actuelle, Opus 5.5, Sonnet 5 et Fable 5.1 utilisent le raisonnement adaptatif. Haiku 4.5 prend en charge le thinking étendu, sans paramètre d'effort. [Caractéristiques des modèles](https://platform.claude.com/docs/en/models/overview).
+Les versions figurant dans ce titre conservent les liens existants. Dans la gamme actuelle, Opus 5.5, Sonnet 5.5, Haiku 5.5 et Fable 5.1 utilisent le raisonnement adaptatif avec le paramètre d'effort. L'ancien Haiku 4.5 prend en charge le thinking étendu, sans paramètre d'effort. [Caractéristiques des modèles](https://platform.claude.com/docs/en/models/overview).
 
 #### Adaptive Thinking (Opus 4.6+, including Opus 4.8)
 
-L'effort régit le raisonnement et peut modifier l'utilisation des outils, la longueur des réponses, la latence et le coût. Consultez le [tableau des niveaux d'effort](#effort-levels) : les modèles n'ont pas tous la même valeur par défaut. Opus 5.5 utilise `medium` ; Sonnet 5 et Fable 5.1 utilisent `high`.
+L'effort régit le raisonnement et peut modifier l'utilisation des outils, la longueur des réponses, la latence et le coût. Consultez le [tableau des niveaux d'effort](#effort-levels) : les modèles n'ont pas tous la même valeur par défaut. Opus 5.5, Sonnet 5.5 et Haiku 5.5 utilisent `medium` dans Claude Code ; Fable 5.1 utilise `high`.
 
 ```python
 response = client.messages.create(
@@ -14540,7 +14568,7 @@ response = client.messages.create(
 )
 ```
 
-Opus 4.7 et les versions suivantes, Sonnet 5 et Fable utilisent exclusivement le raisonnement adaptatif. `CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING` et un budget fixe `MAX_THINKING_TOKENS` ne s'y appliquent pas. Le commutateur de compatibilité avec un budget fixe reste propre à Opus 4.6 et Sonnet 4.6.
+Opus 4.7 et les versions suivantes, Sonnet 5 et suivants, Haiku 5.5 et Fable utilisent exclusivement le raisonnement adaptatif. `CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING` et un budget fixe `MAX_THINKING_TOKENS` ne s'y appliquent pas. Le commutateur de compatibilité avec un budget fixe reste propre à Opus 4.6 et Sonnet 4.6.
 
 #### Contrôler le mode thinking {#controlling-thinking-mode}
 
@@ -14550,7 +14578,7 @@ Opus 4.7 et les versions suivantes, Sonnet 5 et Fable utilisent exclusivement le
 | `--effort high` | Définir l'effort de la session lancée |
 | `CLAUDE_CODE_EFFORT_LEVEL` | Remplacement explicite par variable d'environnement |
 | `modelSettings` / `effortLevel` | Les paramètres persistants prennent en charge `low` à `xhigh`, pas `max` |
-| `Option+T` / `Alt+T`, `/config`, `MAX_THINKING_TOKENS=0` | Peuvent désactiver le thinking sur les modèles compatibles ; aucun effet sur Opus 5.5 ou Fable |
+| `Option+T` / `Alt+T`, `/config`, `MAX_THINKING_TOKENS=0` | Peuvent désactiver le thinking sur les modèles compatibles ; aucun effet sur Opus 5.5, Sonnet 5.5, Haiku 5.5 ou Fable |
 | `Ctrl+O` | Ouvrir le visualiseur de transcription ; l'affichage ne modifie pas la facturation |
 
 Les tokens de thinking sont facturés même lorsque leur affichage est replié ou masqué. Définissez `showThinkingSummaries: true` pour rendre les résumés complets accessibles dans la vue développée. [Contrôles du thinking](https://code.claude.com/docs/en/model-config#extended-thinking).
@@ -16561,7 +16589,7 @@ exit 0  # Allow
 - Utiliser `--add-dir` pour autoriser l'accès aux outils dans des répertoires en dehors du répertoire de travail actuel
 - Gérer le mode de réflexion pour l'efficacité des coûts :
   - Tâches simples : Alt+T pour désactiver la réflexion → plus rapide, moins cher
-  - Tâches complexes : choisir l’effort ; Opus 5.5 et Fable gardent le thinking actif
+  - Tâches complexes : choisir l’effort ; Opus 5.5, Sonnet 5.5, Haiku 5.5 et Fable gardent le thinking actif
   - Le mot-clé `ultrathink` ajoute une consigne sans changer l’effort API
 - Définir `cleanupPeriodDays` dans la configuration pour élaguer automatiquement les anciennes sessions
 - Réactiver les résumés de réflexion si nécessaire : ajouter `"showThinkingSummaries": true` dans settings.json (désactivé par défaut dans les sessions interactives depuis v2.1.89)
@@ -16978,7 +17006,7 @@ git commit -m "feat: add user authentication middleware
 - Add session management
 - Create auth error handling
 
-Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>"
+Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 ```
 
 #### Standards d'attribution de l'IA
@@ -17020,7 +17048,7 @@ git commit -m "feat: implement user login endpoint [AUTH-42]
 - Generate JWT tokens
 - Return user profile on success
 
-Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>"
+Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 ```
 
 ### Flux de travail Git Amend
@@ -18199,7 +18227,7 @@ client = anthropic.Anthropic()
 
 # Suivre les dépenses
 response = client.messages.create(
-    model="claude-sonnet-5",
+    model="claude-sonnet-5-5",
     max_tokens=1024,
     messages=[...],
     metadata={
@@ -18312,7 +18340,7 @@ Total sortie : 2 500 tokens
 Coût total par requête : (26 000 + 2 500) tokens × prix du modèle
 ```
 
-**Tarification Sonnet 5 (vérifiée le 24 septembre 2026) :**
+**Tarification Sonnet 5.5 (vérifiée le 27 octobre 2026) :**
 - Entrée : 2 $ par million de tokens
 - Sortie : 10 $ par million de tokens
 
@@ -18477,7 +18505,7 @@ L'article d'aide liste les crédits que recevraient les utilisateurs éligibles 
 | Enterprise, usage-based | $20 |
 | Enterprise, sièges Premium seat-based | $200 |
 
-Aucun de ces crédits n'est actif aujourd'hui. Pour les tarifs API actuels, voir le [tableau de tarification](#pricing-model-rates-checked-october-6-2026) et le [LLM market snapshot](./ops/llm-market-snapshot.md#2-api-prices).
+Aucun de ces crédits n'est actif aujourd'hui. Pour les tarifs API actuels, voir le [tableau de tarification](#pricing-model-rates-checked-october-27-2026) et le [LLM market snapshot](./ops/llm-market-snapshot.md#2-api-prices).
 
 #### Ce que le plan affecterait
 
@@ -19753,7 +19781,7 @@ Les workflows multi-instances ont des coûts directs et des surcharges implicite
 | **10 développeurs, 2-3 instances** | Sonnet | 720-1 100 $ | 1,3-2% |
 | **Échelle Boris (15 instances)** | Opus | 500-1 000 $ | Justifié si 259 PRs/mois |
 
-**Base de calcul** (Sonnet 5, tarifs publiés vérifiés le 24 septembre 2026) :
+**Base de calcul** (Sonnet 5.5, tarifs publiés vérifiés le 27 octobre 2026) :
 - Entrée : 2 $/million de tokens
 - Sortie : 10 $/million de tokens
 - Estimation : 30k tokens/instance/jour × 20 jours
@@ -24024,7 +24052,7 @@ _Accès rapide :_ [Tableau des Commandes](#101-commands-table) · [Raccourcis Cl
 
 ## 10.1 Tableau des commandes
 
-> **Source de référence** : [code.claude.com/docs/en/commands](https://code.claude.com/docs/en/commands) est la documentation officielle et donne les commandes actuelles. Les tableaux ci-dessous la reflètent au 24 septembre 2026 (CLI suivi v2.1.281), avec les notes et renvois du guide. En cas de désaccord, la page officielle prime. Pour les options au lancement, voir [la référence CLI](https://code.claude.com/docs/en/cli-reference) et §10.3.
+> **Source de référence** : [code.claude.com/docs/en/commands](https://code.claude.com/docs/en/commands) est la documentation officielle et donne les commandes actuelles. Les tableaux ci-dessous la reflètent au 27 octobre 2026 (CLI suivi v2.1.310), avec les notes et renvois du guide. En cas de désaccord, la page officielle prime. Pour les options au lancement, voir [la référence CLI](https://code.claude.com/docs/en/cli-reference) et §10.3.
 
 Toutes les commandes ne sont pas visibles pour tous. Leur disponibilité dépend de la plateforme, du forfait et du fournisseur : `/desktop` apparaît sur macOS et Windows x64 avec un abonnement Claude, `/setup-bedrock` uniquement avec `CLAUDE_CODE_USE_BEDROCK=1`, et `/upgrade` jamais sur Enterprise. Saisissez `/` dans une session pour voir les commandes réellement disponibles.
 
@@ -24107,7 +24135,7 @@ Notation : `<arg>` est requis, `[arg]` est facultatif ; les alias suivent la com
 | Commande | Action |
 |---------|--------|
 | `/diff` | Afficher interactivement les modifications non commitées et les diffs par tour |
-| `/code-review [low\|medium\|high\|xhigh\|max\|ultra] [--fix] [--comment] [target]` | Examiner le diff pour les bugs et simplifications. `--fix` applique les corrections, `--comment` publie des commentaires de PR et `ultra` lance la revue cloud. Sous-agent en arrière-plan depuis v2.1.218 |
+| `/code-review [low\|medium\|high\|xhigh\|max\|ultra] [--fix] [--comment] [target]` | Examiner le diff pour les bugs et simplifications. `--fix` applique les corrections, `--comment` publie des commentaires de PR et `ultra` lance la revue cloud. `--max-findings <n>|all` plafonne ou lève le nombre de constats jusqu'à ce que vous passiez `default` (v2.1.288). Sous-agent en arrière-plan depuis v2.1.218 |
 | `/review [level] [--fix] [--comment] [target]` | Alias de `/code-review` depuis v2.1.223 ; mêmes cibles, niveaux d'effort et options |
 | `/ultrareview [PR or branch]` | Revue approfondie multi-agents dans le cloud. Alias de `/code-review ultra`. Trois exécutions gratuites sur Pro et Max, puis crédits d'utilisation |
 | `/security-review` | Examiner le diff de branche contre la branche par défaut d'origin pour les risques d'injection, d'authentification et d'exposition des données. Nécessite un remote `origin` |
@@ -24261,7 +24289,7 @@ Les serveurs MCP ajoutent leurs propres commandes `/mcp__<server>__<prompt>`, d�
 
 | Raccourci | Action |
 |----------|--------|
-| `Alt+T` (`Option+T` sur macOS) | Basculer le thinking si autorisé ; sans effet sur Opus 5.5/Fable |
+| `Alt+T` (`Option+T` sur macOS) | Basculer le thinking si autorisé ; sans effet sur Opus 5.5, Sonnet 5.5, Haiku 5.5 ou Fable |
 | `Alt+P` (`Option+P` sur macOS) | Ouvrir le sélecteur de modèle |
 | `Ctrl+X Ctrl+K` | Arrêter les sous-agents en arrière-plan |
 | `Ctrl+Enter` / `Ctrl+X Ctrl+S` | Envoyer les messages en attente immédiatement |
@@ -26108,8 +26136,8 @@ Définissez-les dans votre profil shell (`~/.zshrc`, `~/.bashrc`, ou les Propri�
 |----------|---------|---------|
 | `ANTHROPIC_API_KEY` | Authentification API | `sk-ant-api03-...` |
 | `ANTHROPIC_BASE_URL` | Point d'accès API alternatif | `https://api.deepseek.com/anthropic` |
-| `ANTHROPIC_MODEL` | Modèle par défaut | `claude-sonnet-5` |
-| `ANTHROPIC_SMALL_FAST_MODEL` | Modèle rapide pour les tâches simples | `claude-haiku-4-5-20251001` |
+| `ANTHROPIC_MODEL` | Modèle par défaut | `claude-sonnet-5-5` |
+| `ANTHROPIC_DEFAULT_HAIKU_MODEL` | Modèle vers lequel résout l'alias `haiku`, aussi utilisé pour les tâches en arrière-plan (remplace `ANTHROPIC_SMALL_FAST_MODEL`, obsolète) | `claude-haiku-5-5` |
 | `BASH_DEFAULT_TIMEOUT_MS` | Délai d'expiration des commandes Bash | `60000` |
 | `ANTHROPIC_AUTH_TOKEN` | Token d'authentification alternatif | Votre token d'auth |
 | `CLAUDE_CODE_DISABLE_1M_CONTEXT` | Désactiver le support de la fenêtre de contexte 1M (v2.1.50+) | `true` |
@@ -26440,7 +26468,7 @@ Vous → Coordonnez les étapes suivantes
 
 **Points forts documentés et vérifiables** :
 
-1. **Fenêtre de contexte** : Dépend du modèle ; les modèles actuels Opus, Sonnet et Fable disposent de 1M sur l'API directe, Haiku 4.5 de 200K. Consultez `/context`.
+1. **Fenêtre de contexte** : Dépend du modèle ; les modèles actuels Opus, Sonnet, Haiku et Fable disposent de 1M sur l'API directe ; seul l'ancien Haiku 4.5 a 200K. Consultez `/context`.
 2. **Système de sous-agents** : Des fenêtres de contexte isolées évitent la pollution lors de l'exploration
 3. **Écosystème MCP** : Plus de 100 serveurs communautaires pour des tâches spécialisées
 4. **Système de permissions** : Contrôle granulaire de l'accès aux outils et des opérations dangereuses

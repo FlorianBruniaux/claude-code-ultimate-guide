@@ -2,11 +2,11 @@
 title: "Whitepaper 08: Agent Teams"
 subtitle: "Multi-agent coordination for complex tasks"
 author: "Florian BRUNIAUX"
-date: "2026-10-06"
+date: "2026-10-27"
 date-format: "MMMM YYYY"
 version: "3.44.1"
 guide-version: "3.44.1"
-wp-version: "1.7.0"
+wp-version: "1.7.1"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -237,7 +237,7 @@ Use the task tools to manage status and dependencies. These paths are implementa
 - Claude Code v2.1.32 or later
 - A model available to the account; the team may mix models
 - A shared project; use git/worktrees when source changes need isolation
-- Context is model/provider dependent: native 1M on current Opus, Sonnet and Fable; 200K on Haiku 4.5. Older 1M variants have separate access rules.
+- Context is model/provider dependent: native 1M on current Opus, Sonnet, Haiku and Fable (Haiku 4.5, at 200K, is legacy). Older 1M variants have separate access rules.
 
 **Recommended**:
 

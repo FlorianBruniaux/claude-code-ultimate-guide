@@ -5,10 +5,10 @@ card-number: "T18"
 category: "Technique"
 difficulty: "beginner"
 guide-version: "3.44.1"
-wp-version: "1.0.1"
+wp-version: "1.0.2"
 author: "Florian BRUNIAUX"
 version: "3.44.1"
-date: "2026-10-06"
+date: "2026-10-27"
 layout: "two-col"
 lang: fr
 format:
@@ -17,16 +17,16 @@ format:
 
 ## Modèles actuels
 
-Tarifs API standard vérifiés le 6 octobre 2026. Dollars par million de tokens en entrée/sortie, hors cache.
+Tarifs API standard vérifiés le 27 octobre 2026. Dollars par million de tokens en entrée/sortie, hors cache.
 
 | Modèle | Entrée / sortie | Contexte | Effort par défaut |
 |--------|-----------------|----------|-------------------|
-| Haiku 4.5 | $1 / $5 | 200K | Non pris en charge |
-| Sonnet 5.5 | $2 / $10 | 1M | high |
+| Haiku 5.5 | $0,10 / $0,50 (au-delà de 100K : $0,50 / $2,50) | 1M | medium |
+| Sonnet 5.5 | $2 / $10 | 1M | medium |
 | Opus 5.5 | $4 / $20 | 1M | medium |
 | Fable 5.1 | $10 / $50 | 1M | high |
 
-Le tarif publié de Sonnet reste $2/$10 après la promotion de lancement. Opus 5.5 est le défaut du service direct, sauf règle du compte. Le modèle seul ne détermine pas le coût d'une tâche.
+Le tarif publié de Sonnet reste $2/$10 après la promotion de lancement. Opus 5.5 est le défaut du service direct, sauf règle du compte. Le modèle seul ne détermine pas le coût d'une tâche. L'effort indiqué est le défaut de Claude Code ; celui de l'API pour Sonnet 5.5 est `high`.
 
 ## Choisir et enregistrer
 
@@ -34,7 +34,7 @@ Le tarif publié de Sonnet reste $2/$10 après la promotion de lancement. Opus 5
 
 Les alias dépendent du fournisseur. `opus` sélectionne 5.5 chez la plupart, mais 4.6 sur Foundry. `sonnet` sélectionne 5.5 sur l'API directe, 4.6 sur Claude Platform on AWS, et 4.5 sur Bedrock, Google et Foundry.
 
-`fable` sélectionne 5.1 si disponible, ou 5 via la passerelle Claude apps. `best` choisit Fable si accessible, sinon Opus. Utiliser un identifiant complet pour fixer une version.
+`haiku` sélectionne 5.5 sur l'API Anthropic (v2.1.293+), 4.5 sur AWS, Bedrock, Google et Foundry. `fable` sélectionne 5.1 si disponible, ou 5 via la passerelle Claude apps. `best` choisit Fable si accessible, sinon Opus. Utiliser un identifiant complet pour fixer une version.
 
 ```{=typst}
 #colbreak()
@@ -42,13 +42,13 @@ Les alias dépendent du fournisseur. `opus` sélectionne 5.5 chez la plupart, ma
 
 ## Thinking et effort
 
-Opus 5.5, Sonnet 5.5 et Fable 5.1 utilisent le thinking adaptatif. Haiku 4.5 dispose du thinking étendu mais **pas du paramètre effort**.
+Opus 5.5, Sonnet 5.5, Haiku 5.5 et Fable 5.1 utilisent le thinking adaptatif. Haiku 4.5 (historique) n'a **pas de paramètre effort**.
 
 Les modèles adaptatifs actuels acceptent `low`, `medium`, `high`, `xhigh` et `max`. Opus 4.6 et Sonnet 4.6 acceptent `max`, mais pas `xhigh`.
 
 `/effort` enregistre les niveaux jusqu'à `xhigh` par modèle. **s** limite le choix à la session. `max` reste propre à la session ; `/effort auto` efface le choix enregistré pour le modèle actif.
 
-`Option+T` / `Alt+T` bascule le thinking si le modèle le permet. Ce raccourci n'a pas d'effet sur Opus 5.5 ou Fable, dont le thinking reste actif. Réduire plutôt l'effort pour une tâche bornée.
+`Option+T` / `Alt+T` bascule le thinking si le modèle le permet. Ce raccourci n'a pas d'effet sur Opus 5.5, Sonnet 5.5, Haiku 5.5 ni Fable, dont le thinking ne peut pas être désactivé. Réduire plutôt l'effort pour une tâche bornée.
 
 `ultrathink` ajoute une consigne de réflexion sans changer l'effort API. `think hard` est du texte ordinaire.
 

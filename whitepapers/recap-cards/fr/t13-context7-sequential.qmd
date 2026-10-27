@@ -5,10 +5,10 @@ card-number: "T13"
 category: "Technique"
 difficulty: "intermediate"
 guide-version: "3.44.1"
-wp-version: "1.0.1"
+wp-version: "1.0.2"
 author: "Florian BRUNIAUX"
 version: "3.44.1"
-date: "2026-10-06"
+date: "2026-10-27"
 layout: "two-col"
 lang: fr
 format:
@@ -34,7 +34,7 @@ Context7 résout un problème courant : Claude connaît les APIs populaires jusq
 
 Sequential Thinking apporte un moteur de raisonnement multi-étapes pour les problèmes complexes. Plutôt que de répondre directement, il décompose le problème en hypothèses, les teste, et construit une réponse argumentée étape par étape.
 
-**Invocation** : demandez l’outil MCP Sequential Thinking installé pour un problème qui bénéficie d’étapes explicites. `--think-hard` et `--ultrathink` ne sont pas des flags CLI Claude Code. Le mot `ultrathink` dans un prompt ajoute une instruction de raisonnement sans modifier l’effort API ; utilisez `/effort` pour les modèles compatibles. Haiku 4.5 n’a pas de paramètre d’effort.
+**Invocation** : demandez l’outil MCP Sequential Thinking installé pour un problème qui bénéficie d’étapes explicites. `--think-hard` et `--ultrathink` ne sont pas des flags CLI Claude Code. Le mot `ultrathink` dans un prompt ajoute une instruction de raisonnement sans modifier l’effort API ; utilisez `/effort` pour les modèles compatibles. Haiku 4.5 (historique) n’a pas de paramètre d’effort.
 
 ```bash
 # Invoquer Sequential pour un debug complexe

@@ -201,7 +201,7 @@ Illustrative token ranges for planning, not a measured project baseline:
 | Imported instruction files | 500 – 3,000 tokens |
 | **Total if all listed content loads** | **~5,000 – 20,000 tokens** |
 
-Claude Sonnet 5 has a native 1M token context window. That means even a large always-on configuration budget (20K tokens) occupies about 2% of the window, leaving roughly 980K tokens for actual work: code files, conversation history, tool outputs. (Earlier models like Sonnet 4.6 used a 200K standard window with a separate 1M variant, where the same 20K budget cost about 10% of the window.)
+Claude Sonnet 5.5 has a native 1M token context window. That means even a large always-on configuration budget (20K tokens) occupies about 2% of the window, leaving roughly 980K tokens for actual work: code files, conversation history, tool outputs. (Earlier models like Sonnet 4.6 used a 200K standard window with a separate 1M variant, where the same 20K budget cost about 10% of the window.)
 
 A small standing-instruction budget leaves room for task content. A 5% budget can be a team target, but it is not a documented product limit or a validated universal accuracy threshold. Measure the files actually loaded in your sessions.
 
@@ -2390,7 +2390,7 @@ def maybe_summarize_history(
     
     # Extract key facts before summarizing
     facts_response = client.messages.create(
-        model="claude-haiku-4-5",
+        model="claude-haiku-5-5",
         max_tokens=512,
         messages=[
             {

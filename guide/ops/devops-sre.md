@@ -662,7 +662,7 @@ cat iam-policy.json | claude "Review this IAM policy:
 
 | Model | Input (1M tokens) | Output (1M tokens) |
 |-------|-------------------|-------------------|
-| Sonnet 5 | $2 | $10 |
+| Sonnet 5.5 | $2 | $10 |
 | Opus 5.5 | $4 | $20 |
 
 Standard API rates verified September 24, 2026. A session bill requires separate input, output, cache, and retry counts. [Official pricing](https://platform.claude.com/docs/en/about-claude/pricing).

@@ -2,11 +2,11 @@
 title: "Claude Code : Le Guide de Référence"
 subtitle: "Synthèse complète + workflows avancés"
 author: "Florian BRUNIAUX"
-date: "2026-10-06"
+date: "2026-10-27"
 date-format: "MMMM YYYY"
 version: "3.44.1"
 guide-version: "3.44.1"
-wp-version: "1.5.0"
+wp-version: "1.5.1"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -271,7 +271,7 @@ Maintenant que vous savez formuler vos prompts (Ch.1) et positionner Claude Code
 
 ## Examiner le Contexte
 
-La fenêtre dépend du modèle et du fournisseur. Les modèles adaptatifs actuels couverts par le guide disposent de 1M natif ; Haiku 4.5 dispose de 200K. Instructions, conversation et résultats d’outils occupent cette fenêtre.
+La fenêtre dépend du modèle et du fournisseur. Les modèles adaptatifs actuels couverts par le guide disposent de 1M natif ; Haiku 4.5 (200K) est historique. Instructions, conversation et résultats d’outils occupent cette fenêtre.
 
 | Commande | Effet |
 |----------|-------|
@@ -522,7 +522,7 @@ effort: high
 ---
 ```
 
-Les modèles adaptatifs actuels acceptent les niveaux documentés dans la section modèles ; Haiku 4.5 ne prend pas en charge ce paramètre. `${CLAUDE_EFFORT}` peut être référencé dans le corps du skill, mais n’est pas une valeur de remplacement à mettre dans le champ `effort`.
+Les modèles adaptatifs actuels acceptent les niveaux documentés dans la section modèles ; Haiku 4.5 (historique) ne le prend pas en charge. `${CLAUDE_EFFORT}` peut être référencé dans le corps du skill, mais n’est pas une valeur de remplacement à mettre dans le champ `effort`.
 
 ### Bundled resources
 
@@ -1653,12 +1653,12 @@ Les numéros `v2.x` ci-dessous désignent Claude Code ; les numéros `v3.x` dés
 
 ## Modèles actuels
 
-Tarifs API standard contrôlés le 6 octobre 2026 à la source officielle. Dollars par million de tokens en entrée/sortie, hors cache.
+Tarifs API standard contrôlés le 27 octobre 2026 à la source officielle. Dollars par million de tokens en entrée/sortie, hors cache.
 
 | Modèle | Entrée / sortie | Contexte | Effort par défaut |
 |--------|-----------------|----------|-------------------|
-| Haiku 4.5 | $1 / $5 | 200K | Non pris en charge |
-| Sonnet 5.5 | $2 / $10 | 1M | high |
+| Haiku 5.5 | $0,10 / $0,50 (prompts jusqu'à 100K ; $0,50 / $2,50 au-delà) | 1M | medium |
+| Sonnet 5.5 | $2 / $10 | 1M | medium |
 | Opus 5.5 | $4 / $20 | 1M | medium |
 | Fable 5.1 | $10 / $50 | 1M | high |
 
@@ -1674,13 +1674,13 @@ Les alias dépendent du fournisseur. `opus` sélectionne 5.5 chez la plupart, ma
 
 ## Thinking et effort
 
-Opus 5.5, Sonnet 5.5 et Fable 5.1 utilisent le thinking adaptatif. Haiku 4.5 dispose du thinking étendu mais **pas du paramètre effort**.
+Opus 5.5, Sonnet 5.5, Haiku 5.5 et Fable 5.1 utilisent le thinking adaptatif. Haiku 4.5 (historique) n'a **pas de paramètre effort**. L'effort par défaut est celui de Claude Code ; le défaut propre de l'API Claude pour Sonnet 5.5 est `high`. Sur l'API Anthropic, l'alias `haiku` sélectionne 5.5 depuis v2.1.293 ; il reste sur 4.5 sur Claude Platform on AWS, Bedrock, Agent Platform de Google Cloud et Foundry.
 
 Les modèles adaptatifs actuels acceptent `low`, `medium`, `high`, `xhigh` et `max`. Opus 4.6 et Sonnet 4.6 acceptent `max`, mais pas `xhigh`.
 
 `/effort` enregistre les niveaux jusqu'à `xhigh` par modèle. **s** limite le choix à la session. `max` reste propre à la session ; `/effort auto` efface le choix enregistré pour le modèle actif.
 
-`Option+T` / `Alt+T` bascule le thinking si le modèle le permet. Ce raccourci n'a pas d'effet sur Opus 5.5 ou Fable, dont le thinking reste actif. Réduire plutôt l'effort pour une tâche bornée.
+`Option+T` / `Alt+T` bascule le thinking si le modèle le permet. Ce raccourci n'a pas d'effet sur Opus 5.5, Sonnet 5.5, Haiku 5.5 ni Fable, dont le thinking ne peut pas être désactivé. Réduire plutôt l'effort pour une tâche bornée.
 
 `ultrathink` ajoute une consigne de réflexion sans changer l'effort API. `think hard` est du texte ordinaire.
 
@@ -1691,13 +1691,13 @@ Les modèles adaptatifs actuels acceptent `low`, `medium`, `high`, `xhigh` et `m
 Sources : [Configuration des modèles](https://code.claude.com/docs/en/model-config), [tarifs API](https://platform.claude.com/docs/en/about-claude/pricing).
 
 
-Dates de connaissance fiables : juin 2026 pour Opus 5.5, Sonnet 5.5 et Fable 5.1, février 2025 pour Haiku 4.5.
+Dates de connaissance fiables : juin 2026 pour Opus 5.5, Sonnet 5.5, Haiku 5.5 et Fable 5.1, février 2025 pour Haiku 4.5 (historique).
 
 ## Raccourcis clavier
 
 `Shift+Tab` parcourt les modes disponibles dans la session. Les modes documentés incluent `default`, `acceptEdits`, `plan`, `auto`, `dontAsk` et `bypassPermissions`, sous réserve du compte et des politiques. Le mode plan permet l’exploration avec des restrictions ; il n’interdit pas toute exécution de lecture.
 
-`Alt+T` bascule le thinking seulement lorsque le modèle le permet ; il n’a pas cet effet sur Opus 5.5 ou Fable. Utilisez l’effort pour ajuster la profondeur de raisonnement.
+`Alt+T` bascule le thinking seulement lorsque le modèle le permet ; il n’a pas cet effet sur Opus 5.5, Sonnet 5.5, Haiku 5.5 ni Fable. Utilisez l’effort pour ajuster la profondeur de raisonnement.
 
 | Raccourci | Action | Contexte d'usage |
 |-----------|--------|-----------------|
@@ -1729,7 +1729,7 @@ Les flags CLI s'utilisent au lancement de Claude Code pour modifier son comporte
 | `--max-budget-usd 5.00` | Limite de dépense API (mode print) | `claude -p "..." --max-budget-usd 1.00` |
 | `--add-dir ../lib` | Accès à des dossiers hors du CWD | `claude --add-dir ../shared-lib` |
 | `--output-format` | Format de sortie : `text`, `json`, `stream-json` | `claude -p "..." --output-format json` |
-| `--permission-mode` | Mode de permission pris en charge par le compte | `claude --permission-mode plan` |
+| `--permission-mode` | Mode de permission (`default` (alias `manual`), `acceptEdits`, `plan`, `auto`, `dontAsk`, `bypassPermissions`) selon le compte | `claude --permission-mode plan` |
 | `--bare` | Mode print sans personnalisation automatique, dont hooks et plugins | `claude -p "..." --bare` |
 | `--channels <intégrations>` | Activer des canaux installés et approuvés | Voir la documentation Channels pour les noms acceptés |
 | `--console` | Billing API (pour `claude auth login`) | `claude auth login --console` |

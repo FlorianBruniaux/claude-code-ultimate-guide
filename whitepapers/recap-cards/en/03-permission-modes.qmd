@@ -4,11 +4,11 @@ subtitle: "Tool access control, from safest to most permissive"
 card-number: "T03"
 category: "Technical"
 guide-version: "3.44.1"
-wp-version: "1.0.2"
+wp-version: "1.0.3"
 difficulty: "beginner"
 author: "Florian BRUNIAUX"
 version: "3.44.1"
-date: "2026-10-06"
+date: "2026-10-27"
 layout: "two-col"
 lang: en
 format:
@@ -27,9 +27,9 @@ format:
 | **Full bypass** | `bypassPermissions` | `--dangerously-skip-permissions` | Headless CI/CD, sandboxed |
 | **Fewer prompts** | _(none)_ | `/fewer-permission-prompts` | Generates an allowlist from transcripts (shipped as `/less-permission-prompts` in v2.1.111) |
 
-**CLI activation:** `claude --permission-mode <mode>` accepts `default`, `plan`, `acceptEdits`, `dontAsk`, `auto`, `bypassPermissions`. **Persistent activation:** `permissions.defaultMode` key in `settings.json`.
+**CLI activation:** `claude --permission-mode <mode>` accepts `default`, `plan`, `acceptEdits`, `dontAsk`, `auto`, `bypassPermissions`. **Persistent activation:** `permissions.defaultMode` key in `settings.json`. Since v2.1.283, interactive terminal and VS Code sessions start in `auto` unless `permissions.defaultMode` or `--permission-mode` overrides it.
 
-**Note:** `--dangerously-skip-permissions` no longer prompts for writes to `.claude/skills/`, `.claude/agents/`, and `.claude/commands/` (v2.1.121); the rest of `.claude/` (settings, hooks) and `.git/` stay protected even under full bypass. The `auto` mode relies on a classifier model that evaluates each tool call before execution, less friction, not a security boundary.
+**Note:** `--dangerously-skip-permissions` no longer prompts for writes to `.claude/skills/`, `.claude/agents/`, and `.claude/commands/` (v2.1.121); the rest of `.claude/` (settings, hooks) and `.git/` stay protected even under full bypass. The `auto` mode relies on a classifier (server-side by default; `CLAUDE_CODE_AUTO_MODE_MODEL` sets the client-side model), less friction, not a security boundary.
 
 ## Tool whitelist
 

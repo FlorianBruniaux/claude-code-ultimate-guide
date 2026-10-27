@@ -5,10 +5,10 @@ card-number: "M11"
 category: "Méthodologie"
 difficulty: "intermediate"
 guide-version: "3.44.1"
-wp-version: "1.0.1"
+wp-version: "1.0.2"
 author: "Florian BRUNIAUX"
 version: "3.44.1"
-date: "2026-10-06"
+date: "2026-10-27"
 layout: "two-col"
 lang: fr
 format:
@@ -17,7 +17,7 @@ format:
 
 ## Qu'est-ce qu'un hook
 
-Les hooks de type commande s'exécutent sur les événements configurés et reçoivent du JSON sur stdin. Il existe aussi des hooks prompt, agent, HTTP et MCP tool ; leur disponibilité dépend de l'événement.
+Les hooks de type commande s'exécutent sur les événements configurés et reçoivent du JSON sur stdin. Il existe aussi des hooks prompt, agent, HTTP et MCP tool ; leur disponibilité dépend de l'événement. Claude Code compte 33 événements de hook au total ; les tableaux montrent les principaux.
 
 ## Événements principaux
 
@@ -68,7 +68,9 @@ Les contrôles d'équipe peuvent demander du travail supplémentaire avant la cl
 | `args` | Arguments sans shell ; ne remplace pas l'exécutable |
 | `timeout` | Secondes ; défauts : command 600, prompt 30, agent 60 |
 | `async` | Si `true`, continuer sans attendre |
-| `continueOnBlock` | Hooks prompt : continuer après `ok: false` sur les événements compatibles, dont `PreToolUse` et `PostToolUse` |
+| `continueOnBlock` | Hooks prompt : continuer après `ok: false` sur `PreToolUse`, `PostToolUse` et `TeammateIdle` |
+| `asyncRewake` | S'exécute en arrière-plan et réveille Claude sur le code de sortie 2 (implique `async`) |
+| `onFailure` | `"block"` bloque l'action si un hook command ou HTTP ne démarre pas, expire ou se termine de façon inattendue (v2.1.295 ; défaut `continue`) |
 
 ## Codes de sortie
 

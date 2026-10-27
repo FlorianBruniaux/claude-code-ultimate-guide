@@ -140,7 +140,7 @@ A Markdown agent with YAML frontmatter, or a TOML file using `prompt` instead of
 | Bounded judgment: review, debugging, tests, documentation | `sonnet` | `gpt-6-sol`, `medium` effort |
 | Cross-cutting synthesis: architecture, threat model, multi-system trade-offs | `opus` | `gpt-6-sol`, `high` or above |
 
-Flag both directions: an under-powered model for judgment work, and an over-powered model for mechanical work that runs many times. State cost from published prices instead of a fixed multiplier; for example the guide lists Opus 5.5 at $4/$20 and Haiku 4.5 at $1/$5 per million input/output tokens. Haiku 4.5 has no effort parameter, so an `effort` field on a Haiku agent has no effect.
+Flag both directions: an under-powered model for judgment work, and an over-powered model for mechanical work that runs many times. State cost from published prices instead of a fixed multiplier; for example the guide lists Opus 5.5 at $4/$20 and Haiku 5.5 at $0.10/$0.50 per million input/output tokens (prompts up to 100K tokens). Haiku 5.5 supports effort and defaults to `medium`; only the legacy Haiku 4.5 has no effort parameter, so an `effort` field on an agent pinned to Haiku 4.5 has no effect.
 
 ### Human-in-the-loop anti-pattern
 

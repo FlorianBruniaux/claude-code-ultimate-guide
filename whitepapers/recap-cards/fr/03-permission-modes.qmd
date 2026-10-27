@@ -7,8 +7,8 @@ guide-version: "3.44.1"
 difficulty: "beginner"
 author: "Florian BRUNIAUX"
 version: "3.44.1"
-wp-version: "1.1.3"
-date: "2026-10-06"
+wp-version: "1.1.4"
+date: "2026-10-27"
 layout: "two-col"
 lang: fr
 format:
@@ -27,9 +27,9 @@ format:
 | **Bypass total** | `bypassPermissions` | `--dangerously-skip-permissions` | CI/CD headless, sandboxé |
 | **Moins de prompts** | _(aucun)_ | `/fewer-permission-prompts` | Génère un allowlist à partir des transcripts (livrée sous le nom `/less-permission-prompts` en v2.1.111) |
 
-**Activation en CLI :** `claude --permission-mode <mode>` accepte `default`, `plan`, `acceptEdits`, `dontAsk`, `auto`, `bypassPermissions`. **Activation persistante :** clé `permissions.defaultMode` dans `settings.json`.
+**Activation en CLI :** `claude --permission-mode <mode>` accepte `default`, `plan`, `acceptEdits`, `dontAsk`, `auto`, `bypassPermissions`. **Activation persistante :** clé `permissions.defaultMode` dans `settings.json`. Depuis v2.1.283, les sessions interactives du terminal et de VS Code démarrent en `auto` sauf si `permissions.defaultMode` ou `--permission-mode` en décide autrement.
 
-**Note :** `--dangerously-skip-permissions` ne prompte plus pour les écritures dans `.claude/skills/`, `.claude/agents/` et `.claude/commands/` (v2.1.121) ; le reste de `.claude/` (settings, hooks) et `.git/` restent protégés même en bypass total. Le mode `auto` s'appuie sur un modèle classifieur qui évalue chaque appel d'outil avant exécution : friction en moins, pas une frontière de sécurité.
+**Note :** `--dangerously-skip-permissions` ne prompte plus pour les écritures dans `.claude/skills/`, `.claude/agents/` et `.claude/commands/` (v2.1.121) ; le reste de `.claude/` (settings, hooks) et `.git/` restent protégés même en bypass total. Le mode `auto` s'appuie sur un classifieur (côté serveur par défaut ; `CLAUDE_CODE_AUTO_MODE_MODEL` choisit le modèle côté client) : friction en moins, pas une frontière de sécurité.
 
 ## Whitelist d'Outils
 

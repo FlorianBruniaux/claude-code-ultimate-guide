@@ -166,7 +166,7 @@ Treat the description and `when_to_use` text as the pointer that decides whether
 
 ### Invocation and effort review
 
-A workflow with side effects, such as deploy, publish, send, or delete, sets `disable-model-invocation: true` for Claude Code and `policy.allow_implicit_invocation: false` in `agents/openai.yaml` for Codex, or states why automatic invocation is safe. Missing `effort` is not a defect. A declared `effort` must match the inference below and be supported by the target model: for example, the guide lists no effort parameter for Haiku 4.5.
+A workflow with side effects, such as deploy, publish, send, or delete, sets `disable-model-invocation: true` for Claude Code and `policy.allow_implicit_invocation: false` in `agents/openai.yaml` for Codex, or states why automatic invocation is safe. Missing `effort` is not a defect. A declared `effort` must match the inference below and be supported by the target model: for example, the guide lists no effort parameter for the legacy Haiku 4.5, while Haiku 5.5 supports it.
 
 ### Workflow completion review
 

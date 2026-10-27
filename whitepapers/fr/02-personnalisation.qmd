@@ -2,11 +2,11 @@
 title: "Personnaliser Claude"
 subtitle: "CLAUDE.md, Agents, Skills : votre assistant sur-mesure"
 author: "Florian BRUNIAUX"
-date: "2026-10-06"
+date: "2026-10-27"
 date-format: "MMMM YYYY"
 version: "3.44.1"
 guide-version: "3.44.1"
-wp-version: "1.5.5"
+wp-version: "1.5.6"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -850,7 +850,12 @@ effort: low
 |-------|-------------|
 | `name` | Identifiant kebab-case |
 | `description` | Trigger d'activation |
+| `when_to_use` | Contexte de déclenchement supplémentaire ; `description` et `when_to_use` sont tronqués à 1 536 caractères dans la liste des skills (la limite de 1 024 vient de la spécification agentskills.io) |
+| `disable-model-invocation` | Empêche Claude d'invoquer lui-même le skill |
+| `user-invocable` | Valeur `false` pour masquer le skill du menu `/` |
 | `allowed-tools` | Outils autorisés |
+| `model` | Modèle du skill ; accepte `inherit` |
+| `paths` | Motifs glob qui limitent l'activation du skill |
 | `context` | `fork` pour un sous-agent ; omettre pour la session courante |
 | `effort` | Niveau de raisonnement appliqué pendant le skill, selon le modèle (Claude Code v2.1.80+) |
 
@@ -1204,7 +1209,7 @@ Cet exemple ne détecte pas tous les secrets. Le hook n’annule pas les effets 
 }
 ```
 
-**`continueOnBlock` pour les hooks prompt** : un hook prompt renvoie `ok: true` ou `ok: false`. Sur `PostToolUse`, `continueOnBlock: true` transmet le motif du refus à Claude pour qu’il poursuive et ajuste son approche.
+**`continueOnBlock` pour les hooks prompt** : un hook prompt renvoie `ok: true` ou `ok: false`. Sur `PreToolUse`, `PostToolUse` et `TeammateIdle`, `continueOnBlock: true` transmet le motif `ok: false` à Claude pour qu’il poursuive et ajuste son approche ; sans lui, le tour se termine avec un avertissement. `PostToolUseFailure` et `TaskCreated` (et `TaskCompleted` pendant un tour) renvoient le motif comme erreur d'outil dans tous les cas, et les hooks agent n'ont pas de `continueOnBlock`.
 
 ```json
 {

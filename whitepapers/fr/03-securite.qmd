@@ -2,11 +2,11 @@
 title: "Sécurité en Production"
 subtitle: "Permissions, exemples de hooks et renseignement sur les menaces"
 author: "Florian BRUNIAUX"
-date: "2026-10-06"
+date: "2026-10-27"
 date-format: "MMMM YYYY"
 version: "3.44.1"
 guide-version: "3.44.1"
-wp-version: "1.4.5"
+wp-version: "1.4.6"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -328,12 +328,12 @@ Testez les chemins autorisés et refusés avec des fichiers sans secrets. Une re
 
 ### Mode Auto : délégation et limites réelles (v2.1.114+)
 
-Le mode auto délègue les décisions de permission à un classificateur dédié, qui évalue chaque tool call avant exécution. Alternative au `--dangerously-skip-permissions`, il vise à réduire la friction sans supprimer toute vérification.
+Le mode auto délègue les décisions de permission à un classificateur qui examine les tool calls avant exécution. Le classificateur est côté serveur par défaut (depuis v2.1.278) sur l'API Claude, Enterprise, Bedrock, Vertex, Foundry et les passerelles ; `CLAUDE_CODE_AUTO_MODE_SERVER=0` le désactive et `CLAUDE_CODE_AUTO_MODE_MODEL` choisit le modèle du classificateur côté client. Depuis v2.1.283, le mode auto est le mode de départ des sessions interactives du terminal et de VS Code (versions antérieures : uniquement sur les forfaits Pro, Max et Team) ; `permissions.defaultMode` ou `--permission-mode` reprend la priorité et `/auto-mode-setup` (v2.1.304) guide la configuration. Alternative au `--dangerously-skip-permissions`, il vise à réduire la friction sans supprimer toute vérification.
 
 **Architecture : deux couches de défense**
 
 1. **Probe d'injection** : avant que tout contenu externe entre dans le contexte Claude (lecture de fichier, web fetch, sortie shell), un probe serveur scanne les instructions suspectes et injecte un avertissement si détecté.
-2. **Classificateur transcript** : évalue chaque tool call sur trois catégories : escalade de portée, infrastructure non reconnue, prompt injection. Il voit uniquement les messages utilisateur et les tool calls en attente ; les réponses des outils et le raisonnement de Claude sont retirés pour éviter la manipulation.
+2. **Classificateur transcript** : évalue les tool calls sur trois catégories : escalade de portée, infrastructure non reconnue, prompt injection. Il voit uniquement les messages utilisateur et les tool calls en attente ; les réponses des outils et le raisonnement de Claude sont retirés pour éviter la manipulation.
 
 Les taux de détection dépendent du protocole et de la configuration ; aucun taux générique n’est établi ici.
 
@@ -374,6 +374,8 @@ Le hook `PermissionDenied` (v2.1.88) se déclenche sur chaque blocage du classif
 - **Modes** : Auto-allow (bash auto-approved dans le sandbox) vs Regular permissions (prompts normaux)
 - **`allowRead`** (v2.1.77+) : chemins en lecture seule; accorde l'accès lecture sans accorder l'écriture
 - **`sandbox.credentials`** (v2.1.187) : bloque la lecture par les commandes sandboxées des fichiers de credentials (`.aws/credentials`, `.ssh/`) et des variables d'environnement secrètes
+
+Avant v2.1.309, les commandes Bash sandboxées sur macOS et Linux exécutaient les fichiers de démarrage du shell hors du bac à sable ; mettez à jour vers v2.1.309 ou plus récent.
 
 **Avantages** :
 

@@ -2,11 +2,11 @@
 title: "Prompts That Work"
 subtitle: "A method for precise, verifiable prompts"
 author: "Florian BRUNIAUX"
-date: "2026-10-06"
+date: "2026-10-27"
 date-format: "MMMM YYYY"
 version: "3.44.1"
 guide-version: "3.44.1"
-wp-version: "1.3.4"
+wp-version: "1.3.5"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -438,7 +438,7 @@ Now analyze authentication flow.
 
 ## Thinking modes and efficiency
 
-Claude Opus 5.5 is the current direct-service default; organization policy and provider defaults can differ. Opus 5.5, Sonnet 5.5, and Fable 5.1 use adaptive thinking and native 1M context. Effort influences reasoning and tool use. Thinking is always enabled on Opus 5.5 and Fable; Haiku 4.5 supports extended thinking but has no effort parameter.
+Claude Opus 5.5 is the current direct-service default; organization policy and provider defaults can differ. Opus 5.5, Sonnet 5.5, Haiku 5.5, and Fable 5.1 use adaptive thinking and native 1M context. Effort influences reasoning and tool use. Thinking cannot be turned off on Opus 5.5, Sonnet 5.5, Haiku 5.5, or Fable. In Claude Code, Opus 5.5, Sonnet 5.5, and Haiku 5.5 default to `medium` effort and Fable 5.1 defaults to `high`; the Claude API's own default for Sonnet 5.5 is `high`.
 
 **Impact on prompts**: current adaptive models support `low / medium / high / xhigh / max`. Opus 4.6 and Sonnet 4.6 do not support `xhigh`. `/effort` saves supported levels through `xhigh` per model; use **s** for one session. `max` is session-only. `/effort ultracode` enables dynamic workflows with `xhigh` reasoning; it is not a sixth API effort level. Higher effort does not guarantee correctness or replace an explicit verification step.
 
@@ -479,7 +479,7 @@ Currently full table scan, target < 200ms
 ::: {.callout-tip title="Memo -- Thinking Modes in 30 seconds"}
 **What**: The `effort` parameter controls reasoning depth, tool calls, and verbosity on a `low` to `max` scale.
 
-**When**: Evaluate `low`/`medium` for bounded tasks and `high`/`xhigh` for analysis. Escalate effort or compare models when measured failures justify it.
+**When**: Evaluate `low`/`medium` for bounded tasks and `high`/`xhigh` for analysis. Escalate effort or compare models when measured failures justify it. Claude Code defaults to `medium` on Opus 5.5, Sonnet 5.5, and Haiku 5.5, and to `high` on Fable 5.1.
 
 **How**: State WHAT/WHERE/HOW/VERIFY at every effort level. More reasoning cannot supply missing acceptance criteria.
 

@@ -2,11 +2,11 @@
 title: "Architecture Demystified"
 subtitle: "The agent loop, tools, context and execution controls"
 author: "Florian BRUNIAUX"
-date: "2026-10-06"
+date: "2026-10-27"
 date-format: "MMMM YYYY"
 version: "3.44.1"
 guide-version: "3.44.1"
-wp-version: "1.6.0"
+wp-version: "1.6.1"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -57,16 +57,16 @@ Source: [How Claude Code works](https://code.claude.com/docs/en/how-claude-code-
 
 ## Current models
 
-Standard API rates, checked October 6, 2026 at the official pricing source. USD per million input/output tokens, excluding caching.
+Standard API rates, checked October 27, 2026 at the official pricing source. USD per million input/output tokens, excluding caching.
 
 | Model | Input / output | Context | Default effort |
 |-------|----------------|---------|----------------|
-| Haiku 4.5 | $1 / $5 | 200K | Unsupported |
-| Sonnet 5.5 | $2 / $10 | 1M | high |
+| Haiku 5.5 | $0.10 / $0.50 (prompts up to 100K; $0.50 / $2.50 above) | 1M | medium |
+| Sonnet 5.5 | $2 / $10 | 1M | medium |
 | Opus 5.5 | $4 / $20 | 1M | medium |
 | Fable 5.1 | $10 / $50 | 1M | high |
 
-Sonnet 5.5 replaces legacy Sonnet 5 on the direct API since v2.1.284, at the same standard $2/$10. Opus 5.5 is the direct-service default; account policy can override it. Model choice does not establish a typical task cost.
+Default effort is the Claude Code default; the Claude API's own default for Sonnet 5.5 is `high`. Sonnet 5.5 replaces legacy Sonnet 5 on the direct API since v2.1.284, at the same standard $2/$10. Haiku 4.5 ($1/$5, 200K, no effort parameter) is legacy. Opus 5.5 is the direct-service default; account policy can override it. Model choice does not establish a typical task cost.
 
 ## Select and save
 
@@ -74,17 +74,17 @@ Sonnet 5.5 replaces legacy Sonnet 5 on the direct API since v2.1.284, at the sam
 
 Aliases depend on the provider. `opus` maps to 5.5 on most providers, but 4.6 on Foundry. `sonnet` maps to 5.5 on the direct API, 4.6 on Claude Platform on AWS, and 4.5 on Bedrock, Google, and Foundry.
 
-`fable` selects 5.1 where available, or 5 through the Claude apps gateway. `best` selects Fable when available, otherwise Opus. Pin a supported full ID when version identity matters.
+`haiku` selects 5.5 on the Anthropic API since v2.1.293, but still resolves to 4.5 on Claude Platform on AWS, Bedrock, Google Cloud's Agent Platform, and Foundry. `fable` selects 5.1 where available, or 5 through the Claude apps gateway. `best` selects Fable when available, otherwise Opus. Pin a supported full ID when version identity matters.
 
 ## Thinking and effort
 
-Opus 5.5, Sonnet 5.5, and Fable 5.1 use adaptive thinking. Haiku 4.5 supports extended thinking but has **no effort parameter**.
+Opus 5.5, Sonnet 5.5, Haiku 5.5, and Fable 5.1 use adaptive thinking. Legacy Haiku 4.5 has **no effort parameter**.
 
 Current adaptive models support `low`, `medium`, `high`, `xhigh`, and `max`. Opus 4.6 and Sonnet 4.6 support `max` but not `xhigh`.
 
 `/effort` saves levels through `xhigh` per model. Use **s** for a session-only choice. `max` is session-only; `/effort auto` clears the active model's saved choice.
 
-`Option+T` / `Alt+T` toggles thinking where supported. It has no effect on Opus 5.5 or Fable, whose thinking is always enabled. Lower effort for bounded work instead.
+`Option+T` / `Alt+T` toggles thinking where supported. It has no effect on Opus 5.5, Sonnet 5.5, Haiku 5.5, or Fable, whose thinking cannot be turned off. Lower effort for bounded work instead.
 
 `ultrathink` adds a reasoning instruction without changing API effort. `think hard` is ordinary prompt text.
 
@@ -245,7 +245,7 @@ Programmatic tool calling, tool search and examples in tool definitions are sepa
 
 ## Context budget (model-dependent)
 
-> **Current windows**: Opus 5.5, Sonnet 5.5, and Fable 5.1 use native 1M context; Haiku 4.5 uses 200K. See the model table below.
+> **Current windows**: Opus 5.5, Sonnet 5.5, Haiku 5.5, and Fable 5.1 use native 1M context. Haiku 4.5 (200K) is legacy, so no current-generation model is limited to 200K. See the model table below.
 
 ```
   ILLUSTRATIVE 200K CONTEXT BUDGET
@@ -269,7 +269,8 @@ The context budget is a finite, non-extensible resource within a session. Every 
 
 | Direct API model | Context | Maximum output |
 |------------------|---------|----------------|
-| Haiku 4.5 | 200K | 64K |
+| Haiku 5.5 | 1M native | 128K |
+| Haiku 4.5 (legacy) | 200K | 64K |
 | Sonnet 5.5 | 1M native | 128K |
 | Opus 5.5 | 1M native | 128K |
 | Fable 5.1 | 1M native | 128K |
@@ -857,12 +858,13 @@ Despite Anthropic's growing transparency, several internal aspects of Claude Cod
 
 | Model | Knowledge Cutoff |
 |-------|-----------------|
+| Haiku 5.5 | June 2026 |
 | Sonnet 5.5 | June 2026 |
 | Opus 5.5 | June 2026 |
 | Fable 5.1 | June 2026 |
 | Sonnet 4.6 | August 2025 |
 | Opus 4.6 | May 2025 |
-| Haiku 4.5 | February 2025 |
+| Haiku 4.5 (legacy) | February 2025 |
 
 ## Official sources
 
