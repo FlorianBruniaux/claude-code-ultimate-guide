@@ -88,7 +88,7 @@ Two installation options. The native installer is the method recommended by Anth
 
 ```bash
 # Recommended method: native installer (no Node.js dependency)
-curl -fsSL https://claude.ai/install.sh | sh
+curl -fsSL https://claude.ai/install.sh | bash
 
 # Alternative: via npm (not recommended, but still functional)
 npm install -g @anthropic-ai/claude-code

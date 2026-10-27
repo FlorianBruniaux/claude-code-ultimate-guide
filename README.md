@@ -59,24 +59,19 @@ The guide favors explicit trade-offs and verifiable procedures. Where evidence i
 
 ### Install Claude Code
 
-Choose one installation method:
+Anthropic recommends the native installer, which updates itself:
 
 ```bash
-# npm, macOS, Linux, or Windows
-npm install -g @anthropic-ai/claude-code
-
-# macOS with Homebrew
-brew install claude-code
-
-# macOS or Linux native installer
-curl -fsSL https://claude.ai/install.sh | sh
+# macOS, Linux, WSL
+curl -fsSL https://claude.ai/install.sh | bash
 ```
-
-Windows PowerShell also supports:
 
 ```powershell
+# Windows PowerShell
 irm https://claude.ai/install.ps1 | iex
 ```
+
+Alternatives that do not auto-update: `brew install --cask claude-code`, `winget install Anthropic.ClaudeCode`, or `npm install -g @anthropic-ai/claude-code` (Node.js 22+). See the [official setup page](https://code.claude.com/docs/en/setup).
 
 Verify the installation and authenticate:
 

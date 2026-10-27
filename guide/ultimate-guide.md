@@ -258,22 +258,29 @@ _Quick jump:_ [Installation](#11-installation) · [First Workflow](#12-first-wor
 
 ## 1.1 Installation
 
-Choose your preferred installation method based on your operating system:
+Anthropic recommends the **native installer**, which auto-updates in the background ([official setup page](https://code.claude.com/docs/en/setup), checked October 27, 2026):
 
-```C
-/*──────────────────────────────────────────────────────────────*/
-/* Universal Method       */ npm install -g @anthropic-ai/claude-code
-/*──────────────────────────────────────────────────────────────*/
-/* Windows (CMD)          */ npm install -g @anthropic-ai/claude-code
-/* Windows (PowerShell)   */ irm https://claude.ai/install.ps1 | iex
-/*──────────────────────────────────────────────────────────────*/
-/* macOS (npm)            */ npm install -g @anthropic-ai/claude-code
-/* macOS (Homebrew)       */ brew install claude-code
-/* macOS (Shell Script)   */ curl -fsSL https://claude.ai/install.sh | sh
-/*──────────────────────────────────────────────────────────────*/
-/* Linux (npm)            */ npm install -g @anthropic-ai/claude-code
-/* Linux (Shell Script)   */ curl -fsSL https://claude.ai/install.sh | sh
+```bash
+# macOS, Linux, WSL (recommended)
+curl -fsSL https://claude.ai/install.sh | bash
+
+# Windows PowerShell
+irm https://claude.ai/install.ps1 | iex
+
+# Windows CMD
+curl -fsSL https://claude.ai/install.cmd -o install.cmd && install.cmd && del install.cmd
 ```
+
+Alternatives, which do **not** auto-update:
+
+| Method | Command | Notes |
+|--------|---------|-------|
+| Homebrew | `brew install --cask claude-code` | Stable channel, about a week behind; `claude-code@latest` tracks the latest release. Update with `brew upgrade` |
+| WinGet | `winget install Anthropic.ClaudeCode` | Update with `winget upgrade Anthropic.ClaudeCode` |
+| Linux packages | apt, dnf, or apk | Debian, Fedora, RHEL, Alpine; see the setup page |
+| npm | `npm install -g @anthropic-ai/claude-code` | Requires Node.js 22+; installs the same native binary through a per-platform optional dependency |
+
+The Desktop app is the graphical alternative to the terminal.
 
 ### Verify installation
 
@@ -289,7 +296,7 @@ Keep Claude Code up to date for the latest features, bug fixes, and model improv
 # Check for available updates
 claude update
 
-# Alternative: Update via npm
+# npm installs: update the package instead
 npm update -g @anthropic-ai/claude-code
 
 # Verify the update

@@ -649,7 +649,7 @@ Deep analysis     → Use Opus (thinking on by default)
 
 | Problem | Solution |
 |---------|----------|
-| "Command not found" | Check PATH, reinstall: `curl -fsSL https://claude.ai/install.sh \| sh` |
+| "Command not found" | Check PATH, reinstall: `curl -fsSL https://claude.ai/install.sh \| bash` |
 | Context too high (>70%) | `/compact` immediately |
 | Slow responses | `/compact` or `/clear` |
 | MCP not working | `claude mcp list`, check config |

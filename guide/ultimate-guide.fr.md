@@ -260,22 +260,29 @@ _Navigation rapide :_ [Installation](#11-installation) · [Premier Workflow](#12
 
 ## 1.1 Installation
 
-Choisissez votre méthode d'installation préférée en fonction de votre système d'exploitation :
+Anthropic recommande l'**installeur natif**, qui se met à jour tout seul en arrière-plan ([page officielle d'installation](https://code.claude.com/docs/en/setup), vérifiée le 27 octobre 2026) :
 
-```C
-/*──────────────────────────────────────────────────────────────*/
-/* Universal Method       */ npm install -g @anthropic-ai/claude-code
-/*──────────────────────────────────────────────────────────────*/
-/* Windows (CMD)          */ npm install -g @anthropic-ai/claude-code
-/* Windows (PowerShell)   */ irm https://claude.ai/install.ps1 | iex
-/*──────────────────────────────────────────────────────────────*/
-/* macOS (npm)            */ npm install -g @anthropic-ai/claude-code
-/* macOS (Homebrew)       */ brew install claude-code
-/* macOS (Shell Script)   */ curl -fsSL https://claude.ai/install.sh | sh
-/*──────────────────────────────────────────────────────────────*/
-/* Linux (npm)            */ npm install -g @anthropic-ai/claude-code
-/* Linux (Shell Script)   */ curl -fsSL https://claude.ai/install.sh | sh
+```bash
+# macOS, Linux, WSL (recommandé)
+curl -fsSL https://claude.ai/install.sh | bash
+
+# Windows PowerShell
+irm https://claude.ai/install.ps1 | iex
+
+# Windows CMD
+curl -fsSL https://claude.ai/install.cmd -o install.cmd && install.cmd && del install.cmd
 ```
+
+Les alternatives suivantes ne se mettent **pas** à jour automatiquement :
+
+| Méthode | Commande | Remarques |
+|---------|----------|-----------|
+| Homebrew | `brew install --cask claude-code` | Canal stable, environ une semaine de retard ; `claude-code@latest` suit la dernière version. Mise à jour avec `brew upgrade` |
+| WinGet | `winget install Anthropic.ClaudeCode` | Mise à jour avec `winget upgrade Anthropic.ClaudeCode` |
+| Paquets Linux | apt, dnf ou apk | Debian, Fedora, RHEL, Alpine ; voir la page d'installation |
+| npm | `npm install -g @anthropic-ai/claude-code` | Node.js 22+ requis ; installe le même binaire natif via une dépendance optionnelle propre à chaque plateforme |
+
+L'application Desktop est l'alternative graphique au terminal.
 
 ### Vérifier l'installation
 
@@ -291,7 +298,7 @@ Maintenez Claude Code à jour pour bénéficier des dernières fonctionnalités,
 # Vérifier les mises à jour disponibles
 claude update
 
-# Alternative : mettre à jour via npm
+# Installations npm : mettre à jour le paquet
 npm update -g @anthropic-ai/claude-code
 
 # Vérifier la mise à jour
