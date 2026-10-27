@@ -1,0 +1,43 @@
+CHANGELOG.md
+  s_73ab09d8e049db::t_6735a266ef9c00 13-14,17-18
+docs/resource-evaluations/README.md
+  s_73ab09d8e049db::t_f384cc8c1116dc 45,111
+docs/resource-evaluations/agent-orchestrator-composio.md
+  s_73ab09d8e049db::t_dbac3d4217ea34 1,3-5,7,9,11,13,15,17,19-23,25-34,36,38,40,42-46,48,50,52,54,56,58,60,62
+docs/resource-evaluations/agent-workspace-cockpits.md
+  s_73ab09d8e049db::t_476a0a5b38d173 3,17,27-42,135-136
+guide/ecosystem/third-party-tools.md
+  s_73ab09d8e049db::t_6c97d053fb3e4c 1440,1445,1458,1464,1468-1474,1476,1478,1480,1482
+machine-readable/mcp-product.json
+  s_0d99942bd5e52a::t_7ba5403262bf42 16,494
+machine-readable/reference.yaml
+  s_0d99942bd5e52a::t_71c4b5b3a9b972 860-862
+mcp-server/content/reference.yaml
+  s_0d99942bd5e52a::t_47e1596ec1524d 860-862
+mcp-server/src/lib/chapter-ranges.generated.json
+  s_73ab09d8e049db::t_f6066385eed477 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "09a68b53d76162e3d34ed2d0ee69a0789ea08506",
+  "prompts": {},
+  "sessions": {
+    "s_0d99942bd5e52a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9f90f712-4dec-4864-90b0-d67f46e25e7a",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_73ab09d8e049db": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a13409-d15d-7761-b3b8-0fcd083b1f73",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
