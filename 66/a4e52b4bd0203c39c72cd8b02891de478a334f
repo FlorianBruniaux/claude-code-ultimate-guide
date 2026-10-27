@@ -1,0 +1,19 @@
+machine-readable/translations.json
+  s_0d99942bd5e52a::t_1a4ad7a7766969 3-4,24,26-27,51,71-72,114-115,190-191
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "66a4e52b4bd0203c39c72cd8b02891de478a334f",
+  "prompts": {},
+  "sessions": {
+    "s_0d99942bd5e52a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9f90f712-4dec-4864-90b0-d67f46e25e7a",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
