@@ -3,8 +3,8 @@
 # Purpose: Track Claude Code product releases for documentation sync
 # Maintained: Manual updates when new releases are announced
 
-latest: "2.1.302"
-updated: "2026-10-18"
+latest: "2.1.310"
+updated: "2026-10-27"
 
 # ════════════════════════════════════════════════════════════════
 # RELEASES (newest first, condensed highlights only)
@@ -14,6 +14,70 @@ releases:
   # ─────────────────────────────────────────────────────────────
   # 2.1.x Series (January-August 2026)
   # ─────────────────────────────────────────────────────────────
+
+  - version: "2.1.310"
+    date: "2026-10-23"
+    highlights:
+      - "Added the Monitor tool and plugin monitors on Bedrock, Vertex and Foundry and in sessions with telemetry or nonessential traffic disabled, where long foreground sleeps are now blocked too"
+      - "Fixed requests failing behind gateways that reject the `effort-2025-11-24` beta value or mid-conversation system messages (Claude Code retries without them), background cleanup deleting recent files such as pasted images when `cleanupPeriodDays` is very large, and compaction after \"Prompt is too long\" keeping too much dense text such as base64 or SVG"
+      - "Fixed Windows PreToolUse and PermissionRequest hooks letting a tool call through when Git Bash is missing and the hook command is only quoted strings, and file read permission prompts not showing where a symbolic link leads"
+      - "Improved the Linux `/sandbox` warning to name Ubuntu's AppArmor restriction on user namespaces when it keeps bubblewrap from starting, and added cloud sessions and Remote Control permissions to Enterprise custom roles"
+
+  - version: "2.1.309"
+    date: "2026-10-22"
+    highlights:
+      - "⭐ Fixed sandboxed Bash commands on macOS and Linux running the shell's startup files outside the sandbox before each command, macOS `denyWrite` globs not applying through a symlinked folder, sandboxed commands and auto-accepted edits modifying the `--mcp-config` file, and Linux sandbox write denies lifting when a background command outlived the session"
+      - "Fixed Bash permission checks trusting a variable set by a command whose redirect can fail, not prompting for a wrapped or prefixed `cd` before git, and an `Edit(path)` deny rule not blocking a redirect to that path inside a subshell; worktree isolation now refuses some locale-prefixed and zsh arithmetic commands"
+      - "Fixed Claude notifying unrelated GitHub users by writing role names and placeholders as mentions, PowerShell hooks not blocking on exit code 2, a nested CLAUDE.md over the size limit causing repeated compaction (only its start now loads), and an `--add-dir` skill hidden by a same-named skill (now offered as `<folder>:<name>`)"
+      - "Changed `sed -i` to get the standard Bash prompt and run as written instead of a simulated file-edit preview, and the Desktop app and VS Code to deny a dangerous `rm` or `rmdir` in bypass permissions mode at once with a rewrite hint"
+    breaking:
+      - "`sed -i` edits are no longer restored by `/rewind`, like other Bash edits. `claude ultrareview` requires workspace trust: it asks on a terminal, else refuses; scripts pass `--trust-workspace` or set `CLAUDE_CODE_DISABLE_ULTRAREVIEW_TRUST_CHECK=1`."
+      - "Commands the settings exclude from the sandbox ask before writing to its write-list paths when the sandbox is enabled but cannot run, and the unsandboxed fallback is refused there. Worktree creation and reuse no longer fetch git objects on demand, and the `/claude-api` skill builds Managed Agents subagent teams on `multiagent_20261001` instead of `coordinator`."
+
+  - version: "2.1.308"
+    date: "2026-10-22"
+    highlights:
+      - "Bug fixes and reliability improvements; upstream provides no further detail"
+
+  - version: "2.1.307"
+    date: "2026-10-21"
+    highlights:
+      - "Added the `claude_code.safety_event` OpenTelemetry event for each tool call a permission rule, auto mode, a safety check, a hook or the sandbox stopped, prompted or sent back, `/claude-api api-version` to move code to API version `2026-10-21`, and `@claude review stop` (also `off` and `pause`) to end a Code Review subscription on a pull request"
+      - "Fixed HTTP MCP tool calls being sent twice when the connection closed mid-call (only read-only or idempotent tools are now retried), MCP servers reported as timed out after the computer slept while they were connecting, and `claude -p` MCP servers showing \"needs authentication\" while the macOS login keychain was locked"
+      - "Fixed model-not-found errors with `CLAUDE_CODE_DISABLE_1M_CONTEXT` and a `[1m]` alias, some \"Autocompact is thrashing\" errors after many large tool results, a `/clear`ed conversation coming back after a cloud or self-hosted runner restart, and `/permissions` > Recently denied hiding the denied shell command"
+      - "Improved recovery from unparseable tool calls (retried up to twice before the turn ends) and fork subagents launched together, each now told which launch is its own"
+    breaking:
+      - "The `axScreenReader` setting and `CLAUDE_AX_SCREEN_READER` in a settings `env` block apply only from user, managed or `--settings` settings (since 2.1.305). Self-hosted runner checkout hooks stop after 30 minutes by default and fail the session's setup; raise `--checkout-hook-timeout-min` or set it to `0`."
+
+  - version: "2.1.306"
+    date: "2026-10-21"
+    highlights:
+      - "Fixed `claude -p` inside cloud sessions reporting \"Not logged in\" when started without the session's environment variables, and an API error replaced by \"prompt is too long\" with an unneeded compaction in sessions with many MCP tools"
+
+  - version: "2.1.305"
+    date: "2026-10-20"
+    highlights:
+      - "Added `sandbox.allowNestedUserNamespaces` so sandboxed Linux commands can create user namespaces (Chromium, rootless podman), which lets them get around the sandbox's file protections, and `CLAUDE_CODE_RETRY_WATCHDOG_USAGE_LIMIT_RECHECK_MS` so unattended retry mode notices a usage limit lifted before its reset"
+      - "Fixed every request failing on Vertex, Bedrock and gateways that reject or disallow tool search (a 2.1.304 regression; Claude Code now retries without it), `/effort` and `/autocompact` not applying when the model name differed from a `modelOverrides` value by case or a `[1m]` tag, and Workflow resume re-running completed `pipeline()` and `parallel()` agents"
+      - "Fixed an MCP server passed by a cloud session or the SDK's `setMcpServers` being replaced by a same-named server from your settings, new bare-repository worktrees starting from local HEAD instead of the default branch, and Bash on a full disk failing with a raw `ENOSPC` path"
+      - "Improved `/usage` warnings into one-line fixes that name their source (`f` applies them; the same fixes appear in VS Code and `/doctor`)"
+    breaking:
+      - "`allowedMcpServers` no longer filters `managed-mcp.json` stdio servers that use `${VAR}` only in `env`: one your allowlist left out now loads on upgrade; use `deniedMcpServers` to keep it off. Plugins Claude Desktop mounts by path lose their `allowed-tools` under `allowManagedPermissionRulesOnly`, and the `/artifacts` delete confirmation takes 1 or Enter to keep and 2 to delete (`y` and `n` no longer answer it)."
+
+  - version: "2.1.304"
+    date: "2026-10-19"
+    highlights:
+      - "Added `/auto-mode-setup`, a guided setup that reads your project and recent sessions to teach auto mode about your environment (also on Bedrock, Vertex, Foundry, the Claude apps gateway and telemetry-disabled sessions), `/claude-api managed-agents-secure`, and a Pro and Max warning when resuming an inactive conversation would use a noticeable share of the 5-hour usage limit"
+      - "Added Code Review levels (Quick, Standard, Deep) per organization or repository, an option to review every repository in a GitHub organization, and `decider: \"person\"` plus `e.isReadOnly` for a mod's `tool.check`"
+      - "Fixed `claude --worktree` removing the worktree and its branch without asking at exit when HEAD was detached or on another branch, `rm -r` of a mounted drive (`/Volumes`, `/media`, WSL `/mnt/c`) skipping the safety prompt, a plugin keeping a headless run going past `--max-turns`, and `CLAUDE_CODE_AUTO_COMPACT_WINDOW=200k` silently setting a 100K window"
+      - "Fixed self-paced `/loop` wakeups at the 1-hour maximum firing just after the prompt cache expired, subagents forgetting their latest work when messaged right after finishing, and approving an agent teams shutdown request exiting the whole CLI"
+    breaking:
+      - "Tool search is on by default behind a custom `ANTHROPIC_BASE_URL` (a 400 or 422 is retried without it; a remaining failure case was fixed in 2.1.305). The skills of one source can register at most 1,024 hooks and 16,384 matcher characters per session, and under a policy that allows hooks from plugins only, a skill whose hooks are kept out loses its `allowed-tools`."
+
+  - version: "2.1.303"
+    date: "2026-10-18"
+    highlights:
+      - "Bug fixes and reliability improvements; upstream provides no further detail"
 
   - version: "2.1.302"
     date: "2026-10-16"
@@ -2270,6 +2334,7 @@ breaking_summary:
     - "Removed # shortcut for quick memory (v2.0.70)"
     - "`modelPicker:setAsDefault` keybinding renamed to `modelPicker:thisSessionOnly` (v2.1.153)"
   security:
+    - "Sandboxed Bash no longer runs the shell's startup files outside the sandbox, macOS `denyWrite` globs apply through symlinked folders, sandboxed commands and auto-accepted edits can no longer modify the `--mcp-config` file, Bash permission checks no longer trust a variable from a failable redirect or skip a wrapped `cd` before git, `Edit(path)` deny rules block subshell redirects, and Linux sandbox write denies hold after the session ends (v2.1.309); Windows hooks whose command is only quoted strings fail closed without Git Bash (v2.1.310); `rm -r` of a mounted drive gets the safety prompt (v2.1.304)"
     - "A sandboxed command can no longer write into a `--plugin-dir` folder, reach macOS denied paths through a symlink or keep glob grants after a symlink swap, plan mode no longer runs writes a hook allowed, third-party gateway API keys stay out of Anthropic requests, MCP servers wait for policy checks and allow rules match only the named server, and Windows guard hooks fail closed without Git for Windows (v2.1.299); hook `updatedInput` is validated like Claude's own input and a login refused by `forceLoginOrgUUID` no longer leaves its token stored (v2.1.300)"
     - "Bash commands that assign and use `BASH_ARGV0` prompt instead of auto-approving, managed `PreToolUse` deny hooks with `\"continue\": false` end the turn, cloud sessions run auto mode checks on Claude in Chrome actions and Git Bash `rm -rf /c/Users/<name>` asks in bypass mode (v2.1.296); `--tools` and `--restricted` cover built-in tools registered after launch, Chrome `host:80` deny rules apply to `http://` pages and mod guard hooks no longer see truncated tool input (v2.1.295); instruction-style `prompt` and `agent` hooks block what they describe (v2.1.294)"
     - "Symlinked writes are checked at their actual destination (v2.1.280); background sessions require workspace trust, child sessions inherit setting-source restrictions, NUL permission rules match nothing and command-substitution-only recursive rm prompts (v2.1.281)"
@@ -2345,6 +2410,7 @@ breaking_summary:
 # MILESTONE FEATURES (quick reference)
 # ════════════════════════════════════════════════════════════════
 milestones:
+  "2.1.309": "Sandboxed Bash no longer runs shell startup files outside the sandbox, a batch of Bash permission and worktree-isolation fixes, `sed -i` runs as an ordinary Bash edit and `claude ultrareview` requires workspace trust"
   "2.1.299": "Idle compaction before the one-hour prompt cache expires, sandbox `--plugin-dir` and symlink escape fixes, MCP allow rules scoped to the named server"
   "2.1.293": "Claude Haiku 5.5 becomes the default Haiku model on the Anthropic API with 1M context ($0.10/$0.50 per Mtok)"
   "2.1.287": "Claude Mods let plugins modify deeper Claude Code behavior, with the built-in \"You should know\" side-agent mod; Opus 4.7+ and Fable default to 1M context on Bedrock, Vertex, Foundry and the Claude apps gateway"
