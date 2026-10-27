@@ -2593,7 +2593,7 @@ skill_frontmatter_fields:
   paths: "globs limiting automatic activation to matching files"
   shell: "bash (default) or powershell for inline command blocks"
   hooks: "lifecycle hooks active during this skill's session (same format as settings.json hooks)"
-skill_frontmatter_guide_line: 7406  # Frontmatter table in §5.2
+skill_frontmatter_guide_line: 7448  # Frontmatter table in §5.2
 
 # ════════════════════════════════════════════════════════════════
 # HOOK EVENTS - see deep_dive.hooks
@@ -2645,7 +2645,7 @@ hook_events:
 
 # Hook Execution Model (v2.1.0+)
 hooks_execution_model: 9936  # Section in ultimate-guide.md
-hooks_session_scoped: 10101  # Session-scoped hooks (ephemeral, no settings.json, skills use this)
+hooks_session_scoped: 10108  # Session-scoped hooks (ephemeral, no settings.json, skills use this)
 hooks_async_support: "v2.1.0+ - add 'async: true' for non-blocking execution; 'asyncRewake: true' for background with exit-2 wakeup"
 hooks_async_use_cases: "logging, notifications, formatting, metrics (no feedback needed)"
 hooks_sync_use_cases: "validation, type checking, security (feedback required)"
