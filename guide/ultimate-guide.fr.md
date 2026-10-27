@@ -2408,7 +2408,7 @@ Deux bugs actifs cassent silencieusement la mise en cache sur v2.1.69+. Applique
 
 Voir [Known Issues → Prompt Cache Bugs](core/known-issues.md) et exécutez `/check-cache-bugs` pour un audit complet.
 
-> Documentation : [prompt caching](https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching)
+> Documentation : [prompt caching](https://platform.claude.com/docs/en/build-with-claude/prompt-caching)
 
 #### Suivi des coûts
 
@@ -6543,24 +6543,29 @@ tools: Read, Write, Edit, Bash, Grep, Glob
 
 ### Champs du Frontmatter
 
-Tous les champs officiels pris en charge par Claude Code ([source](https://code.claude.com/docs/en/sub-agents)) :
+Tous les champs officiels pris en charge par Claude Code ([source](https://code.claude.com/docs/en/sub-agents), vérifié le 27 octobre 2026) :
 
 | Champ | Requis | Description |
 |-------|--------|-------------|
-| `name` | ✅ | Identifiant en kebab-case |
-| `description` | ✅ | Quand activer cet agent (utilisez "PROACTIVELY" pour l'invocation automatique) |
-| `model` | ❌ | `inherit` (par défaut), `sonnet`, `opus`, `haiku`, ou un identifiant de modèle complet disponible |
-| `tools` | ❌ | Outils autorisés (séparés par des virgules). Supporte la syntaxe `Task(agent_type)` pour restreindre les sous-agents pouvant être créés |
-| `disallowedTools` | ❌ | Outils à interdire, retirés de la liste héritée ou spécifiée |
-| `permissionMode` | ❌ | `default`, `acceptEdits`, `dontAsk`, `bypassPermissions`, ou `plan` |
-| `maxTurns` | ❌ | Nombre maximum de tours agentiques avant l'arrêt du sous-agent |
+| `name` | ✅ | Identifiant unique, 256 caractères au maximum, par exemple `code-reviewer`. Les hooks le reçoivent comme `agent_type`. Pas de `:` (réservé aux noms limités à un plugin) ; le nom du fichier n'a pas à correspondre |
+| `description` | ✅ | Quand Claude doit déléguer à ce sous-agent (les exemples officiels écrivent "Use proactively after code changes") |
+| `model` | ❌ | `sonnet`, `opus`, `haiku`, `fable`, un identifiant de modèle complet comme `claude-opus-5-5`, ou `inherit`. Ordre de résolution : paramètre `model` de l'invocation, ce champ, `CLAUDE_CODE_SUBAGENT_MODEL`, puis le modèle de la conversation principale |
+| `tools` | ❌ | Outils autorisés, séparés par des virgules ou en liste YAML ; hérite de tous les outils disponibles pour un sous-agent si omis. `Agent(worker, researcher)` ne restreint les types pouvant être créés que pour un agent lancé comme fil principal avec `claude --agent` (`Task(...)` fonctionne toujours comme alias) |
+| `disallowedTools` | ❌ | Outils à interdire, retirés de la liste héritée ou spécifiée. Un spécificateur comme `Bash(git push *)` retire quand même l'outil entier |
+| `permissionMode` | ❌ | `default`, `acceptEdits`, `auto`, `dontAsk`, `bypassPermissions`, `plan`, ou `manual` (alias de `default`). Ignoré pour les sous-agents de plugin |
+| `maxTurns` | ❌ | Nombre maximum de tours agentiques ; à la limite, la sortie est marquée partielle et Claude peut reprendre le sous-agent |
+| `autoCompactWindow` | ❌ | Fenêtre d'auto-compactage réduite pour ce sous-agent, de `100000` à `1000000` tokens (v2.1.296+) |
 | `skills` | ❌ | Skills à précharger dans le contexte de l'agent au démarrage (contenu injecté intégralement, pas seulement disponible) |
 | `mcpServers` | ❌ | Serveurs MCP pour ce sous-agent, chaînes de noms de serveurs ou configurations inline |
-| `hooks` | ❌ | Hooks de cycle de vie limités à ce sous-agent (`PreToolUse`, `PostToolUse`, `Stop`) |
+| `hooks` | ❌ | Hooks de cycle de vie limités à ce sous-agent. Ignoré pour les sous-agents de plugin |
 | `memory` | ❌ | Portée de la mémoire persistante : `user`, `project`, ou `local` |
-| `background` | ❌ | `true` pour toujours exécuter en tâche de fond (par défaut : `false`) |
-| `isolation` | ❌ | `worktree` pour exécuter dans un worktree git temporaire (nettoyé automatiquement si aucune modification) |
-| `color` | ❌ | Couleur de sortie CLI pour une distinction visuelle (ex. : `green`, `magenta`) |
+| `background` | ❌ | `true` garde le sous-agent en tâche de fond même lorsque Claude demande à l'attendre. Les sous-agents créés depuis la conversation principale démarrent déjà en tâche de fond par défaut |
+| `omitClaudeMd` | ❌ | `true` démarre le sous-agent sans les fichiers CLAUDE.md utilisateur, projet et local (les fichiers de politique gérée sont toujours chargés) |
+| `effort` | ❌ | Niveau d'effort pendant l'exécution de ce sous-agent : `low`, `medium`, `high`, `xhigh`, `max`. Remplace le niveau de la session, pas `CLAUDE_CODE_EFFORT_LEVEL` |
+| `isolation` | ❌ | `worktree` pour exécuter dans un worktree git temporaire créé à partir de votre branche par défaut |
+| `color` | ❌ | Couleur d'affichage dans la liste des tâches et la transcription : `red`, `blue`, `green`, `yellow`, `purple`, `orange`, `pink` ou `cyan` |
+| `initialPrompt` | ❌ | Premier tour utilisateur soumis automatiquement lorsque l'agent s'exécute comme agent de la session principale (`--agent` ou le réglage `agent`) |
+| `experimental` | ❌ | Options expérimentales, comme `cacheTtl: 5m` ou `1h` pour la durée de vie du cache de prompt de ce sous-agent (à l'intérieur de la map, pas au niveau supérieur) |
 
 **Portées de la mémoire** : choisissez selon l'étendue souhaitée des connaissances :
 
@@ -7321,7 +7326,7 @@ name: presentation-curator
 description: PROACTIVELY use when updating slides, structure, or weights
 tools: Read, Write, Edit, Grep, Glob
 model: sonnet
-color: magenta
+color: purple
 skills:
   - presentation/slide-structure
   - presentation/styling
@@ -13928,51 +13933,60 @@ my-plugin/
 
 ### Support natif LSP (v2.0.74+)
 
-Depuis la v2.0.74 (décembre 2025), Claude Code s'intègre nativement avec les serveurs Language Server Protocol. Au lieu de naviguer dans votre base de code via la recherche textuelle (grep), Claude se connecte au serveur LSP de votre projet et comprend les symboles, les types et les références croisées, de la même façon qu'un IDE.
+Claude Code se connecte aux serveurs Language Server Protocol via des **plugins d'intelligence de code** ([page officielle](https://code.claude.com/docs/en/plugins/code-intelligence), vérifiée le 27 octobre 2026). Avec un serveur en marche, Claude obtient deux choses :
 
-**Pourquoi c'est important** : Trouver tous les sites d'appel d'une fonction passe de ~45 secondes (recherche textuelle) à ~50ms (LSP). Claude obtient également des diagnostics automatiques après chaque modification de fichier. Les erreurs et avertissements apparaissent en temps réel, sans étape de compilation séparée.
+- **Diagnostics après modification** : après chaque modification ou écriture d'un fichier géré par le serveur, Claude reçoit les erreurs et avertissements qu'il signale (erreurs de type, imports manquants, erreurs de syntaxe) sans lancer de compilateur. La conversation affiche `Found N new diagnostic issues in M files` ; appuyez sur `Ctrl+O` pour les lire
+- **Navigation dans le code** : un outil `LSP` en lecture seule pour les définitions, références, informations de type, symboles de fichier et d'espace de travail, implémentations et hiérarchies d'appels, par symbole plutôt que par recherche textuelle
 
-**Langages supportés (11)** : Python, TypeScript, JavaScript, Go, Rust, Java, C/C++, C#, PHP, Kotlin, Ruby.
+L'outil `LSP` reste inactif tant qu'un plugin d'intelligence de code n'est pas installé pour le langage. Les serveurs de langage des plugins ne démarrent pas dans les sessions cloud.
 
 #### Activation
 
-```bash
-# Option 1 — one-time env variable
-ENABLE_LSP_TOOL=1 claude
+1. Installez le binaire du serveur de langage et vérifiez qu'il est dans le `PATH` du shell qui lance `claude`
+2. Installez le plugin correspondant depuis la marketplace officielle, puis utilisez `/reload-plugins` si la confirmation le demande :
 
-# Option 2 — persist in ~/.claude/settings.json
-{
-  "env": {
-    "ENABLE_LSP_TOOL": "1"
-  }
-}
+```
+/plugin install typescript-lsp@claude-plugins-official
 ```
 
-Le serveur LSP pour votre langage doit déjà être installé sur la machine. Claude Code s'y connecte, il ne l'installe pas. Serveurs courants :
+3. Demandez à Claude d'introduire puis de corriger une erreur de type. Pas de ligne de diagnostics ? Ouvrez `/plugin` → **Errors** : `Executable not found in $PATH: "<binary>"` nomme le binaire manquant
 
-| Langage | Serveur | Installation |
-|---------|---------|-------------|
-| TypeScript | `tsserver` | Fourni avec TypeScript |
-| Python | `pylsp` | `pip install python-lsp-server` |
-| Go | `gopls` | `go install golang.org/x/tools/gopls@latest` |
-| Rust | `rust-analyzer` | `rustup component add rust-analyzer` |
-| Kotlin | `kotlin-language-server` | Via IntelliJ ou standalone |
-| Swift | `sourcekit-lsp` | Fourni avec Xcode |
+| Langage | Plugin | Binaire |
+|---------|--------|---------|
+| TypeScript / JavaScript | `typescript-lsp` | `typescript-language-server` |
+| Python | `pyright-lsp` | `pyright-langserver` |
+| Go | `gopls-lsp` | `gopls` |
+| Rust | `rust-analyzer-lsp` | `rust-analyzer` |
+| Java | `jdtls-lsp` | `jdtls` |
+| C/C++ | `clangd-lsp` | `clangd` |
+| C# | `csharp-lsp` | `csharp-ls` |
+| PHP | `php-lsp` | `intelephense` |
+| Kotlin | `kotlin-lsp` | `kotlin-lsp` |
+| Ruby | `ruby-lsp` | `ruby-lsp` |
+| Swift | `swift-lsp` | `sourcekit-lsp` |
+| Lua | `lua-lsp` | `lua-language-server` |
+| Liquid | `liquid-lsp` (maintenu par Shopify) | `shopify` (Shopify CLI) |
 
-#### Configuration des timeouts (`.lsp.json`)
+Lorsqu'un binaire de serveur est déjà dans votre `PATH` sans son plugin, Claude Code peut afficher une boîte de dialogue de **recommandation de plugin LSP**, au plus une fois par session. Choisir **Disable all LSP recommendations**, ou ignorer la boîte de dialogue cinq fois, désactive les recommandations ; supprimez `lspRecommendationDisabled` et `lspRecommendationIgnoredCount` de `~/.claude.json` pour les réactiver.
 
-Contrôle combien de temps Claude attend qu'un serveur LSP s'initialise avant de le considérer comme non réactif (v2.1.50+) :
+#### Écrire sa propre configuration de serveur (`.lsp.json`)
+
+Pour un langage sans plugin officiel, livrez un plugin avec un `.lsp.json` à sa racine (ou une clé `lspServers` dans `plugin.json`). Chaque serveur est un objet strict : une clé inconnue fait échouer la validation.
 
 ```json
 {
-  "servers": {
-    "tsserver": { "startupTimeout": 15000 },
-    "pylsp":    { "startupTimeout": 10000 }
+  "go": {
+    "command": "gopls",
+    "args": ["serve"],
+    "extensionToLanguage": { ".go": "go" },
+    "startupTimeout": 15000
   }
 }
 ```
 
-Utile dans les environnements lents (CI, Docker, démarrage à froid) où les timeouts par défaut font que les fonctionnalités LSP sont silencieusement ignorées.
+`command` et `extensionToLanguage` sont obligatoires. Champs facultatifs : `args`, `transport`, `env`, `initializationOptions`, `settings`, `workspaceFolder`, `startupTimeout`, `shutdownTimeout`, `requestTimeout` (60000 ms par défaut, v2.1.288+), `restartOnCrash` (`true` par défaut), `maxRestarts` et `diagnostics` (`true` par défaut). Chargez-le pour une session avec `--plugin-dir` ou publiez-le dans une marketplace.
+
+`claude plugin validate` ne lit pas `.lsp.json` : une entrée invalide fait ignorer le fichier entier, avec `Invalid LSP server config for ".lsp.json"` dans l'onglet **Errors** de `/plugin`. Un serveur doit journaliser sur stderr ; toute sortie hors protocole sur stdout le déconnecte et compte comme un plantage. Lorsque deux serveurs activés revendiquent la même extension, seul le premier enregistré est utilisé.
 
 > ⚠️ **Erreur courante** : Ne placez pas `commands/`, `agents/`, `skills/` ou `hooks/` à l'intérieur de `.claude-plugin/`. Seul `plugin.json` y va.
 
@@ -13981,6 +13995,7 @@ Utile dans les environnements lents (CI, Docker, démarrage à froid) où les ti
 ```json
 {
   "name": "security-audit",
+  "displayName": "Security Audit",
   "version": "1.0.0",
   "description": "Security audit tools for Claude Code",
   "author": {
@@ -13989,7 +14004,21 @@ Utile dans les environnements lents (CI, Docker, démarrage à froid) où les ti
 }
 ```
 
-> Le manifeste définit uniquement les métadonnées. Claude Code découvre automatiquement les composants à partir de la structure de répertoires.
+`name` est la seule clé obligatoire ; il sert d'espace de noms à chaque composant. Sans autres clés, Claude Code découvre automatiquement les composants dans les répertoires par défaut. Le manifeste peut aussi contenir ([référence du manifeste de plugin](https://code.claude.com/docs/en/plugins/manifest-reference)) :
+
+| Clé | Rôle |
+|-----|------|
+| `displayName` | Nom affiché dans l'interface à la place de `name` (le `displayName` d'une entrée de marketplace l'emporte) |
+| `version` | Épingle les utilisateurs à cette version tant que vous ne la changez pas |
+| `defaultEnabled` | `false` installe le plugin désactivé jusqu'à ce que l'utilisateur l'active |
+| `dependencies` | Plugins qui doivent être activés pour que celui-ci fonctionne |
+| `settings` | Réglages appliqués tant que le plugin est activé ; seuls `agent` et `subagentStatusLine` prennent effet |
+| `userConfig` | Valeurs que Claude Code demande à l'activation du plugin, référencées par `${user_config.KEY}` |
+| `commands`, `agents`, `outputStyles`, `workflows` | Remplacent l'analyse des répertoires par défaut. `commands` accepte aussi une map d'objets avec `source` ou `content` et un `argumentHint` |
+| `skills`, `hooks`, `mcpServers`, `lspServers` | S'ajoutent aux fichiers et répertoires par défaut |
+| `experimental.themes`, `experimental.monitors`, `experimental.evals` | Thèmes, moniteurs en arrière-plan et cas d'évaluation de plugin ; la forme peut encore changer |
+
+Une clé de premier niveau non reconnue est supprimée silencieusement : lancez `claude plugin validate` pour repérer les fautes de frappe.
 
 **Espace de noms des skills** : Les skills des plugins sont préfixés par le nom du plugin pour éviter les conflits :
 - Plugin `security-audit` avec le skill `scan` → `/security-audit:scan`
@@ -14001,6 +14030,40 @@ claude plugin validate ./my-plugin
 ```
 
 **Documentation officielle** : [code.claude.com/docs/en/plugins](https://code.claude.com/docs/en/plugins)
+
+### Mods Claude (v2.1.287+) {#claude-mods-v21287}
+
+Un **mod** est un plugin dont les gestionnaires JavaScript ou TypeScript s'exécutent dans le processus même de Claude Code ([présentation officielle des mods](https://code.claude.com/docs/en/plugins/mods/overview), vérifiée le 27 octobre 2026). Claude Code appelle un gestionnaire lorsqu'un événement se produit (un appel d'outil, un prompt soumis, une partie de l'interface en cours de dessin), et le gestionnaire peut l'observer, le modifier ou le prendre en charge. Les pages officielles appellent ces gestionnaires des "hooks" et ceux de `settings.json` des "settings hooks".
+
+Ce qu'un mod peut faire et que les settings hooks, skills, lignes de statut et serveurs MCP ne peuvent pas :
+
+- Dessiner un panneau à côté de la transcription ou un bandeau au-dessus du prompt, avec onglets, boutons et champs
+- Restyler des parties que Claude Code dessine lui-même, comme la ligne d'un appel d'outil ou le spinner (jamais la demande de permission)
+- Suspendre un appel d'outil pour vous poser une question, y répondre sans exécuter l'outil, ou router une requête vers un autre modèle
+- Ajouter une `/command` qui exécute une fonction immédiatement, sans tour de Claude, même pendant que Claude travaille
+- Partager un état entre gestionnaires, par exemple compter les appels d'outils dans l'un et afficher le compteur dans un autre
+
+Un mod minimal est un plugin ordinaire avec `hooks/hooks.json` pointant vers un module de hooks comme `hooks/register.js`, qui exporte `register(on)` et s'abonne à des événements comme `tool.call` ou `ui.render`. Demandez à Claude d'en écrire un (le skill intégré `plugin-authoring`, aussi `/plugin-authoring`), ou partez des exemples d'Anthropic dans [`claude-code-playground/claude-code/mods`](https://github.com/anthropics/claude-code-playground/tree/main/claude-code/mods) (`token-weather`, `blast-radius`, `replay-theater`), chargés pour une session avec `--plugin-dir`.
+
+**Installation et contrôle :**
+
+- Installez comme n'importe quel plugin : `/plugin install <name>@<marketplace>`, puis `/reload-plugins` dans une session ouverte
+- `/plugin` affiche une ligne `N mod active · <names>` ; l'onglet **Installed** liste les mods intégrés sous **Built-in**
+- Désactivé pour un mod : désactivez son plugin dans `/plugin`. Désactivé pour une session : `--safe-mode`. Désactivé partout : `"disableAllHooks": true` (cela arrête aussi les settings hooks et la ligne de statut personnalisée). Les administrateurs peuvent restreindre le chargement avec `allowManagedModsOnly`
+- `CLAUDE_CODE_ENABLE_FUNCTION_HOOKS` de l'accès anticipé est ignoré depuis la v2.1.287
+
+**Les mods intégrés** comprennent `cc-plugin-agents-md` (charge `AGENTS.md`), `cc-plugin-diff` (le panneau `/diff`), `cc-plugin-you-should-know` (désactivé tant qu'il n'est pas activé), `cc-plugin-telemetry` et `cc-plugin-sec-default` (protège la configuration gérée). `disableAllHooks`, `--bare` et `--safe-mode` n'arrêtent pas les mods intégrés.
+
+**Où ils s'exécutent** : les gestionnaires s'exécutent dans le terminal, l'onglet Code de Desktop (pas les sessions WSL), l'extension VS Code, `claude -p`, l'Agent SDK, Remote Control et les sessions cloud qui reçoivent le plugin. Le dessin n'apparaît que dans le terminal, Desktop et VS Code (extension 2.1.299+).
+
+> ⚠️ **Sécurité** : un mod est du code non sandboxé qui s'exécute avec vos permissions. Il peut lire et écrire vos fichiers, lire les variables d'environnement et les réglages (clés d'API comprises), voir chaque prompt et chaque appel d'outil, les réécrire, approuver un appel d'outil sans vous demander et consommer votre quota. Les processus qu'il démarre s'exécutent hors du sandbox de Bash. Avec des réglages gérés ou une connexion Team ou Enterprise, l'approbation d'un mod ne contourne pas par défaut vos règles `ask` ni vos hooks `PreToolUse` ; sans eux, elle le peut. Avant d'installer, lancez `claude plugin validate ./some-mod` et lisez les lignes `hooks:` et `calls:` qu'il affiche.
+
+| | Mod | Settings hook | Skill | Serveur MCP |
+|---|---|---|---|---|
+| S'exécute | Dans Claude Code | Commande shell, requête HTTP ou prompt sur un événement | Instructions que Claude lit | Processus externe fournissant des outils |
+| Peut dessiner dans l'interface | Oui | Non | Non | Non |
+| Écrit en | JavaScript ou TypeScript | N'importe quel script plus une entrée `settings.json` | Markdown | N'importe quel langage |
+| À choisir pour | Un panneau, une commande personnalisée, la réécriture d'un événement | Bloquer, autoriser ou journaliser avec un script existant | Des instructions que vous recollez sans cesse | Joindre un système externe |
 
 ### Plugin vs. MCP Server
 
@@ -16006,25 +16069,26 @@ Contrôlez comment Claude répond pour correspondre à votre flux de travail et 
 
 ### Styles Intégrés
 
-Activez via `/output-style`, `/config` ou `outputStyle` dans `settings.json`.
+Claude Code démarre dans le style **Default**. Quatre autres styles intégrés conservent les instructions standard de génie logiciel et ajoutent les leurs ([page officielle des styles de sortie](https://code.claude.com/docs/en/output-styles), vérifiée le 27 octobre 2026) :
 
 | Style | Ce que fait Claude | Idéal pour |
 |-------|--------------------|------------|
-| **Default** | Accomplit les tâches efficacement, réponses concises | Développeurs expérimentés, travail orienté performance |
-| **Proactive** | Prend davantage d’initiatives pour avancer dans la tâche | Travail délégué avec des limites explicites |
-| **Concise** | Répond brièvement | Interactions compactes |
-| **Explanatory** | Ajoute des blocs "Insights" expliquant les choix de conception, compromis et patterns de la base de code | Exploration de code inconnu, revue d'architecture, intégration |
-| **Learning** | Fait des pauses aux étapes clés, ajoute des marqueurs `TODO(human)`, vous demande d'écrire les parties importantes | Développeurs juniors, montée en compétences, pair programming |
+| **Default** | Aucun style sélectionné : Claude travaille à partir du prompt système standard de Claude Code | Travail courant de génie logiciel |
+| **Proactive** | Commence à implémenter dès que vous envoyez une tâche et fait des hypothèses raisonnables sur les décisions courantes au lieu de demander ; pas de mode plan sauf demande | Travail délégué que vous corrigerez après coup |
+| **Concise** | Commence par le résultat et supprime préambule, narration pas à pas et récapitulatifs de fin | Les réponses par défaut sont plus longues que vous ne le voulez |
+| **Explanatory** | Ajoute de courts blocs `Insight` expliquant les choix derrière le code | Exploration de code inconnu, intégration |
+| **Learning** | Ajoute des blocs `Insight` et vous laisse les parties à forte composante de conception à un marqueur `TODO(human)`, puis attend | Pratique concrète tout en faisant avancer la tâche |
+
+Proactive ne change pas votre mode de permission : les demandes de permission le suivent toujours.
 
 **Pour activer :**
 
-```
-/config
-→ "Preferred output style"
-→ Sélectionner Default / Proactive / Concise / Explanatory / Learning
-```
+- `/output-style <style>` (par exemple `/output-style concise`) ; sans argument, la commande liste les styles et marque le style actuel. Elle fonctionne aussi en mode non interactif, dans les sessions Agent SDK et dans Remote Control (styles intégrés uniquement). Nécessite la v2.1.269+
+- `/config` → **Output style** dans le terminal
+- VS Code : menu de commandes `/` → **Output styles** (v2.1.257+)
+- Application Desktop : définir `outputStyle` dans un fichier de réglages
 
-Ou de façon persistante via `settings.json` :
+La commande et les deux menus enregistrent le choix dans `.claude/settings.local.json`. Pour le définir à la main :
 
 ```json
 {
@@ -16032,22 +16096,33 @@ Ou de façon persistante via `settings.json` :
 }
 ```
 
-Le paramètre persiste entre les sessions. Si vous avez configuré une barre de statut, votre style de sortie actuel s'affiche en bas du champ de saisie.
+La valeur est sensible à la casse : écrivez `Proactive`, `Concise`, `Explanatory` ou `Learning`. Une valeur non reconnue comme `explanatory` vous donne silencieusement Default ; la commande `/output-style` ignore la casse. Définissez `outputStyle` dans `~/.claude/settings.json` pour un défaut commun à tous les projets ; les réglages du projet prennent le dessus. Un changement en cours de session s'applique dès votre message suivant (avant la v2.1.251, il fallait `/clear` ou une nouvelle session).
+
+Les styles s'appliquent à la conversation principale et à un fork. Les autres sous-agents exécutent leur propre prompt système, donc un style ne change pas leur façon de répondre.
 
 ### Impact sur les Tokens
 
-Explanatory et Learning produisent des réponses plus longues par conception, ce qui augmente les tokens de sortie. La mise en cache peut réduire le coût des entrées répétées, mais ne réduit pas le prix des tokens générés.
+Les instructions d'un style ajoutent des tokens d'entrée à chaque requête ; la mise en cache de prompt réduit ce coût après la première requête. Explanatory et Learning produisent des réponses plus longues par conception, ce qui augmente les tokens de sortie, et Concise fait l'inverse. La mise en cache de prompt ne réduit pas le prix des tokens générés.
 
 ### Styles Personnalisés
 
-Les styles de sortie personnalisés sont des fichiers Markdown. Placez les styles du projet dans `.claude/output-styles/` ou les styles utilisateur dans `~/.claude/output-styles/`, puis référencez le nom du fichier sans extension comme valeur `outputStyle`.
+Les styles de sortie personnalisés sont des fichiers Markdown avec un frontmatter YAML facultatif. Placez-les au niveau utilisateur dans `~/.claude/output-styles/`, au niveau projet dans `.claude/output-styles/` (chaque répertoire de ce nom entre le répertoire de travail et la racine du dépôt est lu ; le plus proche l'emporte en cas de conflit de nom), ou dans le répertoire des réglages gérés. Les plugins peuvent livrer des styles dans un répertoire `output-styles/`.
 
 ```
 .claude/output-styles/
 └── strict-reviewer.md    # Définition du style personnalisé
 ```
 
-Par défaut, un style personnalisé omet les instructions de génie logiciel intégrées à Claude Code. Pour un style destiné au code, conservez-les avec `keep-coding-instructions: true` dans le frontmatter YAML du fichier. Le style sélectionné s’applique au message suivant. Redémarrez pour découvrir de nouveaux fichiers de style.
+| Champ du frontmatter | Effet |
+|----------------------|-------|
+| `name` | Nom affiché dans le sélecteur. Par défaut : le nom du fichier |
+| `description` | Description affichée dans le sélecteur de `/config` |
+| `keep-coding-instructions` | `true` conserve les instructions de génie logiciel intégrées à Claude Code en plus du style. `false` par défaut. Sans effet sur le prompt système plus court ; `CLAUDE_CODE_SIMPLE_SYSTEM_PROMPT=0` sélectionne le prompt complet |
+| `force-for-plugin` | Styles de plugin uniquement : applique le style chaque fois que le plugin est activé, en remplaçant l'`outputStyle` de l'utilisateur |
+
+Un champ mal orthographié est ignoré sans erreur, et un bloc YAML illisible charge le style sous son nom de fichier sans aucun champ (`claude --debug` affiche l'erreur d'analyse). Dans le terminal, les fichiers de style sont lus au démarrage : redémarrez Claude Code après en avoir créé ou modifié un.
+
+Sélectionnez-le par son nom (le nom du fichier sauf si `name` est défini) :
 
 ```json
 {
@@ -24029,6 +24104,18 @@ Coordonnez les sessions que vous avez déjà ouvertes et que vous pilotez vous-m
 
 ---
 
+### Claude Projects : fils cloud coordonnés (bêta) {#claude-projects-coordinated-cloud-threads-beta}
+
+La messagerie entre sessions relie des sessions que vous avez démarrées vous-même. Les **Projects** confient la coordination à Claude : une conversation de projet de longue durée reçoit des tâches et lance un **fil** (thread) par morceau de travail, le plus souvent une session cloud sur sa propre branche qui ouvre une pull request si nécessaire ([page officielle des Projects](https://code.claude.com/docs/en/claude-projects), vérifiée le 27 octobre 2026).
+
+- **Disponibilité** : bêta publique sur Pro et Max, déploiement progressif ; pas encore proposé sur Team ni Enterprise. À utiliser sur claude.ai/code, dans l'onglet Code de Desktop ou dans les applications mobiles
+- **Contexte partagé** : chaque nouveau fil cloud démarre avec les dépôts et fichiers du projet, ses instructions et sa mémoire, le `CLAUDE.md` de chaque dépôt, vos connecteurs claude.ai et un environnement cloud. Il ne récupère **pas** les skills des dépôts, `.claude/settings.json`, `.mcp.json` ni rien de votre configuration locale
+- **Suivi** : le volet **Overview** regroupe les fils par état (prêt pour relecture, en attente de vous, en cours), avec les onglets **Library**, **Pull requests** et **Scheduled tasks**
+- **Exception locale** : un fil qui a besoin de votre machine peut s'y exécuter via Remote Control
+- **Prérequis pour le code** : dépôts sur github.com avec accès en écriture et GitHub App Claude installée (pas GitHub Enterprise Server, GitLab ni Bitbucket)
+
+Utilisez un projet quand un objectif dépasse une session et continue de produire des tâches (une migration de lint sur de nombreux dépôts, un service dont vous alimentez les bugs au fil de l'eau). Pour une seule tâche, démarrez une session cloud unique ; quand chaque tâche exige des ressources locales, utilisez des sessions locales ou la vue agent ; pour un travail récurrent sans conversation, utilisez une routine. Un projet puise dans les mêmes limites de forfait que vos autres sessions et les consomme plus vite. Pour un canal Slack partagé, Anthropic renvoie vers **Claude Tag**, documenté sur claude.com.
+
 ## 9.28 Ingestion d'événements et délégation sécurisée {#928-event-ingestion-and-safe-delegation}
 
 **Temps de lecture** : 3 minutes (aperçu) | [Guide complet →](./workflows/monitor-event-delegation.md) (~12 min, sources, frontières et workflow Codex)
@@ -24362,6 +24449,37 @@ Activez/désactivez la voix avec `/voice`. La liaison push-to-talk n'est active 
 | `Ctrl+T` | Afficher/masquer la liste des tâches |
 | `Enter` | Afficher la session du coéquipier sélectionné |
 | `Escape` | Interrompre le tour en cours, retourner au prompt |
+
+### Raccourcis personnalisés {#custom-keybindings}
+
+Lancez `/keybindings` pour créer ou ouvrir `~/.claude/keybindings.json`. Les changements s'appliquent sans redémarrage. Chaque bloc nomme un contexte et associe des frappes à des actions ; `null` retire un raccourci par défaut ([référence officielle des raccourcis](https://code.claude.com/docs/en/keybindings), vérifiée le 27 octobre 2026) :
+
+```json
+{
+  "$schema": "https://www.schemastore.org/claude-code-keybindings.json",
+  "bindings": [
+    {
+      "context": "Chat",
+      "bindings": {
+        "ctrl+e": "chat:externalEditor",
+        "meta+g": "command:compact",
+        "ctrl+s": null
+      }
+    }
+  ]
+}
+```
+
+| Élément | Règle |
+|---------|-------|
+| Contextes | `Global`, `Chat`, `Autocomplete`, `Confirmation`, `Transcript`, `HistorySearch`, `Task`, `DiffPanel`, `ModelPicker`, `EffortSlider`, `Select`, `Plugin`, `Agents`, `Scroll`, et d'autres listés dans la référence |
+| Actions | `namespace:action`, par exemple `chat:modelPicker`, `chat:fastMode`, `chat:sendNow`, `chat:queueSubmit`, `chat:killAgents`, `app:toggleTodos`, `history:search`, `task:background`. `command:<name>` exécute `/<name>` |
+| Modificateurs | `ctrl`, `shift`, `alt`/`opt`/`meta`, `cmd`/`super`. `cmd` ne fonctionne que dans les terminaux qui signalent le modificateur Super : préférez `ctrl` ou `meta` |
+| Accords (chords) | Frappes séparées par des espaces, chacune dans un délai de 3 secondes : `ctrl+k ctrl+s`. Les accords par défaut utilisent le préfixe `ctrl+x` ; retirez-les tous dans chaque contexte qui les définit pour récupérer `ctrl+x` |
+| Réservés | `Ctrl+C`, `Ctrl+D`, `Ctrl+M` (Entrée), `Ctrl+[` (Échap), `Ctrl+I` (Tab), `Ctrl+H` et Verr. Maj ne peuvent pas être réassignés |
+| Dispositions | Les noms de touches ne sont pas sensibles à la casse ; écrivez les raccourcis Ctrl avec des lettres latines. AZERTY correspond à la lettre que la touche produit |
+
+Les entrées invalides sont ignorées avec un avertissement dans le journal de débogage, pas une erreur : un modificateur mal orthographié comme `ctl+k` lie la simple touche `k`, et un espace à côté de `+` (`ctrl+ k`) crée un accord qui ne se déclenche jamais. Lancez `claude --debug` pour voir les avertissements. Attention aux conflits avec les multiplexeurs de terminal : `Ctrl+B` (tmux), `Ctrl+A` (GNU screen), `Ctrl+Z` (suspension).
 
 ### Combinaisons de Drapeaux Utiles
 
@@ -26009,7 +26127,7 @@ Use rebase for clean history before push, merge for shared branches.
 |------|-------------|
 | [Claudelog.com](https://claudelog.com/) | Conseils, patterns, tutoriels et bonnes pratiques |
 | [ykdojo/claude-code-tips](https://github.com/ykdojo/claude-code-tips) | Conseils pratiques de productivité (workflows vocaux, gestion du contexte, efficacité terminal) |
-| [Documentation officielle](https://docs.anthropic.com/en/docs/claude-code) | Documentation officielle Claude Code d'Anthropic |
+| [Documentation officielle](https://code.claude.com/docs) | Documentation officielle Claude Code d'Anthropic |
 
 > **Conseil** : Ces ressources évoluent rapidement. Mettez en favoris les dépôts utiles pour suivre leurs mises à jour.
 

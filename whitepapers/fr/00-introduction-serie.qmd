@@ -65,7 +65,7 @@ Depuis fin 2025, plusieurs fonctionnalités agentic sont devenues disponibles et
 | **Tasks API** | v2.1.16 | Listes persistantes avec dépendances ; activation explicite requise sur les modèles récents |
 | **Auto-memories** | v2.1.32 | Capture automatique du contexte cross-session dans `~/.claude/projects/` |
 | **Agent Teams** | v2.1.32 | Multi-agents en parallèle via `TeamCreate`/`SendMessage` |
-| **LSP Tool** | v2.0.74 | Navigation IDE-like (symboles, types, refs) en ~50ms, 11 langages supportés |
+| **LSP Tool** | v2.0.74 | Diagnostics après chaque modification et navigation par symbole, activés par un plugin officiel de code intelligence par langage |
 | **Remote Control** | v2.1.51 | Piloter une session locale depuis mobile ou navigateur (Pro/Max/Team/Enterprise) |
 | **MCP Elicitation** | v2.1.76 | Les serveurs MCP peuvent demander des données structurées en cours de tâche |
 | **Contexte 1M tokens** | v2.1.75 | 1M natif sur les modèles actuels Opus, Sonnet, Haiku et Fable ; anciennes variantes soumises à conditions |
@@ -396,7 +396,7 @@ Le repository GitHub centralise le guide complet, les templates prêts à l'empl
 
 | Ressource | Contenu | Lien |
 |-----------|---------|------|
-| **Documentation officielle** | Vue d'ensemble Claude Code, installation, référence | [docs.anthropic.com/en/docs/claude-code/overview](https://docs.anthropic.com/en/docs/claude-code/overview) |
+| **Documentation officielle** | Vue d'ensemble Claude Code, installation, référence | [docs.anthropic.com/en/docs/claude-code/overview](https://code.claude.com/docs/en/overview) |
 | **GitHub Claude Code** | Code source, issues, releases officielles | [github.com/anthropics/claude-code](https://github.com/anthropics/claude-code) |
 | **Changelog officiel** | Historique de toutes les versions et nouveautés | [CHANGELOG.md](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md) |
 | **Guide Ultimate (ce repo)** | 26 648 lignes, 271 templates, workflows avancés | [github.com/FlorianBruniaux/claude-code-ultimate-guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide) |

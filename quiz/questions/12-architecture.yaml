@@ -1,6 +1,6 @@
 category: Architecture Internals
 category_id: 12
-source_file: guide/architecture.md
+source_file: guide/core/architecture.md
 questions:
   - id: 12-001
     difficulty: intermediate
@@ -16,7 +16,7 @@ questions:
     correct: b
     explanation: Claude Code runs a remarkably simple `while(tool_call)` loop. There is NO intent classifier, task router, RAG/embedding pipeline, DAG orchestrator, or planner/executor split. The model itself decides when to call tools, which tools to call, and when it's done. This is the "agentic loop" pattern.
     doc_reference:
-      file: guide/architecture.md
+      file: guide/core/architecture.md
       section: The Master Loop
       anchor: "#1-the-master-loop"
   - id: 12-002
@@ -25,14 +25,14 @@ questions:
       - junior
       - senior
       - power
-    question: How many core tools does Claude Code have?
+    question: Which statement about Claude Code's built-in tools is accurate?
     options:
-      a: 5 tools
-      b: 8 tools
-      c: 12 tools
-      d: Unlimited (model-dependent)
-    correct: b
-    explanation: "Claude Code has exactly 8 core tools: Bash (universal adapter), Read (file contents), Edit (modify files), Write (create/overwrite), Grep (search contents), Glob (find files), Task (sub-agents), and TodoWrite (progress tracking). That's the entire arsenal. Note: TodoWrite was replaced by the Tasks API (TaskCreate/TaskGet/TaskList/TaskUpdate) in v2.1.16+ for persistent task management with dependencies."
+      a: It has exactly 5 tools and nothing else
+      b: It has a fixed set of exactly 8 tools that never changes
+      c: It has a core set (Bash, Read, Edit, Write, Grep, Glob, and Agent for subagents) plus further tools such as WebFetch, WebSearch, and task tracking, all listed in the tools reference
+      d: It has no built-in tools, only MCP tools
+    correct: c
+    explanation: The tools reference lists many built-in tools, not a fixed count of 8. The core ones are Bash (universal adapter), Read, Edit, Write, Grep, Glob, and Agent (spawns a subagent with its own context window), alongside others such as WebFetch, WebSearch, Skill, and the task-tracking tools. TodoWrite was superseded by TaskCreate/TaskGet/TaskList/TaskUpdate, and those tools are only on by default for some older models (Opus 4.7, Sonnet 4.6, Haiku 4.5, and earlier).
     doc_reference:
       file: guide/architecture.md
       section: The Tool Arsenal
@@ -51,7 +51,7 @@ questions:
     correct: c
     explanation: Bash is Claude's swiss-army knife. It can run any CLI tool (git, npm, docker, curl...), execute scripts, chain commands with pipes, and access system state. The model has been trained on massive amounts of shell data, making it highly effective as a universal adapter.
     doc_reference:
-      file: guide/architecture.md
+      file: guide/core/architecture.md
       section: The Bash Universal Adapter
       anchor: "#the-bash-universal-adapter"
   - id: 12-004
@@ -59,14 +59,14 @@ questions:
     profiles:
       - senior
       - power
-    question: What is the approximate context budget for Claude Code with Claude 3.5 Sonnet?
+    question: Which of these share the same context window in Claude Code?
     options:
-      a: ~32K tokens
-      b: ~100K tokens
-      c: ~200K tokens
-      d: ~500K tokens
-    correct: c
-    explanation: "Claude Code operates within a ~200K token context window. This is shared between: system prompt (~5-15K), CLAUDE.md files (~1-10K), conversation history (variable), tool results (variable), and reserved response buffer (~40-45K). Usable space is approximately 140-150K tokens."
+      a: Only the conversation history
+      b: The system prompt, CLAUDE.md files, conversation history, and tool results
+      c: Only your prompts and Claude's replies
+      d: Only CLAUDE.md files and tool results
+    correct: b
+    explanation: Claude Code operates within one context window shared between the system prompt, CLAUDE.md files, conversation history, and tool results, plus room reserved for the response. On the direct API, Opus 5.5, Sonnet 5.5, Haiku 5.5, and Fable 5.1 have a native 1M-token window, while the legacy Haiku 4.5 has 200K. A bigger window raises the ceiling but does not remove the need to manage what fills it.
     doc_reference:
       file: guide/architecture.md
       section: Context Budget Breakdown
@@ -85,7 +85,7 @@ questions:
     correct: b
     explanation: "Auto-compaction thresholds vary by source: PromptLayer analysis reports 92%, community observations report 75-80%. When triggered, older conversation turns are summarized, tool results condensed, and recent context preserved. Use /compact to manually trigger summarization."
     doc_reference:
-      file: guide/architecture.md
+      file: guide/core/architecture.md
       section: Auto-Compaction
       anchor: "#auto-compaction"
   - id: 12-006
@@ -94,14 +94,14 @@ questions:
       - junior
       - senior
       - power
-    question: What is the maximum depth for sub-agents spawned via the Task tool?
+    question: What is the default maximum nesting depth for subagents spawned via the Agent tool?
     options:
       a: Unlimited depth
-      b: Depth = 3
-      c: Depth = 1 (cannot spawn sub-sub-agents)
-      d: Depth = 2
-    correct: c
-    explanation: "Sub-agents have a depth=1 limit. They CANNOT spawn sub-sub-agents. This prevents: recursive explosion (infinite resources), context pollution (accumulated context), debugging nightmares (multi-level chains), and unpredictable costs (nested token usage)."
+      b: Up to three layers below the main conversation
+      c: Depth = 1 (a subagent cannot spawn subagents)
+      d: Up to two layers below the main conversation
+    correct: b
+    explanation: By default a subagent can spawn subagents of its own, up to three layers below the main conversation. At the depth limit Claude Code withholds the Agent tool, so the subagent does its delegated work itself and returns one summary. Set CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH to change the limit; a value of 1 turns nesting off. A depth limit still matters because nested subagents multiply cost and make multi-level chains hard to debug.
     doc_reference:
       file: guide/core/architecture.md
       section: Why Depth = 1?
@@ -111,14 +111,14 @@ questions:
     profiles:
       - senior
       - power
-    question: What does a sub-agent receive when spawned by the Task tool?
+    question: What context does a sub-agent start with when spawned by the Agent tool?
     options:
-      a: Full conversation history + all file reads
-      b: Task description only (isolated fresh context)
-      c: Last 10 messages of conversation
-      d: System prompt + CLAUDE.md files
+      a: The full conversation history and every file Claude has already read
+      b: A fresh, isolated context window seeded by the delegation message Claude writes for it
+      c: The last 10 messages of the conversation
+      d: A compressed copy of the parent session
     correct: b
-    explanation: Sub-agents have ISOLATED context. They receive only the task description, have their own fresh context window, access the same tools (except Task), and return only a summary text. This isolation keeps the main context clean and prevents context pollution.
+    explanation: Sub-agents have ISOLATED context. Each starts with a fresh context window and does not see your conversation history, the skills you already invoked, or the files Claude already read; it works from the delegation message Claude composes (a fork is the exception, since it inherits the conversation). A sub-agent returns a summary, which keeps the main context clean. Explore and Plan also start without your CLAUDE.md files, while other built-in and custom subagents load them.
     doc_reference:
       file: guide/architecture.md
       section: Isolation Model
@@ -154,7 +154,7 @@ questions:
     correct: b
     explanation: "When exact match fails, Edit attempts fuzzy matching: (1) Whitespace normalization (trailing spaces, indentation), (2) Line ending normalization (CRLF vs LF), (3) Context expansion (surrounding lines). Only if fuzzy match also fails does it return an error."
     doc_reference:
-      file: guide/architecture.md
+      file: guide/core/architecture.md
       section: Fuzzy Matching Details
       anchor: "#fuzzy-matching-details"
   - id: 12-010
@@ -171,7 +171,7 @@ questions:
     correct: c
     explanation: MCP uses JSON-RPC 2.0 over stdio or HTTP transport. MCP tools follow the naming convention `mcp__<server>__<tool>`. Servers start on first use and stay alive during the session. They have the same permission system as native tools.
     doc_reference:
-      file: guide/architecture.md
+      file: guide/core/architecture.md
       section: MCP Integration
       anchor: "#6-mcp-integration"
   - id: 12-011
@@ -198,22 +198,24 @@ questions:
     question: What are the specialized sub-agent types available in Claude Code?
     options:
       a: Reader, Writer, Searcher, Executor
-      b: Explore, Plan, general-purpose (3 types)
+      b: Explore, Plan, general-purpose (the main built-in types)
       c: Junior, Senior, Expert, Architect
       d: Fast, Balanced, Thorough, Complete
     correct: b
     explanation: |-
-      Claude Code offers 3 built-in sub-agent types via the Task tool's subagent_type parameter:
+      Claude Code's main built-in sub-agents, spawned through the Agent tool, are:
 
-      1. **Explore** (Haiku): Codebase exploration with read-only tools. Optimized for file discovery and code search with thoroughness levels (quick/medium/very thorough).
+      1. **Explore**: Codebase exploration with read-only tools. It uses the main conversation's model (with exceptions when the main conversation runs Fable) and supports thoroughness levels (quick/medium/very thorough).
 
-      2. **Plan** (Inherit): Architecture planning and research during plan mode. Read-only tools prevent infinite nesting.
+      2. **Plan**: Research during plan mode so exploration output stays out of the main conversation. Read-only tools; it inherits the main conversation's model.
 
-      3. **general-purpose** (Inherit): Complex multi-step tasks with all tools available (Read, Edit, Write, Bash, Grep, Glob).
+      3. **general-purpose**: Complex multi-step tasks with every tool available to subagents.
+
+      Claude Code also ships helper agents such as claude, statusline-setup, and claude-code-guide, which are invoked automatically.
 
       **Important**: Bash is a TOOL (command execution utility), not a sub-agent type. Sub-agents can USE the Bash tool, but there is no "Bash" sub-agent type.
 
-      Source: Official documentation code.claude.com/docs/en/sub-agents (verified 2026-02-03)
+      Source: Official documentation code.claude.com/docs/en/sub-agents (verified 2026-10-27)
     doc_reference:
       file: guide/core/architecture.md
       section: Sub-Agent Types
@@ -231,7 +233,7 @@ questions:
       c: Tasks API (TaskCreate, TaskGet, TaskList, TaskUpdate)
       d: AgendaWrite tool
     correct: c
-    explanation: "The Tasks API (v2.1.16+) replaced TodoWrite with 4 tools: TaskCreate (create tasks with descriptions), TaskGet (fetch full task details), TaskList (list all tasks with status), TaskUpdate (update status, dependencies, metadata). Key improvement: task dependencies via blockedBy/blocks fields."
+    explanation: "The Tasks API (v2.1.16+) replaced TodoWrite with 4 tools: TaskCreate (create tasks with descriptions), TaskGet (fetch full task details), TaskList (list all tasks with status), TaskUpdate (update status, dependencies, metadata). Key improvement: task dependencies via blockedBy/blocks fields. Per the tools reference, these tools are only available by default on Opus 4.7, Sonnet 4.6, Haiku 4.5, and earlier models; on newer models Claude tracks multi-step work without a written checklist unless you opt in."
     doc_reference:
       file: guide/ultimate-guide.md
       section: Tasks API (v2.1.16+)

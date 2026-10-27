@@ -74,7 +74,7 @@ questions:
       - Claude starts forgetting earlier context
 
       This frees up context space while preserving important information.
-      Check context usage with `/status`.
+      Check context usage with `/context`.
     doc_reference:
       file: guide/ultimate-guide.md
       section: 10.1 Commands Table
@@ -141,7 +141,7 @@ questions:
     question: Where should project-specific CLAUDE.md be placed (committed to git)?
     options:
       a: ~/.claude/CLAUDE.md
-      b: /project/.claude/CLAUDE.md
+      b: /project/CLAUDE.local.md
       c: /project/CLAUDE.md
       d: ~/.config/claude/project.md
     correct: c
@@ -152,7 +152,8 @@ questions:
       |----------|-------|-----------|
       | `~/.claude/CLAUDE.md` | All projects | N/A (global) |
       | `/project/CLAUDE.md` | This project | **Yes** |
-      | `/project/.claude/CLAUDE.md` | Personal | No |
+      | `/project/.claude/CLAUDE.md` | This project (alternative location) | **Yes** |
+      | `/project/CLAUDE.local.md` | Personal | No (gitignored) |
 
       The root `CLAUDE.md` is committed and shared with the team.
       The `.claude/CLAUDE.md` is personal and should be in `.gitignore`.
@@ -221,26 +222,17 @@ questions:
       - junior
       - senior
       - power
-    question: What command shows session info including context usage and cost?
+    question: Which command shows the session cost, plan usage limits, and activity stats?
     options:
       a: /info
-      b: /status
-      c: /stats
-      d: /session
+      b: /usage
+      c: /session
+      d: /status
     correct: b
     explanation: |-
-      The `/status` command shows session information.
+      The `/usage` command shows session cost, plan usage limits, and activity stats. `/cost` and `/stats` are aliases for it, and `/stats` opens on the Stats tab.
 
-      Output includes:
-      - Model being used
-      - Context usage percentage
-      - Session cost
-      - Token counts
-
-      Example output:
-      `Model: Sonnet | Ctx: 45.2k | Cost: $1.23 | Ctx(u): 42.0%`
-
-      Use `/stats` for usage statistics with activity graphs.
+      `/status` is different: it opens the Settings interface on the Status tab, which shows version, model, account, and connectivity. To see how full the context window is, use `/context`.
     doc_reference:
       file: guide/ultimate-guide.md
       section: 10.1 Commands Table
@@ -366,7 +358,7 @@ questions:
     question: What is the daily workflow morning setup according to the guide?
     options:
       a: Just start coding
-      b: Git pull, /status, load project memory, review yesterday's progress
+      b: Git pull, /context, load project memory, review yesterday's progress
       c: Run all tests first
       d: Clear all context
     correct: b
@@ -374,7 +366,7 @@ questions:
       Morning setup workflow:
 
       1. Git pull latest changes
-      2. Review context with `/status`
+      2. Review context with `/context`
       3. Load project memory (`/sc:load` if using Serena)
       4. Review yesterday's progress
 
@@ -523,18 +515,17 @@ questions:
       - junior
       - senior
       - power
-    question: What are the effort levels in Claude Code after the v2.1.72 simplification?
+    question: Which effort levels does Claude Code offer on Opus 5.5, Sonnet 5.5, and Haiku 5.5?
     options:
-      a: Four levels (low, medium, high, max) with icons ▲ △ ● ○
-      b: Three levels (quick, normal, deep) with symbols ○ ◐ ●
-      c: Three levels (low, medium, high) with symbols ○ ◐ ● (max was removed in v2.1.72)
+      a: Three levels (low, medium, high), because max was removed in v2.1.72
+      b: Five levels (low, medium, high, xhigh, max)
+      c: Three levels (quick, normal, deep)
       d: Two levels (fast, thorough) toggled with Alt+T
-    correct: c
+    correct: b
     explanation: |-
-      v2.1.72 simplified effort to **three levels**: low (○), medium (◐), and high (●). The `max` level was removed at that point. Use `/model` with left/right arrow keys to adjust the effort slider, the `effortLevel` setting in `settings.json`, or the `CLAUDE_CODE_EFFORT_LEVEL` environment variable. The symbols provide quick visual reference in the UI. Use `/effort auto` to reset to the default adaptive behavior.
+      Opus 5.5, Sonnet 5.5, Haiku 5.5, and the Fable models support `low`, `medium`, `high`, `xhigh`, and `max`. Opus 4.6 and Sonnet 4.6 stop at `max` without `xhigh`, and a level the active model does not support falls back to the highest supported level at or below it. Models not listed in the model configuration docs do not support effort.
 
-      **Current state (v2.1.220):** the scale grew back. `/effort` now accepts `low`, `medium`, `high`, `xhigh` (added v2.1.111), `max`, and `ultracode`; `max` and `ultracode` apply to the current session only. Available levels depend on the model.
-      ---
+      The default is `medium` on Opus 5.5, Sonnet 5.5, and Haiku 5.5, and `high` on most other models that support effort. Set a level with `/effort`, the `/model` picker, `--effort`, or the `CLAUDE_CODE_EFFORT_LEVEL` environment variable. `max` applies to the current session only unless you set it through that environment variable. Ultracode is a separate toggle, not an effort level.
     doc_reference:
       file: guide/core/claude-code-releases.md
       section: v2.1.72 (2026-03-09)
@@ -569,7 +560,7 @@ questions:
       d: It was permanently removed in v2.1.72 and replaced by modelOverrides
     correct: a
     explanation: |-
-      The `model` parameter on the Agent tool (restored in v2.1.72) enables **per-invocation model overrides**. You can specify which model each sub-agent uses when spawning it via the Task tool. For example, an orchestrator on Opus 4.6 can spawn a code-review sub-agent on Sonnet for cost efficiency, or a security-audit sub-agent on Opus for thoroughness. This parameter was temporarily removed in a previous release and is now back with the same behavior as before.
+      The `model` parameter on the Agent tool (restored in v2.1.72) enables **per-invocation model overrides**. You can specify which model each sub-agent uses when spawning it via the Agent tool. For example, an orchestrator on Opus 5.5 can spawn a code-review sub-agent on Sonnet for cost efficiency, or a security-audit sub-agent on Opus for thoroughness. This parameter was temporarily removed in a previous release and is now back with the same behavior as before.
       ---
     doc_reference:
       file: guide/core/claude-code-releases.md
@@ -660,7 +651,7 @@ questions:
       - junior
       - senior
       - power
-    question: What keyboard shortcut cancels the current operation?
+    question: What keyboard shortcut interrupts a running operation, clears the prompt input when nothing is running, and exits on a second press?
     options:
       a: Esc
       b: Ctrl+C
@@ -668,14 +659,13 @@ questions:
       d: Alt+C
     correct: b
     explanation: |-
-      `Ctrl+C` cancels the current operation.
+      `Ctrl+C` interrupts a running operation. If nothing is running, the first press clears the prompt input and a second press exits Claude Code.
 
-      Important shortcuts:
-      - `Ctrl+C`: Cancel operation
-      - `Ctrl+D`: Exit Claude Code
-      - `Ctrl+R`: Retry last operation
-      - `Ctrl+L`: Clear screen (keeps context)
-      - `Esc`: Dismiss current suggestion
+      Related shortcuts:
+      - `Esc`: Interrupt Claude mid-turn, or close a dialog
+      - `Esc` + `Esc`: Clear the input draft, or open the rewind menu when the input is empty
+      - `Ctrl+R`: Reverse search command history
+      - `Ctrl+G`: Open the prompt in an external editor
     doc_reference:
       file: guide/ultimate-guide.md
       section: 10.2 Keyboard Shortcuts

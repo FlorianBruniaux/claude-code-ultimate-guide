@@ -462,7 +462,7 @@ Claude Code's context-window size depends on the model, plan and provider. Suppo
 **Sources**:
 - [Claude Code settings: system prompt publication](https://code.claude.com/docs/en/settings#change-a-setting)
 - [How Claude Code works: context](https://code.claude.com/docs/en/how-claude-code-works)
-- [Anthropic System Prompts Release Notes](https://platform.claude.com/docs/en/release-notes/system-prompts)
+- [Anthropic System Prompts Release Notes](https://platform.claude.com/docs/en/release-notes/system-prompts/overview)
 - [Anthropic Engineering: Claude Code Best Practices](https://www.anthropic.com/engineering/claude-code-best-practices)
 
 Claude Code's system prompt is **not published**, according to its settings documentation. Anthropic's released Claude.ai/mobile prompts do not establish the current CLI prompt's text or token size.

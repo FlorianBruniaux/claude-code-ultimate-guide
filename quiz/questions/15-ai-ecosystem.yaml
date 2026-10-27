@@ -97,11 +97,11 @@ questions:
     options:
       a: Perplexity
       b: Claude Code directly
-      c: Gemini 2.5 Pro -> then Claude Code for refinement
+      c: Gemini -> then Claude Code for refinement
       d: NotebookLM
     correct: c
     explanation: |-
-      Gemini 2.5 Pro excels at visual understanding:
+      Gemini is the guide's pick for visual understanding:
 
       Visual-to-Code Pipeline:
       1. GEMINI: Upload screenshot -> Get JSX + Tailwind (90%+ fidelity)
@@ -286,7 +286,7 @@ questions:
       Cost optimization tips:
       - Use Haiku for simple tasks
       - Batch research sessions in Perplexity
-      - Check context usage regularly (/status)
+      - Check context usage regularly (/context)
     doc_reference:
       file: guide/ecosystem/ai-ecosystem.md
       section: 9. Cost & Subscription Strategy
@@ -364,11 +364,11 @@ questions:
     options:
       a: A Rust-based linter that removes unused code tokens before compilation
       b: A tool that compresses API responses to reduce billing costs
-      c: A CLI proxy that filters command outputs before they reach Claude's context, reducing token consumption by 60-90%
+      c: A CLI proxy that filters command outputs before they reach Claude's context, reducing bash output by up to 90% (which, per its README, is not the same as a 90% lower bill)
       d: A plugin that replaces verbose error messages with concise summaries in the IDE
     correct: c
     explanation: |-
-      RTK is a **CLI proxy** (Rust binary, 446 stars) that filters command outputs **before** they reach Claude's context. Example: `rtk git status` reduces a typical `git status` output by ~76%; `rtk git log` by ~92%. Supports git, cargo, pnpm, vitest, prisma, docker, mypy, aws, psql, and more. Uses a hook-first install (`rtk init --global`) so commands are auto-rewritten transparently. `rtk gain` shows token savings analytics. The TOML Filter DSL allows adding custom filters for any command without writing Rust. Key distinction: RTK **reduces** token consumption (preprocessing); tools like ccusage **monitor** it (postprocessing).
+      RTK is a **CLI proxy** (Rust binary, 82,094 stars on 2026-09-30) that filters command outputs **before** they reach Claude's context. Example: `rtk git status` reduces a typical `git status` output by ~76%; `rtk git log` by ~92%. Supports git, cargo, pnpm, vitest, prisma, docker, mypy, aws, psql, and more. Uses a hook-first install (`rtk init --global`) so commands are auto-rewritten transparently. `rtk gain` shows token savings analytics. The TOML Filter DSL allows adding custom filters for any command without writing Rust. Key distinction: RTK **reduces** token consumption (preprocessing); tools like ccusage **monitor** it (postprocessing). Disclosure: the author of this guide is a core contributor to RTK.
       ---
     doc_reference:
       file: guide/ecosystem/third-party-tools.md

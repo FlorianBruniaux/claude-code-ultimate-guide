@@ -237,7 +237,7 @@ questions:
       c: Splitting code review into phases
       d: Assigning agents to different team members
     correct: b
-    explanation: 'Split Role Sub-Agents provide multi-perspective analysis in parallel. Process: 1) Activate Plan Mode (thinking enabled by default in Opus 4.5), 2) Ask "What expert roles would analyze this?", 3) Select roles (e.g., Security Expert, Senior Dev, Code Reviewer), 4) Run parallel analysis from each perspective, 5) Consolidate reports into recommendations. Great for comprehensive code and UX reviews.'
+    explanation: 'Split Role Sub-Agents provide multi-perspective analysis in parallel. Process: 1) Activate Plan Mode (thinking is always on for the current Claude models), 2) Ask "What expert roles would analyze this?", 3) Select roles (e.g., Security Expert, Senior Dev, Code Reviewer), 4) Run parallel analysis from each perspective, 5) Consolidate reports into recommendations. Great for comprehensive code and UX reviews.'
     doc_reference:
       file: guide/ultimate-guide.md
       section: 4.6 Advanced Agent Patterns

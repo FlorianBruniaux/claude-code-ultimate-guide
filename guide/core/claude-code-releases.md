@@ -3552,7 +3552,7 @@ keywords:
 
 ### v2.1.15 (2026-01-22)
 
-- **⚠️ Deprecation notice for npm installations**: Run `claude install` or see [getting-started docs](https://docs.anthropic.com/en/docs/claude-code/getting-started)
+- **⚠️ Deprecation notice for npm installations**: Run `claude install` or see [getting-started docs](https://code.claude.com/docs/en/getting-started)
 - Improved UI rendering performance with React Compiler
 - Fixed: MCP stdio server timeout not killing child process, which could cause UI freezes
 

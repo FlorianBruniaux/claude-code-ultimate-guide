@@ -138,7 +138,7 @@ questions:
       c: 1 word = 1 token
       d: Based on file size only
     correct: b
-    explanation: The logger estimates tokens using ~4 characters per token heuristic. This is approximate and tends to slightly overestimate. Claude Code CLI doesn't expose actual API token metrics, so estimates have ~15-25% variance from actual billing.
+    explanation: The logger estimates tokens using ~4 characters per token heuristic. This is approximate and tends to slightly overestimate. The guide's logger works from tool names, file paths, and text length rather than API usage data, so its estimates have ~15-25% variance from actual billing. For measured figures use /usage, the status line, or OpenTelemetry export.
     doc_reference:
       file: guide/ops/observability.md
       section: Token Estimation Method
@@ -148,14 +148,14 @@ questions:
     profiles:
       - senior
       - power
-    question: What CANNOT the session monitoring do?
+    question: What CANNOT a hook-based session logger provide on its own?
     options:
       a: Track tool usage counts
       b: Identify file access patterns
       c: Provide exact token counts and actual API costs
       d: Record operation timestamps
     correct: c
-    explanation: "Monitoring CANNOT provide: exact token counts (CLI doesn't expose API metrics), actual API costs (estimates only), TTFT timing, real-time streaming metrics, or context window usage. It CAN track: tool usage counts, file access patterns, relative comparisons, operation timing."
+    explanation: "A hook-based logger CANNOT provide exact token counts or actual API costs by itself, because the guide's logger estimates tokens from text length instead of reading API usage data. Claude Code reports measured usage through other channels: /usage shows session cost and token usage, the status line can show context window usage, and OpenTelemetry export streams per-user token and cost metrics. A logger CAN track tool usage counts, file access patterns, relative comparisons, and operation timing."
     doc_reference:
       file: guide/ops/observability.md
       section: What This Monitoring CANNOT Do

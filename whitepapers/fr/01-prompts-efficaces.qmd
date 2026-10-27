@@ -1134,7 +1134,7 @@ Quoi / Où / Comment / Test
 | **Guide Ultimate** | Référence complète Claude Code (~27K lignes) | [github.com/.../claude-code-ultimate-guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide) |
 | **Methodologies Reference** | 15 méthodologies (TDD, SDD, BDD…) | [guide/methodologies.md](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/methodologies.md) |
 | **Context Engineering** | Gestion du contexte pour sessions longues | [guide/core/context-engineering.md](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/context-engineering.md) |
-| **Documentation officielle** | Docs Anthropic Claude Code | [docs.anthropic.com/en/docs/claude-code](https://docs.anthropic.com/en/docs/claude-code/overview) |
+| **Documentation officielle** | Docs Anthropic Claude Code | [docs.anthropic.com/en/docs/claude-code](https://code.claude.com/docs/en/overview) |
 | **Best Practices Anthropic** | Guide officiel des bonnes pratiques de prompt | [anthropic.com/engineering/claude-code-best-practices](https://www.anthropic.com/engineering/claude-code-best-practices) |
 | **Named Prompting Patterns** | 15+ patterns nommés avec exemples détaillés | [§9.15 du guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#915-named-prompting-patterns) |
 | **Semantic Anchors catalogue** | Collection d'ancres sémantiques réutilisables | [examples/semantic-anchors/](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/tree/main/examples/semantic-anchors/) |

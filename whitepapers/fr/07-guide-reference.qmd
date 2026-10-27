@@ -1871,7 +1871,7 @@ Selon votre objectif immédiat, vous n'avez pas besoin de lire les 13 livres bla
 
 | Ressource | Contenu | Lien |
 |-----------|---------|------|
-| **Claude Code Docs** | Documentation officielle Claude Code | [docs.anthropic.com/en/docs/claude-code/overview](https://docs.anthropic.com/en/docs/claude-code/overview) |
+| **Claude Code Docs** | Documentation officielle Claude Code | [docs.anthropic.com/en/docs/claude-code/overview](https://code.claude.com/docs/en/overview) |
 | **Claude API Reference** | Référence API complète (modèles, endpoints, paramètres) | [docs.anthropic.com/en/api/getting-started](https://docs.anthropic.com/en/api/getting-started) |
 | **Model Context Protocol** | Spécification MCP officielle | [modelcontextprotocol.io](https://modelcontextprotocol.io) |
 | **GitHub Claude Code** | Suivi des issues, discussions et CHANGELOG ; pas le code source complet | [github.com/anthropics/claude-code](https://github.com/anthropics/claude-code) |

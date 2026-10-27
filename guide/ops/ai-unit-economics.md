@@ -133,7 +133,7 @@ Two properties make this worse than a plain inaccuracy.
 
 The error direction is unsafe. The heuristic *underestimates* exactly where you care most, on code and on accented or non-Latin text, so it reports that a payload fits when it does not. A budget guard built on it lets through what it was written to stop, silently, and the failure surfaces later as a truncation or an API error rather than as a wrong number.
 
-The tokenizer is the wrong one anyway. `cl100k_base` is OpenAI's. Claude uses a different tokenizer, so a `chars / 4` estimate aimed at a Claude context window stacks a second error on top of the first. For real numbers, count with the provider's own endpoint ([Anthropic's token counting API](https://docs.claude.com/en/docs/build-with-claude/token-counting)) or read actual usage from the response, and keep heuristics for rough sizing only.
+The tokenizer is the wrong one anyway. `cl100k_base` is OpenAI's. Claude uses a different tokenizer, so a `chars / 4` estimate aimed at a Claude context window stacks a second error on top of the first. For real numbers, count with the provider's own endpoint ([Anthropic's token counting API](https://platform.claude.com/docs/en/build-with-claude/token-counting)) or read actual usage from the response, and keep heuristics for rough sizing only.
 
 **The subtler bug: count what you send, not what the user typed.**
 

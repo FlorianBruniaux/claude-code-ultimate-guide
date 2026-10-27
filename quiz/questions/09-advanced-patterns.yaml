@@ -18,7 +18,7 @@ questions:
       The Trinity is the most powerful Claude Code pattern combining:
 
       1. **Plan Mode** - Safe exploration without changes
-      2. **Extended Thinking** - Deep analysis (enabled by default in Opus 4.5)
+      2. **Extended Thinking** - Deep analysis (always on for Opus 5.5, Sonnet 5.5, Haiku 5.5, and the Fable models)
       3. **Sequential Thinking (MCP)** - Structured multi-step reasoning
 
       Combined, these provide maximum understanding before taking action.
@@ -62,8 +62,8 @@ questions:
       # Basic headless execution
       claude -p "Run the tests and report results"
 
-      # With timeout
-      claude -p --timeout 300 "Build the project"
+      # With a spend cap
+      claude -p --max-budget-usd 5.00 "Build the project"
 
       # With specific model
       claude -p --model sonnet "Analyze code quality"
@@ -1057,7 +1057,7 @@ questions:
       c: Haiku 4.5 without an effort parameter, followed by tests and diff review
       d: Every rename requires Fable
     correct: c
-    explanation: Haiku 4.5 has no effort parameter. It is a candidate for bounded changes when the references and acceptance checks are clear. Verify the diff and tests; renames can still affect public APIs, dynamic references, or generated files. Standard input rates are $1/MTok for Haiku 4.5 versus $4/MTok for Opus 5.5, not a 60-fold difference.
+    explanation: Haiku 4.5, the haiku alias on the cloud providers, has no effort parameter; Haiku 5.5 does support effort levels. A lighter model is a candidate for bounded changes when the references and acceptance checks are clear. Verify the diff and tests; renames can still affect public APIs, dynamic references, or generated files. For scale, standard input rates are $0.10/MTok for Haiku 5.5 (up to 100K input tokens) versus $4/MTok for Opus 5.5.
     doc_reference:
       file: guide/ultimate-guide.md
       section: Decision Table
@@ -1098,7 +1098,7 @@ questions:
     profiles:
       - senior
       - power
-    question: What does the `effort` parameter actually control in Opus 4.6?
+    question: What does the `effort` parameter actually control in models that support it, such as Opus 5.5?
     options:
       a: Only the thinking token budget (how many tokens for extended reasoning)
       b: "The overall computational budget: thinking, tool calls, text verbosity, and analysis depth"
@@ -1118,7 +1118,7 @@ questions:
       - Describes plan before executing
       - Comprehensive analysis and summaries
 
-      This means `effort` affects behavior even when thinking is disabled (Alt+T off).
+      This means `effort` affects behavior beyond thinking. On Opus 5.5, Sonnet 5.5, Haiku 5.5, and the Fable models thinking cannot be turned off (Alt+T has no effect), so `effort` is the dial for how much work the model does.
       It's a holistic efficiency dial, not a thinking toggle.
     doc_reference:
       file: guide/ultimate-guide.md
@@ -1174,7 +1174,7 @@ questions:
       **Implementer: Haiku** — Mechanical execution.
       The approach is already decided by the planner.
       No design decisions = no need for deep reasoning.
-      At standard rates, Haiku 4.5 input costs $1/MTok versus $4/MTok for Opus 5.5.
+      At standard rates, Haiku 5.5 input costs $0.10/MTok (up to 100K input tokens) versus $4/MTok for Opus 5.5.
 
       **When Haiku isn't enough**: If the implementation requires judgment calls,
       the implementer should stop and report rather than decide — or you use Sonnet instead.
@@ -1253,11 +1253,11 @@ questions:
     question: What is the 20-block lookback in prompt caching, what problem does it cause in long sessions, and what is the fix?
     options:
       a: Claude reads only the last 20 user messages (older context is lost permanently; the fix is /save)
-      b: Cache matching looks back approximately 20 message blocks (long sessions lose cache efficiency as early blocks fall outside the window; the fix is /compact)
+      b: For each breakpoint, cache matching checks up to about 20 block positions back (a long session can push an earlier cached prefix outside that window; the fix is an earlier explicit cache breakpoint)
       c: Cache is invalidated after 20 tool calls (agents must pause every 20 calls; the fix is to reduce tool usage)
       d: After 20 turns the session context is truncated (the fix is to start a new session)
     correct: b
-    explanation: "Cache matching uses a bounded lookback of approximately 20 blocks. In long sessions with many tool calls, blocks from early in the conversation fall outside this window and become cache misses even if their content hasn't changed. The practical consequence: very long sessions gradually lose cache efficiency at the message layer. The fix is /compact: it compresses conversation history into a single summary block, resetting the lookback window and restoring high cache hit rates for subsequent turns."
+    explanation: For each breakpoint, matching checks up to 20 block positions for a prefix that a previous request actually cached. This is not a limit of 20 conversation turns, and it does not discard old content merely because a session is long. If additions move a prior write outside the search window, an earlier explicit breakpoint can preserve access to it. Compaction rewrites history and can require a fresh cache write, so /compact does not guarantee a better hit rate.
     doc_reference:
       file: guide/ultimate-guide.md
       section: Cost Optimization
@@ -1282,14 +1282,14 @@ questions:
     difficulty: power
     profiles:
       - power
-    question: What is the prompt caching minimum token threshold for Opus 4.6, and what is the practical implication for short CLAUDE.md files?
+    question: What is the prompt caching minimum token threshold for Opus 4.6, and what does it apply to?
     options:
-      a: "Opus 4.6: 1,024 tokens (any CLAUDE.md over one paragraph is cached)"
-      b: "Opus 4.6: 4,096 tokens (a CLAUDE.md under ~4,000 tokens is never cached on Opus 4.6)"
+      a: "Opus 4.6: 1,024 tokens (applied to each CLAUDE.md file separately)"
+      b: "Opus 4.6: 4,096 tokens (applied to the cacheable prompt prefix as a whole, so a short CLAUDE.md can still be cached as part of a larger prefix)"
       c: "Opus 4.6: 2,048 tokens (Opus and Sonnet share the same minimum)"
-      d: "Opus 4.6: 8,192 tokens (most CLAUDE.md files are too short to be cached)"
+      d: "Opus 4.6: 8,192 tokens (most prompts are too short to be cached)"
     correct: b
-    explanation: Minimum token thresholds for prompt caching eligibility vary by model. Opus 4.6, Opus 4.5, and Haiku 4.5 require 4,096 tokens minimum. Sonnet 4.6 requires 2,048 tokens. Sonnet 4.5 and earlier require 1,024 tokens. Blocks smaller than the threshold are never cached regardless of stability. A short CLAUDE.md that doesn't cross the threshold for the target model provides zero caching benefit, which is relevant for teams optimizing session costs on Opus 4.6.
+    explanation: Minimum thresholds for prompt caching vary by model. Opus 5.5, Sonnet 5.5, Fable 5.1, and Haiku 5.5 require 512 tokens. Opus 4.7 requires 2,048. Opus 4.6, Opus 4.5, and Haiku 4.5 require 4,096. Opus 4.8, Sonnet 5, and Sonnet 4.6 require 1,024. The minimum applies to the cacheable prompt prefix, not to CLAUDE.md or each block in isolation, so a short CLAUDE.md can be part of a sufficiently large cached prefix alongside tools and other instructions. Check the exact model and platform before applying a threshold.
     doc_reference:
       file: guide/ultimate-guide.md
       section: Cost Optimization

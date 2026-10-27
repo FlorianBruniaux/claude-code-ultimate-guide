@@ -112,7 +112,7 @@ These are selected daily commands. Availability depends on your version, provide
 | **Self-Hosted Environments** | v2.1.224 | `claude self-hosted-runner` makes your own machine or container the place web, mobile, and desktop sessions execute. Team and Enterprise |
 | **Auto-Memories** | v2.1.32 | Automatic cross-session context capture |
 | **Session Forking** | v2.1.19 | Rewind + create parallel timeline |
-| **LSP Tool** | v2.0.74 | IDE-like navigation: symbols, types, refs. ~50ms vs 45s with grep. 11 languages |
+| **LSP Tool** | v2.0.74 | Diagnostics after edits plus definitions, references and symbols, via an official code intelligence plugin per language (13 listed) |
 | **Voice Mode** | v2.1.x | Native voice input, free transcription, no rate limit impact |
 | **Remote Control** | v2.1.51 | Control a local session from phone/browser; subscription required, with owner enablement on Team/Enterprise |
 | **`/loop`** | v2.1.71 | Session-scoped recurring scheduler: `/loop 5m check the deploy` (stops when session ends). Min 1 min, max 50 tasks/session |
@@ -124,7 +124,7 @@ These are selected daily commands. Availability depends on your version, provide
 | **Idle compaction** | v2.1.299 | A 200K+ token conversation left idle about 54 min is compacted before its 1h prompt cache expires. `"idleCompaction": false` or `/config` turns it off |
 | **Output Styles** | v2.1.269 command | `/output-style` selects Default, Proactive, Concise, Explanatory, Learning, or a custom style. Coding-oriented custom styles need `keep-coding-instructions: true`. |
 
-**Activate LSP**: Add to `~/.claude/settings.json` → `{ "env": { "ENABLE_LSP_TOOL": "1" } }` (requires LSP server installed for your language: `tsserver`, `pylsp`, `gopls`, `rust-analyzer`, `sourcekit-lsp`...)
+**Activate LSP**: install the language server binary, then its code intelligence plugin: `/plugin install typescript-lsp@claude-plugins-official` (also `pyright-lsp`, `gopls-lsp`, `rust-analyzer-lsp`, `swift-lsp`...). Claude then sees type errors after each edit.
 
 **Pro tip**: These are public, documented in the [CHANGELOG](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md). Read it!
 
@@ -713,7 +713,7 @@ Speed: `rg` (~20ms) → Serena (~100ms) → ast-grep (~200ms) → grepai (~500ms
 
 ## Resources
 
-- **Official docs**: [docs.anthropic.com/claude-code](https://docs.anthropic.com/en/docs/claude-code)
+- **Official docs**: [docs.anthropic.com/claude-code](https://code.claude.com/docs)
 - **Advanced guide**: [Claudelog.com](https://claudelog.com/) - Tips & patterns
 - **Full guide**: `ultimate-guide.md` (this repo)
 - **Whitepapers (FR + EN)**: [cc.bruniaux.com/whitepapers](https://cc.bruniaux.com/whitepapers/), 13 focused PDFs

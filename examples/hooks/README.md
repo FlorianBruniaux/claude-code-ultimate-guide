@@ -867,7 +867,7 @@ exit 0
 ## Resources
 
 - [Main Guide - Section 7: Hooks](../../guide/ultimate-guide.md#7-hooks)
-- [Claude Code Documentation](https://docs.anthropic.com/en/docs/claude-code)
+- [Claude Code Documentation](https://code.claude.com/docs)
 - [Hook Event Reference](../../guide/ultimate-guide.md#71-the-event-system)
 
 ---

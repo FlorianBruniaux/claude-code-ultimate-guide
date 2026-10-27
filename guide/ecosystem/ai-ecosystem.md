@@ -3400,7 +3400,7 @@ From the [Anthropic engineering blog](https://www.anthropic.com/engineering/mana
 - [Quickstart](https://platform.claude.com/docs/en/managed-agents/quickstart)
 - [API Reference](https://platform.claude.com/docs/en/api/beta/sessions)
 - [Engineering blog: Decoupling the brain from the hands](https://www.anthropic.com/engineering/managed-agents)
-- [Multi-agent coordination docs](https://platform.claude.com/docs/en/managed-agents/multi-agent)
+- [Multi-agent coordination docs](https://platform.claude.com/docs/en/managed-agents/multiagent-orchestration)
 - [Request research preview access](https://claude.com/form/claude-managed-agents) (multi-agent, self-evaluation, memory)
 - [`ant` CLI releases](https://github.com/anthropics/anthropic-cli/releases)
 

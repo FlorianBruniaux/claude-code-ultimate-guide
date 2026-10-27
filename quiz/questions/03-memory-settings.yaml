@@ -9,14 +9,14 @@ questions:
       - senior
       - power
       - pm
-    question: What is the correct precedence order for CLAUDE.md files (highest to lowest priority)?
+    question: How does Claude Code treat the applicable user (~/.claude/CLAUDE.md), project (CLAUDE.md), and personal (CLAUDE.local.md) instruction files in one session?
     options:
-      a: Global > Project > Local
-      b: Local (.claude/CLAUDE.md) > Project (/project/CLAUDE.md) > Global (~/.claude/CLAUDE.md)
-      c: Project > Local > Global
-      d: All CLAUDE.md files have equal priority
+      a: Only the most specific file is loaded and the others are ignored
+      b: The applicable files are combined, so contradictory instructions should be avoided instead of relying on an override order
+      c: Local overrides project, which overrides global, exactly like settings.json precedence
+      d: Global always overrides project and personal files
     correct: b
-    explanation: "The precedence is: Local (.claude/CLAUDE.md) > Project (/project/CLAUDE.md) > Global (~/.claude/CLAUDE.md). More specific beats more general. Local overrides are personal (gitignored), project settings are shared (committed), and global settings apply to all projects. This hierarchy allows personal preferences to override team conventions when needed."
+    explanation: Instructions combine rather than following settings precedence. ~/.claude/CLAUDE.md applies to all your projects, CLAUDE.md or .claude/CLAUDE.md holds the shared project instructions that you commit, and CLAUDE.local.md holds personal project instructions that stay gitignored. Because all applicable files reach Claude together, a contradiction between them is a bug in your instructions, not something a precedence rule resolves for you.
     doc_reference:
       file: guide/ultimate-guide.md
       section: 3.4 Precedence Rules
@@ -30,11 +30,11 @@ questions:
     question: Where should team conventions be stored to be shared via version control?
     options:
       a: ~/.claude/CLAUDE.md
-      b: /project/.claude/CLAUDE.md
+      b: /project/CLAUDE.local.md
       c: /project/CLAUDE.md
       d: /project/.claude/settings.local.json
     correct: c
-    explanation: Team conventions should be stored in `/project/CLAUDE.md` (the project root). This file is committed to git and shared with the team. Local overrides go in `/project/.claude/CLAUDE.md` (gitignored), and personal global preferences go in `~/.claude/CLAUDE.md`. This separation ensures team standards are enforced while allowing personal customization.
+    explanation: Team conventions should be stored in `/project/CLAUDE.md` (the project root; `/project/.claude/CLAUDE.md` is an equivalent location). This file is committed to git and shared with the team. Personal project instructions go in `/project/CLAUDE.local.md` (gitignored), and personal global preferences go in `~/.claude/CLAUDE.md`. This separation ensures team standards are enforced while allowing personal customization.
     doc_reference:
       file: guide/ultimate-guide.md
       section: 3.1 Memory Files (CLAUDE.md)
@@ -239,7 +239,7 @@ questions:
       c: Read, Write, Execute
       d: Low, Medium, High
     correct: b
-    explanation: "The three progressive permission levels are: Beginner (very restrictive - only Read, Grep, Glob), Intermediate (adds Bash git/pnpm, TodoRead/Write), and Advanced (adds Edit, Write, WebFetch, Task). Start restrictive and expand as you gain confidence. This prevents accidents while learning."
+    explanation: "The three progressive permission levels are: Beginner (very restrictive - only Read, Grep, Glob), Intermediate (adds Bash git/pnpm commands), and Advanced (adds Edit, Write, WebFetch, Agent). Start restrictive and expand as you gain confidence. This prevents accidents while learning."
     doc_reference:
       file: guide/ultimate-guide.md
       section: allowedTools / autoApproveTools Configuration
@@ -391,15 +391,15 @@ questions:
     profiles:
       - senior
       - power
-    question: What is the key difference between `"Read(file_path:*.env*)"` and `"*.env"` in `permissions.deny`?
+    question: What does the rule `"Read(./.env)"` match in `permissions.deny`, compared with a bare `"Read"` rule?
     options:
-      a: "They are equivalent: both block the same operations"
-      b: Simple patterns block the tool entirely; tool-qualified patterns only warn
-      c: Tool-qualified format requires a regex while simple patterns use globs
-      d: Tool-qualified format matches the full path argument; simple string matches only exact file names
-    correct: d
+      a: Both block every Read call, because the specifier in parentheses is ignored
+      b: The bare rule only warns, while the specifier version blocks
+      c: The bare rule matches every Read call, while the specifier version matches only reads of the `.env` file
+      d: The specifier version matches any file that has `.env` anywhere in its path
+    correct: c
     explanation: |-
-      The tool-qualified format `Read(file_path:*.env*)` matches against the **full path argument** passed to the Read tool, using glob patterns. The simple string form `"*.env"` only matches exact file names. For example, `Read(file_path:*.env*)` would block reads of `.env.production` or `config/.env.local`, while `"*.env"` would only block a file literally named `.env`. The tool-qualified format is more granular and recommended for sensitive file protection.
+      Permission rules use the format `Tool` or `Tool(specifier)`. A bare `Read` matches every read, while `Read(./.env)` matches only reads of the `.env` file. `Bash(npm run *)` and `WebFetch(domain:example.com)` follow the same pattern for their tools. Claude Code evaluates `deny` rules first, then `ask`, then `allow`, and the first match decides, so a deny rule cannot be overridden by a broader allow rule.
       ---
     doc_reference:
       file: guide/ultimate-guide.md

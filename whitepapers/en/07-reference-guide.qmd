@@ -2277,9 +2277,9 @@ Depending on your immediate goal, you do not need to read all 9 whitepapers. Thi
 
 These three sources constitute the reference documentation maintained by Anthropic and the MCP community.
 
-- [Anthropic Claude Code Docs](https://docs.anthropic.com/claude-code)
+- [Anthropic Claude Code Docs](https://code.claude.com/docs)
 - [Model Context Protocol (MCP)](https://modelcontextprotocol.io)
-- [Claude API Reference](https://docs.anthropic.com/claude/reference)
+- [Claude API Reference](https://platform.claude.com/docs/en/api/overview)
 
 ## Repositories
 

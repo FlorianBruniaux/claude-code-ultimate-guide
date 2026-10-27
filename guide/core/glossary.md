@@ -179,7 +179,7 @@ A system that coordinates runs, workspaces, queues, budgets, handoffs, or human 
 
 ### Output style
 
-A configuration that modifies Claude's system prompt to change response behavior, tone, or format. Output styles turn off the software-engineering-specific parts of the default system prompt, unlike CLAUDE.md (which is delivered as a user message). Built-in styles include Default, Proactive, Explanatory, and Learning. See [§3 Configuration](../ultimate-guide.md#3-configuration--memory).
+A configuration that modifies Claude's system prompt to change response behavior, tone, or format for the whole session, unlike CLAUDE.md (which is delivered as a user message). The built-in Proactive, Concise, Explanatory, and Learning styles keep the default software engineering instructions; a custom style drops them unless its frontmatter sets `keep-coding-instructions: true`. Default means no style is selected. See [§9.7 Output Styles](../ultimate-guide.md#97-output-styles).
 
 ---
 

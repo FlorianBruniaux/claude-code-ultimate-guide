@@ -5,7 +5,7 @@ card-number: "M08"
 category: "Méthodologie"
 difficulty: "intermediate"
 guide-version: "3.44.1"
-wp-version: "1.0.1"
+wp-version: "1.0.2"
 author: "Florian BRUNIAUX"
 version: "3.44.1"
 date: "2026-10-06"
@@ -35,7 +35,7 @@ Le corps du fichier contient les instructions en Markdown : rôle, méthodologie
 | Champ | Obligatoire | Rôle |
 |-------|-------------|------|
 | `name` | Oui | Identifiant kebab-case |
-| `description` | Oui | Déclencheur d'activation (50-100 chars) |
+| `description` | Oui | Quand Claude doit lui déléguer |
 | `model` | Non | Alias comme `sonnet`, `inherit`, ou identifiant de modèle pris en charge |
 | `tools` | Non | Whitelist des outils accessibles |
 | `memory` | Non | Portée de la mémoire persistante |

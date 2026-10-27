@@ -170,14 +170,14 @@ questions:
       - junior
       - senior
       - power
-    question: Which keyboard shortcut cancels the current operation in Claude Code?
+    question: Which keyboard shortcut interrupts the operation Claude is running, and exits Claude Code when pressed twice while nothing is running?
     options:
       a: Ctrl+Z
       b: Ctrl+C
       c: Esc
       d: Ctrl+Q
     correct: b
-    explanation: Ctrl+C cancels the current operation in Claude Code. This is useful for stopping long-running analysis or when Claude is taking an approach you don't want. Esc dismisses the current suggestion, while Ctrl+R retries the last operation. Knowing these shortcuts helps maintain control during your workflow.
+    explanation: Ctrl+C interrupts a running operation, which is useful for stopping long-running analysis or when Claude is taking an approach you don't want. If nothing is running, the first press clears the prompt input and a second press exits Claude Code. Esc also interrupts Claude mid-turn but does not exit, and Ctrl+R searches command history. Knowing these shortcuts helps maintain control during your workflow.
     doc_reference:
       file: guide/ultimate-guide.md
       section: 1.3 Essential Commands
@@ -308,7 +308,7 @@ questions:
       c: pixels / 1000
       d: Fixed 500 tokens per image
     correct: b
-    explanation: "Token calculation formula: (width × height) / 750 ≈ tokens consumed. Examples: 200×200 = ~54 tokens, 500×500 = ~334 tokens, 1000×1000 = ~1334 tokens. This helps estimate context impact before pasting images. Use /status after pasting to monitor actual context usage."
+    explanation: "Token calculation formula: (width × height) / 750 ≈ tokens consumed. Examples: 200×200 = ~54 tokens, 500×500 = ~334 tokens, 1000×1000 = ~1334 tokens. This helps estimate context impact before pasting images. Use /context after pasting to monitor actual context usage."
     doc_reference:
       file: guide/ultimate-guide.md
       section: Image Optimization for Claude Vision

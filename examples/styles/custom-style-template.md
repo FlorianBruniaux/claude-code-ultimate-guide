@@ -6,7 +6,7 @@ keep-coding-instructions: true
 
 # Custom output style template
 
-> Save as `.claude/output-styles/<your-style-name>.md` for a project or `~/.claude/output-styles/<your-style-name>.md` for user-wide use, then reference it via `outputStyle` in `settings.json`, `/output-style`, or `/config`.
+> Save as `.claude/output-styles/<your-style-name>.md` for a project or `~/.claude/output-styles/<your-style-name>.md` for user-wide use, then select it with `/output-style`, `/config`, or `outputStyle` in `settings.json`. Because this template sets `name`, the style is called `Strict reviewer`, not after its file name; the `outputStyle` value must match that name exactly, including case. Restart Claude Code after creating or editing the file.
 
 ---
 

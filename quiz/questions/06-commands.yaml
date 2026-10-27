@@ -106,7 +106,7 @@ questions:
       Built-in commands include:
       - `/clear` - Clear conversation
       - `/compact` - Summarize context
-      - `/status` - Show session info
+      - `/status` - Open the Status tab (version, model, account, connectivity)
       - `/plan` - Enter Plan Mode
       - `/rewind` - Undo changes
 
@@ -413,14 +413,14 @@ questions:
     profiles:
       - senior
       - power
-    question: As of v2.1.202, what is the difference between /review <pr> and /code-review <level> <pr#>?
+    question: As of v2.1.223, how does /review relate to /code-review?
     options:
-      a: /review <pr> is the multi-agent option, /code-review <level> <pr#> is the fast single-pass option
-      b: /review <pr> is a fast single-pass review, /code-review <level> <pr#> runs a multi-agent review at a chosen effort level
-      c: They are aliases for the exact same command with no behavioral difference
-      d: /review only works on local diffs, /code-review only works on GitHub PRs
-    correct: b
-    explanation: "In v2.1.202, /review <pr> reverted to being a fast single-pass review, while /code-review <level> <pr#> handles the multi-agent, multi-pass review at a chosen effort level (low through max). This distinction had shifted before: at one point /review <pr> used the same engine as /code-review medium. Option c is wrong since the two now behave differently, and option d invents a local-versus-GitHub split that isn't the actual distinction."
+      a: /review is the multi-agent option and /code-review is the fast single-pass option
+      b: /review is a separate fast, read-only single-pass review of a GitHub PR, while /code-review runs a multi-agent review
+      c: /review is an alias of /code-review and takes the same effort levels and flags
+      d: /review only works on local diffs and /code-review only works on GitHub PRs
+    correct: c
+    explanation: "From v2.1.223, /review is an alias of /code-review: it reviews the current diff, or a PR number, branch, or path you pass, and takes the same effort levels (low through max, plus ultra) and flags. Before v2.1.223, /review was a separate command that ran a single-pass, read-only review of a GitHub pull request, which is what option b describes. Option d invents a local-versus-GitHub split that never existed between the two."
     doc_reference:
       file: guide/core/claude-code-releases.md
       section: v2.1.202
@@ -435,9 +435,9 @@ questions:
       a: It was merged into /config as a new tab
       b: It was renamed to /subagents but works the same way
       c: It still exists but now requires the --legacy flag
-      d: It was removed; subagents are managed by editing .claude/agents/ directly or asking Claude conversationally
+      d: The interactive wizard was removed; /agents now only prints a reminder to ask Claude to manage subagents or to edit .claude/agents/ directly
     correct: d
-    explanation: The /agents wizard was removed in v2.1.198. Subagents are now managed by editing files directly under .claude/agents/ or by asking Claude to create or edit them conversationally, rather than through a dedicated wizard command. It wasn't merged into /config, renamed, or gated behind a flag, it's gone as a standalone interactive flow.
+    explanation: The /agents wizard was removed in v2.1.198. On v2.1.198 and later, /agents only prints a reminder to ask Claude to create or manage subagents, or to edit .claude/agents/ or ~/.claude/agents/ directly; on v2.1.197 and earlier it opened an interactive interface. It wasn't merged into /config, renamed, or gated behind a flag.
     doc_reference:
       file: guide/core/claude-code-releases.md
       section: v2.1.198
@@ -557,11 +557,11 @@ questions:
     question: You need deterministic CI/CD execution unaffected by local developer settings. Which CLI flag achieves this?
     options:
       a: "`--dangerously-skip-permissions`: bypasses all permission checks for headless execution"
-      b: "`--bare`: disables hooks, LSP, plugin sync, and skill directory scanning; requires ANTHROPIC_API_KEY"
+      b: "`--bare`: skips auto-discovery of hooks, skills, plugins, subagents, MCP servers, auto memory, and CLAUDE.md"
       c: "`--no-mcp`: disables all MCP servers for a clean execution environment"
       d: "`-p` alone: print mode already provides a hermetic execution environment"
     correct: b
-    explanation: "`--bare` was added specifically for scripted `-p` calls in CI environments. It disables hooks, LSP, plugin sync, and skill directory walks so that local developer configuration never bleeds into pipeline execution. It also disables auto-memory entirely and requires `ANTHROPIC_API_KEY` or `apiKeyHelper` via `--settings`. Without `--bare`, a `claude -p` call in CI could pick up local hooks, plugins, and skills installed on the machine that set up the runner, making pipeline behavior non-deterministic."
+    explanation: '`--bare` is minimal mode for scripted `-p` calls such as `claude --bare -p "query"`. It skips auto-discovery of hooks, skills, custom commands, subagents, installed plugins, MCP servers, auto memory, and CLAUDE.md, so local developer configuration does not bleed into pipeline execution; Claude keeps Bash, file read, and file edit tools. Skills in a directory you pass with `--add-dir` still load. Without `--bare`, a `claude -p` call in CI could pick up hooks, plugins, and skills installed on the machine that set up the runner, making pipeline behavior non-deterministic.'
     doc_reference:
       file: guide/ultimate-guide.md
       section: GitHub Actions Integration

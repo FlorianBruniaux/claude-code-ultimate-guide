@@ -1137,7 +1137,7 @@ What / Where / How / Test
 | **Ultimate Guide** | Complete Claude Code reference (~23K lines) | [github.com/.../claude-code-ultimate-guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide) |
 | **Methodologies Reference** | 15 methodologies (TDD, SDD, BDD…) | [guide/methodologies.md](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/methodologies.md) |
 | **Context Engineering** | Context management for long sessions | [guide/core/context-engineering.md](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/context-engineering.md) |
-| **Official Documentation** | Anthropic Claude Code docs | [docs.anthropic.com/en/docs/claude-code](https://docs.anthropic.com/en/docs/claude-code/overview) |
+| **Official Documentation** | Anthropic Claude Code docs | [docs.anthropic.com/en/docs/claude-code](https://code.claude.com/docs/en/overview) |
 
 > 📖 **Further reading:** [§2.9 Semantic Anchors](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#29-semantic-anchors) + [Anchors catalog](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/tree/main/examples/semantic-anchors/)
 

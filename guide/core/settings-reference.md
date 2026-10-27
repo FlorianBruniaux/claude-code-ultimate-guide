@@ -939,13 +939,15 @@ Configure a custom script for `@` file path autocomplete. The command receives J
 Controls how Claude communicates throughout the session. Select with `/output-style` or `/config`. The setting value is case-sensitive; the command accepts case-insensitive names.
 
 **Built-in values:**
-- `"Default"`: standard coding behavior
-- `"Proactive"`: more initiative in advancing the task
-- `"Concise"`: shorter responses
-- `"Explanatory"`: adds reasoning blocks explaining design choices, trade-offs, and codebase patterns
-- `"Learning"`: pauses at key steps, inserts `TODO(human)` markers, asks you to write the meaningful pieces (pair-programming mode)
+- `"Default"`: no style instructions, Claude Code's standard system prompt
+- `"Proactive"`: starts implementing right away and makes reasonable assumptions on routine decisions; permission mode unchanged
+- `"Concise"`: leads with the result, no preamble, narration, or closing recap
+- `"Explanatory"`: adds `Insight` blocks explaining the choices behind the code
+- `"Learning"`: adds `Insight` blocks and leaves design-heavy pieces for you at `TODO(human)` markers
 
-**Custom styles:** reference any filename (without `.md`) from `.claude/output-styles/` for a project or `~/.claude/output-styles/` for a user-wide style. Custom styles omit the built-in Claude Code software engineering instructions unless their YAML frontmatter sets `keep-coding-instructions: true`. Style selection applies to the next message. Restart to discover newly created style files.
+A value that does not match a style name exactly (for example `explanatory`) falls back to Default. `/output-style` and the `/config` menu save the choice to `.claude/settings.local.json`.
+
+**Custom styles:** reference the style name (the file name without `.md`, unless the frontmatter sets `name`) from `.claude/output-styles/` for a project or `~/.claude/output-styles/` for a user-wide style. Custom styles omit the built-in Claude Code software engineering instructions unless their YAML frontmatter sets `keep-coding-instructions: true`. Style selection applies to the next message. Restart to discover newly created style files.
 
 ```json
 { "outputStyle": "Explanatory" }
@@ -1156,6 +1158,7 @@ Keys confirmed in the JSON schema not covered in the sections above:
 | `claudeMdExcludes` `📋 Schema only` | array | Glob patterns for CLAUDE.md files to exclude from loading |
 | `allowManagedMcpServersOnly` | boolean | (Managed) Only managed MCP servers are usable |
 | `allowManagedHooksOnly` | boolean | (Managed) Only managed and SDK hooks are loaded |
+| `allowManagedModsOnly` | boolean | (Managed) Stop user-installed [mods](https://code.claude.com/docs/en/plugins/mods/admin) from loading; their plugins stay installed and their skills, commands, agents, and MCP servers still load. Built-in mods keep running |
 | `autoMemoryEnabled` | boolean | Enable/disable auto-memory feature |
 | `feedbackSurveyRate` | number | Survey appearance probability (0–1) |
 

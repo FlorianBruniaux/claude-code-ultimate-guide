@@ -5,7 +5,7 @@ card-number: "M08"
 category: "Methodology"
 difficulty: "intermediate"
 guide-version: "3.44.1"
-wp-version: "1.0.1"
+wp-version: "1.0.2"
 author: "Florian BRUNIAUX"
 version: "3.44.1"
 date: "2026-10-06"
@@ -35,7 +35,7 @@ The file body contains instructions in Markdown: role, methodology, examples, co
 | Field | Required | Role |
 |-------|----------|------|
 | `name` | Yes | kebab-case identifier |
-| `description` | Yes | Activation trigger (50-100 chars) |
+| `description` | Yes | When Claude should delegate to it |
 | `model` | No | Aliases such as `sonnet`, `inherit`, or a supported model ID |
 | `tools` | No | Whitelist of accessible tools |
 | `memory` | No | Persistent memory scope |

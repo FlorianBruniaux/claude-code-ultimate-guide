@@ -854,7 +854,7 @@ approval_required:
 ### Official resources
 
 - **[terraform-skill](https://github.com/antonbabenko/terraform-skill)**: Production-grade Terraform skill by Anton Babenko
-- **[Claude Code Docs](https://docs.anthropic.com/en/docs/claude-code)**: Official documentation
+- **[Claude Code Docs](https://code.claude.com/docs)**: Official documentation
 
 ### Community
 

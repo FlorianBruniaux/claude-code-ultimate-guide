@@ -27,14 +27,14 @@ questions:
       - junior
       - senior
       - power
-    question: What is Claude's context window size?
+    question: What native context window do the current Claude models (Opus 5.5, Sonnet 5.5, Haiku 5.5, Fable 5.1) have on the direct API?
     options:
-      a: 50,000 tokens
-      b: 100,000 tokens
-      c: 200,000 tokens
-      d: 500,000 tokens
+      a: 100,000 tokens
+      b: 200,000 tokens
+      c: 1,000,000 tokens
+      d: 2,000,000 tokens
     correct: c
-    explanation: Claude has a 200,000 token context window. Think of it like RAM - when it fills up, things slow down or fail. This context includes all messages, files read, command outputs, and tool results. Effective context management is described as "the most important concept in Claude Code."
+    explanation: The current Claude models have a native 1M-token context window on the direct API, while the legacy Haiku 4.5 has 200K. Think of it like RAM - when it fills up, things slow down or fail, and a bigger window does not remove the need to manage it. This context includes all messages, files read, command outputs, and tool results. Effective context management is described as "the most important concept in Claude Code."
     doc_reference:
       file: guide/ultimate-guide.md
       section: 2.2 Context Management
@@ -282,14 +282,14 @@ questions:
     profiles:
       - senior
       - power
-    question: What is the typical cost of a 1-hour Claude Code session?
+    question: According to Anthropic's cost documentation, what is the average cost per developer per active day across enterprise deployments?
     options:
-      a: $0.01 - $0.05
-      b: $0.10 - $0.50
-      c: $1.00 - $5.00
-      d: $10.00 - $20.00
-    correct: b
-    explanation: "A typical 1-hour session costs $0.10 - $0.50 depending on usage patterns. The guide provides cost budgets: quick task (5-10 min) $0.05-$0.10, feature work (1-2 hours) $0.20-$0.50, deep refactor (half day) $1.00-$2.00. Spending $0.50 to save 30 minutes provides 60x ROI if your time is worth $30/hour - don't over-optimize!"
+      a: Around $1
+      b: Around $5
+      c: Around $13
+      d: Around $60
+    correct: c
+    explanation: Across enterprise deployments, the average cost is around $13 per developer per active day and $150-250 per developer per month, with costs below $30 per active day for 90% of users. These are averages for budgeting a pilot, not a per-session price, so measure your own team's spend with /usage before extrapolating.
     doc_reference:
       file: guide/ultimate-guide.md
       section: 2.2 Context Management
