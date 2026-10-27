@@ -127,6 +127,7 @@ Use the human-readable pages according to the question being asked:
 | Runtime architecture, components, controls, Claude Code implementation, and optimizer evaluation protocol | [Agent Harness Engineering](../guide/core/agent-harness.md) |
 | Control tests, reviewer ablations, independent acceptance criteria and cost per accepted task | [Agent Evaluation](../guide/roles/agent-evaluation.md#freeze-the-oracle-and-the-decision-rule) and [source evaluation](../docs/resource-evaluations/harness-evidence-marmelab-2026.md) |
 | Loop contracts, graph contracts, judgment allocation, durability, observability, and control-structure selection | [Loop & Graph Engineering](../guide/core/loop-graph-engineering.md) |
+| Classic design patterns mapped to agent harness mechanisms, with failure modes, checks, and sources | [AI Design Patterns](../guide/core/ai-design-patterns.md) and [`ai-design-patterns.json`](./ai-design-patterns.json) |
 | Dated cross-product map, classification, selection, test-drive protocol, and meta-harness research layer | [Agent Harness Landscape](../guide/ecosystem/agent-harness-landscape.md) |
 | Detailed profiles of selected coding agents | [Agent Tools: Beyond Claude Code](../guide/ecosystem/agentic-tools.md) |
 | Runtime, repository, evaluation harness, and orchestrator terminology | [Glossary](../guide/core/glossary.md) |

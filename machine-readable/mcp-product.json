@@ -12,9 +12,9 @@
   },
   "guide": {
     "version": "3.44.1",
-    "line_count": 25936,
-    "index_entries": 1960,
-    "claude_code_releases": 271
+    "line_count": 25937,
+    "index_entries": 1970,
+    "claude_code_releases": 279
   },
   "runtime": {
     "tools": [
@@ -422,6 +422,12 @@
         "mime_type": "application/json"
       },
       {
+        "name": "ai-design-patterns",
+        "uri": "claude-code-guide://ai-design-patterns",
+        "description": "AI design patterns crosswalk: classic GoF, enterprise integration, and distributed patterns mapped to documented Claude Code mechanisms, with evidence level, failure mode, check, native agent patterns, anti-patterns, and sources.",
+        "mime_type": "application/json"
+      },
+      {
         "name": "distribution-channels",
         "uri": "claude-code-guide://distribution-channels",
         "description": "Publication channels, attributed URLs, asset states, dates, and 30-day outcome fields for the guide.",
@@ -485,5 +491,5 @@
       ]
     }
   },
-  "source_digest": "sha256:2138a6c9654843b3c51bf780043a2cfc9424489d97433b6b9b7e016b49851edb"
+  "source_digest": "sha256:34b51eac35d3bbeb0d15b0f99a2cf5aa5b62cf12cb3b26fa63365d950d8ec6e0"
 }

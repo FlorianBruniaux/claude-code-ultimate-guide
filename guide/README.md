@@ -39,6 +39,7 @@ Core documentation for mastering Claude Code, organized by topic.
 | [core/computer-use.md](./core/computer-use.md) | **Computer Use**: permission boundary, fallback order, safe operating procedure, and verification limits | 12 min |
 | [core/agent-harness.md](./core/agent-harness.md) | **Agent Harness Engineering**: runtime components, loop horizons, security, evaluation, and outer-loop harness optimization | 35 min |
 | [core/loop-graph-engineering.md](./core/loop-graph-engineering.md) | **Loop & Graph Engineering**: bounded feedback, executable workflow graphs, durable state, recovery, and judgment allocation | 25 min |
+| [core/ai-design-patterns.md](./core/ai-design-patterns.md) | **AI Design Patterns**: GoF, integration, and resilience patterns mapped to Claude Code mechanisms, with failure modes, checks, native agent patterns, and anti-patterns | 20 min |
 | [core/tools-reference.md](./core/tools-reference.md) | **Complete tools reference**: all 40 built-in tools, permission rule formats, per-tool behaviors (Bash timeouts, Edit read-before-edit, Glob cap, WebFetch lossy), and how-to for Monitor, Workflow, agent teams, Cron, Tasks API | 20 min |
 | [core/hooks-events-reference.md](./core/hooks-events-reference.md) | **Complete hooks reference**: all 33 hook events, matcher fields, input schemas, decision control formats, and timeout defaults, with copy-paste JSON examples | 15 min |
 | [core/settings-reference.md](./core/settings-reference.md) | **Complete settings.json reference**: every confirmed setting and environment variable | 15 min |

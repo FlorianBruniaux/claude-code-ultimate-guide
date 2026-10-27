@@ -1,6 +1,7 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import {
   getAgentHarnessesJsonRaw,
+  getAiDesignPatternsJsonRaw,
   getDistributionChannelsYamlRaw,
   getReferenceYamlRaw,
   getReleasesYamlRaw,
@@ -68,6 +69,28 @@ export function registerResources(server: McpServer): void {
           {
             uri: 'claude-code-guide://llms',
             mimeType: 'text/plain',
+            text: content,
+          },
+        ],
+      };
+    },
+  );
+
+  // Classic design patterns mapped to agent harness mechanisms
+  server.resource(
+    'ai-design-patterns',
+    'claude-code-guide://ai-design-patterns',
+    {
+      description: 'AI design patterns crosswalk: classic GoF, enterprise integration, and distributed patterns mapped to documented Claude Code mechanisms, with evidence level, failure mode, check, native agent patterns, anti-patterns, and sources.',
+      mimeType: 'application/json',
+    },
+    async () => {
+      const content = getAiDesignPatternsJsonRaw();
+      return {
+        contents: [
+          {
+            uri: 'claude-code-guide://ai-design-patterns',
+            mimeType: 'application/json',
             text: content,
           },
         ],

@@ -633,6 +633,7 @@ The practical conclusion is not “self-improving agents solve harness engineeri
 ## See also
 
 - [Agent Harness Landscape](../ecosystem/agent-harness-landscape.md): dated product map, evidence states, and selection protocol
+- [AI Design Patterns](./ai-design-patterns.md): classic design patterns mapped to these harness components, with failure modes and checks
 - [Architecture](./architecture.md): Claude Code's master loop, tools, context, agents, permissions, and MCP integration
 - [Tools Reference](./tools-reference.md) and [Hooks Events Reference](./hooks-events-reference.md): exact runtime surfaces
 - [Context Engineering](./context-engineering.md) and [Memory Systems](./memory-systems.md): prompt assembly, persistence, retrieval, and drift

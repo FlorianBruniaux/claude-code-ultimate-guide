@@ -364,6 +364,7 @@ estimateTokens(all files)
 ## See also
 
 - [Development Methodologies](./methodologies.md): TDD, SDD, BDD, multi-agent orchestration
+- [AI Design Patterns](./ai-design-patterns.md): harness-level patterns (hooks, subagents, checkpoints) mapped to classic design patterns
 - [§9.20 Agent Teams](../ultimate-guide.md#920-agent-teams-multi-agent-coordination): Agent Teams including Skeptical Reviewer Pattern
 - [Credits](./credits.md): Full attribution for external sources
 - `examples/skills/mcp-integration-reference/`: MCP Reference File Pattern template
