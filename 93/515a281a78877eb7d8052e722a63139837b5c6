@@ -1,0 +1,155 @@
+CHANGELOG.md
+  s_e4657147639b3d::t_cf7c2e5108da9f 9-16
+examples/hooks/bash/auto-rename-session.sh
+  s_e4657147639b3d::t_648573003782bc 9,166
+examples/hooks/bash/session-summary.sh
+  s_e4657147639b3d::t_703c6df98fee7f 198-199,202-205
+examples/plugins/security-suite/README.md
+  s_e4657147639b3d::t_3a45667e9d0de8 272
+examples/plugins/security-suite/plugin.json
+  s_e4657147639b3d::t_b6e92a7597d854 12
+examples/scripts/session-stats.sh
+  s_e4657147639b3d::t_510a2209286468 19-20
+examples/scripts/sonnetplan.sh
+  s_e4657147639b3d::t_6dc67cd866e5a1 2,22,29-30
+examples/skills/eval-agents/SKILL.md
+  s_e4657147639b3d::t_64b2663da0271a 143
+examples/skills/eval-skills/SKILL.md
+  s_e4657147639b3d::t_f6cda58f775788 169
+guide/cheatsheet.md
+  s_e4657147639b3d::t_0df8f102995eae 15,52,57,62,82,123-124,144,159,189,247,277,281,300-301,330,335-336,341,517,576,727
+guide/core/community-patterns.md
+  s_e4657147639b3d::t_446134c3192c42 47,50,52,62
+guide/core/context-engineering.md
+  s_e4657147639b3d::t_0206f9909a2adf 204,2393
+guide/core/settings-reference.md
+  s_e4657147639b3d::t_68a339b297ec56 8,303-304,306,370,845,889,891,1289,1329,1547-1567
+guide/diagrams/09-cost-and-optimization.md
+  s_e4657147639b3d::t_dd3fb6696d5219 63,65
+guide/ecosystem/agentic-tools.md
+  s_e4657147639b3d::t_51e0f0c6fd17dd 80,285,611,710,717
+guide/ecosystem/ai-ecosystem.md
+  s_e4657147639b3d::t_610deed354b4f3 165,3269,3304-3305,3347
+guide/ops/ai-unit-economics.md
+  s_e4657147639b3d::t_a6e4bf835777a1 52,75
+guide/ops/api-gateway.md
+  s_e4657147639b3d::t_3b2dc6b6ad3167 103,105,108,110,163,176
+guide/ops/devops-sre.md
+  s_e4657147639b3d::t_7bac5d130958ff 665
+guide/ops/observability.md
+  s_e4657147639b3d::t_a718e35cc2e413 507,510,518-520
+guide/ops/subscription-strategy.md
+  s_e4657147639b3d::t_04c4d3feaf53ea 178
+guide/roles/agent-evaluation.md
+  s_e4657147639b3d::t_e9a6c4161a4179 584
+guide/ultimate-guide.fr.md
+  s_e4657147639b3d::t_2ebd00f3019643 984,1066-1070,1082,1768,2193,2200-2201,2204,2212,2214,2817,2819-2824,2829,2840,2917-2918,2925-2926,2928,3249,3255,3271,3275,4738,7246,7262,7557,7565-7568,7572-7574,7577-7582,7585-7587,7648-7649,7652,9964,9974-9980,10004,10006,10216-10219,10228-10230,10359,10361,10364,14555,14559,14571,14581,16592,17009,17051,18230,18343,18508,19784,24055,24138,24292,26139-26140,26471
+guide/ultimate-guide.md
+  s_e4657147639b3d::t_c33657f7edd640 976,1053-1056,1730,2153,2160-2161,2164,2172,2174,2761,2763-2768,2773,2784,2854-2855,2861-2862,2864,3166,3184,3188,3291,4627,7110,7126,7411,7419-7422,7426-7428,7431-7436,7439-7441,7502-7503,7506,9798,9808-9814,9838,9840,10048-10051,10060-10062,10191,10193,10196,14377,14381,14393,14403,16388,16802,16844,18019,18132,19288,23544,23617,23759,25574-25575,25904
+guide/workflows/code-review.md
+  s_ded836f56a6d83::t_4485e1d830b70a 3,9,11,13-15,21-30,32-38,44,48,54-56,58-60,62,64-69,71,73,75-79,81,83,85,87,89,91-95,97,99,101,103,105,107,109,111,127,153,155-159,165,178,180-181,183-185
+guide/workflows/dynamic-workflows.md
+  s_e4657147639b3d::t_f253529f3ddf69 94
+machine-readable/reference.yaml
+  s_e4657147639b3d::t_128f3a3b3dafd1 56,935,1009-1010,1012,1088,1091-1092,1100,1103,1105-1106,1111-1113,1115,1117,1119,1122,1125,1130-1135,1138,1140-1143,1145-1146,1148,1162,1188,1245-1248,1417,1419-1420,1422,1426,1430-1432,1434,1441,1485,1497,1499-1500,1503,1506,1553,1575,1704,1706,1708-1712,1761,1814,1838,2032,2096,2367,2555,2562,2568-2573,2576-2580,2582,2633-2634,2638,3925,3930
+mcp-server/content/reference.yaml
+  s_e4657147639b3d::t_fc2033016938b7 56,935,1009-1010,1012,1088,1091-1092,1100,1103,1105-1106,1111-1113,1115,1117,1119,1122,1125,1130-1135,1138,1140-1143,1145-1146,1148,1162,1188,1245-1248,1417,1419-1420,1422,1426,1430-1432,1434,1441,1485,1497,1499-1500,1503,1506,1553,1575,1704,1706,1708-1712,1761,1814,1838,2032,2096,2367,2555,2562,2568-2573,2576-2580,2582,2633-2634,2638,3925,3930
+whitepapers/CHANGELOG.md
+  s_e4657147639b3d::t_98e666c4874306 14-22
+whitepapers/en/00-series-introduction.qmd
+  s_e4657147639b3d::t_8d8e5ee922a2a9 5,9,69,170,246
+whitepapers/en/01-effective-prompts.qmd
+  s_e4657147639b3d::t_d828fd57ce2101 5,9,441,482
+whitepapers/en/02-customization.qmd
+  s_e4657147639b3d::t_8e3101171db626 5,9,856-858,860-861,1256
+whitepapers/en/03-security.qmd
+  s_e4657147639b3d::t_70da0e221a6b76 5,9,382,387,429-430
+whitepapers/en/04-architecture.qmd
+  s_e4657147639b3d::t_450113d76b5fb6 5,9,60,64-65,69,77,81,87,248,272-273,861,867
+whitepapers/en/05-team.qmd
+  s_e4657147639b3d::t_43af904acaa3c6 5,9,475,582,584-585,590,592-598,602-604,606-610,612,616,620,982
+whitepapers/en/07-reference-guide.qmd
+  s_e4657147639b3d::t_461c3e5a459291 5,9,334,650,2058,2062-2063,2067,2075,2079,2085,2096,2127,2146
+whitepapers/en/08-agent-teams.qmd
+  s_e4657147639b3d::t_0094a76ab76b70 5,9,240
+whitepapers/en/cheatsheet.qmd
+  s_e4657147639b3d::t_6d41f81809d51c 5,9,76,124,189,195,207,305-306
+whitepapers/fr/00-introduction-serie.qmd
+  s_e4657147639b3d::t_bba50462061f08 5,9,71,172,250
+whitepapers/fr/01-prompts-efficaces.qmd
+  s_e4657147639b3d::t_2252b29b687cf8 5,9,448,493
+whitepapers/fr/02-personnalisation.qmd
+  s_e4657147639b3d::t_e0804057bf3a4c 5,9,853-855,857-858,1212
+whitepapers/fr/03-securite.qmd
+  s_e4657147639b3d::t_0eec8f175aaf5f 5,9,331,336,378-379
+whitepapers/fr/04-architecture.qmd
+  s_e4657147639b3d::t_d2f09c92c0b0c8 5,9,67,71-72,76,84,88,94,254,262-263,808,814
+whitepapers/fr/05-equipe.qmd
+  s_e4657147639b3d::t_e88c43b12f8364 5,9,613,615-616,621,623-629,633-635,637-641,643,647,651,999
+whitepapers/fr/07-guide-reference.qmd
+  s_e4657147639b3d::t_957850cd21060c 5,9,274,525,1656,1660-1661,1677,1683,1694,1700,1732
+whitepapers/fr/cheatsheet.qmd
+  s_e4657147639b3d::t_666d0d26a76c53 5,9,76,124,191,197,209,308-309
+whitepapers/fr/fiches/fiche-04-architecture.qmd
+  s_e4657147639b3d::t_4d94cb9b50caec 13
+whitepapers/recap-cards/en/01-commandes-essentielles.qmd
+  s_e4657147639b3d::t_664b3a0e2c3734 7,11,22
+whitepapers/recap-cards/en/03-permission-modes.qmd
+  s_e4657147639b3d::t_1bef2b80faa7b6 7,11,30,32
+whitepapers/recap-cards/en/m10-skills.qmd
+  s_e4657147639b3d::t_23a30ac01c5b4c 8,11,53,56-58
+whitepapers/recap-cards/en/m11-hooks-evenements-systeme.qmd
+  s_e4657147639b3d::t_3b5c6f0892b204 8,11,20,71-73
+whitepapers/recap-cards/en/t13-context7-sequential.qmd
+  s_e4657147639b3d::t_bdfae4ab36b425 8,11,37
+whitepapers/recap-cards/en/t16-sandbox-natif-architecture.qmd
+  s_e4657147639b3d::t_47efb0c8c4f46a 8,11,28-29
+whitepapers/recap-cards/en/t18-modeles-thinking-modes.qmd
+  s_e4657147639b3d::t_f406e5630c6561 10,19,23-24,28,36,44,50
+whitepapers/recap-cards/en/t19-context-window-200k-1m.qmd
+  s_e4657147639b3d::t_bc809a393832fc 10,21-22,27,31,57
+whitepapers/recap-cards/en/t21-fast-mode-api.qmd
+  s_e4657147639b3d::t_a34af7a86adf12 10,60
+whitepapers/recap-cards/fr/01-commandes-essentielles.qmd
+  s_e4657147639b3d::t_36ee1b9fd6277a 10-11,23,28
+whitepapers/recap-cards/fr/03-permission-modes.qmd
+  s_e4657147639b3d::t_3ad3efaca879ae 10-11,30,32
+whitepapers/recap-cards/fr/m10-skills.qmd
+  s_e4657147639b3d::t_ba0683792d1209 8,11,53,57-59
+whitepapers/recap-cards/fr/m11-hooks-evenements-systeme.qmd
+  s_e4657147639b3d::t_0f491f5bca296c 8,11,20,71-73
+whitepapers/recap-cards/fr/t13-context7-sequential.qmd
+  s_e4657147639b3d::t_b4539c981c663b 8,11,37
+whitepapers/recap-cards/fr/t16-sandbox-natif-architecture.qmd
+  s_e4657147639b3d::t_5667a8c14df6bd 8,11,28-29
+whitepapers/recap-cards/fr/t18-modeles-thinking-modes.qmd
+  s_e4657147639b3d::t_e08ebadff24a91 8,11,20,24-25,29,37,45,51
+whitepapers/recap-cards/fr/t19-context-window-200k-1m.qmd
+  s_e4657147639b3d::t_0a9208b59c560c 8,11,22-23,28,32,58
+whitepapers/recap-cards/fr/t21-fast-mode-api.qmd
+  s_e4657147639b3d::t_079b3d29ac417e 8,11,61
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "93515a281a78877eb7d8052e722a63139837b5c6",
+  "prompts": {},
+  "sessions": {
+    "s_ded836f56a6d83": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2411f16c-88e6-4622-9ccc-03c30968a7a1",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_e4657147639b3d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8a74dfbb-37e9-436b-ad1f-75650865d964",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
