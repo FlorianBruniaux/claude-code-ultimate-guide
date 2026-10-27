@@ -304,28 +304,30 @@ Reviewed-by: Human Developer <human@llvm.org>
 
 ### 5.1 Entire CLI
 
-**Repository:** [github.com/entireio/cli](https://github.com/entireio/cli) / [entire.io](https://entire.io)
+**Repository:** [github.com/entireio/cli](https://github.com/entireio/cli) (MIT, written in Go) · **Docs:** [docs.entire.com](https://docs.entire.com) · **Site:** [entire.com](https://entire.com)
 
-**Founded:** February 2026 by Thomas Dohmke (former GitHub CEO) with $60M funding
+**Company:** Entire, founded by Thomas Dohmke (former GitHub CEO). Public launch on February 10, 2026 with a $60M seed round and the Checkpoints CLI. On October 26, 2026 Entire launched a full Git forge "for agent-human collaboration" ([launch post](https://entire.com/blog/the-git-forge-for-agent-human-collaboration)). The CLI is now the terminal client for that forge, and session capture still works on its own, in any Git repository, without an account.
 
 **What It Does:**
-- Captures AI agent sessions as versioned **Checkpoints** in Git repositories
-- Stores prompts, reasoning, tool usage, and file changes with full context
-- Creates searchable, auditable record of how code was written
-- Enables session replay via rewindable checkpoints
-- Supports agent-to-agent handoffs with context preservation
+- Captures agent sessions (prompts, transcript, files touched) as **checkpoints** linked to your commits
+- Stores checkpoints in your own Git repository, outside your source branches
+- Lets you search past work and read the reasoning behind a commit or a line (`entire search`, `entire checkpoint explain`, `entire why`, `entire blame`)
+- Restores a branch's sessions in your agent, including from another agent (`entire session resume`)
+- On the hosted forge only: Trails (agent-scored review with merge gates), distributed Git hosting, shared project memory (see [Agent-native Git forges](../ecosystem/third-party-tools.md#agent-native-git-forges-2026))
 
 **Installation:**
 
-Check GitHub for latest installation method (platform launched Feb 2026). Typical setup:
-
 ```bash
-# Initialize in project
-entire init
+brew install --cask entireio/tap/entire          # macOS and Linux
+curl -fsSL https://entire.com/install.sh | bash  # macOS and Linux, without Homebrew
+irm https://entire.com/install.ps1 | iex         # Windows PowerShell 5.1+
 
-# Start session capture
-entire capture --agent="claude-code"
+cd your-project
+entire enable    # pick your agents; installs their hooks and Entire's git hooks
+entire status    # current sessions and where checkpoints are uploaded
 ```
+
+`entire enable` keeps the Git hooks you already have. `entire disable` stops capture and keeps existing session data.
 
 **How It Works (Hook Architecture):**
 
@@ -333,184 +335,126 @@ entire capture --agent="claude-code"
 WITHOUT ENTIRE
 ==============
 
-  Developer          Agent (Claude/Gemini/Codex)          Git
-  ---------          ---------------------------          ---
+  Developer          Agent (Claude Code, Codex...)        Git
+  ---------          -----------------------------        ---
   prompt ---------> reasons + edits files
                     tool calls (Bash, Read, Edit...)
-  prompt ---------> continues...
   "looks good" ---> session ends
 
   git commit -----> ----------------------------------------> commit on feature/branch
                                                                (code only, zero context)
 
   Result: the code is there, but WHY and HOW are lost.
-  No record of prompts, reasoning, or abandoned approaches.
 
 
-WITH ENTIRE
-===========
+WITH ENTIRE (CLI 0.10.x)
+========================
 
-  Developer          Agent (Claude/Gemini/Codex)          Entire Hooks          Git
-  ---------          ---------------------------          ------------          ---
+  Developer          Agent                  Entire hooks              Git
+  ---------          -----                  ------------              ---
 
-  entire enable ---> installs 7 hooks automatically (once per repo)
+  entire enable ---> installs agent hooks + Entire git hooks (once per repo)
 
-  [SESSION START] -----------------------------------------> hook SessionStart
+  prompt ---------> reasons + edits -----> session tracked on a local
+                    tool calls              shadow branch
+                                            entire/<commit>-<worktree>
+                                            (never pushed)
 
-  prompt ---------> reasons + edits              ---------> hook UserPromptSubmit
-                    tool calls...                ---------> hook PreToolUse/PostToolUse
+  git commit -----> ----------------------------------------------> commit on feature/branch
+                                                                     + trailer
+                                                                     "Entire-Checkpoint: <id>"
+                                            checkpoint written
+                                            (redacted transcript,
+                                            prompts, files touched)
+                                            to refs/entire/checkpoints/<shard>/<id>
 
-  [AGENT ENDS] -------------------------------------------------> hook Stop
-                                                                   |
-                                                         CHECKPOINT created on
-                                                         shadow branch:
-                                                         entire/2b4c177-a5e3f2
-                                                                   |
-                                                         Contains:
-                                                         - full transcript
-                                                         - user prompts
-                                                         - file diffs
-                                                         - tool calls
-                                                         - token usage
-                                                         - human vs AI attribution %
-
-  git commit -----> ----------------------------------------> commit on feature/branch
-                                                               + auto-added trailer:
-                                                               "Entire-Checkpoint: a3b2c4"
-
-  git push -------> ----------------------------------------> code pushed normally
-                                                               shadow → entire/checkpoints/v1
-                                                               (orphan branch, zero conflicts)
-                                                               shadow branch auto-deleted
+  git push -------> ----------------------------------------------> code + checkpoint refs pushed
+                                                                     (no commit added to your branch)
 ```
 
 **Workflow with Claude Code:**
 
 ```bash
-# 1. Start Entire session capture
-entire capture --agent="claude-code" --task="auth-refactor"
+# 1. Enable once per repository
+entire enable
 
-# 2. Work normally in Claude Code
+# 2. Work normally in Claude Code, then commit as usual
 claude
-You: Refactor authentication to use JWT
-[... Claude analyzes, makes changes ...]
+git commit -m "feat(auth): switch to JWT"
 
-# 3. Create named checkpoint (Entire captures automatically)
-entire checkpoint --name="jwt-implemented"
+# 3. Inspect what was captured
+entire checkpoint list                # checkpoints on this branch
+entire checkpoint explain <id>        # prompt, transcript and files behind a checkpoint
+entire why src/auth/jwt.ts            # commit, checkpoint, prompt and session behind a file
 
-# 4. View session history
-entire log
-
-# 5. Rewind to any checkpoint if needed
-entire rewind --to="jwt-implemented"
-```
-
-**Output Example:**
-
-```
-Session: auth-refactor
-├─ Checkpoint 1: Initial analysis (2026-02-12 14:30)
-│  ├─ Prompt: "Analyze current auth middleware"
-│  ├─ Reasoning: 3 alternatives considered
-│  └─ Files read: 5 (auth/, middleware/)
-│
-├─ Checkpoint 2: JWT implementation (2026-02-12 15:15)
-│  ├─ Prompt: "Implement JWT with refresh tokens"
-│  ├─ Reasoning: Security considerations, token expiry
-│  ├─ Files modified: 3
-│  └─ Tests added: 8
-│
-└─ Checkpoint 3: Integration tests (2026-02-12 16:00)
-   └─ Approval gate: PENDING (security review required)
+# 4. Find earlier work, then continue it
+entire search "refresh token rotation"
+entire session resume <branch>        # restore the branch's sessions in your agent
 ```
 
 **Supported AI Agents:**
 
-| Agent | Support Level |
-|-------|---------------|
-| Claude Code | Full |
-| Gemini CLI | Full |
-| OpenAI Codex | Planned |
-| Cursor CLI | Planned |
-| Custom agents | Via API |
+The CLI README lists Claude Code, Codex, Cursor, Copilot CLI, OpenCode, Antigravity, Factory AI Droid and Pi, plus agents added through its [agent integration protocol](https://docs.entire.com/agents/agent-integration-protocol/overview) and plugins. Subagent work is captured for Claude Code and Factory Droid, with limited support for Codex and Cursor ([dispatch 0x001c](https://entire.com/blog/entire-dispatch-0x001c)).
 
-**Key Features:**
+**Architecture: where checkpoints live**
 
-1. **Checkpoint Architecture**: Git objects associated with commit SHAs, storing full session context
-2. **Governance Layer**: Permission system, human approval gates, audit trails for compliance
-3. **Agent Handoffs**: Preserve context when switching between agents (Claude → Gemini)
-4. **Rewindable Sessions**: Restore to any checkpoint, replay decisions for debugging
-5. **Separate Storage**: `entire/checkpoints/v1` branch (doesn't pollute main history)
+| Location | Content | Pushed? |
+|----------|---------|---------|
+| `refs/entire/checkpoints/<shard>/<id>` | One ref per checkpoint, redacted metadata and transcripts. Default since CLI 0.10.0, 26-character ULID IDs | Yes, with your code |
+| `entire/checkpoints/v1` branch | Legacy branch-based storage, 12-character hex IDs. Repositories enabled before 0.10.0 stay on it until switched | Yes |
+| `entire/<commit>-<worktree>` | Shadow branches: working storage during a live session, including **raw, unredacted snapshots of your working tree** | No, local only |
+| `.entire/` | Settings, redaction rule packs, logs | Mostly gitignored |
 
-**Governance Example:**
+Source: [Session Storage](https://docs.entire.com/guides/checkpoints/checkpoint-storage) and [Security & Privacy](https://docs.entire.com/security), both verified by Entire against CLI 0.10.2. Checkpoints are plain Git: `git for-each-ref refs/entire/checkpoints/` lists them without Entire installed.
+
+**Privacy: transcripts travel with the repository.** Anyone who can read the repository can read its checkpoints, so a public repository publishes its transcripts. Entire redacts detected secrets before writing (Betterleaks by default, optional goredact, user-defined rule packs, PII layer off by default), and its own documentation calls redaction "a safety net rather than a guarantee". Before the first push:
 
 ```bash
-# Require approval before production changes
-entire capture --require-approval="security-team"
-[... Claude makes changes ...]
-entire checkpoint --name="feature-complete"
-
-# Security team reviews and approves
-entire review --checkpoint="feature-complete"
-entire approve --approver="jane@company.com"
+entire checkpoint list --outgoing                                      # what the next push uploads
+entire configure --local --checkpoint-remote github:<owner>/<repo>    # send checkpoints to a separate private repo
+entire configure --local --skip-push-sessions                          # or keep them local
 ```
+
+**Governance:** approval gates are not part of local capture. They belong to Trails on the hosted forge, where per-repository Gates can require human approvals, resolved findings and passing CI before merge (`entire trail approve`, `entire trail merge`). Repositories must be hosted on Entire or mirrored there from GitHub.
+
+**Compliance status:** no SOC 2, ISO 27001, HIPAA or FedRAMP attestation for Entire was found on entire.com or docs.entire.com (searched October 27, 2026: llms.txt, regions, terms, DPA, subprocessors, security docs). Entire's [Data Processing Agreement](https://entire.com/dpa) cites SOC 2 and ISO 27001 only for its cloud infrastructure providers. Checkpoints can support an audit trail, but they do not make a workflow compliant by themselves.
 
 **Use Cases:**
 
 | Scenario | Value |
 |----------|-------|
-| **Compliance/Audit** | Full traceability: prompts → reasoning → code (SOC2, HIPAA) |
-| **Multi-Agent Workflows** | Context preserved across agent switches |
-| **Debugging** | Rewind to checkpoint, inspect prompts/reasoning |
-| **Team Handoffs** | New developer resumes with full AI session history |
-
-**Architecture:**
-
-Entire stores checkpoints on an orphan branch, with no common ancestor with `main`, so no merge conflicts and no history pollution:
-
-```
-entire/checkpoints/v1/              ← orphan branch (no common ancestor with main)
-├─ a/b2c4d5e6f7/                    ← checkpoint ID (random hex)
-│  ├─ metadata.json                 ← summary, attribution %, token count
-│  └─ 0/
-│     ├─ full.jsonl                 ← complete session transcript
-│     ├─ prompt.txt                 ← user prompts
-│     └─ context.md                 ← generated context summary
-└─ c/d4e5f6a7b8/                    ← another checkpoint
-   └─ ...
-
-main ----o----o----o----o----> (normal code history, untouched)
-
-entire/checkpoints/v1 ----x----x----x----> (no common ancestor = no merge conflicts)
-```
-
-Why orphan branch: `git clone --single-branch` ignores checkpoints (zero overhead for consumers). Multiple devs can push in parallel without conflicts (checkpoint IDs are unique).
+| **Audit evidence** | Prompts, transcript and files linked to each commit, kept in Git |
+| **Multi-agent workflows** | Sessions resumable across agents |
+| **Debugging** | `entire why` / `entire blame` back to the prompt and session behind a line |
+| **Team handoffs** | A teammate resumes a branch with its sessions |
 
 **Limitations:**
 
-- Very new (launched Feb 10-12, 2026) - limited production feedback
-- Adds storage overhead (~5-10% of project size)
-- macOS/Linux only (Windows via WSL)
-- Enterprise-focused (may be complex for solo developers)
+- Pre-1.0 CLI (0.10.x in October 2026); storage format already changed once (branch to refs)
+- Storage overhead depends on session length and is not documented: measure it with the spike below
+- Shadow branches hold unredacted source locally
+- Trails, hosting and shared memory require the hosted service, billed through prepaid credits ([Credit Terms](https://entire.com/credit-terms))
 
 **When to use Entire CLI:**
 
-- ✅ Enterprise/compliance requirements (audit trails)
-- ✅ Multi-agent workflows (Claude + Gemini handoffs)
-- ✅ Session replay for debugging complex AI decisions
-- ✅ Governance gates (approval required before actions)
-- ⚠️ Personal projects: May be overkill (simple `Co-Authored-By` suffices)
+- ✅ Shared audit evidence of how agent-written code was produced
+- ✅ Multi-agent workflows where sessions must be resumed by another agent or person
+- ✅ Debugging AI decisions after the fact
+- ⚠️ Public repositories: send checkpoints to a separate private repository first
+- ⚠️ Personal projects: may be overkill (simple `Co-Authored-By` suffices)
 
-**Go/No-Go evaluation thresholds (run a 2h spike before team rollout):**
+**Go/No-Go evaluation (run a spike before team rollout; the thresholds below are this guide's example values, not Entire figures, adjust them to your repository):**
 
 ```bash
 # Install on a throwaway branch
 entire enable
 
 # After 2-3 normal sessions, measure:
-du -sh .git/refs/heads/entire/   # Storage overhead per session
-time git push                     # Push time including condensation
-ls .git/hooks/                    # Check for conflicts with existing hooks
+git for-each-ref refs/entire/checkpoints/ | wc -l   # Checkpoints created
+git count-objects -vH                               # Repository size before/after
+entire checkpoint list --outgoing                   # What the next push uploads
+time git push                                       # Push time including checkpoint refs
+ls .git/hooks/                                      # Check for conflicts with existing hooks
 ```
 
 | Metric | Green (proceed) | Red (stop) |
@@ -526,7 +470,7 @@ ls .git/hooks/                    # Check for conflicts with existing hooks
 |------|---------------|
 | Solo dev | `Co-Authored-By` trailer suffices |
 | 2-5 devs | Justified if multi-agent workflows or shared audit trail needed |
-| 5+ devs / enterprise | Strong fit (shared checkpoints, governance, compliance) |
+| 5+ devs / enterprise | Worth a spike if you need shared checkpoints or audit evidence; merge gates need the hosted forge |
 
 ### 5.2 Automated attribution hook
 
@@ -750,7 +694,7 @@ When SOC2, ISO27001, or HIPAA auditors ask for evidence of AI code governance, h
 
 **Practical tip**: Run `./scripts/claude-governance-audit.sh` (see [enterprise-governance.md §5.3](../security/enterprise-governance.md#53-compliance-checking)) before each audit to verify controls are in place and generate a baseline report.
 
-**For session-level audit trails** with full context (prompts, reasoning, tool calls, diffs), Entire CLI creates cryptographically-linked checkpoints in Git. This is one approach among several: evaluate based on your retention requirements and team size. See [§5.1 Entire CLI](#51-entire-cli) for setup and evaluation criteria.
+**For session-level audit trails** with full context (prompts, reasoning, tool calls, diffs), Entire CLI links a checkpoint to each commit through an `Entire-Checkpoint` trailer and stores it in Git. This is one approach among several: evaluate based on your retention requirements and team size. See [§5.1 Entire CLI](#51-entire-cli) for setup and evaluation criteria.
 
 ---
 

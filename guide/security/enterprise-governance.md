@@ -786,7 +786,7 @@ All AI-generated code must include:
 - PR description must include AI disclosure section
 ```
 
-**Additional tool for regulated environments**: Consider Entire CLI for full session audit trails with approval gates. See [AI Traceability §5.1](../ops/ai-traceability.md#51-entire-cli) for details and a go/no-go evaluation checklist.
+**Additional tool for regulated environments**: Consider Entire CLI for session-level audit evidence (checkpoints linked to commits); merge approval gates require its hosted forge. See [AI Traceability §5.1](../ops/ai-traceability.md#51-entire-cli) for details and a go/no-go evaluation checklist.
 
 ---
 
@@ -1119,7 +1119,7 @@ aws s3 sync ~/.claude/projects/ \
   --exclude "*.tmp"
 ```
 
-**For full compliance audit trails with approval gates**, consider Entire CLI. It captures complete session context (prompts, reasoning, tool calls, file diffs) with cryptographic linking to git commits. See [AI Traceability §5.1](../ops/ai-traceability.md#51-entire-cli) for setup and evaluation criteria. This is one tool among several options; evaluate against your specific compliance requirements.
+**For session-level audit evidence**, consider Entire CLI. It captures prompts, transcripts and files touched, links each checkpoint to its commit through an `Entire-Checkpoint` trailer, and stores it in Git. Approval gates exist only on its hosted forge, and no SOC 2, ISO 27001, HIPAA or FedRAMP attestation for Entire was found (October 27, 2026). See [AI Traceability §5.1](../ops/ai-traceability.md#51-entire-cli) for setup and evaluation criteria. This is one tool among several options; evaluate against your specific compliance requirements.
 
 ### 6.3 AI Governance Committee (Compact Reference)
 

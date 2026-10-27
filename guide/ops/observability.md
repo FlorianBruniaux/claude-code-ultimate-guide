@@ -251,43 +251,44 @@ claude --continue
 
 **Native limitation**: Claude Code's `--resume` is tied to absolute file paths, breaking on folder moves.
 
-**Entire CLI solution**: Checkpoints are **path-agnostic**, enabling true session portability across project locations.
+**Entire CLI approach**: checkpoints are stored in the Git repository itself (`refs/entire/checkpoints/`), so a moved checkout keeps them and a push sends them to the remote. `entire session resume` restores a branch's sessions in your agent.
 
 **How it works:**
 
 ```bash
-# In source project
+# In source project: capture as you work, then commit and push
 cd /old/location/myapp
-entire capture --agent="claude-code"
-[... work in Claude Code ...]
-entire checkpoint --name="migration-complete"
+entire enable
+[... work in Claude Code, commit ...]
+git push                      # code + checkpoint refs
 
-# Move project to new location
-mv /old/location/myapp /new/location/myapp
-
-# Resume in target (works because Entire stores relative paths)
+# Elsewhere: clone the repository
+git clone <remote> /new/location/myapp
 cd /new/location/myapp
-entire resume --checkpoint="migration-complete"
-claude --continue  # Resumes with full context
+# A plain clone fetches branches and tags, not custom refs. Fetch the checkpoints explicitly:
+git fetch origin 'refs/entire/checkpoints/*:refs/entire/checkpoints/*'
+entire enable
+entire session resume <branch>   # restores the branch's sessions in your agent
 ```
 
-**Why Entire checkpoints are portable:**
+Not verified here: whether `entire enable` or `entire session resume` fetches checkpoint refs on its own, and how much of a resumed Claude Code session survives a path change. Entire documents that `session resume` checks out the branch and restores the session log; test your own move before relying on it.
+
+**Native vs Entire:**
 
 | Aspect | Native `--resume` | Entire CLI |
 |--------|-------------------|-----------|
-| **Path storage** | Absolute paths in JSONL | Relative paths in checkpoints |
-| **Cross-folder** | Breaks (different project encoding) | Works (path-agnostic) |
-| **Context preservation** | Prompt history only | Prompts + reasoning + file states |
-| **Agent handoffs** | No | Yes (between Claude/Gemini) |
+| **Storage** | Local JSONL per project path | Checkpoint refs in the repository |
+| **Cross-machine / cross-folder** | Breaks (different project encoding) | Travels with push and fetch of checkpoint refs (resume after a path change not verified) |
+| **Context preservation** | Prompt history only | Prompts + transcript + files touched |
+| **Agent handoffs** | No | Yes (resume in another agent) |
 
 **When to use Entire over manual migration:**
 
 - ✅ Frequent project moves/forks
-- ✅ Multi-agent workflows (Claude → Gemini handoffs)
-- ✅ Session replay for debugging (rewind to exact state)
-- ✅ Governance (approval gates on resume)
+- ✅ Multi-agent workflows (resume a branch in another agent)
+- ✅ Need to explain past decisions (`entire checkpoint explain`, `entire why`)
 
-**Trade-off**: Adds tool dependency + storage overhead (~5-10% project size).
+**Trade-off**: Adds a tool dependency and checkpoint refs to the repository (measure the growth); transcripts are pushed with the code unless sent to a separate private repository.
 
 > **Full docs**: [AI Traceability Guide](./ai-traceability.md#51-entire-cli)
 

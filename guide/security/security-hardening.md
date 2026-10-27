@@ -984,113 +984,79 @@ An agentic pentest sends requests to a running target and attempts to validate e
 
 **Challenge**: Regulated industries require provenance trails for AI-generated code to meet compliance requirements.
 
-**Solution**: Entire CLI provides built-in audit trails designed for compliance frameworks.
+**What a tool can and cannot do**: a framework such as HIPAA, SOC 2 or FedRAMP applies to your organization and its controls. A tool can supply evidence for those controls (who prompted what, which agent changed which file, who approved the merge), but it does not make a workflow compliant. Check any vendor's own attestations separately from the evidence it produces.
 
-**What gets logged:**
+**Option: Entire CLI** captures each agent session as a checkpoint linked to its commit and stores it in your Git repository. Details and setup: [AI Traceability §5.1](../ops/ai-traceability.md#51-entire-cli).
 
-| Event | Captured Data | Retention |
-|-------|--------------|-----------|
-| **Session start** | Agent, user, timestamp, task description | Permanent |
-| **Tool use** | Tool name, parameters, outputs, file changes | Permanent |
-| **Reasoning** | AI reasoning steps (when available) | Permanent |
-| **Checkpoints** | Named snapshots with full session state | Configurable |
-| **Approvals** | Approver identity, timestamp, checkpoint reference | Permanent |
-| **Agent handoffs** | Source/target agents, context transferred | Permanent |
+**What gets recorded:**
 
-**Approval gate flow:**
+| Record | Content | Where |
+|--------|---------|-------|
+| **Checkpoint** | Prompts, transcript, files touched, after secret redaction | `refs/entire/checkpoints/` in your repository (default since CLI 0.10.0) |
+| **Commit link** | `Entire-Checkpoint: <id>` trailer, no prompt or file content | Commit message |
+| **Live session state** | Raw, unredacted working-tree snapshots | Local shadow branches `entire/<commit>-<worktree>`, never pushed |
+| **Merge approvals** | Approvals, findings and CI status of a Trail | Hosted Entire forge only |
+
+**Approval gate flow (hosted forge):**
 
 ```
-Developer    -->    commit + checkpoint
-                         |
-                         v
-                    [Policy Check]
-                    "Does this touch prisma/schema.prisma?"
-                    "Does this touch src/server/auth*?"
-                         |
-                    +----+----+
-                    |         |
-                 Low risk   High risk
-                    |         |
-                 Auto-OK   Approval Gate
-                           "Reviewer inspects:
-                            transcript + diffs + attribution %"
-                                 |
-                           Approve / Reject
-                           (immutable audit trail entry)
+Agent pushes to a branch
+        |
+        v
+  Trail runners score the push
+  (security, review, drift... in .entire/runners/)
+        |
+        v
+  Findings raised, each resolved or dismissed
+        |
+        v
+  Gate: required approvals + resolved findings + passing CI
+        |
+   +----+----+
+   |         |
+ Blocked   entire trail approve / entire trail merge
 ```
 
-**Example compliance workflow:**
+**Before using checkpoints as audit evidence:**
 
 ```bash
-# 1. Initialize with compliance mode
-entire init --compliance-mode="hipaa"
-# Sets: retention policy, encryption at rest, access controls
+# 1. Keep transcripts out of shared or public repositories
+entire configure --local --checkpoint-remote github:<owner>/<private-audit-repo>
 
-# 2. Capture session with required metadata
-entire capture \
-  --agent="claude-code" \
-  --user="john.doe@company.com" \
-  --task="patient-data-encryption" \
-  --require-approval="security-officer"
+# 2. Add redaction rules for your own identifiers (rule packs live in .entire/redactors/)
+#    and enable the PII layer if transcripts may contain personal data (off by default)
 
-# 3. Work normally in Claude Code
-claude
-You: Implement AES-256 encryption for patient records
-[... Claude proposes implementation ...]
+# 3. Check what the next push will upload
+entire checkpoint list --outgoing
 
-# 4. Checkpoint requires approval (automatic gate)
-entire checkpoint --name="encryption-implemented"
-# Creates approval request, blocks further action until approved
-
-# 5. Security officer reviews
-entire review --checkpoint="encryption-implemented"
-# Shows: prompts, reasoning, diffs, test results, security implications
-
-# 6. Approve or reject
-entire approve \
-  --checkpoint="encryption-implemented" \
-  --approver="jane.smith@company.com"
-# Or: entire reject --reason="needs stronger key derivation"
-
-# 7. Export audit trail for compliance reporting
-entire audit-export --format="json" --since="2026-01-01"
-# Produces compliance-ready report with full provenance chain
+# 4. Inspect a checkpoint during review
+entire checkpoint explain <id>
 ```
 
-**Compliance features:**
+Entire's own documentation calls redaction "a safety net rather than a guarantee" and recommends a private repository for customer data, internal credentials or regulated material ([Security & Privacy](https://docs.entire.com/security)).
 
-| Feature | HIPAA | SOC2 | FedRAMP | Notes |
-|---------|-------|------|---------|-------|
-| **Audit logs** | ✅ | ✅ | ✅ | Prompts → reasoning → outputs |
-| **Approval gates** | ✅ | ✅ | ✅ | Human-in-loop before sensitive actions |
-| **Encryption at rest** | ✅ | ✅ | ✅ | AES-256 for session data |
-| **Access controls** | ✅ | ✅ | ⚠️ | Role-based (manual config) |
-| **Retention policies** | ✅ | ✅ | ✅ | Configurable per compliance framework |
-| **Provenance tracking** | ✅ | ✅ | ✅ | Full chain: user → prompt → AI → code |
+**Gaps to cover with other controls:**
 
-**Integration with existing security:**
-
-```bash
-# Hook approval gates into CI/CD
-# .claude/hooks/post-commit.sh
-#!/bin/bash
-if [[ "$CLAUDE_SESSION_COMPLIANCE" == "true" ]]; then
-  entire checkpoint --auto --require-approval="$APPROVAL_ROLE"
-fi
-```
+| Requirement | Evidence or control supplied by Entire? |
+|-------------|-------------------|
+| Provenance from prompt to commit | ✅ Checkpoints linked by commit trailer |
+| Human approval before merge | ✅ Gates, on the hosted forge only |
+| Secret redaction in stored transcripts | ⚠️ Best effort, configurable |
+| Retention and deletion policy | ⚠️ Plain Git refs: retention follows your repository; `entire checkpoint delete` removes checkpoints |
+| Vendor attestation (SOC 2, ISO 27001, HIPAA, FedRAMP) | ❌ None found for Entire (October 27, 2026); its [DPA](https://entire.com/dpa) cites SOC 2 and ISO 27001 only for its cloud infrastructure providers |
+| Audit report export | ❌ No dedicated export command in the [CLI reference](https://docs.entire.com/cli-reference); checkpoints are readable with standard Git |
 
 **When to use Entire CLI for compliance:**
 
-- ✅ SOC2, HIPAA, FedRAMP certification required
-- ✅ Need full AI decision provenance (prompts + reasoning + outputs)
-- ✅ Multi-agent workflows with handoff tracking
-- ✅ Approval gates before production deployments
+- ✅ Auditors ask how AI-generated code was produced
+- ✅ Multi-agent workflows where provenance must survive handoffs
+- ✅ Merge approvals already planned on a hosted forge
 - ❌ Personal projects (overhead not justified)
 - ❌ Non-regulated industries (simple `Co-Authored-By` suffices)
 
-**Status:** Production v1.0+, SOC2 Type II certified (Entire CLI platform)
+**Status:** CLI 0.10.x, MIT licensed (October 2026). No vendor compliance attestation found.
 
-> **Full docs**: [AI Traceability Guide](../ops/ai-traceability.md#51-entire-cli), [Third-Party Tools](../ecosystem/third-party-tools.md)
+> **Full docs**: [AI Traceability Guide](../ops/ai-traceability.md#51-entire-cli), [Third-Party Tools](../ecosystem/third-party-tools.md#entire-cli)
 
 ### 3.5 AI kill switch & containment architecture
 

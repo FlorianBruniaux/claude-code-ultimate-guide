@@ -642,86 +642,125 @@ A local TUI and report generator for inspecting AI coding-agent session history.
 
 ### Entire CLI
 
-Agent-native platform for Git-integrated session capture with rewindable checkpoints and governance layer.
+Git-integrated capture of agent sessions, and terminal client of the Entire Git forge.
 
 | Attribute | Details |
 |-----------|---------|
-| **Source** | [GitHub: entireio/cli](https://github.com/entireio/cli) / [entire.io](https://entire.io) |
-| **Install** | See GitHub (platform launched Feb 2026, early access) |
-| **Language** | TypeScript |
-| **Founded** | February 2026 by Thomas Dohmke (ex-GitHub CEO), $60M funding |
+| **Source** | [GitHub: entireio/cli](https://github.com/entireio/cli) (MIT) / [docs.entire.com](https://docs.entire.com) / [entire.com](https://entire.com) |
+| **Install** | `brew install --cask entireio/tap/entire`, `curl -fsSL https://entire.com/install.sh \| bash`, or `irm https://entire.com/install.ps1 \| iex` on Windows |
+| **Language** | Go |
+| **Company** | Entire, founded by Thomas Dohmke (ex-GitHub CEO), $60M seed announced February 10, 2026 |
+| **Status** | CLI 0.10.x (October 2026). Hosted forge launched October 26, 2026 |
 
-**Key features:**
+**Key features (local CLI, no account needed):**
 
-- **Session Capture**: Automatic recording of AI agent sessions (Claude Code, Gemini CLI) with full context
-- **Rewindable Checkpoints**: Restore to any session state with prompts + reasoning + file changes
-- **Governance Layer**: Permission system, human approval gates, audit trails for compliance
-- **Agent Handoffs**: Preserve context when switching between agents (Claude → Gemini)
-- **Git Integration**: Stores checkpoints on separate `entire/checkpoints/v1` branch (no history pollution)
-- **Multi-Agent Support**: Works with multiple AI agents simultaneously with context sharing
+- **Session capture**: each commit with agent work gets a checkpoint (prompts, transcript, files touched) linked by an `Entire-Checkpoint` trailer
+- **Git-native storage**: one ref per checkpoint under `refs/entire/checkpoints/` (default since CLI 0.10.0; older repos use the `entire/checkpoints/v1` branch). No commit is added to your branch
+- **Explain and search**: `entire checkpoint explain`, `entire why`, `entire blame`, `entire search`
+- **Cross-agent resume**: `entire session resume <branch>` restores a branch's sessions in your agent
+- **Redaction**: secret scanning before each write, user-defined rule packs, optional PII layer
+- **Agents**: Claude Code, Codex, Cursor, Copilot CLI, OpenCode, Antigravity, Factory AI Droid, Pi, and more through plugins
+
+**Hosted forge only:** Trails with agent-scored review and merge Gates (human approvals, findings, CI), distributed Git hosting, shared project memory. See [Agent-native Git forges](#agent-native-git-forges-2026).
 
 **Use cases:**
 
 | Scenario | Why Entire CLI |
 |----------|---------------|
-| **Compliance (SOC2, HIPAA)** | Full audit trail: prompts → reasoning → outputs |
-| **Multi-agent workflows** | Context preserved across agent switches |
-| **Debugging AI decisions** | Rewind to checkpoint, inspect reasoning |
-| **Governance** | Approval gates before production changes |
-| **Team handoffs** | Resume sessions with full context |
+| **Audit evidence** | Prompts, transcript and files linked to each commit, kept in Git |
+| **Multi-agent workflows** | Sessions resumable across agents |
+| **Debugging AI decisions** | Trace a line back to its prompt and session |
+| **Merge governance** | Gates on Trails (hosted forge) |
+| **Team handoffs** | Resume a branch with its sessions |
 
 **vs claude-code-viewer:**
 
 | Feature | claude-code-viewer | Entire CLI |
 |---------|-------------------|-----------|
-| **Purpose** | Read-only history viewing | Active session management + replay |
-| **Replay** | No | Yes (rewind to checkpoints) |
-| **Context** | Conversation only | Prompts + reasoning + file states |
-| **Governance** | No | Yes (approval gates, permissions) |
-| **Multi-agent** | No | Yes (agent handoffs) |
-| **Overhead** | None | ~5-10% storage |
+| **Purpose** | Read-only history viewing | Session capture linked to commits + resume |
+| **Storage** | Reads local Claude Code logs | Checkpoints pushed with the repository |
+| **Context** | Conversation only | Prompts + transcript + files touched |
+| **Governance** | No | Merge Gates on the hosted forge |
+| **Multi-agent** | No | Yes (cross-agent resume) |
+| **Overhead** | None | Checkpoint refs in the repository (measure it) |
 
 **When to choose Entire over claude-code-viewer:**
 
-- ✅ Need session replay/rewind functionality
-- ✅ Enterprise compliance requirements (audit trails)
-- ✅ Multi-agent workflows (Claude + Gemini)
-- ✅ Governance gates (approval before deploy)
-- ❌ Just want to browse history → Use claude-code-viewer (lighter)
+- ✅ Team needs to share the context behind commits
+- ✅ Audit evidence of agent-written code
+- ✅ Multi-agent workflows
+- ❌ Just want to browse your own history → Use claude-code-viewer (lighter)
 
 **Limitations:**
 
-- Very new (launched Feb 10-12, 2026) - limited production feedback
-- Enterprise-focused (may be complex for solo developers)
-- Storage overhead (~5-10% of project size for session data)
-- macOS/Linux only (Windows via WSL)
-- Early stage (v1.x) - expect API changes
+- Pre-1.0 CLI; the storage format already changed once (branch to refs)
+- Transcripts are pushed with the repository: a public repository publishes them unless checkpoints go to a separate private repository (`entire configure --local --checkpoint-remote github:<owner>/<repo>`)
+- Shadow branches hold unredacted working-tree snapshots locally
+- No SOC 2, ISO 27001, HIPAA or FedRAMP attestation for Entire found on entire.com or docs.entire.com (October 27, 2026)
 
 **Delta vs common existing setups:**
 
 | Need | Typical existing setup | What Entire adds |
 |------|----------------------|-----------------|
-| Tool call logging | Local JSONL (7-day rotation) | Reasoning + attribution %, Git-permanent |
-| Human/AI attribution | Nothing | % per file, annotated per line, by model |
-| Agent handoffs | Manual context copy | Context checkpoint auto-passed to next agent |
-| Inter-dev handoff | Git commits/PRs | Shared readable checkpoints on `entire/checkpoints/v1` |
-| Session persistence | Local only, ephemeral | Git-native, permanent, shareable |
-| Governance | Custom pre-commit hooks | Policy-based approval gates + configurable audit export |
+| Tool call logging | Local JSONL (7-day rotation) | Redacted transcripts kept in Git |
+| Human/AI attribution | Nothing | Attribution shown per session on entire.com (hosted) |
+| Agent handoffs | Manual context copy | `entire session resume` across agents |
+| Inter-dev handoff | Git commits/PRs | Checkpoints pushed with the code |
+| Session persistence | Local only, ephemeral | Git-native, shareable |
+| Governance | Custom pre-commit hooks | Merge Gates on Trails (hosted forge) |
 
-**Evaluation (2h spike recommended before team rollout):**
+**Evaluation (spike recommended before team rollout):**
 
 ```bash
 entire enable  # Install on throwaway branch
 
 # After 2-3 normal sessions:
-du -sh .git/refs/heads/entire/   # Storage per session → flag if > 10 MB
-time git push                     # Push overhead → flag if > 5s
-ls .git/hooks/                    # Verify no conflict with existing hooks
+git for-each-ref refs/entire/checkpoints/ | wc -l   # Checkpoints created
+git count-objects -vH                               # Repository growth
+time git push                                       # Push overhead → flag if > 5s
+ls .git/hooks/                                      # Verify no conflict with existing hooks
 ```
 
-Stop criteria: checkpoint > 10 MB/session, push overhead > 5s, or hook conflicts.
+Stop criteria (example values, adjust to your team): repository growth you cannot absorb, push overhead > 5s, or hook conflicts.
 
 > **Cross-ref**: Full Entire workflow with examples at [AI Traceability Guide](../ops/ai-traceability.md#51-entire-cli). For compliance use cases, see [Security Hardening](../security/security-hardening.md).
+
+---
+
+### Agent-native Git forges (2026)
+
+Coding agents push far more often than people, and several vendors now rebuild Git hosting and code review around that load. Checked October 27, 2026 against each vendor's primary source. All performance figures below are vendor measurements: no independent reproduction was found.
+
+| Product | What it is | Git compatibility | Status |
+|---------|-----------|-------------------|--------|
+| **[Entire](https://entire.com/blog/the-git-forge-for-agent-human-collaboration)** | Git forge built around agents: Trails replace the pull request, distributed hosting, shared project memory | Standard Git; native hosting or GitHub mirror | Launched October 26, 2026 |
+| **[Cursor Origin](https://forum.cursor.com/t/origin-code-hosting/168670)** | Code hosting built into Cursor: repos, browsing, PRs, GitHub sync | Standard Git; GitHub stays source of truth for synced repos | Early beta since August 17, 2026, paid plans only |
+| **[Cloudflare Artifacts](https://blog.cloudflare.com/artifacts-git-for-agents-beta/)** | Versioned storage that speaks Git, built to give each agent session its own repo and forks | Git smart HTTP v1/v2, plus REST and Workers APIs | Private beta at launch (April 16, 2026); later status not re-checked |
+| **[Anthropic Scion](https://www.anthropic.com/research/redesigning-source-control)** | Anthropic's in-house version control system; Anthropic "fully migrated our monorepo from git in five months" | Diverges from git's protocols; "by no means a suitable replacement for git for general use" | Internal only, described October 13, 2026 |
+
+**Entire forge, in practice:**
+
+- **Trails** score each push with review agents running in sandboxes (Claude Code and Codex under the hood). Findings carry a severity and a suggested fix. Per-repository Gates block the merge until approvals, findings and CI are satisfied. CI results come from Buildkite or Depot
+- **Mirror mode** keeps GitHub as the source of truth: clones and fetches come from Entire, pushes are forwarded to GitHub where branch protection and required checks still apply. During a GitHub outage, agents can keep pushing to Entire-native unmirrored branches
+- **Regions**: EU (Frankfurt), US (Ohio), Australia (Sydney), India (Mumbai), UK (London) and Singapore, per the [hosting regions page](https://entire.com/regions) effective October 19, 2026
+- **Memory**: `entire-graph` builds a local code map with tree-sitter, `entire-brain` links it to past sessions
+- **Vendor benchmark**: Entire reports 418 pushes per second against 4.7 for GitHub ("up to 89x"), measured with its own open-source [ForgeMark](https://github.com/entireio/forgemark) tool. Treat it as a storage-path comparison, not a measure of the full review, CI and merge cycle
+- **Pricing**: Paid Features consume prepaid credits ([Credit Terms](https://entire.com/credit-terms)); no per-seat price published
+
+**Anthropic Scion, what it shows:** Anthropic reports going from about 2,500 merged changes a day in May 2026 to over 30,000 a day in September, and about 25 million code checkouts a day for CI. Scion creates commits, rebases and merges on the server ("there's nothing to push"), and Anthropic invested in post-merge and pre-deploy testing instead of a global merge lock ("A proper merge queue, for example, doesn't make much sense at agent scale"). These are internal figures. The useful lesson for most teams is the pressure agent volume puts on merge queues and CI, not the tool itself.
+
+**How to choose:**
+
+| Situation | Reasonable first step |
+|-----------|----------------------|
+| GitHub rate limits or outages slow your agents | Mirror one repository (Entire mirror mode, Origin sync) and keep GitHub as the source of truth |
+| Review queue saturated by agent PRs | Trial agent-scored review on one repository before moving hosting |
+| Products that create repos for each agent session | Programmable Git storage (Cloudflare Artifacts) |
+| Need to leave Git entirely | None of the products above offers this; Scion is internal to Anthropic |
+
+Before adopting any of them, check what you can export besides the Git data: review history, findings, gates and session memory.
+
+> **Evaluation**: [Agent-native Git forges](../../docs/resource-evaluations/agent-native-git-forges.md)
 
 ---
 
@@ -1934,7 +1973,7 @@ As of February 2026, the community tooling ecosystem has notable gaps:
 | **Visual skills editor** | No GUI for creating/editing `.claude/skills/`: must edit YAML/Markdown manually |
 | **Visual hooks editor** | No GUI for managing hooks in `settings.json`: requires JSON editing |
 | **Unified admin panel** | Partial overlap: Opcode documents session, usage, MCP, and instruction management. This refresh did not validate an end-to-end administration workflow; see the [cockpit evaluation](../../docs/resource-evaluations/agent-workspace-cockpits.md#opcode) |
-| **Session replay** | ✅ **FILLED**: Entire CLI (launched Feb 2026) provides rewindable checkpoints with full context replay |
+| **Session replay** | ✅ **FILLED**: [Entire CLI](#entire-cli) stores each agent session as a checkpoint linked to its commit, explainable with `entire checkpoint explain` and resumable with `entire session resume` |
 | **Automated `.claude/` security scanning** | ✅ **FILLED**: [AgentShield](https://github.com/affaan-m/agentshield) (launched Feb 2026): 102-rule scanner with A–F grading, `--fix`, and GitHub Action integration |
 | **Agent-native issue tracking** | No established tool for markdown-based, git-committable issue tracking with Claude Code. [fp.dev](https://fp.dev/) is an early-stage solution (local-first, `/fp-plan` + `/fp-implement` skills, diff viewer) but lacks adoption signals and requires Apple Silicon for the desktop app. The Tasks API covers state persistence but issues aren't git-committable. |
 | **Per-MCP-server profiler** | No way to measure token cost attributable to each MCP server individually |

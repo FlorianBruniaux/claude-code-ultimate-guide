@@ -1711,76 +1711,67 @@ When scaling beyond single Claude Code sessions, external orchestration systems 
 
 See: `guide/ops/observability.md` for native Claude Code session monitoring
 
-#### Entire CLI: Governance-first orchestration
+#### Entire CLI: provenance and merge governance
 
-**What it is**: Agent-native platform focused on **governance + sequential handoffs** vs pure parallel coordination.
+**What it is**: Session capture linked to commits, plus cross-agent resume, rather than parallel coordination. Since October 26, 2026 it is also the client of Entire's hosted Git forge, where merge governance lives (Trails and Gates).
 
-**Launched**: February 2026 by Thomas Dohmke (ex-CEO GitHub), $60M funding
+**Launched**: February 2026 by Thomas Dohmke (ex-CEO GitHub), $60M seed. Forge launched October 26, 2026.
 
 **Architecture difference:**
 
 | Aspect | Gas Town / multiclaude | Entire CLI |
 |--------|------------------------|-----------|
-| **Paradigm** | Coordination (tmux multiplexing) | Governance (approval gates) |
-| **Agent spawning** | Manual (tmux/worktrees) | Automatic (handoff protocol) |
-| **Parallelization** | Yes (5+ agents) | No (sequential handoffs) |
-| **Context preservation** | Manual (shared files) | Automatic (checkpoints) |
-| **Audit trail** | None | Built-in (compliance-ready) |
-| **Rewind** | No | Yes (restore to checkpoints) |
+| **Paradigm** | Coordination (tmux multiplexing) | Provenance + governance (checkpoints, merge Gates) |
+| **Agent spawning** | Manual (tmux/worktrees) | None: you run your agents, Entire records them |
+| **Parallelization** | Yes (5+ agents) | Not an orchestrator; several agents can save checkpoints at once |
+| **Context preservation** | Manual (shared files) | Automatic (checkpoints in Git) |
+| **Audit trail** | None | Checkpoints linked to commits |
+| **Resume** | No | `entire session resume <branch>`, across agents |
 
 **Key points**:
-- ✅ Full audit trail: prompts → reasoning → outputs (SOC2, HIPAA compliance)
-- ✅ Agent handoffs with context (Claude → Gemini → Claude)
-- ✅ Approval gates before deploy (human-in-loop)
-- ⚠️ No parallel execution (sequential only)
-- ⚠️ Very new (launched Feb 10-12, 2026) - limited production feedback
-- 🔗 [GitHub repo](https://github.com/entireio/cli) / [entire.io](https://entire.io)
+- ✅ Prompts, transcript and files touched kept with each commit
+- ✅ Sessions resumable by another agent or teammate
+- ✅ Merge Gates with human approval (hosted forge, Trails)
+- ⚠️ Does not spawn or coordinate agents
+- ⚠️ Pre-1.0 CLI (0.10.x in October 2026)
+- ⚠️ No SOC 2, ISO 27001, HIPAA or FedRAMP attestation found for Entire (October 27, 2026)
+- 🔗 [GitHub repo](https://github.com/entireio/cli) / [docs.entire.com](https://docs.entire.com)
 
 **Agent handoff flow (how context actually passes between agents):**
 
 ```
-Claude Code                    Gemini CLI                   Entire
------------                    ----------                   ------
+Claude Code                    Git repository                Codex (or a teammate)
+-----------                    --------------                ---------------------
 
-works on feature
-"blocked on X,
- delegate to Gemini" ---------> hook PreToolUse[Task]
-                                (captures the handoff)
-                                                   |
-                                receives full       |
-                                context:            |
-                                - reasoning trace   |
-                                - files touched     |
-                                - decisions made    |
-                                - rejected approaches|
-                                                    |
-                                works...            |
-                                completes           |
-                                                    v
-                                               hook PostToolUse[Task]
-                                               (captures result)
+works on branch feat/x
+git commit ------------------> commit + Entire-Checkpoint trailer
+                               checkpoint ref (prompts,
+                               transcript, files touched)
+git push --------------------> pushed with the code
+                                       |
+                                       v
+                               git fetch / clone
+                                                             entire session resume feat/x
+                                                             (restores the branch's sessions
+                                                              in the agent you choose)
 
-Result: each agent in the chain sees the reasoning of previous agents.
-No "cold start" — full context preserved across agent switches.
+Result: the next agent starts from the recorded sessions, not from the diff alone.
 ```
 
 **When to use Entire CLI:**
 
 ```bash
-# Use Case 1: Compliance-critical workflows
-entire capture --agent="claude-code" --require-approval="security-team"
-[... Claude makes changes ...]
-# Changes blocked until security-team approves via: entire approve
+# Use Case 1: Provenance for review or audit
+entire enable
+[... Claude makes changes, you commit ...]
+entire checkpoint explain <id>      # prompts, transcript and files behind the commit
 
-# Use Case 2: Sequential agent handoff (Claude → Gemini)
-entire capture --agent="claude-code" --task="architecture"
-[... Claude designs system ...]
-entire handoff --to="gemini" --task="visual-design"
-# Gemini receives full context from Claude's session
+# Use Case 2: Hand a branch to another agent or teammate
+entire session resume feat/x        # restores the branch's sessions in your agent
 
-# Use Case 3: Debugging with rewind
-entire log  # See all decision checkpoints
-entire rewind --to="before-refactor"  # Restore exact state
+# Use Case 3: Debugging a past decision
+entire why src/auth/jwt.ts          # commit, checkpoint, prompt and session behind a file
+entire search "token refresh"       # find earlier sessions by intent
 ```
 
 **Complementarity matrix:**
@@ -1790,7 +1781,7 @@ entire rewind --to="before-refactor"  # Restore exact state
 | **Parallel features** (5+ agents) | Gas Town |
 | **Visual monitoring** | agent-chat |
 | **macOS parallel with GUI** | Conductor |
-| **Sequential handoffs + governance** | **Entire CLI** |
+| **Provenance + merge governance** | **Entire CLI** |
 | **Single agent + cost tracking** | Native Claude Code + ccusage |
 
 **Practical workflow (hybrid approach):**
@@ -1799,16 +1790,15 @@ entire rewind --to="before-refactor"  # Restore exact state
 # 1. Use Gas Town for parallel feature work
 gastown spawn --agents=5 --tasks="auth, tests, docs, refactor, deploy"
 
-# 2. Use Entire for sequential refinement with governance
-entire capture --agent="claude-code"
-[... implement critical feature ...]
-entire checkpoint --name="feature-complete"
-entire handoff --to="gemini" --task="ui-polish" --require-approval
+# 2. Enable Entire in the same repository so every agent commit carries its checkpoint
+entire enable
+[... agents commit as usual ...]
+entire checkpoint list              # review what each agent did before merging
 ```
 
-**Status:** Production v1.0+ (macOS/Linux, Windows via WSL)
+**Status:** CLI 0.10.x, MIT, macOS, Linux and Windows (October 2026)
 
-> **Full docs**: [AI Traceability Guide](../ops/ai-traceability.md#51-entire-cli), [Third-Party Tools](./third-party-tools.md)
+> **Full docs**: [AI Traceability Guide](../ops/ai-traceability.md#51-entire-cli), [Third-Party Tools](./third-party-tools.md#entire-cli)
 
 #### Security & cost warnings
 

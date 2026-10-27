@@ -684,9 +684,9 @@ where.exe claude; claude doctor; claude mcp list
 | **ccusage** | Cost tracking & reports | `bunx ccusage daily` |
 | **RTK** | Shell-output reduction (up to 90%) | `brew install rtk` (or `cargo install --git https://github.com/rtk-ai/rtk`) · [Site](https://www.rtk-ai.app/) (author is a core contributor) |
 | **claude-code-viewer** | Session history UI | `npx @kimuson/claude-code-viewer` |
-| **Entire CLI** | Session checkpoints + governance | [entire.io](https://entire.io) (Feb 2026) |
+| **Entire CLI** | Session checkpoints + Git forge | [entire.com](https://entire.com) (CLI Feb 2026, forge Oct 2026) |
 
-> **Entire CLI**: Agent-native platform by ex-GitHub CEO with rewindable checkpoints, approval gates, audit trails. For compliance (SOC2, HIPAA) or multi-agent workflows.
+> **Entire CLI**: By ex-GitHub CEO. Links each agent session to its commit as a checkpoint stored in Git, resumable across agents; its hosted forge adds agent-scored review and merge gates. For audit evidence or multi-agent workflows.
 
 ---
 

@@ -19379,7 +19379,7 @@ Don't jump to 10 instances. Scale progressively with validation gates.
 # - Gas Town (parallel task execution)
 # - multiclaude (self-hosted, tmux-based)
 # - Multica (issue/chat control plane with local daemon execution)
-# - Entire CLI (governance + sequential handoffs)
+# - Entire CLI (session provenance + cross-agent resume)
 
 # 2. Define roles
 # - Architect (reviews PRs)
@@ -19401,11 +19401,11 @@ Don't jump to 10 instances. Scale progressively with validation gates.
 | **Gas Town** | Parallel coordination | 5+ instances, complex parallel tasks |
 | **multiclaude** | Self-hosted spawner | Teams needing on-prem/airgap |
 | **Multica** | Issue-driven multi-provider control plane | Teams coordinating local agent CLIs through a server/daemon split |
-| **Entire CLI** | Governance + handoffs | Sequential workflows with compliance |
+| **Entire CLI** | Provenance + handoffs | Audit evidence, resuming work across agents |
 
 > **Multica** keeps issues, chat, agent configuration, schedules, and run records in its coordination tier while connected computers execute Claude Code, Codex, and other CLIs through a local daemon. See the [evidence-pinned Multica profile](./ecosystem/agentic-tools.md#49-multica) for deployment, data, security, Git, and licence boundaries.
 
-> **Entire CLI** (Feb 2026): Alternative to parallel orchestration, focuses on **sequential agent handoffs** with governance layer (approval gates, audit trails). Useful for compliance-critical workflows (SOC2, HIPAA) or multi-agent handoffs (Claude → Gemini). See [AI Ecosystem Guide](./ecosystem/ai-ecosystem.md#entire-cli-governance-first-orchestration) for details.
+> **Entire CLI** (Feb 2026): Not an orchestrator. It links each agent session to its commit as a checkpoint stored in Git, and `entire session resume` lets another agent or teammate continue a branch. Since October 26, 2026 it is also the client of Entire's hosted Git forge, where merge gates live. Useful for audit evidence or multi-agent handoffs; no SOC 2, ISO 27001, HIPAA or FedRAMP attestation for Entire was found (October 27, 2026). See [AI Ecosystem Guide](./ecosystem/ai-ecosystem.md#entire-cli-provenance-and-merge-governance) for details.
 
 **Success criteria**: Sustained 3-5% productivity gain over 3 months.
 

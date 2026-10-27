@@ -847,6 +847,8 @@ deep_dive:
   third_party_tools_rtk: "guide/ecosystem/third-party-tools.md#rtk-rust-token-killer"
   third_party_tools_session_mgmt: "guide/ecosystem/third-party-tools.md#session-management"
   third_party_tools_config_mgmt: "guide/ecosystem/third-party-tools.md#configuration-management"
+  entire_cli: "guide/ops/ai-traceability.md#51-entire-cli"  # Entire CLI: session checkpoints linked to commits, refs storage, redaction, compliance limits
+  agent_native_git_forges: "guide/ecosystem/third-party-tools.md#agent-native-git-forges-2026"  # Entire forge, Cursor Origin, Cloudflare Artifacts, Anthropic Scion (checked 2026-10-27)
   third_party_tools_hook_utilities: "guide/ecosystem/third-party-tools.md#hook-utilities"
   third_party_gitdiff_watcher: "guide/ecosystem/third-party-tools.md#gitdiff-watcher"
   third_party_gitdiff_watcher_upstream: "https://github.com/fcamblor/gitdiff-watcher"

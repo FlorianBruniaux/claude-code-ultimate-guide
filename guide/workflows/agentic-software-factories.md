@@ -100,8 +100,9 @@ Do you need the whole spec-to-deploy cycle owned by one vendor?
 │  │
 │  ├─ Team size 10-50, budget clearly allocated for tooling
 │  │  ├─ Regulatory or audit requirement (SOC2, HIPAA, traceability)?
-│  │  │  └─ Consider Entire CLI (governance-first, sequential, native
-│  │  │     Claude Code compatible) before a full closed factory.
+│  │  │  └─ Consider Entire CLI (session provenance linked to commits,
+│  │  │     merge gates on its hosted forge, Claude Code compatible)
+│  │  │     before a full closed factory.
 │  │  │     See guide/ops/ai-traceability.md section 5.1.
 │  │  └─ No compliance driver, just want to move faster
 │  │     └─ Pilot one closed factory on a single bounded project.
