@@ -1,0 +1,117 @@
+CHANGELOG.md
+  s_e4657147639b3d::t_8800e55f308415 21-36
+README.md
+  s_e4657147639b3d::t_7bcd04df9c5217 38,51,147,280,338
+docs/resource-evaluations/README.md
+  s_e4657147639b3d::t_e28ceed863b9cb 40-42,45,111
+docs/resource-evaluations/agent-harness-engineering-patterns-ahep.md
+  s_e4657147639b3d::t_da563ba798a532 1-43
+docs/resource-evaluations/agent-native-git-forges.md
+  s_e4657147639b3d::t_61eca2e8941405 1-55
+docs/resource-evaluations/agent-orchestrator-composio.md
+  s_e4657147639b3d::t_e24e2cfac54850 1,3-5,7,9,11,13,15,17,19-23,25-34,36,38,40,42-46,48,50,52,54,56,58,60,62
+docs/resource-evaluations/agent-workspace-cockpits.md
+  s_e4657147639b3d::t_2e15cc9b66123c 3,17,27-42,135-136
+docs/resource-evaluations/ai-design-pattern-crosswalks.md
+  s_e4657147639b3d::t_3d233af889dfc6 1-59
+docs/resource-evaluations/entire-cli.md
+  s_e4657147639b3d::t_dd9cc15faaf36d 3-4,131,190,237-239
+docs/resource-evaluations/jev-typesafe-system-one.md
+  s_e4657147639b3d::t_82c578463baa90 3,37-58
+guide/README.md
+  s_e4657147639b3d::t_fa6e3309619b23 42
+guide/cheatsheet.md
+  s_e4657147639b3d::t_d187e7b2c6ae24 690,692
+guide/core/agent-harness.md
+  s_e4657147639b3d::t_8b2d2da427ee39 636
+guide/core/ai-design-patterns.md
+  s_e4657147639b3d::t_24e006ba347cd0 1-694
+guide/core/loop-graph-engineering.md
+  s_e4657147639b3d::t_9c97a3c6a42a63 19
+guide/core/skill-design-patterns.md
+  s_e4657147639b3d::t_aae08d0823cbdd 367
+guide/ecosystem/ai-ecosystem.md
+  s_e4657147639b3d::t_d8753ffd0a41b5 1714,1716,1718,1724-1729,1732-1738,1743-1744,1746-1756,1758,1764-1767,1769-1770,1772-1774,1784,1793-1796,1799,1801
+guide/ecosystem/third-party-tools.md
+  s_e4657147639b3d::t_10207017a04342 645,649-655,657-662,664,670-674,680-685,689-692,696-699,705-710,712,718-721,724,730-766,1440,1445,1458,1464,1468-1474,1476,1478,1480,1482,1979
+guide/images/ai-design-patterns/README.md
+  s_e4657147639b3d::t_b1f2fcf2b58ba2 1-19
+guide/learning-path/04-agents.md
+  s_e4657147639b3d::t_bb7e48d43ae01c 133-134
+guide/ops/ai-traceability.md
+  s_e4657147639b3d::t_4305094c486ecb 307,309,312-316,321-323,325-327,330-331,338-339,350-351,353-354,356,358-361,363-369,371-372,378-379,381,383,385-388,390-392,397-399,401-406,408,410,413-415,418-421,426-429,433-436,440-444,446,453-457,473,697
+guide/ops/observability.md
+  s_e4657147639b3d::t_32118c62c92d47 254,259,261-263,265-266,268-271,274-276,280-283,288-289,291
+guide/security/enterprise-governance.md
+  s_e4657147639b3d::t_05ce38bbb9dc20 789,1122
+guide/security/security-hardening.md
+  s_e4657147639b3d::t_5a17c20f3bbca4 987,989,991,993-1000,1003-1017,1020,1023-1024,1026-1027,1029-1030,1032-1033,1036-1048,1051-1053,1057,1059
+guide/ultimate-guide.fr.md
+  s_e4657147639b3d::t_0f6d36362618d7 20017,20039,20043
+guide/ultimate-guide.md
+  s_e4657147639b3d::t_4269bdf2a34926 12866,12893,19522,19544,19548
+guide/workflows/agentic-software-factories.md
+  s_e4657147639b3d::t_1e97f854b4da04 103-105
+guide/workflows/smart-suggest-routing.md
+  s_e4657147639b3d::t_26293c0f6e6a14 25-34
+llms-full.txt
+  s_e4657147639b3d::t_d280c2f4e4d3b5 778,780
+llms.txt
+  s_e4657147639b3d::t_987b91eed05987 65
+machine-readable/README.md
+  s_e4657147639b3d::t_6558c2be8d62de 130
+machine-readable/ai-design-patterns.json
+  s_e4657147639b3d::t_f0a7d6b28429c0 1-2012
+machine-readable/ai-design-patterns.schema.json
+  s_e4657147639b3d::t_7d1fe46709779f 1-143
+machine-readable/llms.txt
+  s_e4657147639b3d::t_54a5fa38fc938a 65
+machine-readable/mcp-product.json
+  s_e4657147639b3d::t_f5c6e252780e76 15-16,424-429,494
+machine-readable/navigation.json
+  s_e4657147639b3d::t_b6cd19d3d5e207 4,70-76
+machine-readable/reference.yaml
+  s_e4657147639b3d::t_4469f103360fdf 192-202,337,865-866,874-876,1141-1142,1145,1155,1276-1279,1457,1461-1462,1465,1472,1516,1528,1530-1531,1534,1537,1584,1606,1735,1737,1739-1743,1792,1845,1869
+mcp-server/README.md
+  s_e4657147639b3d::t_face5bd8f2da50 83,114
+mcp-server/content/ai-design-patterns.json
+  s_e4657147639b3d::t_b2bc3bebb85726 1-2012
+mcp-server/content/llms.txt
+  s_e4657147639b3d::t_1d805fe97aa335 65
+mcp-server/content/reference.yaml
+  s_e4657147639b3d::t_0f5f1f4a435220 192-202,337,865-866,874-876,1141-1142,1145,1155,1276-1279,1457,1461-1462,1465,1472,1516,1528,1530-1531,1534,1537,1584,1606,1735,1737,1739-1743,1792,1845,1869
+mcp-server/src/lib/chapter-ranges.generated.json
+  s_e4657147639b3d::t_8b48c6c7bb6c92 2-4,48,52-53,57-58,62-63,67-68
+mcp-server/src/lib/content.ts
+  s_e4657147639b3d::t_171edc0c1ab7ce 177-181
+mcp-server/src/resources/index.ts
+  s_e4657147639b3d::t_76371abd47a43b 4,79-100
+mcp-server/test/fixtures/expected-resource-uris.json
+  s_e4657147639b3d::t_5a1c5dc2ad55fe 3
+mcp-server/test/product-manifest.test.mjs
+  s_e4657147639b3d::t_72c4e21b875f04 38,41
+mcp-server/test/runtime-contract.test.mjs
+  s_e4657147639b3d::t_5f158d5eaf8124 43
+scripts/build-ai-design-patterns.py
+  s_e4657147639b3d::t_4ffbee248fbe7e 1-384
+machine-readable/translations.json
+  s_e4657147639b3d::t_87b993c52d5946 4,24,26-27,56-57,60,114-115,190-191
+mcp-server/content/translations.json
+  s_e4657147639b3d::t_c4ae3987cde5a3 4,24,26-27,56-57,60,114-115,190-191
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "d5e742d7e63672ce1ea4c538fa6eb9ceaad481e8",
+  "prompts": {},
+  "sessions": {
+    "s_e4657147639b3d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8a74dfbb-37e9-436b-ad1f-75650865d964",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
