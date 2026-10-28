@@ -95,6 +95,18 @@ Predeclare the smallest difference that would change the decision, the repeated-
 
 Evaluate a component with and without the proposed addition under a declared budget policy. If removing a reviewer reallocates resources to another, record that as a different treatment from simply omitting the call. Inspect false acceptances, false rejections, introduced regressions and cost. Keep rare high-impact cases visible instead of letting frequent easy cases determine the policy alone.
 
+### Size the comparison to the decision
+
+A small configuration ablation can answer a process question long before it can answer an outcome question. [Khatri (arXiv 2607.27250)](https://arxiv.org/abs/2607.27250) ran Claude Code and Codex on 17 real tasks from 3 Python repositories under three context-injection strategies, for 288 runs scored with gold tests. Context strategy did not measurably change correctness, and equivalence testing bounds the effect to 10 to 15 percentage points. The [study repository](https://github.com/codeprakhar25/context-files-coding-agents) states the limiting constraint: with about 15 to 17 tasks and 3 repeats, the minimum detectable effect exceeds 30 points, and detecting 10 points at 80% power would need about 120 tasks. The same study observed a process effect. On one repository, Claude Code ran the slow full test suite less often with the context file (3.67, 2.44 and 1.67 blind full-suite runs across the three strategies), and wall-clock time fell by about 24%.
+
+Choose the question your sample can answer:
+
+- **Process signals**: calls to tools that are not installed, repeated full-suite runs, tokens or wall time per run. A few paired runs on representative tasks can expose them when both arms start from the same state.
+- **Outcome signals**: pass rate or accepted-task rate. Size the task set to the smallest difference that would change the decision before running it. Below that size, report the comparison as inconclusive, not as "no regression".
+- **Rare mandatory rules**: an unchanged average on frequent tasks says nothing about the rare case the rule exists for. Include that case explicitly.
+
+Example: a project rule orders the agent to use the tools of an MCP server. Before designing an A/B test, check whether any scope configures that server for the project (`claude mcp list` from the project root). If none does, the rule can only produce failed or avoided tool calls. A few runs can count those; the removal decision does not need a quality comparison.
+
 ---
 
 ### Control the initial state and the human assessment
@@ -455,6 +467,18 @@ jq -s 'group_by(.safety) | map({safety: .[0].safety, count: length})' \
 - **Metrics schema**: Use nao's metrics schema as template for your logs
 
 **Status**: Production-ready, actively maintained, TypeScript + Python
+
+#### Configuration ablation runners
+
+These tools run the same cases with and without one component. Each targets a specific unit, and none documents a direct arm for a `CLAUDE.md` file or a `.claude/rules/` file. To test those, prepare two otherwise identical workspaces and run the same cases in both. All three launch real agent runs on your own credentials, so every case costs at least two runs per repetition. For the official skill loop, see [Skill Evals](../ultimate-guide.md#5y-skill-evals).
+
+| Tool | Unit compared | Reports | Boundary |
+|---|---|---|---|
+| `claude plugin eval` (native; options read from the Claude Code 2.1.312 help) | A plugin against a no-plugin baseline arm (`--ablation with-without`) | Grader scores per case and run, score delta, `--json` result, exit 1 below `--threshold` | Plugin scope. `--max-cost-usd` sets a hard ceiling; real MCP servers start only with explicit flags |
+| [skill-eval-harness](https://github.com/adewale/skill-eval-harness) (MIT) | A skill: `with_skill`, `without_skill`, optional `old_skill` and ablation arms | Paired lift with significance, token and cost telemetry, deterministic local grading | Skill manifests; runners for Claude, Codex, Gemini CLI and Mistral Vibe |
+| [agent-skill-eval](https://github.com/tardigrde/agent-skill-eval) (MIT) | A `SKILL.md` installed into a fresh workspace, against a no-skill baseline | Pass rate, pass@k, tokens, cost, wall time, recorded effective configuration | Skills only; LLM rubric grading needs an OpenRouter or OpenAI key; no GitHub release listed on 2026-10-28 |
+
+Size the run with [Size the comparison to the decision](#size-the-comparison-to-the-decision) before reading a delta. These descriptions come from each project's documentation; the guide has not run the two external harnesses.
 
 ---
 

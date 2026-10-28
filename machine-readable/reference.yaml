@@ -2078,6 +2078,8 @@ deep_dive:
   agent_evaluation_patterns: "guide/roles/agent-evaluation.md#implementation-patterns"
   agent_evaluation_probabilistic: "guide/roles/agent-evaluation.md#evaluating-probabilistic-systems"
   agent_evaluation_tools: "guide/roles/agent-evaluation.md#tools--references"
+  agent_evaluation_sample_size: "guide/roles/agent-evaluation.md#size-the-comparison-to-the-decision"  # process vs outcome signals; Khatri 2607.27250 power limit (~120 tasks for 10pp)
+  agent_evaluation_ablation_runners: "guide/roles/agent-evaluation.md#configuration-ablation-runners"  # claude plugin eval, skill-eval-harness, agent-skill-eval; no direct CLAUDE.md or rules arm
   # ── Team Metrics (guide/ops/team-metrics.md) — DORA, SPACE, agentic metrics
   team_metrics_guide: "guide/ops/team-metrics.md"
   team_metrics_dora: "guide/ops/team-metrics.md#the-dora-foundation"

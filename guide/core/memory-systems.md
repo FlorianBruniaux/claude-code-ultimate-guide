@@ -140,6 +140,8 @@ Claude automatically detects the tech stack, directory structure, and existing c
 **The anchoring risk**: every entry loads every session regardless of task. A stale entry referencing a deprecated library biases the agent toward it on every prompt. Treat periodic CLAUDE.md pruning as maintenance, not cleanup. Tools like [ctxharness](https://github.com/FlorianBruniaux/ctxharness) automate the detection half of that maintenance, scanning CLAUDE.md and AGENTS.md files for stale version references and broken paths so drift gets caught before it biases a session.
 
 > **Research note (reviewed September 2026)**: [Gloaguen et al.](https://arxiv.org/html/2602.11988v1) compare context-file conditions across agents and datasets; the human-written condition appears only on AGENTbench. The results do not establish a fixed cost surcharge or success-rate effect for every file. Test instruction relevance on representative tasks, retaining necessary constraints. See the [corrected source evaluation](../../docs/resource-evaluations/agents-md-empirical-study-2602-11988.md).
+>
+> Two later studies measure other effects. [Lulla et al. (arXiv 2601.20404)](https://arxiv.org/abs/2601.20404) associate an `AGENTS.md` file with a 28.64% lower median runtime and 16.58% fewer output tokens on 124 pull requests from 10 repositories, with comparable task completion. [Khatri (arXiv 2607.27250)](https://arxiv.org/abs/2607.27250) finds no measurable correctness effect on 17 tasks; the sample-size limit is discussed in [Agent Evaluation](../roles/agent-evaluation.md#size-the-comparison-to-the-decision).
 
 **When your project grows**, structure around three layers:
 
