@@ -1,0 +1,23 @@
+guide/ecosystem/claude-code-guide-mcp.md
+  s_e4657147639b3d::t_cbff21559da44c 5,7-10,12,18,23-24,47,59,74,94,110,127-128,131,133,154,159,178,204,217,219,246,251,259,279
+machine-readable/mcp-public-runtime.json
+  s_e4657147639b3d::t_2f9f69b903bdf5 3,6,10,34,47
+CHANGELOG.md
+  s_e4657147639b3d::t_abc03d28cd47ad 9
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "970757fd029c2c457bcd8b44861c6994eb783772",
+  "prompts": {},
+  "sessions": {
+    "s_e4657147639b3d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8a74dfbb-37e9-436b-ad1f-75650865d964",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
