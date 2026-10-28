@@ -13006,8 +13006,8 @@ Le Claude Code Ultimate Guide fournit un serveur MCP stdio : les clients de coda
 #### Installation
 
 ```bash
-claude mcp add --scope user claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.6
-codex mcp add claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.6
+claude mcp add --scope user claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.7
+codex mcp add claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.7
 ```
 
 Pour Claude Code à l'échelle du projet, ajoutez le serveur à `.mcp.json` :
@@ -13018,7 +13018,7 @@ Pour Claude Code à l'échelle du projet, ajoutez le serveur à `.mcp.json` :
     "claude-code-guide": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "claude-code-ultimate-guide-mcp@1.3.6"]
+      "args": ["-y", "claude-code-ultimate-guide-mcp@1.3.7"]
     }
   }
 }
