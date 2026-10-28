@@ -2,6 +2,7 @@
   "$schema": "./ai-design-patterns.schema.json",
   "version": "1.0.0",
   "last_verified": "2026-10-27",
+  "last_updated": "2026-10-28",
   "guide_page": "guide/core/ai-design-patterns.md",
   "site_path": "/ai-design-patterns/",
   "purpose": "Crosswalk between classic software design patterns and agent harness patterns, anchored in documented Claude Code mechanisms. Feeds the guide page, the landing page, and the MCP resource claude-code-guide://ai-design-patterns.",
