@@ -2003,6 +2003,8 @@ Servers evaluated but not included in the validated list:
 **Next review**: August 2026
 **Maintainer**: Claude Code Ultimate Guide Team
 
+For MCP servers read as the Adapter pattern, with the failure mode and a check to run, see [AI Design Patterns: Adapter](../core/ai-design-patterns.md#adapter).
+
 ---
 
 *Back to [main guide](../ultimate-guide.md) | [README](../README.md)*

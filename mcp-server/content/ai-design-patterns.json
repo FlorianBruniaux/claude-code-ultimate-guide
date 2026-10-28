@@ -84,18 +84,30 @@
       ],
       "claude_code": [
         {
-          "name": "CLAUDE.md hierarchy and auto memory",
+          "name": "CLAUDE.md hierarchy and auto memory (shared state, not a Singleton)",
           "doc": "https://code.claude.com/docs/en/memory"
         }
       ],
       "consensus": "divergent",
       "provenance": "own-synthesis",
-      "failure_mode": "One shared memory file becomes mutable global state: parallel sessions or agents that write it at the same time can overwrite each other's entries.",
+      "failure_mode": "Claude Code provides no Singleton here: several CLAUDE.md and memory files load and combine, and nothing enforces one instance or one access point. What carries over is the risk of unmanaged shared state: parallel sessions or agents that write the same memory file at the same time can overwrite each other's entries.",
       "verify": "Run two sessions that both append to the same memory file and check whether either entry is lost.",
       "sources": [
         "aicodingpatterns",
         "kage-ai",
         "claude-docs-memory"
+      ],
+      "related": [
+        {
+          "kind": "guide",
+          "title": "Memory systems: the native Claude Code memory stack",
+          "path": "guide/core/memory-systems.md#2-native-claude-code-memory-stack"
+        },
+        {
+          "kind": "article",
+          "title": "Persistent memory: the six failures that never raise an error",
+          "url": "https://www.florian.bruniaux.com/guides/persistent-memory-silent-failures/"
+        }
       ],
       "infographic": {
         "file": "guide/images/ai-design-patterns/patterns/singleton.webp",
@@ -130,6 +142,18 @@
         "aicodingpatterns",
         "apc",
         "claude-docs-mcp"
+      ],
+      "related": [
+        {
+          "kind": "guide",
+          "title": "MCP servers ecosystem",
+          "path": "guide/ecosystem/mcp-servers-ecosystem.md"
+        },
+        {
+          "kind": "article",
+          "title": "MCP servers: what they actually cost and when to use them",
+          "url": "https://www.florian.bruniaux.com/guides/mcp-servers-token-cost/"
+        }
       ],
       "videos": [
         {
@@ -218,6 +242,18 @@
         "agentpatterns-ai",
         "claude-docs-hooks"
       ],
+      "related": [
+        {
+          "kind": "guide",
+          "title": "Hooks events reference",
+          "path": "guide/core/hooks-events-reference.md"
+        },
+        {
+          "kind": "guide",
+          "title": "Smart-Suggest routing: a UserPromptSubmit hook that adds skill candidates to the prompt",
+          "path": "guide/workflows/smart-suggest-routing.md#claude-code-architecture"
+        }
+      ],
       "videos": [
         {
           "source": "yt-sw3plfxfwj4",
@@ -261,6 +297,23 @@
       "sources": [
         "agentpatterns-ai",
         "claude-docs-memory"
+      ],
+      "related": [
+        {
+          "kind": "article",
+          "title": "Your CLAUDE.md is too long",
+          "url": "https://www.florian.bruniaux.com/blog/articles/your-claudemd-is-too-long/"
+        },
+        {
+          "kind": "project",
+          "title": "ctxharness: checks that claims in CLAUDE.md and rules still match the project",
+          "url": "https://github.com/FlorianBruniaux/ctxharness"
+        },
+        {
+          "kind": "guide",
+          "title": "Team AI instructions",
+          "path": "guide/workflows/team-ai-instructions.md"
+        }
       ],
       "infographic": {
         "file": "guide/images/ai-design-patterns/patterns/facade.webp",
@@ -338,6 +391,13 @@
         "claude-docs-tools-reference",
         "claude-docs-hooks"
       ],
+      "related": [
+        {
+          "kind": "guide",
+          "title": "Hooks events reference",
+          "path": "guide/core/hooks-events-reference.md"
+        }
+      ],
       "infographic": {
         "file": "guide/images/ai-design-patterns/patterns/command.webp",
         "alt": "Command card (GoF behavioral). Classic: Turn a request into an object you can queue, log or check. In Claude Code: Tool calls and PreToolUse hooks. Breaks when: The model writes the arguments, and unchecked they run as written. Check: Replay an out-of-scope tool input and assert the hook blocks it."
@@ -369,13 +429,25 @@
       ],
       "consensus": "consensus",
       "provenance": "own-synthesis",
-      "failure_mode": "The mediator becomes the bottleneck: if workers return transcripts instead of summaries, the coordinating context fills with material it never reads again.",
-      "verify": "Check that each subagent prompt asks for a bounded final report, and compare /context before and after a delegation.",
+      "failure_mode": "The topology is not enforced, and the mediator can become the bottleneck. A subagent whose tools include SendMessage can message other named agents directly, without agent teams. And if workers return transcripts instead of summaries, the coordinating context fills with material it never reads again.",
+      "verify": "Leave SendMessage out of a worker's tools when all traffic must go through the coordinator, ask each subagent for a bounded final report, and compare /context before and after a delegation.",
       "sources": [
         "aicodingpatterns",
         "sarkar-2025",
         "claude-docs-sub-agents",
         "claude-docs-agent-teams"
+      ],
+      "related": [
+        {
+          "kind": "guide",
+          "title": "Agent teams",
+          "path": "guide/workflows/agent-teams.md"
+        },
+        {
+          "kind": "guide",
+          "title": "Cross-session messaging: peer messages without a mediator",
+          "path": "guide/workflows/cross-session-messaging.md"
+        }
       ],
       "videos": [
         {
@@ -427,7 +499,7 @@
       ],
       "infographic": {
         "file": "guide/images/ai-design-patterns/patterns/memento.webp",
-        "alt": "Memento card (GoF behavioral). Classic: Snapshot the state and restore it later. In Claude Code: Checkpoints and /rewind. Breaks when: Only Claude's file edits are tracked, not Bash or external changes. Check: Change an untouched file with Bash, rewind, and see it survive."
+        "alt": "Memento card (GoF behavioral). Classic: Snapshot the state and restore it later. In Claude Code: Checkpoints and /rewind. Breaks when: Only Claude's file edits are tracked, not Bash or external changes. Check: Edit a file with Bash, rewind, and the change is still there."
       }
     },
     {
@@ -452,13 +524,26 @@
       ],
       "consensus": "consensus",
       "provenance": "third-party",
-      "failure_mode": "Subscribers assume an order. The docs state that matching hooks run in parallel, each one runs to completion, and for permission decisions the most restrictive result applies: one hook's deny does not stop a sibling hook's side effects.",
+      "failure_mode": "Subscribers assume an order. The docs state that matching hooks run in parallel, that Claude Code combines their outputs after all of them finish, and that for permission decisions the most restrictive result applies: one hook's deny does not stop a sibling hook's side effects.",
       "verify": "Run each hook alone against a recorded event payload; a hook that only passes after another one is not an observer.",
       "sources": [
         "agentpatterns-ai",
         "aicodingpatterns",
         "kage-ai",
-        "claude-docs-hooks"
+        "claude-docs-hooks",
+        "claude-docs-hooks-guide"
+      ],
+      "related": [
+        {
+          "kind": "guide",
+          "title": "Hooks events reference",
+          "path": "guide/core/hooks-events-reference.md"
+        },
+        {
+          "kind": "article",
+          "title": "Claude Code under the hood",
+          "url": "https://www.florian.bruniaux.com/blog/articles/claude-code-under-the-hood/"
+        }
       ],
       "videos": [
         {
@@ -508,6 +593,23 @@
         "kage-ai",
         "claude-docs-model-config",
         "claude-docs-sub-agents"
+      ],
+      "related": [
+        {
+          "kind": "project",
+          "title": "agent-router-core: experimental deterministic routing CLI for agent workflows",
+          "url": "https://github.com/FlorianBruniaux/agent-router-core"
+        },
+        {
+          "kind": "project",
+          "title": "cc-copilot-bridge: multi-provider routing for Claude Code",
+          "url": "https://github.com/FlorianBruniaux/cc-copilot-bridge"
+        },
+        {
+          "kind": "article",
+          "title": "Measuring your own AI usage: three meters, three different answers",
+          "url": "https://www.florian.bruniaux.com/blog/articles/real-cost-of-ai-measuring-your-own-usage/"
+        }
       ],
       "videos": [
         {
@@ -560,6 +662,23 @@
         "claude-docs-skills",
         "claude-docs-hooks"
       ],
+      "related": [
+        {
+          "kind": "guide",
+          "title": "Skill design patterns",
+          "path": "guide/core/skill-design-patterns.md"
+        },
+        {
+          "kind": "guide",
+          "title": "TDD with Claude",
+          "path": "guide/workflows/tdd-with-claude.md"
+        },
+        {
+          "kind": "article",
+          "title": "TDD with Claude Code",
+          "url": "https://www.florian.bruniaux.com/guides/tdd-with-claude-code/"
+        }
+      ],
       "videos": [
         {
           "source": "yt-nmwgxvm-to",
@@ -602,6 +721,13 @@
         "hohpe-eip",
         "claude-docs-headless",
         "claude-docs-cli-reference"
+      ],
+      "related": [
+        {
+          "kind": "guide",
+          "title": "GitHub Actions workflows",
+          "path": "guide/workflows/github-actions.md"
+        }
       ],
       "videos": [
         {
@@ -655,6 +781,27 @@
         "claude-docs-sub-agents",
         "claude-docs-skills"
       ],
+      "related": [
+        {
+          "kind": "guide",
+          "title": "BM25 router, step by step",
+          "path": "guide/workflows/smart-suggest-routing.md#bm25-router-step-by-step",
+          "image": {
+            "file": "guide/images/bm25-skill-router-en.webp",
+            "alt": "A worked Content-Based Router: the BM25 skill router, step by step. On every prompt a hook scores the text against positive and negative example prompts for each skill, and suggests up to three skills whose best positive match beats their best negative match and clears a calibrated per-skill threshold."
+          }
+        },
+        {
+          "kind": "template",
+          "title": "Runnable BM25 routing hook",
+          "path": "examples/hooks/bm25-routing/README.md"
+        },
+        {
+          "kind": "project",
+          "title": "cc-skill-usage: counts real Skill invocations in transcripts",
+          "url": "https://github.com/FlorianBruniaux/cc-skill-usage"
+        }
+      ],
       "videos": [
         {
           "source": "yt-utm3frgbun0",
@@ -707,6 +854,23 @@
         "claude-docs-sub-agents",
         "claude-docs-workflows"
       ],
+      "related": [
+        {
+          "kind": "guide",
+          "title": "Dynamic workflows",
+          "path": "guide/workflows/dynamic-workflows.md"
+        },
+        {
+          "kind": "guide",
+          "title": "Best-of-N",
+          "path": "guide/workflows/best-of-n.md"
+        },
+        {
+          "kind": "guide",
+          "title": "Multi-provider code review",
+          "path": "guide/workflows/multi-provider-code-review.md"
+        }
+      ],
       "videos": [
         {
           "source": "yt-prih-9homfi",
@@ -758,6 +922,23 @@
         "claude-docs-sub-agents",
         "claude-docs-worktrees"
       ],
+      "related": [
+        {
+          "kind": "guide",
+          "title": "Sandbox isolation",
+          "path": "guide/security/sandbox-isolation.md"
+        },
+        {
+          "kind": "article",
+          "title": "Plan-execute: running 20+ agents on a migration (worktree isolation)",
+          "url": "https://www.florian.bruniaux.com/guides/plan-execute-migrations/"
+        },
+        {
+          "kind": "project",
+          "title": "wt-sweep: discovers Git worktrees and reviews integration evidence",
+          "url": "https://github.com/FlorianBruniaux/wt-sweep"
+        }
+      ],
       "infographic": {
         "file": "guide/images/ai-design-patterns/patterns/bulkhead.webp",
         "alt": "Bulkhead card (Distributed and resilience). Classic: Isolate resources so one failure cannot sink everything. In Claude Code: Subagent context isolation and worktrees. Breaks when: The context is isolated, but the checkout is shared. Check: Give parallel writers their own worktree."
@@ -770,7 +951,7 @@
       "classic_intent": "Stop calling a failing dependency after repeated failures, and fail fast.",
       "agent_analogue": [
         {
-          "label": "Hard caps on turns, cost, and loop depth",
+          "label": "Stop limits on turns, estimated cost, and loop depth",
           "sources": [
             "agentpatterns-ai",
             "aicodingpatterns",
@@ -786,7 +967,7 @@
       ],
       "claude_code": [
         {
-          "name": "--max-turns and --max-budget-usd (print mode)",
+          "name": "Bounded execution: --max-turns and --max-budget-usd (print mode)",
           "doc": "https://code.claude.com/docs/en/cli-reference"
         },
         {
@@ -796,8 +977,8 @@
       ],
       "consensus": "consensus",
       "provenance": "own-synthesis",
-      "failure_mode": "The breaker is static, not failure-triggered, and often set on one layer only: --max-turns has no limit by default and counts turns, not cost, so it needs --max-budget-usd beside it.",
-      "verify": "Run the automated job with --max-turns and --max-budget-usd set, on a task designed to loop, and check that it exits with an error.",
+      "failure_mode": "These limits are bounded execution, not a breaker. A circuit breaker watches failures and opens; these caps are fixed before the run and do not track failures. --max-turns has no limit by default and counts turns, not cost. --max-budget-usd stops on a client-side cost estimate, and the docs warn that spend can pass the cap, so leave headroom.",
+      "verify": "Run the automated job with --max-turns and --max-budget-usd set, on a task designed to loop, and check that it exits with an error and how far the reported spend went past the cap.",
       "sources": [
         "agentpatterns-ai",
         "aicodingpatterns",
@@ -806,6 +987,18 @@
         "fowler-circuit-breaker",
         "claude-docs-cli-reference",
         "claude-docs-sub-agents"
+      ],
+      "related": [
+        {
+          "kind": "guide",
+          "title": "Loop & Graph Engineering: write a loop contract",
+          "path": "guide/core/loop-graph-engineering.md#2-write-a-loop-contract"
+        },
+        {
+          "kind": "article",
+          "title": "Designing a bounded review loop",
+          "url": "https://www.florian.bruniaux.com/guides/bounded-code-review-loop/"
+        }
       ],
       "videos": [
         {
@@ -858,6 +1051,18 @@
         "apc",
         "claude-docs-checkpointing"
       ],
+      "related": [
+        {
+          "kind": "guide",
+          "title": "Loop & Graph Engineering: reconcile interrupted effects before retrying",
+          "path": "guide/core/loop-graph-engineering.md#reconcile-interrupted-effects-before-retrying"
+        },
+        {
+          "kind": "guide",
+          "title": "Production safety",
+          "path": "guide/security/production-safety.md"
+        }
+      ],
       "videos": [
         {
           "source": "yt-2czyyrtzilg",
@@ -904,6 +1109,18 @@
         "claude-docs-hooks",
         "claude-docs-permissions"
       ],
+      "related": [
+        {
+          "kind": "guide",
+          "title": "Native sandbox",
+          "path": "guide/security/sandbox-native.md"
+        },
+        {
+          "kind": "article",
+          "title": "Claude Code security: the attack surface few teams audit",
+          "url": "https://www.florian.bruniaux.com/guides/claude-code-attack-surface/"
+        }
+      ],
       "infographic": {
         "file": "guide/images/ai-design-patterns/patterns/sidecar.webp",
         "alt": "Sidecar card (Distributed and resilience). Classic: Cross-cutting policy runs next to the service. In Claude Code: Hooks, permissions and sandboxing around the loop. Breaks when: Policy in the prompt, or a hook that fails open. Check: Name the enforcing layer for every safety rule."
@@ -924,17 +1141,34 @@
       ],
       "claude_code": [
         {
-          "name": "Session transcripts, --resume and --continue",
+          "name": "Session transcripts and resume (conversation persistence)",
           "doc": "https://code.claude.com/docs/en/sessions"
         }
       ],
       "consensus": "single-source",
       "provenance": "own-synthesis",
-      "failure_mode": "Replay is assumed to reproduce the result. Resuming a session restores the conversation, but the model calls that follow are not deterministic.",
-      "verify": "Treat the transcript as an audit trail, not a replay log: pin the inputs you need to reproduce outside it.",
+      "failure_mode": "The transcript is taken for the whole event log. It records the conversation, including model outputs and tool results, so --resume rebuilds the conversation without calling the model again. It does not record the state of files, branches, or services the session changed, so it cannot rebuild that state, and the turns after a resume are new model calls.",
+      "verify": "Before relying on a resumed session, check that the files, branch, and services it assumes still match, and keep the state you need to rebuild in git or an explicit log.",
       "sources": [
         "kage-ai",
         "claude-docs-sessions"
+      ],
+      "related": [
+        {
+          "kind": "guide",
+          "title": "Observability: session search and resume",
+          "path": "guide/ops/observability.md"
+        },
+        {
+          "kind": "guide",
+          "title": "AI traceability",
+          "path": "guide/ops/ai-traceability.md"
+        },
+        {
+          "kind": "project",
+          "title": "cc-sessions: search and analyze Claude Code session history",
+          "url": "https://github.com/FlorianBruniaux/cc-sessions"
+        }
       ],
       "videos": [
         {
@@ -950,7 +1184,7 @@
       ],
       "infographic": {
         "file": "guide/images/ai-design-patterns/patterns/event-sourcing.webp",
-        "alt": "Event Sourcing card (Distributed and resilience). Classic: Store every change as an event, replay to rebuild. In Claude Code: Session transcripts with --resume and --continue. Breaks when: Resuming restores the conversation, not the same answers. Check: Keep the transcript as an audit trail and pin inputs elsewhere."
+        "alt": "Event Sourcing card (Distributed and resilience). Classic: Store every change as an event, replay to rebuild. In Claude Code: Session transcripts and --resume. Breaks when: The transcript keeps the conversation, not the files or services. Check: Check files, branch and services before trusting a resume."
       }
     }
   ],
@@ -976,16 +1210,28 @@
         "claude-docs-workflows",
         "kim-liu-2026"
       ],
+      "related": [
+        {
+          "kind": "guide",
+          "title": "Dynamic workflows",
+          "path": "guide/workflows/dynamic-workflows.md"
+        },
+        {
+          "kind": "guide",
+          "title": "Agent teams",
+          "path": "guide/workflows/agent-teams.md"
+        },
+        {
+          "kind": "article",
+          "title": "Plan-execute: running 20+ agents on a migration",
+          "url": "https://www.florian.bruniaux.com/guides/plan-execute-migrations/"
+        }
+      ],
       "videos": [
         {
           "source": "yt-ow1we5pzk-o",
           "t": 276,
           "point": "The speaker describes Factory's Missions system as an orchestrator that plans, workers that execute, and validators that verify."
-        },
-        {
-          "source": "yt-2czyyrtzilg",
-          "t": 501,
-          "point": "Orchestration is presented as a central workflow orchestrator that calls each agent directly."
         }
       ],
       "infographic": {
@@ -1013,6 +1259,23 @@
         "claude-docs-sub-agents",
         "claude-docs-hooks"
       ],
+      "related": [
+        {
+          "kind": "guide",
+          "title": "Best-of-N",
+          "path": "guide/workflows/best-of-n.md"
+        },
+        {
+          "kind": "article",
+          "title": "When an independent reviewer earns its place",
+          "url": "https://www.florian.bruniaux.com/blog/articles/reviewer-you-ignore/"
+        },
+        {
+          "kind": "article",
+          "title": "Designing a bounded review loop",
+          "url": "https://www.florian.bruniaux.com/guides/bounded-code-review-loop/"
+        }
+      ],
       "videos": [
         {
           "source": "yt-mr-waveprwe",
@@ -1034,7 +1297,7 @@
       "id": "plan-then-execute",
       "name": "Plan-then-execute",
       "summary": "Separate a read-only planning phase from the phase that changes files.",
-      "why_new": "The plan is produced by the same model that will execute it, so the human review point is the plan, not the code.",
+      "why_new": "The plan is a reviewable artifact written before any file changes, so a wrong approach can be caught before it costs edits. Reviewing it adds a checkpoint; it does not replace review of the code that follows, and the executing model can differ from the planning one (opusplan plans with Opus and executes with Sonnet).",
       "claude_code": [
         {
           "name": "Plan mode",
@@ -1043,7 +1306,25 @@
       ],
       "sources": [
         "nibzard",
-        "claude-docs-permission-modes"
+        "claude-docs-permission-modes",
+        "claude-docs-model-config"
+      ],
+      "related": [
+        {
+          "kind": "guide",
+          "title": "Plan-driven workflow",
+          "path": "guide/workflows/plan-driven.md"
+        },
+        {
+          "kind": "guide",
+          "title": "Dual-instance planning",
+          "path": "guide/workflows/dual-instance-planning.md"
+        },
+        {
+          "kind": "article",
+          "title": "Plan-execute: running 20+ agents on a migration",
+          "url": "https://www.florian.bruniaux.com/guides/plan-execute-migrations/"
+        }
       ],
       "videos": [
         {
@@ -1054,23 +1335,30 @@
       ],
       "infographic": {
         "file": "guide/images/ai-design-patterns/patterns/plan-then-execute.webp",
-        "alt": "Plan-then-execute card (agent-native pattern). What it does: Plan read-only before any file changes. In Claude Code: Plan mode. What is new: The same model executes the plan, so review the plan."
+        "alt": "Plan-then-execute card (agent-native pattern). What it does: Plan read-only before any file changes. In Claude Code: Plan mode. What is new: The plan is reviewable before any edit, the code still needs review."
       }
     },
     {
       "id": "context-isolation",
       "name": "Context isolation",
-      "summary": "Run a noisy side task in its own context and return only its conclusion.",
+      "summary": "Run a noisy side task in its own context and return a summary of the result.",
       "why_new": "Closest classic pattern: Bulkhead. Here the resource being protected is the context window, not threads or connections.",
       "claude_code": [
         {
-          "name": "Subagents return only their final response",
+          "name": "Subagents work in their own context and report a summary",
           "doc": "https://code.claude.com/docs/en/sub-agents"
         }
       ],
       "sources": [
         "lance-martin",
         "claude-docs-sub-agents"
+      ],
+      "related": [
+        {
+          "kind": "guide",
+          "title": "Agent Harness Engineering: sub-agent management",
+          "path": "guide/core/agent-harness.md#24-sub-agent-management"
+        }
       ],
       "videos": [
         {
@@ -1086,14 +1374,14 @@
       ],
       "infographic": {
         "file": "guide/images/ai-design-patterns/patterns/context-isolation.webp",
-        "alt": "Context isolation card (agent-native pattern). What it does: Run a noisy side task in its own context and return the conclusion. In Claude Code: Subagents return only their final response. What is new: The protected resource is the context window."
+        "alt": "Context isolation card (agent-native pattern). What it does: Run a noisy side task in its own context and return a summary. In Claude Code: Subagents work in their own context and report a summary. What is new: The protected resource is the context window."
       }
     },
     {
       "id": "context-compaction",
       "name": "Context compaction",
       "summary": "Summarize the conversation when it approaches the window limit, and continue from the summary.",
-      "why_new": "State is lossy by design: what the summary drops is no longer in the model's context for the rest of the session.",
+      "why_new": "State is lossy by design: what the summary drops leaves the active context until something reloads it. Claude Code re-injects the project CLAUDE.md, auto memory, the plan, and invoked skills (capped), and re-reads up to five recent files; the rest of the conversation survives only as the summary.",
       "claude_code": [
         {
           "name": "Auto compaction and /compact",
@@ -1104,6 +1392,18 @@
         "lance-martin",
         "nibzard",
         "claude-docs-context-window"
+      ],
+      "related": [
+        {
+          "kind": "guide",
+          "title": "Architecture: auto-compaction",
+          "path": "guide/core/architecture.md#auto-compaction"
+        },
+        {
+          "kind": "guide",
+          "title": "Memory systems: keep history distinct from compaction",
+          "path": "guide/core/memory-systems.md#keep-history-distinct-from-compaction"
+        }
       ],
       "videos": [
         {
@@ -1119,7 +1419,7 @@
       ],
       "infographic": {
         "file": "guide/images/ai-design-patterns/patterns/context-compaction.webp",
-        "alt": "Context compaction card (agent-native pattern). What it does: Summarize near the window limit and continue from the summary. In Claude Code: Auto compaction and /compact. What is new: Lossy by design: what the summary drops is gone."
+        "alt": "Context compaction card (agent-native pattern). What it does: Summarize near the window limit and continue from the summary. In Claude Code: Auto compaction and /compact. What is new: Lossy by design: CLAUDE.md, memory and the plan reload, the rest lives in the summary."
       }
     },
     {
@@ -1141,6 +1441,23 @@
         "lance-martin",
         "claude-docs-skills",
         "claude-docs-mcp"
+      ],
+      "related": [
+        {
+          "kind": "guide",
+          "title": "Skill design patterns",
+          "path": "guide/core/skill-design-patterns.md"
+        },
+        {
+          "kind": "guide",
+          "title": "Smart-Suggest routing",
+          "path": "guide/workflows/smart-suggest-routing.md"
+        },
+        {
+          "kind": "article",
+          "title": "Your CLAUDE.md is too long",
+          "url": "https://www.florian.bruniaux.com/blog/articles/your-claudemd-is-too-long/"
+        }
       ],
       "videos": [
         {
@@ -1173,6 +1490,23 @@
         "anthropic-steering",
         "claude-docs-memory",
         "claude-docs-hooks"
+      ],
+      "related": [
+        {
+          "kind": "guide",
+          "title": "Hooks events reference",
+          "path": "guide/core/hooks-events-reference.md"
+        },
+        {
+          "kind": "article",
+          "title": "A green review is not a merge gate",
+          "url": "https://www.florian.bruniaux.com/blog/articles/your-gate-is-decorative/"
+        },
+        {
+          "kind": "article",
+          "title": "Turn recurring review comments into tested controls",
+          "url": "https://www.florian.bruniaux.com/blog/articles/recurring-review-comments-controls/"
+        }
       ],
       "videos": [
         {
@@ -1210,6 +1544,18 @@
         "nibzard",
         "claude-docs-goal",
         "claude-docs-hooks"
+      ],
+      "related": [
+        {
+          "kind": "guide",
+          "title": "Loop & Graph Engineering",
+          "path": "guide/core/loop-graph-engineering.md"
+        },
+        {
+          "kind": "article",
+          "title": "Designing a bounded review loop",
+          "url": "https://www.florian.bruniaux.com/guides/bounded-code-review-loop/"
+        }
       ],
       "videos": [
         {
@@ -1259,7 +1605,7 @@
       "id": "unbounded-loop",
       "name": "Unbounded loop",
       "symptom": "An automated run has no turn, cost, or depth limit.",
-      "fix": "Circuit breaker on every layer: --max-turns, --max-budget-usd, maxTurns, spawn depth.",
+      "fix": "Bounded execution on every layer: --max-turns, --max-budget-usd with headroom, maxTurns, spawn depth.",
       "category": "specification",
       "patterns": [
         "circuit-breaker",
@@ -1454,7 +1800,7 @@
     },
     {
       "id": "huang-zhou-2026",
-      "title": "A Two-Dimensional Framework for AI Agent Design Patterns (arXiv 2605.13850)",
+      "title": "A Two-Dimensional Framework for AI Agent Design Patterns: Cognitive Function and Execution Topology (arXiv 2605.13850)",
       "author": "Jia Huang, Joey Tianyi Zhou",
       "url": "https://arxiv.org/abs/2605.13850",
       "kind": "paper"
@@ -1468,7 +1814,7 @@
     },
     {
       "id": "srinivasan-2026",
-      "title": "Selecting and Composing Runtime Architecture Patterns for Production LLM Agents (arXiv 2605.20173)",
+      "title": "A Methodology for Selecting and Composing Runtime Architecture Patterns for Production LLM Agents (arXiv 2605.20173)",
       "author": "Vasundra Srinivasan",
       "url": "https://arxiv.org/abs/2605.20173",
       "kind": "paper"
@@ -1534,6 +1880,13 @@
       "title": "Hooks reference",
       "author": "Claude Code docs",
       "url": "https://code.claude.com/docs/en/hooks",
+      "kind": "official"
+    },
+    {
+      "id": "claude-docs-hooks-guide",
+      "title": "Automate workflows with hooks",
+      "author": "Claude Code docs",
+      "url": "https://code.claude.com/docs/en/hooks-guide",
       "kind": "official"
     },
     {
@@ -1686,7 +2039,7 @@
     {
       "id": "bockeler-2026",
       "title": "Harness engineering for coding agent users",
-      "author": "Birgitta Böckeler (martinfowler.com)",
+      "author": "Birgitta B\u00f6ckeler (martinfowler.com)",
       "url": "https://martinfowler.com/articles/harness-engineering.html",
       "kind": "article"
     },
@@ -1805,7 +2158,7 @@
     {
       "id": "yt-pjothbhlbao",
       "title": "Unifying AI integration with Model Context Protocol",
-      "author": "Christian Tzolov and Dariusz Jędrzejczyk (Devoxx)",
+      "author": "Christian Tzolov and Dariusz J\u0119drzejczyk (Devoxx)",
       "url": "https://www.youtube.com/watch?v=PJOthBhLbao",
       "kind": "video"
     },
@@ -1819,7 +2172,7 @@
     {
       "id": "yt-srfxsjegc6q",
       "title": "From LLM orchestration to autonomous agents: Agentic AI patterns with LangChain4j",
-      "author": "Clement Escoffier (Devoxx)",
+      "author": "Cl\u00e9ment Escoffier and Mario Fusco (Devoxx)",
       "url": "https://www.youtube.com/watch?v=SrFXsjeGc6Q",
       "kind": "video"
     },
@@ -1854,7 +2207,7 @@
     {
       "id": "yt-wp3hjuxd918",
       "title": "Context Engineering in 2026",
-      "author": "Louis-François Bouchard, Omar Solano and Samridhi Vaid (Towards AI)",
+      "author": "Louis-Fran\u00e7ois Bouchard, Omar Solano and Samridhi Vaid (Towards AI)",
       "url": "https://www.youtube.com/watch?v=WP3hjUXd918",
       "kind": "video"
     },
@@ -1916,8 +2269,8 @@
     },
     {
       "id": "yt-utm3frgbun0",
-      "title": "Alfred le système Agentic AI de Doctolib au service des professionnels de santé",
-      "author": "Goulven Le Dû (Doctolib)",
+      "title": "Alfred le syst\u00e8me Agentic AI de Doctolib au service des professionnels de sant\u00e9",
+      "author": "Goulven Le D\u00fb (Doctolib)",
       "url": "https://www.youtube.com/watch?v=uTM3fRgbUN0",
       "kind": "video"
     },

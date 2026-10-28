@@ -329,6 +329,8 @@ Five gaps that external tooling addresses:
 
 ---
 
+In design-pattern terms, this stack is shared state rather than a Singleton, and compaction re-injects part of it: see [Singleton](./ai-design-patterns.md#singleton) and [Context compaction](./ai-design-patterns.md#context-compaction) in AI Design Patterns.
+
 ## 3. Cross-Session tools (single user)
 
 ### 3.1 Claude-mem

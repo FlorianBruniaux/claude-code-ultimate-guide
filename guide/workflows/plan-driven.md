@@ -421,6 +421,7 @@ Do not stop between tasks to ask for confirmation — keep going until done.
 
 ## See also
 
+- [AI Design Patterns: Plan-then-execute](../core/ai-design-patterns.md#plan-then-execute): the plan as a reviewable artifact and a checkpoint before execution
 - [exploration-workflow.md](./exploration-workflow.md): Explore alternatives before planning
 - [../ultimate-guide.md](../ultimate-guide.md): Section 2.3 Plan Mode
 - [tdd-with-claude.md](./tdd-with-claude.md): Combine with TDD

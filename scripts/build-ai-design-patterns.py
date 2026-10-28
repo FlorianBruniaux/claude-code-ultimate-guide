@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import sys
 from pathlib import Path
@@ -29,6 +30,12 @@ CONSENSUS_LABELS = {
 PROVENANCE_LABELS = {
     "third-party": "Named by a source",
     "own-synthesis": "Our mapping",
+}
+RELATED_KINDS = {
+    "guide": "guide",
+    "template": "template",
+    "project": "author's project",
+    "article": "author's article",
 }
 ID_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 EM_DASH = "—"
@@ -73,6 +80,24 @@ def validate(data: dict) -> list[str]:
             if source is None or source["kind"] != "video":
                 errors.append(f"{owner}: video {video['source']!r} is not a video source")
 
+    def check_related(owner: str, row: dict) -> None:
+        for item in row.get("related", []):
+            kind = item.get("kind")
+            if kind not in RELATED_KINDS:
+                errors.append(f"{owner}: unknown related kind {kind!r}")
+            elif kind in ("guide", "template"):
+                path, _, anchor = item.get("path", "").partition("#")
+                target = ROOT / path
+                if not path or not target.is_file():
+                    errors.append(f"{owner}: related path not found {item.get('path')!r}")
+                elif anchor and anchor not in heading_slugs(target):
+                    errors.append(f"{owner}: related anchor not found {item['path']!r}")
+            elif not item.get("url", "").startswith("https://"):
+                errors.append(f"{owner}: related {kind} needs an https url")
+            image = item.get("image")
+            if image and not (ROOT / image["file"]).is_file():
+                errors.append(f"{owner}: missing related image {image['file']}")
+
     def check_mechanisms(owner: str, mechanisms: list[dict]) -> None:
         if not mechanisms:
             errors.append(f"{owner}: no Claude Code mechanism")
@@ -94,6 +119,7 @@ def validate(data: dict) -> list[str]:
         check_mechanisms(owner, row["claude_code"])
         check_refs(owner, row["sources"])
         check_media(owner, row)
+        check_related(owner, row)
         analogue_sources = []
         for analogue in row["agent_analogue"]:
             check_refs(owner, analogue["sources"])
@@ -122,6 +148,7 @@ def validate(data: dict) -> list[str]:
         check_mechanisms(owner, row["claude_code"])
         check_refs(owner, row["sources"])
         check_media(owner, row)
+        check_related(owner, row)
 
     known_patterns = set(pattern_ids)
     if len(known_patterns) != len(pattern_ids):
@@ -156,6 +183,18 @@ def validate(data: dict) -> list[str]:
         if not ID_RE.match(value):
             errors.append(f"id {value!r} is not kebab-case")
     return errors
+
+
+def heading_slugs(path: Path) -> set[str]:
+    slugs: set[str] = set()
+    in_fence = False
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if re.match(r"^\s*(```|~~~)", line):
+            in_fence = not in_fence
+        heading = None if in_fence else re.match(r"^#{1,6}\s+(.+?)\s*#*\s*$", line)
+        if heading:
+            slugs.add(slugify(heading.group(1)))
+    return slugs
 
 
 def iter_strings(value):
@@ -197,6 +236,25 @@ class Renderer:
             return []
         image = row["infographic"]
         return [f"![{image['alt']}](../{image['file'].removeprefix('guide/')})", ""]
+
+    def related(self, row: dict) -> list[str]:
+        links = []
+        for item in row.get("related", []):
+            if "path" in item:
+                path, _, anchor = item["path"].partition("#")
+                href = os.path.relpath(ROOT / path, PAGE_PATH.parent) + (f"#{anchor}" if anchor else "")
+            else:
+                href = item["url"]
+            links.append(f"[{item['title']}]({href}) ({RELATED_KINDS[item['kind']]})")
+        return [f"- **Go further:** {'; '.join(links)}"] if links else []
+
+    def related_images(self, row: dict) -> list[str]:
+        lines = []
+        for item in row.get("related", []):
+            if "image" in item:
+                image = item["image"]
+                lines += ["", f"![{image['alt']}](../{image['file'].removeprefix('guide/')})"]
+        return lines
 
     def videos(self, row: dict) -> list[str]:
         lines = []
@@ -253,7 +311,9 @@ class Renderer:
                             f"- **In Claude Code:** {self.mechanisms(row['claude_code'])}",
                             f"- **Failure mode:** {row['failure_mode']}",
                             f"- **How to verify:** {row['verify']}",
+                            *self.related(row),
                             *self.videos(row),
+                            *self.related_images(row),
                         ]
                     )
                 )
@@ -273,7 +333,9 @@ class Renderer:
                         f"- **What is new:** {row['why_new']}",
                         f"- **In Claude Code:** {self.mechanisms(row['claude_code'])}",
                         f"- **Sources:** {self.cite(row['sources'])}",
+                        *self.related(row),
                         *self.videos(row),
+                        *self.related_images(row),
                     ]
                 )
             )

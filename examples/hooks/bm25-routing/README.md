@@ -4,6 +4,8 @@ This `UserPromptSubmit` hook ranks active skills against curated examples with O
 
 The hook is advisory. It emits `additionalContext` only. It never invokes a skill or approves an action.
 
+In design-pattern terms, the hook is a deterministic [Content-Based Router](../../../guide/core/ai-design-patterns.md#content-based-router) placed in front of the model's own skill selection. The [step-by-step walkthrough](../../../guide/workflows/smart-suggest-routing.md#bm25-router-step-by-step) explains each decision on the path.
+
 ## What changed from the first example
 
 The original implementation was project-only and Claude-specific. It also routed `conflict` corpora, treated any negation as an opt-out, displayed a score share as a confidence percentage, and missed some cache invalidations.

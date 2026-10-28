@@ -6,8 +6,8 @@
 
 - Each source was opened at its origin (page fetched, repository cloned, or arXiv page read), unless the table says otherwise.
 - Two arXiv entries were verified only through a search snippet. Their score is provisional.
-- No opened source maps GoF or EIP patterns to Claude Code hooks, subagents, skills or MCP. Rows such as "Observer to hooks" are therefore a synthesis, backed only where two or more independent crosswalks agree.
-- Leak-derived repositories on this topic were excluded and are not cited.
+- Only AgentPatterns.ai names Claude Code mechanisms in a classic-pattern mapping: Observer to hooks and Facade to CLAUDE.md. No opened source maps GoF or EIP patterns to subagents, skills, or MCP, so those rows are a synthesis, backed only where two or more independent crosswalks agree.
+- Leak-derived repositories on this topic were excluded and are not cited. One repository that cites internal Claude Code source files, with no public provenance for them, was removed from this table on 2026-10-28.
 - Star counts were not re-checked and are not used for scoring.
 
 ## Per-source scores
@@ -19,7 +19,6 @@
 | [Patrones GoF en agentes IA (aicodingpatterns.com)](https://aicodingpatterns.com/patterns/patrones-gof-patrones-agenticos-mapeo-completo/) | 4/5 | 23 mappings (14 GoF, 3 PoEAA, 3 EIP, 3 resilience), published 2026-05-11; widest overlap with the other crosswalks | Spanish text; no license stated | Cite only |
 | [roanbrasil/agents-integration-patterns](https://github.com/roanbrasil/agents-integration-patterns) | 4/5 | A real EIP-to-agent table (Message Router, Scatter-Gather, Pipes and Filters, Process Manager, Dead Letter Channel and others), a FAILURE-MAP that maps the 14 MAST failure modes to patterns, and a FORCES file with 14 named forces | The README lists Circuit Breaker in its EIP table although it is not an EIP-book pattern. The MAST-to-pattern mapping is the repository author's judgment, not the MAST paper's. 34 pattern files claimed; not re-counted | CC BY 4.0, adaptable with attribution |
 | [jlldavies/go4-llm-design-patterns](https://github.com/jlldavies/go4-llm-design-patterns) | 2/5 | 94 patterns in full GoF format, useful as vocabulary (Bounded Execution, Tool Budget, Checkpointing, Agent Isolation) | Not a crosswalk: one classic alias only (Bounded Execution, also known as Circuit Breaker) | MIT |
-| [huangjia2019/agent-design-patterns](https://github.com/huangjia2019/agent-design-patterns) | 2/5 | 27 core patterns in a 7 by 6 matrix (the repository description says 28; the README counts 27), runnable Python, a list of agent features per pattern | Not a GoF crosswalk: classic names appear only as lineage notes. Its source-level citations for Claude Code are not reused here | MIT |
 | [arXiv 2601.19752](https://arxiv.org/abs/2601.19752), Dao et al., Agentic Design Patterns: A System-Theoretic Framework | 3/5 (provisional) | 12 patterns with explicit GoF links, such as the controller as Observer and tool use as Proxy or Adapter | Checked through a search snippet only; the paper body was not read | Cite |
 | [arXiv 2605.13850](https://arxiv.org/abs/2605.13850), Huang and Zhou, A Two-Dimensional Framework for AI Agent Design Patterns | 3/5 | 7 cognitive functions by 6 execution topologies, 28 named patterns; a second axis for organizing the page | Not a classic crosswalk; the 28 count differs from the 27 in the companion repository | Cite |
 | [arXiv 2605.20173](https://arxiv.org/abs/2605.20173), Srinivasan, selecting and composing runtime architecture patterns | 3/5 | 6 runtime patterns including scatter-gather plus saga, supervisor plus gate and human in the loop; backs the Saga row | Methodology paper; no Claude Code anchoring | Cite |
@@ -54,6 +53,6 @@ The disagreements are worth showing as such:
 
 ## Decision
 
-Use the crosswalks as citable sources and do not copy any card. Build the guide's table from the consensus rows above, mark single-source and own-reading rows as such, and add the Claude Code anchoring from official documentation. Use the roanbrasil EIP table and the kage-ai distributed-pattern cards as the strongest sources for the EIP and resilience rows. Treat the go4 and huangjia2019 repositories as vocabulary and as feature lists, not as crosswalks.
+Use the crosswalks as citable sources and do not copy any card. Build the guide's table from the consensus rows above, mark single-source and own-reading rows as such, and add the Claude Code anchoring from official documentation. Use the roanbrasil EIP table and the kage-ai distributed-pattern cards as the strongest sources for the EIP and resilience rows. Treat the go4 repository as vocabulary, not as a crosswalk.
 
 Read the Barbaste et al. paper before citing any of its patterns, and the body of arXiv 2601.19752 before relying on its GoF links. The overall score of 3/5 reflects a topic that is useful but young: most sources are dated 2026 and none has been tested against Claude Code behavior. This evaluation does not establish that any pairing is correct, only that sources propose it.

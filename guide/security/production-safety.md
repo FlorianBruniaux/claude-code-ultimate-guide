@@ -916,6 +916,7 @@ Team settings take precedence, but individuals can opt-in to stricter rules.
 
 ## See also
 
+- [AI Design Patterns: Saga](../core/ai-design-patterns.md#saga): checkpoints do not undo shell commands or remote effects, so each external effect needs a written compensation
 - [Ultimate Guide §9.12 Git Best Practices](#912-git-best-practices-workflows): Commit workflow, Plan → Act pattern
 - [Security Hardening Guide](./security-hardening.md): MCP security, secret protection, hook stack
 - [Data Privacy Guide](./data-privacy.md): MCP database risks, retention policies

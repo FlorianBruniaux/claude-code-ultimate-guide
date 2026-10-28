@@ -524,3 +524,5 @@ Use append (`>>`) to preserve variables set by other hooks.
 **Hooks without a controlling terminal**: Since v2.1.139, hooks run without `/dev/tty`. Use `terminalSequence` in JSON output to emit desktop notifications or window titles instead of writing escape sequences directly.
 
 **UserPromptSubmit default timeout**: 30s, not 600s. A stuck hook here blocks all user input. Set an explicit `timeout` if you need more time.
+
+**Hooks as design patterns**: [AI Design Patterns](./ai-design-patterns.md#observer) maps hooks to Observer, Decorator, Command, and Deterministic gate, and states where each analogy breaks.

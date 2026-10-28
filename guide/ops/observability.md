@@ -1103,6 +1103,7 @@ sum by (model) (rate(litellm_requests_total[1h]))
 
 ## Related resources
 
+- [AI Design Patterns: Event Sourcing](../core/ai-design-patterns.md#event-sourcing) - a transcript resumes the conversation but does not rebuild files, branches, or services
 - [Session Search Script](../../examples/scripts/session-search.sh) - Fast session search & resume
 - [Session Logger Hook](../../examples/hooks/bash/session-logger.sh)
 - [Stats Analysis Script](../../examples/scripts/session-stats.sh)

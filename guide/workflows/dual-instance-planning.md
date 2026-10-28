@@ -178,6 +178,7 @@ Report [four clocks](../roles/agent-evaluation.md#evaluation-epochs-and-four-clo
 
 ## See also
 
+- [AI Design Patterns: Plan-then-execute](../core/ai-design-patterns.md#plan-then-execute): the pattern behind the planner and implementer split
 - [Main guide overview and comparison](../ultimate-guide.md#alternative-pattern-dual-instance-planning-vertical-separation)
 - [Plan-driven development](plan-driven.md)
 - [Cross-session messaging contracts](cross-session-messaging.md)

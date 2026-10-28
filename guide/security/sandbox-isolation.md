@@ -628,6 +628,7 @@ If your threat model includes compromised or third-party MCP servers with unpred
 
 ## See also
 
+- [AI Design Patterns: Bulkhead](../core/ai-design-patterns.md#bulkhead): subagent context and worktree isolation read as a resilience pattern
 - [architecture.md](../core/architecture.md): Layer 4 (Sub-Agent Architecture) and permission model
 - [security-hardening.md](./security-hardening.md): MCP vetting, injection defense, CVE tracking
 - [code.claude.com/docs/en/sandboxing](https://code.claude.com/docs/en/sandboxing): official Claude Code sandbox docs
