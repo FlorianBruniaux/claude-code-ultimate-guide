@@ -3,7 +3,7 @@
   "$id": "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/machine-readable/ai-design-patterns.schema.json",
   "title": "AI design patterns crosswalk",
   "type": "object",
-  "required": ["version", "last_verified", "guide_page", "site_path", "families", "crosswalk", "native", "anti_patterns", "anti_pattern_categories", "sources"],
+  "required": ["version", "last_verified", "last_updated", "guide_page", "site_path", "families", "crosswalk", "native", "anti_patterns", "anti_pattern_categories", "sources"],
   "additionalProperties": true,
   "$defs": {
     "id": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
@@ -65,6 +65,7 @@
   "properties": {
     "version": { "type": "string" },
     "last_verified": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+    "last_updated": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$", "description": "Date of the last content change to the page or dataset. last_verified is the date the Claude Code mechanisms were last checked." },
     "guide_page": { "type": "string" },
     "site_path": { "type": "string" },
     "families": {

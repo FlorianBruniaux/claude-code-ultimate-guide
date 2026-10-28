@@ -59,6 +59,8 @@ def validate(data: dict) -> list[str]:
 
     if len(known_sources) != len(source_ids):
         errors.append("duplicate source id")
+    if data.get("last_updated", "") < data["last_verified"]:
+        errors.append("last_updated must be on or after last_verified")
 
     def check_refs(owner: str, refs: list[str]) -> None:
         if not refs:
