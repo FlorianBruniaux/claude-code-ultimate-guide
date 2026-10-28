@@ -1,0 +1,29 @@
+CHANGELOG.md
+  s_e4657147639b3d::t_ad8646a8464a8c 21-22
+guide/core/ai-design-patterns.md
+  s_e4657147639b3d::t_22f21692caf932 19
+machine-readable/ai-design-patterns.json
+  s_e4657147639b3d::t_adaa6d23b4a50b 5
+machine-readable/ai-design-patterns.schema.json
+  s_e4657147639b3d::t_a427a1ec1cfd52 6,68
+mcp-server/content/ai-design-patterns.json
+  s_e4657147639b3d::t_6b3aa60ebc6a97 5
+scripts/build-ai-design-patterns.py
+  s_e4657147639b3d::t_baf5cb8baa2eec 62-63
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "41604415ec6bf1ac9f07f122d592fcf2715b5dab",
+  "prompts": {},
+  "sessions": {
+    "s_e4657147639b3d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8a74dfbb-37e9-436b-ad1f-75650865d964",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
