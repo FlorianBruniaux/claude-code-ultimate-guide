@@ -334,6 +334,7 @@ deep_dive:
   smart_suggest_routing_scoring: "guide/workflows/smart-suggest-routing.md#smart-suggest-routing-regex--bm25-skill-hints"  # BM25-plus K1=1.2 B=0.3, max-per-skill, confidence share
   smart_suggest_routing_wiring: "guide/workflows/smart-suggest-routing.md#smart-suggest-routing-regex--bm25-skill-hints"  # settings.json nested shape, timeout 2s, Node.js runtime
   smart_suggest_routing_example: "examples/hooks/bm25-routing/"  # Runnable Node.js example with corpus scaffolding
+  smart_suggest_routing_step_by_step: "guide/workflows/smart-suggest-routing.md#bm25-router-step-by-step"  # Infographic: per-prompt path, background calibration, formula, worked example
   # Identity Re-injection After Compaction (Nick Tune pattern, Feb 2026)
   identity_reinjection_hook: "guide/ultimate-guide.md#identity-re-injection-after-compaction"  # UserPromptSubmit guard: re-injects agent identity lost after context compaction
   identity_reinjection_example: "examples/hooks/bash/identity-reinjection.sh"  # Checks last assistant message for identity marker, injects additionalContext if missing
