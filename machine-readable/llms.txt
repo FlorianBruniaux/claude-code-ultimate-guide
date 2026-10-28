@@ -62,6 +62,7 @@ Guide version 3.44.1, tracking Claude Code up to v2.1.310 (October 2026).
 - Guide reader: https://cc.bruniaux.com/guide/
 - Agent Harness Engineering: https://cc.bruniaux.com/guide/agent-harness/
 - Loop & Graph Engineering: https://cc.bruniaux.com/guide/loop-graph-engineering/
+- AI Design Patterns: https://cc.bruniaux.com/ai-design-patterns/
 - Agent Harness Map: https://cc.bruniaux.com/guide/agent-harness-landscape/
 - Agent Tools: https://cc.bruniaux.com/guide/agentic-tools/
 - AI Ecosystem: https://cc.bruniaux.com/guide/ai-ecosystem/

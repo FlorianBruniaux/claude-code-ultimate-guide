@@ -1,6 +1,6 @@
 # Jev / TypeSafe AI: typed decisions for software
 
-**Status:** work in progress, reviewed September 21, 2026. **Initial and final score: 3/5**, retained after an independent editorial challenge. Decision: research candidate for routing and structured-decision workflows; no general performance recommendation or native Claude Code integration established.
+**Status:** work in progress, reviewed September 21, 2026, competitor update October 28, 2026. **Initial and final score: 3/5**, retained after an independent editorial challenge and unchanged by the October update. Decision: research candidate for routing and structured-decision workflows; no general performance recommendation or native Claude Code integration established.
 
 ## What the interface changes
 
@@ -33,6 +33,28 @@ Other original reports include [AbdelStark's classification pilot](https://githu
 Start with skill routing against a lexical BM25 baseline, ticket triage or RAG passage selection. Fix labels, model versions and prompts. Keep threshold calibration separate from the final test and group related paraphrases in the same split. Compare accuracy, automatic coverage, errors among accepted cases, end-to-end p50/p95 and cost per correct decision, including retries and escalation.
 
 Use class probabilities for calibration metrics. Do not interpret a distribution-concentration statistic as correctness probability. [Guo et al.](https://proceedings.mlr.press/v70/guo17a.html) supplies the calibration framework; [SelectiveNet](https://proceedings.mlr.press/v97/geifman19a.html) supplies risk/coverage definitions. These papers are background, not disclosures about Jev's internals.
+
+## October 28 update: Jev is no longer the only decision model
+
+Several vendors released decision models after Jev. Facts below were reread on the vendor or repository page on October 28, 2026; none of these models was called or run for this evaluation.
+
+| Model | Weights | Input price per million tokens | Interface |
+|---|---|---|---|
+| Jev 1.13 / [1.14](https://typesafe.ai/blog/jev-1-14) | Closed | $0.042 | System One (`/v1/systemone`) |
+| [Clef](https://huggingface.co/Cloudflare/clef), 27B | Apache 2.0, Qwen base | $0.24 on Workers AI | System One |
+| [Clef-flash](https://blog.cloudflare.com/clef-faster-cheaper-multimodal/), 9B | Apache 2.0 | $0.038, 24k hosted context | System One |
+| [Clef-omni](https://huggingface.co/Cloudflare/clef-omni), 30B-A3B MoE | Apache 2.0 | $0.15, audio and video input | System One |
+| [Strands Decider 2B](https://huggingface.co/StrandsAgents/strands-decider-2B-qwen3.5-v1-2610) | Apache 2.0, LoRA on Qwen3.5-2B | Self-hosted, `pip install strands-decider` | System One via `strands-decider serve` |
+| [pplx-decider v1.1](https://huggingface.co/perplexity-ai/pplx-decider-v1.1-27b) | Apache 2.0 | Self-hosted, about 49 GiB of GPU memory | Own inference code |
+| OpenAI [Decisions API](https://developers.openai.com/api/docs/guides/decisions) | Closed | $0.10, $0.01 cached | Own format (`/v1/decisions`) |
+
+Two consequences matter for a Claude Code harness. First, open weights now exist behind the same request format, so a routing hook can be prototyped locally or on Workers AI without depending on a single closed vendor; [LiteLLM](https://docs.litellm.ai/blog/tags/typesafe) serves both request formats. Second, a request is portable between System One models, but its results are not: probabilities, confidence scales, thresholds and effective context differ per model and must be recalibrated on local data.
+
+The three third-party evaluations reviewed name no overall winner. [Astronomer](https://www.astronomer.io/blog/how-to-evaluate-a-decision-model/) found no significant difference on an Airflow retry task (McNemar p=0.15) and 5 to 14% of decisions changed under rewording. [AIMultiple](https://aimultiple.com/decision-models) scores Jev 1.13 at 47.9 and Clef at 51.0, while noting that Cloudflare read only 2,048 tokens for Clef during its test. The [Leanmcp JevBench Index](https://github.com/Leanmcp/jevbench) ranks pplx-decider at 78.0, Jev 1.13 at 76.5 and Clef at 76.1. Vendor benchmarks remain the source of the largest claimed gaps.
+
+TypeSafe also shipped Jev 1.14 (Box question type, experimental image input behind a header, Python SDK 0.7.5) and announced an $870M Series A on October 9. Its adoption figures differ between [TypeSafe](https://typesafe.ai/blog/series-ai) ("a third of the Fortune 500") and [a16z](https://a16z.com/announcement/investing-in-typesafe-ai/) ("25%") and are unaudited.
+
+The score stays at 3/5: the measurement plan above still applies, and it should now compare at least one open-weight model against Jev on the same split.
 
 ## Editorial decision and review triggers
 

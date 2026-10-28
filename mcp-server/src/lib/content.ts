@@ -174,6 +174,11 @@ export function getAgentHarnessesJsonRaw(): string {
   return readFileSync(filePath, 'utf8');
 }
 
+export function getAiDesignPatternsJsonRaw(): string {
+  const filePath = join(CONTENT_DIR, 'ai-design-patterns.json');
+  return readFileSync(filePath, 'utf8');
+}
+
 export function getTranslationsJsonRaw(): string {
   const filePath = join(CONTENT_DIR, 'translations.json');
   return readFileSync(filePath, 'utf8');

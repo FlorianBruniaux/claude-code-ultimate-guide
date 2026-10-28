@@ -16,7 +16,7 @@ A **loop** specifies an agent's feedback and stopping. A **graph** specifies its
 
 > **Status:** Loop engineering is practitioner vocabulary, not a formal standard. Graph engineering is an emerging research label, not a settled discipline. The underlying mechanisms, such as state machines, workflow graphs, checkpoints, and review gates, are mature engineering techniques.
 >
-> **Use this page for:** designing the feedback and topology of an agent system. For runtime-harness components, security controls, and optimizer research, see [Agent Harness Engineering](./agent-harness.md). For product classification, see the [Agent Harness Landscape](../ecosystem/agent-harness-landscape.md).
+> **Use this page for:** designing the feedback and topology of an agent system. For runtime-harness components, security controls, and optimizer research, see [Agent Harness Engineering](./agent-harness.md). For product classification, see the [Agent Harness Landscape](../ecosystem/agent-harness-landscape.md). For the classic design patterns behind these structures, see [AI Design Patterns](./ai-design-patterns.md).
 
 Explicit contracts make feedback, stopping, routing, and acceptance testable; a longer prompt alone does not define those controls.
 

@@ -1,5 +1,7 @@
 # Resource evaluation: Entire CLI
 
+> **Re-evaluated October 27, 2026.** Several claims below no longer match Entire's documentation and were corrected in the guide: no SOC 2 Type II attestation for Entire was found, the commands `init`, `capture`, `rewind`, `handoff`, `approve --approver` and `audit-export` do not exist in the [CLI reference](https://docs.entire.com/cli-reference), checkpoints now default to Git refs under `refs/entire/checkpoints/`, and approval gates belong to the hosted forge launched on October 26, 2026. This February 2026 evaluation is kept as a historical record. See [Agent-native Git forges](./agent-native-git-forges.md) for the current assessment and the full list of corrections.
+
 **Date**: February 12, 2026
 **Evaluator**: Claude Sonnet 4.5 (via eval-resource skill)
 **Type**: Tool (Agent-native platform)
@@ -126,7 +128,7 @@ Entire CLI is an **agent-native platform** that captures AI agent sessions (Clau
 - ✅ Multi-agent: Complements existing orchestration section
 
 **Integration points:**
-1. ai-traceability.md (section 5.1) — Replaces git-ai
+1. ai-traceability.md (section 5.1): Replaces git-ai
 2. third-party-tools.md (Known Gaps + Session Management)
 3. observability.md (session portability)
 4. ai-ecosystem.md (multi-agent orchestration)
@@ -185,7 +187,7 @@ Entire CLI is an **agent-native platform** that captures AI agent sessions (Clau
 
 ### Early stage risk
 
-- **Very new** (2-3 days old) — limited production feedback
+- **Very new** (2-3 days old): limited production feedback
 - **No case studies** yet (expected Q2 2026)
 - **API stability**: v1.x may have breaking changes
 
@@ -232,9 +234,9 @@ Entire CLI is an **agent-native platform** that captures AI agent sessions (Clau
 
 ## Related evaluations
 
-- **git-ai** (deprecated) — 404 repo, replaced by Entire CLI
-- **claude-code-viewer** (evaluated separately) — Read-only history, no replay
-- **Gas Town** (evaluated in ai-ecosystem.md) — Parallel coordination, no governance
+- **git-ai** (deprecated): 404 repo, replaced by Entire CLI
+- **claude-code-viewer** (evaluated separately): Read-only history, no replay
+- **Gas Town** (evaluated in ai-ecosystem.md): Parallel coordination, no governance
 
 ---
 

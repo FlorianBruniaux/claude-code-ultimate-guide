@@ -12863,7 +12863,7 @@ For project-scoped Claude Code use, add the server to `.mcp.json`:
 | Capability | Count | Names |
 | --- | ---: | --- |
 | Tools | 17 | `compare_versions`, `diff_official_docs`, `get_changelog`, `get_cheatsheet`, `get_digest`, `get_example`, `get_release`, `get_threat`, `init_official_docs`, `list_examples`, `list_threats`, `list_topics`, `read_section`, `refresh_official_docs`, `search_examples`, `search_guide`, `search_official_docs` |
-| Resources | 6 | `claude-code-guide://agent-harnesses`, `claude-code-guide://distribution-channels`, `claude-code-guide://llms`, `claude-code-guide://reference`, `claude-code-guide://releases`, `claude-code-guide://translations` |
+| Resources | 7 | `claude-code-guide://agent-harnesses`, `claude-code-guide://ai-design-patterns`, `claude-code-guide://distribution-channels`, `claude-code-guide://llms`, `claude-code-guide://reference`, `claude-code-guide://releases`, `claude-code-guide://translations` |
 | Prompts | 1 | `claude-code-expert` |
 | Companion commands | 5 | `/ccguide:daily`, `/ccguide:diff-docs`, `/ccguide:init-docs`, `/ccguide:refresh-docs`, `/ccguide:search-docs` |
 
@@ -12890,6 +12890,7 @@ For project-scoped Claude Code use, add the server to `.mcp.json`:
 | Resource URI | MIME type | Description |
 | --- | --- | --- |
 | `claude-code-guide://agent-harnesses` | `application/json` | Evidence-backed Agent Harness Map dataset. Separates the broad source catalog, guide supplements, strict runtime map, and adjacent control planes. Unknown evidence is preserved as unknown. |
+| `claude-code-guide://ai-design-patterns` | `application/json` | AI design patterns crosswalk: classic GoF, enterprise integration, and distributed patterns mapped to documented Claude Code mechanisms, with evidence level, failure mode, check, native agent patterns, anti-patterns, and sources. |
 | `claude-code-guide://distribution-channels` | `text/yaml` | Publication channels, attributed URLs, asset states, dates, and 30-day outcome fields for the guide. |
 | `claude-code-guide://llms` | `text/plain` | llms.txt - machine-readable identity and navigation file for the Claude Code Ultimate Guide. |
 | `claude-code-guide://reference` | `text/yaml` | Complete structured index of the Claude Code Ultimate Guide. Use as fallback when search_guide() results are insufficient. |
@@ -19518,7 +19519,7 @@ Don't jump to 10 instances. Scale progressively with validation gates.
 # - Gas Town (parallel task execution)
 # - multiclaude (self-hosted, tmux-based)
 # - Multica (issue/chat control plane with local daemon execution)
-# - Entire CLI (governance + sequential handoffs)
+# - Entire CLI (session provenance + cross-agent resume)
 
 # 2. Define roles
 # - Architect (reviews PRs)
@@ -19540,11 +19541,11 @@ Don't jump to 10 instances. Scale progressively with validation gates.
 | **Gas Town** | Parallel coordination | 5+ instances, complex parallel tasks |
 | **multiclaude** | Self-hosted spawner | Teams needing on-prem/airgap |
 | **Multica** | Issue-driven multi-provider control plane | Teams coordinating local agent CLIs through a server/daemon split |
-| **Entire CLI** | Governance + handoffs | Sequential workflows with compliance |
+| **Entire CLI** | Provenance + handoffs | Audit evidence, resuming work across agents |
 
 > **Multica** keeps issues, chat, agent configuration, schedules, and run records in its coordination tier while connected computers execute Claude Code, Codex, and other CLIs through a local daemon. See the [evidence-pinned Multica profile](./ecosystem/agentic-tools.md#49-multica) for deployment, data, security, Git, and licence boundaries.
 
-> **Entire CLI** (Feb 2026): Alternative to parallel orchestration, focuses on **sequential agent handoffs** with governance layer (approval gates, audit trails). Useful for compliance-critical workflows (SOC2, HIPAA) or multi-agent handoffs (Claude → Gemini). See [AI Ecosystem Guide](./ecosystem/ai-ecosystem.md#entire-cli-governance-first-orchestration) for details.
+> **Entire CLI** (Feb 2026): Not an orchestrator. It links each agent session to its commit as a checkpoint stored in Git, and `entire session resume` lets another agent or teammate continue a branch. Since October 26, 2026 it is also the client of Entire's hosted Git forge, where merge gates live. Useful for audit evidence or multi-agent handoffs; no SOC 2, ISO 27001, HIPAA or FedRAMP attestation for Entire was found (October 27, 2026). See [AI Ecosystem Guide](./ecosystem/ai-ecosystem.md#entire-cli-provenance-and-merge-governance) for details.
 
 **Success criteria**: Sustained 3-5% productivity gain over 3 months.
 

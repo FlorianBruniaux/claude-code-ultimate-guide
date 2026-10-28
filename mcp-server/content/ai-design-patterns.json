@@ -1,0 +1,2012 @@
+{
+  "$schema": "./ai-design-patterns.schema.json",
+  "version": "1.0.0",
+  "last_verified": "2026-10-27",
+  "guide_page": "guide/core/ai-design-patterns.md",
+  "site_path": "/ai-design-patterns/",
+  "purpose": "Crosswalk between classic software design patterns and agent harness patterns, anchored in documented Claude Code mechanisms. Feeds the guide page, the landing page, and the MCP resource claude-code-guide://ai-design-patterns.",
+  "method": "A crosswalk row enters only when at least one public source maps the classic pattern to an agent analogue, a documented Claude Code mechanism exists, and a failure mode can be stated. Claude Code mechanisms are checked against the official documentation at https://code.claude.com/docs/llms-full.txt. Rows marked own-synthesis are this guide's mapping to Claude Code: the sources give the generic agent analogue only.",
+  "families": [
+    {
+      "id": "gof-creational",
+      "label": "GoF creational"
+    },
+    {
+      "id": "gof-structural",
+      "label": "GoF structural"
+    },
+    {
+      "id": "gof-behavioral",
+      "label": "GoF behavioral"
+    },
+    {
+      "id": "eip",
+      "label": "Enterprise integration"
+    },
+    {
+      "id": "distributed",
+      "label": "Distributed and resilience"
+    }
+  ],
+  "crosswalk": [
+    {
+      "id": "factory-method",
+      "classic": "Factory Method",
+      "family": "gof-creational",
+      "classic_intent": "Let a creator decide which concrete product to instantiate, behind a common interface.",
+      "agent_analogue": [
+        {
+          "label": "Subagent spawning from a named definition",
+          "sources": [
+            "agentpatterns-ai",
+            "aicodingpatterns"
+          ]
+        }
+      ],
+      "claude_code": [
+        {
+          "name": "Subagent definitions and the Agent tool",
+          "doc": "https://code.claude.com/docs/en/sub-agents"
+        }
+      ],
+      "consensus": "consensus",
+      "provenance": "own-synthesis",
+      "failure_mode": "The factory hands every product the full toolbox: a subagent definition without a tools field inherits every tool available to subagents.",
+      "verify": "List the tools field of each definition in .claude/agents/ and fail review when a write-capable agent has no explicit allowlist.",
+      "sources": [
+        "agentpatterns-ai",
+        "aicodingpatterns",
+        "claude-docs-sub-agents"
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/factory-method.webp",
+        "alt": "Factory Method card (GoF creational). Classic: A creator decides which product to build. In Claude Code: Subagent definitions and the Agent tool. Breaks when: A definition without a tools field inherits every tool. Check: Give every write-capable agent an explicit tools allowlist."
+      }
+    },
+    {
+      "id": "singleton",
+      "classic": "Singleton",
+      "family": "gof-creational",
+      "classic_intent": "Guarantee one shared instance of a component with a global access point.",
+      "agent_analogue": [
+        {
+          "label": "Shared tool registry",
+          "sources": [
+            "aicodingpatterns"
+          ]
+        },
+        {
+          "label": "Layered memory governance: decide which state is shared, isolated, persisted, or ephemeral",
+          "sources": [
+            "kage-ai"
+          ]
+        }
+      ],
+      "claude_code": [
+        {
+          "name": "CLAUDE.md hierarchy and auto memory",
+          "doc": "https://code.claude.com/docs/en/memory"
+        }
+      ],
+      "consensus": "divergent",
+      "provenance": "own-synthesis",
+      "failure_mode": "One shared memory file becomes mutable global state: parallel sessions or agents that write it at the same time can overwrite each other's entries.",
+      "verify": "Run two sessions that both append to the same memory file and check whether either entry is lost.",
+      "sources": [
+        "aicodingpatterns",
+        "kage-ai",
+        "claude-docs-memory"
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/singleton.webp",
+        "alt": "Singleton card (GoF creational). Classic: One shared instance with one global access point. In Claude Code: CLAUDE.md hierarchy and auto memory. Breaks when: Parallel writers to one memory file overwrite each other. Check: Append from two sessions at once and look for lost entries."
+      }
+    },
+    {
+      "id": "adapter",
+      "classic": "Adapter",
+      "family": "gof-structural",
+      "classic_intent": "Convert the interface of an existing component into the interface a client expects.",
+      "agent_analogue": [
+        {
+          "label": "Tool adapter that exposes an external system to the model",
+          "sources": [
+            "aicodingpatterns",
+            "apc"
+          ]
+        }
+      ],
+      "claude_code": [
+        {
+          "name": "MCP servers",
+          "doc": "https://code.claude.com/docs/en/mcp"
+        }
+      ],
+      "consensus": "consensus",
+      "provenance": "own-synthesis",
+      "failure_mode": "The adapter mirrors every upstream endpoint, so tool definitions crowd the context and the model picks among near-duplicate tools.",
+      "verify": "Run /mcp and /context, then remove or defer the tools that no task in the last sprint used.",
+      "sources": [
+        "aicodingpatterns",
+        "apc",
+        "claude-docs-mcp"
+      ],
+      "videos": [
+        {
+          "source": "yt-pjothbhlbao",
+          "t": 1262,
+          "point": "The speakers explain that each vendor exposes its own APIs through an MCP server layer, a unified wrapper the LLM can use."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/adapter.webp",
+        "alt": "Adapter card (GoF structural). Classic: Convert one interface into the one a client expects. In Claude Code: MCP servers. Breaks when: Mirroring every endpoint crowds the context with near-duplicate tools. Check: Run /mcp and /context, then defer the tools nobody used."
+      }
+    },
+    {
+      "id": "composite",
+      "classic": "Composite",
+      "family": "gof-structural",
+      "classic_intent": "Treat a single object and a tree of objects through the same interface.",
+      "agent_analogue": [
+        {
+          "label": "An agent that delegates to agents that can delegate again",
+          "sources": [
+            "agentpatterns-ai",
+            "aicodingpatterns"
+          ]
+        }
+      ],
+      "claude_code": [
+        {
+          "name": "Nested subagents (spawn depth)",
+          "doc": "https://code.claude.com/docs/en/sub-agents"
+        }
+      ],
+      "consensus": "consensus",
+      "provenance": "own-synthesis",
+      "failure_mode": "Recursion without a budget: each layer multiplies token use. Claude Code caps nesting with CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH, which can be adjusted but not removed.",
+      "verify": "Set CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH explicitly for automated runs and log spawned subagents with a SubagentStop hook.",
+      "sources": [
+        "agentpatterns-ai",
+        "aicodingpatterns",
+        "claude-docs-env-vars"
+      ],
+      "videos": [
+        {
+          "source": "yt-srfxsjegc6q",
+          "t": 6741,
+          "point": "The speakers show an agent in a sequence that is itself a loop of two agents, so a workflow is used like a single sub agent."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/composite.webp",
+        "alt": "Composite card (GoF structural). Classic: Treat one object and a tree of objects alike. In Claude Code: Nested subagents, capped by spawn depth. Breaks when: Each nesting layer multiplies token use. Check: Set the spawn depth explicitly and log every spawned subagent."
+      }
+    },
+    {
+      "id": "decorator",
+      "classic": "Decorator",
+      "family": "gof-structural",
+      "classic_intent": "Add behavior to an object by wrapping it, without changing its class.",
+      "agent_analogue": [
+        {
+          "label": "Guardrail wrapped around a model call",
+          "sources": [
+            "aicodingpatterns"
+          ]
+        },
+        {
+          "label": "Context-injection middleware that enriches each request",
+          "sources": [
+            "agentpatterns-ai"
+          ]
+        }
+      ],
+      "claude_code": [
+        {
+          "name": "UserPromptSubmit and PostToolUse hooks",
+          "doc": "https://code.claude.com/docs/en/hooks"
+        }
+      ],
+      "consensus": "divergent",
+      "provenance": "own-synthesis",
+      "failure_mode": "A classic decorator stack has a fixed order. Matching hooks run in parallel, so a wrapper that assumes another wrapper already ran is a race.",
+      "verify": "Write each hook so it passes when run alone, and test it with the other hooks disabled.",
+      "sources": [
+        "aicodingpatterns",
+        "agentpatterns-ai",
+        "claude-docs-hooks"
+      ],
+      "videos": [
+        {
+          "source": "yt-sw3plfxfwj4",
+          "t": 703,
+          "point": "The speaker explains Spring AI advisors as a filter or pre-processor that wraps calls to and from the model and can mutate or log each request."
+        },
+        {
+          "source": "yt-tqc1qofivcq",
+          "t": 6430,
+          "point": "An Anthropic speaker says hooks fire as events in the Agent SDK and are used for deterministic verification or for inserting context."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/decorator.webp",
+        "alt": "Decorator card (GoF structural). Classic: Add behavior by wrapping, in a fixed order. In Claude Code: UserPromptSubmit and PostToolUse hooks. Breaks when: Matching hooks run in parallel, so there is no fixed order. Check: Make each hook pass when it runs alone."
+      }
+    },
+    {
+      "id": "facade",
+      "classic": "Facade",
+      "family": "gof-structural",
+      "classic_intent": "Offer one simple entry point in front of a complex subsystem.",
+      "agent_analogue": [
+        {
+          "label": "Project instruction file as the single entry point for conventions",
+          "sources": [
+            "agentpatterns-ai"
+          ]
+        }
+      ],
+      "claude_code": [
+        {
+          "name": "CLAUDE.md",
+          "doc": "https://code.claude.com/docs/en/memory"
+        }
+      ],
+      "consensus": "single-source",
+      "provenance": "third-party",
+      "failure_mode": "The facade is read as a contract. The docs state that Claude treats CLAUDE.md as context, not enforced configuration: a rule written there is a request, not a guarantee.",
+      "verify": "For every must-never rule in CLAUDE.md, add a PreToolUse hook or a deny rule and a test that triggers it.",
+      "sources": [
+        "agentpatterns-ai",
+        "claude-docs-memory"
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/facade.webp",
+        "alt": "Facade card (GoF structural). Classic: One simple entry point to a complex subsystem. In Claude Code: CLAUDE.md. Breaks when: CLAUDE.md is context, not enforced configuration. Check: Back each must-never rule with a hook or a deny rule."
+      }
+    },
+    {
+      "id": "chain-of-responsibility",
+      "classic": "Chain of Responsibility",
+      "family": "gof-behavioral",
+      "classic_intent": "Pass a request along a chain of handlers until one of them handles it.",
+      "agent_analogue": [
+        {
+          "label": "Hook or permission pipeline in front of tool calls",
+          "sources": [
+            "agentpatterns-ai",
+            "ahep"
+          ]
+        },
+        {
+          "label": "Agents chained so each one handles what it can and passes the rest",
+          "sources": [
+            "aicodingpatterns"
+          ]
+        }
+      ],
+      "claude_code": [
+        {
+          "name": "Permission rules: deny, then ask, then allow",
+          "doc": "https://code.claude.com/docs/en/permissions"
+        }
+      ],
+      "consensus": "divergent",
+      "provenance": "own-synthesis",
+      "failure_mode": "Teams expect declaration order or rule specificity to decide. The docs state that rules are evaluated deny, then ask, then allow, and specificity does not change that order: a broad deny beats a narrow allow.",
+      "verify": "Add a deny and a more specific allow for the same command in a test project and check that the command stays blocked.",
+      "sources": [
+        "agentpatterns-ai",
+        "ahep",
+        "aicodingpatterns",
+        "claude-docs-permissions"
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/chain-of-responsibility.webp",
+        "alt": "Chain of Responsibility card (GoF behavioral). Classic: Pass a request along handlers until one handles it. In Claude Code: Permission rules: deny, then ask, then allow. Breaks when: Specificity does not win: a broad deny beats a narrow allow. Check: Add a deny and a narrower allow, confirm the command stays blocked."
+      }
+    },
+    {
+      "id": "command",
+      "classic": "Command",
+      "family": "gof-behavioral",
+      "classic_intent": "Turn a request into an object that can be queued, logged, checked, or undone.",
+      "agent_analogue": [
+        {
+          "label": "A tool call: a named action with structured arguments",
+          "sources": [
+            "aicodingpatterns",
+            "ahep"
+          ]
+        }
+      ],
+      "claude_code": [
+        {
+          "name": "Tool calls and PreToolUse hooks",
+          "doc": "https://code.claude.com/docs/en/tools-reference"
+        }
+      ],
+      "consensus": "consensus",
+      "provenance": "own-synthesis",
+      "failure_mode": "The command object is written by the model. Without validation before dispatch, a malformed or out-of-scope argument executes as written.",
+      "verify": "Feed a PreToolUse hook a recorded tool input with an out-of-scope path and assert that it blocks.",
+      "sources": [
+        "aicodingpatterns",
+        "ahep",
+        "claude-docs-tools-reference",
+        "claude-docs-hooks"
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/command.webp",
+        "alt": "Command card (GoF behavioral). Classic: Turn a request into an object you can queue, log or check. In Claude Code: Tool calls and PreToolUse hooks. Breaks when: The model writes the arguments, and unchecked they run as written. Check: Replay an out-of-scope tool input and assert the hook blocks it."
+      }
+    },
+    {
+      "id": "mediator",
+      "classic": "Mediator",
+      "family": "gof-behavioral",
+      "classic_intent": "Centralize how a set of components talk, so they do not reference each other directly.",
+      "agent_analogue": [
+        {
+          "label": "Orchestrator that coordinates workers which never talk to each other",
+          "sources": [
+            "aicodingpatterns",
+            "sarkar-2025"
+          ]
+        }
+      ],
+      "claude_code": [
+        {
+          "name": "Main conversation coordinating subagents",
+          "doc": "https://code.claude.com/docs/en/sub-agents"
+        },
+        {
+          "name": "Agent teams (experimental, off by default; peer messaging, the non-mediated alternative)",
+          "doc": "https://code.claude.com/docs/en/agent-teams"
+        }
+      ],
+      "consensus": "consensus",
+      "provenance": "own-synthesis",
+      "failure_mode": "The mediator becomes the bottleneck: if workers return transcripts instead of summaries, the coordinating context fills with material it never reads again.",
+      "verify": "Check that each subagent prompt asks for a bounded final report, and compare /context before and after a delegation.",
+      "sources": [
+        "aicodingpatterns",
+        "sarkar-2025",
+        "claude-docs-sub-agents",
+        "claude-docs-agent-teams"
+      ],
+      "videos": [
+        {
+          "source": "yt-2czyyrtzilg",
+          "t": 529,
+          "point": "In orchestration, every call goes through the orchestrator and agents never call each other."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/mediator.webp",
+        "alt": "Mediator card (GoF behavioral). Classic: Components talk through one coordinator. In Claude Code: The main conversation coordinating subagents. Breaks when: Workers return transcripts and flood the coordinator's context. Check: Ask each subagent for a bounded final report."
+      }
+    },
+    {
+      "id": "memento",
+      "classic": "Memento",
+      "family": "gof-behavioral",
+      "classic_intent": "Capture an object's state so it can be restored later without exposing its internals.",
+      "agent_analogue": [
+        {
+          "label": "Checkpoint and rewind of agent state",
+          "sources": [
+            "agentpatterns-ai",
+            "ahep"
+          ]
+        }
+      ],
+      "claude_code": [
+        {
+          "name": "Checkpointing and /rewind",
+          "doc": "https://code.claude.com/docs/en/checkpointing"
+        }
+      ],
+      "consensus": "consensus",
+      "provenance": "own-synthesis",
+      "failure_mode": "The snapshot is partial. The docs state that checkpoints only track changes made through Claude's file editing tools; Bash commands and external processes are not captured, and edits made by a background subagent usually are not either.",
+      "verify": "Use a Bash command to change a file Claude has not edited in this session, rewind, and confirm the change survives. Commit with git before risky shell work or delegated edits.",
+      "sources": [
+        "agentpatterns-ai",
+        "ahep",
+        "claude-docs-checkpointing"
+      ],
+      "videos": [
+        {
+          "source": "yt-bzissg7h7da",
+          "t": 14,
+          "point": "The speaker argues agents need a save button: runtime checkpoints that let you replay, diff and decide, instead of read-only traces."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/memento.webp",
+        "alt": "Memento card (GoF behavioral). Classic: Snapshot the state and restore it later. In Claude Code: Checkpoints and /rewind. Breaks when: Only Claude's file edits are tracked, not Bash or external changes. Check: Change an untouched file with Bash, rewind, and see it survive."
+      }
+    },
+    {
+      "id": "observer",
+      "classic": "Observer",
+      "family": "gof-behavioral",
+      "classic_intent": "Notify subscribers automatically when a subject changes state.",
+      "agent_analogue": [
+        {
+          "label": "Lifecycle hooks that react to agent events",
+          "sources": [
+            "agentpatterns-ai",
+            "aicodingpatterns"
+          ]
+        }
+      ],
+      "claude_code": [
+        {
+          "name": "Hooks (PreToolUse, PostToolUse, Stop, SubagentStop)",
+          "doc": "https://code.claude.com/docs/en/hooks"
+        }
+      ],
+      "consensus": "consensus",
+      "provenance": "third-party",
+      "failure_mode": "Subscribers assume an order. The docs state that matching hooks run in parallel, each one runs to completion, and for permission decisions the most restrictive result applies: one hook's deny does not stop a sibling hook's side effects.",
+      "verify": "Run each hook alone against a recorded event payload; a hook that only passes after another one is not an observer.",
+      "sources": [
+        "agentpatterns-ai",
+        "aicodingpatterns",
+        "kage-ai",
+        "claude-docs-hooks"
+      ],
+      "videos": [
+        {
+          "source": "yt-msfmqw92y8q",
+          "t": 44,
+          "point": "The speaker defines hooks as actions guaranteed to fire on agent events, such as just before a file read or when the conversation stops."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/observer.webp",
+        "alt": "Observer card (GoF behavioral). Classic: Subscribers are notified when state changes. In Claude Code: Hooks on PreToolUse, PostToolUse, Stop and SubagentStop. Breaks when: Hooks that assume an order, while matching hooks run in parallel. Check: Run each hook alone on a recorded event."
+      }
+    },
+    {
+      "id": "strategy",
+      "classic": "Strategy",
+      "family": "gof-behavioral",
+      "classic_intent": "Swap one algorithm for another behind the same interface at runtime.",
+      "agent_analogue": [
+        {
+          "label": "Model or approach selected per task",
+          "sources": [
+            "agentpatterns-ai",
+            "aicodingpatterns"
+          ]
+        },
+        {
+          "label": "Runtime strategy switching, with the harness recording why, at what cost, and how to roll back",
+          "sources": [
+            "kage-ai"
+          ]
+        }
+      ],
+      "claude_code": [
+        {
+          "name": "model field per subagent and /model",
+          "doc": "https://code.claude.com/docs/en/model-config"
+        }
+      ],
+      "consensus": "consensus",
+      "provenance": "own-synthesis",
+      "failure_mode": "The strategy changes silently. Nobody can tell afterwards which model produced which result or what the switch cost.",
+      "verify": "Pin model in each subagent definition and check /usage or the session transcript after a run.",
+      "sources": [
+        "agentpatterns-ai",
+        "aicodingpatterns",
+        "kage-ai",
+        "claude-docs-model-config",
+        "claude-docs-sub-agents"
+      ],
+      "videos": [
+        {
+          "source": "yt-fvxy8opoi8o",
+          "t": 106,
+          "point": "The speaker argues that one model for every task is overkill and that routing each task to a fitting model cuts cost and risk."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/strategy.webp",
+        "alt": "Strategy card (GoF behavioral). Classic: Swap the algorithm behind one interface. In Claude Code: The model field per subagent and /model. Breaks when: The model switches silently, with no record of cost or origin. Check: Pin the model per subagent and review /usage after the run."
+      }
+    },
+    {
+      "id": "template-method",
+      "classic": "Template Method",
+      "family": "gof-behavioral",
+      "classic_intent": "Fix the skeleton of an algorithm and let subclasses fill in some steps.",
+      "agent_analogue": [
+        {
+          "label": "System prompt that defines the steps",
+          "sources": [
+            "aicodingpatterns"
+          ]
+        },
+        {
+          "label": "Fixed agent-loop skeleton with pluggable steps",
+          "sources": [
+            "ahep"
+          ]
+        }
+      ],
+      "claude_code": [
+        {
+          "name": "Skills that define a procedure",
+          "doc": "https://code.claude.com/docs/en/skills"
+        },
+        {
+          "name": "Stop hook as the final step check",
+          "doc": "https://code.claude.com/docs/en/hooks"
+        }
+      ],
+      "consensus": "divergent",
+      "provenance": "own-synthesis",
+      "failure_mode": "A prose skeleton is not enforced: the model can skip or reorder a step, unlike a base class that calls the steps itself.",
+      "verify": "Give the last step an artifact (a file, a test run) and block completion with a Stop hook when the artifact is missing.",
+      "sources": [
+        "aicodingpatterns",
+        "ahep",
+        "claude-docs-skills",
+        "claude-docs-hooks"
+      ],
+      "videos": [
+        {
+          "source": "yt-nmwgxvm-to",
+          "t": 421,
+          "point": "The speaker describes Stripe's blueprints: agent skills interwoven with deterministic code in a fixed workflow."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/template-method.webp",
+        "alt": "Template Method card (GoF behavioral). Classic: A fixed skeleton calls the steps. In Claude Code: Skills that define a procedure, plus a Stop hook. Breaks when: A prose skeleton is not enforced, so steps get skipped. Check: Block completion with a Stop hook when the artifact is missing."
+      }
+    },
+    {
+      "id": "pipes-and-filters",
+      "classic": "Pipes and Filters",
+      "family": "eip",
+      "classic_intent": "Process a message through a sequence of independent steps connected by channels.",
+      "agent_analogue": [
+        {
+          "label": "Pipeline where each agent or model call is a filter",
+          "sources": [
+            "roanbrasil",
+            "apc"
+          ]
+        }
+      ],
+      "claude_code": [
+        {
+          "name": "Print mode in a shell pipeline (claude -p)",
+          "doc": "https://code.claude.com/docs/en/headless"
+        }
+      ],
+      "consensus": "consensus",
+      "provenance": "own-synthesis",
+      "failure_mode": "A filter emits free text that the next filter misreads, and the error travels down the pipe.",
+      "verify": "Use --output-format json between steps and validate the shape before the next filter runs.",
+      "sources": [
+        "roanbrasil",
+        "apc",
+        "hohpe-eip",
+        "claude-docs-headless",
+        "claude-docs-cli-reference"
+      ],
+      "videos": [
+        {
+          "source": "yt-sw3plfxfwj4",
+          "t": 2291,
+          "point": "The speaker pipes git log into claude -p to generate release notes and calls it pipes and filters all over again."
+        },
+        {
+          "source": "yt-x9bai7rbhqk",
+          "t": 491,
+          "point": "The speakers present the sequence pattern, calling one agent after another, also known as prompt chaining."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/pipes-and-filters.webp",
+        "alt": "Pipes and Filters card (Enterprise integration). Classic: Steps connected by channels, one after another. In Claude Code: claude -p in a shell pipeline. Breaks when: Free text from one step is misread by the next. Check: Use JSON output and validate it between steps."
+      }
+    },
+    {
+      "id": "content-based-router",
+      "classic": "Content-Based Router",
+      "family": "eip",
+      "classic_intent": "Route each message to a destination based on its content.",
+      "agent_analogue": [
+        {
+          "label": "Classifier that sends a request to a specialized handler",
+          "sources": [
+            "roanbrasil",
+            "anthropic-building-effective-agents"
+          ]
+        }
+      ],
+      "claude_code": [
+        {
+          "name": "Automatic delegation by subagent description",
+          "doc": "https://code.claude.com/docs/en/sub-agents"
+        },
+        {
+          "name": "Skill selection by description",
+          "doc": "https://code.claude.com/docs/en/skills"
+        }
+      ],
+      "consensus": "consensus",
+      "provenance": "own-synthesis",
+      "failure_mode": "Overlapping descriptions route the same request to different handlers from one run to the next.",
+      "verify": "Keep a set of routing prompts with the expected subagent or skill, and rerun it after every description change.",
+      "sources": [
+        "roanbrasil",
+        "anthropic-building-effective-agents",
+        "hohpe-eip",
+        "claude-docs-sub-agents",
+        "claude-docs-skills"
+      ],
+      "videos": [
+        {
+          "source": "yt-utm3frgbun0",
+          "t": 252,
+          "point": "Doctolib's Alfred has a route agent that uses an intention classification model to send each request to a specialized agent."
+        },
+        {
+          "source": "yt-prih-9homfi",
+          "t": 821,
+          "point": "The speaker describes a router that receives a message and decides which agent gets it, by LLM or plain if and else."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/content-based-router.webp",
+        "alt": "Content-Based Router card (Enterprise integration). Classic: Route each message by its content. In Claude Code: Delegation and skill selection by description. Breaks when: Overlapping descriptions route the same request differently. Check: Rerun a routing test set after every description change."
+      }
+    },
+    {
+      "id": "scatter-gather",
+      "classic": "Scatter-Gather",
+      "family": "eip",
+      "classic_intent": "Send a request to several recipients and aggregate their replies.",
+      "agent_analogue": [
+        {
+          "label": "Parallel agents followed by a synthesis step",
+          "sources": [
+            "aicodingpatterns",
+            "roanbrasil"
+          ]
+        }
+      ],
+      "claude_code": [
+        {
+          "name": "Parallel subagents",
+          "doc": "https://code.claude.com/docs/en/sub-agents"
+        },
+        {
+          "name": "Dynamic workflows",
+          "doc": "https://code.claude.com/docs/en/workflows"
+        }
+      ],
+      "consensus": "consensus",
+      "provenance": "own-synthesis",
+      "failure_mode": "The gather step averages contradicting answers instead of reconciling them, and token cost grows with every branch.",
+      "verify": "Make the synthesis step list disagreements explicitly, and compare the run's cost with a single-agent baseline.",
+      "sources": [
+        "aicodingpatterns",
+        "roanbrasil",
+        "hohpe-eip",
+        "claude-docs-sub-agents",
+        "claude-docs-workflows"
+      ],
+      "videos": [
+        {
+          "source": "yt-prih-9homfi",
+          "t": 786,
+          "point": "The speaker describes calling several agents in parallel, waiting for all results and passing them to a summarizer."
+        },
+        {
+          "source": "yt-5akdmangfnk",
+          "t": 46,
+          "point": "In a demo, the agent fans out 15 subagents in parallel and then picks the best result."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/scatter-gather.webp",
+        "alt": "Scatter-Gather card (Enterprise integration). Classic: Send to many recipients and aggregate the replies. In Claude Code: Parallel subagents and dynamic workflows. Breaks when: The gather step averages contradictions, and cost grows per branch. Check: List disagreements and compare cost with a single agent."
+      }
+    },
+    {
+      "id": "bulkhead",
+      "classic": "Bulkhead",
+      "family": "distributed",
+      "classic_intent": "Isolate resources per consumer so one failure cannot sink the whole system.",
+      "agent_analogue": [
+        {
+          "label": "Per-agent isolation of context, tools, and budget",
+          "sources": [
+            "aicodingpatterns",
+            "kage-ai"
+          ]
+        }
+      ],
+      "claude_code": [
+        {
+          "name": "Subagent context isolation",
+          "doc": "https://code.claude.com/docs/en/sub-agents"
+        },
+        {
+          "name": "isolation: worktree",
+          "doc": "https://code.claude.com/docs/en/worktrees"
+        }
+      ],
+      "consensus": "consensus",
+      "provenance": "own-synthesis",
+      "failure_mode": "Only the context is isolated. Parallel agents still share one checkout and overwrite each other's files.",
+      "verify": "Give write-capable parallel subagents isolation: worktree and check that git status in the main checkout stays clean during the run.",
+      "sources": [
+        "aicodingpatterns",
+        "kage-ai",
+        "claude-docs-sub-agents",
+        "claude-docs-worktrees"
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/bulkhead.webp",
+        "alt": "Bulkhead card (Distributed and resilience). Classic: Isolate resources so one failure cannot sink everything. In Claude Code: Subagent context isolation and worktrees. Breaks when: The context is isolated, but the checkout is shared. Check: Give parallel writers their own worktree."
+      }
+    },
+    {
+      "id": "circuit-breaker",
+      "classic": "Circuit Breaker",
+      "family": "distributed",
+      "classic_intent": "Stop calling a failing dependency after repeated failures, and fail fast.",
+      "agent_analogue": [
+        {
+          "label": "Hard caps on turns, cost, and loop depth",
+          "sources": [
+            "agentpatterns-ai",
+            "aicodingpatterns",
+            "go4"
+          ]
+        },
+        {
+          "label": "Breakers on tools, models, and the agent's own loop",
+          "sources": [
+            "kage-ai"
+          ]
+        }
+      ],
+      "claude_code": [
+        {
+          "name": "--max-turns and --max-budget-usd (print mode)",
+          "doc": "https://code.claude.com/docs/en/cli-reference"
+        },
+        {
+          "name": "maxTurns in subagent frontmatter",
+          "doc": "https://code.claude.com/docs/en/sub-agents"
+        }
+      ],
+      "consensus": "consensus",
+      "provenance": "own-synthesis",
+      "failure_mode": "The breaker is static, not failure-triggered, and often set on one layer only: --max-turns has no limit by default and counts turns, not cost, so it needs --max-budget-usd beside it.",
+      "verify": "Run the automated job with --max-turns and --max-budget-usd set, on a task designed to loop, and check that it exits with an error.",
+      "sources": [
+        "agentpatterns-ai",
+        "aicodingpatterns",
+        "go4",
+        "kage-ai",
+        "fowler-circuit-breaker",
+        "claude-docs-cli-reference",
+        "claude-docs-sub-agents"
+      ],
+      "videos": [
+        {
+          "source": "yt-2czyyrtzilg",
+          "t": 1011,
+          "point": "The speaker applies the circuit breaker to agent-to-agent calls: after repeated failures the circuit opens, fails fast, then half-opens to test recovery."
+        },
+        {
+          "source": "yt-gjx19pnhmsw",
+          "t": 1056,
+          "point": "In a demo, an agent that exceeds its per-run budget is killed immediately, which the speaker calls a simple circuit breaker."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/circuit-breaker.webp",
+        "alt": "Circuit Breaker card (Distributed and resilience). Classic: Stop calling a failing dependency and fail fast. In Claude Code: Turn and budget caps on a run. Breaks when: Static caps, often set on one layer only. Check: Run a looping task with both caps and expect an error exit."
+      }
+    },
+    {
+      "id": "saga",
+      "classic": "Saga",
+      "family": "distributed",
+      "classic_intent": "Run a long transaction as local steps, each with a compensating action if a later step fails.",
+      "agent_analogue": [
+        {
+          "label": "Compensating actions for an agent plan",
+          "sources": [
+            "agentpatterns-ai",
+            "aicodingpatterns",
+            "kage-ai",
+            "srinivasan-2026"
+          ]
+        }
+      ],
+      "claude_code": [
+        {
+          "name": "No native saga: checkpoints plus scripted compensation",
+          "doc": "https://code.claude.com/docs/en/checkpointing"
+        }
+      ],
+      "consensus": "consensus",
+      "provenance": "own-synthesis",
+      "failure_mode": "Rewind is mistaken for compensation. It restores local file edits only; a push, an API call, or a database write stays done.",
+      "verify": "For every side-effecting step in an agent plan, write down its compensating action before the run, and test that action once.",
+      "sources": [
+        "agentpatterns-ai",
+        "aicodingpatterns",
+        "kage-ai",
+        "srinivasan-2026",
+        "apc",
+        "claude-docs-checkpointing"
+      ],
+      "videos": [
+        {
+          "source": "yt-2czyyrtzilg",
+          "t": 1142,
+          "point": "The speaker presents the compensation or saga pattern: each agent has execute and compensate, and on failure the orchestrator walks backward calling compensate."
+        },
+        {
+          "source": "yt-hd9-v56fnri",
+          "t": 730,
+          "point": "The speaker says a multi-step agent that fails midway must reverse the whole transaction across systems and needs a defined compensation operation."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/saga.webp",
+        "alt": "Saga card (Distributed and resilience). Classic: Local steps, each with a compensating action. In Claude Code: No native saga: checkpoints plus scripted compensation. Breaks when: Rewind undoes local edits, not a push or an API call. Check: Write and test a compensation for each side effect."
+      }
+    },
+    {
+      "id": "sidecar",
+      "classic": "Sidecar",
+      "family": "distributed",
+      "classic_intent": "Attach cross-cutting capabilities (logging, policy, networking) next to a service instead of inside it.",
+      "agent_analogue": [
+        {
+          "label": "The agent harness around the model loop",
+          "sources": [
+            "kage-ai"
+          ]
+        }
+      ],
+      "claude_code": [
+        {
+          "name": "Hooks, permissions, and sandboxing around the loop",
+          "doc": "https://code.claude.com/docs/en/sandboxing"
+        }
+      ],
+      "consensus": "single-source",
+      "provenance": "own-synthesis",
+      "failure_mode": "Policy lives in the prompt instead of the sidecar, so the model can talk itself out of it. A policy hook can also fail open: on most events, a hook that crashes or times out lets the action through unless it sets onFailure: \"block\".",
+      "verify": "List each safety rule and name the layer that enforces it: hook, permission rule, sandbox, or prompt only. For each policy hook, point it at a missing script and check that the action is blocked.",
+      "sources": [
+        "kage-ai",
+        "claude-docs-sandboxing",
+        "claude-docs-hooks",
+        "claude-docs-permissions"
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/sidecar.webp",
+        "alt": "Sidecar card (Distributed and resilience). Classic: Cross-cutting policy runs next to the service. In Claude Code: Hooks, permissions and sandboxing around the loop. Breaks when: Policy in the prompt, or a hook that fails open. Check: Name the enforcing layer for every safety rule."
+      }
+    },
+    {
+      "id": "event-sourcing",
+      "classic": "Event Sourcing",
+      "family": "distributed",
+      "classic_intent": "Store every state change as an event, and rebuild state by replaying the log.",
+      "agent_analogue": [
+        {
+          "label": "The trace log as the event stream of an agent run",
+          "sources": [
+            "kage-ai"
+          ]
+        }
+      ],
+      "claude_code": [
+        {
+          "name": "Session transcripts, --resume and --continue",
+          "doc": "https://code.claude.com/docs/en/sessions"
+        }
+      ],
+      "consensus": "single-source",
+      "provenance": "own-synthesis",
+      "failure_mode": "Replay is assumed to reproduce the result. Resuming a session restores the conversation, but the model calls that follow are not deterministic.",
+      "verify": "Treat the transcript as an audit trail, not a replay log: pin the inputs you need to reproduce outside it.",
+      "sources": [
+        "kage-ai",
+        "claude-docs-sessions"
+      ],
+      "videos": [
+        {
+          "source": "yt-vi-2nasppag",
+          "t": 105,
+          "point": "The speaker wants to build a coding agent harness that is purely event sourced, because the agent already keeps a log of events."
+        },
+        {
+          "source": "yt-upwgam2mkhy",
+          "t": 259,
+          "point": "The speaker argues the log is the durable history from which every view of the agent (debugging, auditing, compaction) is a projection."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/event-sourcing.webp",
+        "alt": "Event Sourcing card (Distributed and resilience). Classic: Store every change as an event, replay to rebuild. In Claude Code: Session transcripts with --resume and --continue. Breaks when: Resuming restores the conversation, not the same answers. Check: Keep the transcript as an audit trail and pin inputs elsewhere."
+      }
+    }
+  ],
+  "native": [
+    {
+      "id": "orchestrator-workers",
+      "name": "Orchestrator-workers",
+      "summary": "A central model breaks a task down at runtime, delegates the parts, and synthesizes the results.",
+      "why_new": "Closest classic pattern: Mediator. The difference is that the model decides the decomposition during the run instead of the designer drawing it. Delegation pays on parallel work: in Google Research's controlled study, every multi-agent variant degraded a sequential planning task by 39 to 70%.",
+      "claude_code": [
+        {
+          "name": "Subagents",
+          "doc": "https://code.claude.com/docs/en/sub-agents"
+        },
+        {
+          "name": "Dynamic workflows",
+          "doc": "https://code.claude.com/docs/en/workflows"
+        }
+      ],
+      "sources": [
+        "anthropic-building-effective-agents",
+        "claude-docs-sub-agents",
+        "claude-docs-workflows",
+        "kim-liu-2026"
+      ],
+      "videos": [
+        {
+          "source": "yt-ow1we5pzk-o",
+          "t": 276,
+          "point": "The speaker describes Factory's Missions system as an orchestrator that plans, workers that execute, and validators that verify."
+        },
+        {
+          "source": "yt-2czyyrtzilg",
+          "t": 501,
+          "point": "Orchestration is presented as a central workflow orchestrator that calls each agent directly."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/orchestrator-workers.webp",
+        "alt": "Orchestrator-workers card (agent-native pattern). What it does: A model splits the task at runtime, delegates, and synthesizes. In Claude Code: Subagents and dynamic workflows. What is new: The model draws the decomposition, and it pays on parallel work."
+      }
+    },
+    {
+      "id": "evaluator-optimizer",
+      "name": "Evaluator-optimizer",
+      "summary": "One call produces an answer, another evaluates it and sends feedback, in a loop.",
+      "why_new": "The test oracle is itself a model, so the loop can converge on a wrong answer both sides accept.",
+      "claude_code": [
+        {
+          "name": "Reviewer subagent with its own context",
+          "doc": "https://code.claude.com/docs/en/sub-agents"
+        },
+        {
+          "name": "Stop hook that runs the real tests",
+          "doc": "https://code.claude.com/docs/en/hooks"
+        }
+      ],
+      "sources": [
+        "anthropic-building-effective-agents",
+        "claude-docs-sub-agents",
+        "claude-docs-hooks"
+      ],
+      "videos": [
+        {
+          "source": "yt-mr-waveprwe",
+          "t": 1141,
+          "point": "The speakers describe a generator and evaluator split into separate contexts, where the evaluator tests the result with Playwright and feeds critique back."
+        },
+        {
+          "source": "yt-ow1we5pzk-o",
+          "t": 334,
+          "point": "A separate validator role verifies the work, including end-to-end behavior, instead of only reading the code."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/evaluator-optimizer.webp",
+        "alt": "Evaluator-optimizer card (agent-native pattern). What it does: One call answers, another evaluates and sends feedback. In Claude Code: A reviewer subagent and a Stop hook that runs the real tests. What is new: The judge is a model, so both sides can accept a wrong answer."
+      }
+    },
+    {
+      "id": "plan-then-execute",
+      "name": "Plan-then-execute",
+      "summary": "Separate a read-only planning phase from the phase that changes files.",
+      "why_new": "The plan is produced by the same model that will execute it, so the human review point is the plan, not the code.",
+      "claude_code": [
+        {
+          "name": "Plan mode",
+          "doc": "https://code.claude.com/docs/en/permission-modes"
+        }
+      ],
+      "sources": [
+        "nibzard",
+        "claude-docs-permission-modes"
+      ],
+      "videos": [
+        {
+          "source": "yt-wnx-s-rxvxk",
+          "t": 22,
+          "point": "The speaker plans every change in plan mode, has the AI execute the plan, then tests and commits."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/plan-then-execute.webp",
+        "alt": "Plan-then-execute card (agent-native pattern). What it does: Plan read-only before any file changes. In Claude Code: Plan mode. What is new: The same model executes the plan, so review the plan."
+      }
+    },
+    {
+      "id": "context-isolation",
+      "name": "Context isolation",
+      "summary": "Run a noisy side task in its own context and return only its conclusion.",
+      "why_new": "Closest classic pattern: Bulkhead. Here the resource being protected is the context window, not threads or connections.",
+      "claude_code": [
+        {
+          "name": "Subagents return only their final response",
+          "doc": "https://code.claude.com/docs/en/sub-agents"
+        }
+      ],
+      "sources": [
+        "lance-martin",
+        "claude-docs-sub-agents"
+      ],
+      "videos": [
+        {
+          "source": "yt-5akdmangfnk",
+          "t": 110,
+          "point": "Subagents give context isolation: each runs in its own context window and returns only its results, so the main agent's context stays clean."
+        },
+        {
+          "source": "yt-z-c11pv-uvu",
+          "t": 917,
+          "point": "The speaker names the anti-pattern of letting every subtask dump its full output into the primary thread and says to isolate subtask output instead."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/context-isolation.webp",
+        "alt": "Context isolation card (agent-native pattern). What it does: Run a noisy side task in its own context and return the conclusion. In Claude Code: Subagents return only their final response. What is new: The protected resource is the context window."
+      }
+    },
+    {
+      "id": "context-compaction",
+      "name": "Context compaction",
+      "summary": "Summarize the conversation when it approaches the window limit, and continue from the summary.",
+      "why_new": "State is lossy by design: what the summary drops is no longer in the model's context for the rest of the session.",
+      "claude_code": [
+        {
+          "name": "Auto compaction and /compact",
+          "doc": "https://code.claude.com/docs/en/context-window"
+        }
+      ],
+      "sources": [
+        "lance-martin",
+        "nibzard",
+        "claude-docs-context-window"
+      ],
+      "videos": [
+        {
+          "source": "yt-wp3hjuxd918",
+          "t": 535,
+          "point": "The speakers define compaction as keeping the smallest context that can still answer the question and dropping or saving the rest."
+        },
+        {
+          "source": "yt-upwgam2mkhy",
+          "t": 272,
+          "point": "The speaker explains that a log can grow forever while a model's view cannot, so the log must be compacted into a smaller lossy representation."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/context-compaction.webp",
+        "alt": "Context compaction card (agent-native pattern). What it does: Summarize near the window limit and continue from the summary. In Claude Code: Auto compaction and /compact. What is new: Lossy by design: what the summary drops is gone."
+      }
+    },
+    {
+      "id": "progressive-disclosure",
+      "name": "Progressive disclosure",
+      "summary": "Load short descriptions first and the full instructions only when they are needed.",
+      "why_new": "Selection happens by the model reading descriptions, so a vague description hides a capability. Skills preloaded through a subagent's skills field are the exception: their full content loads at launch.",
+      "claude_code": [
+        {
+          "name": "Skills: descriptions at start, full content on use",
+          "doc": "https://code.claude.com/docs/en/skills"
+        },
+        {
+          "name": "MCP tool search",
+          "doc": "https://code.claude.com/docs/en/mcp"
+        }
+      ],
+      "sources": [
+        "lance-martin",
+        "claude-docs-skills",
+        "claude-docs-mcp"
+      ],
+      "videos": [
+        {
+          "source": "yt-gmaqkinjv1e",
+          "t": 265,
+          "point": "The speaker says skills brought progressive disclosure, which MCP tools lacked, and later ties Claude Code tool search to the same idea for MCP tools."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/progressive-disclosure.webp",
+        "alt": "Progressive disclosure card (agent-native pattern). What it does: Short descriptions first, full instructions on demand. In Claude Code: Skills and MCP tool search. What is new: A vague description hides a capability."
+      }
+    },
+    {
+      "id": "deterministic-gate",
+      "name": "Deterministic gate",
+      "summary": "Put anything that must always happen in code that runs outside the model's judgment.",
+      "why_new": "Closest classic patterns: Sidecar and Chain of Responsibility. The difference is that the rest of the system is probabilistic, so the line between suggestion and enforcement has to be drawn on purpose.",
+      "claude_code": [
+        {
+          "name": "PreToolUse hooks",
+          "doc": "https://code.claude.com/docs/en/hooks"
+        },
+        {
+          "name": "Permission deny rules",
+          "doc": "https://code.claude.com/docs/en/permissions"
+        }
+      ],
+      "sources": [
+        "anthropic-steering",
+        "claude-docs-memory",
+        "claude-docs-hooks"
+      ],
+      "videos": [
+        {
+          "source": "yt-rbjwzzk2lu0",
+          "t": 967,
+          "point": "An Anthropic speaker describes a proxy layer that counts and compares, returns a 403 when a budget is crossed or a delete is attempted, and cannot be talked out of the rule by prompt injection."
+        },
+        {
+          "source": "yt-3csi8qaon-s",
+          "t": 146,
+          "point": "The speaker uses a PreToolUse hook that blocks a tool call before it executes, turning CLAUDE.md instructions into deterministic hooks."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/deterministic-gate.webp",
+        "alt": "Deterministic gate card (agent-native pattern). What it does: What must always happen runs outside the model. In Claude Code: PreToolUse hooks and deny rules. What is new: Draw the line between suggestion and enforcement on purpose."
+      }
+    },
+    {
+      "id": "goal-loop",
+      "name": "Goal loop",
+      "summary": "Keep the agent working until a stated completion condition is met.",
+      "why_new": "Whether the goal is met is judged by a model, so the condition must be checkable.",
+      "claude_code": [
+        {
+          "name": "/goal",
+          "doc": "https://code.claude.com/docs/en/goal"
+        },
+        {
+          "name": "Stop hook continuation",
+          "doc": "https://code.claude.com/docs/en/hooks"
+        }
+      ],
+      "sources": [
+        "nibzard",
+        "claude-docs-goal",
+        "claude-docs-hooks"
+      ],
+      "videos": [
+        {
+          "source": "yt-mr-waveprwe",
+          "t": 506,
+          "point": "The speakers explain the Ralph loop: feed one prompt to the CLI and run it in a loop until all tasks are complete, with a stop hook and a max iteration count in Anthropic's plugin."
+        }
+      ],
+      "infographic": {
+        "file": "guide/images/ai-design-patterns/patterns/goal-loop.webp",
+        "alt": "Goal loop card (agent-native pattern). What it does: Keep working until a stated condition is met. In Claude Code: /goal and Stop hook continuation. What is new: A model judges the goal, so make it checkable."
+      }
+    }
+  ],
+  "anti_patterns": [
+    {
+      "id": "prompt-as-enforcement",
+      "name": "Prompt as enforcement",
+      "symptom": "A must-never rule lives only in CLAUDE.md or a system prompt.",
+      "fix": "Deterministic gate: a PreToolUse hook with onFailure: \"block\", or a deny rule, with a test.",
+      "category": "specification",
+      "patterns": [
+        "deterministic-gate",
+        "facade"
+      ],
+      "sources": [
+        "claude-docs-memory",
+        "anthropic-steering"
+      ]
+    },
+    {
+      "id": "context-flooding",
+      "name": "Context flooding",
+      "symptom": "Workers return full transcripts or logs to the coordinating thread.",
+      "fix": "Context isolation: ask each worker for a bounded final report.",
+      "category": "inter-agent",
+      "patterns": [
+        "context-isolation",
+        "mediator"
+      ],
+      "sources": [
+        "claude-docs-sub-agents",
+        "lance-martin"
+      ]
+    },
+    {
+      "id": "unbounded-loop",
+      "name": "Unbounded loop",
+      "symptom": "An automated run has no turn, cost, or depth limit.",
+      "fix": "Circuit breaker on every layer: --max-turns, --max-budget-usd, maxTurns, spawn depth.",
+      "category": "specification",
+      "patterns": [
+        "circuit-breaker",
+        "composite"
+      ],
+      "sources": [
+        "mast",
+        "go4",
+        "claude-docs-cli-reference"
+      ]
+    },
+    {
+      "id": "unverified-done",
+      "name": "Unverified done",
+      "symptom": "The agent declares success without running a check, or stops early.",
+      "fix": "Evaluator-optimizer with a real test, enforced by a Stop hook.",
+      "category": "verification",
+      "patterns": [
+        "evaluator-optimizer",
+        "template-method"
+      ],
+      "sources": [
+        "mast",
+        "roanbrasil"
+      ]
+    },
+    {
+      "id": "step-repetition",
+      "name": "Step repetition",
+      "symptom": "The agent redoes completed steps after an interruption or a reset of the conversation.",
+      "fix": "Durable progress outside the context (a task list or a file) and idempotent side effects.",
+      "category": "specification",
+      "patterns": [
+        "event-sourcing",
+        "saga"
+      ],
+      "sources": [
+        "mast",
+        "roanbrasil"
+      ]
+    },
+    {
+      "id": "rewind-as-rollback",
+      "name": "Rewind as rollback",
+      "symptom": "A team counts on /rewind to undo shell commands or remote effects.",
+      "fix": "Saga thinking: git commits before risky work, a written compensation for each external effect.",
+      "category": "harness",
+      "patterns": [
+        "memento",
+        "saga"
+      ],
+      "sources": [
+        "claude-docs-checkpointing"
+      ]
+    },
+    {
+      "id": "ordered-hooks-assumption",
+      "name": "Ordered hooks assumption",
+      "symptom": "A hook relies on another hook for the same event having run first.",
+      "fix": "Independent observers: each hook passes or blocks on its own.",
+      "category": "harness",
+      "patterns": [
+        "observer",
+        "decorator"
+      ],
+      "sources": [
+        "claude-docs-hooks"
+      ]
+    },
+    {
+      "id": "specific-allow-overrides-deny",
+      "name": "Specific allow overrides deny",
+      "symptom": "A narrow allow rule is added to punch a hole in a broad deny.",
+      "fix": "Permission rules are evaluated deny, then ask, then allow: narrow the deny instead.",
+      "category": "harness",
+      "patterns": [
+        "chain-of-responsibility"
+      ],
+      "sources": [
+        "claude-docs-permissions"
+      ]
+    },
+    {
+      "id": "unguarded-shared-checkout",
+      "name": "Unguarded shared checkout",
+      "symptom": "Parallel write-capable agents edit the same working tree.",
+      "fix": "Bulkhead: isolation: worktree per writing agent.",
+      "category": "inter-agent",
+      "patterns": [
+        "bulkhead",
+        "scatter-gather"
+      ],
+      "sources": [
+        "claude-docs-worktrees",
+        "kage-ai"
+      ]
+    },
+    {
+      "id": "untrusted-content-as-instructions",
+      "name": "Untrusted content as instructions",
+      "symptom": "Fetched pages, issue text, or tool output are allowed to steer the agent's next action.",
+      "fix": "Trust boundary: treat external content as data, and keep write and network tools behind permission rules.",
+      "category": "harness",
+      "patterns": [
+        "sidecar",
+        "command"
+      ],
+      "sources": [
+        "roanbrasil",
+        "claude-docs-security"
+      ]
+    }
+  ],
+  "anti_pattern_categories": [
+    {
+      "id": "specification",
+      "label": "Specification issues",
+      "source": "mast"
+    },
+    {
+      "id": "inter-agent",
+      "label": "Inter-agent misalignment",
+      "source": "mast"
+    },
+    {
+      "id": "verification",
+      "label": "Task verification",
+      "source": "mast"
+    },
+    {
+      "id": "harness",
+      "label": "Harness mechanics (beyond MAST)",
+      "source": null
+    }
+  ],
+  "sources": [
+    {
+      "id": "agentpatterns-ai",
+      "title": "Classical SE Patterns as Agent Design Analogues",
+      "author": "AgentPatterns.ai",
+      "url": "https://agentpatterns.ai/patterns/agent-design/classical-se-patterns-agent-analogues/",
+      "kind": "crosswalk"
+    },
+    {
+      "id": "aicodingpatterns",
+      "title": "Patrones GoF en agentes IA: el mapeo completo",
+      "author": "Esther Aznar, Ivan Garcia Villar",
+      "url": "https://aicodingpatterns.com/patterns/patrones-gof-patrones-agenticos-mapeo-completo/",
+      "kind": "crosswalk"
+    },
+    {
+      "id": "kage-ai",
+      "title": "Pattern Evolution: GoF, distributed, agent",
+      "author": "Jia Huang",
+      "url": "https://kage-ai.com/research/pattern-evolution/",
+      "kind": "crosswalk"
+    },
+    {
+      "id": "roanbrasil",
+      "title": "Agents Integration Patterns",
+      "author": "Roan Brasil",
+      "url": "https://github.com/roanbrasil/agents-integration-patterns",
+      "kind": "crosswalk"
+    },
+    {
+      "id": "go4",
+      "title": "GO4: A Pattern Language for LLM Engineering",
+      "author": "James Davies",
+      "url": "https://github.com/jlldavies/go4-llm-design-patterns",
+      "kind": "catalog"
+    },
+    {
+      "id": "ahep",
+      "title": "Agent Harness Engineering Patterns",
+      "author": "Ashish Patel",
+      "url": "https://github.com/ashishpatel26/agent-harness-engineering-pattern",
+      "kind": "catalog"
+    },
+    {
+      "id": "apc",
+      "title": "Agent Patterns Catalog",
+      "author": "Marco Nissen",
+      "url": "https://github.com/agentpatternscatalog/patterns",
+      "kind": "catalog"
+    },
+    {
+      "id": "nibzard",
+      "title": "Awesome Agentic Patterns",
+      "author": "Nikola Balic and contributors",
+      "url": "https://github.com/nibzard/awesome-agentic-patterns",
+      "kind": "catalog"
+    },
+    {
+      "id": "huang-zhou-2026",
+      "title": "A Two-Dimensional Framework for AI Agent Design Patterns (arXiv 2605.13850)",
+      "author": "Jia Huang, Joey Tianyi Zhou",
+      "url": "https://arxiv.org/abs/2605.13850",
+      "kind": "paper"
+    },
+    {
+      "id": "huang-et-al-2026",
+      "title": "Selecting and Composing Agent Design Patterns: Industrial Case Evidence and Controlled Reference-System Experiments (arXiv 2610.25629)",
+      "author": "Jia Huang, Bingsheng Ru, Bo Liang, Yuke Xiong, Haiyan Fan, Joey Tianyi Zhou",
+      "url": "https://arxiv.org/abs/2610.25629",
+      "kind": "paper"
+    },
+    {
+      "id": "srinivasan-2026",
+      "title": "Selecting and Composing Runtime Architecture Patterns for Production LLM Agents (arXiv 2605.20173)",
+      "author": "Vasundra Srinivasan",
+      "url": "https://arxiv.org/abs/2605.20173",
+      "kind": "paper"
+    },
+    {
+      "id": "sarkar-2025",
+      "title": "Survey of LLM Agent Communication with MCP: A Software Design Pattern Centric Review (arXiv 2506.05364)",
+      "author": "Sarkar and Sarkar",
+      "url": "https://arxiv.org/abs/2506.05364",
+      "kind": "paper"
+    },
+    {
+      "id": "mast",
+      "title": "Why Do Multi-Agent LLM Systems Fail? (arXiv 2503.13657)",
+      "author": "Cemri et al.",
+      "url": "https://arxiv.org/abs/2503.13657",
+      "kind": "paper"
+    },
+    {
+      "id": "kim-liu-2026",
+      "title": "Towards a Science of Scaling Agent Systems (arXiv 2512.08296)",
+      "author": "Yubin Kim, Xin Liu (Google Research)",
+      "url": "https://research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work/",
+      "kind": "paper"
+    },
+    {
+      "id": "anthropic-building-effective-agents",
+      "title": "Building effective agents",
+      "author": "Anthropic",
+      "url": "https://www.anthropic.com/engineering/building-effective-agents",
+      "kind": "vendor"
+    },
+    {
+      "id": "anthropic-steering",
+      "title": "Steering Claude Code: skills, hooks, rules, subagents and more",
+      "author": "Anthropic",
+      "url": "https://claude.com/resources/articles/steering-claude-code-skills-hooks-rules-subagents-and-more",
+      "kind": "vendor"
+    },
+    {
+      "id": "lance-martin",
+      "title": "Agent design patterns",
+      "author": "Lance Martin",
+      "url": "https://rlancemartin.github.io/2026/01/09/agent_design/",
+      "kind": "article"
+    },
+    {
+      "id": "hohpe-eip",
+      "title": "Enterprise Integration Patterns",
+      "author": "Gregor Hohpe, Bobby Woolf",
+      "url": "https://www.enterpriseintegrationpatterns.com/",
+      "kind": "classic"
+    },
+    {
+      "id": "fowler-circuit-breaker",
+      "title": "CircuitBreaker",
+      "author": "Martin Fowler",
+      "url": "https://martinfowler.com/bliki/CircuitBreaker.html",
+      "kind": "classic"
+    },
+    {
+      "id": "claude-docs-hooks",
+      "title": "Hooks reference",
+      "author": "Claude Code docs",
+      "url": "https://code.claude.com/docs/en/hooks",
+      "kind": "official"
+    },
+    {
+      "id": "claude-docs-permissions",
+      "title": "Permissions",
+      "author": "Claude Code docs",
+      "url": "https://code.claude.com/docs/en/permissions",
+      "kind": "official"
+    },
+    {
+      "id": "claude-docs-permission-modes",
+      "title": "Permission modes",
+      "author": "Claude Code docs",
+      "url": "https://code.claude.com/docs/en/permission-modes",
+      "kind": "official"
+    },
+    {
+      "id": "claude-docs-checkpointing",
+      "title": "Checkpointing",
+      "author": "Claude Code docs",
+      "url": "https://code.claude.com/docs/en/checkpointing",
+      "kind": "official"
+    },
+    {
+      "id": "claude-docs-sub-agents",
+      "title": "Subagents",
+      "author": "Claude Code docs",
+      "url": "https://code.claude.com/docs/en/sub-agents",
+      "kind": "official"
+    },
+    {
+      "id": "claude-docs-agent-teams",
+      "title": "Agent teams",
+      "author": "Claude Code docs",
+      "url": "https://code.claude.com/docs/en/agent-teams",
+      "kind": "official"
+    },
+    {
+      "id": "claude-docs-workflows",
+      "title": "Dynamic workflows",
+      "author": "Claude Code docs",
+      "url": "https://code.claude.com/docs/en/workflows",
+      "kind": "official"
+    },
+    {
+      "id": "claude-docs-memory",
+      "title": "Memory (CLAUDE.md)",
+      "author": "Claude Code docs",
+      "url": "https://code.claude.com/docs/en/memory",
+      "kind": "official"
+    },
+    {
+      "id": "claude-docs-skills",
+      "title": "Skills",
+      "author": "Claude Code docs",
+      "url": "https://code.claude.com/docs/en/skills",
+      "kind": "official"
+    },
+    {
+      "id": "claude-docs-mcp",
+      "title": "MCP",
+      "author": "Claude Code docs",
+      "url": "https://code.claude.com/docs/en/mcp",
+      "kind": "official"
+    },
+    {
+      "id": "claude-docs-cli-reference",
+      "title": "CLI reference",
+      "author": "Claude Code docs",
+      "url": "https://code.claude.com/docs/en/cli-reference",
+      "kind": "official"
+    },
+    {
+      "id": "claude-docs-headless",
+      "title": "Run Claude Code programmatically",
+      "author": "Claude Code docs",
+      "url": "https://code.claude.com/docs/en/headless",
+      "kind": "official"
+    },
+    {
+      "id": "claude-docs-env-vars",
+      "title": "Environment variables",
+      "author": "Claude Code docs",
+      "url": "https://code.claude.com/docs/en/env-vars",
+      "kind": "official"
+    },
+    {
+      "id": "claude-docs-model-config",
+      "title": "Model configuration",
+      "author": "Claude Code docs",
+      "url": "https://code.claude.com/docs/en/model-config",
+      "kind": "official"
+    },
+    {
+      "id": "claude-docs-tools-reference",
+      "title": "Tools reference",
+      "author": "Claude Code docs",
+      "url": "https://code.claude.com/docs/en/tools-reference",
+      "kind": "official"
+    },
+    {
+      "id": "claude-docs-worktrees",
+      "title": "Worktrees",
+      "author": "Claude Code docs",
+      "url": "https://code.claude.com/docs/en/worktrees",
+      "kind": "official"
+    },
+    {
+      "id": "claude-docs-sandboxing",
+      "title": "Sandboxing",
+      "author": "Claude Code docs",
+      "url": "https://code.claude.com/docs/en/sandboxing",
+      "kind": "official"
+    },
+    {
+      "id": "claude-docs-sessions",
+      "title": "Sessions",
+      "author": "Claude Code docs",
+      "url": "https://code.claude.com/docs/en/sessions",
+      "kind": "official"
+    },
+    {
+      "id": "claude-docs-context-window",
+      "title": "Context window",
+      "author": "Claude Code docs",
+      "url": "https://code.claude.com/docs/en/context-window",
+      "kind": "official"
+    },
+    {
+      "id": "claude-docs-goal",
+      "title": "Keep Claude working toward a goal",
+      "author": "Claude Code docs",
+      "url": "https://code.claude.com/docs/en/goal",
+      "kind": "official"
+    },
+    {
+      "id": "claude-docs-security",
+      "title": "Security",
+      "author": "Claude Code docs",
+      "url": "https://code.claude.com/docs/en/security",
+      "kind": "official"
+    },
+    {
+      "id": "osmani-2026",
+      "title": "Agent Harness Engineering",
+      "author": "Addy Osmani",
+      "url": "https://addyosmani.com/blog/agent-harness-engineering/",
+      "kind": "article"
+    },
+    {
+      "id": "bockeler-2026",
+      "title": "Harness engineering for coding agent users",
+      "author": "Birgitta Böckeler (martinfowler.com)",
+      "url": "https://martinfowler.com/articles/harness-engineering.html",
+      "kind": "article"
+    },
+    {
+      "id": "willison-agentic-patterns",
+      "title": "Agentic Engineering Patterns",
+      "author": "Simon Willison",
+      "url": "https://simonwillison.net/guides/agentic-engineering-patterns/",
+      "kind": "article"
+    },
+    {
+      "id": "ng-2024",
+      "title": "Agentic Design Patterns Part 1 (The Batch)",
+      "author": "Andrew Ng",
+      "url": "https://www.deeplearning.ai/the-batch/how-agents-can-improve-llm-performance/",
+      "kind": "article"
+    },
+    {
+      "id": "huyen-2025",
+      "title": "Agents",
+      "author": "Chip Huyen",
+      "url": "https://huyenchip.com/2025/01/07/agents.html",
+      "kind": "article"
+    },
+    {
+      "id": "weng-2023",
+      "title": "LLM Powered Autonomous Agents",
+      "author": "Lilian Weng",
+      "url": "https://lilianweng.github.io/posts/2023-06-23-agent/",
+      "kind": "article"
+    },
+    {
+      "id": "agents-best-practices",
+      "title": "agents-best-practices",
+      "author": "DenisSergeevitch",
+      "url": "https://github.com/DenisSergeevitch/agents-best-practices",
+      "kind": "catalog"
+    },
+    {
+      "id": "awesome-agentic-system-design",
+      "title": "Awesome Agentic System Design",
+      "author": "gtzheng",
+      "url": "https://github.com/gtzheng/Awesome-Agentic-System-Design",
+      "kind": "catalog"
+    },
+    {
+      "id": "agentic-design-patterns-code",
+      "title": "Agentic-Design-Patterns",
+      "author": "josephsenior",
+      "url": "https://github.com/josephsenior/Agentic-Design-Patterns",
+      "kind": "catalog"
+    },
+    {
+      "id": "yt-2czyyrtzilg",
+      "title": "From Chaos to Choreography: Multi-Agent Orchestration Patterns That Actually Work",
+      "author": "Sandipan Bhaumik",
+      "url": "https://www.youtube.com/watch?v=2czYyrTzILg",
+      "kind": "video"
+    },
+    {
+      "id": "yt-3csi8qaon-s",
+      "title": "How to actually force Claude Code to use the right CLI (don't use CLAUDE.md)",
+      "author": "Matt Pocock",
+      "url": "https://www.youtube.com/watch?v=3CSi8QAoN-s",
+      "kind": "video"
+    },
+    {
+      "id": "yt-5akdmangfnk",
+      "title": "Dynamic Subagents: How to Run Parallel Agents Reliably in Deep Agents",
+      "author": "Colin (LangChain)",
+      "url": "https://www.youtube.com/watch?v=5AkdMangfNk",
+      "kind": "video"
+    },
+    {
+      "id": "yt-5wks1w-auky",
+      "title": "Slow down to speed up: AI and software engineering",
+      "author": "The Pragmatic Engineer",
+      "url": "https://www.youtube.com/watch?v=5wks1W-auKY",
+      "kind": "video"
+    },
+    {
+      "id": "yt-aph1vx0olmq",
+      "title": "Deterministic Infra for Non-Deterministic AI Agents",
+      "author": "Nishant Gupta",
+      "url": "https://www.youtube.com/watch?v=APh1Vx0oLmQ",
+      "kind": "video"
+    },
+    {
+      "id": "yt-fvxy8opoi8o",
+      "title": "Preferences Over Benchmarks: Model Routing",
+      "author": "Archana Kamath and Tyler Gillam",
+      "url": "https://www.youtube.com/watch?v=FvxY8oPoI8o",
+      "kind": "video"
+    },
+    {
+      "id": "yt-gjx19pnhmsw",
+      "title": "FinOps for AI Agents: Who Spent All the Tokens?",
+      "author": "Tisha Chawla and Susheem Koul",
+      "url": "https://www.youtube.com/watch?v=GJX19pNhmSw",
+      "kind": "video"
+    },
+    {
+      "id": "yt-gmaqkinjv1e",
+      "title": "Skill Issue: How We Used AI to Make Agents Actually Good at Supabase",
+      "author": "Pedro Rodrigues",
+      "url": "https://www.youtube.com/watch?v=GmAQKINjv1E",
+      "kind": "video"
+    },
+    {
+      "id": "yt-nmwgxvm-to",
+      "title": "Stripe's Coding Agents Ship 1,300 PRs EVERY Week - Here's How They Do It",
+      "author": "Cole Medin",
+      "url": "https://www.youtube.com/watch?v=NMWgXvm--to",
+      "kind": "video"
+    },
+    {
+      "id": "yt-pjothbhlbao",
+      "title": "Unifying AI integration with Model Context Protocol",
+      "author": "Christian Tzolov and Dariusz Jędrzejczyk (Devoxx)",
+      "url": "https://www.youtube.com/watch?v=PJOthBhLbao",
+      "kind": "video"
+    },
+    {
+      "id": "yt-prih-9homfi",
+      "title": "Akka: an enterprise runtime for resilient agentic AI",
+      "author": "Renato Guerra Cavalcanti (Devoxx)",
+      "url": "https://www.youtube.com/watch?v=PrIh_9HomfI",
+      "kind": "video"
+    },
+    {
+      "id": "yt-srfxsjegc6q",
+      "title": "From LLM orchestration to autonomous agents: Agentic AI patterns with LangChain4j",
+      "author": "Clement Escoffier (Devoxx)",
+      "url": "https://www.youtube.com/watch?v=SrFXsjeGc6Q",
+      "kind": "video"
+    },
+    {
+      "id": "yt-sw3plfxfwj4",
+      "title": "Bootiful Spring AI",
+      "author": "Mark Pollack, Christian Tzolov, Josh Long, James Ward (Devoxx)",
+      "url": "https://www.youtube.com/watch?v=Sw3PlFXfWj4",
+      "kind": "video"
+    },
+    {
+      "id": "yt-tqc1qofivcq",
+      "title": "Claude Agent SDK [Full Workshop]",
+      "author": "Thariq Shihipar",
+      "url": "https://www.youtube.com/watch?v=TqC1qOfiVcQ",
+      "kind": "video"
+    },
+    {
+      "id": "yt-upwgam2mkhy",
+      "title": "The Log Is The Agent",
+      "author": "Ishaan Sehgal",
+      "url": "https://www.youtube.com/watch?v=UPwGaM2MKHY",
+      "kind": "video"
+    },
+    {
+      "id": "yt-wnx-s-rxvxk",
+      "title": "I was an AI skeptic. Then I tried plan mode",
+      "author": "Matt Pocock",
+      "url": "https://www.youtube.com/watch?v=WNx-s-RxVxk",
+      "kind": "video"
+    },
+    {
+      "id": "yt-wp3hjuxd918",
+      "title": "Context Engineering in 2026",
+      "author": "Louis-François Bouchard, Omar Solano and Samridhi Vaid (Towards AI)",
+      "url": "https://www.youtube.com/watch?v=WP3hjUXd918",
+      "kind": "video"
+    },
+    {
+      "id": "yt-x9bai7rbhqk",
+      "title": "Agentic AI Patterns",
+      "author": "Kevin Dubois and Mario Fusco (Devoxx)",
+      "url": "https://www.youtube.com/watch?v=X9baI7RBhqk",
+      "kind": "video"
+    },
+    {
+      "id": "yt-z-c11pv-uvu",
+      "title": "Anthropic's CCA Exam as a Field-Guide for Agentic Engineering",
+      "author": "Frank Coyle",
+      "url": "https://www.youtube.com/watch?v=Z-c11pV_uvU",
+      "kind": "video"
+    },
+    {
+      "id": "yt-bzissg7h7da",
+      "title": "Your Agents Need a Save Button",
+      "author": "Hamza Tahir",
+      "url": "https://www.youtube.com/watch?v=bZISsg7H7DA",
+      "kind": "video"
+    },
+    {
+      "id": "yt-hd9-v56fnri",
+      "title": "AI Agents Are Just Distributed Systems Now",
+      "author": "Salman Munaf",
+      "url": "https://www.youtube.com/watch?v=hD9-V56FNRI",
+      "kind": "video"
+    },
+    {
+      "id": "yt-mr-waveprwe",
+      "title": "Anthropic Workshop: Build Agents That Run for Hours",
+      "author": "Ash Prabaker and Andrew Wilson",
+      "url": "https://www.youtube.com/watch?v=mR-WAvEPRwE",
+      "kind": "video"
+    },
+    {
+      "id": "yt-msfmqw92y8q",
+      "title": "Watch This If Your Coding Agent is Ignoring Your Rules (You Need Hooks)",
+      "author": "Cole Medin",
+      "url": "https://www.youtube.com/watch?v=msfMqW92Y8Q",
+      "kind": "video"
+    },
+    {
+      "id": "yt-ow1we5pzk-o",
+      "title": "The Multi-Agent Architecture That Actually Ships",
+      "author": "Luke Alvoeiro",
+      "url": "https://www.youtube.com/watch?v=ow1we5PzK-o",
+      "kind": "video"
+    },
+    {
+      "id": "yt-rbjwzzk2lu0",
+      "title": "Give the Agent a Budget, Not a Token",
+      "author": "Sachin Malhotra",
+      "url": "https://www.youtube.com/watch?v=rbjWzZK2LU0",
+      "kind": "video"
+    },
+    {
+      "id": "yt-utm3frgbun0",
+      "title": "Alfred le système Agentic AI de Doctolib au service des professionnels de santé",
+      "author": "Goulven Le Dû (Doctolib)",
+      "url": "https://www.youtube.com/watch?v=uTM3fRgbUN0",
+      "kind": "video"
+    },
+    {
+      "id": "yt-vi-2nasppag",
+      "title": "Make your own event-sourced agent harness using stream processors",
+      "author": "Jonas Templestein",
+      "url": "https://www.youtube.com/watch?v=vi-2nasppAg",
+      "kind": "video"
+    }
+  ],
+  "further_reading": [
+    {
+      "source": "osmani-2026",
+      "note": "April 19, 2026. A catalog of harness practices: Git as durable state, compaction, skills with progressive disclosure, hooks as the enforcement layer, planner, generator and evaluator splits, and turning each agent mistake into a permanent rule.",
+      "patterns": [
+        "context-compaction",
+        "progressive-disclosure",
+        "deterministic-gate",
+        "evaluator-optimizer",
+        "goal-loop"
+      ]
+    },
+    {
+      "source": "bockeler-2026",
+      "note": "April 2, 2026. A mental model of feedforward guides and feedback sensors, each computational or inferential, with a human steering the loop.",
+      "patterns": [
+        "deterministic-gate",
+        "evaluator-optimizer"
+      ]
+    },
+    {
+      "source": "willison-agentic-patterns",
+      "note": "A guide of practical patterns for coding agents: subagents, red/green TDD, running the tests first, manual testing and anti-patterns.",
+      "patterns": [
+        "context-isolation",
+        "evaluator-optimizer"
+      ]
+    },
+    {
+      "source": "ng-2024",
+      "note": "March 2024. The four agentic design patterns that popularized the term: reflection, tool use, planning and multi-agent collaboration.",
+      "patterns": [
+        "evaluator-optimizer",
+        "plan-then-execute",
+        "orchestrator-workers"
+      ]
+    },
+    {
+      "source": "huyen-2025",
+      "note": "January 2025. Tool use, planning and plan validation, reflection, failure modes and agent evaluation.",
+      "patterns": [
+        "plan-then-execute",
+        "evaluator-optimizer"
+      ]
+    },
+    {
+      "source": "weng-2023",
+      "note": "June 2023. The planning, memory and tool-use decomposition that most later catalogs start from.",
+      "patterns": [
+        "plan-then-execute",
+        "context-compaction"
+      ]
+    },
+    {
+      "source": "agents-best-practices",
+      "note": "An MIT-licensed Agent Skill for designing and auditing harnesses, built on one rule: the model proposes actions, the harness validates, authorizes, executes and records them.",
+      "patterns": [
+        "deterministic-gate",
+        "sidecar"
+      ]
+    },
+    {
+      "source": "awesome-agentic-system-design",
+      "note": "An MIT-licensed reading hub on orchestration, context and memory, tools and protocols, evaluation and production safety.",
+      "patterns": [
+        "context-isolation",
+        "context-compaction"
+      ]
+    },
+    {
+      "source": "agentic-design-patterns-code",
+      "note": "MIT-licensed, small runnable Python implementations of workflow patterns such as chaining, routing, parallelization, reflection and planning.",
+      "patterns": [
+        "pipes-and-filters",
+        "content-based-router",
+        "scatter-gather",
+        "evaluator-optimizer"
+      ]
+    }
+  ]
+}

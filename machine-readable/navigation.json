@@ -1,7 +1,7 @@
 {
   "$schema": "./navigation.schema.json",
   "version": "1.0.0",
-  "last_updated": "2026-08-31",
+  "last_updated": "2026-10-27",
   "site_base_url": "https://cc.bruniaux.com",
   "purpose": "Shared intent navigation for the repository README and the public guide sitemap.",
   "groups": [
@@ -66,6 +66,13 @@
           "description": "Build bounded loops and executable workflow graphs.",
           "site_path": "/guide/loop-graph-engineering/",
           "source_path": "guide/core/loop-graph-engineering.md"
+        },
+        {
+          "id": "ai-design-patterns",
+          "title": "AI Design Patterns",
+          "description": "Map classic design patterns onto agent harness mechanisms.",
+          "site_path": "/ai-design-patterns/",
+          "source_path": "guide/core/ai-design-patterns.md"
         },
         {
           "id": "context-engineering",

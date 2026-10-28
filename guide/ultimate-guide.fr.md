@@ -20014,7 +20014,7 @@ Ne passez pas directement à 10 instances. Montez en charge progressivement avec
 # - Gas Town (parallel task execution)
 # - multiclaude (self-hosted, tmux-based)
 # - Multica (issue/chat control plane with local daemon execution)
-# - Entire CLI (governance + sequential handoffs)
+# - Entire CLI (session provenance + cross-agent resume)
 
 # 2. Define roles
 # - Architect (reviews PRs)
@@ -20036,11 +20036,11 @@ Ne passez pas directement à 10 instances. Montez en charge progressivement avec
 | **Gas Town** | Coordination parallèle | 5+ instances, tâches parallèles complexes |
 | **multiclaude** | Lanceur auto-hébergé | Équipes nécessitant on-prem/airgap |
 | **Multica** | Plan de contrôle multi-fournisseurs piloté par tickets | Équipes coordonnant des CLI d’agents locales via une séparation serveur/daemon |
-| **Entire CLI** | Gouvernance + handoffs | Workflows séquentiels avec conformité |
+| **Entire CLI** | Provenance + handoffs | Preuves d'audit, reprise du travail entre agents |
 
 > **Multica** conserve tickets, chat, configuration des agents, calendriers et journaux d’exécution dans sa couche de coordination. Les ordinateurs connectés exécutent Claude Code, Codex et d’autres CLI via un daemon local. Voir le [profil Multica fondé sur des preuves identifiées](./ecosystem/agentic-tools.md#49-multica) pour les limites de déploiement, données, sécurité, Git et licence.
 
-> **Entire CLI** (fév. 2026) : Alternative à l'orchestration parallèle, axée sur les **handoffs séquentiels entre agents** avec une couche de gouvernance (points d'approbation, pistes d'audit). Utile pour les workflows critiques en matière de conformité (SOC2, HIPAA) ou les handoffs multi-agents (Claude → Gemini). Voir le [Guide de l'écosystème IA](./ecosystem/ai-ecosystem.md#entire-cli-governance-first-orchestration) pour plus de détails.
+> **Entire CLI** (fév. 2026) : Ce n'est pas un orchestrateur. Il rattache chaque session d'agent à son commit sous forme de checkpoint stocké dans Git, et `entire session resume` permet à un autre agent ou à un collègue de reprendre une branche. Depuis le 26 octobre 2026, c'est aussi le client de la forge Git hébergée d'Entire, où se trouvent les points d'approbation avant merge. Utile pour des preuves d'audit ou des handoffs multi-agents ; aucune attestation SOC 2, ISO 27001, HIPAA ou FedRAMP d'Entire n'a été trouvée (27 octobre 2026). Voir le [Guide de l'écosystème IA](./ecosystem/ai-ecosystem.md#entire-cli-provenance-and-merge-governance) pour plus de détails.
 
 **Critères de succès** : Gain de productivité soutenu de 3-5% sur 3 mois.
 

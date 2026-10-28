@@ -35,7 +35,7 @@ The table below is generated from [`machine-readable/navigation.json`](./machine
 | Intent | Browse online |
 |---|---|
 | **Start** | [Guide portal](https://cc.bruniaux.com/guide/) · [Quick Start](https://cc.bruniaux.com/guide/ultimate-guide/01-quick-start/) · [Learning Paths](https://cc.bruniaux.com/learning/) · [Quick Reference](https://cc.bruniaux.com/cheatsheet/) · [AI Roles](https://cc.bruniaux.com/roles/) |
-| **Build** | [Agent Harness Engineering](https://cc.bruniaux.com/guide/agent-harness/) · [Loop & Graph Engineering](https://cc.bruniaux.com/guide/loop-graph-engineering/) · [Context Engineering](https://cc.bruniaux.com/context-engineering/) · [Memory Systems](https://cc.bruniaux.com/memory-systems/) · [Workflows](https://cc.bruniaux.com/guide/workflows/) · [Methodologies](https://cc.bruniaux.com/methodologies/) · [MCP or CLI?](https://cc.bruniaux.com/mcp-or-cli/) · [Examples](https://cc.bruniaux.com/examples/) |
+| **Build** | [Agent Harness Engineering](https://cc.bruniaux.com/guide/agent-harness/) · [Loop & Graph Engineering](https://cc.bruniaux.com/guide/loop-graph-engineering/) · [AI Design Patterns](https://cc.bruniaux.com/ai-design-patterns/) · [Context Engineering](https://cc.bruniaux.com/context-engineering/) · [Memory Systems](https://cc.bruniaux.com/memory-systems/) · [Workflows](https://cc.bruniaux.com/guide/workflows/) · [Methodologies](https://cc.bruniaux.com/methodologies/) · [MCP or CLI?](https://cc.bruniaux.com/mcp-or-cli/) · [Examples](https://cc.bruniaux.com/examples/) |
 | **Scale** | [Security](https://cc.bruniaux.com/security/) · [Enterprise Governance](https://cc.bruniaux.com/guide/enterprise-governance/) · [Observability](https://cc.bruniaux.com/guide/observability/) · [Team Metrics](https://cc.bruniaux.com/team-metrics/) · [Team Adoption](https://cc.bruniaux.com/guide/adoption-approaches/) · [AI FinOps](https://cc.bruniaux.com/finops/) · [LLM Market Snapshot](https://cc.bruniaux.com/guide/llm-market-snapshot/) · [Subscription Strategy](https://cc.bruniaux.com/guide/subscription-strategy/) · [AI Unit Economics](https://cc.bruniaux.com/guide/ai-unit-economics/) · [Team Knowledge](https://cc.bruniaux.com/guide/team-knowledge-base/) · [API Gateway](https://cc.bruniaux.com/guide/api-gateway/) |
 | **Resources** | [Resource Hub](https://cc.bruniaux.com/resources/) · [Downloads](https://cc.bruniaux.com/downloads/) · [Cheat Sheets](https://cc.bruniaux.com/cheatsheets/) · [Ebooks](https://cc.bruniaux.com/whitepapers/) · [Diagrams](https://cc.bruniaux.com/diagrams/) · [Ecosystem](https://cc.bruniaux.com/ecosystem/) · [Compare](https://cc.bruniaux.com/compare/) · [Glossary](https://cc.bruniaux.com/guide/glossary/) · [FAQ](https://cc.bruniaux.com/faq/) · [Guide MCP Server](https://cc.bruniaux.com/mcp/) · [Related Projects](https://cc.bruniaux.com/projects/) |
 | **Updates** | [Guide Changelog](https://cc.bruniaux.com/changelog/) · [Claude Code Releases](https://cc.bruniaux.com/releases/) · [RSS Feed](https://cc.bruniaux.com/rss.xml) |
@@ -48,7 +48,7 @@ Claude Code documentation explains the product. This guide connects product beha
 | Need | Start with |
 |---|---|
 | Understand Claude Code internals | [Architecture](./guide/core/architecture.md) and [Tools Reference](./guide/core/tools-reference.md) |
-| Design agent systems | [Agent Harness Engineering](./guide/core/agent-harness.md) and [Loop & Graph Engineering](./guide/core/loop-graph-engineering.md) |
+| Design agent systems | [Agent Harness Engineering](./guide/core/agent-harness.md), [Loop & Graph Engineering](./guide/core/loop-graph-engineering.md) and [AI Design Patterns](./guide/core/ai-design-patterns.md) |
 | Structure AI-assisted delivery | [Methodologies](./guide/core/methodologies.md) and [Workflow Guides](./guide/workflows/) |
 | Establish a security boundary | [Security Hardening](./guide/security/security-hardening.md) and [Sandbox Isolation](./guide/security/sandbox-isolation.md) |
 | Validate understanding | [Knowledge Quiz](https://cc.bruniaux.com/quiz/) and [Recap Cards](https://cc.bruniaux.com/cheatsheets/) |
@@ -144,6 +144,7 @@ An agent is one component of a larger system. The surrounding harness controls c
 |---|---|
 | [Agent Harness Engineering](./guide/core/agent-harness.md) | Identify the controls required around an agent loop |
 | [Loop & Graph Engineering](./guide/core/loop-graph-engineering.md) | Choose bounded feedback loops or explicit workflow graphs |
+| [AI Design Patterns](./guide/core/ai-design-patterns.md) | Explain an agent design with the GoF, integration, and resilience patterns developers know |
 | [Agent Harness Map](./guide/ecosystem/agent-harness-landscape.md) | Distinguish runtimes, orchestrators, frameworks, control planes, and support tools |
 | [Agentic Tools](./guide/ecosystem/agentic-tools.md) | Compare selected coding agents and orchestration products |
 | [Agent Evaluation](./guide/roles/agent-evaluation.md) | Test behavior, regressions, and task-level outcomes |
@@ -276,7 +277,7 @@ Project-scoped Claude Code configuration belongs in `.mcp.json`:
 | Capability | Count | Names |
 | --- | ---: | --- |
 | Tools | 17 | `compare_versions`, `diff_official_docs`, `get_changelog`, `get_cheatsheet`, `get_digest`, `get_example`, `get_release`, `get_threat`, `init_official_docs`, `list_examples`, `list_threats`, `list_topics`, `read_section`, `refresh_official_docs`, `search_examples`, `search_guide`, `search_official_docs` |
-| Resources | 6 | `claude-code-guide://agent-harnesses`, `claude-code-guide://distribution-channels`, `claude-code-guide://llms`, `claude-code-guide://reference`, `claude-code-guide://releases`, `claude-code-guide://translations` |
+| Resources | 7 | `claude-code-guide://agent-harnesses`, `claude-code-guide://ai-design-patterns`, `claude-code-guide://distribution-channels`, `claude-code-guide://llms`, `claude-code-guide://reference`, `claude-code-guide://releases`, `claude-code-guide://translations` |
 | Prompts | 1 | `claude-code-expert` |
 | Companion commands | 5 | `/ccguide:daily`, `/ccguide:diff-docs`, `/ccguide:init-docs`, `/ccguide:refresh-docs`, `/ccguide:search-docs` |
 
@@ -334,6 +335,7 @@ Recent guide additions include:
 
 - [Mistral Large 4 evaluation](./docs/resource-evaluations/mistral-large-4.md): October 6 launch evidence, promotional pricing, independent results, regional inference, and pending weights; integrated into the [market snapshot](./guide/ops/llm-market-snapshot.md) and [AI ecosystem](./guide/ecosystem/ai-ecosystem.md#21-mistral-large-4-multimodal-api-candidate).
 - [Loop & Graph Engineering](https://cc.bruniaux.com/guide/loop-graph-engineering/) ([source](./guide/core/loop-graph-engineering.md)): bounded feedback, workflow state, stopping rules, recovery, and judgment allocation.
+- [AI Design Patterns](https://cc.bruniaux.com/ai-design-patterns/) ([source](./guide/core/ai-design-patterns.md)): classic patterns mapped to Claude Code mechanisms, where each analogy breaks, native agent patterns, and anti-patterns.
 - [Subscription Strategy](https://cc.bruniaux.com/guide/subscription-strategy/) ([source](./guide/ops/subscription-strategy.md)): seats, APIs, gateways, self-hosting scenarios, and team-scale decision gates.
 - [Cross-Session Messaging](https://cc.bruniaux.com/guide/workflows/cross-session-messaging/) ([source](./guide/workflows/cross-session-messaging.md)): peer discovery, delivery, security boundaries, and correlated-drift controls.
 

@@ -130,6 +130,8 @@ Run agents with: /agent [name]
 
 ## Agent design patterns
 
+The patterns below are agent templates for common jobs. For architectural patterns (Observer, Mediator, Circuit Breaker and others mapped to Claude Code mechanisms), see [AI Design Patterns](../core/ai-design-patterns.md).
+
 ### Pattern 1: Quality checker
 
 ```markdown
