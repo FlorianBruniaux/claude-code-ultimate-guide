@@ -7,9 +7,9 @@ Public package status checked on 2026-10-28:
 - public npm package: `1.3.7`, published at `2026-10-28T15:18:38.450Z`
 - public runtime handshake: `1.3.7`
 - public runtime surface: 17 tools, 7 resources, 1 prompt
-- official MCP Registry identity: `io.github.FlorianBruniaux/claude-code-guide`; on 2026-10-28 the Registry still listed `1.3.6` as latest and had no `1.3.7` entry. Registry publication is a separate step from npm.
+- official MCP Registry identity: `io.github.FlorianBruniaux/claude-code-guide`; version `1.3.7` was active and marked latest at `2026-10-28T15:56:36Z`, separately verified from npm
 
-The [public runtime snapshot](../../machine-readable/mcp-public-runtime.json), measured at `2026-10-28T15:19:13Z`, records the public package handshake and list methods. The public package installed from npm was also checked over stdio on 2026-10-28: initialization, guide search, and source retrieval passed. The npm tarball checksum matched the tested release candidate archive. Client installation commands below were not executed in that check. The generated [product manifest](../../machine-readable/mcp-product.json) describes the repository contract; a repository candidate can differ from the published package. For the previous release, the official Registry accepted publication of `1.3.6` at `2026-10-05T19:15:19.901349Z`, and public reads at `2026-10-05T19:21:02Z` confirmed version `1.3.6`, status `active`, and `isLatest: true`. npm and Registry publication are verified separately.
+The [public runtime snapshot](../../machine-readable/mcp-public-runtime.json), measured at `2026-10-28T15:55:35Z`, records the public package handshake and list methods. The public package installed from npm was also checked over stdio on 2026-10-28: initialization, guide search, and source retrieval passed. The npm tarball checksum matched the tested release candidate archive. Client installation commands below were not executed in that check. The generated [product manifest](../../machine-readable/mcp-product.json) describes the repository contract; a repository candidate can differ from the published package. The release workflow verified that the npm tarball matched its own archive, smoke-tested the public package, and published the Registry entry without republishing to npm. The official Registry accepted publication of `1.3.7` at `2026-10-28T15:55:10.02211Z`. A public read of the Registry listing at `2026-10-28T15:56:36Z` confirmed version `1.3.7`, status `active`, and `isLatest: true`; `1.3.6` remains listed as active and no longer latest. npm and Registry publication were verified separately.
 
 ## TL;DR
 
@@ -288,7 +288,18 @@ Two machine-readable snapshots serve different questions:
 
 ### Public package snapshot
 
-Current [npm snapshot](../../machine-readable/mcp-stats.json): `2026-10-05T18:53:02Z`. Public version: 1.3.6, published at `2026-10-05T18:50:48.508Z`. Last complete UTC day: 2026-10-04. Unit: npm package downloads, across package versions.
+Current [npm snapshot](../../machine-readable/mcp-stats.json): `2026-10-28T15:55:49Z`. Public version: 1.3.7, published at `2026-10-28T15:18:38.450Z`. Last complete UTC day: 2026-10-27. Unit: npm package downloads, across package versions.
+
+| Period | Downloads |
+| --- | ---: |
+| Since launch, 2026-02-28 through 2026-10-27 | 11,614 |
+| Year to date, 2026-01-01 through 2026-10-27 | 11,614 |
+| Trailing 30 complete days, 2026-09-28 through 2026-10-27 | 1,356 |
+| Trailing 7 complete days, 2026-10-21 through 2026-10-27 | 188 |
+
+For the trailing 30 complete days, the daily median is 27, mean 45.2, maximum 662, and median absolute deviation 14. The recorded anomaly date is October 5, the day versions 1.3.4 to 1.3.6 were published. These observations do not establish their cause or active usage. The window ends before 1.3.7 was published, so these counts are not downloads of 1.3.7 specifically.
+
+Previous npm snapshot: `2026-10-05T18:53:02Z`, for public version 1.3.6. Its last complete UTC day was 2026-10-04. The following values remain a dated comparison, not the current snapshot.
 
 | Period | Downloads |
 | --- | ---: |
@@ -297,7 +308,7 @@ Current [npm snapshot](../../machine-readable/mcp-stats.json): `2026-10-05T18:53
 | Trailing 30 complete days, 2026-09-05 through 2026-10-04 | 1,088 |
 | Trailing 7 complete days, 2026-09-28 through 2026-10-04 | 139 |
 
-For the trailing 30 complete days, the daily median is 23.5, mean 36.3, maximum 229, and median absolute deviation 7.5. Recorded anomaly dates are September 5 and 6. These observations do not establish their cause or active usage. The window ends before 1.3.6 was published, so these counts are not downloads of 1.3.6 specifically.
+For those trailing 30 complete days, the daily median was 23.5, the mean 36.3, the maximum 229, and the median absolute deviation 7.5. Recorded anomaly dates were September 5 and 6.
 
 Historical npm snapshot: `2026-08-31T22:41:52Z`. Its last complete UTC day was 2026-08-30. The following values remain a dated comparison, not the current snapshot.
 
