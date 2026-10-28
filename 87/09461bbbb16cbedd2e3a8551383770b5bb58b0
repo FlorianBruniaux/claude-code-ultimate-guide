@@ -1,0 +1,85 @@
+CHANGELOG.md
+  s_0d99942bd5e52a::t_08398673b3ba3a 9-12,17-18
+docs/resource-evaluations/README.md
+  s_0d99942bd5e52a::t_e75a229347266f 41
+docs/resource-evaluations/ai-design-pattern-crosswalks.md
+  s_0d99942bd5e52a::t_1585bffffb4f44 9-10,56
+examples/hooks/bm25-routing/README.md
+  s_0d99942bd5e52a::t_8825ec21f8be3f 7-8
+guide/core/ai-design-patterns.md
+  s_0d99942bd5e52a::t_ab066cb70b2f6a 17-18,45,47,51,55,59,86,102,105,137-138,140,153,167,182,197,224,235-237,244,262,264,280,296,310,325,329-330,342,357,367,369-372,387,402,408,412-415,423,427,431,433,439,458,470,476,480,482-483,488,490,493,495,501,505,508,521,533,546,575,589,644,646,676,701
+guide/core/architecture.md
+  s_0d99942bd5e52a::t_45dbc9295be444 529-530
+guide/core/hooks-events-reference.md
+  s_0d99942bd5e52a::t_1ad841ab68e5de 527-528
+guide/core/memory-systems.md
+  s_0d99942bd5e52a::t_270ea945fae96e 332-333
+guide/ecosystem/mcp-servers-ecosystem.md
+  s_0d99942bd5e52a::t_2370c0e7d19813 2006-2007
+guide/ops/ai-traceability.md
+  s_0d99942bd5e52a::t_47bc2632f10cf1 897
+guide/ops/observability.md
+  s_0d99942bd5e52a::t_c4f234db511511 1106
+guide/security/production-safety.md
+  s_0d99942bd5e52a::t_08dc456bc27d21 919
+guide/security/sandbox-isolation.md
+  s_0d99942bd5e52a::t_1b34f8d40de8f4 631
+guide/security/sandbox-native.md
+  s_0d99942bd5e52a::t_dd8fda18c9dd29 1051
+guide/workflows/agent-teams.md
+  s_0d99942bd5e52a::t_79b1a0234b4809 1520
+guide/workflows/best-of-n.md
+  s_0d99942bd5e52a::t_4140324d690a18 119-120
+guide/workflows/cross-session-messaging.md
+  s_0d99942bd5e52a::t_5e2fd269890e82 299-300
+guide/workflows/dual-instance-planning.md
+  s_0d99942bd5e52a::t_75ebc8130481b0 181
+guide/workflows/dynamic-workflows.md
+  s_0d99942bd5e52a::t_9c09ac7b43b8cb 842
+guide/workflows/github-actions.md
+  s_0d99942bd5e52a::t_ef40d39826ff1b 389
+guide/workflows/multi-provider-code-review.md
+  s_0d99942bd5e52a::t_f1ded573526322 156
+guide/workflows/plan-driven.md
+  s_0d99942bd5e52a::t_f133dabf2d50b9 424
+guide/workflows/tdd-with-claude.md
+  s_0d99942bd5e52a::t_be29452e165fb2 351
+guide/workflows/team-ai-instructions.md
+  s_0d99942bd5e52a::t_5fe8324d432025 327
+llms.txt
+  s_0d99942bd5e52a::t_2ae46590446951 21
+machine-readable/README.md
+  s_0d99942bd5e52a::t_8c5a3e67f80646 130
+machine-readable/ai-design-patterns.json
+  s_0d99942bd5e52a::t_a3e3d5f04776da 87,93,100-111,146-157,245-256,301-317,394-400,432-433,440-451,502,527,533-546,597-613,665-681,725-731,784-804,857-873,925-941,954,970,980-981,991-1002,1054-1065,1112-1123,1144,1150-1151,1156-1172,1187,1213-1229,1262-1278,1300,1309-1327,1338,1344,1348,1356-1362,1377,1384,1396-1407,1422,1445-1461,1494-1510,1548-1559,1608,1803,1817,1885-1891,2042,2161,2175,2210,2272-2273
+machine-readable/ai-design-patterns.schema.json
+  s_0d99942bd5e52a::t_170c6621d1bdfd 29-54,105,124
+machine-readable/llms.txt
+  s_0d99942bd5e52a::t_16430e40d86a7a 21
+machine-readable/mcp-product.json
+  s_0d99942bd5e52a::t_0ccd77632cbff9 16,494
+mcp-server/content/ai-design-patterns.json
+  s_0d99942bd5e52a::t_3fc56859d8b6e0 87,93,100-111,146-157,245-256,301-317,394-400,432-433,440-451,502,527,533-546,597-613,665-681,725-731,784-804,857-873,925-941,954,970,980-981,991-1002,1054-1065,1112-1123,1144,1150-1151,1156-1172,1187,1213-1229,1262-1278,1300,1309-1327,1338,1344,1348,1356-1362,1377,1384,1396-1407,1422,1445-1461,1494-1510,1548-1559,1608,1803,1817,1885-1891,2042,2161,2175,2210,2272-2273
+mcp-server/content/llms.txt
+  s_0d99942bd5e52a::t_c051ef68a14ce7 21
+mcp-server/src/lib/chapter-ranges.generated.json
+  s_0d99942bd5e52a::t_0a93b61eed1df3 3
+scripts/build-ai-design-patterns.py
+  s_0d99942bd5e52a::t_aaf0e81765586d 15,34-39,83-100,122,151,188-199,240-258,314,316,336,338
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "8709461bbbb16cbedd2e3a8551383770b5bb58b0",
+  "prompts": {},
+  "sessions": {
+    "s_0d99942bd5e52a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9f90f712-4dec-4864-90b0-d67f46e25e7a",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
