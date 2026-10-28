@@ -386,6 +386,7 @@ jobs:
 
 ## See also
 
+- [AI Design Patterns: Pipes and Filters](../core/ai-design-patterns.md#pipes-and-filters): `claude -p` as one filter in a shell or CI pipeline
 - [Monitor, Channels and Safe Delegation to Codex](./monitor-event-delegation.md): secure split-job Codex pattern and why a hosted runner is separate from a local Monitor
 
 - [Section 9.3 CI/CD Integration](#93-cicd-integration): headless mode, Unix piping, `--output-format json`

@@ -348,6 +348,7 @@ Run tests after each change to ensure they stay green.
 
 ## See also
 
+- [AI Design Patterns: Template Method](../core/ai-design-patterns.md#template-method): a skill that lists the steps, with a Stop hook that checks the last one
 - [../core/methodologies.md](../core/methodologies.md): full methodology reference
 - [Tight Feedback Loops](../ultimate-guide.md): Section 9.5
 - [examples/skills/tdd-workflow.md](../../examples/skills/tdd-workflow.md): TDD skill template

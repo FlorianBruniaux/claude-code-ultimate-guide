@@ -894,6 +894,7 @@ The session logger captures tool calls at the Claude Code level. It does not rec
 
 ### In this guide
 
+- [AI Design Patterns: Event Sourcing](../core/ai-design-patterns.md#event-sourcing): what a session transcript records, and what it cannot rebuild
 - [Git Workflow](#git-workflow): Claude Code's default Co-Authored-By behavior
 - [Learning with AI](../roles/learning-with-ai.md#the-vibe-coding-trap): why understanding AI code matters
 - [Security Hardening](../security/security-hardening.md): protecting against prompt injection and other attacks

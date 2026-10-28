@@ -839,6 +839,7 @@ When a workflow produces unexpected results, the most effective debugging approa
 
 ## 10. See also
 
+- **[AI Design Patterns](../core/ai-design-patterns.md#orchestrator-workers)**: Orchestrator-workers and Scatter-Gather as named patterns, with their failure modes and checks
 - **[Tools Reference, Workflow section](../core/tools-reference.md#workflow-dynamic-workflows-v21154)**: canonical tool description, trigger keyword, and CLI flags
 - **[Agent Teams](./agent-teams.md)**: experimental multi-agent coordination for read-heavy tasks with peer-to-peer messaging; different from workflows (no JS orchestrator, git-based coordination)
 - **[Plan-Driven Workflow](./plan-driven.md)**: human-in-the-loop plan-then-execute pattern; appropriate when you want to review the plan before execution starts

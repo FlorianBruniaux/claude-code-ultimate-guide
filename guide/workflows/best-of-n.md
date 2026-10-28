@@ -116,3 +116,5 @@ Independent review remains a testable control rather than a guarantee. Kenton et
 ## Reusable skill and evidence record
 
 Use the installable [Best-of-N skill](../../examples/skills/best-of-n/SKILL.md) to apply this protocol. The [verification evidence record](../../docs/resource-evaluations/best-of-n-verification-evidence.md) states the sources and local practitioner-evidence coverage used for this page.
+
+Best-of-N combines two patterns described in [AI Design Patterns](../core/ai-design-patterns.md#scatter-gather): Scatter-Gather for the independent candidates and [Evaluator-optimizer](../core/ai-design-patterns.md#evaluator-optimizer) for the blind scoring.

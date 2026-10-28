@@ -1048,6 +1048,7 @@ which bubblewrap socat
 
 ## 14. See also
 
+- [AI Design Patterns: Sidecar](../core/ai-design-patterns.md#sidecar) - hooks, permissions, and sandboxing as controls around the agent loop
 - [Cross-Session Messaging](../workflows/cross-session-messaging.md) - peer discovery, transport, inbound controls, and correlated-drift safeguards
 - [Cross-Session Messaging Threat Model](./security-hardening.md#cross-session-messaging-threat-model) - sender trust, cross-machine exposure, permissions, and execution boundaries
 - [Sandbox Isolation (Docker, Cloud)](./sandbox-isolation.md) - microVM-based sandboxing for maximum isolation

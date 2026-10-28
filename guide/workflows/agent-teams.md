@@ -1517,6 +1517,7 @@ The overhead is real (each cycle costs tokens and latency). Apply it to tasks wh
 
 ### Related documentation
 
+- [AI Design Patterns: Mediator](../core/ai-design-patterns.md#mediator): the main conversation as mediator, and agent teams as the peer-messaging alternative
 - [Claude Code Releases](../core/claude-code-releases.md): v2.1.32, v2.1.33 release notes
 - [Sub-Agents](#split-role-sub-agents): single-agent task delegation
 - [Multi-Instance Workflows](#917-scaling-patterns-multi-instance-workflows): manual parallel coordination

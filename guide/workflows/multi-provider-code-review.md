@@ -153,6 +153,7 @@ The workflow templates target CI; the local simulation and admission worksheet s
 
 ## See also
 
+- [AI Design Patterns: Scatter-Gather](../core/ai-design-patterns.md#scatter-gather): fan out to several reviewers, then merge their results
 - [GitHub Actions Workflows](./github-actions.md): the base patterns this architecture extends
 - [Ready-to-use templates](../../examples/github-actions/): `claude-code-review.yml`, `claude-code-review-batched.yml`, `.coderabbit.yaml`, `.greptile/`
 - [Code Review (managed feature)](./code-review.md): Anthropic's own multi-agent PR review service, an alternative to self-hosting this architecture on Teams/Enterprise plans

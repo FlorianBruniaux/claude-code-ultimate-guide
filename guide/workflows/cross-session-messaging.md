@@ -296,3 +296,5 @@ Claude subscribes via `SendMessage`'s `notify_when_idle` input, either attached 
 **Cross-device continuation.** A long build running in a desktop terminal messages a summary to a documentation session reached from a phone via Remote Control, once the build finishes.
 
 None of these need `TeamCreate`. Reach for [Agent Teams](./agent-teams.md) instead when you want a lead session to spawn and supervise teammates itself, with structured task assignment; reach for cross-session messaging when the sessions already exist independently and you're just cutting the human out of the relay.
+
+For the coordination pattern behind this choice, see [Mediator in AI Design Patterns](../core/ai-design-patterns.md#mediator): peer messaging is the non-mediated alternative to a coordinating session.

@@ -526,6 +526,8 @@ Recent research and practitioner observations confirm **quality degradation with
 
 **User control**: Use `/compact` manually to trigger summarization at logical breakpoints, or use **session handoffs** (see [Session Handoffs](#session-handoffs)) to preserve intent over compressed history.
 
+The [Context compaction](./ai-design-patterns.md#context-compaction) card in AI Design Patterns lists what Claude Code re-injects after a compaction and what survives only as the summary.
+
 ### Context preservation strategies
 
 | Strategy | When to Use | How |

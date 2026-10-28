@@ -26,6 +26,32 @@
         "alt": { "type": "string", "minLength": 40 }
       }
     },
+    "related": {
+      "type": "array",
+      "description": "Links from a pattern card to related guide pages, repository templates, and the author's projects and articles.",
+      "items": {
+        "type": "object",
+        "required": ["kind", "title"],
+        "additionalProperties": false,
+        "properties": {
+          "kind": { "enum": ["guide", "template", "project", "article"] },
+          "title": { "type": "string", "minLength": 1 },
+          "path": { "type": "string", "description": "Repository-relative file, optional #anchor. Guide and template links." },
+          "url": { "type": "string", "pattern": "^https://", "description": "Public URL. Project and article links." },
+          "image": {
+            "type": "object",
+            "description": "Illustration of the linked resource, shown on the card under the links.",
+            "required": ["file", "alt"],
+            "additionalProperties": false,
+            "properties": {
+              "file": { "type": "string", "pattern": "^guide/images/[a-z0-9/-]+\\.webp$" },
+              "alt": { "type": "string", "minLength": 40 }
+            }
+          }
+        },
+        "oneOf": [{ "required": ["path"] }, { "required": ["url"] }]
+      }
+    },
     "videoRefs": {
       "type": "array",
       "items": {
@@ -76,6 +102,7 @@
           "failure_mode": { "type": "string" },
           "verify": { "type": "string" },
           "sources": { "$ref": "#/$defs/sourceRefs" },
+          "related": { "$ref": "#/$defs/related" },
           "infographic": { "$ref": "#/$defs/infographic" },
           "videos": { "$ref": "#/$defs/videoRefs" }
         }
@@ -94,6 +121,7 @@
           "why_new": { "type": "string" },
           "claude_code": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/mechanism" } },
           "sources": { "$ref": "#/$defs/sourceRefs" },
+          "related": { "$ref": "#/$defs/related" },
           "infographic": { "$ref": "#/$defs/infographic" },
           "videos": { "$ref": "#/$defs/videoRefs" }
         }
