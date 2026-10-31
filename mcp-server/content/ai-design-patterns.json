@@ -604,7 +604,7 @@
         {
           "kind": "project",
           "title": "cc-copilot-bridge: multi-provider routing for Claude Code",
-          "url": "https://github.com/FlorianBruniaux/cc-copilot-bridge"
+          "url": "https://ccbridge.bruniaux.com/"
         },
         {
           "kind": "article",
@@ -937,7 +937,7 @@
         {
           "kind": "project",
           "title": "wt-sweep: discovers Git worktrees and reviews integration evidence",
-          "url": "https://github.com/FlorianBruniaux/wt-sweep"
+          "url": "https://wt-sweep.bruniaux.com/"
         }
       ],
       "infographic": {
