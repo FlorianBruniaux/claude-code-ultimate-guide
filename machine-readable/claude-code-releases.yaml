@@ -3,8 +3,8 @@
 # Purpose: Track Claude Code product releases for documentation sync
 # Maintained: Manual updates when new releases are announced
 
-latest: "2.1.310"
-updated: "2026-10-27"
+latest: "2.1.316"
+updated: "2026-10-31"
 
 # ════════════════════════════════════════════════════════════════
 # RELEASES (newest first, condensed highlights only)
@@ -14,6 +14,46 @@ releases:
   # ─────────────────────────────────────────────────────────────
   # 2.1.x Series (January-August 2026)
   # ─────────────────────────────────────────────────────────────
+
+  - version: "2.1.316"
+    date: "2026-10-31"
+    highlights:
+      - "Added `CLAUDE_CODE_SUBAGENT_EFFORT` to set the effort level subagents run at when nothing else names one, `CLAUDE_CODE_DISABLE_ULTRATHINK` to turn the `ultrathink` keyword off, and pooled group budgets plus `managed.policy_mode: layered` on the Claude apps gateway"
+      - "Fixed `--restricted` sessions uploading files from outside the working directories under a Read allow rule, PowerShell hooks not blocking on exit code 2 when the command starts with a type cast, `param`, `using` or an attribute, and the Claude apps gateway not checking every model a request names against `availableModels`, `deniedModels` and `models`"
+      - "Fixed shell commands left running on macOS and Linux when Claude Code exits by itself, Bash tool scripts stopping after their first command when `SHELLOPTS` is exported, and sub-agents moving to the main model when a background job or message woke them"
+      - "Changed server-managed settings for Team and Enterprise logins to apply without an approval prompt (a stored copy that does not verify is refused), and `ultrathink` in VS Code to run its turn at `xhigh` effort as in the terminal"
+    breaking:
+      - "Fast mode for Opus 4.8 is deprecated as of October 30, 2026 and scheduled for removal on November 30, 2026. After removal, fast mode requests on Opus 4.8 return an error and do not fall back to standard Opus 4.8; migrate to Opus 5.5 to keep the speedup."
+
+  - version: "2.1.314"
+    date: "2026-10-30"
+    highlights:
+      - "⭐ Added `permissions.blockWritesOutsideWorkingDirectories`: Write, Edit and NotebookEdit refuse paths outside the working directories in every permission mode"
+      - "Added idle compaction to VS Code and the Claude Desktop Code tab for 200K+ token conversations left idle, an IdP `groups` list on Claude apps gateway upstreams, and `guardrail_trace` logging on its Bedrock upstreams"
+      - "Fixed sandbox protections not applying to a worktree entered by `claude -p --resume` or `--continue`, Bash-matching hooks not running on Monitor tool commands, a file excluded with `--setting-sources` still supplying auto mode rules and permission consents, and remote-only `forceRemoteSettingsRefresh` lapsing once the stored copy expired"
+      - "Fixed \"Invalid effort level\" failures when an admin caps a model's effort (Claude Code lowers the effort and retries), `claude -p` exiting 0 with no output when startup failed (it now exits 1), and \"Continue automatically at usage limit\" continuing more than three times without a prompt"
+    breaking:
+      - "Hooks matching Bash now also run on shell commands started by the Monitor tool; they can block or ask, but not approve or rewrite those commands. Each PreCompact hook's output is cut at 10,000 characters. With `CI` set, `claude ultrareview` and `claude remote-control` refuse an untrusted folder at once instead of asking."
+
+  - version: "2.1.312"
+    date: "2026-10-27"
+    highlights:
+      - "Added `oidc.user_id_claim` to the Claude apps gateway, to identify people by an id_token claim other than `sub` such as Microsoft Entra ID's `oid`, and click to send for queued messages in fullscreen"
+      - "Fixed Claude overwriting a very large CLAUDE.md, rules file or @-included file after seeing only its start (Write now asks it to read the whole file or edit in place), and per-directory and `paths:` skills not being found after a Bash `cd` deeper into a git repository"
+      - "Fixed managed settings and organization policy not being fetched for the rest of the session after signing in from the VS Code extension, and a command with an invalid name stopping all commands from loading"
+      - "Changed prompt and agent hooks to run at most 24 at a time per session plus 12 overdue, and a subagent's `autoCompactWindow` to lower the window set by `CLAUDE_CODE_AUTO_COMPACT_WINDOW`"
+    breaking:
+      - "Claude Code no longer sends the `claude_code.safety_event` OpenTelemetry event added in 2.1.307. Bedrock, Vertex, Foundry and Mantle use the shorter system prompt for model names Claude Code does not recognize, such as custom deployment names and inference profile ARNs (`CLAUDE_CODE_SIMPLE_SYSTEM_PROMPT=0` keeps the full prompt), and automatic model switches after a flagged message cover those names (`CLAUDE_CODE_DISABLE_REFUSAL_FALLBACK=1` turns them off). A hook `timeout` under 1 second counts as 1 second."
+
+  - version: "2.1.311"
+    date: "2026-10-26"
+    highlights:
+      - "Changed `ultrathink` in the interactive terminal to run its turn at xhigh effort on Opus 5.5, Sonnet 5.5, Haiku 5.5 and Fable 5.1 through Anthropic's API, and added `--hold-idle-file` and `--max-hold-min` to `self-hosted-runner`"
+      - "Fixed standard-context sessions stopping with \"Usage credits required for 1M context\" over 200K tokens (Claude Code now compacts and continues), stale MEMORY.md and CLAUDE.md content right after automatic compaction, and subagents unable to use MCP tools from servers that finish connecting after they start"
+      - "Fixed `SubagentStop` hooks running about twice a minute per running subagent instead of once when it finishes, Claude Code retrying requests the API marked not to retry (which could hold unattended retry mode indefinitely), and long startup freezes caused by a very long CLAUDE.md list item"
+      - "Improved timed-out shell commands to return the output so far and say the command still runs in the background, and compaction to ask once more for a summary missing from the model's reply"
+    breaking:
+      - "Bedrock, Mantle, Vertex and Foundry load model settings from a signed file on downloads.claude.ai (`CLAUDE_CODE_MODEL_CATALOG=off` turns this off). `--output-format json` and `stream-json` write DEL, C1 control and Unicode format characters inside strings as `\\uXXXX` escapes; parsed values are unchanged. `DISABLE_COMPACT` in settings files and in a mod's `$.env.set` can only turn compaction off. VS Code starts sessions with `DISABLE_TELEMETRY` set while its telemetry setting is off."
 
   - version: "2.1.310"
     date: "2026-10-23"
@@ -2334,6 +2374,7 @@ breaking_summary:
     - "Removed # shortcut for quick memory (v2.0.70)"
     - "`modelPicker:setAsDefault` keybinding renamed to `modelPicker:thisSessionOnly` (v2.1.153)"
   security:
+    - "`--restricted` sessions no longer upload files from outside the working directories under a Read allow rule, PowerShell hooks that start with a type cast, `param`, `using` or an attribute block on exit code 2, and the Claude apps gateway checks every model a request names (v2.1.316); sandbox protections apply to worktrees entered by `claude -p --resume` or `--continue`, Bash-matching hooks run on Monitor tool commands, `--setting-sources` exclusions hold for auto mode rules and permission consents, and remote-only `forceRemoteSettingsRefresh` no longer lapses when the stored copy expires (v2.1.314)"
     - "Sandboxed Bash no longer runs the shell's startup files outside the sandbox, macOS `denyWrite` globs apply through symlinked folders, sandboxed commands and auto-accepted edits can no longer modify the `--mcp-config` file, Bash permission checks no longer trust a variable from a failable redirect or skip a wrapped `cd` before git, `Edit(path)` deny rules block subshell redirects, and Linux sandbox write denies hold after the session ends (v2.1.309); Windows hooks whose command is only quoted strings fail closed without Git Bash (v2.1.310); `rm -r` of a mounted drive gets the safety prompt (v2.1.304)"
     - "A sandboxed command can no longer write into a `--plugin-dir` folder, reach macOS denied paths through a symlink or keep glob grants after a symlink swap, plan mode no longer runs writes a hook allowed, third-party gateway API keys stay out of Anthropic requests, MCP servers wait for policy checks and allow rules match only the named server, and Windows guard hooks fail closed without Git for Windows (v2.1.299); hook `updatedInput` is validated like Claude's own input and a login refused by `forceLoginOrgUUID` no longer leaves its token stored (v2.1.300)"
     - "Bash commands that assign and use `BASH_ARGV0` prompt instead of auto-approving, managed `PreToolUse` deny hooks with `\"continue\": false` end the turn, cloud sessions run auto mode checks on Claude in Chrome actions and Git Bash `rm -rf /c/Users/<name>` asks in bypass mode (v2.1.296); `--tools` and `--restricted` cover built-in tools registered after launch, Chrome `host:80` deny rules apply to `http://` pages and mod guard hooks no longer see truncated tool input (v2.1.295); instruction-style `prompt` and `agent` hooks block what they describe (v2.1.294)"
@@ -2352,9 +2393,13 @@ breaking_summary:
     - "npm installations deprecated - use native installer (v2.1.15)"
     - "Self-hosted runner on Windows requires an explicit `--base-dir`; no default checkout directory (v2.1.229)"
   models:
+    - "Fast mode for Opus 4.8 deprecated October 30, 2026 and scheduled for removal November 30, 2026, with no fallback to standard Opus 4.8 after removal; migrate to Opus 5.5 (v2.1.316)"
     - "Opus 4 and Opus 4.1 removed from Claude Code first-party API — auto-migrated to Opus 4.6 (v2.1.68)"
     - "Opus 4.7 removed from fast mode; `/fast` applies to Opus 5 and Opus 4.8 only (v2.1.219)"
   behavior:
+    - "Server-managed settings for Team and Enterprise logins apply without an approval prompt; a stored copy that does not verify is refused. (v2.1.316)"
+    - "The `claude_code.safety_event` OpenTelemetry event is no longer sent; unrecognized model names on Bedrock, Vertex, Foundry and Mantle get the shorter system prompt (`CLAUDE_CODE_SIMPLE_SYSTEM_PROMPT=0` keeps the full one); prompt and agent hooks run at most 24 at a time per session. (v2.1.312)"
+    - "Bedrock, Mantle, Vertex and Foundry load model settings from a signed file on downloads.claude.ai (`CLAUDE_CODE_MODEL_CATALOG=off` turns this off); JSON output escapes DEL, C1 control and Unicode format characters as `\\uXXXX`. (v2.1.311)"
     - "Older CLI versions skip settings files containing `\"attribution\": false`; keep the object form in files shared across versions. (v2.1.281)"
     - "Server-side auto mode review now also gates read-only and sandboxed shell commands; `CLAUDE_CODE_AUTO_MODE_SERVER=0` also opts out on direct Anthropic API connections, where the local classifier counts toward usage. (v2.1.281)"
     - "Dangerous-rm prompts in auto and bypass modes deny after two unanswered minutes; `CLAUDE_CODE_DISABLE_DANGEROUS_RM_TIMEOUT=1` disables the timeout. (v2.1.281)"

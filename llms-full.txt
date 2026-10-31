@@ -10,8 +10,8 @@
 
 - Title: Claude Code Ultimate Guide
 - Author: Florian Bruniaux (Founding Engineer @ Méthode Aristote)
-- Version: 3.44.1
-- Last Updated: October 6, 2026
+- Version: 3.45.0
+- Last Updated: October 31, 2026
 - License: CC BY-SA 4.0
 - Repository: https://github.com/FlorianBruniaux/claude-code-ultimate-guide
 - Landing: https://cc.bruniaux.com
@@ -95,7 +95,7 @@ tags: [cheatsheet, reference]
 
 **Written with**: Claude (Anthropic)
 
-**Version**: 3.44.1 | **Last Updated**: Sep 24, 2026
+**Version**: 3.45.0 | **Last Updated**: Oct 31, 2026
 
 ---
 
@@ -812,7 +812,7 @@ Speed: `rg` (~20ms) → Serena (~100ms) → ast-grep (~200ms) → grepai (~500ms
 
 **Author**: Florian BRUNIAUX | [@Méthode Aristote](https://methode-aristote.fr) | Written with Claude
 
-*Last updated: Sep 24, 2026 | Version 3.44.1*
+*Last updated: Oct 31, 2026 | Version 3.45.0*
 
 
 ---

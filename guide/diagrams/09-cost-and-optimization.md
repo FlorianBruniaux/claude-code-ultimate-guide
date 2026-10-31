@@ -183,7 +183,7 @@ Every paid plan remains usage-limited; parallel work uses shared capacity
 
 > **Source**: [Subscription plans & limits](../ultimate-guide.md#subscription-plans--limits)
 
-> **Verified 2026-10-07, USD**: Pro $20/month when billed monthly; annual pricing differs. Max $100 or $200/month. Team Standard $25/seat/month when billed monthly or $20 with annual billing; Premium has different pricing. Enterprise terms and usage billing must be checked for the organization. Taxes and regional pricing can differ. [Current official plans](https://claude.com/pricing).
+> **Verified 2026-10-31, USD**: Pro $20/month when billed monthly; annual pricing differs. Max $100/month and Ultra $200/month (Ultra is the former Max 20x, with no 5-hour limit once the account is verified). Team Standard $25/seat/month when billed monthly or $20 with annual billing; Premium has different pricing. Enterprise terms and usage billing must be checked for the organization. Taxes and regional pricing can differ. [Current official plans](https://claude.com/pricing).
 
 > Multiple CLI sessions can run concurrently in separate worktrees or terminals. Their models and active tasks still consume the account's usage allowance. [Parallel sessions](https://code.claude.com/docs/en/best-practices#run-multiple-claude-sessions). A Free Claude subscription does not prevent separate paid API access. [Supported accounts](https://code.claude.com/docs/en/quickstart#before-you-begin).
 

@@ -2,7 +2,7 @@
 
 > The most comprehensive documentation for Claude Code CLI by Anthropic. Covers beginner to advanced: hooks, skills, agents, MCP servers, context engineering, memory systems, multi-agent orchestration, and production patterns.
 
-Guide version 3.44.1, tracking Claude Code up to v2.1.310 (October 2026).
+Guide version 3.45.0, tracking Claude Code up to v2.1.316 (October 2026).
 
 ## What is covered
 
@@ -16,7 +16,7 @@ Guide version 3.44.1, tracking Claude Code up to v2.1.310 (October 2026).
 - Event ingestion and safe delegation: Monitor command/WebSocket sources, plugin monitors, MCP Channels, Routines GitHub triggers, and a read-only-first Codex workflow
 - Slash commands: full categorized table of the ~100 built-in commands with aliases, mirroring the official reference at https://code.claude.com/docs/en/commands (the source of truth), plus removed and renamed commands
 - Skills and slash commands: current SKILL.md frontmatter, description-based discovery, progressive disclosure, personal/project/vendor/marketplace ownership scopes, security versus maintenance boundaries, with/without-skill eval evidence, /skill-doctor, lifecycle and retirement, and the judgment-versus-harness decision
-- Current product surfaces: Computer Use, plugin packaging and recommendation hints, Claude apps gateway, artifact publishing
+- Current product surfaces: Computer Use, plugin packaging and recommendation hints, Claude mods (in-process plugin handlers), Claude apps gateway, artifact publishing; community terminal rendering mod prismantis in guide/ecosystem/third-party-tools.md (copy to Slack, per-prompt diagramHints cost)
 - Agents: subagent frontmatter, delegation, agent teams, agent evaluation metrics, harness engineering
 - AI design patterns: guide/core/ai-design-patterns.md maps 21 classic patterns (GoF, enterprise integration, distributed systems) to the closest Claude Code mechanism, states where each analogy breaks, and adds 8 agent-native patterns and 10 anti-patterns; each card links related workflows, templates, the author's tools and articles. Dataset: machine-readable/ai-design-patterns.json. A work in progress, not a reference.
 - Agent harnesses: model-harness pair evidence, explicit loop and graph contracts, judgment allocation, durable execution, reviewer-independence tests, four operating layers plus an outer optimizer layer, a pinned 160-project source directory plus 33 guide supplements, 42 strict runtimes, 16 adjacent control planes, a research meta-harness table, a test-drive protocol, and DeepSeek Harness, Liza, and Multica profiles

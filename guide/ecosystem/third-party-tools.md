@@ -12,7 +12,7 @@ This is not a list of AI tools that complement Claude Code generally. It covers 
 
 These extensions may observe, configure, or coordinate Claude Code, but they do not necessarily own an agent loop. Use the [Agent Harness Map](./agent-harness-landscape.md) for the strict runtime comparison and a wider sourced directory, [Agent Harness Engineering](../core/agent-harness.md) for the layer boundaries, and [Agent Tools: Beyond Claude Code](./agentic-tools.md) for runtime-adjacent frameworks and control planes. Evaluate, observe, and secure an added tool through [Agent Evaluation](../roles/agent-evaluation.md), [Session Observability](../ops/observability.md), and [Security Hardening](../security/security-hardening.md). The [glossary](../core/glossary.md) defines the distinctions.
 
-> **Verification history**: Initial catalog checked in June 2026; selected entries were updated through October 2026. Check each tool's source before installation. 40+ tools across 17 categories.
+> **Verification history**: Initial catalog checked in June 2026; selected entries were updated through October 2026. Check each tool's source before installation. 40+ tools across 18 categories.
 
 ## Table of contents
 
@@ -26,14 +26,15 @@ These extensions may observe, configure, or coordinate Claude Code, but they do 
 8. [Project Context Bootstrapping](#project-context-bootstrapping)
 9. [Engineering Standards Distribution](#engineering-standards-distribution)
 10. [Hook Utilities](#hook-utilities)
-11. [Alternative UIs](#alternative-uis)
-12. [Model Routing](#model-routing)
-13. [Multi-Agent Orchestration](#multi-agent-orchestration)
-14. [Knowledge Graph](#knowledge-graph)
-15. [Plugin Ecosystem](#plugin-ecosystem)
-16. [Skills Observability](#skills-observability)
-17. [Known Gaps](#known-gaps)
-18. [Recommendations by Persona](#recommendations-by-persona)
+11. [Terminal Rendering (Mods)](#terminal-rendering-mods)
+12. [Alternative UIs](#alternative-uis)
+13. [Model Routing](#model-routing)
+14. [Multi-Agent Orchestration](#multi-agent-orchestration)
+15. [Knowledge Graph](#knowledge-graph)
+16. [Plugin Ecosystem](#plugin-ecosystem)
+17. [Skills Observability](#skills-observability)
+18. [Known Gaps](#known-gaps)
+19. [Recommendations by Persona](#recommendations-by-persona)
 
 ---
 
@@ -1364,6 +1365,98 @@ The same quality gate can be written in ~20 lines of bash without gitdiff-watche
 
 ---
 
+## Terminal rendering (mods)
+
+Claude Code 2.1.287 added [mods](../ultimate-guide.md#claude-mods-v21287): plugins whose handlers run inside Claude Code and can redraw what it shows. A rendering mod keeps Claude Code's own terminal interface and changes how replies look. That is the difference with the [alternative UIs](#alternative-uis) below, which replace the interface. Disabling the mod's plugin in `/plugin` brings back the default renderer.
+
+### prismantis
+
+A Claude Code mod that redraws replies in the terminal: colored tables, syntax-highlighted code, mermaid diagrams and charts, text figures, and copy buttons on each block. It also redraws tool rows (edits become diff cards), slash-command output and your own prompts. The author of this guide uses it and recommends it.
+
+| Attribute | Details |
+|-----------|---------|
+| **Source** | [NahumLitvin/prismantis on GitHub](https://github.com/NahumLitvin/prismantis), and the maintainer's launch post [prismantis: real charts, tables and code in Claude Code's terminal](https://www.catchkill9.dev/posts/prismantis.html) |
+| **Version** | 0.38.2 (October 30, 2026), 64 GitHub releases since October 2, 2026 |
+| **Requires** | Claude Code 2.1.287 or later |
+| **License** | MIT |
+| **Signals** | 266 stars and 24 contributors on October 31, 2026; listed in Awesome Claude Code ([notification issue #209](https://github.com/NahumLitvin/prismantis/issues/209), October 18, 2026) |
+| **Tested on** | macOS terminal by hand, per the README; CI runs the tests on macOS, Linux and Windows. The Desktop app, VS Code and mobile are not checked by hand yet |
+
+**Install** (inside Claude Code):
+
+```text
+/plugin marketplace add NahumLitvin/prismantis
+/plugin install prismantis@prismantis
+```
+
+Then `/prismantis setup` walks you through the theme and styles with drawn previews, `/prismantis demo` tours the main features, and `/prismantis theme <name>` switches between the 17 themes (16 palettes plus `mono`).
+
+**Update** (from a shell), then run `/reload` in every open session, since a session keeps the version it loaded:
+
+```bash
+claude plugin marketplace update prismantis && claude plugin update prismantis@prismantis
+```
+
+**Configure** through the prismantis rows in `/config`, or under `pluginConfigs` in `~/.claude/settings.json`, then `/reload`. Project settings are not read for plugin options, so a value applies to every project.
+
+#### Copying output to Slack, GitHub or a doc
+
+| Block | Button | What lands on the clipboard |
+|-------|--------|-----------------------------|
+| Table | `⧉ md` | The original Markdown |
+| Table | `⧉ art` | A boxed text table that pastes well into Slack |
+| Table | `⧉ html` | A formatted table plus a tab-separated copy. Local macOS terminal, or a Linux graphical session with CopyQ running |
+| Table, diagram, figure | `▣ png` | A PNG of the drawn art, in a local macOS or Windows terminal |
+| Diagram, figure | `⧉ source` / `⧉ art` | The mermaid or figure source, or the drawn text |
+| Code, list, quote | `[ ⧉ copy ]` | Code without its fences, a list as Markdown, a quote without its `> ` markers |
+| Reply with several blocks | `⧉ copy reply` | The whole reply as Claude wrote it |
+
+Without a mouse, `/prismantis copy` copies the last reply and `/prismantis copy code` its last code block. Use the commands in terminals that copy on select (the README names Warp), where clicking a button can grab the word "copy" instead.
+
+Selecting a list with the mouse used to copy the drawn `•` and `◦` glyphs, which Slack displays as text rather than as a list. Since 0.38.0, `listMarker: dash` draws `-` at every level, so a selected list pastes as a Markdown list. Numbered lists keep their numbers.
+
+```json
+{
+  "pluginConfigs": {
+    "prismantis@prismantis": {
+      "options": { "listMarker": "dash" }
+    }
+  }
+}
+```
+
+#### What `diagramHints` costs, and when to turn it off
+
+Claude rarely writes a chart unless it knows the terminal can draw one. With `diagramHints` on, the default, prismantis attaches a note that only the model reads to each prompt you type and to each prompt another plugin sends. The note says which elements render, asks for commands in fenced blocks, and explains when a figure works better than a mermaid diagram. The README puts it at about 630 tokens per prompt, and about 710 with `latex` on, counted with Claude's tokenizer. These are the maintainer's figures; this guide has not measured them. The note is skipped for the first prompt of a headless `claude -p` run and for background notifications.
+
+The note changes what Claude writes, not only what it costs. Turn it off with `"diagramHints": false` and `/reload` when:
+
+- You draft text to paste elsewhere (a Slack message, a PR description, an email). Mermaid blocks and figures arrive there as source, and `⧉ art` or `▣ png` only help one block at a time.
+- The per-prompt overhead matters more to you than the pictures, for example in long sessions where you watch context usage.
+
+Rendering stays on without the hints: tables, code and any diagram Claude still writes are drawn as before. Because plugin options are read from user settings only, the switch applies to every project until you turn it back on.
+
+#### Security
+
+A mod is unsandboxed code running in Claude Code's process (see the security note in the [mods section of the main guide](../ultimate-guide.md#claude-mods-v21287)). The README states that prismantis makes no network calls and starts a program only for the `⧉ html` and `▣ png` clipboard helper, on a click, and for the LaTeX renderer when `latex` is on. To check what a version declares before installing it:
+
+```bash
+git clone https://github.com/NahumLitvin/prismantis
+claude plugin validate ./prismantis
+```
+
+On commit `dc51f35` (v0.38.2), validation passed. The `calls:` line listed `$.process.run` through the clipboard helper and the LaTeX typesetter, the `hooks:` line included `tool.call` and `prompt.submit`, and `env writes:` was empty. A text search of the shipped `hooks/` code for `fetch`, `http`, `https`, `net` and `WebSocket` found nothing. That is a static check of one version, not a code audit.
+
+#### Maintainer responsiveness
+
+On October 30, 2026 at 06:10 UTC, the author of this guide opened [issue #319, copy-friendly list bullets for pasting into Slack](https://github.com/NahumLitvin/prismantis/issues/319). The maintainer published [release v0.38.0 with the `listMarker` option](https://github.com/NahumLitvin/prismantis/releases/tag/v0.38.0) at 08:53 UTC, then answered and closed the issue at 09:05 UTC. One dated data point, not a support commitment.
+
+**When to use**: you read tables, diffs and diagrams in Claude's replies and want them drawn rather than shown as Markdown source, or you often copy Claude's output into Slack, GitHub or a doc. **Skip it** for headless `claude -p` work, where nothing is drawn, or on machines where administrators allow only managed mods (`allowManagedModsOnly`).
+
+Evaluation: [prismantis evaluation](../../docs/resource-evaluations/prismantis-terminal-rendering-mod.md).
+
+---
+
 ## Alternative UIs
 
 ### Claude chic
@@ -1998,6 +2091,7 @@ As of February 2026, the community tooling ecosystem has notable gaps:
 | **Config-heavy setup** | claude-code-config + AIBlueprint + Caliber | TUI config management + scaffolding + drift detection |
 | **Codebase newcomer / monorepo** | Graphify | Build graph once, query structure instead of re-reading files every session |
 | **Team skills adoption** | Skillsight | Measure which skills are actually invoked across the team, identify dead skills |
+| **Reads Claude's output in the terminal, shares it in Slack or docs** | prismantis | Tables, diffs and mermaid diagrams drawn in color instead of Markdown source; copy buttons and `listMarker: dash` for clean pastes |
 | **Over-engineering fighter** | Ponytail | Force the laziest solution that works; its README reports about 54% less code on average, and third-party cost results are mixed |
 
 ---

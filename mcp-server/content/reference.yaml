@@ -3,7 +3,7 @@
 # Source: guide/ultimate-guide.md
 # Purpose: Condensed index for LLMs to quickly answer user questions about Claude Code
 
-version: "3.44.1"
+version: "3.45.0"
 updated: "2026-10-17"
 
 # ════════════════════════════════════════════════════════════════
@@ -868,6 +868,11 @@ deep_dive:
   third_party_gitdiff_watcher: "guide/ecosystem/third-party-tools.md#gitdiff-watcher"
   third_party_gitdiff_watcher_upstream: "https://github.com/fcamblor/gitdiff-watcher"
   third_party_gitdiff_watcher_purpose: "Stop hook utility — enforces build/test quality gates before handoff, fires only when matching files changed"
+  third_party_tools_terminal_rendering: "guide/ecosystem/third-party-tools.md#terminal-rendering-mods"  # Mods that redraw Claude Code's own terminal output (checked 2026-10-31)
+  third_party_prismantis: "guide/ecosystem/third-party-tools.md#prismantis"  # Rendering mod: tables, code, mermaid, figures, copy buttons; listMarker dash for Slack pastes
+  third_party_prismantis_upstream: "https://github.com/NahumLitvin/prismantis"
+  third_party_prismantis_cost: "diagramHints (default on) adds a model-only note to each prompt: about 630 tokens, 710 with latex, per the README (not measured by the guide); turn off with diagramHints false + /reload"
+  third_party_prismantis_evaluation: "docs/resource-evaluations/prismantis-terminal-rendering-mod.md"
   third_party_tools_alternative_uis: "guide/ecosystem/third-party-tools.md#alternative-uis"
   third_party_desktop_workspaces: "guide/ecosystem/third-party-tools.md#desktop-agent-workspace-comparison"
   third_party_desktop_workspaces_evaluation: "docs/resource-evaluations/agent-workspace-cockpits.md"
@@ -1086,7 +1091,8 @@ deep_dive:
   agent_harness_machine_data: "machine-readable/agent-harnesses.json"
   deepseek_harness_tool: "guide/ecosystem/agentic-tools.md#18-deepseek-harness-dsh"  # deepseek-ai/deepseek-harness, MIT, developer preview; Cordis plugin architecture, operational limits, and external prompt-injection study
   programmatic_billing_unaffected: "Claude Code terminal (interactive), IDE integrations, web/desktop/mobile chat, human-in-the-loop workflows"
-  programmatic_billing_credits: "PLANNED, not active: Pro $20 | Max 5x $100 | Max 20x $200 | Team Standard $20 | Team Premium $100 | Enterprise usage-based $20 | Enterprise seat-based Premium $200 per month"
+  programmatic_billing_credits: "Split still paused. Since 2026-10-07 Max $100 | Ultra $200 | Team Standard $20 and Premium $100 per seat (pooled, capped at $500) a month in Claude Platform API credits for the API, Managed Agents, Agent SDK and claude -p with a linked Console API key; Pro and Enterprise not eligible; signed-in plan usage unchanged"  # support.claude.com/en/articles/17154008, verified 2026-10-31
+  claude_plan_lineup: "guide/ops/llm-market-snapshot.md#3-subscription-quotas"  # 2026-10-31: Max 20x renamed Ultra ($200, 10x Pro weekly, no 5-hour limit once verified), Max 5x renamed Max ($100)
   programmatic_billing_api_key_trap: "guide/ultimate-guide.md#the-anthropic_api_key-billing-trap"
   programmatic_billing_audit: "claude /cost (session) + npx ccusage (cross-session history)"
   programmatic_billing_strategic_context: "Split = Anthropic UX (unlimited interactive) vs your harness (capped programmatic). Related: §9.25 Harness Engineering, §11 AI Ecosystem."
@@ -2849,7 +2855,7 @@ ecosystem:
 onboarding_matrix_meta:
   version: "2.1.0"
   last_updated: "2026-03-09"
-  aligned_with_guide: "3.44.1"
+  aligned_with_guide: "3.45.0"
   changelog:
     - version: "2.1.0"
       date: "2026-03-09"
