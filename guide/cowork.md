@@ -8,7 +8,7 @@ tags: [guide, agents, workflows]
 
 > **Complete documentation migrated to dedicated repository**
 > This file is a summary. For full documentation, see:
-> **https://github.com/FlorianBruniaux/claude-cowork-guide**
+> **https://cowork.bruniaux.com/** ([source on GitHub](https://github.com/FlorianBruniaux/claude-cowork-guide))
 
 ---
 
@@ -44,7 +44,7 @@ Three tools, one subscription ($20/mo Pro). They're complementary, not competing
 | **Ideal profile** | Writer · Consultant · Student | Developer · Engineer · Tech Lead | Ops · Assistant · SMB non-tech |
 | **Main tradeoff** | No system access | Token costs on heavy projects | macOS only, limited config |
 
-→ [Full Cowork vs Code comparison](https://github.com/FlorianBruniaux/claude-cowork-guide/blob/main/reference/comparison.md)
+→ [Full Cowork vs Code comparison](https://cowork.bruniaux.com/guide/reference/comparison/)
 
 ### Decision guide
 
@@ -61,7 +61,7 @@ Three tools, one subscription ($20/mo Pro). They're complementary, not competing
 - **Report Synthesis**: Multiple docs → unified report
 - **Meeting Prep**: Research → briefing documents
 
-→ [Detailed Workflows](https://github.com/FlorianBruniaux/claude-cowork-guide/tree/main/workflows)
+→ [Detailed Workflows](https://cowork.bruniaux.com/guide/workflows/)
 
 ---
 
@@ -74,7 +74,7 @@ No official security documentation exists yet. Essential practices:
 3. **No credentials**: Keep sensitive data out of workspace
 4. **Backup first**: Before destructive operations
 
-→ [Complete Security Guide](https://github.com/FlorianBruniaux/claude-cowork-guide/blob/main/guide/03-security.md)
+→ [Complete Security Guide](https://cowork.bruniaux.com/guide/03-security/)
 
 ---
 
@@ -82,12 +82,12 @@ No official security documentation exists yet. Essential practices:
 
 | Resource | Description |
 |----------|-------------|
-| **[Complete Documentation](https://github.com/FlorianBruniaux/claude-cowork-guide/blob/main/README.md)** | Full Cowork guide hub |
-| **[Getting Started](https://github.com/FlorianBruniaux/claude-cowork-guide/blob/main/guide/01-getting-started.md)** | Setup and first workflow |
-| **[Capabilities](https://github.com/FlorianBruniaux/claude-cowork-guide/blob/main/guide/02-capabilities.md)** | What Cowork can/cannot do |
-| **[Prompt Library](https://github.com/FlorianBruniaux/claude-cowork-guide/tree/main/prompts)** | 50+ ready-to-use prompts |
-| **[Cheatsheet](https://github.com/FlorianBruniaux/claude-cowork-guide/blob/main/reference/cheatsheet.md)** | 1-page quick reference |
-| **[FAQ](https://github.com/FlorianBruniaux/claude-cowork-guide/blob/main/reference/faq.md)** | Common questions |
+| **[Complete Documentation](https://cowork.bruniaux.com/guide/)** | Full Cowork guide hub |
+| **[Getting Started](https://cowork.bruniaux.com/guide/01-getting-started/)** | Setup and first workflow |
+| **[Capabilities](https://cowork.bruniaux.com/guide/02-capabilities/)** | What Cowork can/cannot do |
+| **[Prompt Library](https://cowork.bruniaux.com/guide/prompts/)** | 50+ ready-to-use prompts |
+| **[Cheatsheet](https://cowork.bruniaux.com/guide/reference/cheatsheet/)** | 1-page quick reference |
+| **[FAQ](https://cowork.bruniaux.com/guide/reference/faq/)** | Common questions |
 
 ---
 

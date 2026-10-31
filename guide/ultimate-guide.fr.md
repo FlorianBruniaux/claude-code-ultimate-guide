@@ -24797,7 +24797,7 @@ Utilisez ce guide basé sur les symptômes pour identifier et résoudre rapideme
 |---------|--------------|-----------|------------|
 | Erreur « Context too long » | La session a accumulé trop de contexte | `/compact` en premier, puis `/clear` si nécessaire | Compacter régulièrement à 70 % |
 | Réponses lentes ou retardées | Utilisation élevée du contexte (>75 %) | Vérifier `/status`, exécuter `/compact` | Surveiller le contexte avec `/status` |
-| « Rate limit exceeded » | Limitation de l'API due à des requêtes fréquentes | Attendre 2 minutes, utiliser `--model haiku` pour les tâches simples, ou utiliser [cc-copilot-bridge](https://github.com/FlorianBruniaux/cc-copilot-bridge) pour un accès à tarif fixe | Regrouper les opérations, utiliser `/compact`, envisager Copilot Pro |
+| « Rate limit exceeded » | Limitation de l'API due à des requêtes fréquentes | Attendre 2 minutes, utiliser `--model haiku` pour les tâches simples, ou utiliser [cc-copilot-bridge](https://ccbridge.bruniaux.com/) pour un accès à tarif fixe | Regrouper les opérations, utiliser `/compact`, envisager Copilot Pro |
 | Claude oublie les instructions | Débordement de contexte, CLAUDE.md perdu | Créer un point de sauvegarde, `/clear`, recharger CLAUDE.md | Garder CLAUDE.md concis (<500 lignes) |
 | Le serveur MCP ne se connecte pas | Serveur planté ou erreur de configuration | `claude mcp list`, vérifier les chemins, redémarrer le serveur | Tester les serveurs après les modifications de configuration |
 | Invites de permission à chaque fois | Outil absent de `allowedTools` | Ajouter le motif dans `allowedTools` de `settings.json` | Utiliser des jokers : `Bash(git *)` |
@@ -25594,7 +25594,7 @@ Enchaîner le bon outil à chaque étape compte plus que **remplacer l'un par l'
 | **[NotebookLM](https://notebooklm.google.com)** | Synthèse de documents + audio + **intégration MCP** | Fonctionnalités complètes | Gratuit |
 | **[v0.dev](https://v0.dev)** | Prototypage UI (Shadcn) | Limitée | 20 $/mois |
 | **[Cursor](https://cursor.sh)** | IDE avec autocomplétion IA | Limitée | 20 $/mois |
-| **[cc-copilot-bridge](https://github.com/FlorianBruniaux/cc-copilot-bridge)** | Basculement multi-fournisseurs | Complet | Copilot Pro 10 $/mois |
+| **[cc-copilot-bridge](https://ccbridge.bruniaux.com/)** | Basculement multi-fournisseurs | Complet | Copilot Pro 10 $/mois |
 
 <a id="multi-provider-setup-cc-copilot-bridge"></a>
 
@@ -26481,7 +26481,7 @@ Idées reçues que nous avons rencontrées :
 
 **PMs non-développeurs** (stratégie, recherche, gestion des parties prenantes) :
 - ⚠️ La complexité du CLI Claude Code n'est pas justifiée
-- ✅ Meilleure option : Claude Desktop (voir le [Guide Cowork](https://github.com/FlorianBruniaux/claude-cowork-guide))
+- ✅ Meilleure option : Claude Desktop (voir le [Guide Cowork](https://cowork.bruniaux.com/fr/))
 - Cas d'usage : synthèse de recherche, communication avec les parties prenantes, planification de roadmap
 
 **Exemple de stack d'outils** (via [Stilyan Mitrev, Head of Product StableLab](https://www.linkedin.com/pulse/how-i-currently-ai-product-manager-stilyan-mitrev-ycvvf/)) :
@@ -26494,7 +26494,7 @@ Idées reçues que nous avons rencontrées :
 
 **Voir aussi** :
 - [Guide de l'écosystème IA](ecosystem/ai-ecosystem.md) : Outils complémentaires (Granola, Wispr Flow, ChatPRD, v0)
-- [Guide Cowork](https://github.com/FlorianBruniaux/claude-cowork-guide) : Claude Desktop pour les PMs non-techniques
+- [Guide Cowork](https://cowork.bruniaux.com/fr/) : Claude Desktop pour les PMs non-techniques
 - [Flux de travail design-to-code](workflows/design-to-code.md#for-product-managers) : Perspective PM sur Figma MCP
 
 ---

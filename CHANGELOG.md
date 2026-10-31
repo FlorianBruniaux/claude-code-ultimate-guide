@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Changed
+
+- **Links to sibling projects**: the Claude Cowork summary page and the guide now link to the Cowork Guide site (`cowork.bruniaux.com`, with matching pages for comparison, workflows, security, getting started, capabilities, prompts, cheatsheet and FAQ) instead of GitHub files. Product mentions of ccboard, wt-sweep and cc-copilot-bridge now point to their sites. Install commands, quick-start anchors and source attributions keep the repository links.
+
 ## [3.45.0] - 2026-10-31
 
 ### Release summary

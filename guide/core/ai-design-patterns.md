@@ -277,7 +277,7 @@ A row enters the table only when three conditions hold: a public source maps the
 - **In Claude Code:** [model field per subagent and /model](https://code.claude.com/docs/en/model-config)
 - **Failure mode:** The strategy changes silently. Nobody can tell afterwards which model produced which result or what the switch cost.
 - **How to verify:** Pin model in each subagent definition and check /usage or the session transcript after a run.
-- **Go further:** [agent-router-core: experimental deterministic routing CLI for agent workflows](https://github.com/FlorianBruniaux/agent-router-core) (author's project); [cc-copilot-bridge: multi-provider routing for Claude Code](https://github.com/FlorianBruniaux/cc-copilot-bridge) (author's project); [Measuring your own AI usage: three meters, three different answers](https://www.florian.bruniaux.com/blog/articles/real-cost-of-ai-measuring-your-own-usage/) (author's article)
+- **Go further:** [agent-router-core: experimental deterministic routing CLI for agent workflows](https://github.com/FlorianBruniaux/agent-router-core) (author's project); [cc-copilot-bridge: multi-provider routing for Claude Code](https://ccbridge.bruniaux.com/) (author's project); [Measuring your own AI usage: three meters, three different answers](https://www.florian.bruniaux.com/blog/articles/real-cost-of-ai-measuring-your-own-usage/) (author's article)
 - **Watch:** Archana Kamath and Tyler Gillam, [Preferences Over Benchmarks: Model Routing](https://www.youtube.com/watch?v=FvxY8oPoI8o&t=106s) at 1:46: The speaker argues that one model for every task is overkill and that routing each task to a fitting model cuts cost and risk.
 
 ### Template Method
@@ -354,7 +354,7 @@ A row enters the table only when three conditions hold: a public source maps the
 - **In Claude Code:** [Subagent context isolation](https://code.claude.com/docs/en/sub-agents); [isolation: worktree](https://code.claude.com/docs/en/worktrees)
 - **Failure mode:** Only the context is isolated. Parallel agents still share one checkout and overwrite each other's files.
 - **How to verify:** Give write-capable parallel subagents isolation: worktree and check that git status in the main checkout stays clean during the run.
-- **Go further:** [Sandbox isolation](../security/sandbox-isolation.md) (guide); [Plan-execute: running 20+ agents on a migration (worktree isolation)](https://www.florian.bruniaux.com/guides/plan-execute-migrations/) (author's article); [wt-sweep: discovers Git worktrees and reviews integration evidence](https://github.com/FlorianBruniaux/wt-sweep) (author's project)
+- **Go further:** [Sandbox isolation](../security/sandbox-isolation.md) (guide); [Plan-execute: running 20+ agents on a migration (worktree isolation)](https://www.florian.bruniaux.com/guides/plan-execute-migrations/) (author's article); [wt-sweep: discovers Git worktrees and reviews integration evidence](https://wt-sweep.bruniaux.com/) (author's project)
 
 ### Circuit Breaker
 
