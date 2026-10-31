@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "checked_at": "2026-10-31",
-  "measured_at_commit": "07f3b9fb065872c254f84c30a9b584b13da8f59d",
+  "measured_at_commit": "20adedd07723125843ed1d60de4799ae5c1c2784",
   "official_scope": "Maintained by the Claude Code Ultimate Guide project; not official Anthropic documentation.",
   "policy": {
     "canonical_language": "en",
@@ -21,10 +21,10 @@
     "maintainer": "Florian Bruniaux",
     "status": "official",
     "version": "3.45.0",
-    "sha256": "d4c7547f1ee841ee7fa19a41242d4f2020f356fe82c02954b66a10f98391b0a9",
+    "sha256": "9c407ffbb0a0936a28051bc7ef191b76aee9856f0481dea2e06e5b46ac3daeb6",
     "source": {
-      "commit": "07f3b9fb065872c254f84c30a9b584b13da8f59d",
-      "sha256": "d4c7547f1ee841ee7fa19a41242d4f2020f356fe82c02954b66a10f98391b0a9",
+      "commit": "20adedd07723125843ed1d60de4799ae5c1c2784",
+      "sha256": "9c407ffbb0a0936a28051bc7ef191b76aee9856f0481dea2e06e5b46ac3daeb6",
       "commit_evidence": "latest_commit_touching_canonical_guide"
     },
     "coverage": {
@@ -68,8 +68,8 @@
       },
       "known_lag": {
         "status": "stale",
-        "canonical_guide_commits": 1,
-        "canonical_repo_commits": 8,
+        "canonical_guide_commits": 2,
+        "canonical_repo_commits": 11,
         "version_delta": "same guide version (3.44.1); canonical source changed; French remains based on its recorded source"
       }
     },
@@ -111,8 +111,8 @@
       },
       "known_lag": {
         "status": "stale",
-        "canonical_guide_commits": 71,
-        "canonical_repo_commits": 564,
+        "canonical_guide_commits": 72,
+        "canonical_repo_commits": 567,
         "version_delta": "3.41.0 to 3.43.0"
       },
       "official": false
@@ -187,8 +187,8 @@
       },
       "known_lag": {
         "status": "stale",
-        "canonical_guide_commits": 155,
-        "canonical_repo_commits": 832,
+        "canonical_guide_commits": 156,
+        "canonical_repo_commits": 835,
         "version_delta": "3.32.2 to 3.43.0"
       },
       "official": false
