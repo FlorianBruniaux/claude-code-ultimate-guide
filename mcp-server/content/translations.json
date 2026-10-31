@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "checked_at": "2026-10-31",
-  "measured_at_commit": "20adedd07723125843ed1d60de4799ae5c1c2784",
+  "measured_at_commit": "4a41dbe3dcd609da1094996072f0b1367373fbb2",
   "official_scope": "Maintained by the Claude Code Ultimate Guide project; not official Anthropic documentation.",
   "policy": {
     "canonical_language": "en",
@@ -20,11 +20,11 @@
     "url": "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md",
     "maintainer": "Florian Bruniaux",
     "status": "official",
-    "version": "3.45.0",
-    "sha256": "9c407ffbb0a0936a28051bc7ef191b76aee9856f0481dea2e06e5b46ac3daeb6",
+    "version": "3.45.1",
+    "sha256": "08996e57957743caba0ffde088e941cf377aaff7345843476a8be8eab59d7c89",
     "source": {
-      "commit": "20adedd07723125843ed1d60de4799ae5c1c2784",
-      "sha256": "9c407ffbb0a0936a28051bc7ef191b76aee9856f0481dea2e06e5b46ac3daeb6",
+      "commit": "4a41dbe3dcd609da1094996072f0b1367373fbb2",
+      "sha256": "08996e57957743caba0ffde088e941cf377aaff7345843476a8be8eab59d7c89",
       "commit_evidence": "latest_commit_touching_canonical_guide"
     },
     "coverage": {
@@ -68,8 +68,8 @@
       },
       "known_lag": {
         "status": "stale",
-        "canonical_guide_commits": 2,
-        "canonical_repo_commits": 11,
+        "canonical_guide_commits": 3,
+        "canonical_repo_commits": 14,
         "version_delta": "same guide version (3.44.1); canonical source changed; French remains based on its recorded source"
       }
     },
@@ -111,8 +111,8 @@
       },
       "known_lag": {
         "status": "stale",
-        "canonical_guide_commits": 72,
-        "canonical_repo_commits": 567,
+        "canonical_guide_commits": 73,
+        "canonical_repo_commits": 570,
         "version_delta": "3.41.0 to 3.43.0"
       },
       "official": false
@@ -187,8 +187,8 @@
       },
       "known_lag": {
         "status": "stale",
-        "canonical_guide_commits": 156,
-        "canonical_repo_commits": 835,
+        "canonical_guide_commits": 157,
+        "canonical_repo_commits": 838,
         "version_delta": "3.32.2 to 3.43.0"
       },
       "official": false
