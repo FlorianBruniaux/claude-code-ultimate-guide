@@ -251,7 +251,7 @@ CATEGORIES = [
 # Skill collections (multi-file directories) listed as a single pointer entry.
 # Format: { relative_path_from_skills_dir: description }
 SKILL_COLLECTIONS = {
-    "git-ai-archaeology": "Analyze AI config evolution in a git repo: first commits, monthly distribution, maturity phases",
+    "git-ai-archaeology": "Git-history archaeology of an AI coding harness: file lifecycles, copies, AI-trailer usage, maturity phases",
     "design-patterns": "Detect and analyze GoF design patterns",
     "voice-refine": "Writing voice refinement with before/after examples",
     "rtk-optimizer": "RTK token optimization analysis",

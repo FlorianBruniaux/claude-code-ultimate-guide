@@ -116,7 +116,7 @@ These worksheets are proposed procedures. Their examples do not establish runtim
 
 | File | Purpose |
 |------|---------|
-| [git-ai-archaeology/](./skills/git-ai-archaeology/) | Analyze AI config evolution in a git repo: first commits per path, monthly distribution, major PRs, maturity phases |
+| [git-ai-archaeology/](./skills/git-ai-archaeology/) | Git-history archaeology of an AI coding harness: creation, churn, copies and abandonment of each config file, AI-trailer usage per month, maturity phases |
 | [token-audit/](./skills/token-audit/) | Measure fixed-context token overhead, classify rules by usage frequency, audit hook cost, produce prioritized action plan |
 | [design-patterns/](./skills/design-patterns/) | Detect and analyze GoF design patterns with stack-aware suggestions |
 | [tdd-workflow.md](./skills/tdd-workflow.md) | Test-Driven Development process |

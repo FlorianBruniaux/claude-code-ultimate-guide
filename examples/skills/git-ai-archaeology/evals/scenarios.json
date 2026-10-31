@@ -1,0 +1,28 @@
+{
+  "skill": "git-ai-archaeology",
+  "positive": [
+    "Retrace l'historique de l'adoption de l'IA dans ce dépôt : quand CLAUDE.md, .claude et les MCP sont apparus pour la première fois",
+    "Fais l'archéologie git des fichiers de config IA de ce monorepo, avec la date de création de chaque fichier d'instructions",
+    "Je veux la courbe mensuelle des commits qui touchent la config des assistants IA (Copilot, Claude Code, Codex) sur tout l'historique",
+    "Quand l'équipe a-t-elle commencé à utiliser Copilot, et à quel moment les skills et les hooks sont arrivés ?",
+    "Identifie les phases de maturité de l'outillage IA de ce projet à partir de l'historique git",
+    "Analyse l'évolution des fichiers AGENTS.md, copilot-instructions.md et .vscode/mcp.json depuis le premier commit",
+    "Combien de commits récents sont des co-écrits par une IA (trailers Co-authored-by) et depuis quand ?",
+    "Map how AI tooling evolved in this repo: first commit of each config file, monthly velocity, main inflection point",
+    "When was CLAUDE.md first introduced in this git history, and how did AI config commit volume change month by month?",
+    "Run a git archaeology on this repository to chart AI adoption: Copilot instructions, MCP servers, agents, skills",
+    "I need a timeline of when each AI configuration file was added to this monorepo and which commits structured it",
+    "Write the git-ai-archaeology report for ~/work/my-repo since 2025-01-01, output in ./talks/my-repo",
+    "Find the inflection month where AI config commits spiked and give me the share of the last two months versus the whole history"
+  ],
+  "negative": [
+    "Donne-moi les stats git de ce dépôt : commits par auteur, lignes ajoutées, fichiers les plus modifiés",
+    "Audite la configuration IA actuelle de ce projet : CLAUDE.md, règles et hooks, sont-ils valides aujourd'hui ?",
+    "Génère le changelog de la version 2.4 à partir des commits depuis le dernier tag",
+    "Show me who last touched each line of src/auth.ts with git blame",
+    "Résume les changements de cette PR et rédige la description",
+    "Evaluate my Claude Code hooks for safety and correct exit codes",
+    "Combien de commits a fait Marie le mois dernier sur ce dépôt ?",
+    "Write release notes for the v3.1 tag in a user-friendly tone"
+  ]
+}
