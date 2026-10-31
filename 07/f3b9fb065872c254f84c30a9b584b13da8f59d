@@ -1,0 +1,93 @@
+CHANGELOG.md
+  s_eb2a2919c9ff00::t_9ebd455960d12f 9-20,23-28
+README.md
+  s_eb2a2919c9ff00::t_bc20eee6573446 20-21,421
+VERSION
+  s_eb2a2919c9ff00::t_5b99c8e2989641 1
+docs/resource-evaluations/README.md
+  s_c3158f009d7319::t_4d81e8f8b4f7b9 40
+docs/resource-evaluations/prismantis-terminal-rendering-mod.md
+  s_3fcc66edeac912::t_bccee7c7744a3c 1-110
+guide/cheatsheet.md
+  s_eb2a2919c9ff00::t_e4964747ef1fc5 15,727
+guide/core/claude-code-releases.md
+  s_eb2a2919c9ff00::t_be25d2491f523c 20,26-29,82-110,3807-3809,3879-3880
+guide/diagrams/09-cost-and-optimization.md
+  s_eb2a2919c9ff00::t_92d1c9bad4f04a 186
+guide/ecosystem/third-party-tools.md
+  s_af50e77fbc095f::t_4f103723a6d629 15,29-37,1368-1459,2094
+guide/ops/llm-market-snapshot.md
+  s_eb2a2919c9ff00::t_9a24a14c4109a1 97-98
+guide/ultimate-guide.md
+  s_eb2a2919c9ff00::t_5af485d4a21681 19,26156
+llms-full.txt
+  s_4ed23f6af55279::t_af92e5904a9c1e 13-14,98,815
+llms.txt
+  s_eb2a2919c9ff00::t_769255d5750f97 5,19
+machine-readable/claude-code-releases.yaml
+  s_eb2a2919c9ff00::t_4fc6c2a322e057 6-7,18-57,2377,2396,2400-2402
+machine-readable/llms.txt
+  s_eb2a2919c9ff00::t_7948588280d148 5,19
+machine-readable/mcp-product.json
+  s_eb2a2919c9ff00::t_2fc9178a12e322 14,16-17,494
+machine-readable/reference.yaml
+  s_eb2a2919c9ff00::t_81f471c7611673 6,871-875,1094-1095,2858
+mcp-server/README.md
+  s_eb2a2919c9ff00::t_49a03c63a112fa 78
+mcp-server/content/claude-code-releases.yaml
+  s_eb2a2919c9ff00::t_fd539f3bea87fb 6-7,18-57,2377,2396,2400-2402
+mcp-server/content/llms.txt
+  s_eb2a2919c9ff00::t_d022081b050f06 5,19
+mcp-server/content/reference.yaml
+  s_eb2a2919c9ff00::t_28196ea0ceb9ac 6,871-875,1094-1095,2858
+mcp-server/src/lib/chapter-ranges.generated.json
+  s_eb2a2919c9ff00::t_589ea74d3de721 2-3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "07f3b9fb065872c254f84c30a9b584b13da8f59d",
+  "prompts": {},
+  "sessions": {
+    "s_3fcc66edeac912": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4f90d662-a64b-4f74-ba7e-c121d2d3c2b4",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_4ed23f6af55279": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a17476-8ed2-74a0-8a57-959e38f8cf62",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_af50e77fbc095f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c66d4a9c-362a-4a55-87db-2c57e31735cf",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_c3158f009d7319": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "151e40ac-87e1-4d66-bd23-57defb26a2cd",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_eb2a2919c9ff00": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "31c7977a-2a19-4232-ab9b-d7b35ebc0b81",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
