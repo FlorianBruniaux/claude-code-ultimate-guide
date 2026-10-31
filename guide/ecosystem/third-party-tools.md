@@ -1629,19 +1629,19 @@ These tools choose which model and effort a coding task gets, instead of leaving
 
 A local Rust CLI that picks the model, effort and skills for each phase of a Claude Code or Codex task (plan, execute, verify) and explains the choice. Permissions, budget, risk and missing host evidence remove candidates before any score is computed, and the same inputs replay to the same decision receipt. Each approved phase runs as a separate host process, in an OS sandbox, with writes confined to a Git worktree; it does not switch the model of the conversation you are in.
 
-> **Status**: soon. The repository is not public yet; the source link will work once it is published.
+> **Status**: public since 2026-10-28 as an experimental source candidate (tag `v0.0.1`, no packaged release). The README status of 2026-10-27 says offline routing works and automatic daily Claude Code or Codex use is not yet qualified.
 >
 > **Disclosure**: Agent Router is written by the author of this guide.
 
 | Attribute | Details |
 |-----------|---------|
-| **Source** | GitHub: `FlorianBruniaux/agent-router` (soon, not public yet) |
-| **License** | FSL-1.1-ALv2 (Functional Source License, converting to Apache 2.0): source-available, not an OSI open-source license |
-| **Install** | Build from source with Rust 1.85+: `cargo build --release --locked -p agent-router-cli -p router-sandbox-helper`; no package-manager install |
+| **Source** | [GitHub: FlorianBruniaux/agent-router](https://github.com/FlorianBruniaux/agent-router) |
+| **License** | Apache-2.0 |
+| **Install** | Build from source with Rust 1.85+: `cargo build --locked -p agent-router-cli`; the install guide also covers a pinned Cargo Git install and a locally generated Homebrew formula. No crates.io package, public tap or signed release asset |
 | **Hosts** | CLI adapters for Claude Code and Codex; optional OpenCode and Copilot adapters whose native installations remain unverified |
 | **Platforms** | macOS (Seatbelt) and Linux (Bubblewrap); Windows native execution is not implemented |
 
-**Limitations**: the README claims no measured cost or quality gain yet, because the human-labelled evaluation corpus is still open work. Routing runs offline, but a run still needs the host CLI and its credentials.
+**Limitations**: the README establishes no general cost or quality gain, and human validation of the evaluation corpus is still open work. Routing runs offline, but a run still needs the host CLI and its credentials.
 
 ---
 

@@ -75,7 +75,7 @@ Add this to `.vscode/mcp.json`:
 
 ## Generated capabilities
 
-This section is rendered from `machine-readable/mcp-product.json` for package 1.3.7 and guide 3.45.0.
+This section is rendered from `machine-readable/mcp-product.json` for package 1.3.7 and guide 3.45.1.
 
 | Capability | Count | Names |
 | --- | ---: | --- |

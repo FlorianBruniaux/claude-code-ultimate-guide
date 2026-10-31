@@ -6,6 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [3.45.1] - 2026-10-31
+
+### Release summary
+
+- **Agent Router is public**: the guide entry now links the repository and records its Apache-2.0 license and source-build install.
+- **Links to sibling projects**: the Cowork Guide and other sibling sites are linked from the guide.
+
+### Fixed
+
+- **Agent Router entry updated after publication** (`guide/ecosystem/third-party-tools.md`, `guide/ops/ai-unit-economics.md`, `machine-readable/reference.yaml` and its MCP mirror, checked October 31, 2026 against the public README and the repository tags): the repository has been public since October 28, 2026, with tag `v0.0.1` and no packaged release. The entry drops the "soon, not public yet" status, links the source, corrects the license from FSL-1.1-ALv2 to Apache-2.0, replaces the install command with the README's `cargo build --locked -p agent-router-cli` plus the pinned Cargo and local Homebrew options, and keeps the README's limit: no general cost or quality gain is established.
+
 ### Changed
 
 - **Links to sibling projects**: the Claude Cowork summary page and the guide now link to the Cowork Guide site (`cowork.bruniaux.com`, with matching pages for comparison, workflows, security, getting started, capabilities, prompts, cheatsheet and FAQ) instead of GitHub files. Product mentions of ccboard, wt-sweep and cc-copilot-bridge now point to their sites. Install commands, quick-start anchors and source attributions keep the repository links.

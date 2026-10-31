@@ -3,7 +3,7 @@
 # Source: guide/ultimate-guide.md
 # Purpose: Condensed index for LLMs to quickly answer user questions about Claude Code
 
-version: "3.45.0"
+version: "3.45.1"
 updated: "2026-10-17"
 
 # ════════════════════════════════════════════════════════════════
@@ -881,7 +881,7 @@ deep_dive:
   third_party_orca_purpose: "Desktop workspace with hosted review/CI feedback; inspect Codex session-sharing and permission defaults. Documentation review, no runtime trial."
   third_party_vibe_kanban_status: "guide/ecosystem/agent-harness-landscape.md#vibe-kanban-maintenance-status"
   third_party_tools_model_routing: "guide/ecosystem/third-party-tools.md#model-routing"
-  third_party_agent_router: "guide/ecosystem/third-party-tools.md#agent-router"  # Per-phase model, effort and skill routing for Claude Code and Codex (FSL-1.1-ALv2, by the guide author, soon: repository not public yet)
+  third_party_agent_router: "guide/ecosystem/third-party-tools.md#agent-router"  # Per-phase model, effort and skill routing for Claude Code and Codex (Apache-2.0, by the guide author, public since 2026-10-28, experimental source candidate v0.0.1)
   third_party_tools_known_gaps: "guide/ecosystem/third-party-tools.md#known-gaps"
   third_party_tools_recommendations: "guide/ecosystem/third-party-tools.md#recommendations-by-persona"
   third_party_ccusage: "https://www.npmjs.com/package/ccusage"
@@ -2855,7 +2855,7 @@ ecosystem:
 onboarding_matrix_meta:
   version: "2.1.0"
   last_updated: "2026-03-09"
-  aligned_with_guide: "3.45.0"
+  aligned_with_guide: "3.45.1"
   changelog:
     - version: "2.1.0"
       date: "2026-03-09"
