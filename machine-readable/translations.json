@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-10-31",
-  "measured_at_commit": "4a41dbe3dcd609da1094996072f0b1367373fbb2",
+  "checked_at": "2026-11-01",
+  "measured_at_commit": "abe563fda50a779f34661f79913e742e1e2aaba2",
   "official_scope": "Maintained by the Claude Code Ultimate Guide project; not official Anthropic documentation.",
   "policy": {
     "canonical_language": "en",
@@ -20,11 +20,11 @@
     "url": "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md",
     "maintainer": "Florian Bruniaux",
     "status": "official",
-    "version": "3.45.1",
-    "sha256": "08996e57957743caba0ffde088e941cf377aaff7345843476a8be8eab59d7c89",
+    "version": "3.45.2",
+    "sha256": "e3089c913c0c9482fa96731e38fb78c7e88c555438afd41e6c8f57ec89f6fde6",
     "source": {
-      "commit": "4a41dbe3dcd609da1094996072f0b1367373fbb2",
-      "sha256": "08996e57957743caba0ffde088e941cf377aaff7345843476a8be8eab59d7c89",
+      "commit": "abe563fda50a779f34661f79913e742e1e2aaba2",
+      "sha256": "e3089c913c0c9482fa96731e38fb78c7e88c555438afd41e6c8f57ec89f6fde6",
       "commit_evidence": "latest_commit_touching_canonical_guide"
     },
     "coverage": {
@@ -47,29 +47,29 @@
       "maintainer": "Florian Bruniaux",
       "status": "official",
       "official": true,
-      "version": "3.44.1",
-      "last_checked_at": "2026-10-31",
-      "last_full_refresh_at": "2026-10-28",
-      "sync_state": "stale",
+      "version": "3.45.2",
+      "last_checked_at": "2026-11-01",
+      "last_full_refresh_at": "2026-11-01",
+      "sync_state": "current",
       "translated_from": {
-        "version": "3.44.1",
-        "commit": "dec46882dccdcd88b9625a35c241ed8cce1444af",
-        "sha256": "85f4b860deb8d6eb9f71d805e102633f8869abd03382dcbb934f0cc4b1c02b5b"
+        "version": "3.45.2",
+        "commit": "abe563fda50a779f34661f79913e742e1e2aaba2",
+        "sha256": "e3089c913c0c9482fa96731e38fb78c7e88c555438afd41e6c8f57ec89f6fde6"
       },
       "artifact": {
-        "sha256": "56006c728e77651a728397bc4c64200d55ba62f003e48f2411f62cbef4193008",
+        "sha256": "e8e1aa844fde47951852639e2ea8d9bfd7e200621b3656310eb13c67f5ebb647",
         "last_change_commit": "fc9e00dac7194abf45831d6b747c018dfde36284"
       },
       "coverage": {
         "type": "full_guide",
         "status": "complete_at_recorded_source",
-        "note": "The 3.44.1 refresh reconciles all semantic English deltas since the recorded source, including models, MCP, measured token-tool claims, paused programmatic billing, and brownfield/Bun guidance. See docs/audits/2026-10-06-bilingual-publications.md for scope and evidence limits.",
-        "semantic_review": "codex_full_review_2026-09-26_and_delta_reconciliation_2026-10-06; not_human_editorial_signoff"
+        "note": "The 3.44.1 refresh reconciles all semantic English deltas since the recorded source, including models, MCP, measured token-tool claims, paused programmatic billing, and brownfield/Bun guidance. See docs/audits/2026-10-06-bilingual-publications.md for scope and evidence limits. The 3.45.2 delta (2026-11-01) carries over the sibling-site links, the Ultra/Max plan lineup, the active monthly API credits, the October 2026 subagent evidence section and the subagent model-order note, and removes prose em dashes; it was reviewed against the full English diff since commit dec46882.",
+        "semantic_review": "codex_full_review_2026-09-26_and_delta_reconciliation_2026-10-06; not_human_editorial_signoff; delta_reconciliation_2026-11-01_claude_opus_5_5; not_human_editorial_signoff"
       },
       "known_lag": {
-        "status": "stale",
-        "canonical_guide_commits": 3,
-        "canonical_repo_commits": 14,
+        "status": "current",
+        "canonical_guide_commits": 0,
+        "canonical_repo_commits": 0,
         "version_delta": "same guide version (3.44.1); canonical source changed; French remains based on its recorded source"
       }
     },
@@ -111,8 +111,8 @@
       },
       "known_lag": {
         "status": "stale",
-        "canonical_guide_commits": 73,
-        "canonical_repo_commits": 570,
+        "canonical_guide_commits": 74,
+        "canonical_repo_commits": 572,
         "version_delta": "3.41.0 to 3.43.0"
       },
       "official": false
@@ -187,8 +187,8 @@
       },
       "known_lag": {
         "status": "stale",
-        "canonical_guide_commits": 157,
-        "canonical_repo_commits": 838,
+        "canonical_guide_commits": 158,
+        "canonical_repo_commits": 840,
         "version_delta": "3.32.2 to 3.43.0"
       },
       "official": false
