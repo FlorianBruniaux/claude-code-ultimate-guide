@@ -6,6 +6,31 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [3.45.2] - 2026-11-01
+
+### Release summary
+
+- **Subagents, single agent or a team**: a new section weighs the October 2026 evidence (Anthropic's fold-subagents article, an official Haiku subagent benchmark and an arXiv concurrency study) and turns it into a default: one agent loop with skills, split only for a named reason.
+- **Plans and credits in the main guide**: the subscription section now describes Free, Pro, Max and Ultra, and the billing chapter documents the monthly API credits active since October 7, 2026.
+- **French full guide current again** at 3.45.2, so the EN/FR exports can be rebuilt.
+
+### Added
+
+- **Single agent, subagents or a team: the October 2026 evidence** (`guide/ultimate-guide.md#single-agent-subagents-or-a-team-the-october-2026-evidence`, French counterpart, checked November 1, 2026 against each source): cites Diane Sarkis's October 22 article ("a single agent with skills frequently outperformed both the one-prompt-for-everything design and the subagent design on quality"), the Claude Platform cost page (72.1% and $4.78 per attempt for Opus 5.5 alone at medium versus 67.9% and $3.27 with Haiku 5.5 subagents, "an alternative to lowering effort, not better") and arXiv 2610.10263 (83.0% to 59.0% on sampled SWE-bench Verified tasks with dynamic concurrency, +14.3 points on LoopsBench). Each row states its evidence limit; same-model versus cross-model review is marked as an open question because no controlled comparison was found. Research started from a Perplexity run whose claims were re-read at their sources; unverifiable figures were left out.
+- **Product changes outside the CLI changelog** (`guide/core/claude-code-releases.md`): a dated table for September and October 2026 (Code Review GA, cloud sessions GA, Projects beta, Cowork cloud tasks, Sonnet 4.5 retirement on November 30, Messages API compaction beta, Managed Agents dynamic workflows beta, 128 MB request limit, Claude Models on Google Cloud, background computer use beta, monthly API credits, Opus 4.8 fast mode deprecation), each linked to the official page.
+- **Monthly API credits now active** (`guide/ultimate-guide.md#monthly-api-credits-now-active`): amounts, eligibility, claim flow, coverage and exclusions from the Help Center article.
+- **Agent Teams sizing** (`guide/workflows/agent-teams-quick-start.md`): 3 to 5 teammates, 5 to 6 tasks each, `/resume` does not restore in-process teammates, no worktree isolation by default.
+- **`CLAUDE_CODE_SUBAGENT_MODEL_FORCE`** in `guide/core/settings-reference.md` and the subagent `model` field note.
+- New index keys `monthly_api_credits`, `subagents_vs_single_agent_evidence` and `product_changes_outside_cli`; `claude_plan_lineup` now points at the main guide.
+
+### Changed
+
+- **Subscription section** (`guide/ultimate-guide.md#subscription-plans--limits`): plan lineup verified October 31, 2026, with the Max 20x to Ultra and Max 5x to Max renames and the 5-hour limit removal for verified Ultra accounts. The billing-split status box and two billing notes now separate the still-paused split from the active monthly API credits.
+- **Prose em dashes removed from both full guides** (52 English and 56 French lines, mostly comments in code examples whose fences the anti-AI hook does not parse), so the hook accepts edits to these files again. Punctuation only; quoted text is unchanged.
+- **French full guide** (`guide/ultimate-guide.fr.md`): all English changes since its recorded 3.44.1 source are carried over (sibling-site links, plan lineup, monthly credits, the subagent evidence section).
+- **Release tooling**: `scripts/check-landing-sync.sh` checks that the landing reads the guide `VERSION` at build instead of a version string the page no longer shows; `/update-infos-release` lists the real landing files (`releases.ts`, the release-date contract and its test), npm publication dates and the full list of new changelog headings; `docs/workflows/landing-sync.md` drops `index.html` references.
+- `reference.yaml` line references resynchronized after the insertions (55 automatic fixes, 7 ambiguous slugs fixed by hand).
+
 ## [3.45.1] - 2026-10-31
 
 ### Release summary

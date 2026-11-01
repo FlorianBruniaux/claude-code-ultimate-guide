@@ -348,6 +348,15 @@ Verdict: ✅ Critical security issues caught, PR requires revision
 - ❌ Budget tight (3x tokens, reserve for high-value tasks)
 - ❌ Write-heavy (many edits to same files = merge conflicts)
 
+### Official sizing and limits (checked 2026-11-01)
+
+The [Agent Teams documentation](https://code.claude.com/docs/en/agent-teams) recommends starting with **3 to 5 teammates** and **5 to 6 tasks per teammate**. Two limits change how you plan a session:
+
+- `/resume` and `/rewind` do not restore in-process teammates; after resuming the lead, spawn replacements.
+- Teammates are not isolated in worktrees by default; assign disjoint files or give each its own worktree.
+
+Before reaching for a team at all, read [Single agent, subagents or a team: the October 2026 evidence](../ultimate-guide.md#single-agent-subagents-or-a-team-the-october-2026-evidence): on bounded tasks, one agent loop with skills often matched or beat multi-agent designs.
+
 ---
 
 ## 4. Minimal workflow template

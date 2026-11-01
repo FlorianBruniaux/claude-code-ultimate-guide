@@ -32,15 +32,16 @@ If new versions detected, continue. Otherwise, stop.
 **Files to update:**
 - `machine-readable/claude-code-releases.yaml`
 - `guide/core/claude-code-releases.md`
-- `claude-code-ultimate-guide-landing/index.html` (badge + section)
+- `mcp-server/content/claude-code-releases.yaml` (byte-identical copy)
+- `llms.txt`, `machine-readable/llms.txt`, `mcp-server/content/llms.txt` (tracked version sentence)
+- Landing: `src/data/releases.ts`, `src/data/seo-editorial-contract.mjs` (`LATEST_CLAUDE_CODE_RELEASE_DATE`) and its pinned test `src/data/seo-editorial-contract.test.ts`
 
 **Process:**
-1. Read latest release notes from the command output
-2. Extract version, date, and highlights (2-4 key features max)
+1. Read latest release notes from the command output; the summary it prints can omit versions, so list every `## ` heading of the saved changelog newer than the tracked version
+2. Date each version from npm publication metadata (`https://registry.npmjs.org/@anthropic-ai%2Fclaude-code`, `time` field); skip versions without an upstream changelog entry
 3. Update YAML with condensed highlights
 4. Update Markdown with expanded details
-5. Update landing badge version
-6. If major features, update landing #releases section (keep top 5)
+5. Add the new entries to the landing `releases.ts` (newest first, `latest: true` on the newest, five `initiallyVisible: true`) and move the latest release date in `seo-editorial-contract.mjs` and its test
 
 **Condensation rules for YAML:**
 - ⭐ Major features get star emoji
@@ -155,7 +156,9 @@ git add \
   guide/ultimate-guide.md \
   guide/core/claude-code-releases.md \
   machine-readable/reference.yaml \
-  machine-readable/claude-code-releases.yaml
+  machine-readable/claude-code-releases.yaml \
+  mcp-server/content/claude-code-releases.yaml \
+  llms.txt machine-readable/llms.txt mcp-server/content/llms.txt
 
 # If version bump:
 git commit -m "release: vX.Y.Z
@@ -164,7 +167,7 @@ git commit -m "release: vX.Y.Z
 - [Bump type]: vOLD_GUIDE → vNEW_GUIDE
 - Update CHANGELOG with release details
 
-Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>"
+[attribution line provided by your host]"
 
 # If CC releases only:
 git commit -m "docs: update Claude Code releases to vA.B.C
@@ -174,7 +177,7 @@ git commit -m "docs: update Claude Code releases to vA.B.C
 - [Any breaking changes or fixes]
 - Update dates: YYYY-MM-DD
 
-Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>"
+[attribution line provided by your host]"
 
 git push
 ```
@@ -184,17 +187,14 @@ git push
 ```bash
 cd ../claude-code-ultimate-guide-landing
 
-git add index.html
+pnpm test   # the release-date contract test pins the latest date
+git add src/data/releases.ts src/data/seo-editorial-contract.mjs src/data/seo-editorial-contract.test.ts
 
-git commit -m "chore: sync with guide vX.Y.Z
+git commit -m "docs: sync Claude Code vA.B.C release history
 
-- Update Claude Code version badge: vOLD → vNEW
-[If releases section updated:]
-- Update releases timeline with vNEW features
-- Maintain top 5 notable releases
-- Maintain landing/guide synchronization
+- Add vNEW to releases.ts and move the latest release date
 
-Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>"
+[attribution line provided by your host]"
 
 git push
 ```
@@ -213,15 +213,15 @@ Guide Repository:
 - Files: [count] updated
 
 Landing Repository:
-- Claude Code badge: vA.B.C
+- Claude Code release history: vA.B.C
 - Commit: [hash]
 - Files: [count] updated
 
 Synchronization: ✅ All synced
 
 Next Steps:
-1. Verify GitHub Pages deployment: https://florianbruniaux.github.io/claude-code-ultimate-guide-landing/
-2. Check version badge displays correctly
+1. Verify the deploy run: gh run list -R FlorianBruniaux/claude-code-ultimate-guide-landing --workflow deploy.yml --limit 1 (its smoke job checks that /releases/ announces the latest version)
+2. Check https://cc.bruniaux.com/releases/
 3. [If major release] Update social media / announcements
 ```
 
@@ -271,7 +271,7 @@ Output:
 Updating tracking files...
 ✅ YAML updated
 ✅ Markdown updated
-✅ Landing badge updated
+✅ Landing releases.ts updated
 
 Verifying sync... ✅ All synced
 

@@ -16,7 +16,7 @@ tags: [guide, reference, workflows, agents, hooks, mcp, security]
 
 **Last updated**: October 6, 2026 (full baseline); October 24, 2026 (selective cache and harness corrections)
 
-**Version**: 3.45.1
+**Version**: 3.45.2
 
 ---
 
@@ -1225,10 +1225,10 @@ Switching from GitHub Copilot, Cursor, or other AI assistants? Here's what you n
 | Tool | Free | Pro | Power/Plus | Teams | Enterprise |
 |------|------|-----|------------|-------|------------|
 | **GitHub Copilot** | ✅ (2K completions) | $10/mo | Pro+ $39/mo | Business $19/seat | $39/seat |
-| **Cursor** | ✅ (2K completions) | $20/mo | Ultra $200/mo | $40/seat | — |
+| **Cursor** | ✅ (2K completions) | $20/mo | Ultra $200/mo | $40/seat | - |
 | **Windsurf** | ✅ (25 prompts) | $20/mo | $200/mo | $30/seat | $60/seat |
-| **Zed** | — | $10/mo | — | — | — |
-| **Claude Code** | — | $20/mo | Max $100-200/mo | — | Via Anthropic |
+| **Zed** | - | $10/mo | - | - | - |
+| **Claude Code** | - | $20/mo | Max $100-200/mo | - | Via Anthropic |
 
 **Key mindset shift**: Claude Code is a **structured context system**, not a chatbot or autocomplete tool. You build persistent context (CLAUDE.md, skills, hooks) that compounds over time, see [§2.5](#from-chatbot-to-context-system).
 
@@ -2151,7 +2151,7 @@ Example output:
 
 ### Cost awareness & optimization
 
-> **Note:** Anthropic announced a separate monthly credit for programmatic usage (`claude -p`, the Agent SDK, third-party apps) due on June 15, 2026, then paused it. As verified on 2026-09-30, that usage still draws from your subscription's usage limits. See [§9.13: The Interactive/Programmatic Billing Split](#the-interactiveprogrammatic-billing-split-announced-then-paused) for the announced plan and audit steps, and [AI FinOps](./ops/ai-finops.md) for the cost section as a whole.
+> **Note:** Anthropic announced a separate monthly credit for programmatic usage (`claude -p`, the Agent SDK, third-party apps) due on June 15, 2026, then paused it. As verified on 2026-10-31, that usage still draws from your subscription's usage limits; separately, Max, Ultra and Team plans have included monthly API credits since October 7, 2026 for `claude -p` and the Agent SDK run with a linked Console API key. See [§9.13: The Interactive/Programmatic Billing Split](#the-interactiveprogrammatic-billing-split-announced-then-paused) for the announced plan and audit steps, and [AI FinOps](./ops/ai-finops.md) for the cost section as a whole.
 
 Claude Code usage can draw from a subscription allowance, usage credits or API billing. Check the active account and billing path before interpreting a token-cost estimate.
 
@@ -2461,6 +2461,8 @@ Choose a model and effort level that meet the task's acceptance criteria, then c
 #### Subscription plans & limits
 
 Check [current plans](https://claude.com/pricing) and the usage information for the signed-in account. Subscription allowances are not fixed published token budgets; API price ratios do not determine quota consumption. Model access and organization policy can change independently of the plan label. Pro is not limited to Sonnet: current defaults and available selections are described in the model table above.
+
+> **Plan lineup, verified 2026-10-31 (USD, web subscriptions):** the individual plans are Free, Pro ($20 billed monthly, $17 a month billed annually), Max ($100 a month) and Ultra ($200 a month, monthly billing only). **Max 20x is now called Ultra and Max 5x is now called Max**, with the same price, features, billing date and weekly limit; existing Max 20x subscribers moved automatically. Ultra has 10x Pro usage every week and **no 5-hour limit once Anthropic verifies the account** from factors such as account and payment history; until then a temporary limit applies, and `Settings > Usage` shows no "Current session" bar once the account is verified. Ultra keeps a weekly limit across all models plus a separate weekly Fable limit. Max keeps 5x Pro usage every 5 hours and every week. Both include Fable up to half the weekly limit and monthly Claude Platform API credits ($100 on Max, $200 on Ultra, see [the billing split](#the-interactiveprogrammatic-billing-split-announced-then-paused)). Guide passages written before November 2026 that say "Max" cover both tiers. Sources: [pricing](https://claude.com/pricing), [What is the Ultra plan?](https://support.claude.com/en/articles/17728952-what-is-the-ultra-plan), [What is the Max plan?](https://support.claude.com/en/articles/11049741-what-is-the-max-plan).
 
 **Monitoring Your Usage**
 
@@ -4665,6 +4667,26 @@ Use separate file ownership or worktrees for edits. Ask the lead to stop or redi
 
 Older community material uses the name `TeammateTool` and inferred operations such as `spawnTeam`. Treat those as historical implementation notes, not the current documented interface. See [Agent Teams](https://code.claude.com/docs/en/agent-teams) and [§9.20](#920-agent-teams-multi-agent-coordination) for current operation and limitations.
 
+### Single agent, subagents or a team: the October 2026 evidence
+
+Default to one agent loop with well-scoped skills, and split only when you can name what the split buys: an isolated noisy side task, truly independent parallel work, or an independent review. Three sources published in October 2026 point the same way, with different evidence levels.
+
+| Source | Evidence type | Finding | Limit |
+|--------|---------------|---------|-------|
+| [Anthropic, "Building agents: when to fold subagents into your main agent loop"](https://claude.com/resources/articles/building-agents-when-to-fold-subagents-into-your-main-agent-loop) (Diane Sarkis, 2026-10-22) | Official field report | "In our comparisons across several enterprise deployments, a single agent with skills frequently outperformed both the one-prompt-for-everything design and the subagent design on quality, and often at a lower cost and latency per task." One customer saw a roughly 2x faster runtime with a single loop. | No deployment count, task count, scores or costs published |
+| [Claude Platform, "Optimizing for cost and intelligence"](https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence) | Official measurement, internal coding benchmark on Claude Managed Agents | Attempts passed and cost per attempt: 72.1% and $4.78 for Opus 5.5 alone at medium effort, 67.9% and $3.27 with Haiku 5.5 subagents and a short delegation prompt, 63.0% and $1.84 for Opus 5.5 alone at low effort. Anthropic's reading: subagents were "an alternative to lowering effort, not better". | One benchmark, one subagent model |
+| [arXiv 2610.10263](https://arxiv.org/abs/2610.10263) (submitted 2026-10-07) | Preprint, 2,124 executions | With dynamic subagent concurrency, Claude Code fell from 83.0% to 59.0% on sampled SWE-bench Verified tasks and gained 14.3 points on the long-horizon LoopsBench set | One execution per task and configuration; measures concurrency, not every kind of delegation |
+
+What this means in practice:
+
+- **Bounded tasks** (a fix, a feature in known files): one loop. Concurrency added coordination cost without accuracy in the preprint.
+- **Long, separable work**: parallel subagents can pay off, as on the long-horizon set. Give each one a disjoint scope and a worktree.
+- **Cheaper subagent models**: compare them against simply lowering the main model's effort first.
+- **Agent Teams**: still experimental. The [official page](https://code.claude.com/docs/en/agent-teams) recommends starting with 3 to 5 teammates and 5 to 6 tasks per teammate, and `/resume` does not restore in-process teammates.
+- **Measure on your own tasks**: Anthropic suggests that even 10 golden examples are enough to start, run more than once, because one regression in its example appeared in only one run out of two.
+
+Same-model review missing its own bugs is a common argument for mixing models. No controlled comparison of same-model versus cross-model review was found in this period; treat reviewer independence (fresh context, different instructions) as the documented lever, and the model family as an open question.
+
 ### Agent anti-patterns: Roles vs context control
 
 > **"Subagents are not for anthropomorphizing roles, they are for controlling context"** - Dex Horty
@@ -4847,7 +4869,7 @@ CLAUDE.md files supply persistent instructions. Applicable root user/project ins
 ### CLAUDE.md as compounding memory
 
 > **"You should never have to correct Claude twice for the same mistake."**
-> — Boris Cherny, creator of Claude Code
+> Source: Boris Cherny, creator of Claude Code
 
 **The Mental Model**: CLAUDE.md matters as a configuration file, but it matters more as an **organizational learning system** where every error compounds into permanent team knowledge.
 
@@ -4912,7 +4934,7 @@ Where you are determines what you should focus on next, not what someone else is
 
 | Stage | Description | Key unlock |
 |-------|-------------|-----------|
-| 0 | Manual development | — |
+| 0 | Manual development | - |
 | 1 | Chat-based assistance (ChatGPT, copy-paste) | Good prompts, reuse them |
 | 2 | Agentic tools with line-by-line review | CLAUDE.md, learn what to trust |
 | 3 | Plan-first, PR-only review | Step away during implementation, review the diff |
@@ -4975,7 +4997,7 @@ You can adopt this structure incrementally: start with `docs/solutions/` (highes
 ### Build for the model 6 months out
 
 > **"Don't design your workflows around the limitations of today's model. Build for where the technology will be in six months."**
-> — Boris Cherny, Head of Claude Code, Lenny's Newsletter (February 19, 2026)
+> Source: Boris Cherny, Head of Claude Code, Lenny's Newsletter (February 19, 2026)
 
 The corollary: every investment you make today in CLAUDE.md, skills, hooks, and workflows compounds *harder* as the models improve. If you optimize purely for current limitations, you'll be constantly rewriting your setup. If you build for a slightly more capable model, your workflows will run automatically when the next version drops.
 
@@ -6310,7 +6332,7 @@ When multiple developers use Claude Code on the same codebase, hidden AI generat
 ### Boris Cherny's 3 principles for AI teams
 
 > These are the principles Boris Cherny (Head of Claude Code at Anthropic) shares with every new team member.
-> — *Lenny's Newsletter, February 19, 2026*
+> Source: *Lenny's Newsletter, February 19, 2026*
 
 **1. Underfund projects on purpose**
 
@@ -6429,7 +6451,7 @@ All official fields supported by Claude Code ([source](https://code.claude.com/d
 |-------|----------|-------------|
 | `name` | ✅ | Unique identifier, at most 256 characters, such as `code-reviewer`. Hooks receive it as `agent_type`. No `:` (reserved for plugin-scoped names); the filename does not have to match |
 | `description` | ✅ | When Claude should delegate to this subagent (the official examples write "Use proactively after code changes") |
-| `model` | ❌ | `sonnet`, `opus`, `haiku`, `fable`, a full model ID such as `claude-opus-5-5`, or `inherit`. Resolution order: per-invocation `model` parameter, this field, `CLAUDE_CODE_SUBAGENT_MODEL`, then the main conversation's model |
+| `model` | ❌ | `sonnet`, `opus`, `haiku`, `fable`, a full model ID such as `claude-opus-5-5`, or `inherit`. Resolution order: per-invocation `model` parameter, this field, `CLAUDE_CODE_SUBAGENT_MODEL`, then the main conversation's model; `CLAUDE_CODE_SUBAGENT_MODEL_FORCE=1` (v2.1.257+) skips the first two |
 | `tools` | ❌ | Allowed tools, comma-separated or YAML list; inherits every subagent-available tool when omitted. `Agent(worker, researcher)` restricts spawnable types only for an agent run as the main thread with `claude --agent` (`Task(...)` still works as an alias) |
 | `disallowedTools` | ❌ | Tools to deny, removed from the inherited or specified list. A specifier such as `Bash(git push *)` still removes the whole tool |
 | `permissionMode` | ❌ | `default`, `acceptEdits`, `auto`, `dontAsk`, `bypassPermissions`, `plan`, or `manual` (alias of `default`). Ignored for plugin subagents |
@@ -8194,7 +8216,7 @@ npx ctx7 skills remove skill-name
 **Setup wizard** (replaces manual `claude mcp add`):
 
 ```bash
-# Configure Context7 for Claude Code — detects editor, picks MCP or CLI+Skills mode
+# Configure Context7 for Claude Code: detects editor, picks MCP or CLI+Skills mode
 npx ctx7 setup --claude
 ```
 
@@ -8206,7 +8228,7 @@ npx ctx7 setup --claude
 
 ```bash
 npx ctx7 skills generate    # AI-generated custom skill
-                             # Free: 6 generations/week — Pro: 10/week
+                             # Free: 6 generations/week, Pro: 10/week
 ```
 
 Generation is best reserved for skills with no equivalent in the registry. For team onboarding at scale, the `suggest` + `install` workflow is more practical than generation.
@@ -8355,11 +8377,11 @@ Example for a Next.js + Prisma + Clerk app:
 You are doing a security audit on this Next.js/tRPC/Prisma/Clerk codebase.
 
 Read these skills in order:
-1. Skills/utility/offensive-fast-checking/SKILL.md   — quick wins triage
-2. Skills/web/offensive-idor/SKILL.md               — role-based access flaws
-3. Skills/auth/offensive-jwt/SKILL.md               — Clerk JWT manipulation
-4. Skills/web/offensive-sqli/SKILL.md               — Prisma ORM injection paths
-5. Skills/ai/offensive-ai-security/SKILL.md         — prompt injection on AI endpoints
+1. Skills/utility/offensive-fast-checking/SKILL.md   - quick wins triage
+2. Skills/web/offensive-idor/SKILL.md               - role-based access flaws
+3. Skills/auth/offensive-jwt/SKILL.md               - Clerk JWT manipulation
+4. Skills/web/offensive-sqli/SKILL.md               - Prisma ORM injection paths
+5. Skills/ai/offensive-ai-security/SKILL.md         - prompt injection on AI endpoints
 
 Priority vectors: IDOR between user roles, JWT algorithm confusion,
 Prisma raw query injection, SSRF via external API integrations.
@@ -9058,7 +9080,7 @@ Always confirm the correct working directory before starting work:
 - Frontend: /path/to/web-app
 - Backend: /path/to/api
 - Docs: /path/to/documentation
-Never assume which project to work in — ask if ambiguous.
+Never assume which project to work in; ask if ambiguous.
 ```
 
 **Feature recommendations** (example):
@@ -10158,7 +10180,7 @@ HTTP hooks receive the same JSON payload as `command` hooks and must return vali
 The `if` field filters when a hook fires using the same permission-rule syntax as `allowedTools`. This avoids spawning subprocesses on every event and eliminates the need for shell-side `case` statements.
 
 ```json
-// Before: hook fires on every PostToolUse — guard logic inside the script
+// Before: hook fires on every PostToolUse: guard logic inside the script
 {
   "event": "PostToolUse",
   "command": "./scripts/log-tool-usage.sh"
@@ -10337,7 +10359,7 @@ A key principle for keeping the agent's context clean: **hooks should be silent 
 
 ```bash
 #!/bin/bash
-# .claude/hooks/build-check.sh — Silent Success pattern
+# .claude/hooks/build-check.sh: Silent Success pattern
 # On success: completely silent (nothing enters agent context)
 # On failure: surface errors + exit 2 to re-engage agent
 
@@ -10345,7 +10367,7 @@ OUTPUT=$(bun run build 2>&1)
 EXIT_CODE=$?
 
 if [[ $EXIT_CODE -eq 0 ]]; then
-    exit 0  # Silent — no output, no context noise
+    exit 0  # Silent; no output, no context noise
 fi
 
 # Failure: send errors to agent for correction
@@ -11498,9 +11520,9 @@ This is most visible in agent teams with explicit identity prefixes. A developer
 
 ```bash
 # .claude/agent-identity.txt
-# Your agent's identity instructions — anything that should survive compaction
+# Your agent's identity instructions: anything that should survive compaction
 
-You are the feature team lead. You coordinate the team — you do not write code
+You are the feature team lead. You coordinate the team; you do not write code
 and you do not review code.
 
 Prefix every message with the current state:
@@ -11509,7 +11531,7 @@ Prefix every message with the current state:
 
 ```bash
 # .claude/hooks/identity-reinjection.sh
-# UserPromptSubmit hook — re-injects identity after compaction
+# UserPromptSubmit hook: re-injects identity after compaction
 
 IDENTITY_FILE="${CLAUDE_IDENTITY_FILE:-.claude/agent-identity.txt}"
 IDENTITY_MARKER="${CLAUDE_IDENTITY_MARKER:-}"
@@ -11577,9 +11599,9 @@ As your hook collection grows, a tension emerges: some developers want minimal o
 **The pattern**: gate each hook behind an environment variable that declares the desired enforcement level. Three levels cover most teams:
 
 ```
-minimal   — only critical safety hooks (secrets detection, permission blocks)
-standard  — development workflow hooks (format, typecheck, lint)
-strict    — full enforcement (governance, compliance, MCP health, quality gates)
+minimal   - only critical safety hooks (secrets detection, permission blocks)
+standard  - development workflow hooks (format, typecheck, lint)
+strict    - full enforcement (governance, compliance, MCP health, quality gates)
 ```
 
 ### Implementation
@@ -11646,7 +11668,7 @@ fi
 **Activate per session**, or export globally in your shell profile:
 
 ```bash
-# Exploration session — fast startup, minimal checks
+# Exploration session; fast startup, minimal checks
 export ECC_HOOK_PROFILE=minimal && claude
 
 # Standard developer session (default if unset)
@@ -11659,7 +11681,7 @@ export ECC_HOOK_PROFILE=strict && claude
 Or set per-project in `.envrc` (direnv):
 
 ```bash
-# .envrc — activated automatically on cd
+# .envrc: activated automatically on cd
 export ECC_HOOK_PROFILE=strict
 ```
 
@@ -12552,7 +12574,7 @@ npm install -g @vercel-labs/agent-browser
 3. agent-browser navigates to deployed URL autonomously
 4. Tests scenarios, reads accessibility snapshots
 5. On failure: agent reads output, fixes code, re-deploys
-6. Loop until all scenarios pass — no human in the loop
+6. Loop until all scenarios pass; no human in the loop
 ```
 
 Documented in production at Pulumi (2026-03-03) across 6 test scenarios on a real app.
@@ -12681,7 +12703,7 @@ Combination workflows: `retrieve_memory()` for business context, `grepai search`
 **Setup**:
 
 ```bash
-# No install required — uvx pulls it on first run
+# No install required: uvx pulls it on first run
 uvx mcp-server-git --repository /path/to/repo
 ```
 
@@ -14119,7 +14141,7 @@ Two community plugins address complementary problems that AI-assisted developmen
 5. **Output**: Produces verified solution
 
 ```bash
-# Install (two separate commands — marketplace limitation)
+# Install (two separate commands: marketplace limitation)
 /plugin marketplace add vertti/se-cove-claude-plugin
 /plugin install chain-of-verification
 
@@ -14609,7 +14631,7 @@ For critical work, combine everything:
 
 > **Code Review (Teams/Enterprise)**: For automated PR review without manual prompting, see [Code Review](./workflows/code-review.md), Anthropic's multi-agent review feature that posts inline GitHub comments on every PR.
 
-> **Billing:** Anthropic announced that the workflows in this section (headless mode via `claude -p`, GitHub Actions, Agent SDK) would move to a separate monthly programmatic credit on June 15, 2026, then paused the change. As verified on 2026-09-30, they still draw from your subscription's usage limits. Audit your CI/CD usage with `ccusage` so you are ready if the plan resumes. See [§9.13: The Interactive/Programmatic Billing Split](#the-interactiveprogrammatic-billing-split-announced-then-paused) for the announced plan and a decision framework.
+> **Billing:** Anthropic announced that the workflows in this section (headless mode via `claude -p`, GitHub Actions, Agent SDK) would move to a separate monthly programmatic credit on June 15, 2026, then paused the change. As verified on 2026-10-31, they still draw from your subscription's usage limits when signed in with your plan; on Max, Ultra and Team plans, the monthly API credits available since October 7, 2026 cover them when they run with an API key from the linked Console organization. Audit your CI/CD usage with `ccusage` so you are ready if the plan resumes. See [§9.13: The Interactive/Programmatic Billing Split](#the-interactiveprogrammatic-billing-split-announced-then-paused) for the announced plan and a decision framework.
 
 ### Headless Mode
 
@@ -15337,7 +15359,7 @@ migration: false
 # Tier 0 enforcement in smart-suggest.sh
 if echo "$PROMPT_LC" | grep -qE '(create.*pr|make.*pr|pull.?request)'; then
     if ! echo "$PROMPT_LC" | grep -qE '(changelog|fragment|skip-changelog)'; then
-        suggest "pnpm changelog:add" "REQUIRED before merge — fragment missing"
+        suggest "pnpm changelog:add" "REQUIRED before merge: fragment missing"
     else
         suggest "/pr" "PR creation with structured description"
     fi
@@ -15407,11 +15429,11 @@ allowed-tools: Bash
 
 ## Deploy workflow
 
-1. Run tests: `pnpm test` — stop if any fail
-2. Build: `pnpm build` — stop if build fails
+1. Run tests: `pnpm test`: stop if any fail
+2. Build: `pnpm build`: stop if build fails
 3. Deploy to staging: `vercel deploy`
 4. Run smoke tests against staging URL
-5. **PAUSE** — output staging URL and ask for human confirmation before production
+5. **PAUSE**: output staging URL and ask for human confirmation before production
 6. On approval: `vercel deploy --prod`
 7. Verify production URL responds with HTTP 200
 ```
@@ -15446,7 +15468,7 @@ These guardrails are not optional. Production deployments without them create in
 
 ```bash
 #!/bin/bash
-# check-prod-deploy.sh — exit 2 to block, exit 0 to allow
+# check-prod-deploy.sh: exit 2 to block, exit 0 to allow
 INPUT=$(cat)
 if echo "$INPUT" | grep -q "vercel deploy --prod\|gcloud deploy.*production"; then
   echo "BLOCKED: Production deploy requires manual confirmation. Run the command directly from your terminal."
@@ -17794,7 +17816,7 @@ curl -fsSL https://raw.githubusercontent.com/JuliusBrussee/caveman/main/install.
 **Activation at runtime**:
 
 ```
-/caveman           # activate (full mode — default)
+/caveman           # activate (full mode: default)
 /caveman lite      # grammar intact, only filler removed
 /caveman ultra     # maximum telegraphic compression
 stop caveman       # return to normal
@@ -18008,15 +18030,15 @@ RTK handles **command outputs** (what you run). Smart explore handles **code rea
 **The pattern (3 steps, 86-92% reduction):**
 
 ```
-Step 1 — Structure (~200 tokens per file)
+Step 1: Structure (~200 tokens per file)
   Get function signatures, types, fields only
   Claude answers "what exists?" without reading any body
 
-Step 2 — Target (~350 tokens per function)
+Step 2: Target (~350 tokens per function)
   Read one specific function by line offset
-  Not the whole file — just lines 45-90
+  Not the whole file, just lines 45-90
 
-Step 3 — Cross-reference (~150 tokens)
+Step 3: Cross-reference (~150 tokens)
   Find callers of a function
   rg "function_name" --type rust -n
 ```
@@ -18032,12 +18054,12 @@ The fastest path. Add to your project's `CLAUDE.md`:
 
 When exploring a codebase or understanding a module:
 
-1. **Structure first** — run the appropriate command for the language:
+1. **Structure first**: run the appropriate command for the language:
 
    Rust: `rg "^\s*(pub\s+)?(async\s+)?fn |^\s*(pub\s+)?(struct|enum|trait|impl)\s" src/ --no-heading -n`
    Python/TS/JS: `rg "^\s*(async\s+)?(def |function |class |export (function|class|const))" src/ --no-heading -n`
 
-   Use `^\s*` not `^` — Rust methods inside impl blocks are indented. The `^` pattern misses ~70% of them.
+   Use `^\s*` not `^`: Rust methods inside impl blocks are indented. The `^` pattern misses ~70% of them.
 
 2. Identify 2-3 relevant functions from the signatures
 3. Read only those functions with line offset (not the whole file)
@@ -18382,6 +18404,8 @@ Time savings from effective Claude Code usage typically far outweigh API costs f
 ### The Interactive/Programmatic Billing Split (Announced, Then Paused)
 
 > **Status, verified 2026-09-30:** Anthropic announced this change on May 13, 2026 ([reported by Gigazine on May 14](https://www.gigazine.net/gsc_news/en/20260514-anthropic-claude-agent-sdk-credits)) for June 15, 2026, then paused it. Its help article states: "We're pausing the changes to Claude Agent SDK usage described below. For now, nothing has changed: Claude Agent SDK, `claude -p`, and third-party app usage still draw from your subscription's usage limits." The monthly credit is not currently available, and Anthropic says it will share updates before any change takes effect ([Claude Help Center](https://support.claude.com/en/articles/15036540-use-the-claude-agent-sdk-with-your-claude-plan)). The rest of this section describes the plan as announced, so you can prepare if it resumes.
+>
+> **Update, verified 2026-10-31:** the split itself is still paused, but since October 7, 2026 Max, Ultra and Team plans include **monthly Claude Platform API credits**. They cover the Claude API, Claude Managed Agents, the Agent SDK and `claude -p` **only when run with an API key from the Claude Console organization linked to the plan**. Signed in with your plan, the Agent SDK and `claude -p` still draw from your subscription limits. See [Monthly API credits now active](#monthly-api-credits-now-active) below.
 
 #### What was announced
 
@@ -18405,7 +18429,24 @@ The help article lists the credits eligible users would receive "if and when the
 | Enterprise, usage-based | $20 |
 | Enterprise, seat-based Premium seats | $200 |
 
-None of these credits is active today. For current API rates, see the [pricing table](#pricing-model-verified-september-24-2026) and the [LLM market snapshot](./ops/llm-market-snapshot.md#2-api-prices).
+These planned programmatic credits are not active. For current API rates, see the [pricing table](#pricing-model-verified-september-24-2026) and the [LLM market snapshot](./ops/llm-market-snapshot.md#2-api-prices).
+
+#### Monthly API credits now active
+
+A different mechanism started on October 7, 2026: Max, Ultra and Team plans include monthly credits for the Claude Platform, separate from the plan's usage limits ([Claude Help Center](https://support.claude.com/en/articles/17154008)).
+
+| Plan | Monthly API credit (verified 2026-10-31) |
+|------|------------------------------------------|
+| Max | $100 |
+| Ultra | $200 |
+| Team, Standard seats | $20 per seat |
+| Team, Premium seats | $100 per seat |
+| Pro, Enterprise | Not eligible |
+
+- **Claim**: link one Claude Console organization from `Settings > Billing` (Max, Ultra) or `Organization settings > Billing` (Team owners). The link cannot be changed without contacting support. New subscribers can claim after seven days on the plan.
+- **Covered**: the Messages and Message Batches APIs, the Console Playground, Claude Managed Agents and the Agent SDK, when they use an API key from the linked organization.
+- **Not covered**: interactive Claude Code in the terminal, IDE, desktop or web, extra usage in Claude, Claude Code or Cowork, and Claude on Bedrock, Vertex AI or Foundry.
+- **Behavior**: credits refresh each billing cycle, expire unused, are spent before purchased credits and are shared by everyone with a key in the linked organization. On Team plans, all seats pool into one balance capped at $500 a month. When credits run out with no purchased credits or auto-reload, API requests stop until the next grant; nothing is charged to the Claude plan.
 
 #### What the plan would affect
 
@@ -18478,7 +18519,7 @@ This framework applies if the credit plan resumes. Until then, programmatic usag
 
 **Path B. Migrate to direct API billing with a budget cap:**
 ```yaml
-# .github/workflows/claude-review.yml — with spend awareness
+# .github/workflows/claude-review.yml: with spend awareness
 - name: Run Claude analysis
   env:
     ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -18950,7 +18991,7 @@ Full example: `/goal all tests in test/auth pass, verified by npm test auth exit
 **Context on long tasks**: Track progress and retained evidence instead of assuming a universal turn threshold for degradation. An orchestrator can start a fresh non-interactive session for each bounded subtask, but must supply the requirements, current artifact and previous results explicitly:
 
 ```bash
-# Each call runs in a fresh session — no context accumulation
+# Each call runs in a fresh session; no context accumulation
 claude -p "Step N of migration: [specific sub-task with explicit context]"
 ```
 
@@ -20432,7 +20473,7 @@ cat > tables/users.md << 'EOF'
 ---
 type: database-table
 title: users
-description: All registered accounts. Soft-delete only—never hard delete.
+description: All registered accounts. Soft-delete only; never hard delete.
 tags: [core, auth]
 ---
 
@@ -22771,7 +22812,7 @@ DAYS=${1:-7}
 LOG_DIR="${CLAUDE_LOG_DIR:-$HOME/.claude/logs}"
 SINCE=$(date -v-${DAYS}d +%Y-%m-%d 2>/dev/null || date -d "-${DAYS} days" +%Y-%m-%d)
 
-echo "=== Friction Report — last ${DAYS} days ==="
+echo "=== Friction Report: last ${DAYS} days ==="
 echo
 
 # 1. Files read more than 3x in any single session
@@ -22924,7 +22965,7 @@ Before committing a skill change, verify it still produces the expected output o
 claude -p "Using the typescript-aristote skill: create a basic user tRPC router" \
   --output-format text | grep -qE "(z\.object|publicProcedure)" \
   && echo "✅ Canary passed" \
-  || echo "❌ Canary failed — skill may have regressed"
+  || echo "❌ Canary failed: skill may have regressed"
 ```
 
 Run canary tests before merging skill changes, especially for skills that other agents depend on.
@@ -22994,13 +23035,13 @@ The key design choice: capture at the **Stop** hook, not at UserPromptSubmit.
 SESSION_LOG="$HOME/.claude/sessions/current.jsonl"
 INSTINCTS_FILE="$HOME/.claude/instincts/pending.yaml"
 
-# Skip short sessions — not enough signal
+# Skip short sessions; not enough signal
 LINE_COUNT=$(wc -l < "$SESSION_LOG" 2>/dev/null || echo 0)
 if [[ "$LINE_COUNT" -lt 5 ]]; then
   exit 0
 fi
 
-# Non-interactive extraction — no latency impact on the user
+# Non-interactive extraction; no latency impact on the user
 claude --print "Review the session log at $SESSION_LOG.
 Extract 0-3 candidate instincts: low-confidence observations about what worked,
 what approach reduced corrections, or what pattern saved time.
@@ -23109,9 +23150,9 @@ Document the contract in CLAUDE.md so the agent knows what evidence to produce:
 ## Definition of done
 
 A feature is NOT done until all three layers pass:
-1. `npm run lint && npm run typecheck` — clean
-2. `npm test` — all tests pass
-3. `npm run e2e` — smoke test passes
+1. `npm run lint && npm run typecheck`: clean
+2. `npm test`: all tests pass
+3. `npm run e2e`: smoke test passes
 
 Do NOT commit or report completion before running all three.
 ```
@@ -23216,7 +23257,7 @@ Context windows are finite. Every session that ends without a handoff note force
 # Session progress
 
 ## Last updated
-2026-05-04 — Session 7
+2026-05-04: Session 7
 
 ## Active feature
 feat-002: Document Chunking
@@ -26153,4 +26194,4 @@ We'll evaluate and add it to this section if it meets quality criteria.
 
 **Contributions**: Issues and PRs welcome.
 
-**Last updated**: October 6, 2026 (full baseline); October 24, 2026 (selective cache and harness corrections) | **Version**: 3.45.1
+**Last updated**: October 6, 2026 (full baseline); October 24, 2026 (selective cache and harness corrections) | **Version**: 3.45.2

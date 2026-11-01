@@ -16,7 +16,7 @@ tags: [guide, reference, workflows, agents, hooks, mcp, security]
 
 **Dernière mise à jour** : 6 octobre 2026 (rafraîchissement complet) ; 24 octobre 2026 (corrections ciblées du cache et des harnais)
 
-**Version** : 3.44.1
+**Version** : 3.45.2
 
 ---
 
@@ -1253,10 +1253,10 @@ Vous migrez depuis GitHub Copilot, Cursor ou d'autres assistants IA ? Voici ce q
 | Outil | Gratuit | Pro | Power/Plus | Équipes | Entreprise |
 |-------|---------|-----|------------|---------|------------|
 | **GitHub Copilot** | ✅ (2K complétions) | 10 $/mois | Pro+ 39 $/mois | Business 19 $/siège | 39 $/siège |
-| **Cursor** | ✅ (2K complétions) | 20 $/mois | Ultra 200 $/mois | 40 $/siège | — |
+| **Cursor** | ✅ (2K complétions) | 20 $/mois | Ultra 200 $/mois | 40 $/siège | - |
 | **Windsurf** | ✅ (25 prompts) | 20 $/mois | 200 $/mois | 30 $/siège | 60 $/siège |
-| **Zed** | — | 10 $/mois | — | — | — |
-| **Claude Code** | — | 20 $/mois | Max 100-200 $/mois | — | Via Anthropic |
+| **Zed** | - | 10 $/mois | - | - | - |
+| **Claude Code** | - | 20 $/mois | Max 100-200 $/mois | - | Via Anthropic |
 
 **Changement de mentalité clé** : Claude Code est un **système de contexte structuré**, pas un chatbot ou un outil d'autocomplete. Vous construisez un contexte persistant (CLAUDE.md, skills, hooks) qui se capitalise avec le temps, voir [§2.5](#from-chatbot-to-context-system).
 
@@ -2191,7 +2191,7 @@ Exemple de sortie :
 
 ### Conscience des coûts et optimisation
 
-> **Remarque :** Anthropic a annoncé un crédit mensuel distinct pour l'usage programmatique (`claude -p`, l'Agent SDK, les applications tierces) au 15 juin 2026, puis l'a suspendu. Vérifié le 2026-09-30 : cet usage consomme toujours les limites de votre abonnement. Voir [§9.13 : The Interactive/Programmatic Billing Split](#the-interactiveprogrammatic-billing-split-announced-then-paused) pour le plan annoncé et les étapes d'audit, et [AI FinOps](./ops/ai-finops.md) pour l'ensemble de la section coûts.
+> **Remarque :** Anthropic a annoncé un crédit mensuel distinct pour l'usage programmatique (`claude -p`, l'Agent SDK, les applications tierces) au 15 juin 2026, puis l'a suspendu. Vérifié le 2026-10-31 : cet usage consomme toujours les limites de votre abonnement ; par ailleurs, les offres Max, Ultra et Team incluent depuis le 7 octobre 2026 des crédits API mensuels pour `claude -p` et l'Agent SDK exécutés avec une clé API de l'organisation Console liée. Voir [§9.13 : The Interactive/Programmatic Billing Split](#the-interactiveprogrammatic-billing-split-announced-then-paused) pour le plan annoncé et les étapes d'audit, et [AI FinOps](./ops/ai-finops.md) pour l'ensemble de la section coûts.
 
 L'utilisation de Claude Code peut consommer l'allocation d'un abonnement, des crédits d'usage ou une facturation API. Vérifiez le compte actif et le mode de facturation avant d'interpréter une estimation du coût des tokens.
 
@@ -2501,6 +2501,8 @@ Choisissez un modèle et un niveau d'effort qui satisfont les critères d'accept
 #### Abonnements et limites {#subscription-plans--limits}
 
 Consultez les [offres actuelles](https://claude.com/pricing) et l'utilisation du compte connecté. Les allocations des abonnements ne correspondent pas à des budgets fixes publiés en tokens ; les rapports de prix API ne déterminent pas la consommation des quotas. L'accès aux modèles et les politiques d'organisation peuvent changer indépendamment du nom de l'offre. Pro ne se limite pas à Sonnet : les valeurs par défaut et les choix disponibles figurent dans le tableau des modèles ci-dessus.
+
+> **Gamme des offres, vérifiée le 2026-10-31 (USD, abonnements web) :** les offres individuelles sont Free, Pro (20 $ en facturation mensuelle, 17 $ par mois en facturation annuelle), Max (100 $ par mois) et Ultra (200 $ par mois, facturation mensuelle uniquement). **Max 20x s'appelle désormais Ultra et Max 5x s'appelle Max**, avec le même prix, les mêmes fonctionnalités, la même date de facturation et la même limite hebdomadaire ; les abonnés Max 20x ont été basculés automatiquement. Ultra offre 10 fois l'usage Pro chaque semaine et **plus de limite de 5 heures une fois le compte vérifié par Anthropic**, à partir d'éléments comme l'historique du compte et des paiements ; d'ici là, une limite temporaire s'applique, et `Settings > Usage` n'affiche plus de barre « Current session » une fois le compte vérifié. Ultra conserve une limite hebdomadaire tous modèles confondus et une limite hebdomadaire séparée pour Fable. Max conserve 5 fois l'usage Pro toutes les 5 heures et chaque semaine. Les deux incluent Fable jusqu'à la moitié de la limite hebdomadaire et des crédits API Claude Platform mensuels (100 $ sur Max, 200 $ sur Ultra, voir [la séparation de facturation](#the-interactiveprogrammatic-billing-split-announced-then-paused)). Les passages du guide écrits avant novembre 2026 qui disent « Max » couvrent les deux niveaux. Sources : [tarifs](https://claude.com/pricing), [What is the Ultra plan?](https://support.claude.com/en/articles/17728952-what-is-the-ultra-plan), [What is the Max plan?](https://support.claude.com/en/articles/11049741-what-is-the-max-plan).
 
 **Suivre votre utilisation**
 
@@ -3477,7 +3479,7 @@ L'erreur la plus courante est de traiter Claude Code comme un chatbot : taper de
 > **Mode chatbot** : vous rédigez de bons prompts. **Système de contexte** : vous construisez un contexte structuré qui améliore chaque prompt.
 >
 > *« Arrêtez de le traiter comme un chatbot. Donnez-lui un contexte structuré. CLAUDE.md, hooks, skills, mémoire de projet. Ça change tout. »*
-> — [Robin Lorenz](https://www.linkedin.com/in/robin-lorenz-54055412a/), Ingénieur IA ([commentaire](https://www.linkedin.com/feed/update/urn:li:activity:7426936437746352128?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7426936437746352128%2C7426941635306987520%29))
+> Source : [Robin Lorenz](https://www.linkedin.com/in/robin-lorenz-54055412a/), Ingénieur IA ([commentaire](https://www.linkedin.com/feed/update/urn:li:activity:7426936437746352128?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7426936437746352128%2C7426941635306987520%29))
 
 Claude Code dispose de quatre couches de contexte persistant qui se renforcent mutuellement dans le temps :
 
@@ -4777,6 +4779,26 @@ Attribuez des fichiers distincts ou des worktrees pour les modifications. Demand
 
 Les anciennes ressources communautaires emploient `TeammateTool` et des opérations déduites comme `spawnTeam`. Ce sont des notes historiques d'implémentation, pas l'interface documentée actuelle. Voir [Agent Teams](https://code.claude.com/docs/en/agent-teams) et [§9.20](#920-agent-teams-multi-agent-coordination) pour le fonctionnement et les limites actuels.
 
+### Un agent, des sous-agents ou une équipe : les données d'octobre 2026 {#single-agent-subagents-or-a-team-the-october-2026-evidence}
+
+Partez d'une seule boucle d'agent avec des skills bien délimitées, et ne découpez que si vous pouvez nommer ce que le découpage apporte : isoler une tâche annexe bruyante, paralléliser un travail vraiment indépendant, ou obtenir une relecture indépendante. Trois sources publiées en octobre 2026 vont dans le même sens, avec des niveaux de preuve différents.
+
+| Source | Type de preuve | Constat | Limite |
+|--------|----------------|---------|--------|
+| [Anthropic, « Building agents: when to fold subagents into your main agent loop »](https://claude.com/resources/articles/building-agents-when-to-fold-subagents-into-your-main-agent-loop) (Diane Sarkis, 2026-10-22) | Retour terrain officiel | « In our comparisons across several enterprise deployments, a single agent with skills frequently outperformed both the one-prompt-for-everything design and the subagent design on quality, and often at a lower cost and latency per task. » Un client a mesuré une exécution environ 2 fois plus rapide avec une seule boucle. | Aucun nombre de déploiements, de tâches, de scores ni de coûts publié |
+| [Claude Platform, « Optimizing for cost and intelligence »](https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence) | Mesure officielle, benchmark de code interne sur Claude Managed Agents | Tentatives réussies et coût par tentative : 72,1 % et 4,78 $ pour Opus 5.5 seul en effort medium, 67,9 % et 3,27 $ avec des sous-agents Haiku 5.5 et un court prompt de délégation, 63,0 % et 1,84 $ pour Opus 5.5 seul en effort low. Lecture d'Anthropic : les sous-agents étaient « an alternative to lowering effort, not better ». | Un seul benchmark, un seul modèle de sous-agent |
+| [arXiv 2610.10263](https://arxiv.org/abs/2610.10263) (soumis le 2026-10-07) | Préprint, 2 124 exécutions | Avec une concurrence dynamique de sous-agents, Claude Code passe de 83,0 % à 59,0 % sur un échantillon de SWE-bench Verified et gagne 14,3 points sur l'ensemble long LoopsBench | Une exécution par tâche et configuration ; mesure la concurrence, pas toute forme de délégation |
+
+Ce que cela change en pratique :
+
+- **Tâches bornées** (un correctif, une fonctionnalité dans des fichiers connus) : une seule boucle. Dans le préprint, la concurrence a ajouté un coût de coordination sans gain de précision.
+- **Travail long et séparable** : des sous-agents parallèles peuvent être rentables, comme sur l'ensemble long. Donnez à chacun un périmètre disjoint et un worktree.
+- **Modèles de sous-agents moins chers** : comparez-les d'abord à une simple baisse de l'effort du modèle principal.
+- **Agent Teams** : toujours expérimental. La [page officielle](https://code.claude.com/docs/en/agent-teams) recommande de commencer avec 3 à 5 coéquipiers et 5 à 6 tâches par coéquipier, et `/resume` ne restaure pas les coéquipiers in-process.
+- **Mesurez sur vos propres tâches** : selon Anthropic, 10 exemples de référence suffisent pour commencer ; lancez chaque tâche plus d'une fois, car une régression de son exemple n'apparaissait que dans une exécution sur deux.
+
+L'idée qu'un modèle rate ses propres bugs est un argument courant pour mélanger les modèles. Aucune comparaison contrôlée entre relecture par le même modèle et relecture par un autre modèle n'a été trouvée sur la période ; traitez l'indépendance du relecteur (contexte neuf, consignes différentes) comme le levier documenté, et la famille de modèle comme une question ouverte.
+
 ### Anti-patterns des agents : rôles et contrôle du contexte {#agent-anti-patterns-roles-vs-context-control}
 
 > **« Les sous-agents ne servent pas à anthropomorphiser des rôles, ils servent à contrôler le contexte »**, Dex Horty
@@ -4970,7 +4992,7 @@ Les fichiers CLAUDE.md sont des instructions persistantes lues à chaque démarr
 ### CLAUDE.md comme mémoire à effet composé
 
 > **« Vous ne devriez jamais avoir à corriger Claude deux fois pour la même erreur. »**
-> — Boris Cherny, créateur de Claude Code
+> Source : Boris Cherny, créateur de Claude Code
 
 **Le modèle mental** : CLAUDE.md dépasse le simple fichier de configuration, c'est un **système d'apprentissage organisationnel** où chaque erreur se capitalise en connaissance d'équipe permanente.
 
@@ -5035,7 +5057,7 @@ Votre position actuelle détermine ce sur quoi vous devriez vous concentrer ensu
 
 | Étape | Description | Déblocage clé |
 |-------|-------------|---------------|
-| 0 | Développement manuel | — |
+| 0 | Développement manuel | - |
 | 1 | Assistance par chat (ChatGPT, copier-coller) | Bons prompts, les réutiliser |
 | 2 | Outils agentiques avec relecture ligne par ligne | CLAUDE.md, apprendre à quoi faire confiance |
 | 3 | Plan d'abord, relecture uniquement sur PR | S'éloigner pendant l'implémentation, relire le diff |
@@ -5098,7 +5120,7 @@ Vous pouvez adopter cette structure de manière incrémentale : commencez par `d
 ### Construire pour le modèle dans six mois
 
 > **« Ne concevez pas vos workflows autour des limitations du modèle actuel. Construisez pour là où sera la technologie dans six mois. »**
-> — Boris Cherny, Head of Claude Code, Lenny's Newsletter (19 février 2026)
+> Source : Boris Cherny, Head of Claude Code, Lenny's Newsletter (19 février 2026)
 
 Le corollaire : chaque investissement que vous faites aujourd'hui dans CLAUDE.md, les skills, les hooks et les workflows se capitalise *davantage* à mesure que les modèles s'améliorent. Si vous optimisez purement pour les limitations actuelles, vous réécrirez constamment votre configuration. Si vous construisez pour un modèle légèrement plus capable, vos workflows s'exécuteront automatiquement lors de la sortie de la prochaine version.
 
@@ -6433,7 +6455,7 @@ Lorsque plusieurs développeurs utilisent Claude Code sur la même base de code,
 ### Les 3 principes de Boris Cherny pour les équipes IA
 
 > Ce sont les principes que Boris Cherny (Head of Claude Code chez Anthropic) partage avec chaque nouveau membre de l'équipe.
-> — *Lenny's Newsletter, 19 février 2026*
+> Source : *Lenny's Newsletter, 19 février 2026*
 
 **1. Sous-doter les projets intentionnellement**
 
@@ -6556,7 +6578,7 @@ Tous les champs officiels pris en charge par Claude Code ([source](https://code.
 |-------|--------|-------------|
 | `name` | ✅ | Identifiant unique, 256 caractères au maximum, par exemple `code-reviewer`. Les hooks le reçoivent comme `agent_type`. Pas de `:` (réservé aux noms limités à un plugin) ; le nom du fichier n'a pas à correspondre |
 | `description` | ✅ | Quand Claude doit déléguer à ce sous-agent (les exemples officiels écrivent "Use proactively after code changes") |
-| `model` | ❌ | `sonnet`, `opus`, `haiku`, `fable`, un identifiant de modèle complet comme `claude-opus-5-5`, ou `inherit`. Ordre de résolution : paramètre `model` de l'invocation, ce champ, `CLAUDE_CODE_SUBAGENT_MODEL`, puis le modèle de la conversation principale |
+| `model` | ❌ | `sonnet`, `opus`, `haiku`, `fable`, un identifiant de modèle complet comme `claude-opus-5-5`, ou `inherit`. Ordre de résolution : paramètre `model` de l'invocation, ce champ, `CLAUDE_CODE_SUBAGENT_MODEL`, puis le modèle de la conversation principale ; `CLAUDE_CODE_SUBAGENT_MODEL_FORCE=1` (v2.1.257+) ignore les deux premiers |
 | `tools` | ❌ | Outils autorisés, séparés par des virgules ou en liste YAML ; hérite de tous les outils disponibles pour un sous-agent si omis. `Agent(worker, researcher)` ne restreint les types pouvant être créés que pour un agent lancé comme fil principal avec `claude --agent` (`Task(...)` fonctionne toujours comme alias) |
 | `disallowedTools` | ❌ | Outils à interdire, retirés de la liste héritée ou spécifiée. Un spécificateur comme `Bash(git push *)` retire quand même l'outil entier |
 | `permissionMode` | ❌ | `default`, `acceptEdits`, `auto`, `dontAsk`, `bypassPermissions`, `plan`, ou `manual` (alias de `default`). Ignoré pour les sous-agents de plugin |
@@ -8346,7 +8368,7 @@ npx ctx7 skills remove skill-name
 **Assistant de configuration** (remplace la commande manuelle `claude mcp add`) :
 
 ```bash
-# Configure Context7 for Claude Code — detects editor, picks MCP or CLI+Skills mode
+# Configure Context7 for Claude Code: detects editor, picks MCP or CLI+Skills mode
 npx ctx7 setup --claude
 ```
 
@@ -8358,7 +8380,7 @@ npx ctx7 setup --claude
 
 ```bash
 npx ctx7 skills generate    # AI-generated custom skill
-                             # Free: 6 generations/week — Pro: 10/week
+                             # Free: 6 generations/week, Pro: 10/week
 ```
 
 La génération est à réserver de préférence aux skills sans équivalent dans le registre. Pour l'intégration d'équipes à grande échelle, le workflow `suggest` + `install` est plus pratique que la génération.
@@ -8507,11 +8529,11 @@ Exemple pour une application Next.js + Prisma + Clerk :
 You are doing a security audit on this Next.js/tRPC/Prisma/Clerk codebase.
 
 Read these skills in order:
-1. Skills/utility/offensive-fast-checking/SKILL.md   — quick wins triage
-2. Skills/web/offensive-idor/SKILL.md               — role-based access flaws
-3. Skills/auth/offensive-jwt/SKILL.md               — Clerk JWT manipulation
-4. Skills/web/offensive-sqli/SKILL.md               — Prisma ORM injection paths
-5. Skills/ai/offensive-ai-security/SKILL.md         — prompt injection on AI endpoints
+1. Skills/utility/offensive-fast-checking/SKILL.md   - quick wins triage
+2. Skills/web/offensive-idor/SKILL.md               - role-based access flaws
+3. Skills/auth/offensive-jwt/SKILL.md               - Clerk JWT manipulation
+4. Skills/web/offensive-sqli/SKILL.md               - Prisma ORM injection paths
+5. Skills/ai/offensive-ai-security/SKILL.md         - prompt injection on AI endpoints
 
 Priority vectors: IDOR between user roles, JWT algorithm confusion,
 Prisma raw query injection, SSRF via external API integrations.
@@ -9216,7 +9238,7 @@ Always confirm the correct working directory before starting work:
 - Frontend: /path/to/web-app
 - Backend: /path/to/api
 - Docs: /path/to/documentation
-Never assume which project to work in — ask if ambiguous.
+Never assume which project to work in; ask if ambiguous.
 ```
 
 **Recommandations de fonctionnalités** (exemple) :
@@ -10326,7 +10348,7 @@ Les hooks HTTP reçoivent le même payload JSON que les hooks `command` et doive
 Le champ `if` filtre le déclenchement d'un hook en utilisant la même syntaxe de règles de permission que `allowedTools`. Cela évite de lancer des sous-processus à chaque événement et élimine le besoin d'instructions `case` côté shell.
 
 ```json
-// Avant : le hook se déclenche à chaque PostToolUse — logique de garde dans le script
+// Avant : le hook se déclenche à chaque PostToolUse : logique de garde dans le script
 {
   "event": "PostToolUse",
   "command": "./scripts/log-tool-usage.sh"
@@ -10505,7 +10527,7 @@ Un principe clé pour garder le contexte de l'agent propre : **les hooks doivent
 
 ```bash
 #!/bin/bash
-# .claude/hooks/build-check.sh — Modèle de Succès Silencieux
+# .claude/hooks/build-check.sh : Modèle de Succès Silencieux
 # En cas de succès : complètement silencieux (rien n'entre dans le contexte de l'agent)
 # En cas d'échec : afficher les erreurs + exit 2 pour réengager l'agent
 
@@ -10513,7 +10535,7 @@ OUTPUT=$(bun run build 2>&1)
 EXIT_CODE=$?
 
 if [[ $EXIT_CODE -eq 0 ]]; then
-    exit 0  # Silencieux — pas de sortie, pas de bruit dans le contexte
+    exit 0  # Silencieux ; pas de sortie, pas de bruit dans le contexte
 fi
 
 # Échec : envoyer les erreurs à l'agent pour correction
@@ -11672,9 +11694,9 @@ Ce phénomène est particulièrement visible dans les équipes d'agents avec des
 
 ```bash
 # .claude/agent-identity.txt
-# Instructions d'identité de votre agent — tout ce qui doit survivre à la compaction
+# Instructions d'identité de votre agent : tout ce qui doit survivre à la compaction
 
-You are the feature team lead. You coordinate the team — you do not write code
+You are the feature team lead. You coordinate the team; you do not write code
 and you do not review code.
 
 Prefix every message with the current state:
@@ -11683,7 +11705,7 @@ Prefix every message with the current state:
 
 ```bash
 # .claude/hooks/identity-reinjection.sh
-# Hook UserPromptSubmit — ré-injecte l'identité après compaction
+# Hook UserPromptSubmit : ré-injecte l'identité après compaction
 
 IDENTITY_FILE="${CLAUDE_IDENTITY_FILE:-.claude/agent-identity.txt}"
 IDENTITY_MARKER="${CLAUDE_IDENTITY_MARKER:-}"
@@ -11751,9 +11773,9 @@ exit 0
 **Le pattern** : conditionner chaque hook à une variable d'environnement qui déclare le niveau d'application souhaité. Trois niveaux couvrent la plupart des équipes :
 
 ```
-minimal   — uniquement les hooks de sécurité critiques (détection de secrets, blocages de permissions)
-standard  — hooks de workflow de développement (formatage, vérification de types, lint)
-strict    — application complète (gouvernance, conformité, santé MCP, portes qualité)
+minimal   - uniquement les hooks de sécurité critiques (détection de secrets, blocages de permissions)
+standard  - hooks de workflow de développement (formatage, vérification de types, lint)
+strict    - application complète (gouvernance, conformité, santé MCP, portes qualité)
 ```
 
 ### Implémentation
@@ -11820,7 +11842,7 @@ fi
 **Activer par session**, ou exporter globalement dans votre profil shell :
 
 ```bash
-# Session d'exploration — démarrage rapide, vérifications minimales
+# Session d'exploration ; démarrage rapide, vérifications minimales
 export ECC_HOOK_PROFILE=minimal && claude
 
 # Session de développement standard (valeur par défaut si non défini)
@@ -11833,7 +11855,7 @@ export ECC_HOOK_PROFILE=strict && claude
 Ou définir par projet dans `.envrc` (direnv) :
 
 ```bash
-# .envrc — activé automatiquement au cd
+# .envrc : activé automatiquement au cd
 export ECC_HOOK_PROFILE=strict
 ```
 
@@ -11931,7 +11953,7 @@ Vous : "Montre-moi le top 10"
 ```
 Vous : "Montre-moi les données clients"
 Claude : [Affiche un tableau de bord interactif avec tri, filtrage, sélecteurs de dates]
-Vous : [Trie, filtre, drill-down directement dans l'interface — aucun prompt supplémentaire]
+Vous : [Trie, filtre, drill-down directement dans l'interface ; aucun prompt supplémentaire]
 ```
 
 #### Que sont les MCP Apps ?
@@ -12720,7 +12742,7 @@ npm install -g @vercel-labs/agent-browser
 3. agent-browser navigue vers l'URL déployée de manière autonome
 4. Teste les scénarios, lit les snapshots d'accessibilité
 5. En cas d'échec : l'agent lit la sortie, corrige le code, redéploie
-6. Boucle jusqu'à ce que tous les scénarios passent — sans intervention humaine
+6. Boucle jusqu'à ce que tous les scénarios passent ; sans intervention humaine
 ```
 
 Documenté en production chez Pulumi (2026-03-03) sur 6 scénarios de test dans une application réelle.
@@ -12849,7 +12871,7 @@ Workflows combinés : `retrieve_memory()` pour le contexte métier, `grepai sear
 **Configuration** :
 
 ```bash
-# Aucune installation requise — uvx le télécharge au premier lancement
+# Aucune installation requise : uvx le télécharge au premier lancement
 uvx mcp-server-git --repository /path/to/repo
 ```
 
@@ -14290,7 +14312,7 @@ Deux plugins communautaires répondent à des problèmes complémentaires que le
 5. **Output** : produit la solution vérifiée
 
 ```bash
-# Installation (deux commandes séparées — limitation du marketplace)
+# Installation (deux commandes séparées : limitation du marketplace)
 /plugin marketplace add vertti/se-cove-claude-plugin
 /plugin install chain-of-verification
 
@@ -14790,7 +14812,7 @@ Pour les travaux critiques, combinez tout :
 
 > **Revue de Code (Équipes/Entreprise)** : Pour une revue automatisée de PR sans invite manuelle, consultez [Code Review](./workflows/code-review.md), la fonctionnalité de revue multi-agent d'Anthropic qui publie des commentaires GitHub en ligne sur chaque PR.
 
-> **Facturation :** Anthropic a annoncé que les workflows de cette section (mode headless via `claude -p`, GitHub Actions, Agent SDK) passeraient sur un crédit programmatique mensuel distinct au 15 juin 2026, puis a suspendu ce changement. Vérifié le 2026-09-30 : ils consomment toujours les limites de votre abonnement. Auditez votre usage CI/CD avec `ccusage` pour être prêt si le plan reprend. Consultez [§9.13 : The Interactive/Programmatic Billing Split](#the-interactiveprogrammatic-billing-split-announced-then-paused) pour le plan annoncé et un cadre de décision.
+> **Facturation :** Anthropic a annoncé que les workflows de cette section (mode headless via `claude -p`, GitHub Actions, Agent SDK) passeraient sur un crédit programmatique mensuel distinct au 15 juin 2026, puis a suspendu ce changement. Vérifié le 2026-10-31 : ils consomment toujours les limites de votre abonnement quand vous êtes connecté avec votre offre ; sur Max, Ultra et Team, les crédits API mensuels disponibles depuis le 7 octobre 2026 les couvrent quand ils utilisent une clé API de l'organisation Console liée. Auditez votre usage CI/CD avec `ccusage` pour être prêt si le plan reprend. Consultez [§9.13 : The Interactive/Programmatic Billing Split](#the-interactiveprogrammatic-billing-split-announced-then-paused) pour le plan annoncé et un cadre de décision.
 
 ### Mode Headless
 
@@ -15519,7 +15541,7 @@ migration: false
 # Tier 0 enforcement in smart-suggest.sh
 if echo "$PROMPT_LC" | grep -qE '(create.*pr|make.*pr|pull.?request)'; then
     if ! echo "$PROMPT_LC" | grep -qE '(changelog|fragment|skip-changelog)'; then
-        suggest "pnpm changelog:add" "REQUIRED before merge — fragment missing"
+        suggest "pnpm changelog:add" "REQUIRED before merge: fragment missing"
     else
         suggest "/pr" "PR creation with structured description"
     fi
@@ -15589,11 +15611,11 @@ allowed-tools: Bash
 
 ## Deploy workflow
 
-1. Run tests: `pnpm test` — stop if any fail
-2. Build: `pnpm build` — stop if build fails
+1. Run tests: `pnpm test`: stop if any fail
+2. Build: `pnpm build`: stop if build fails
 3. Deploy to staging: `vercel deploy`
 4. Run smoke tests against staging URL
-5. **PAUSE** — output staging URL and ask for human confirmation before production
+5. **PAUSE**: output staging URL and ask for human confirmation before production
 6. On approval: `vercel deploy --prod`
 7. Verify production URL responds with HTTP 200
 ```
@@ -15628,7 +15650,7 @@ Ces garde-fous ne sont pas optionnels. Les déploiements en production sans eux 
 
 ```bash
 #!/bin/bash
-# check-prod-deploy.sh — exit 2 to block, exit 0 to allow
+# check-prod-deploy.sh: exit 2 to block, exit 0 to allow
 INPUT=$(cat)
 if echo "$INPUT" | grep -q "vercel deploy --prod\|gcloud deploy.*production"; then
   echo "BLOCKED: Production deploy requires manual confirmation. Run the command directly from your terminal."
@@ -16778,10 +16800,10 @@ exit 0  # Allow
 
 ## Modèle de Tâche
 
-**WHAT** : [Livrable concret — ex. : "Ajouter la validation d'e-mail au formulaire d'inscription"]
-**WHERE** : [Chemins de fichiers — ex. : "src/components/SignupForm.tsx"]
-**HOW** : [Contraintes/approche — ex. : "Utiliser le schéma Zod, afficher les erreurs en ligne"]
-**VERIFY** : [Critères de succès — ex. : "E-mail vide affiche une erreur, format invalide affiche une erreur, e-mail valide permet la soumission"]
+**WHAT** : [Livrable concret, ex. : "Ajouter la validation d'e-mail au formulaire d'inscription"]
+**WHERE** : [Chemins de fichiers, ex. : "src/components/SignupForm.tsx"]
+**HOW** : [Contraintes/approche, ex. : "Utiliser le schéma Zod, afficher les erreurs en ligne"]
+**VERIFY** : [Critères de succès, ex. : "E-mail vide affiche une erreur, format invalide affiche une erreur, e-mail valide permet la soumission"]
 
 ## Exemple
 
@@ -18004,7 +18026,7 @@ curl -fsSL https://raw.githubusercontent.com/JuliusBrussee/caveman/main/install.
 **Activation à l'exécution** :
 
 ```
-/caveman           # activer (mode complet — par défaut)
+/caveman           # activer (mode complet : par défaut)
 /caveman lite      # grammaire intacte, uniquement les remplissages supprimés
 /caveman ultra     # compression télégraphique maximale
 stop caveman       # retour à la normale
@@ -18218,15 +18240,15 @@ RTK gère les **sorties de commandes** (ce que vous exécutez). Smart explore g�
 **Le schéma (3 étapes, réduction de 86 à 92 %) :**
 
 ```
-Étape 1 — Structure (~200 tokens par fichier)
+Étape 1 : Structure (~200 tokens par fichier)
   Obtenir uniquement les signatures de fonctions, types et champs
   Claude répond à "qu'est-ce qui existe ?" sans lire aucun corps
 
-Étape 2 — Ciblage (~350 tokens par fonction)
+Étape 2 : Ciblage (~350 tokens par fonction)
   Lire une fonction spécifique par décalage de ligne
-  Pas le fichier entier — juste les lignes 45 à 90
+  Pas le fichier entier, juste les lignes 45 à 90
 
-Étape 3 — Référence croisée (~150 tokens)
+Étape 3 : Référence croisée (~150 tokens)
   Trouver les appelants d'une fonction
   rg "function_name" --type rust -n
 ```
@@ -18594,6 +18616,8 @@ Les gains de temps liés à une utilisation efficace de Claude Code dépassent g
 ### La Séparation Facturation Interactive/Programmatique (Annoncée, puis suspendue)
 
 > **Statut, vérifié le 2026-09-30 :** Anthropic a annoncé ce changement le 13 mai 2026 ([relayé par Gigazine le 14 mai](https://www.gigazine.net/gsc_news/en/20260514-anthropic-claude-agent-sdk-credits)) pour le 15 juin 2026, puis l'a suspendu. Son article d'aide indique : « We're pausing the changes to Claude Agent SDK usage described below. For now, nothing has changed: Claude Agent SDK, `claude -p`, and third-party app usage still draw from your subscription's usage limits. » Le crédit mensuel n'est pas disponible, et Anthropic dit qu'il communiquera avant tout changement effectif ([Claude Help Center](https://support.claude.com/en/articles/15036540-use-the-claude-agent-sdk-with-your-claude-plan)). La suite de cette section décrit le plan tel qu'annoncé, pour vous préparer s'il reprend.
+>
+> **Mise à jour, vérifiée le 2026-10-31 :** la séparation reste suspendue, mais depuis le 7 octobre 2026 les offres Max, Ultra et Team incluent des **crédits API Claude Platform mensuels**. Ils couvrent l'API Claude, Claude Managed Agents, l'Agent SDK et `claude -p` **uniquement avec une clé API de l'organisation Claude Console liée à l'offre**. Connecté avec votre offre, l'Agent SDK et `claude -p` consomment toujours les limites de l'abonnement. Voir [Crédits API mensuels désormais actifs](#monthly-api-credits-now-active) plus bas.
 
 #### Ce qui avait été annoncé
 
@@ -18617,7 +18641,24 @@ L'article d'aide liste les crédits que recevraient les utilisateurs éligibles 
 | Enterprise, usage-based | $20 |
 | Enterprise, sièges Premium seat-based | $200 |
 
-Aucun de ces crédits n'est actif aujourd'hui. Pour les tarifs API actuels, voir le [tableau de tarification](#pricing-model-rates-checked-october-27-2026) et le [LLM market snapshot](./ops/llm-market-snapshot.md#2-api-prices).
+Ces crédits programmatiques prévus ne sont pas actifs. Pour les tarifs API actuels, voir le [tableau de tarification](#pricing-model-rates-checked-october-27-2026) et le [LLM market snapshot](./ops/llm-market-snapshot.md#2-api-prices).
+
+#### Crédits API mensuels désormais actifs {#monthly-api-credits-now-active}
+
+Un mécanisme différent a démarré le 7 octobre 2026 : les offres Max, Ultra et Team incluent des crédits mensuels pour la Claude Platform, distincts des limites d'usage de l'offre ([Claude Help Center](https://support.claude.com/en/articles/17154008)).
+
+| Offre | Crédit API mensuel (vérifié le 2026-10-31) |
+|-------|--------------------------------------------|
+| Max | 100 $ |
+| Ultra | 200 $ |
+| Team, sièges Standard | 20 $ par siège |
+| Team, sièges Premium | 100 $ par siège |
+| Pro, Enterprise | Non éligibles |
+
+- **Réclamation** : liez une organisation Claude Console depuis `Settings > Billing` (Max, Ultra) ou `Organization settings > Billing` (propriétaires Team). Le lien ne se modifie qu'en contactant le support. Les nouveaux abonnés peuvent réclamer après sept jours sur l'offre.
+- **Couvert** : les API Messages et Message Batches, le Playground de la Console, Claude Managed Agents et l'Agent SDK, quand ils utilisent une clé API de l'organisation liée.
+- **Non couvert** : Claude Code interactif dans le terminal, l'IDE, le desktop ou le web, l'usage supplémentaire dans Claude, Claude Code ou Cowork, et Claude sur Bedrock, Vertex AI ou Foundry.
+- **Fonctionnement** : les crédits se renouvellent à chaque cycle de facturation, expirent s'ils ne sont pas utilisés, sont consommés avant les crédits achetés et sont partagés par toute personne disposant d'une clé dans l'organisation liée. Sur Team, tous les sièges alimentent un solde commun plafonné à 500 $ par mois. Quand les crédits sont épuisés sans crédits achetés ni recharge automatique, les requêtes API s'arrêtent jusqu'à l'attribution suivante ; rien n'est facturé sur l'offre Claude.
 
 #### Ce que le plan affecterait
 
@@ -18690,7 +18731,7 @@ Ce cadre s'applique si le plan de crédit reprend. D'ici là, l'usage programmat
 
 **Chemin B, migrer vers la facturation API directe avec un plafond budgétaire :**
 ```yaml
-# .github/workflows/claude-review.yml — avec conscience des dépenses
+# .github/workflows/claude-review.yml : avec conscience des dépenses
 - name: Run Claude analysis
   env:
     ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -19170,7 +19211,7 @@ Exemple complet : `/goal all tests in test/auth pass, verified by npm test auth 
 **Contexte des longues tâches** : Suivez la progression et les preuves conservées sans supposer un seuil universel de dégradation en nombre de tours. Un orchestrateur peut lancer une nouvelle session non interactive pour chaque sous-tâche bornée, mais doit fournir explicitement les exigences, l'artefact courant et les résultats précédents :
 
 ```bash
-# Chaque appel s'exécute dans une session fraîche — pas d'accumulation de contexte
+# Chaque appel s'exécute dans une session fraîche ; pas d'accumulation de contexte
 claude -p "Step N of migration: [specific sub-task with explicit context]"
 ```
 
@@ -20933,7 +20974,7 @@ cat > tables/users.md << 'EOF'
 ---
 type: database-table
 title: users
-description: All registered accounts. Soft-delete only—never hard delete.
+description: All registered accounts. Soft-delete only; never hard delete.
 tags: [core, auth]
 ---
 
@@ -23289,7 +23330,7 @@ DAYS=${1:-7}
 LOG_DIR="${CLAUDE_LOG_DIR:-$HOME/.claude/logs}"
 SINCE=$(date -v-${DAYS}d +%Y-%m-%d 2>/dev/null || date -d "-${DAYS} days" +%Y-%m-%d)
 
-echo "=== Friction Report — last ${DAYS} days ==="
+echo "=== Friction Report: last ${DAYS} days ==="
 echo
 
 # 1. Files read more than 3x in any single session
@@ -23442,7 +23483,7 @@ Avant de valider une modification de skill, vérifiez qu'il produit toujours le 
 claude -p "Using the typescript-aristote skill: create a basic user tRPC router" \
   --output-format text | grep -qE "(z\.object|publicProcedure)" \
   && echo "✅ Canary passed" \
-  || echo "❌ Canary failed — skill may have regressed"
+  || echo "❌ Canary failed: skill may have regressed"
 ```
 
 Exécutez les tests canary avant de fusionner les modifications de skills, en particulier pour les skills dont d'autres agents dépendent.
@@ -23514,13 +23555,13 @@ Le choix de conception clé : capturer au hook **Stop**, pas à UserPromptSubmit
 SESSION_LOG="$HOME/.claude/sessions/current.jsonl"
 INSTINCTS_FILE="$HOME/.claude/instincts/pending.yaml"
 
-# Skip short sessions — not enough signal
+# Skip short sessions; not enough signal
 LINE_COUNT=$(wc -l < "$SESSION_LOG" 2>/dev/null || echo 0)
 if [[ "$LINE_COUNT" -lt 5 ]]; then
   exit 0
 fi
 
-# Non-interactive extraction — no latency impact on the user
+# Non-interactive extraction; no latency impact on the user
 claude --print "Review the session log at $SESSION_LOG.
 Extract 0-3 candidate instincts: low-confidence observations about what worked,
 what approach reduced corrections, or what pattern saved time.
@@ -23628,9 +23669,9 @@ Documentez le contrat dans CLAUDE.md pour que l’agent sache quelles preuves pr
 ## Definition of done
 
 A feature is NOT done until all three layers pass:
-1. `npm run lint && npm run typecheck` — clean
-2. `npm test` — all tests pass
-3. `npm run e2e` — smoke test passes
+1. `npm run lint && npm run typecheck`: clean
+2. `npm test`: all tests pass
+3. `npm run e2e`: smoke test passes
 
 Do NOT commit or report completion before running all three.
 ```
@@ -23735,7 +23776,7 @@ Les fenêtres de contexte sont finies. Toute session qui se termine sans note de
 # Session progress
 
 ## Dernière mise à jour
-2026-05-04 — Session 7
+2026-05-04: Session 7
 
 ## Fonctionnalité active
 feat-002 : Découpage de documents
@@ -24797,7 +24838,7 @@ Utilisez ce guide basé sur les symptômes pour identifier et résoudre rapideme
 |---------|--------------|-----------|------------|
 | Erreur « Context too long » | La session a accumulé trop de contexte | `/compact` en premier, puis `/clear` si nécessaire | Compacter régulièrement à 70 % |
 | Réponses lentes ou retardées | Utilisation élevée du contexte (>75 %) | Vérifier `/status`, exécuter `/compact` | Surveiller le contexte avec `/status` |
-| « Rate limit exceeded » | Limitation de l'API due à des requêtes fréquentes | Attendre 2 minutes, utiliser `--model haiku` pour les tâches simples, ou utiliser [cc-copilot-bridge](https://github.com/FlorianBruniaux/cc-copilot-bridge) pour un accès à tarif fixe | Regrouper les opérations, utiliser `/compact`, envisager Copilot Pro |
+| « Rate limit exceeded » | Limitation de l'API due à des requêtes fréquentes | Attendre 2 minutes, utiliser `--model haiku` pour les tâches simples, ou utiliser [cc-copilot-bridge](https://ccbridge.bruniaux.com/) pour un accès à tarif fixe | Regrouper les opérations, utiliser `/compact`, envisager Copilot Pro |
 | Claude oublie les instructions | Débordement de contexte, CLAUDE.md perdu | Créer un point de sauvegarde, `/clear`, recharger CLAUDE.md | Garder CLAUDE.md concis (<500 lignes) |
 | Le serveur MCP ne se connecte pas | Serveur planté ou erreur de configuration | `claude mcp list`, vérifier les chemins, redémarrer le serveur | Tester les serveurs après les modifications de configuration |
 | Invites de permission à chaque fois | Outil absent de `allowedTools` | Ajouter le motif dans `allowedTools` de `settings.json` | Utiliser des jokers : `Bash(git *)` |
@@ -25594,7 +25635,7 @@ Enchaîner le bon outil à chaque étape compte plus que **remplacer l'un par l'
 | **[NotebookLM](https://notebooklm.google.com)** | Synthèse de documents + audio + **intégration MCP** | Fonctionnalités complètes | Gratuit |
 | **[v0.dev](https://v0.dev)** | Prototypage UI (Shadcn) | Limitée | 20 $/mois |
 | **[Cursor](https://cursor.sh)** | IDE avec autocomplétion IA | Limitée | 20 $/mois |
-| **[cc-copilot-bridge](https://github.com/FlorianBruniaux/cc-copilot-bridge)** | Basculement multi-fournisseurs | Complet | Copilot Pro 10 $/mois |
+| **[cc-copilot-bridge](https://ccbridge.bruniaux.com/)** | Basculement multi-fournisseurs | Complet | Copilot Pro 10 $/mois |
 
 <a id="multi-provider-setup-cc-copilot-bridge"></a>
 
@@ -26481,7 +26522,7 @@ Idées reçues que nous avons rencontrées :
 
 **PMs non-développeurs** (stratégie, recherche, gestion des parties prenantes) :
 - ⚠️ La complexité du CLI Claude Code n'est pas justifiée
-- ✅ Meilleure option : Claude Desktop (voir le [Guide Cowork](https://github.com/FlorianBruniaux/claude-cowork-guide))
+- ✅ Meilleure option : Claude Desktop (voir le [Guide Cowork](https://cowork.bruniaux.com/))
 - Cas d'usage : synthèse de recherche, communication avec les parties prenantes, planification de roadmap
 
 **Exemple de stack d'outils** (via [Stilyan Mitrev, Head of Product StableLab](https://www.linkedin.com/pulse/how-i-currently-ai-product-manager-stilyan-mitrev-ycvvf/)) :
@@ -26494,7 +26535,7 @@ Idées reçues que nous avons rencontrées :
 
 **Voir aussi** :
 - [Guide de l'écosystème IA](ecosystem/ai-ecosystem.md) : Outils complémentaires (Granola, Wispr Flow, ChatPRD, v0)
-- [Guide Cowork](https://github.com/FlorianBruniaux/claude-cowork-guide) : Claude Desktop pour les PMs non-techniques
+- [Guide Cowork](https://cowork.bruniaux.com/) : Claude Desktop pour les PMs non-techniques
 - [Flux de travail design-to-code](workflows/design-to-code.md#for-product-managers) : Perspective PM sur Figma MCP
 
 ---
@@ -26719,4 +26760,4 @@ Nous l'évaluerons et l'ajouterons à cette section s'il répond aux critères d
 
 **Contributions** : Issues et PRs bienvenus.
 
-**Dernière mise à jour** : 6 octobre 2026 (rafraîchissement complet) ; 24 octobre 2026 (corrections ciblées du cache et des harnais) | **Version** : 3.44.1
+**Dernière mise à jour** : 6 octobre 2026 (rafraîchissement complet) ; 24 octobre 2026 (corrections ciblées du cache et des harnais) | **Version** : 3.45.2

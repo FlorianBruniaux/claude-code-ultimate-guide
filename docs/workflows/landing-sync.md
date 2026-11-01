@@ -8,11 +8,11 @@ Workflow for keeping `cc.bruniaux.com` in sync with the guide after significant 
 
 | Element | Source (guide) | Destination (landing) |
 |---------|----------------|----------------------|
-| Version | `VERSION` | index.html footer + FAQ |
+| Version | `VERSION` | Read at build by `src/pages/changelog/index.astro` (no hard-coded copy) |
 | Templates count | Count `examples/` files | Badges, title, meta tags |
 | Guide lines | `wc -l guide/ultimate-guide.md` | Badges |
-| Golden Rules | README.md | index.html section |
-| FAQ | README.md | index.html FAQ |
+| Golden Rules | README.md | Landing home page section |
+| FAQ | README.md | Landing FAQ |
 
 ## Sync triggers
 
@@ -45,10 +45,10 @@ node scripts/prepare-guide-content.mjs && pnpm build
 
 | Check | Source | Comparison |
 |-------|--------|-----------|
-| Version | `VERSION` | index.html (footer + FAQ) |
-| Templates | `find examples/` | index.html + examples.html |
-| Quiz questions | `questions.json` | index.html + quiz.html |
-| Guide lines | `wc -l ultimate-guide.md` | index.html (tolerance ±500) |
+| Version | `VERSION` | Build-time read in `src/pages/changelog/index.astro` |
+| Templates | `find examples/` | `src/data/examples-data.ts` catalog |
+| Quiz questions | `questions.json` | Landing quiz pages |
+| Guide lines | `wc -l ultimate-guide.md` | Landing badges (tolerance ±500) |
 
 **Expected output (if synced):**
 ```

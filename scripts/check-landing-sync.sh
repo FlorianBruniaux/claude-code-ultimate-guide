@@ -31,18 +31,19 @@ fi
 # 1. VERSION CHECK (Guide version, not Claude Code version)
 # ===================
 GUIDE_VERSION=$(tr -d '\n' < "$GUIDE_DIR/VERSION")
-# The cheatsheet displays the guide version; the announcement banner rotates topics.
-VERSION_FILE="$LANDING_DIR/src/pages/cheatsheet/index.astro"
-LANDING_VERSION=$(grep -oE 'Version [0-9]+\.[0-9]+\.[0-9]+' "$VERSION_FILE" 2>/dev/null | head -1 | sed 's/^Version //')
+# The landing no longer hard-codes the guide version: the changelog page reads
+# the guide's VERSION file at build time. Check that wiring instead of a string.
+VERSION_FILE="$LANDING_DIR/src/pages/changelog/index.astro"
 
 echo -e "${BLUE}1. Version${NC}"
 echo "   Guide:   $GUIDE_VERSION"
-echo "   Landing: ${LANDING_VERSION:-not found}"
-if [ "$GUIDE_VERSION" != "$LANDING_VERSION" ]; then
-    echo -e "   ${RED}MISMATCH${NC} → Update src/pages/cheatsheet/index.astro"
-    ISSUES=$((ISSUES + 1))
-else
+if grep -qE "readFileSync\(resolve\(guideRoot, 'VERSION'\)" "$VERSION_FILE" 2>/dev/null; then
+    echo "   Landing: read from the guide VERSION file at build (src/pages/changelog/index.astro)"
     echo -e "   ${GREEN}OK${NC}"
+else
+    echo "   Landing: VERSION wiring not found in src/pages/changelog/index.astro"
+    echo -e "   ${RED}MISMATCH${NC} → Restore the build-time read of the guide VERSION file"
+    ISSUES=$((ISSUES + 1))
 fi
 echo ""
 

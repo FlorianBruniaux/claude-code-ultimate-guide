@@ -1207,6 +1207,7 @@ Set in your shell before launching `claude`, or configure under the `env` key in
 | `ANTHROPIC_SMALL_FAST_MODEL` | **DEPRECATED.** Use `ANTHROPIC_DEFAULT_HAIKU_MODEL` instead |
 | `ANTHROPIC_SMALL_FAST_MODEL_AWS_REGION` | AWS region for the Haiku-class model on Bedrock when `ANTHROPIC_DEFAULT_HAIKU_MODEL` is also set |
 | `CLAUDE_CODE_SUBAGENT_MODEL` | Override model for subagents (e.g. `haiku`) |
+| `CLAUDE_CODE_SUBAGENT_MODEL_FORCE` | Set to `1` (v2.1.257+) to force every subagent, teammate and workflow agent onto `CLAUDE_CODE_SUBAGENT_MODEL`, or onto the lead's model when that variable is unset or `inherit`, ignoring the spawn prompt and the agent definition's `model` ([Agent Teams](https://code.claude.com/docs/en/agent-teams)) |
 | `CLAUDE_CODE_EFFORT_LEVEL` | Effort level: `low`, `medium`, `high`, `xhigh`, `max`, or `auto`. Takes precedence over `/effort` and the `effortLevel` setting |
 | `FALLBACK_FOR_ALL_PRIMARY_MODELS` `⚠️ Not in official list` (checked 2026-10-27) | Any non-empty value triggers fallback to `--fallback-model` after repeated overload errors on any primary model, not just Opus |
 | `CLAUDE_CODE_DISABLE_LEGACY_MODEL_REMAP` | Set to `1` to prevent automatic remapping of Opus 4.0 and 4.1 to the current Opus version on the Anthropic API |

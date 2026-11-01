@@ -74,6 +74,30 @@ keywords:
 - [2.0.x Series (Nov 2025 - Jan 2026)](#20x-series-november-2025---january-2026): Opus 4.5, Claude in Chrome, Background agents
 - [Breaking Changes Summary](#breaking-changes-summary)
 - [Milestone Features](#milestone-features)
+- [Product changes outside the CLI changelog (September-October 2026)](#product-changes-outside-the-cli-changelog-september-october-2026)
+
+---
+
+## Product changes outside the CLI changelog (September-October 2026)
+
+These changes affect Claude Code users but do not appear in the CLI changelog. Each was checked on 2026-11-01 against the linked official page.
+
+| Date | Change | Who it affects | Source |
+|------|--------|----------------|--------|
+| 2026-10-30 | Fast mode for Opus 4.8 deprecated; removal scheduled for November 30, 2026, with no fallback to standard Opus 4.8 | Anyone using `/fast` on Opus 4.8 | [CLI changelog 2.1.316](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md) |
+| 2026-10-28 | Messages API and Token Counting API maximum request size raised from 32 MB to 128 MB on the first-party Claude API | API and Agent SDK users with large payloads | [API release notes](https://platform.claude.com/docs/en/release-notes/api) |
+| 2026-10-22 | Claude Models on Google Cloud (Anthropic managed): the Claude API operated by Anthropic and reached through your Google Cloud project | Google Cloud organizations | [API release notes](https://platform.claude.com/docs/en/release-notes/api) |
+| 2026-10-15 | Code Review out of research preview, available to Team and Enterprise organizations | Team and Enterprise admins | [Code Review is now generally available](https://claude.com/resources/articles/code-review-is-now-generally-available) |
+| 2026-10-09 | Claude Managed Agents can use dynamic workflows, in beta (`managed-agents-2026-04-01` header) | Managed Agents builders | [API release notes](https://platform.claude.com/docs/en/release-notes/api) |
+| 2026-10-07 | Monthly Claude Platform API credits for Max, Ultra and Team plans | Max, Ultra and Team subscribers | [Monthly API credits](https://support.claude.com/en/articles/17154008) |
+| 2026-10-06 | New Cowork tasks and new scheduled tasks on Pro, Max and Ultra run in the cloud; existing scheduled tasks keep running on your computer | Cowork and scheduled-task users | [Use Claude Cowork](https://support.claude.com/en/articles/15520349) |
+| 2026-09-30 | Sonnet 4.5 (`claude-sonnet-4-5-20250929`) deprecated, retirement on the Claude API scheduled for November 30, 2026 | Anyone pinning that model ID | [API release notes](https://platform.claude.com/docs/en/release-notes/api) |
+| 2026-09-23 | Cloud sessions (previously Claude Code on the web) generally available | Pro, Max, Ultra, Team and eligible Enterprise seats | [Claude Code on the web](https://claude.com/resources/articles/claude-code-on-the-web) |
+| 2026-09-17 | Projects redesigned around threads and a coordinator, in beta in Claude Code; threads run in the cloud | Pro, Max and Ultra | [Projects redesigned](https://claude.com/resources/articles/projects-redesigned) |
+| 2026-09-14 | The Messages API can compact a conversation on demand, in beta (`compact-2026-09-04` header) | API and Agent SDK builders | [API release notes](https://platform.claude.com/docs/en/release-notes/api) |
+| Week of 2026-08-31 | Background computer use in the Claude Code Desktop app on macOS, in beta | Pro and Max | [What's new, week 36](https://code.claude.com/docs/en/whats-new/2026-w36) |
+
+The Max 20x plan is now called Ultra and Max 5x is now called Max (pages updated 2026-10-31); see [Subscription plans & limits](../ultimate-guide.md#subscription-plans--limits).
 
 ---
 
