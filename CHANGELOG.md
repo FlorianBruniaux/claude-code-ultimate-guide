@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Changed
+
+- **Review workflow reading**: the Code Review page links the author's "From code to merge" talk guide, and the multi-provider review page links the guides on operating a multi-reviewer system and designing a bounded review loop.
+- **Portfolio links**: links to florian.bruniaux.com now use the final `www` host instead of the redirecting apex.
+
 ## [3.45.2] - 2026-11-01
 
 ### Release summary

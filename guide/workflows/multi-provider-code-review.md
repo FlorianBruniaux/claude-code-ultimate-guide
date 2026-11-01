@@ -158,3 +158,5 @@ The workflow templates target CI; the local simulation and admission worksheet s
 - [Ready-to-use templates](../../examples/github-actions/): `claude-code-review.yml`, `claude-code-review-batched.yml`, `.coderabbit.yaml`, `.greptile/`
 - [Code Review (managed feature)](./code-review.md): Anthropic's own multi-agent PR review service, an alternative to self-hosting this architecture on Teams/Enterprise plans
 - [`examples/agents/code-reviewer.md`](../../examples/agents/code-reviewer.md): anti-hallucination protocol referenced by the prompt template above
+- [Operating a multi-reviewer system safely](https://www.florian.bruniaux.com/guides/multi-reviewer-code-review-system/): the author's guide to trust boundaries, least privilege, budgets and degraded states when several reviewers run
+- [Designing a bounded review loop](https://www.florian.bruniaux.com/guides/bounded-code-review-loop/): the author's guide to frozen inputs, retry limits, evidence handoffs and human escalation in a review loop

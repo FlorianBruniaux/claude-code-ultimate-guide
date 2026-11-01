@@ -394,7 +394,7 @@ Useful contribution routes:
 
 Florian Bruniaux maintains this guide.
 
-[GitHub](https://github.com/FlorianBruniaux) · [LinkedIn](https://www.linkedin.com/in/florian-bruniaux-43408b83/) · [Portfolio](https://florian.bruniaux.com/)
+[GitHub](https://github.com/FlorianBruniaux) · [LinkedIn](https://www.linkedin.com/in/florian-bruniaux-43408b83/) · [Portfolio](https://www.florian.bruniaux.com/)
 
 <!-- BEGIN GENERATED RELATED PROJECTS -->
 <!-- Source: https://github.com/FlorianBruniaux/FlorianBruniaux/blob/main/ecosystem/projects.json; project: claude-code-guide -->

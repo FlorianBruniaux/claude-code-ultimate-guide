@@ -168,6 +168,7 @@ For manual code review workflows (CLI, no Team/Enterprise required):
 - [Multi-provider code review](./multi-provider-code-review.md): running Claude alongside CodeRabbit/Greptile without redundant findings, self-hosted
 - GitLab CI/CD: self-hosted Claude integration for GitLab pipelines
 - Code Review plugin: on-demand local reviews before pushing (available in the plugin marketplace)
+- [From code to merge](https://www.florian.bruniaux.com/guides/from-code-to-merge/): the author's talk guide on organizing agent workflows as a team, from local checks and AI reviews to results tied to the right commit
 
 ---
 
