@@ -2,7 +2,7 @@
 
 > A self-contained prompt to evaluate if your project needs a cheatsheet and audit existing ones against the gold standard.
 
-**Author**: [Florian BRUNIAUX](https://github.com/FlorianBruniaux) | Founding Engineer [@Methode Aristote](https://methode-aristote.fr)
+**Author**: [Florian BRUNIAUX](https://github.com/FlorianBruniaux) | Fractional Chief AI Officer
 
 **Reference**: [Claude Code Ultimate Guide Cheatsheet](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/cheatsheet.md) (gold standard)
 

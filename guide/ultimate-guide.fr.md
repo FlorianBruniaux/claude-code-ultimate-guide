@@ -8,7 +8,7 @@ tags: [guide, reference, workflows, agents, hooks, mcp, security]
 
 > Un guide complet et autonome pour maîtriser Claude Code, du débutant au power user.
 
-**Auteur** : Florian BRUNIAUX | Founding Engineer [@Méthode Aristote](https://methode-aristote.fr)
+**Auteur** : Florian BRUNIAUX | Chief AI Officer à temps partagé
 
 **Rédigé avec** : Claude (Anthropic)
 
@@ -26747,7 +26747,7 @@ Nous l'évaluerons et l'ajouterons à cette section s'il répond aux critères d
 
 ---
 
-**Auteur** : [Florian BRUNIAUX](https://github.com/FlorianBruniaux) | Ingénieur fondateur [@Méthode Aristote](https://methode-aristote.fr)
+**Auteur** : [Florian BRUNIAUX](https://github.com/FlorianBruniaux) | Chief AI Officer à temps partagé
 
 **Rédigé avec** : Claude (Anthropic) - Ce guide a été rédigé en collaboration avec Claude Code, démontrant les capacités de l'outil pour la documentation technique.
 

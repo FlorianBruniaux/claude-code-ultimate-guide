@@ -8,7 +8,7 @@ tags: [cheatsheet, reference]
 
 **Daily reference**. For compact printable editions, use the [English and French cheatsheets](../whitepapers/README.md).
 
-**Author**: Florian BRUNIAUX | Founding Engineer [@Méthode Aristote](https://methode-aristote.fr)
+**Author**: Florian BRUNIAUX | Fractional Chief AI Officer
 
 **Written with**: Claude (Anthropic)
 
@@ -722,6 +722,6 @@ Speed: `rg` (~20ms) → Serena (~100ms) → ast-grep (~200ms) → grepai (~500ms
 
 ---
 
-**Author**: Florian BRUNIAUX | [@Méthode Aristote](https://methode-aristote.fr) | Written with Claude
+**Author**: Florian BRUNIAUX | Fractional Chief AI Officer | Written with Claude
 
 *Last updated: Oct 27, 2026 | Version 3.45.2*

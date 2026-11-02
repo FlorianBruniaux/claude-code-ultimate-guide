@@ -2,7 +2,7 @@
 
 > A self-contained prompt that audits your Claude Code configuration — project memory, rules hygiene, skills, agents/commands, security, MCP, workflow commands, and freshness — in one pass.
 
-**Author**: [Florian BRUNIAUX](https://github.com/FlorianBruniaux) | Founding Engineer [@Méthode Aristote](https://methode-aristote.fr)
+**Author**: [Florian BRUNIAUX](https://github.com/FlorianBruniaux) | Fractional Chief AI Officer
 
 **Reference**: [The Ultimate Claude Code Guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md)
 

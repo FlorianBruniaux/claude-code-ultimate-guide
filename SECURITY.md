@@ -63,6 +63,6 @@ We thank security researchers who have contributed to improving this guide's sec
 
 ---
 
-**Author**: [Florian BRUNIAUX](https://github.com/FlorianBruniaux) | Founding Engineer [@Méthode Aristote](https://methode-aristote.fr)
+**Author**: [Florian BRUNIAUX](https://github.com/FlorianBruniaux) | Fractional Chief AI Officer
 
 **Guide License**: [CC BY-SA 4.0](./LICENSE)

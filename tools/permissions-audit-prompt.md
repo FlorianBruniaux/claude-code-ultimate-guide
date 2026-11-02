@@ -2,7 +2,7 @@
 
 > A self-contained prompt that audits how a project actually gates Claude Code: blanket execution grants, allow-rule bloat, deny and ask coverage, sandbox configuration, scope hygiene, and permission-mode interactions.
 
-**Author**: [Florian BRUNIAUX](https://github.com/FlorianBruniaux) | Founding Engineer [@Méthode Aristote](https://methode-aristote.fr)
+**Author**: [Florian BRUNIAUX](https://github.com/FlorianBruniaux) | Fractional Chief AI Officer
 
 **Reference**: [The Ultimate Claude Code Guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md)
 
