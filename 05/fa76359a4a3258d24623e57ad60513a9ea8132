@@ -1,0 +1,33 @@
+CHANGELOG.md
+  s_0cab20d7d05da4::t_75c516140153b6 15
+guide/workflows/tdd-with-claude.md
+  s_c3158f009d7319::t_dc4e56287644dd 311-412
+machine-readable/reference.yaml
+  s_c3158f009d7319::t_4f8bf218a8d2f7 1609
+mcp-server/content/reference.yaml
+  s_c3158f009d7319::t_537c63ce656c9d 1609
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "05fa76359a4a3258d24623e57ad60513a9ea8132",
+  "prompts": {},
+  "sessions": {
+    "s_0cab20d7d05da4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9bc35d4e-a268-4d56-a1df-d9abd54f1301",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_c3158f009d7319": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "151e40ac-87e1-4d66-bd23-57defb26a2cd",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
