@@ -1,0 +1,19 @@
+machine-readable/translations.json
+  s_80718c65bb95e0::t_28d51250a9a46f 3-4,24,26-27,51-52,56-57,60,114-115,190-191
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "655ed774d23a8ba5a312984f57b9249962bddde6",
+  "prompts": {},
+  "sessions": {
+    "s_80718c65bb95e0": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a14aa8-7e7f-7fa3-a24a-d79ea89532b7",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
