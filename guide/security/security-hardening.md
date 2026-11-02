@@ -33,6 +33,62 @@ keywords:
 
 ---
 
+## November 2026 review
+
+**Reviewed November 2, 2026.** Thirty-one maintainer or vendor advisories were
+added since October 4, plus four reports that still lack a maintainer advisory.
+Several advisories were disclosed by their maintainers between June and September
+and reached the GitHub Advisory Database in this window; the records keep the
+maintainer date.
+
+| Component | Reviewed version floor | Deployment condition |
+|-----------|------------------------|----------------------|
+| Claude Code | 2.1.281 (unchanged) | Already covers the symlink write, plugin SHA pin and Edit directory-swap fixes (2.1.129, 2.1.179, 2.1.251). |
+| Claude Desktop, Windows | 1.15962.0 (unchanged) | Covers the `git.exe` current-directory search fixed in 1.8089.0. |
+| Claude Agent SDK, Python | 0.2.121 | Applications that pass untrusted input as the `resume` session ID. |
+| MCP TypeScript `@modelcontextprotocol/sdk` 1.x | 1.32.0 (unchanged) | Body size, validation memory and bearer audience fixes. |
+| MCP TypeScript `@modelcontextprotocol/server` 2.x | 2.3.0 | Also `node` 2.1.0, `hono` 2.0.1, `express` 2.0.2, `server-legacy` 2.3.1. |
+| FastMCP | 3.4.10 or 4.1.2 | Transform authorization on both branches; issuer binding on 4.x only. |
+| chrome-devtools-mcp | 1.5.0 | MCP roots bypass through an in-root symlink. |
+| JetBrains Junie CLI | 26.8.3 | Untrusted project MCP configuration could execute code. |
+| Langflow | 1.10.3 | MCP stdio server settings ran arbitrary commands on the host. |
+
+**Three MCP SDK fixes do nothing until you configure them.** For bearer
+authentication, set `validate_token_resource=True` with `resource_server_url` in
+[Python](https://github.com/modelcontextprotocol/python-sdk/security/advisories/GHSA-w4fh-qvv9-3v23)
+or pass `expectedResource` in
+[TypeScript](https://github.com/modelcontextprotocol/typescript-sdk/security/advisories/GHSA-rvq5-wwqv-78pq),
+and return the token audience from your verifier. For
+[tool input validation](https://github.com/modelcontextprotocol/typescript-sdk/security/advisories/GHSA-46jr-4wx8-v453),
+set `maxToolInputElements` and lower the request size limit. TypeScript 2.x
+servers that [share one server or transport](https://github.com/modelcontextprotocol/typescript-sdk/security/advisories/GHSA-jm63-cq47-j5jp)
+across clients must build one per request or session; after the upgrade, shared
+instances fail with `ALREADY_CONNECTED`.
+
+**Opening a repository can still run code.** Junie CLI before 26.8.3 and ZCode
+3.11.2.6792 started MCP servers declared by the project; no ZCode fix was found.
+JFrog reported [42 GitHub repositories](https://research.jfrog.com/post/beyond-testmetest-42-hijacked-github-repos/)
+armed with a `.claude/settings.json` SessionStart hook and equivalent Gemini,
+Cursor and VS Code triggers that run a hidden `.github/init.js`. Read `.claude/`,
+`.gemini/`, `.cursor/` and `.vscode/tasks.json` before starting an agent in an
+unfamiliar clone. AgentSec reports the Claude Code hook and the VS Code
+folder-open task as review findings, but it does not read the Gemini or Cursor
+files and does not attribute the command to this campaign.
+
+**The tampered Claude Code extension affected Cursor's marketplace only.** On
+October 29, Cursor served modified `Anthropic.claude-code` 2.1.312 and 2.1.313
+builds for macOS and Windows for about 11 hours. Cursor and Microsoft state that
+Anthropic did not build them and that npm and the Visual Studio Marketplace were
+not affected. Follow the [Cursor security notice](https://cursor.com/blog/claude-code-extension-security-notice)
+to check a machine.
+
+The MCP Kotlin SDK, mcp-go and mcp-remote reports come from CVE records only and
+list no fixed version. They are tracked as `monitoring`. Every vulnerability
+added in this review remains `not_detected` in AgentSec; documentation and
+version floors do not prove that a running deployment is patched.
+
+---
+
 ## October 2026 review
 
 **Reviewed October 4, 2026.** Twelve additional maintainer advisories were

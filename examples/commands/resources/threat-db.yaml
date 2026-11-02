@@ -2,9 +2,117 @@
 # For use with /security-check and /security-audit commands
 # Manually maintained — update after new security advisories
 
-version: "2.31.0"
-updated: "2026-10-04"
+version: "2.32.0"
+updated: "2026-11-02"
 sources:
+  - name: NVD - CVE-2026-88755 Z.ai ZCode
+    url: https://nvd.nist.gov/vuln/detail/CVE-2026-88755
+    date: '2026-10-16'
+  - name: NVD - CVE-2026-108714 MCP Kotlin SDK WebSocket server
+    url: https://nvd.nist.gov/vuln/detail/CVE-2026-108714
+    date: '2026-10-11'
+  - name: NVD - CVE-2026-108859 mcp-go Streamable HTTP server
+    url: https://nvd.nist.gov/vuln/detail/CVE-2026-108859
+    date: '2026-10-11'
+  - name: NVD - CVE-2026-108716 mcp-remote device-code OAuth flow
+    url: https://nvd.nist.gov/vuln/detail/CVE-2026-108716
+    date: '2026-10-11'
+  - name: Anthropic - Claude Code write-time symlink following outside the project
+    url: https://github.com/anthropics/claude-code/security/advisories/GHSA-5j29-h97v-84ch
+    date: '2026-10-05'
+  - name: Anthropic - Claude Code plugin commit SHA pin bypass
+    url: https://github.com/anthropics/claude-code/security/advisories/GHSA-pq7j-f95f-qfcv
+    date: '2026-10-09'
+  - name: Anthropic - Claude Desktop Windows git executable search path
+    url: https://github.com/anthropics/claude-code/security/advisories/GHSA-4p2j-qj3c-6x84
+    date: '2026-10-13'
+  - name: Anthropic - Claude Code Edit tool directory swap outside the workspace
+    url: https://github.com/anthropics/claude-code/security/advisories/GHSA-5xjx-9qx6-jcrv
+    date: '2026-10-26'
+  - name: Anthropic - Claude Agent SDK for Python resume option argument injection
+    url: https://github.com/anthropics/claude-agent-sdk-python/security/advisories/GHSA-h4mw-j7qp-8mwm
+    date: '2026-09-12'
+  - name: Model Context Protocol maintainers - MCP Python bearer authentication accepts tokens for another
+      resource
+    url: https://github.com/modelcontextprotocol/python-sdk/security/advisories/GHSA-w4fh-qvv9-3v23
+    date: '2026-10-05'
+  - name: Model Context Protocol maintainers - MCP TypeScript HTTP servers without body size or batch limits
+    url: https://github.com/modelcontextprotocol/typescript-sdk/security/advisories/GHSA-f897-62hf-6gxq
+    date: '2026-10-15'
+  - name: Model Context Protocol maintainers - MCP TypeScript shared server instances cross-deliver client
+      messages
+    url: https://github.com/modelcontextprotocol/typescript-sdk/security/advisories/GHSA-jm63-cq47-j5jp
+    date: '2026-10-15'
+  - name: Model Context Protocol maintainers - MCP TypeScript tool input validation memory exhaustion
+    url: https://github.com/modelcontextprotocol/typescript-sdk/security/advisories/GHSA-46jr-4wx8-v453
+    date: '2026-10-15'
+  - name: Model Context Protocol maintainers - MCP TypeScript bearer authentication accepts tokens for another
+      service
+    url: https://github.com/modelcontextprotocol/typescript-sdk/security/advisories/GHSA-rvq5-wwqv-78pq
+    date: '2026-10-05'
+  - name: FastMCP maintainers - FastMCP post-transform component authorization skipped
+    url: https://github.com/PrefectHQ/fastmcp/security/advisories/GHSA-7xgj-8392-5q4r
+    date: '2026-10-20'
+  - name: FastMCP maintainers - FastMCP client credentials providers without issuer binding
+    url: https://github.com/PrefectHQ/fastmcp/security/advisories/GHSA-vqqp-x5qm-5qp4
+    date: '2026-10-20'
+  - name: SylphxAI maintainers - pdf-reader-mcp HTTP transport ignores MCP_API_KEY
+    url: https://github.com/SylphxAI/anymd/security/advisories/GHSA-q344-5v34-gm84
+    date: '2026-06-25'
+  - name: mcp-sanitizer maintainer - mcp-sanitizer URL validation loopback SSRF bypass
+    url: https://github.com/starman69/mcp-sanitizer/security/advisories/GHSA-4mfg-r38w-w8fg
+    date: '2026-06-25'
+  - name: mcp-sanitizer maintainer - mcp-sanitizer file path validation allows user-home paths
+    url: https://github.com/starman69/mcp-sanitizer/security/advisories/GHSA-7w82-6f9j-v9jp
+    date: '2026-06-25'
+  - name: SiYuan maintainers - SiYuan MCP file tool blocklist narrower than the HTTP file API
+    url: https://github.com/siyuan-note/siyuan/security/advisories/GHSA-c8r8-95hg-mp34
+    date: '2026-08-08'
+  - name: agent-router maintainers - agent-router MCP session resume skips caller binding
+    url: https://github.com/theagentrouter/agent-router/security/advisories/GHSA-953h-535j-jg2v
+    date: '2026-10-07'
+  - name: ckan-mcp-server maintainers - ckan-mcp-server DataStore UI postMessage without origin checks
+    url: https://github.com/ondata/ckan-mcp-server/security/advisories/GHSA-vqff-r82h-9crc
+    date: '2026-07-09'
+  - name: nginx-ui maintainers - nginx-ui MCP endpoints bypass OTP step-up
+    url: https://github.com/0xJacky/nginx-ui/security/advisories/GHSA-vc32-4gwf-77xp
+    date: '2026-07-17'
+  - name: nginx-ui maintainers - nginx-ui MCP nginx_config_add skips directive validation
+    url: https://github.com/0xJacky/nginx-ui/security/advisories/GHSA-9jww-cxg5-rj9m
+    date: '2026-07-17'
+  - name: nginx-ui maintainers - nginx-ui MCP config add allows blocked directive injection
+    url: https://github.com/0xJacky/nginx-ui/security/advisories/GHSA-76pm-mq2q-9gcr
+    date: '2026-07-17'
+  - name: nginx-ui maintainers - nginx-ui MCP config tools let secondary users run NJS
+    url: https://github.com/0xJacky/nginx-ui/security/advisories/GHSA-5r62-gj48-897x
+    date: '2026-07-17'
+  - name: Langflow maintainers - Langflow MCP stdio server configuration runs arbitrary commands
+    url: https://github.com/langflow-ai/langflow/security/advisories/GHSA-w794-rj3p-xv45
+    date: '2026-09-28'
+  - name: Langflow maintainers - Langflow project MCP resources read other users' files
+    url: https://github.com/langflow-ai/langflow/security/advisories/GHSA-4hmc-cfm3-w43c
+    date: '2026-09-22'
+  - name: PraisonAI maintainers - PraisonAI MCP HTTP-stream server unauthenticated by default
+    url: https://github.com/MervinPraison/PraisonAI/security/advisories/GHSA-hc5v-gxvj-58wh
+    date: '2026-06-25'
+  - name: Payload maintainers - Payload MCP plugin API key management outside the user's account
+    url: https://github.com/payloadcms/payload/security/advisories/GHSA-2q76-m6w6-qgc6
+    date: '2026-09-22'
+  - name: obsidian-tc maintainers - obsidian-tc declined human confirmation still permits destructive calls
+    url: https://github.com/The-40-Thieves/obsidian-tc/security/advisories/GHSA-737x-cwfr-5vvc
+    date: '2026-09-26'
+  - name: djust maintainers - djust MCP tool reads arbitrary absolute paths
+    url: https://github.com/djust-org/djust/security/advisories/GHSA-r57g-mc79-8hj2
+    date: '2026-10-15'
+  - name: Vercel - Next.js development server MCP endpoint without origin check
+    url: https://github.com/vercel/next.js/security/advisories/GHSA-39w2-rjm5-chcv
+    date: '2026-09-30'
+  - name: Chrome DevTools maintainers - chrome-devtools-mcp roots bypass through extension-rewritten paths
+    url: https://github.com/ChromeDevTools/chrome-devtools-mcp/security/advisories/GHSA-5hw5-4q87-m6x9
+    date: '2026-10-22'
+  - name: JetBrains (CVE record) - JetBrains Junie CLI runs untrusted project MCP configuration
+    url: https://www.cve.org/CVERecord?id=CVE-2026-111091
+    date: '2026-10-15'
   - name: Cline maintainers - Cline Hub dashboard cross-origin WebSocket hijack
     url: https://github.com/cline/cline/security/advisories/GHSA-3cj3-hqcr-g934
     date: '2026-06-23'
@@ -1557,6 +1665,452 @@ malicious_skill_patterns:
 # CVE DATABASE (MCP servers & AI agent tools)
 # ═══════════════════════════════════════════════════════════════
 cve_database:
+  - id: CVE-2026-88755
+    component: Z.ai ZCode
+    severity: high
+    cvss: 7.8
+    description: The CVE record states that ZCode v3.11.2.6792 automatically connected to MCP servers declared
+      in a repository workspace configuration, possibly allowing code execution when a crafted repository
+      is opened.
+    affected: ZCode v3.11.2.6792 (CVE record; no vendor range)
+    source: https://nvd.nist.gov/vuln/detail/CVE-2026-88755
+    mitigation: Do not open untrusted repositories in ZCode and review workspace MCP configuration first.
+      No vendor advisory or fixed version was found on 2026-11-02.
+    notes: 'Monitoring: CVE record only, no maintainer advisory; review confidence. Reviewed 2026-11-02.
+      Documented only; no executable AgentSec detection. No minimum safe version recorded.'
+  - id: CVE-2026-108714
+    component: MCP Kotlin SDK WebSocket server
+    severity: high
+    cvss: 7.5
+    description: The CVE record states that Application.mcpWebSocket installs Ktor WebSockets without a
+      maxFrameSize limit, so clients can force near 2 GiB allocations.
+    affected: MCP Kotlin SDK through 0.15.0 (CVE record)
+    source: https://nvd.nist.gov/vuln/detail/CVE-2026-108714
+    mitigation: Set a WebSocket maxFrameSize or terminate WebSockets behind a size-limiting proxy. No maintainer
+      advisory or fixed version was found on 2026-11-02.
+    notes: 'Monitoring: CVE record only, no maintainer advisory; review confidence. Reviewed 2026-11-02.
+      Documented only; no executable AgentSec detection. No minimum safe version recorded.'
+  - id: CVE-2026-108859
+    component: mcp-go Streamable HTTP server
+    severity: high
+    cvss: 7.5
+    description: The CVE record states that StreamableHTTPServer.ServeHTTP reads POST bodies with io.ReadAll
+      before validation, so unauthenticated clients can exhaust memory.
+    affected: mcp-go through 1.2.1 (CVE record)
+    source: https://nvd.nist.gov/vuln/detail/CVE-2026-108859
+    mitigation: Cap request body size in front of the server. No maintainer advisory or fixed version was
+      found on 2026-11-02.
+    notes: 'Monitoring: CVE record only, no maintainer advisory; review confidence. Reviewed 2026-11-02.
+      Documented only; no executable AgentSec detection. No minimum safe version recorded.'
+  - id: CVE-2026-108716
+    component: mcp-remote device-code OAuth flow
+    severity: medium
+    cvss: 5.3
+    description: The CVE record states that authorizeWithDeviceCode sends the client secret and receives
+      tokens over non-loopback http device authorization and token endpoints.
+    affected: mcp-remote 0.8.0 through 0.14.3 (CVE record)
+    source: https://nvd.nist.gov/vuln/detail/CVE-2026-108716
+    mitigation: Use only https authorization servers. No maintainer advisory or fixed version was found
+      on 2026-11-02.
+    notes: 'Monitoring: CVE record only, no maintainer advisory; review confidence. Reviewed 2026-11-02.
+      Documented only; no executable AgentSec detection. No minimum safe version recorded.'
+  - id: CVE-2026-103435
+    component: Claude Code file writes
+    severity: high
+    description: Claude Code checked that a target path was inside the project at permission time but re-resolved
+      it at write time. An attacker with write access to a shared workspace who won the race could swap
+      a project file for a symlink and redirect the write outside the project.
+    affected: '@anthropic-ai/claude-code < 2.1.129'
+    source: https://github.com/anthropics/claude-code/security/advisories/GHSA-5j29-h97v-84ch
+    mitigation: Update Claude Code to 2.1.129 or later; auto-update already delivers the fix. Avoid shared
+      writable workspaces between differently privileged sessions.
+    notes: 'Alias: GHSA-5j29-h97v-84ch. Reviewed 2026-11-02. Documented only; no executable AgentSec detection.
+      TOCTOU; shared workspace; symlink.'
+    fixed_in: 2.1.129
+  - id: CVE-2026-86063
+    component: Claude Code and Claude Desktop plugin install
+    severity: high
+    description: The plugin install flow ran git checkout on a pinned commit SHA without checking that HEAD
+      matched it. A plugin upstream could create a branch named like the 40-character SHA so the install
+      resolved to attacker-controlled code.
+    affected: '@anthropic-ai/claude-code < 2.1.179'
+    source: https://github.com/anthropics/claude-code/security/advisories/GHSA-pq7j-f95f-qfcv
+    mitigation: Update Claude Code to 2.1.179 or later; auto-update already delivers the fix. Exploitation
+      required a malicious plugin source on a git host that allows SHA-shaped branch names.
+    notes: 'Alias: GHSA-pq7j-f95f-qfcv. Reviewed 2026-11-02. Documented only; no executable AgentSec detection.
+      SHA-shaped branch; pinned hash; marketplace.'
+    fixed_in: 2.1.179
+  - id: CVE-2026-88066
+    component: Claude Desktop (Windows)
+    severity: high
+    description: Claude Desktop on Windows launched git.exe without an absolute path, so the current working
+      directory was searched first. A git.exe placed in a project directory ran when the user opened that
+      directory.
+    affected: Claude Desktop < 1.8089.0
+    source: https://github.com/anthropics/claude-code/security/advisories/GHSA-4p2j-qj3c-6x84
+    mitigation: Update Claude Desktop to 1.8089.0 or later; auto-update already delivers the fix. Do not
+      open untrusted repositories containing executables on older Windows builds.
+    notes: 'Alias: GHSA-4p2j-qj3c-6x84. Reviewed 2026-11-02. Documented only; no executable AgentSec detection.
+      uv_spawn; git.exe; current working directory.'
+    fixed_in: 1.8089.0
+  - id: CVE-2026-88968
+    component: Claude Code Edit tool (macOS sandbox)
+    severity: high
+    description: Edit targets were validated with point-in-time path resolution. On macOS, code running
+      inside the Bash sandbox could swap an in-workspace parent directory for a symlink after validation,
+      making the unsandboxed Edit write a user-writable file outside the workspace.
+    affected: '@anthropic-ai/claude-code < 2.1.251'
+    source: https://github.com/anthropics/claude-code/security/advisories/GHSA-5xjx-9qx6-jcrv
+    mitigation: Update Claude Code to 2.1.251 or later; auto-update already delivers the fix. Exploitation
+      required attacker-controlled code in the sandbox, such as a malicious repository or dependency script.
+    notes: 'Alias: GHSA-5xjx-9qx6-jcrv. Reviewed 2026-11-02. Documented only; no executable AgentSec detection.
+      TOCTOU; Bash sandbox; macOS.'
+    fixed_in: 2.1.251
+  - id: CVE-2026-96620
+    component: claude-agent-sdk (Python)
+    severity: critical
+    description: The SDK passed the resume option to the Claude CLI without validation. A value starting
+      with a dash could inject --mcp-config with a stdio MCP server and run a command at CLI startup, bypassing
+      the SDK permission controls.
+    affected: claude-agent-sdk < 0.2.121
+    source: https://github.com/anthropics/claude-agent-sdk-python/security/advisories/GHSA-h4mw-j7qp-8mwm
+    mitigation: Upgrade claude-agent-sdk to 0.2.121 or later. Never pass untrusted input as the session
+      ID to resume.
+    notes: 'Alias: GHSA-h4mw-j7qp-8mwm. Reviewed 2026-11-02. Documented only; no executable AgentSec detection.
+      resume; --mcp-config; untrusted session ID.'
+    fixed_in: 0.2.121
+  - id: CVE-2026-116684
+    component: MCP Python SDK server bearer authentication
+    severity: medium
+    cvss: 6.8
+    description: Server bearer authentication could not check a token's audience. Where one authorization
+      server issues tokens for several services, a token for another service was accepted.
+    affected: mcp >= 1.10.0, < 1.30.0; >= 2.0.0, < 2.2.0
+    source: https://github.com/modelcontextprotocol/python-sdk/security/advisories/GHSA-w4fh-qvv9-3v23
+    mitigation: Upgrade to mcp 1.30.0 or 2.2.0, then set validate_token_resource=True with resource_server_url
+      and return the audience as AccessToken.resource. Upgrading alone changes nothing.
+    notes: 'Alias: GHSA-w4fh-qvv9-3v23. Reviewed 2026-11-02. Documented only; no executable AgentSec detection.
+      validate_token_resource; resource_server_url; aud.'
+    fixed_in: '1.x: 1.30.0; 2.x: 2.2.0'
+  - id: GHSA-f897-62hf-6gxq
+    component: MCP TypeScript SDK HTTP server transports
+    severity: high
+    cvss: 7.5
+    description: HTTP-reachable servers did not limit POST body size or JSON-RPC batch length, so large
+      requests could exhaust memory and one long batch could block the server. stdio servers are excluded.
+    affected: '@modelcontextprotocol/sdk >= 1.10.0, < 1.30.1; @modelcontextprotocol/server >= 2.0.0, < 2.1.0;
+      @modelcontextprotocol/node >= 2.0.0, < 2.1.0; @modelcontextprotocol/hono >= 2.0.0, < 2.0.1'
+    source: https://github.com/modelcontextprotocol/typescript-sdk/security/advisories/GHSA-f897-62hf-6gxq
+    mitigation: Upgrade every installed package to its fixed version; bodies over 4 MiB then get 413 and
+      batches over 100 messages get 400. Until then, cap request size in a reverse proxy; express.json()
+      does not limit batch length.
+    notes: 'Alias: GHSA-f897-62hf-6gxq. Reviewed 2026-11-02. Documented only; no executable AgentSec detection.
+      maxRequestBodySize; batch length; reverse proxy.'
+    fixed_in: 'sdk 1.x: 1.30.1; server and node 2.x: 2.1.0; hono: 2.0.1'
+  - id: CVE-2026-111770
+    component: MCP TypeScript SDK server (2.x)
+    severity: high
+    cvss: 7.7
+    description: Messages were matched to connections by JSON-RPC id alone. When clients shared one stateless
+      transport or one server instance, one client's responses and notifications could reach another client.
+    affected: '@modelcontextprotocol/server >= 2.0.0, < 2.3.0'
+    source: https://github.com/modelcontextprotocol/typescript-sdk/security/advisories/GHSA-jm63-cq47-j5jp
+    mitigation: Upgrade @modelcontextprotocol/server to 2.3.0 and build a new server and transport per request
+      or session; shared instances now fail with ALREADY_CONNECTED.
+    notes: 'Alias: GHSA-jm63-cq47-j5jp. Reviewed 2026-11-02. Documented only; no executable AgentSec detection.
+      createMcpHandler; ALREADY_CONNECTED; per request.'
+    fixed_in: 2.3.0
+  - id: CVE-2026-111768
+    component: MCP TypeScript SDK input validation
+    severity: high
+    cvss: 7.5
+    description: Servers did not limit how many array elements and object keys they validated in one request,
+      so one HTTP request inside the default 4 MiB limit could exhaust the heap.
+    affected: '@modelcontextprotocol/sdk >= 1.3.0, < 1.32.0; @modelcontextprotocol/server >= 2.0.0, < 2.3.0'
+    source: https://github.com/modelcontextprotocol/typescript-sdk/security/advisories/GHSA-46jr-4wx8-v453
+    mitigation: Upgrade, then set maxToolInputElements and lower the request size limit; the option is off
+      by default, so upgrading alone changes nothing.
+    notes: 'Alias: GHSA-46jr-4wx8-v453. Reviewed 2026-11-02. Documented only; no executable AgentSec detection.
+      maxToolInputElements; heap out of memory.'
+    fixed_in: 'sdk 1.x: 1.32.0; server 2.x: 2.3.0'
+  - id: CVE-2026-111771
+    component: MCP TypeScript SDK server bearer authentication
+    severity: medium
+    cvss: 6.8
+    description: requireBearerAuth() and verifyBearerToken() could not check a token's audience, so a token
+      issued for another service by the same authorization server was accepted.
+    affected: '@modelcontextprotocol/sdk >= 1.6.0, < 1.32.0; @modelcontextprotocol/server >= 2.0.0, < 2.3.0;
+      @modelcontextprotocol/express >= 2.0.0, < 2.0.2; @modelcontextprotocol/server-legacy >= 2.0.0, < 2.3.1'
+    source: https://github.com/modelcontextprotocol/typescript-sdk/security/advisories/GHSA-rvq5-wwqv-78pq
+    mitigation: Upgrade, then pass expectedResource and return the token audience from verifyAccessToken();
+      the setting is off by default, so upgrading alone changes nothing.
+    notes: 'Alias: GHSA-rvq5-wwqv-78pq. Reviewed 2026-11-02. Documented only; no executable AgentSec detection.
+      expectedResource; aud.'
+    fixed_in: 'sdk 1.x: 1.32.0; server 2.x: 2.3.0; express: 2.0.2; server-legacy: 2.3.1'
+  - id: GHSA-7xgj-8392-5q4r
+    component: FastMCP server transforms
+    severity: medium
+    cvss: 6.8
+    description: Direct lookups checked the original component's authorization policy but returned the transformed
+      component without rechecking it, so a client knowing the identifier could call a denied tool or read
+      a denied resource or prompt.
+    affected: fastmcp and fastmcp-slim >= 3.0.0, < 3.4.10; >= 4.0.0, < 4.1.2
+    source: https://github.com/PrefectHQ/fastmcp/security/advisories/GHSA-7xgj-8392-5q4r
+    mitigation: Upgrade fastmcp or fastmcp-slim to 3.4.10 or 4.1.2 or later.
+    notes: 'Alias: GHSA-7xgj-8392-5q4r. Reviewed 2026-11-02. Documented only; no executable AgentSec detection.
+      transform; authorization policy.'
+    fixed_in: '3.x: 3.4.10; 4.x: 4.1.2'
+  - id: GHSA-vqqp-x5qm-5qp4
+    component: FastMCP OAuth client credentials providers
+    severity: medium
+    cvss: 5.9
+    description: The client credentials and private-key JWT providers did not bind pre-registered credentials
+      to their issuer, so an untrusted MCP server could advertise another authorization server and receive
+      the client secret or a signed assertion.
+    affected: fastmcp and fastmcp-slim >= 4.0.0a1, < 4.1.2
+    source: https://github.com/PrefectHQ/fastmcp/security/advisories/GHSA-vqqp-x5qm-5qp4
+    mitigation: Upgrade to 4.1.2, which adds issuer to ClientCredentialsOAuthProvider and PrivateKeyJWTOAuthProvider
+      and requires MCP SDK 2.2.0. 3.x does not include these wrappers.
+    notes: 'Alias: GHSA-vqqp-x5qm-5qp4. Reviewed 2026-11-02. Documented only; no executable AgentSec detection.
+      issuer; ClientCredentialsOAuthProvider; PrivateKeyJWTOAuthProvider.'
+    fixed_in: 4.1.2
+  - id: CVE-2026-62264
+    component: '@sylphx/pdf-reader-mcp HTTP transport'
+    severity: high
+    cvss: 7.5
+    description: With MCP_TRANSPORT=http the server logged that API key authentication was enabled but never
+      checked X-API-Key. Bound to 0.0.0.0 by default, it let any reachable client call every tool and read
+      any PDF the process could open.
+    affected: '@sylphx/pdf-reader-mcp >= 2.2.0, < 3.0.1'
+    source: https://github.com/SylphxAI/anymd/security/advisories/GHSA-q344-5v34-gm84
+    mitigation: Upgrade to 3.0.1 or later. Until then use the default stdio transport or bind HTTP to loopback.
+    notes: 'Alias: GHSA-q344-5v34-gm84. Reviewed 2026-11-02. Documented only; no executable AgentSec detection.
+      MCP_API_KEY; X-API-Key; 0.0.0.0; stdio.'
+    fixed_in: 3.0.1
+  - id: GHSA-4mfg-r38w-w8fg
+    component: mcp-sanitizer URL sanitizer
+    severity: high
+    cvss: 8.2
+    description: The URL sanitizer did not block localhost with an explicit port or bracketed IPv6 loopback
+      and link-local addresses, so URLs passed to MCP fetch tools could reach internal services.
+    affected: mcp-sanitizer < 1.4.0
+    source: https://github.com/starman69/mcp-sanitizer/security/advisories/GHSA-4mfg-r38w-w8fg
+    mitigation: Upgrade mcp-sanitizer to 1.4.0 or later and do not rely on it as the only egress control
+      for fetch tools.
+    notes: 'Alias: GHSA-4mfg-r38w-w8fg. Reviewed 2026-11-02. Documented only; no executable AgentSec detection.
+      explicit port; bracketed IPv6.'
+    fixed_in: 1.4.0
+  - id: GHSA-7w82-6f9j-v9jp
+    component: mcp-sanitizer file path sanitizer
+    severity: high
+    cvss: 7.5
+    description: The file path sanitizer allowlisted /home/ and /Users/ absolute prefixes, so paths to SSH
+      keys or cloud credentials outside the configured safe roots were reported as not blocked.
+    affected: mcp-sanitizer < 1.4.0
+    source: https://github.com/starman69/mcp-sanitizer/security/advisories/GHSA-7w82-6f9j-v9jp
+    mitigation: Upgrade mcp-sanitizer to 1.4.0 or later and enforce safe roots in the file tool itself.
+    notes: 'Alias: GHSA-7w82-6f9j-v9jp. Reviewed 2026-11-02. Documented only; no executable AgentSec detection.
+      user-home prefixes; safe roots.'
+    fixed_in: 1.4.0
+  - id: CVE-2026-60083
+    component: SiYuan MCP file tool
+    severity: medium
+    cvss: 4.9
+    description: The MCP file tool blocked only conf/conf.json while the HTTP file API also blocks snippet
+      configuration, templates and publish access data, exposing publish-mode passwords and other sensitive
+      workspace files.
+    affected: SiYuan kernel before commit 3542530c505f (v3.8.0)
+    source: https://github.com/siyuan-note/siyuan/security/advisories/GHSA-c8r8-95hg-mp34
+    mitigation: Update SiYuan to 3.8.0 or later; the existing siyuan floor of 3.8.1 already covers it.
+    notes: 'Alias: GHSA-c8r8-95hg-mp34. Reviewed 2026-11-02. Documented only; no executable AgentSec detection.
+      resolvePath; refuseToAccess; publishAccess.json.'
+    fixed_in: 3.8.0
+  - id: GHSA-953h-535j-jg2v
+    component: Envoy AI Gateway / agent-router MCP proxy
+    severity: medium
+    description: Session IDs embedded the caller's JWT subject but resume never compared it with the current
+      caller. The Helm chart also shipped a public default seed, making session IDs forgeable.
+    affected: github.com/envoyproxy/ai-gateway >= 0.4.0-rc1, < 1.2.0-rc1
+    source: https://github.com/theagentrouter/agent-router/security/advisories/GHSA-953h-535j-jg2v
+    mitigation: Upgrade to 1.2.0-rc1 or later and replace the default-insecure-seed value with a secret
+      seed.
+    notes: 'Alias: GHSA-953h-535j-jg2v. Reviewed 2026-11-02. Documented only; no executable AgentSec detection.
+      Mcp-Session-Id; default-insecure-seed; sub.'
+    fixed_in: 1.2.0-rc1
+  - id: CVE-2026-76894
+    component: '@aborruso/ckan-mcp-server MCP Apps UI'
+    severity: low
+    cvss: 3.1
+    description: The DataStore table UI accepted postMessage data without checking event.origin and sent
+      its JSON-RPC messages with target origin '*'.
+    affected: '@aborruso/ckan-mcp-server < 0.4.112'
+    source: https://github.com/ondata/ckan-mcp-server/security/advisories/GHSA-vqff-r82h-9crc
+    mitigation: Upgrade @aborruso/ckan-mcp-server to 0.4.112 or later.
+    notes: 'Alias: GHSA-vqff-r82h-9crc. Reviewed 2026-11-02. Documented only; no executable AgentSec detection.
+      event.origin; targetOrigin.'
+    fixed_in: 0.4.112
+  - id: CVE-2026-84360
+    component: nginx-ui MCP endpoints
+    severity: high
+    cvss: 8.1
+    description: Configuration mutation over HTTP required a secure OTP session, but /mcp and /mcp_message
+      only required ordinary authentication and exposed nginx_config_add and nginx_config_modify.
+    affected: nginx-ui before v2.4.1 (Go pseudo-version 1.9.10-0.20260703131214-23d1934099b0)
+    source: https://github.com/0xJacky/nginx-ui/security/advisories/GHSA-vc32-4gwf-77xp
+    mitigation: Upgrade nginx-ui to 2.4.1 or later; restrict MCP endpoints to trusted users until then.
+    notes: 'Alias: GHSA-vc32-4gwf-77xp. Reviewed 2026-11-02. Documented only; no executable AgentSec detection.
+      RequireSecureSession; /mcp_message.'
+    fixed_in: 2.4.1
+  - id: CVE-2026-84318
+    component: nginx-ui MCP nginx_config_add
+    severity: high
+    cvss: 8.8
+    description: nginx_config_add wrote configuration and reloaded nginx without ValidateConfigFile, unlike
+      the REST API, so an authenticated caller could add blocked directives such as perl or js_import.
+    affected: nginx-ui from Go pseudo-version 1.9.10-0.20250506154222-1330888280a2 before v2.4.1
+    source: https://github.com/0xJacky/nginx-ui/security/advisories/GHSA-9jww-cxg5-rj9m
+    mitigation: Upgrade nginx-ui to 2.4.1 or later. Same root cause as CVE-2026-84317 and CVE-2026-84319.
+    notes: 'Alias: GHSA-9jww-cxg5-rj9m. Reviewed 2026-11-02. Documented only; no executable AgentSec detection.
+      ValidateConfigFile; perl; js_import; load_module.'
+    fixed_in: 2.4.1
+  - id: CVE-2026-84317
+    component: nginx-ui MCP nginx_config_add
+    severity: high
+    cvss: 8.8
+    description: One of four configuration write paths, the MCP nginx_config_add tool, did not call the
+      directive blocklist, so an authenticated caller or a prompt-injected agent could reach nginx code
+      execution where njs or perl modules are available.
+    affected: nginx-ui before v2.4.1 (Go pseudo-version 1.9.10-0.20260703131214-23d1934099b0)
+    source: https://github.com/0xJacky/nginx-ui/security/advisories/GHSA-76pm-mq2q-9gcr
+    mitigation: Upgrade nginx-ui to 2.4.1 or later. Same root cause as CVE-2026-84318 and CVE-2026-84319.
+    notes: 'Alias: GHSA-76pm-mq2q-9gcr. Reviewed 2026-11-02. Documented only; no executable AgentSec detection.
+      incomplete hardening; njs; official Docker image.'
+    fixed_in: 2.4.1
+  - id: CVE-2026-84319
+    component: nginx-ui MCP configuration tools
+    severity: high
+    cvss: 8.3
+    description: A secondary authenticated user could write restricted directives through the MCP interface,
+      load the njs module and execute attacker-controlled NJS in the nginx worker. The advisory states this
+      is not OS command execution by itself.
+    affected: nginx-ui before v2.4.1 (Go pseudo-version 1.9.10-0.20260703131214-23d1934099b0)
+    source: https://github.com/0xJacky/nginx-ui/security/advisories/GHSA-5r62-gj48-897x
+    mitigation: Upgrade nginx-ui to 2.4.1 or later. Same root cause as CVE-2026-84317 and CVE-2026-84318.
+    notes: 'Alias: GHSA-5r62-gj48-897x. Reviewed 2026-11-02. Documented only; no executable AgentSec detection.
+      secondary user; ngx_http_js_module.'
+    fixed_in: 2.4.1
+  - id: CVE-2026-105697
+    component: Langflow MCP stdio transport
+    severity: critical
+    cvss: 9.9
+    description: The MCP stdio transport launched any command and arguments placed in an MCP server configuration,
+      without an allowlist. Users able to edit MCP server settings or build a flow with MCP Tools could
+      run OS commands on the Langflow host.
+    affected: langflow >= 1.1.2, < 1.10.3; langflow-base >= 0.1.2, < 0.10.3; lfx < 1.10.3
+    source: https://github.com/langflow-ai/langflow/security/advisories/GHSA-w794-rj3p-xv45
+    mitigation: Upgrade to Langflow 1.10.3 or later and disable LANGFLOW_AUTO_LOGIN on reachable instances.
+    notes: 'Alias: GHSA-w794-rj3p-xv45. Reviewed 2026-11-02. Documented only; no executable AgentSec detection.
+      bash -c; LANGFLOW_AUTO_LOGIN; MCP Tools component.'
+    fixed_in: langflow 1.10.3; langflow-base 0.10.3; lfx 1.10.3
+  - id: CVE-2026-105699
+    component: Langflow project-scoped MCP resources
+    severity: high
+    description: The project MCP transport authenticated the caller for its project but resources/read did
+      not authorize the requested URI, so a user could read files from other users' flows.
+    affected: langflow >= 1.6.8, <= 1.9.0
+    source: https://github.com/langflow-ai/langflow/security/advisories/GHSA-4hmc-cfm3-w43c
+    mitigation: Upgrade Langflow to 1.9.1 or later; 1.10.3 also fixes CVE-2026-105697.
+    notes: 'Alias: GHSA-4hmc-cfm3-w43c. Reviewed 2026-11-02. Documented only; no executable AgentSec detection.
+      resources/read; project_id.'
+    fixed_in: 1.9.1
+  - id: CVE-2026-61427
+    component: PraisonAI MCP HTTP-stream server
+    severity: high
+    cvss: 7.3
+    description: praisonai mcp serve --transport http-stream defaulted to no API key, exposing initialize
+      and tools/list without authentication, and tool arguments were not checked against inputSchema. The
+      advisory says workflow execution and file read were refuted on 4.6.63.
+    affected: praisonai <= 4.6.77
+    source: https://github.com/MervinPraison/PraisonAI/security/advisories/GHSA-hc5v-gxvj-58wh
+    mitigation: Upgrade praisonai to 4.6.78 or later and set --api-key on any HTTP-stream deployment.
+    notes: 'Alias: GHSA-hc5v-gxvj-58wh. Reviewed 2026-11-02. Documented only; no executable AgentSec detection.
+      --api-key; inputSchema; http-stream.'
+    fixed_in: 4.6.78
+  - id: CVE-2026-105806
+    component: '@payloadcms/plugin-mcp'
+    severity: high
+    description: Under certain conditions an authenticated user could manage MCP API keys outside their
+      account and take over other accounts. Applications without the MCP plugin are not affected.
+    affected: '@payloadcms/plugin-mcp >= 3.61.0, < 3.88.0'
+    source: https://github.com/payloadcms/payload/security/advisories/GHSA-2q76-m6w6-qgc6
+    mitigation: Upgrade @payloadcms/plugin-mcp to 3.88.0 or later, or disable the plugin or restrict MCP
+      key management to trusted users.
+    notes: 'Alias: GHSA-2q76-m6w6-qgc6. Reviewed 2026-11-02. Documented only; no executable AgentSec detection.
+      MCP API keys; account takeover.'
+    fixed_in: 3.88.0
+  - id: CVE-2026-115477
+    component: obsidian-tc MCP Streamable HTTP server
+    severity: high
+    description: On Streamable HTTP with jwtSecret set, a destructive tool call that asked for elicitation
+      confirmation could still complete after the human declined, cancelled or omitted the answer, because
+      the server treated a valid requestState as approval.
+    affected: obsidian-tc >= 1.13.0, <= 1.31.3
+    source: https://github.com/The-40-Thieves/obsidian-tc/security/advisories/GHSA-737x-cwfr-5vvc
+    mitigation: Upgrade obsidian-tc to 1.31.4 or later.
+    notes: 'Alias: GHSA-737x-cwfr-5vvc. Reviewed 2026-11-02. Documented only; no executable AgentSec detection.
+      elicitation; requestState; destructive.'
+    fixed_in: 1.31.4
+  - id: CVE-2026-113731
+    component: djust MCP find_handlers_for_template tool
+    severity: low
+    cvss: 3.3
+    description: The find_handlers_for_template MCP tool accepted any absolute filesystem path and read
+      the file.
+    affected: djust >= 0.9.0, <= 1.0.9; >= 1.1.0, <= 1.1.6; >= 1.2.0.dev0, <= 1.2.3; >= 1.3.0.dev0, <= 1.3.0rc7
+    source: https://github.com/djust-org/djust/security/advisories/GHSA-r57g-mc79-8hj2
+    mitigation: Upgrade djust to the fixed release of its branch.
+    notes: 'Alias: GHSA-r57g-mc79-8hj2. Reviewed 2026-11-02. Documented only; no executable AgentSec detection.
+      absolute path; template_path.'
+    fixed_in: 1.0.10; 1.1.7; 1.2.4; 1.3.0rc8
+  - id: CVE-2026-94486
+    component: Next.js dev server MCP endpoint
+    severity: low
+    cvss: 5.4
+    description: next dev exposed an MCP endpoint that did not verify the requesting origin, so a website
+      visited by the developer could read the project path, source snippets, routes and development logs.
+      Production deployments do not serve it.
+    affected: next >= 16.0.0, < 16.3.8
+    source: https://github.com/vercel/next.js/security/advisories/GHSA-39w2-rjm5-chcv
+    mitigation: Upgrade Next.js to 16.3.8 or later.
+    notes: 'Alias: GHSA-39w2-rjm5-chcv. Reviewed 2026-11-02. Documented only; no executable AgentSec detection.
+      next dev; origin.'
+    fixed_in: 16.3.8
+  - id: CVE-2026-106484
+    component: chrome-devtools-mcp file output
+    severity: medium
+    cvss: 4.4
+    description: Output paths were checked against MCP roots before the file extension was rewritten, so
+      an in-root symlink with the rewritten name could make tools overwrite a file outside the roots.
+    affected: chrome-devtools-mcp >= 1.1.0, <= 1.4.0
+    source: https://github.com/ChromeDevTools/chrome-devtools-mcp/security/advisories/GHSA-5hw5-4q87-m6x9
+    mitigation: Upgrade chrome-devtools-mcp to 1.5.0 or later. The advisory states this is not remote code
+      execution.
+    notes: 'Alias: GHSA-5hw5-4q87-m6x9, GHSA-2mw5-2f2c-v2g3. Reviewed 2026-11-02. Documented only; no executable
+      AgentSec detection. MCP roots; ensureExtension; take_screenshot.'
+    fixed_in: 1.5.0
+  - id: CVE-2026-111091
+    component: JetBrains Junie CLI
+    severity: high
+    cvss: 7.8
+    description: The vendor CVE record states that code execution was possible via an untrusted project's
+      MCP server configuration.
+    affected: Junie CLI < 26.8.3
+    source: https://www.cve.org/CVERecord?id=CVE-2026-111091
+    mitigation: Update Junie CLI to 26.8.3 or later and review workspace MCP configuration before opening
+      untrusted projects.
+    notes: 'Alias: GHSA-44gv-r4c4-w64m. Reviewed 2026-11-02. Documented only; no executable AgentSec detection.
+      workspace MCP; vendor bulletin entry not found on 2026-11-02.'
+    fixed_in: 26.8.3
   - id: CVE-2026-59723
     component: Cline Hub dashboard (/browser endpoint)
     severity: high
@@ -1581,7 +2135,7 @@ cve_database:
     source: https://github.com/modelcontextprotocol/typescript-sdk/security/advisories/GHSA-6prh-2h8m-c8cw
     mitigation: 'Upgrade sdk to 1.32.0 or client to 2.3.0. Configure final URLs and avoid redirectPolicy:
       follow, which restores exposure; stdio clients are excluded.'
-    notes: 'Alias: GHSA-6prh-2h8m-c8cw. Reviewed 2026-10-04. Documented only; no executable AgentSec
+    notes: 'Alias: GHSA-6prh-2h8m-c8cw. Reviewed 2026-10-04. CVE alias: CVE-2026-111769 recorded 2026-11-02. Documented only; no executable AgentSec
       detection. redirectPolicy; stdio; Authorization.'
     fixed_in: 'sdk 1.x: 1.32.0; client 2.x: 2.3.0'
   - id: GHSA-22jm-h49p-29qw
@@ -1594,7 +2148,7 @@ cve_database:
     source: https://github.com/modelcontextprotocol/typescript-sdk/security/advisories/GHSA-22jm-h49p-29qw
     mitigation: Upgrade @modelcontextprotocol/sdk to 1.32.0 or later. Prefer removing deprecated experimental
       tasks; otherwise use a separate InMemoryTaskStore per session until patched.
-    notes: 'Alias: GHSA-22jm-h49p-29qw. Reviewed 2026-10-04. Documented only; no executable AgentSec
+    notes: 'Alias: GHSA-22jm-h49p-29qw. Reviewed 2026-10-04. CVE alias: CVE-2026-111767 recorded 2026-11-02. Documented only; no executable AgentSec
       detection. taskStore; 2.x packages.'
     fixed_in: 1.32.0
   - id: CVE-2026-104850
@@ -1640,7 +2194,7 @@ cve_database:
     mitigation: Upgrade mcp to 1.30.0 or 2.2.0 on the corresponding branch. Configure final endpoint
       URLs; before upgrading, supply an HTTP client with follow_redirects=False. Rotate credentials
       that reached untrusted redirect targets.
-    notes: 'Alias: GHSA-5h93-6whr-6q8j. Reviewed 2026-10-04. Documented only; no executable AgentSec
+    notes: 'Alias: GHSA-5h93-6whr-6q8j. Reviewed 2026-10-04. CVE alias: CVE-2026-116685 recorded 2026-11-02. Documented only; no executable AgentSec
       detection. Authorization; stdio excluded.'
     fixed_in: '1.x: 1.30.0; 2.x: 2.2.0'
   - id: GHSA-fmmv-w9g8-j3gc
@@ -1696,7 +2250,7 @@ cve_database:
     source: https://github.com/modelcontextprotocol/python-sdk/security/advisories/GHSA-rwrf-2pqf-9j8j
     mitigation: Upgrade mcp to 1.30.0 on 1.x or 2.2.0 on 2.x. Until then, call tools only on trusted
       servers.
-    notes: 'Alias: GHSA-rwrf-2pqf-9j8j. Reviewed 2026-10-04. Documented only; no executable AgentSec
+    notes: 'Alias: GHSA-rwrf-2pqf-9j8j. Reviewed 2026-10-04. CVE alias: CVE-2026-116686 recorded 2026-11-02. Documented only; no executable AgentSec
       detection. clients only; not returned.'
     fixed_in: '1.x: 1.30.0; 2.x: 2.2.0'
   - id: CVE-2026-103012
@@ -3762,6 +4316,22 @@ cve_database:
 # MINIMUM SAFE VERSIONS (quick reference for scanning)
 # ═══════════════════════════════════════════════════════════════
 minimum_safe_versions:
+  "@modelcontextprotocol/server": "2.3.0"
+  "@modelcontextprotocol/node": "2.1.0"
+  "@modelcontextprotocol/hono": "2.0.1"
+  "@modelcontextprotocol/express": "2.0.2"
+  "@modelcontextprotocol/server-legacy": "2.3.1"
+  "claude-agent-sdk-python": "0.2.121"
+  "fastmcp-3": "3.4.10"
+  "fastmcp-4": "4.1.2"
+  "@sylphx/pdf-reader-mcp": "3.0.1"
+  "mcp-sanitizer": "1.4.0"
+  "chrome-devtools-mcp": "1.5.0"
+  "junie-cli": "26.8.3"
+  "@payloadcms/plugin-mcp": "3.88.0"
+  "langflow": "1.10.3"
+  "praisonai": "4.6.78"
+  "obsidian-tc": "1.31.4"
   "claude-desktop": "1.15962.0"
   "mcp-python-sdk-2": "2.2.0"
   "@modelcontextprotocol/sdk": "1.32.0"
@@ -3771,7 +4341,7 @@ minimum_safe_versions:
   toolhive-cli: 0.30.1
   '@zereight/mcp-gitlab': 2.1.30
   github.com/obot-platform/obot: 0.23.0
-  '@aborruso/ckan-mcp-server': 0.4.108
+  "@aborruso/ckan-mcp-server": "0.4.112"
   github.com/f1bonacc1/process-compose: 1.120.0
   codex-desktop: 26.818.21641
   codex-cli: 0.149.0
@@ -3784,7 +4354,7 @@ minimum_safe_versions:
   mcp-from-openapi: 2.5.0
   goose: 1.44.0
   vscode: 1.136.2
-  "nginx-ui": "2.3.4"
+  "nginx-ui": "2.4.1"
   "filesystem-mcp": "0.6.3"
   "mcp-inspector": "0.14.1"
   "mcp-server-git": "2026.1.14"
