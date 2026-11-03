@@ -54,7 +54,7 @@ out=$(cd "$REPO" && bash "$PRE_COMMIT" 2>&1) || rc=$?
 check "blocks a staged private key header" "$([[ $rc -ne 0 && "$out" == *"Private Key"* ]] && echo 1 || echo 0)" "exit $rc"
 rc=0
 out=$(cd "$REPO" && PATH="$WORK/badgrep:$PATH" bash "$PRE_COMMIT" 2>&1) || rc=$?
-check "reports a grep failure instead of staying silent" "$([[ "$out" == *"grep failed"* ]] && echo 1 || echo 0)" "exit $rc"
+check "fails closed on a grep error and mentions --no-verify" "$([[ $rc -ne 0 && "$out" == *"grep failed"* && "$out" == *"--no-verify"* ]] && echo 1 || echo 0)" "exit $rc"
 
 echo "output-secrets-scanner.sh"
 payload=$(jq -n --arg o "$FAKE_KEY" '{"tool_name":"Bash","tool_output":$o}')

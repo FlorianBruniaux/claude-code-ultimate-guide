@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Fixed
 
-- **Private key detection in example hooks**: `examples/hooks/bash/pre-commit-secrets.sh`, `output-secrets-scanner.sh` and `output-validator.sh` passed patterns that start with `-----` to `grep` without `-e`. BSD grep on macOS reads such a pattern as an option and exits 2, and `|| true` or `2>/dev/null` hid the error, so the private key entries never matched. All three now pass the pattern with `-e` and report a grep exit code above 1 instead of treating it as "no secret found". New regression test: `examples/hooks/bash/test-private-key-detection.sh`. GNU grep behavior was not tested.
+- **Private key detection in example hooks**: `examples/hooks/bash/pre-commit-secrets.sh`, `output-secrets-scanner.sh` and `output-validator.sh` passed patterns that start with `-----` to `grep` without `-e`. BSD grep on macOS reads such a pattern as an option and exits 2, and `|| true` or `2>/dev/null` hid the error, so the private key entries never matched. All three now pass the pattern with `-e` and no longer treat a grep exit code above 1 as "no secret found": the pre-commit hook refuses the commit (fail closed, with a `git commit --no-verify` reminder on stderr), the two PostToolUse hooks warn. New regression test: `examples/hooks/bash/test-private-key-detection.sh`. GNU grep behavior was not tested.
 
 ### Changed
 
