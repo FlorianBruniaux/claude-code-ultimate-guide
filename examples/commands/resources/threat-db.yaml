@@ -2,9 +2,82 @@
 # For use with /security-check and /security-audit commands
 # Manually maintained — update after new security advisories
 
-version: "2.32.0"
-updated: "2026-11-02"
+version: "2.33.0"
+updated: "2026-11-03"
 sources:
+  - name: GitHub Advisory Database - mcp-remote OS command injection from an untrusted authorization endpoint
+    url: https://github.com/advisories/GHSA-6xpm-ggf7-wc3p
+    date: '2025-07-09'
+  - name: Anthropic - Claude Code Action runs MCP servers from a pull request .mcp.json
+    url: https://github.com/anthropics/claude-code-action/security/advisories/GHSA-8q5r-mmjf-575q
+    date: '2026-06-10'
+  - name: GitHub Advisory Database - OpenAI Codex CLI auto-loads project MCP configuration
+    url: https://github.com/advisories/GHSA-xrxf-jgv3-qmrm
+    date: '2026-04-14'
+  - name: GitHub - GitHub Copilot CLI hidden commands through bash parameter expansion
+    url: https://github.com/github/copilot-cli/security/advisories/GHSA-g8r9-g2v8-jv6f
+    date: '2026-03-06'
+  - name: Cursor - Cursor sensitive file protection bypass by case
+    url: https://github.com/cursor/cursor/security/advisories/GHSA-xcwh-rrwj-gxc7
+    date: '2025-10-02'
+  - name: Cursor - Cursor code execution through .code-workspace settings
+    url: https://github.com/cursor/cursor/security/advisories/GHSA-xg6w-rmh5-r77r
+    date: '2025-10-02'
+  - name: Cursor - Cursor CLI command injection through MCP OAuth
+    url: https://github.com/cursor/cursor/security/advisories/GHSA-wj33-264c-j9cq
+    date: '2025-10-02'
+  - name: Cursor - Cursor MCP deep-link install hides the executed command
+    url: https://github.com/cursor/cursor/security/advisories/GHSA-4575-fh42-7848
+    date: '2025-11-03'
+  - name: Cursor - Cursor CLI Beta runs repository MCP configuration without a prompt
+    url: https://github.com/cursor/cursor/security/advisories/GHSA-4hwr-97q3-37w2
+    date: '2025-11-03'
+  - name: Zed Industries - Zed runs MCP servers from project settings on open
+    url: https://github.com/zed-industries/zed/security/advisories/GHSA-cv6g-cmxc-vw8j
+    date: '2025-12-17'
+  - name: Model Context Protocol maintainers - MCP Python SDK streamable HTTP crash on client exception
+    url: https://github.com/modelcontextprotocol/python-sdk/security/advisories/GHSA-j975-95f5-7wqh
+    date: '2025-07-04'
+  - name: Model Context Protocol maintainers - MCP Python SDK FastMCP validation error crash
+    url: https://github.com/modelcontextprotocol/python-sdk/security/advisories/GHSA-3qhf-m339-9g5v
+    date: '2025-07-04'
+  - name: Model Context Protocol maintainers - MCP TypeScript SDK DNS rebinding protection disabled by default
+    url: https://github.com/modelcontextprotocol/typescript-sdk/security/advisories/GHSA-w48q-cv73-mx4w
+    date: '2025-12-02'
+  - name: Model Context Protocol maintainers - MCP Go SDK case-insensitive JSON-RPC field matching
+    url: https://github.com/modelcontextprotocol/go-sdk/security/advisories/GHSA-wvj2-96wp-fq3f
+    date: '2026-02-26'
+  - name: Model Context Protocol maintainers - MCP Java SDK hardcoded wildcard CORS
+    url: https://github.com/modelcontextprotocol/java-sdk/security/advisories/GHSA-hv2w-8mjj-jw22
+    date: '2026-03-30'
+  - name: Model Context Protocol maintainers - MCP Inspector XSS from an untrusted redirect URL
+    url: https://github.com/modelcontextprotocol/inspector/security/advisories/GHSA-g9hg-qhmf-q45m
+    date: '2025-09-08'
+  - name: FastMCP maintainers - FastMCP OAuth client callback reflected XSS
+    url: https://github.com/PrefectHQ/fastmcp/security/advisories/GHSA-mxxr-jv3v-6pgc
+    date: '2025-10-29'
+  - name: FastMCP maintainers - FastMCP install cursor command injection on Windows
+    url: https://github.com/PrefectHQ/fastmcp/security/advisories/GHSA-rj5c-58rq-j5g5
+    date: '2025-10-29'
+  - name: FastMCP maintainers - FastMCP OAuth Proxy token reuse across MCP servers
+    url: https://github.com/PrefectHQ/fastmcp/security/advisories/GHSA-5h2m-4q8j-pqpj
+    date: '2026-03-16'
+  - name: FastMCP maintainers - FastMCP install claude-code and gemini-cli command injection on Windows
+    url: https://github.com/PrefectHQ/fastmcp/security/advisories/GHSA-m8x7-r2rg-vh5g
+    date: '2026-03-31'
+  - name: GitHub - GitHub MCP Server unauthenticated crash on completion/complete
+    url: https://github.com/github/github-mcp-server/security/advisories/GHSA-w4q6-qw23-4rg7
+    date: '2026-07-28'
+  - name: Model Context Protocol maintainers - MCP Registry open redirect through a protocol-relative path
+    url: https://github.com/modelcontextprotocol/registry/security/advisories/GHSA-v8vw-gw5j-w7m6
+    date: '2026-05-08'
+  - name: GitHub Advisory Database (unreviewed) - Deprecated Slack MCP server leaks data through link unfurling
+    url: https://github.com/advisories/GHSA-gmx5-crwh-6vxg
+    date: '2025-07-02'
+  - name: GitHub Advisory Database (unreviewed) - Codex approval bypass through the PowerShell stop-parsing
+      token
+    url: https://github.com/advisories/GHSA-2frj-4qr5-m2rf
+    date: '2026-09-01'
   - name: NVD - CVE-2026-88755 Z.ai ZCode
     url: https://nvd.nist.gov/vuln/detail/CVE-2026-88755
     date: '2026-10-16'
@@ -1665,6 +1738,306 @@ malicious_skill_patterns:
 # CVE DATABASE (MCP servers & AI agent tools)
 # ═══════════════════════════════════════════════════════════════
 cve_database:
+  - id: CVE-2025-6514
+    component: mcp-remote
+    severity: critical
+    cvss: 9.6
+    description: mcp-remote was exposed to OS command injection when connecting to untrusted MCP servers,
+      through crafted input in the authorization_endpoint response URL.
+    affected: mcp-remote >= 0.0.5, < 0.1.16
+    source: https://github.com/advisories/GHSA-6xpm-ggf7-wc3p
+    mitigation: Update mcp-remote to 0.1.16 or later and connect only to trusted MCP servers. A later monitoring
+      record (CVE-2026-108716) covers 0.8.0 through 0.14.3, so 0.1.16 is not a current floor.
+    notes: 'Alias: GHSA-6xpm-ggf7-wc3p. Reviewed 2026-11-03. Documented only; no executable AgentSec detection.
+      OAuth authorization_endpoint; command injection. Found through the mcp-cve-project index; fields taken
+      from the advisory.'
+    fixed_in: 0.1.16
+  - id: CVE-2026-47751
+    component: anthropics/claude-code-action
+    severity: medium
+    description: The action checked out attacker-controlled PR head branches, read .mcp.json from the working
+      directory and enabled all project MCP servers. A pull request carrying a malicious .mcp.json could
+      run code on the Actions runner and expose workflow secrets when a privileged user triggered the action
+      on that PR.
+    affected: anthropics/claude-code-action < 1.0.74
+    source: https://github.com/anthropics/claude-code-action/security/advisories/GHSA-8q5r-mmjf-575q
+    mitigation: Update claude-code-action to 1.0.74 or later and do not trigger it on untrusted pull requests
+      with secrets in scope.
+    notes: 'Alias: GHSA-8q5r-mmjf-575q. Reviewed 2026-11-03. Documented only; no executable AgentSec detection.
+      pull request; enableAllProjectMcpServers; runner secrets. Found through the mcp-cve-project index;
+      fields taken from the advisory.'
+    fixed_in: 1.0.74
+  - id: CVE-2025-61260
+    component: OpenAI Codex CLI
+    severity: critical
+    cvss: 9.8
+    description: Codex CLI 0.23.0 and earlier loaded project-local .env and .codex/config.toml files without
+      confirmation when run inside a repository, so a malicious repository could embed commands that executed
+      immediately through MCP configuration.
+    affected: '@openai/codex <= 0.23.0'
+    source: https://github.com/advisories/GHSA-xrxf-jgv3-qmrm
+    mitigation: Use a Codex CLI release later than 0.23.0 and inspect .codex/ and .env before running Codex
+      in an untrusted repository. The advisory lists no patched version.
+    notes: 'Alias: GHSA-xrxf-jgv3-qmrm. Reviewed 2026-11-03. Documented only; no executable AgentSec detection.
+      project config auto-load; .codex/config.toml. Found through the mcp-cve-project index; fields taken
+      from the advisory.'
+  - id: CVE-2026-29783
+    component: GitHub Copilot CLI shell tool
+    severity: high
+    description: The shell safety assessment classified commands using bash parameter transformation operators
+      as read-only. An attacker who could influence agent commands, for example through repository files
+      or MCP server responses, could execute hidden commands.
+    affected: '@github/copilot <= 0.0.422'
+    source: https://github.com/github/copilot-cli/security/advisories/GHSA-g8r9-g2v8-jv6f
+    mitigation: Update Copilot CLI to 0.0.423 or later.
+    notes: 'Alias: GHSA-g8r9-g2v8-jv6f. Reviewed 2026-11-03. Documented only; no executable AgentSec detection.
+      parameter expansion; read-only classification; prompt injection. Found through the mcp-cve-project
+      index; fields taken from the advisory.'
+    fixed_in: 0.0.423
+  - id: CVE-2025-59944
+    component: Cursor IDE
+    severity: high
+    cvss: 8.0
+    description: Case-sensitive checks protecting sensitive files such as .cursor/mcp.json let a prompt
+      injection modify them on case-insensitive filesystems and reach remote code execution.
+    affected: Cursor < 1.6.23 (advisory range)
+    source: https://github.com/cursor/cursor/security/advisories/GHSA-xcwh-rrwj-gxc7
+    mitigation: Update Cursor to 1.7 or later. The advisory lists affected versions below 1.6.23 and 1.7
+      as patched.
+    notes: 'Alias: GHSA-xcwh-rrwj-gxc7. Reviewed 2026-11-03. Documented only; no executable AgentSec detection.
+      case-insensitive filesystem; .cursor/mcp.json. Found through the mcp-cve-project index; fields taken
+      from the advisory.'
+    fixed_in: '1.7'
+  - id: CVE-2025-61590
+    component: Cursor IDE workspaces
+    severity: high
+    cvss: 7.5
+    description: A prompt injection that hijacked chat context could write workspace settings into a .code-workspace
+      file and turn them into code execution.
+    affected: Cursor < 1.7
+    source: https://github.com/cursor/cursor/security/advisories/GHSA-xg6w-rmh5-r77r
+    mitigation: Update Cursor to 1.7 or later.
+    notes: 'Alias: GHSA-xg6w-rmh5-r77r. Reviewed 2026-11-03. Documented only; no executable AgentSec detection.
+      .code-workspace; prompt injection. Found through the mcp-cve-project index; fields taken from the
+      advisory.'
+    fixed_in: '1.7'
+  - id: CVE-2025-61591
+    component: Cursor Agent CLI
+    severity: high
+    cvss: 8.8
+    description: When MCP used OAuth with an untrusted server, the server could return crafted commands
+      during the exchange and reach command injection on the host with the user's privileges.
+    affected: Cursor CLI < 2025.09.17-25b418f
+    source: https://github.com/cursor/cursor/security/advisories/GHSA-wj33-264c-j9cq
+    mitigation: Update Cursor CLI to 2025.09.17-25b418f or later and use OAuth only with trusted MCP servers.
+    notes: 'Alias: GHSA-wj33-264c-j9cq. Reviewed 2026-11-03. Documented only; no executable AgentSec detection.
+      OAuth; untrusted MCP server. Found through the mcp-cve-project index; fields taken from the advisory.'
+    fixed_in: 2025.09.17-25b418f
+  - id: CVE-2025-64106
+    component: Cursor MCP server deep-link install
+    severity: high
+    cvss: 8.8
+    description: A crafted MCP install deep-link bypassed the warning dialog and showed a trusted server
+      name while running arbitrary commands from the link if the user accepted.
+    affected: Cursor 1.7.28 (advisory range)
+    source: https://github.com/cursor/cursor/security/advisories/GHSA-4575-fh42-7848
+    mitigation: Update Cursor to 2.0 or later and do not accept MCP install links from untrusted sources.
+    notes: 'Alias: GHSA-4575-fh42-7848. Reviewed 2026-11-03. Documented only; no executable AgentSec detection.
+      deep-link; speedbump bypass. Found through the mcp-cve-project index; fields taken from the advisory.'
+    fixed_in: '2.0'
+  - id: CVE-2025-64109
+    component: Cursor CLI (Beta)
+    severity: high
+    cvss: 8.8
+    description: Opening a cloned repository with Cursor CLI ran the command of a malicious MCP server declared
+      in .cursor/mcp.json without any warning.
+    affected: Cursor CLI (Beta) < 2025.09.17-25b418f
+    source: https://github.com/cursor/cursor/security/advisories/GHSA-4hwr-97q3-37w2
+    mitigation: Update Cursor CLI to 2025.09.17-25b418f or later; MCP servers now prompt before being enabled.
+    notes: 'Alias: GHSA-4hwr-97q3-37w2. Reviewed 2026-11-03. Documented only; no executable AgentSec detection.
+      .cursor/mcp.json; repository open. Found through the mcp-cve-project index; fields taken from the
+      advisory.'
+    fixed_in: 2025.09.17-25b418f
+  - id: CVE-2025-68433
+    component: Zed IDE
+    severity: high
+    cvss: 7.7
+    description: Zed loaded MCP context server definitions from a project's .zed/settings.json, so opening
+      a crafted project ran arbitrary commands with the user's privileges without further interaction.
+    affected: Zed < v0.218.2-pre (including stable v0.217.2)
+    source: https://github.com/zed-industries/zed/security/advisories/GHSA-cv6g-cmxc-vw8j
+    mitigation: Use a Zed release that includes the worktree trust mechanism from v0.218.2-pre and review
+      .zed/settings.json before opening untrusted projects.
+    notes: 'Alias: GHSA-cv6g-cmxc-vw8j. Reviewed 2026-11-03. Documented only; no executable AgentSec detection.
+      .zed/settings.json; worktree trust. Found through the mcp-cve-project index; fields taken from the
+      advisory.'
+    fixed_in: v0.218.2-pre
+  - id: CVE-2025-53365
+    component: MCP Python SDK streamable HTTP transport
+    severity: high
+    description: A client that deliberately triggered an exception after opening a streamable HTTP session
+      could cause an uncaught ClosedResourceError and crash the server until restart.
+    affected: mcp < 1.10.0
+    source: https://github.com/modelcontextprotocol/python-sdk/security/advisories/GHSA-j975-95f5-7wqh
+    mitigation: Update mcp to 1.10.0 or later; the existing 1.30.0 floor covers it.
+    notes: 'Alias: GHSA-j975-95f5-7wqh. Reviewed 2026-11-03. Documented only; no executable AgentSec detection.
+      ClosedResourceError; denial of service. Found through the mcp-cve-project index; fields taken from
+      the advisory.'
+    fixed_in: 1.10.0
+  - id: CVE-2025-53366
+    component: MCP Python SDK FastMCP server
+    severity: high
+    description: Malformed requests could trigger an unhandled validation exception and leave the server
+      returning 500 errors until manually restarted.
+    affected: mcp < 1.9.4
+    source: https://github.com/modelcontextprotocol/python-sdk/security/advisories/GHSA-3qhf-m339-9g5v
+    mitigation: Update mcp to 1.9.4 or later; the existing 1.30.0 floor covers it.
+    notes: 'Alias: GHSA-3qhf-m339-9g5v. Reviewed 2026-11-03. Documented only; no executable AgentSec detection.
+      validation error; denial of service. Found through the mcp-cve-project index; fields taken from the
+      advisory.'
+    fixed_in: 1.9.4
+  - id: CVE-2025-66414
+    component: MCP TypeScript SDK HTTP transports
+    severity: high
+    description: HTTP-based servers did not enable DNS rebinding protection by default. A localhost server
+      without authentication could receive requests from a malicious website and run tools or read resources
+      on the user's behalf.
+    affected: '@modelcontextprotocol/sdk < 1.24.0'
+    source: https://github.com/modelcontextprotocol/typescript-sdk/security/advisories/GHSA-w48q-cv73-mx4w
+    mitigation: Update @modelcontextprotocol/sdk to 1.24.0 or later, or enable enableDnsRebindingProtection,
+      and authenticate local HTTP servers.
+    notes: 'Alias: GHSA-w48q-cv73-mx4w. Reviewed 2026-11-03. Documented only; no executable AgentSec detection.
+      DNS rebinding; localhost; enableDnsRebindingProtection. Found through the mcp-cve-project index; fields
+      taken from the advisory.'
+    fixed_in: 1.24.0
+  - id: CVE-2026-27896
+    component: MCP Go SDK
+    severity: high
+    description: The SDK parsed JSON-RPC with encoding/json, which matches keys case-insensitively and folds
+      some Unicode characters. A malicious peer could send protocol messages with non-standard field names
+      that the SDK still accepted, contrary to JSON-RPC 2.0.
+    affected: github.com/modelcontextprotocol/go-sdk < 1.3.1
+    source: https://github.com/modelcontextprotocol/go-sdk/security/advisories/GHSA-wvj2-96wp-fq3f
+    mitigation: Update the Go SDK to 1.3.1 or later; the existing 1.4.0 floor covers it.
+    notes: 'Alias: GHSA-wvj2-96wp-fq3f. Reviewed 2026-11-03. Documented only; no executable AgentSec detection.
+      case-insensitive JSON; parser differential. Found through the mcp-cve-project index; fields taken
+      from the advisory.'
+    fixed_in: 1.3.1
+  - id: CVE-2026-34237
+    component: MCP Java SDK servlet transports
+    severity: medium
+    cvss: 6.1
+    description: 'The servlet SSE and streamable HTTP transports sent Access-Control-Allow-Origin: *, so
+      a page in the victim''s browser could read responses from a reachable MCP server.'
+    affected: io.modelcontextprotocol.sdk:mcp-core < 0.18.3; = 1.0.0; = 1.1.0
+    source: https://github.com/modelcontextprotocol/java-sdk/security/advisories/GHSA-hv2w-8mjj-jw22
+    mitigation: Update mcp-core to 1.1.1, 1.0.1 or 0.18.3 on its branch.
+    notes: 'Alias: GHSA-hv2w-8mjj-jw22. Reviewed 2026-11-03. Documented only; no executable AgentSec detection.
+      CORS wildcard; servlet transport. Found through the mcp-cve-project index; fields taken from the advisory.'
+    fixed_in: '0.x: 0.18.3; 1.0.x: 1.0.1; 1.1.x: 1.1.1'
+  - id: CVE-2025-58444
+    component: MCP Inspector
+    severity: high
+    description: The Inspector rendered a redirect URL returned by a remote MCP server. A crafted redirect
+      could inject script and, through the built-in proxy, run commands on the developer machine.
+    affected: '@modelcontextprotocol/inspector < 0.16.6'
+    source: https://github.com/modelcontextprotocol/inspector/security/advisories/GHSA-g9hg-qhmf-q45m
+    mitigation: Update the Inspector to 0.16.6 or later and connect it only to trusted servers.
+    notes: 'Alias: GHSA-g9hg-qhmf-q45m. Reviewed 2026-11-03. Documented only; no executable AgentSec detection.
+      redirect URL; XSS; proxy. Found through the mcp-cve-project index; fields taken from the advisory.'
+    fixed_in: 0.16.6
+  - id: CVE-2025-62800
+    component: FastMCP OAuth client callback page
+    severity: medium
+    description: The callback page served during the client OAuth flow embedded request values such as the
+      error parameter without escaping, allowing reflected cross-site scripting.
+    affected: fastmcp < 2.13.0
+    source: https://github.com/PrefectHQ/fastmcp/security/advisories/GHSA-mxxr-jv3v-6pgc
+    mitigation: Update fastmcp to 2.13.0 or later.
+    notes: 'Alias: GHSA-mxxr-jv3v-6pgc. Reviewed 2026-11-03. Documented only; no executable AgentSec detection.
+      OAuth callback; reflected XSS. Found through the mcp-cve-project index; fields taken from the advisory.'
+    fixed_in: 2.13.0
+  - id: CVE-2025-62801
+    component: FastMCP install cursor
+    severity: medium
+    description: fastmcp install cursor placed the server name in a deep-link opened through cmd.exe on
+      Windows, so shell metacharacters in an influenced server name ran arbitrary commands.
+    affected: fastmcp < 2.13.0
+    source: https://github.com/PrefectHQ/fastmcp/security/advisories/GHSA-rj5c-58rq-j5g5
+    mitigation: Update fastmcp to 2.13.0 or later and install only servers you trust.
+    notes: 'Alias: GHSA-rj5c-58rq-j5g5. Reviewed 2026-11-03. Documented only; no executable AgentSec detection.
+      server_name; cmd.exe; deep-link. Found through the mcp-cve-project index; fields taken from the advisory.'
+    fixed_in: 2.13.0
+  - id: CVE-2025-69196
+    component: FastMCP OAuth Proxy
+    severity: high
+    description: The OAuth Proxy ignored the client's resource parameter and issued tokens for its base_url,
+      so a token obtained for one MCP server could be accepted by another behind the same proxy.
+    affected: fastmcp < 2.14.2
+    source: https://github.com/PrefectHQ/fastmcp/security/advisories/GHSA-5h2m-4q8j-pqpj
+    mitigation: Update fastmcp to 2.14.2 or later.
+    notes: 'Alias: GHSA-5h2m-4q8j-pqpj. Reviewed 2026-11-03. Documented only; no executable AgentSec detection.
+      resource parameter; audience. Found through the mcp-cve-project index; fields taken from the advisory.'
+    fixed_in: 2.14.2
+  - id: CVE-2025-64340
+    component: FastMCP install claude-code / gemini-cli
+    severity: medium
+    cvss: 6.7
+    description: On Windows the target CLIs often resolve to .cmd wrappers run through cmd.exe, so metacharacters
+      in a server name passed to fastmcp install claude-code or gemini-cli ran commands.
+    affected: fastmcp < 3.2.0
+    source: https://github.com/PrefectHQ/fastmcp/security/advisories/GHSA-m8x7-r2rg-vh5g
+    mitigation: Update fastmcp to 3.2.0 or later; the existing 3.4.10 floor covers it.
+    notes: 'Alias: GHSA-m8x7-r2rg-vh5g. Reviewed 2026-11-03. Documented only; no executable AgentSec detection.
+      .cmd wrapper; server name. Found through the mcp-cve-project index; fields taken from the advisory.'
+    fixed_in: 3.2.0
+  - id: CVE-2026-47427
+    component: GitHub MCP Server
+    severity: high
+    cvss: 7.5
+    description: A completion/complete request without a ref field dereferenced nil and crashed the server
+      before authentication, letting any client cause a denial of service.
+    affected: github.com/github/github-mcp-server < 1.1.0
+    source: https://github.com/github/github-mcp-server/security/advisories/GHSA-w4q6-qw23-4rg7
+    mitigation: Update the GitHub MCP Server to 1.1.0 or later.
+    notes: 'Alias: GHSA-w4q6-qw23-4rg7. Reviewed 2026-11-03. Documented only; no executable AgentSec detection.
+      nil pointer; completion/complete. Found through the mcp-cve-project index; fields taken from the advisory.'
+    fixed_in: 1.1.0
+  - id: CVE-2026-44427
+    component: MCP Registry API
+    severity: medium
+    description: The trailing-slash middleware redirected //evil.com/ to //evil.com, which browsers treat
+      as an external URL.
+    affected: github.com/modelcontextprotocol/registry >= 1.1.0, < 1.7.5
+    source: https://github.com/modelcontextprotocol/registry/security/advisories/GHSA-v8vw-gw5j-w7m6
+    mitigation: Update self-hosted registries to 1.7.5 or later.
+    notes: 'Alias: GHSA-v8vw-gw5j-w7m6. Reviewed 2026-11-03. Documented only; no executable AgentSec detection.
+      open redirect; trailing slash. Found through the mcp-cve-project index; fields taken from the advisory.'
+    fixed_in: 1.7.5
+  - id: CVE-2025-34072
+    component: '@modelcontextprotocol/server-slack (deprecated)'
+    severity: critical
+    description: The unreviewed advisory states that an agent using Anthropic's deprecated Slack MCP server
+      could be led by untrusted data to post links embedding private data, which Slack preview bots then
+      fetched from the attacker's URL without user interaction. No fixed version is listed.
+    affected: Not listed by the reviewed source
+    source: https://github.com/advisories/GHSA-gmx5-crwh-6vxg
+    mitigation: Remove the deprecated Slack MCP server or disable link unfurling for agent-posted messages.
+      No fixed version was found on 2026-11-03.
+    notes: 'Monitoring: unreviewed GitHub advisory, no maintainer advisory; review confidence. Reviewed
+      2026-11-03. Documented only; no executable AgentSec detection. No minimum safe version recorded.'
+  - id: CVE-2026-19591
+    component: OpenAI Codex CLI and Codex Desktop
+    severity: high
+    description: The unreviewed advisory states that Codex treated some PowerShell commands using --% as
+      safe, so an attacker-prepared repository could get a file-writing Git command run without approval
+      and alter Codex configuration to launch an attacker MCP server. The default macOS and Linux filesystem
+      sandbox can block the write. The advisory links a fix pull request but no version.
+    affected: Not listed by the reviewed source
+    source: https://github.com/advisories/GHSA-2frj-4qr5-m2rf
+    mitigation: Keep the filesystem sandbox enabled and update Codex. No fixed version was listed on 2026-11-03.
+    notes: 'Monitoring: unreviewed GitHub advisory, no maintainer advisory; review confidence. Reviewed
+      2026-11-03. Documented only; no executable AgentSec detection. No minimum safe version recorded.'
   - id: CVE-2026-88755
     component: Z.ai ZCode
     severity: high
@@ -4316,6 +4689,9 @@ cve_database:
 # MINIMUM SAFE VERSIONS (quick reference for scanning)
 # ═══════════════════════════════════════════════════════════════
 minimum_safe_versions:
+  "github-mcp-server": "1.1.0"
+  "mcp-registry": "1.7.5"
+  "copilot-cli": "0.0.423"
   "@modelcontextprotocol/server": "2.3.0"
   "@modelcontextprotocol/node": "2.1.0"
   "@modelcontextprotocol/hono": "2.0.1"
@@ -4356,7 +4732,7 @@ minimum_safe_versions:
   vscode: 1.136.2
   "nginx-ui": "2.4.1"
   "filesystem-mcp": "0.6.3"
-  "mcp-inspector": "0.14.1"
+  "mcp-inspector": "0.16.6"
   "mcp-server-git": "2026.1.14"
   "mcp-python-sdk": "1.30.0"
   "mcp-gateway": "0.28.0"
@@ -4367,7 +4743,7 @@ minimum_safe_versions:
   "claude-code": "2.1.281"
   "claude-code-action": "1.0.94"
   "rmcp": "1.4.0"
-  "mcp-java-sdk": "1.0.0"
+  "mcp-java-sdk": "1.1.1"
   "mcp-framework": "0.2.22"
   "mcpjam-inspector": "1.4.3"
   "mcp-salesforce-connector": "0.1.10"

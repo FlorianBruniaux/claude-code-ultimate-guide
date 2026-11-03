@@ -13,11 +13,11 @@
     "record_counts": {
       "attack_techniques": 40,
       "campaigns": 17,
-      "cves": 219,
+      "cves": 243,
       "malicious_skill_records": 93
     },
-    "updated": "2026-11-02",
-    "version": "2.32.0"
+    "updated": "2026-11-03",
+    "version": "2.33.0"
   },
   "detectors": [
     {
@@ -97,11 +97,725 @@
     }
   ],
   "input_digests": {
-    "intelligence_sha256": "9fc7b1877e37e8be404da3bd09bb38612fd11f590fc8695d995434774efe7632",
-    "threat_database_sha256": "4bd2898d98183b8c8b02d0795484604448bb315bb979ae42d8b55469134e0234"
+    "intelligence_sha256": "e9a6fb2273c07882fbeb4c86243c5b5afb6b6eb9592d2cdf3bdebd4f9aabcfe0",
+    "threat_database_sha256": "a0d74c434fdf744618cbc9f3c04711cf5c69c547222e1f42503fb27865e26ad2"
   },
   "intelligence": {
     "events": [
+      {
+        "confidence": "confirmed",
+        "date": "2026-11-03",
+        "date_kind": "updated",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "Reviewed advisory only. No AgentSec executable detector covers this vulnerability or its deployment conditions."
+        },
+        "ecosystems": [
+          "claude-code",
+          "github-actions",
+          "mcp"
+        ],
+        "event_type": "vulnerability",
+        "id": "evt-2026-11-cve-2026-47751",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2026-47751"
+          ],
+          "technique_ids": []
+        },
+        "source_ids": [
+          "review-2026-11-ghsa-8q5r-mmjf-575q"
+        ],
+        "status": "confirmed",
+        "summary": "The action checked out attacker-controlled PR head branches, read .mcp.json from the working directory and enabled all project MCP servers. A pull request carrying a malicious .mcp.json could run code on the Actions runner and expose workflow secrets when a privileged user triggered the action on that PR.",
+        "title": "Claude Code Action runs MCP servers from a pull request .mcp.json"
+      },
+      {
+        "confidence": "confirmed",
+        "date": "2026-11-03",
+        "date_kind": "updated",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "Reviewed advisory only. No AgentSec executable detector covers this vulnerability or its deployment conditions."
+        },
+        "ecosystems": [
+          "mcp",
+          "go",
+          "denial-of-service"
+        ],
+        "event_type": "vulnerability",
+        "id": "evt-2026-11-cve-2026-47427",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2026-47427"
+          ],
+          "technique_ids": []
+        },
+        "source_ids": [
+          "review-2026-11-ghsa-w4q6-qw23-4rg7"
+        ],
+        "status": "confirmed",
+        "summary": "A completion/complete request without a ref field dereferenced nil and crashed the server before authentication, letting any client cause a denial of service.",
+        "title": "GitHub MCP Server unauthenticated crash on completion/complete"
+      },
+      {
+        "confidence": "confirmed",
+        "date": "2026-11-03",
+        "date_kind": "updated",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "Reviewed advisory only. No AgentSec executable detector covers this vulnerability or its deployment conditions."
+        },
+        "ecosystems": [
+          "mcp",
+          "go"
+        ],
+        "event_type": "vulnerability",
+        "id": "evt-2026-11-cve-2026-44427",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2026-44427"
+          ],
+          "technique_ids": []
+        },
+        "source_ids": [
+          "review-2026-11-ghsa-v8vw-gw5j-w7m6"
+        ],
+        "status": "confirmed",
+        "summary": "The trailing-slash middleware redirected //evil.com/ to //evil.com, which browsers treat as an external URL.",
+        "title": "MCP Registry open redirect through a protocol-relative path"
+      },
+      {
+        "confidence": "confirmed",
+        "date": "2026-11-03",
+        "date_kind": "updated",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "Reviewed advisory only. No AgentSec executable detector covers this vulnerability or its deployment conditions."
+        },
+        "ecosystems": [
+          "mcp",
+          "java"
+        ],
+        "event_type": "vulnerability",
+        "id": "evt-2026-11-cve-2026-34237",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2026-34237"
+          ],
+          "technique_ids": []
+        },
+        "source_ids": [
+          "review-2026-11-ghsa-hv2w-8mjj-jw22"
+        ],
+        "status": "confirmed",
+        "summary": "The servlet SSE and streamable HTTP transports sent Access-Control-Allow-Origin: *, so a page in the victim's browser could read responses from a reachable MCP server.",
+        "title": "MCP Java SDK hardcoded wildcard CORS"
+      },
+      {
+        "confidence": "confirmed",
+        "date": "2026-11-03",
+        "date_kind": "updated",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "Reviewed advisory only. No AgentSec executable detector covers this vulnerability or its deployment conditions."
+        },
+        "ecosystems": [
+          "copilot",
+          "coding-agents"
+        ],
+        "event_type": "vulnerability",
+        "id": "evt-2026-11-cve-2026-29783",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2026-29783"
+          ],
+          "technique_ids": []
+        },
+        "source_ids": [
+          "review-2026-11-ghsa-g8r9-g2v8-jv6f"
+        ],
+        "status": "confirmed",
+        "summary": "The shell safety assessment classified commands using bash parameter transformation operators as read-only. An attacker who could influence agent commands, for example through repository files or MCP server responses, could execute hidden commands.",
+        "title": "GitHub Copilot CLI hidden commands through bash parameter expansion"
+      },
+      {
+        "confidence": "confirmed",
+        "date": "2026-11-03",
+        "date_kind": "updated",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "Reviewed advisory only. No AgentSec executable detector covers this vulnerability or its deployment conditions."
+        },
+        "ecosystems": [
+          "mcp",
+          "go"
+        ],
+        "event_type": "vulnerability",
+        "id": "evt-2026-11-cve-2026-27896",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2026-27896"
+          ],
+          "technique_ids": []
+        },
+        "source_ids": [
+          "review-2026-11-ghsa-wvj2-96wp-fq3f"
+        ],
+        "status": "confirmed",
+        "summary": "The SDK parsed JSON-RPC with encoding/json, which matches keys case-insensitively and folds some Unicode characters. A malicious peer could send protocol messages with non-standard field names that the SDK still accepted, contrary to JSON-RPC 2.0.",
+        "title": "MCP Go SDK case-insensitive JSON-RPC field matching"
+      },
+      {
+        "confidence": "review",
+        "date": "2026-11-03",
+        "date_kind": "updated",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "Monitoring only. No reviewed advisory or version floor was found, and no AgentSec detector covers this report."
+        },
+        "ecosystems": [
+          "codex",
+          "coding-agents",
+          "mcp",
+          "windows"
+        ],
+        "event_type": "disclosure",
+        "id": "evt-2026-11-cve-2026-19591",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2026-19591"
+          ],
+          "technique_ids": []
+        },
+        "source_ids": [
+          "review-2026-11-cve-2026-19591"
+        ],
+        "status": "monitoring",
+        "summary": "The unreviewed advisory states that Codex treated some PowerShell commands using --% as safe, so an attacker-prepared repository could get a file-writing Git command run without approval and alter Codex configuration to launch an attacker MCP server. The default macOS and Linux filesystem sandbox can block the write. The advisory links a fix pull request but no version.",
+        "title": "Codex approval bypass through the PowerShell stop-parsing token"
+      },
+      {
+        "confidence": "confirmed",
+        "date": "2026-11-03",
+        "date_kind": "updated",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "Reviewed advisory only. No AgentSec executable detector covers this vulnerability or its deployment conditions."
+        },
+        "ecosystems": [
+          "mcp",
+          "pypi",
+          "oauth"
+        ],
+        "event_type": "vulnerability",
+        "id": "evt-2026-11-cve-2025-69196",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2025-69196"
+          ],
+          "technique_ids": []
+        },
+        "source_ids": [
+          "review-2026-11-ghsa-5h2m-4q8j-pqpj"
+        ],
+        "status": "confirmed",
+        "summary": "The OAuth Proxy ignored the client's resource parameter and issued tokens for its base_url, so a token obtained for one MCP server could be accepted by another behind the same proxy.",
+        "title": "FastMCP OAuth Proxy token reuse across MCP servers"
+      },
+      {
+        "confidence": "confirmed",
+        "date": "2026-11-03",
+        "date_kind": "updated",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "Reviewed advisory only. No AgentSec executable detector covers this vulnerability or its deployment conditions."
+        },
+        "ecosystems": [
+          "zed",
+          "coding-agents",
+          "mcp"
+        ],
+        "event_type": "vulnerability",
+        "id": "evt-2026-11-cve-2025-68433",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2025-68433"
+          ],
+          "technique_ids": []
+        },
+        "source_ids": [
+          "review-2026-11-ghsa-cv6g-cmxc-vw8j"
+        ],
+        "status": "confirmed",
+        "summary": "Zed loaded MCP context server definitions from a project's .zed/settings.json, so opening a crafted project ran arbitrary commands with the user's privileges without further interaction.",
+        "title": "Zed runs MCP servers from project settings on open"
+      },
+      {
+        "confidence": "confirmed",
+        "date": "2026-11-03",
+        "date_kind": "updated",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "Reviewed advisory only. No AgentSec executable detector covers this vulnerability or its deployment conditions."
+        },
+        "ecosystems": [
+          "mcp",
+          "npm",
+          "dns-rebinding"
+        ],
+        "event_type": "vulnerability",
+        "id": "evt-2026-11-cve-2025-66414",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2025-66414"
+          ],
+          "technique_ids": []
+        },
+        "source_ids": [
+          "review-2026-11-ghsa-w48q-cv73-mx4w"
+        ],
+        "status": "confirmed",
+        "summary": "HTTP-based servers did not enable DNS rebinding protection by default. A localhost server without authentication could receive requests from a malicious website and run tools or read resources on the user's behalf.",
+        "title": "MCP TypeScript SDK DNS rebinding protection disabled by default"
+      },
+      {
+        "confidence": "confirmed",
+        "date": "2026-11-03",
+        "date_kind": "updated",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "Reviewed advisory only. No AgentSec executable detector covers this vulnerability or its deployment conditions."
+        },
+        "ecosystems": [
+          "mcp",
+          "npm",
+          "oauth"
+        ],
+        "event_type": "vulnerability",
+        "id": "evt-2026-11-cve-2025-6514",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2025-6514"
+          ],
+          "technique_ids": []
+        },
+        "source_ids": [
+          "review-2026-11-ghsa-6xpm-ggf7-wc3p"
+        ],
+        "status": "confirmed",
+        "summary": "mcp-remote was exposed to OS command injection when connecting to untrusted MCP servers, through crafted input in the authorization_endpoint response URL.",
+        "title": "mcp-remote OS command injection from an untrusted authorization endpoint"
+      },
+      {
+        "confidence": "confirmed",
+        "date": "2026-11-03",
+        "date_kind": "updated",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "Reviewed advisory only. No AgentSec executable detector covers this vulnerability or its deployment conditions."
+        },
+        "ecosystems": [
+          "mcp",
+          "pypi",
+          "windows"
+        ],
+        "event_type": "vulnerability",
+        "id": "evt-2026-11-cve-2025-64340",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2025-64340"
+          ],
+          "technique_ids": []
+        },
+        "source_ids": [
+          "review-2026-11-ghsa-m8x7-r2rg-vh5g"
+        ],
+        "status": "confirmed",
+        "summary": "On Windows the target CLIs often resolve to .cmd wrappers run through cmd.exe, so metacharacters in a server name passed to fastmcp install claude-code or gemini-cli ran commands.",
+        "title": "FastMCP install claude-code and gemini-cli command injection on Windows"
+      },
+      {
+        "confidence": "confirmed",
+        "date": "2026-11-03",
+        "date_kind": "updated",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "Reviewed advisory only. No AgentSec executable detector covers this vulnerability or its deployment conditions."
+        },
+        "ecosystems": [
+          "cursor",
+          "coding-agents",
+          "mcp"
+        ],
+        "event_type": "vulnerability",
+        "id": "evt-2026-11-cve-2025-64109",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2025-64109"
+          ],
+          "technique_ids": []
+        },
+        "source_ids": [
+          "review-2026-11-ghsa-4hwr-97q3-37w2"
+        ],
+        "status": "confirmed",
+        "summary": "Opening a cloned repository with Cursor CLI ran the command of a malicious MCP server declared in .cursor/mcp.json without any warning.",
+        "title": "Cursor CLI Beta runs repository MCP configuration without a prompt"
+      },
+      {
+        "confidence": "confirmed",
+        "date": "2026-11-03",
+        "date_kind": "updated",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "Reviewed advisory only. No AgentSec executable detector covers this vulnerability or its deployment conditions."
+        },
+        "ecosystems": [
+          "cursor",
+          "coding-agents",
+          "mcp"
+        ],
+        "event_type": "vulnerability",
+        "id": "evt-2026-11-cve-2025-64106",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2025-64106"
+          ],
+          "technique_ids": []
+        },
+        "source_ids": [
+          "review-2026-11-ghsa-4575-fh42-7848"
+        ],
+        "status": "confirmed",
+        "summary": "A crafted MCP install deep-link bypassed the warning dialog and showed a trusted server name while running arbitrary commands from the link if the user accepted.",
+        "title": "Cursor MCP deep-link install hides the executed command"
+      },
+      {
+        "confidence": "confirmed",
+        "date": "2026-11-03",
+        "date_kind": "updated",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "Reviewed advisory only. No AgentSec executable detector covers this vulnerability or its deployment conditions."
+        },
+        "ecosystems": [
+          "mcp",
+          "pypi",
+          "windows"
+        ],
+        "event_type": "vulnerability",
+        "id": "evt-2026-11-cve-2025-62801",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2025-62801"
+          ],
+          "technique_ids": []
+        },
+        "source_ids": [
+          "review-2026-11-ghsa-rj5c-58rq-j5g5"
+        ],
+        "status": "confirmed",
+        "summary": "fastmcp install cursor placed the server name in a deep-link opened through cmd.exe on Windows, so shell metacharacters in an influenced server name ran arbitrary commands.",
+        "title": "FastMCP install cursor command injection on Windows"
+      },
+      {
+        "confidence": "confirmed",
+        "date": "2026-11-03",
+        "date_kind": "updated",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "Reviewed advisory only. No AgentSec executable detector covers this vulnerability or its deployment conditions."
+        },
+        "ecosystems": [
+          "mcp",
+          "pypi",
+          "oauth"
+        ],
+        "event_type": "vulnerability",
+        "id": "evt-2026-11-cve-2025-62800",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2025-62800"
+          ],
+          "technique_ids": []
+        },
+        "source_ids": [
+          "review-2026-11-ghsa-mxxr-jv3v-6pgc"
+        ],
+        "status": "confirmed",
+        "summary": "The callback page served during the client OAuth flow embedded request values such as the error parameter without escaping, allowing reflected cross-site scripting.",
+        "title": "FastMCP OAuth client callback reflected XSS"
+      },
+      {
+        "confidence": "confirmed",
+        "date": "2026-11-03",
+        "date_kind": "updated",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "Reviewed advisory only. No AgentSec executable detector covers this vulnerability or its deployment conditions."
+        },
+        "ecosystems": [
+          "cursor",
+          "coding-agents",
+          "mcp",
+          "oauth"
+        ],
+        "event_type": "vulnerability",
+        "id": "evt-2026-11-cve-2025-61591",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2025-61591"
+          ],
+          "technique_ids": []
+        },
+        "source_ids": [
+          "review-2026-11-ghsa-wj33-264c-j9cq"
+        ],
+        "status": "confirmed",
+        "summary": "When MCP used OAuth with an untrusted server, the server could return crafted commands during the exchange and reach command injection on the host with the user's privileges.",
+        "title": "Cursor CLI command injection through MCP OAuth"
+      },
+      {
+        "confidence": "confirmed",
+        "date": "2026-11-03",
+        "date_kind": "updated",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "Reviewed advisory only. No AgentSec executable detector covers this vulnerability or its deployment conditions."
+        },
+        "ecosystems": [
+          "cursor",
+          "coding-agents"
+        ],
+        "event_type": "vulnerability",
+        "id": "evt-2026-11-cve-2025-61590",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2025-61590"
+          ],
+          "technique_ids": []
+        },
+        "source_ids": [
+          "review-2026-11-ghsa-xg6w-rmh5-r77r"
+        ],
+        "status": "confirmed",
+        "summary": "A prompt injection that hijacked chat context could write workspace settings into a .code-workspace file and turn them into code execution.",
+        "title": "Cursor code execution through .code-workspace settings"
+      },
+      {
+        "confidence": "confirmed",
+        "date": "2026-11-03",
+        "date_kind": "updated",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "Reviewed advisory only. No AgentSec executable detector covers this vulnerability or its deployment conditions."
+        },
+        "ecosystems": [
+          "codex",
+          "coding-agents",
+          "mcp"
+        ],
+        "event_type": "vulnerability",
+        "id": "evt-2026-11-cve-2025-61260",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2025-61260"
+          ],
+          "technique_ids": []
+        },
+        "source_ids": [
+          "review-2026-11-ghsa-xrxf-jgv3-qmrm"
+        ],
+        "status": "confirmed",
+        "summary": "Codex CLI 0.23.0 and earlier loaded project-local .env and .codex/config.toml files without confirmation when run inside a repository, so a malicious repository could embed commands that executed immediately through MCP configuration.",
+        "title": "OpenAI Codex CLI auto-loads project MCP configuration"
+      },
+      {
+        "confidence": "confirmed",
+        "date": "2026-11-03",
+        "date_kind": "updated",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "Reviewed advisory only. No AgentSec executable detector covers this vulnerability or its deployment conditions."
+        },
+        "ecosystems": [
+          "cursor",
+          "coding-agents",
+          "mcp"
+        ],
+        "event_type": "vulnerability",
+        "id": "evt-2026-11-cve-2025-59944",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2025-59944"
+          ],
+          "technique_ids": []
+        },
+        "source_ids": [
+          "review-2026-11-ghsa-xcwh-rrwj-gxc7"
+        ],
+        "status": "confirmed",
+        "summary": "Case-sensitive checks protecting sensitive files such as .cursor/mcp.json let a prompt injection modify them on case-insensitive filesystems and reach remote code execution.",
+        "title": "Cursor sensitive file protection bypass by case"
+      },
+      {
+        "confidence": "confirmed",
+        "date": "2026-11-03",
+        "date_kind": "updated",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "Reviewed advisory only. No AgentSec executable detector covers this vulnerability or its deployment conditions."
+        },
+        "ecosystems": [
+          "mcp",
+          "npm"
+        ],
+        "event_type": "vulnerability",
+        "id": "evt-2026-11-cve-2025-58444",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2025-58444"
+          ],
+          "technique_ids": []
+        },
+        "source_ids": [
+          "review-2026-11-ghsa-g9hg-qhmf-q45m"
+        ],
+        "status": "confirmed",
+        "summary": "The Inspector rendered a redirect URL returned by a remote MCP server. A crafted redirect could inject script and, through the built-in proxy, run commands on the developer machine.",
+        "title": "MCP Inspector XSS from an untrusted redirect URL"
+      },
+      {
+        "confidence": "confirmed",
+        "date": "2026-11-03",
+        "date_kind": "updated",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "Reviewed advisory only. No AgentSec executable detector covers this vulnerability or its deployment conditions."
+        },
+        "ecosystems": [
+          "mcp",
+          "pypi"
+        ],
+        "event_type": "vulnerability",
+        "id": "evt-2026-11-cve-2025-53366",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2025-53366"
+          ],
+          "technique_ids": []
+        },
+        "source_ids": [
+          "review-2026-11-ghsa-3qhf-m339-9g5v"
+        ],
+        "status": "confirmed",
+        "summary": "Malformed requests could trigger an unhandled validation exception and leave the server returning 500 errors until manually restarted.",
+        "title": "MCP Python SDK FastMCP validation error crash"
+      },
+      {
+        "confidence": "confirmed",
+        "date": "2026-11-03",
+        "date_kind": "updated",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "Reviewed advisory only. No AgentSec executable detector covers this vulnerability or its deployment conditions."
+        },
+        "ecosystems": [
+          "mcp",
+          "pypi"
+        ],
+        "event_type": "vulnerability",
+        "id": "evt-2026-11-cve-2025-53365",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2025-53365"
+          ],
+          "technique_ids": []
+        },
+        "source_ids": [
+          "review-2026-11-ghsa-j975-95f5-7wqh"
+        ],
+        "status": "confirmed",
+        "summary": "A client that deliberately triggered an exception after opening a streamable HTTP session could cause an uncaught ClosedResourceError and crash the server until restart.",
+        "title": "MCP Python SDK streamable HTTP crash on client exception"
+      },
+      {
+        "confidence": "review",
+        "date": "2026-11-03",
+        "date_kind": "updated",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "Monitoring only. No reviewed advisory or version floor was found, and no AgentSec detector covers this report."
+        },
+        "ecosystems": [
+          "mcp",
+          "npm",
+          "data-exfiltration"
+        ],
+        "event_type": "disclosure",
+        "id": "evt-2026-11-cve-2025-34072",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2025-34072"
+          ],
+          "technique_ids": []
+        },
+        "source_ids": [
+          "review-2026-11-cve-2025-34072"
+        ],
+        "status": "monitoring",
+        "summary": "The unreviewed advisory states that an agent using Anthropic's deprecated Slack MCP server could be led by untrusted data to post links embedding private data, which Slack preview bots then fetched from the attacker's URL without user interaction. No fixed version is listed.",
+        "title": "Deprecated Slack MCP server leaks data through link unfurling"
+      },
       {
         "confidence": "confirmed",
         "date": "2026-11-02",
@@ -4456,6 +5170,16 @@
         "url": "https://github.com/anthropics/claude-code/security/advisories/GHSA-v234-4jrq-mgg6"
       },
       {
+        "id": "review-2026-11-cve-2025-34072",
+        "published_date": "2025-07-02",
+        "publisher": "GitHub Advisory Database (unreviewed)",
+        "reviewed_date": "2026-11-03",
+        "source_type": "database",
+        "status": "active",
+        "title": "Deprecated Slack MCP server leaks data through link unfurling",
+        "url": "https://github.com/advisories/GHSA-gmx5-crwh-6vxg"
+      },
+      {
         "id": "review-2026-11-cve-2026-108714",
         "published_date": "2026-10-11",
         "publisher": "NVD",
@@ -4496,6 +5220,16 @@
         "url": "https://www.cve.org/CVERecord?id=CVE-2026-111091"
       },
       {
+        "id": "review-2026-11-cve-2026-19591",
+        "published_date": "2026-09-01",
+        "publisher": "GitHub Advisory Database (unreviewed)",
+        "reviewed_date": "2026-11-03",
+        "source_type": "database",
+        "status": "active",
+        "title": "Codex approval bypass through the PowerShell stop-parsing token",
+        "url": "https://github.com/advisories/GHSA-2frj-4qr5-m2rf"
+      },
+      {
         "id": "review-2026-11-cve-2026-88755",
         "published_date": "2026-10-16",
         "publisher": "NVD",
@@ -4526,6 +5260,26 @@
         "url": "https://github.com/vercel/next.js/security/advisories/GHSA-39w2-rjm5-chcv"
       },
       {
+        "id": "review-2026-11-ghsa-3qhf-m339-9g5v",
+        "published_date": "2025-07-04",
+        "publisher": "Model Context Protocol maintainers",
+        "reviewed_date": "2026-11-03",
+        "source_type": "advisory",
+        "status": "active",
+        "title": "MCP Python SDK FastMCP validation error crash",
+        "url": "https://github.com/modelcontextprotocol/python-sdk/security/advisories/GHSA-3qhf-m339-9g5v"
+      },
+      {
+        "id": "review-2026-11-ghsa-4575-fh42-7848",
+        "published_date": "2025-11-03",
+        "publisher": "Cursor",
+        "reviewed_date": "2026-11-03",
+        "source_type": "advisory",
+        "status": "active",
+        "title": "Cursor MCP deep-link install hides the executed command",
+        "url": "https://github.com/cursor/cursor/security/advisories/GHSA-4575-fh42-7848"
+      },
+      {
         "id": "review-2026-11-ghsa-46jr-4wx8-v453",
         "published_date": "2026-10-15",
         "publisher": "Model Context Protocol maintainers",
@@ -4546,6 +5300,16 @@
         "url": "https://github.com/langflow-ai/langflow/security/advisories/GHSA-4hmc-cfm3-w43c"
       },
       {
+        "id": "review-2026-11-ghsa-4hwr-97q3-37w2",
+        "published_date": "2025-11-03",
+        "publisher": "Cursor",
+        "reviewed_date": "2026-11-03",
+        "source_type": "advisory",
+        "status": "active",
+        "title": "Cursor CLI Beta runs repository MCP configuration without a prompt",
+        "url": "https://github.com/cursor/cursor/security/advisories/GHSA-4hwr-97q3-37w2"
+      },
+      {
         "id": "review-2026-11-ghsa-4mfg-r38w-w8fg",
         "published_date": "2026-06-25",
         "publisher": "mcp-sanitizer maintainer",
@@ -4564,6 +5328,16 @@
         "status": "active",
         "title": "Claude Desktop Windows git executable search path",
         "url": "https://github.com/anthropics/claude-code/security/advisories/GHSA-4p2j-qj3c-6x84"
+      },
+      {
+        "id": "review-2026-11-ghsa-5h2m-4q8j-pqpj",
+        "published_date": "2026-03-16",
+        "publisher": "FastMCP maintainers",
+        "reviewed_date": "2026-11-03",
+        "source_type": "advisory",
+        "status": "active",
+        "title": "FastMCP OAuth Proxy token reuse across MCP servers",
+        "url": "https://github.com/PrefectHQ/fastmcp/security/advisories/GHSA-5h2m-4q8j-pqpj"
       },
       {
         "id": "review-2026-11-ghsa-5hw5-4q87-m6x9",
@@ -4606,6 +5380,16 @@
         "url": "https://github.com/anthropics/claude-code/security/advisories/GHSA-5xjx-9qx6-jcrv"
       },
       {
+        "id": "review-2026-11-ghsa-6xpm-ggf7-wc3p",
+        "published_date": "2025-07-09",
+        "publisher": "GitHub Advisory Database",
+        "reviewed_date": "2026-11-03",
+        "source_type": "advisory",
+        "status": "active",
+        "title": "mcp-remote OS command injection from an untrusted authorization endpoint",
+        "url": "https://github.com/advisories/GHSA-6xpm-ggf7-wc3p"
+      },
+      {
         "id": "review-2026-11-ghsa-737x-cwfr-5vvc",
         "published_date": "2026-09-26",
         "publisher": "obsidian-tc maintainers",
@@ -4646,6 +5430,16 @@
         "url": "https://github.com/PrefectHQ/fastmcp/security/advisories/GHSA-7xgj-8392-5q4r"
       },
       {
+        "id": "review-2026-11-ghsa-8q5r-mmjf-575q",
+        "published_date": "2026-06-10",
+        "publisher": "Anthropic",
+        "reviewed_date": "2026-11-03",
+        "source_type": "advisory",
+        "status": "active",
+        "title": "Claude Code Action runs MCP servers from a pull request .mcp.json",
+        "url": "https://github.com/anthropics/claude-code-action/security/advisories/GHSA-8q5r-mmjf-575q"
+      },
+      {
         "id": "review-2026-11-ghsa-953h-535j-jg2v",
         "published_date": "2026-10-07",
         "publisher": "agent-router maintainers",
@@ -4676,6 +5470,16 @@
         "url": "https://github.com/siyuan-note/siyuan/security/advisories/GHSA-c8r8-95hg-mp34"
       },
       {
+        "id": "review-2026-11-ghsa-cv6g-cmxc-vw8j",
+        "published_date": "2025-12-17",
+        "publisher": "Zed Industries",
+        "reviewed_date": "2026-11-03",
+        "source_type": "advisory",
+        "status": "active",
+        "title": "Zed runs MCP servers from project settings on open",
+        "url": "https://github.com/zed-industries/zed/security/advisories/GHSA-cv6g-cmxc-vw8j"
+      },
+      {
         "id": "review-2026-11-ghsa-f897-62hf-6gxq",
         "published_date": "2026-10-15",
         "publisher": "Model Context Protocol maintainers",
@@ -4684,6 +5488,26 @@
         "status": "active",
         "title": "MCP TypeScript HTTP servers without body size or batch limits",
         "url": "https://github.com/modelcontextprotocol/typescript-sdk/security/advisories/GHSA-f897-62hf-6gxq"
+      },
+      {
+        "id": "review-2026-11-ghsa-g8r9-g2v8-jv6f",
+        "published_date": "2026-03-06",
+        "publisher": "GitHub",
+        "reviewed_date": "2026-11-03",
+        "source_type": "advisory",
+        "status": "active",
+        "title": "GitHub Copilot CLI hidden commands through bash parameter expansion",
+        "url": "https://github.com/github/copilot-cli/security/advisories/GHSA-g8r9-g2v8-jv6f"
+      },
+      {
+        "id": "review-2026-11-ghsa-g9hg-qhmf-q45m",
+        "published_date": "2025-09-08",
+        "publisher": "Model Context Protocol maintainers",
+        "reviewed_date": "2026-11-03",
+        "source_type": "advisory",
+        "status": "active",
+        "title": "MCP Inspector XSS from an untrusted redirect URL",
+        "url": "https://github.com/modelcontextprotocol/inspector/security/advisories/GHSA-g9hg-qhmf-q45m"
       },
       {
         "id": "review-2026-11-ghsa-h4mw-j7qp-8mwm",
@@ -4706,6 +5530,26 @@
         "url": "https://github.com/MervinPraison/PraisonAI/security/advisories/GHSA-hc5v-gxvj-58wh"
       },
       {
+        "id": "review-2026-11-ghsa-hv2w-8mjj-jw22",
+        "published_date": "2026-03-30",
+        "publisher": "Model Context Protocol maintainers",
+        "reviewed_date": "2026-11-03",
+        "source_type": "advisory",
+        "status": "active",
+        "title": "MCP Java SDK hardcoded wildcard CORS",
+        "url": "https://github.com/modelcontextprotocol/java-sdk/security/advisories/GHSA-hv2w-8mjj-jw22"
+      },
+      {
+        "id": "review-2026-11-ghsa-j975-95f5-7wqh",
+        "published_date": "2025-07-04",
+        "publisher": "Model Context Protocol maintainers",
+        "reviewed_date": "2026-11-03",
+        "source_type": "advisory",
+        "status": "active",
+        "title": "MCP Python SDK streamable HTTP crash on client exception",
+        "url": "https://github.com/modelcontextprotocol/python-sdk/security/advisories/GHSA-j975-95f5-7wqh"
+      },
+      {
         "id": "review-2026-11-ghsa-jm63-cq47-j5jp",
         "published_date": "2026-10-15",
         "publisher": "Model Context Protocol maintainers",
@@ -4714,6 +5558,26 @@
         "status": "active",
         "title": "MCP TypeScript shared server instances cross-deliver client messages",
         "url": "https://github.com/modelcontextprotocol/typescript-sdk/security/advisories/GHSA-jm63-cq47-j5jp"
+      },
+      {
+        "id": "review-2026-11-ghsa-m8x7-r2rg-vh5g",
+        "published_date": "2026-03-31",
+        "publisher": "FastMCP maintainers",
+        "reviewed_date": "2026-11-03",
+        "source_type": "advisory",
+        "status": "active",
+        "title": "FastMCP install claude-code and gemini-cli command injection on Windows",
+        "url": "https://github.com/PrefectHQ/fastmcp/security/advisories/GHSA-m8x7-r2rg-vh5g"
+      },
+      {
+        "id": "review-2026-11-ghsa-mxxr-jv3v-6pgc",
+        "published_date": "2025-10-29",
+        "publisher": "FastMCP maintainers",
+        "reviewed_date": "2026-11-03",
+        "source_type": "advisory",
+        "status": "active",
+        "title": "FastMCP OAuth client callback reflected XSS",
+        "url": "https://github.com/PrefectHQ/fastmcp/security/advisories/GHSA-mxxr-jv3v-6pgc"
       },
       {
         "id": "review-2026-11-ghsa-pq7j-f95f-qfcv",
@@ -4746,6 +5610,16 @@
         "url": "https://github.com/djust-org/djust/security/advisories/GHSA-r57g-mc79-8hj2"
       },
       {
+        "id": "review-2026-11-ghsa-rj5c-58rq-j5g5",
+        "published_date": "2025-10-29",
+        "publisher": "FastMCP maintainers",
+        "reviewed_date": "2026-11-03",
+        "source_type": "advisory",
+        "status": "active",
+        "title": "FastMCP install cursor command injection on Windows",
+        "url": "https://github.com/PrefectHQ/fastmcp/security/advisories/GHSA-rj5c-58rq-j5g5"
+      },
+      {
         "id": "review-2026-11-ghsa-rvq5-wwqv-78pq",
         "published_date": "2026-10-05",
         "publisher": "Model Context Protocol maintainers",
@@ -4754,6 +5628,16 @@
         "status": "active",
         "title": "MCP TypeScript bearer authentication accepts tokens for another service",
         "url": "https://github.com/modelcontextprotocol/typescript-sdk/security/advisories/GHSA-rvq5-wwqv-78pq"
+      },
+      {
+        "id": "review-2026-11-ghsa-v8vw-gw5j-w7m6",
+        "published_date": "2026-05-08",
+        "publisher": "Model Context Protocol maintainers",
+        "reviewed_date": "2026-11-03",
+        "source_type": "advisory",
+        "status": "active",
+        "title": "MCP Registry open redirect through a protocol-relative path",
+        "url": "https://github.com/modelcontextprotocol/registry/security/advisories/GHSA-v8vw-gw5j-w7m6"
       },
       {
         "id": "review-2026-11-ghsa-vc32-4gwf-77xp",
@@ -4786,6 +5670,16 @@
         "url": "https://github.com/PrefectHQ/fastmcp/security/advisories/GHSA-vqqp-x5qm-5qp4"
       },
       {
+        "id": "review-2026-11-ghsa-w48q-cv73-mx4w",
+        "published_date": "2025-12-02",
+        "publisher": "Model Context Protocol maintainers",
+        "reviewed_date": "2026-11-03",
+        "source_type": "advisory",
+        "status": "active",
+        "title": "MCP TypeScript SDK DNS rebinding protection disabled by default",
+        "url": "https://github.com/modelcontextprotocol/typescript-sdk/security/advisories/GHSA-w48q-cv73-mx4w"
+      },
+      {
         "id": "review-2026-11-ghsa-w4fh-qvv9-3v23",
         "published_date": "2026-10-05",
         "publisher": "Model Context Protocol maintainers",
@@ -4796,6 +5690,16 @@
         "url": "https://github.com/modelcontextprotocol/python-sdk/security/advisories/GHSA-w4fh-qvv9-3v23"
       },
       {
+        "id": "review-2026-11-ghsa-w4q6-qw23-4rg7",
+        "published_date": "2026-07-28",
+        "publisher": "GitHub",
+        "reviewed_date": "2026-11-03",
+        "source_type": "advisory",
+        "status": "active",
+        "title": "GitHub MCP Server unauthenticated crash on completion/complete",
+        "url": "https://github.com/github/github-mcp-server/security/advisories/GHSA-w4q6-qw23-4rg7"
+      },
+      {
         "id": "review-2026-11-ghsa-w794-rj3p-xv45",
         "published_date": "2026-09-28",
         "publisher": "Langflow maintainers",
@@ -4804,6 +5708,56 @@
         "status": "active",
         "title": "Langflow MCP stdio server configuration runs arbitrary commands",
         "url": "https://github.com/langflow-ai/langflow/security/advisories/GHSA-w794-rj3p-xv45"
+      },
+      {
+        "id": "review-2026-11-ghsa-wj33-264c-j9cq",
+        "published_date": "2025-10-02",
+        "publisher": "Cursor",
+        "reviewed_date": "2026-11-03",
+        "source_type": "advisory",
+        "status": "active",
+        "title": "Cursor CLI command injection through MCP OAuth",
+        "url": "https://github.com/cursor/cursor/security/advisories/GHSA-wj33-264c-j9cq"
+      },
+      {
+        "id": "review-2026-11-ghsa-wvj2-96wp-fq3f",
+        "published_date": "2026-02-26",
+        "publisher": "Model Context Protocol maintainers",
+        "reviewed_date": "2026-11-03",
+        "source_type": "advisory",
+        "status": "active",
+        "title": "MCP Go SDK case-insensitive JSON-RPC field matching",
+        "url": "https://github.com/modelcontextprotocol/go-sdk/security/advisories/GHSA-wvj2-96wp-fq3f"
+      },
+      {
+        "id": "review-2026-11-ghsa-xcwh-rrwj-gxc7",
+        "published_date": "2025-10-02",
+        "publisher": "Cursor",
+        "reviewed_date": "2026-11-03",
+        "source_type": "advisory",
+        "status": "active",
+        "title": "Cursor sensitive file protection bypass by case",
+        "url": "https://github.com/cursor/cursor/security/advisories/GHSA-xcwh-rrwj-gxc7"
+      },
+      {
+        "id": "review-2026-11-ghsa-xg6w-rmh5-r77r",
+        "published_date": "2025-10-02",
+        "publisher": "Cursor",
+        "reviewed_date": "2026-11-03",
+        "source_type": "advisory",
+        "status": "active",
+        "title": "Cursor code execution through .code-workspace settings",
+        "url": "https://github.com/cursor/cursor/security/advisories/GHSA-xg6w-rmh5-r77r"
+      },
+      {
+        "id": "review-2026-11-ghsa-xrxf-jgv3-qmrm",
+        "published_date": "2026-04-14",
+        "publisher": "GitHub Advisory Database",
+        "reviewed_date": "2026-11-03",
+        "source_type": "advisory",
+        "status": "active",
+        "title": "OpenAI Codex CLI auto-loads project MCP configuration",
+        "url": "https://github.com/advisories/GHSA-xrxf-jgv3-qmrm"
       },
       {
         "id": "safedep-keyv-2026",
@@ -4884,7 +5838,7 @@
         "url": "https://zenity.io/research/ai-total"
       }
     ],
-    "updated": "2026-11-02"
+    "updated": "2026-11-03"
   },
   "landing_metrics": {
     "critical_risk_skills": 534,

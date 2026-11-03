@@ -87,6 +87,28 @@ list no fixed version. They are tracked as `monitoring`. Every vulnerability
 added in this review remains `not_detected` in AgentSec; documentation and
 version floors do not prove that a running deployment is patched.
 
+**Coverage-gap pass, November 3, 2026.** The
+[mcp-cve-project](https://github.com/mcp-security-project/mcp-cve-project) index listed 486
+CVEs absent from AgentSec. The 25 that affect coding agents, MCP SDKs and core
+MCP servers were reviewed against their primary advisories: 22 were added, two
+stay in `monitoring` without a reviewed fix, and one VS Code report was set aside
+because its record mentions neither MCP nor a fixed version. The index is a lead
+list, not a source: it gives Claude Code Action 1.0.78 and `Critical`, while the
+[maintainer advisory](https://github.com/anthropics/claude-code-action/security/advisories/GHSA-8q5r-mmjf-575q)
+gives 1.0.74 and medium. New informational floors:
+
+- MCP Inspector 0.16.6;
+- MCP Java SDK 1.1.1 (or 0.18.3 and 1.0.1 on the older branches);
+- GitHub MCP Server 1.1.0;
+- MCP Registry 1.7.5;
+- GitHub Copilot CLI 0.0.423.
+
+mcp-remote 0.1.16 fixes CVE-2025-6514, but no floor is recorded while
+CVE-2026-108716 has no fix. The Cursor IDE, FastMCP and MCP Python, TypeScript
+and Go SDK fixes sit below floors that were already published; Zed (fixed in
+v0.218.2-pre) and the Cursor CLI have no floor. The remaining ~460 long-tail
+CVEs are not reviewed.
+
 ---
 
 ## October 2026 review
