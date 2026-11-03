@@ -1,0 +1,57 @@
+CHANGELOG.md
+  s_a19513ccf22e00::t_2ee0c2a4ddccca 20-22
+guide/core/memory-systems.md
+  s_9ba1bc8a2e85e7::t_ed9179c74b5dbe 11,22-24,97-149,265,396,398,400,427-429,431,433,435,439-441,449,451,458,461-463,472,474,476,478,480,538,555,562,564,591,666-681,695-696,1029,1031-1033,1094-1096,1114-1115,1139-1141,1242-1256,1265-1266,1282-1283,1300-1301,1336-1337
+guide/ecosystem/context-engineering-tools.md
+  s_9ba1bc8a2e85e7::t_93f37a91e4a391 724,730
+guide/learning-path/03-memory.md
+  s_cae630130d25b9::t_d3782ac1c94252 430,434-435
+llms.txt
+  s_cae630130d25b9::t_cc2e26819b3570 14
+machine-readable/README.md
+  s_9ba1bc8a2e85e7::t_63e986033a8e1f 121-132
+machine-readable/llms.txt
+  s_a19513ccf22e00::t_93cefa7410954f 14
+machine-readable/mcp-product.json
+  s_a19513ccf22e00::t_fc636296681a88 16,494
+machine-readable/reference.yaml
+  s_9ba1bc8a2e85e7::t_6c54c5acbc6150 266-273,2427,2432-2438
+mcp-server/content/llms.txt
+  s_a19513ccf22e00::t_4696b1d0b58fb2 14
+mcp-server/content/reference.yaml
+  s_a19513ccf22e00::t_6065d9e9941f99 266-273,2427,2432-2438
+mcp-server/src/lib/chapter-ranges.generated.json
+  s_a19513ccf22e00::t_aa4c8ca16ee86a 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "180d9f2988e1660fec0dc3ae9ab3a41ae9ab9008",
+  "prompts": {},
+  "sessions": {
+    "s_9ba1bc8a2e85e7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5880965e-13e1-4301-b156-0e4ce78295e9",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_a19513ccf22e00": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "204b03e9-2b1f-4894-a4f0-9e7f6979173f",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_cae630130d25b9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bd0308eb-fb52-4899-bde8-5c46ebd61524",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
