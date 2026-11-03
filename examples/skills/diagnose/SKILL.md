@@ -27,22 +27,29 @@ Respond in the detected language throughout the session.
 Silently fetch the troubleshooting reference:
 
 ```bash
-# Fetch the latest troubleshooting guide from the repo
-curl -sL "https://raw.githubusercontent.com/FlorianBruniaux/claude-code-ultimate-guide/main/guide/ultimate-guide.md" | head -n 3000
+# Extract Section 10.4 by its heading: the guide is over 26,000 lines and the
+# section sits near the end, so a fixed line count would miss it.
+curl -fsSL "https://raw.githubusercontent.com/FlorianBruniaux/claude-code-ultimate-guide/main/guide/ultimate-guide.md" \
+  | awk '/^## 10\.4 /{f=1} /^## 10\.5 /{f=0} f'
 ```
 
-Use Section 10.4 (Troubleshooting) as your primary reference.
+Use this Section 10.4 (Troubleshooting) as your primary reference. If the output is empty, say so and continue from your own knowledge.
 
 ### Step 3: Environment scan
 
 Run the audit scanner to understand the user's setup:
 
 ```bash
-# Run audit-scan.sh in JSON mode for structured data
-curl -sL "https://raw.githubusercontent.com/FlorianBruniaux/claude-code-ultimate-guide/main/examples/scripts/audit-scan.sh" | bash -s -- --json 2>/dev/null
+# The script is pinned to a commit, so what runs is the reviewed version and not
+# whatever a branch points to later. Update the ref when audit-scan.sh changes.
+AUDIT_SCAN_REF=eab8adc215822f67629b6a0f9366f60a1db9b03c
+script="$(mktemp)" \
+  && curl -fsSL "https://raw.githubusercontent.com/FlorianBruniaux/claude-code-ultimate-guide/${AUDIT_SCAN_REF}/examples/scripts/audit-scan.sh" -o "$script" \
+  && bash "$script" --json
+rm -f "$script"
 ```
 
-If the script fails, fall back to manual checks:
+If the script fails, report its error to the user, then fall back to manual checks:
 
 ```bash
 # Global config

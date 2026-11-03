@@ -56,6 +56,11 @@ jobs:
           python3 scripts/check-public-paths.py --self-test
           python3 scripts/check-public-paths.py
 
+      - name: Check own-repository URLs use the canonical owner
+        run: |
+          python3 scripts/check-own-repo-urls.py --self-test
+          python3 scripts/check-own-repo-urls.py
+
       - name: Check reference.yaml structural integrity
         run: |
           # Hard gate, currently at zero. Covers what the ratchet below cannot:

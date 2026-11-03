@@ -8,7 +8,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Security
 
-- **`diagnose` skill pointed at a foreign GitHub account**: `examples/skills/diagnose/SKILL.md` fetched the guide and piped `audit-scan.sh` into `bash` from `flobby41/claude-code-ultimate-guide`, an account unrelated to the guide whose repository returns 404. Whoever controls that account could have created the repository and run arbitrary code on every machine that used the skill. All five URLs now point to `FlorianBruniaux/claude-code-ultimate-guide`.
+- **`diagnose` skill pointed at a foreign GitHub account**: `examples/skills/diagnose/SKILL.md` fetched the guide and piped `audit-scan.sh` into `bash` from `flobby41/claude-code-ultimate-guide`, an account unrelated to the guide whose repository returns 404. Whoever controls that account could have created the repository and run arbitrary code on every machine that used the skill. All five URLs now point to `FlorianBruniaux/claude-code-ultimate-guide`. The public nlpm audit of April 19, 2026 had flagged this as critical. Forks and mirrors made before the fix keep the old URLs.
+- **`diagnose` skill no longer pipes a moving branch into bash**: step 3 downloads `audit-scan.sh` from a pinned commit to a temporary file, runs it, and reports a failure instead of hiding it with `2>/dev/null`. Step 2 extracted the first 3,000 lines of the guide, which never reached Section 10.4 (line 24,293); it now extracts the section by its heading (384 lines).
+- **New CI gate `scripts/check-own-repo-urls.py`**: `index-integrity` fails when a template, script, command or MCP source links to `claude-code-ultimate-guide` or `claude-code-plugins` under an owner other than `FlorianBruniaux`. It fails on the pre-fix `diagnose` skill and passes on the current tree.
 
 ### Changed
 
