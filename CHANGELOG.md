@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Fixed
+
+- **Private key detection in example hooks**: `examples/hooks/bash/pre-commit-secrets.sh`, `output-secrets-scanner.sh` and `output-validator.sh` passed patterns that start with `-----` to `grep` without `-e`. BSD grep on macOS reads such a pattern as an option and exits 2, and `|| true` or `2>/dev/null` hid the error, so the private key entries never matched. All three now pass the pattern with `-e` and report a grep exit code above 1 instead of treating it as "no secret found". New regression test: `examples/hooks/bash/test-private-key-detection.sh`. GNU grep behavior was not tested.
+
 ### Changed
 
 - **Threat intelligence reviewed November 2, 2026**: database 2.32.0 adds 31 advisories (Claude Code, Claude Desktop, Claude Agent SDK for Python, MCP Python and TypeScript SDKs, FastMCP, chrome-devtools-mcp, Junie CLI, Langflow, nginx-ui and 10 other MCP servers or integrations) and four CVE-only reports tracked as `monitoring` without a version floor. New `security-hardening.md` section covers the MCP SDK fixes that need configuration, repositories that run code when opened (Junie CLI, ZCode, the testmetest startup hooks) and the tampered Claude Code extension served by Cursor's marketplace on October 29. AgentSec tracks 219 advisories; the compatibility catalogue keeps nine historical guide-only records and now contains 228. Synchronized the canonical feed and both reference indexes. The testmetest event is `partial` (Claude Code and VS Code hooks reported as review findings); every vulnerability addition remains `not_detected`.

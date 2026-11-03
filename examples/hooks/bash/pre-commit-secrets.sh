@@ -119,7 +119,14 @@ detect_secrets() {
             local pattern_name="${entry%%::*}"
             local pattern="${entry#*::}"
             local matches
-            matches=$(echo "$content" | grep -noE "$pattern" || true)
+            # -e keeps a pattern that starts with "-" (private key header) from
+            # being parsed as an option. grep exits 1 for "no match" and 2 for an
+            # error; only the latter must not pass as "no secret found".
+            local grep_rc=0
+            matches=$(echo "$content" | grep -noE -e "$pattern") || grep_rc=$?
+            if [ "$grep_rc" -gt 1 ]; then
+                echo "WARNING: grep failed (exit $grep_rc) on pattern '$pattern_name' in $file: not scanned" >&2
+            fi
 
             if [ -n "$matches" ]; then
                 # Check each match against whitelist

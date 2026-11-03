@@ -97,8 +97,12 @@ SECRET_PATTERNS=(
 )
 
 for pattern in "${SECRET_PATTERNS[@]}"; do
-    if echo "$TOOL_OUTPUT" | grep -qE "$pattern" 2>/dev/null; then
+    # -e keeps a pattern that starts with "-" (private key header) from being
+    # parsed as an option. grep exits 1 for "no match" and 2 for an error.
+    if echo "$TOOL_OUTPUT" | grep -qE -e "$pattern" 2>/dev/null; then
         WARNINGS+=("Potential sensitive data in output (pattern: ${pattern:0:20}...)")
+    elif [[ ${PIPESTATUS[1]} -gt 1 ]]; then
+        WARNINGS+=("Secret scan failed (grep error) for pattern: ${pattern:0:20}...")
     fi
 done
 
