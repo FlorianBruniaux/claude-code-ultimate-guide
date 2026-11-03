@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Security
+
+- **`diagnose` skill pointed at a foreign GitHub account**: `examples/skills/diagnose/SKILL.md` fetched the guide and piped `audit-scan.sh` into `bash` from `flobby41/claude-code-ultimate-guide`, an account unrelated to the guide whose repository returns 404. Whoever controls that account could have created the repository and run arbitrary code on every machine that used the skill. All five URLs now point to `FlorianBruniaux/claude-code-ultimate-guide`.
+
 ### Changed
 
 - **Threat intelligence reviewed November 2, 2026**: database 2.32.0 adds 31 advisories (Claude Code, Claude Desktop, Claude Agent SDK for Python, MCP Python and TypeScript SDKs, FastMCP, chrome-devtools-mcp, Junie CLI, Langflow, nginx-ui and 10 other MCP servers or integrations) and four CVE-only reports tracked as `monitoring` without a version floor. New `security-hardening.md` section covers the MCP SDK fixes that need configuration, repositories that run code when opened (Junie CLI, ZCode, the testmetest startup hooks) and the tampered Claude Code extension served by Cursor's marketplace on October 29. AgentSec tracks 219 advisories; the compatibility catalogue keeps nine historical guide-only records and now contains 228. Synchronized the canonical feed and both reference indexes. The testmetest event is `partial` (Claude Code and VS Code hooks reported as review findings); every vulnerability addition remains `not_detected`.

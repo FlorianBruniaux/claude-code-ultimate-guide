@@ -28,7 +28,7 @@ Silently fetch the troubleshooting reference:
 
 ```bash
 # Fetch the latest troubleshooting guide from the repo
-curl -sL "https://raw.githubusercontent.com/flobby41/claude-code-ultimate-guide/main/guide/ultimate-guide.md" | head -n 3000
+curl -sL "https://raw.githubusercontent.com/FlorianBruniaux/claude-code-ultimate-guide/main/guide/ultimate-guide.md" | head -n 3000
 ```
 
 Use Section 10.4 (Troubleshooting) as your primary reference.
@@ -39,7 +39,7 @@ Run the audit scanner to understand the user's setup:
 
 ```bash
 # Run audit-scan.sh in JSON mode for structured data
-curl -sL "https://raw.githubusercontent.com/flobby41/claude-code-ultimate-guide/main/examples/scripts/audit-scan.sh" | bash -s -- --json 2>/dev/null
+curl -sL "https://raw.githubusercontent.com/FlorianBruniaux/claude-code-ultimate-guide/main/examples/scripts/audit-scan.sh" | bash -s -- --json 2>/dev/null
 ```
 
 If the script fails, fall back to manual checks:
@@ -121,13 +121,13 @@ Format your response as:
 ### Template (if applicable)
 
 Link to relevant template:
-- Config: `https://github.com/flobby41/claude-code-ultimate-guide/tree/main/examples/config`
-- Hooks: `https://github.com/flobby41/claude-code-ultimate-guide/tree/main/examples/hooks`
+- Config: `https://github.com/FlorianBruniaux/claude-code-ultimate-guide/tree/main/examples/config`
+- Hooks: `https://github.com/FlorianBruniaux/claude-code-ultimate-guide/tree/main/examples/hooks`
 
 ### Reference
 
 Section X.Y of the guide: [Brief description]
-`https://github.com/flobby41/claude-code-ultimate-guide`
+`https://github.com/FlorianBruniaux/claude-code-ultimate-guide`
 
 ---
 
