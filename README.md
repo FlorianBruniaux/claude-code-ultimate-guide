@@ -21,6 +21,7 @@
   <a href="./CHANGELOG.md"><img src="https://img.shields.io/badge/Updated-Nov_1,_2026_·_v3.45.2-brightgreen?style=flat-square" alt="Updated Oct 17, 2026, guide version 3.45.2" /></a>
   <a href="https://creativecommons.org/licenses/by-sa/4.0/"><img src="https://img.shields.io/badge/Guide-CC_BY--SA_4.0-blue?style=flat-square" alt="Guide license: CC BY-SA 4.0" /></a>
   <a href="https://cc.bruniaux.com/mcp/"><img src="https://img.shields.io/badge/MCP-npx_ready-blueviolet?style=flat-square" alt="MCP server available through npx" /></a>
+  <a href="https://deepwiki.com/FlorianBruniaux/claude-code-ultimate-guide"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki" /></a>
 </p>
 
 Learn Claude Code, build reliable agents, and scale their use safely. The website is the primary reading and discovery interface. This repository contains the canonical Markdown sources, reusable files, machine-readable indexes, and contribution history.
