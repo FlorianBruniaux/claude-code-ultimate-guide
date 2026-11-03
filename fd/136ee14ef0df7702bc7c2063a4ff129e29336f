@@ -1,0 +1,33 @@
+CHANGELOG.md
+  s_cae630130d25b9::t_8b50f8b9214701 11
+examples/commands/resources/threat-db.yaml
+  s_cae630130d25b9::t_f1e15e83460e12 5-6,8-80,1741-2040,4692-4694,4735,4746
+guide/security/security-hardening.md
+  s_fdda4c0c9dc835::t_172ef68f899526 90-111
+machine-readable/agentsec-security-feed.v1.json
+  s_cae630130d25b9::t_feea79f8cc3975 16,19-20,100-101,105-818,5172-5181,5222-5231,5262-5281,5302-5311,5332-5341,5382-5391,5432-5441,5472-5481,5492-5511,5532-5551,5562-5581,5612-5621,5632-5641,5672-5681,5692-5701,5712-5761,5841
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "fd136ee14ef0df7702bc7c2063a4ff129e29336f",
+  "prompts": {},
+  "sessions": {
+    "s_cae630130d25b9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bd0308eb-fb52-4899-bde8-5c46ebd61524",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_fdda4c0c9dc835": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7a4f3079-a626-4f06-a1a3-c7247a0828c5",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
