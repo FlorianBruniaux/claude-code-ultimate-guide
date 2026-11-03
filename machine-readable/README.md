@@ -118,6 +118,18 @@ The [Lexigraph evaluation](../docs/resource-evaluations/lexigraph-ai-lexicon.md)
 
 These additions adapt practitioner material. [Lopopolo's anthology](../docs/resource-evaluations/lopopolo-harness-engineering.md) is a context corpus, not an executable runtime. Honkonen's `eng` commands belong to his custom tooling. Neither source establishes measured local quality, cost, or delivery gains.
 
+### Agent memory: types, scope, and actual use
+
+| Need | Entry point |
+|---|---|
+| Classify a memory by content, form, scope, and lifecycle | [Memory types: coordinates, not a stack](../guide/core/memory-systems.md#memory-types-coordinates-not-a-stack) |
+| Know whether a memory stays on one machine or reaches the team (Claude Code, Codex, Gemini CLI, Copilot, Kiro) | [Where memory lives](../guide/core/memory-systems.md#where-memory-lives-local-repository-shared) |
+| Check that injected memory changes what the agent does | [Six-stage pipeline](../guide/core/memory-systems.md#from-captured-to-effective-the-six-stage-pipeline) and [2026 usage benchmarks](../guide/core/memory-systems.md#measuring-whether-memory-is-used-2026) |
+| Pick or audit a cross-session tool (claude-mem, agentmemory, memorix, basic-memory) | [Cross-session tools](../guide/core/memory-systems.md#3-cross-session-tools-single-user) and [comparison table](../guide/core/memory-systems.md#39-master-comparison-table) |
+| Persistent-memory poisoning evidence | [Memory poisoning](../guide/core/memory-systems.md#71-memory-poisoning-via-prompt-injection) |
+
+Tool facts were read at release tags and vendor documentation on 2026-11-03. Defaults, versions, and star counts drift; recheck before citing them.
+
 ### Agent harness landscape
 
 Use the human-readable pages according to the question being asked:

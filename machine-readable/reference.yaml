@@ -263,6 +263,14 @@ deep_dive:
   memory_systems_guide: "guide/core/memory-systems.md"
   memory_systems_guide_description: "Canonical reference for all memory patterns: native stack, cross-session tools, team sharing, multi-agent, architecture patterns, risks, decision frameworks, benchmarks."
   memory_systems_tldr: "guide/core/memory-systems.md#1-tldr-three-track-model"
+  memory_systems_taxonomy_axes: "guide/core/memory-systems.md#memory-types-coordinates-not-a-stack"  # Added 2026-11-03: content/form/scope/lifecycle axes (CoALA, arXiv 2512.13564, 2603.07670); corrects the 5-layer stack and "meta-memory" wording
+  memory_systems_scope_local_shared: "guide/core/memory-systems.md#where-memory-lives-local-repository-shared"  # Added 2026-11-03: Claude auto memory, subagent memory, managed CLAUDE.md, Codex, Gemini CLI, Copilot Memory, Kiro; scope and lifecycle read at vendor docs
+  memory_systems_effectiveness_pipeline: "guide/core/memory-systems.md#from-captured-to-effective-the-six-stage-pipeline"  # Added 2026-11-03: captured, stored, indexed, retrievable, injected, effective; MemUse (arXiv 2611.01718); canary + memory-off A/B
+  memory_systems_usage_benchmarks: "guide/core/memory-systems.md#measuring-whether-memory-is-used-2026"  # Added 2026-11-03: MemUse, STATE-Bench, Memora, EvoMemBench, CoMemBench, StateChangeBench, Auto-Dreamer
+  memory_systems_research_poisoning_2026: "guide/core/memory-systems.md#71-memory-poisoning-via-prompt-injection"  # Added 2026-11-03: MemGhost (2607.05189), MemHarmBench (2611.01700), Mem0 PR #6892 scope-key collision
+  memory_systems_claude_mem_privacy_incident: "guide/core/memory-systems.md#31-claude-mem"  # Added 2026-11-03: v15.2.0 to v15.8.2 browser setup uploaded 30 days of prompts to cmem.ai without asking; fixed v15.8.3; redaction off by default
+  memory_systems_new_tools_2026: "guide/core/memory-systems.md#38-other-notable-tools"  # Added 2026-11-03: memorix, basic-memory, mnemosyne, Graft (agent A/B), ByteRover CLI archived 2026-09-27
+  memory_systems_kiro_decay_formula: "guide/core/memory-systems.md#memory-decay-models"  # Added 2026-11-03: Kiro Crew prose says important memories decay slower, formula applies one decay constant
   memory_systems_native_stack: "guide/core/memory-systems.md#2-native-claude-code-memory-stack"
   memory_systems_claudemd: "guide/core/memory-systems.md#21-claudemd-three-levels-of-memory"
   memory_systems_auto_memory: "guide/core/memory-systems.md#22-auto-memory-v2159"
@@ -2416,16 +2424,18 @@ permissions:
 # ════════════════════════════════════════════════════════════════
 mcp:
   serena: "symbol search + session memory (write_memory/read_memory) + project indexation"
-  claude_mem: "automatic session capture + AI compression + progressive disclosure + Web dashboard (localhost:37777)"
+  claude_mem: "automatic session capture (9 hook events) + LLM observer on Claude subscription by default + Smart 3-step search + local worker (127.0.0.1, port 37700 + uid%100 in v15.9.0)"
   claude_mem_repo: "https://github.com/thedotmack/claude-mem"
   claude_mem_guide: "guide/ultimate-guide.md#claude-mem-automatic-session-memory"
   claude_mem_plugin: "examples/plugins/claude-mem.md"
   claude_mem_installation: "/plugin marketplace add thedotmack/claude-mem"
-  claude_mem_stars: "26.5k"
-  claude_mem_license: "AGPL-3.0 + PolyForm Noncommercial"
-  claude_mem_cost: "$0.15 per 100 observations (API compression)"
-  claude_mem_storage: "10-20 MB/month (light), 100-200 MB/month (heavy)"
-  claude_mem_dashboard: "http://localhost:37777"
+  claude_mem_stars: "111,119 (2026-11-03)"
+  claude_mem_version: "v15.9.0 (2026-11-02)"
+  claude_mem_license: "Apache-2.0 (verified 2026-11-03)"
+  claude_mem_cost: "Default observer uses the Claude subscription (no separate API bill); API providers bill per provider"
+  claude_mem_storage: "~/.claude-mem/claude-mem.db (SQLite) + Chroma on by default; older size estimate 10-20 MB/month (light), 100-200 MB/month (heavy)"
+  claude_mem_security: "secret redaction off by default (CLAUDE_MEM_REDACT_ENABLED); <private> blocks stripped; v15.2.0-v15.8.2 browser setup uploaded 30 days of prompts to cmem.ai without asking, fixed v15.8.3"
+  claude_mem_dashboard: "local worker on 127.0.0.1, port 37700 + uid%100 (37777 in older releases)"
   claude_mem_vs_serena: "claude-mem=auto capture, Serena=manual memory"
   claude_mem_progressive_disclosure: "3-layer retrieval: search→timeline→observations (10x token reduction)"
   claude_mem_evaluation: "docs/resource-evaluations/claude-mem-evaluation.md"

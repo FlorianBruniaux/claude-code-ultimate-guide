@@ -721,13 +721,13 @@ For Claude Code specifically, two mechanisms handle session-level memory:
 
 **Structured note-taking via hooks** is the agentic version: a PostToolUse hook writes key decisions, discovered facts, and task state to a notes file. The agent loads this file at the start of the next session. This sidesteps context rot entirely for multi-session work: the notes file sits at the start of the context (maximum attention) and contains only curated information.
 
-**Auto Memory (v2.1.59+)** and **Auto Dream** provide native CC alternatives: Claude writes its own `MEMORY.md` between sessions, and a background sub-agent consolidates it after ≥5 sessions and ≥24 hours. See [Memory Systems: Auto Memory](../core/memory-systems.md#22-auto-memory-v21594).
+**Auto Memory (v2.1.59+)** and **Auto Dream** provide native CC alternatives: Claude writes its own `MEMORY.md` between sessions, and a background sub-agent consolidates it after ≥5 sessions and ≥24 hours. See [Memory Systems: Auto Memory](../core/memory-systems.md#22-auto-memory-v2159).
 
 ### Long-Term: External memory systems
 
 For multi-session and multi-agent workflows, persistent memory systems store information outside the context window and retrieve it selectively. The CC ecosystem has a three-tier model:
 
-**Individual (no team)**: claude-mem (89K stars, hooks-based auto-capture), agentmemory (26K stars, BM25+vector+graph fusion, 95.2% R@5), ICM (Rust binary, dual decay+graph architecture, `brew install icm`). Stars verified 2026-07-27.
+**Individual (no team)**: claude-mem (111K stars, hooks-based auto-capture), agentmemory (30K stars, BM25+vector+graph fusion, self-reported 95.2% R@5, context injection opt-in), ICM (Rust binary, dual decay+graph architecture, `brew install icm`). Stars verified 2026-11-03. Recall scores do not show that injected memory is used; see [the six-stage pipeline](../core/memory-systems.md#from-captured-to-effective-the-six-stage-pipeline).
 
 **Team sharing**: CLAUDE.md + `.mcp.json` + skills committed to the repo (the Trinity, zero infra). Mem0 Cloud MCP for pooled team memory. Zep/Graphiti for temporal knowledge graphs. On making this shared context hold up across a whole team rather than a single session, see [context engineering for the team, not just the session](https://www.florian.bruniaux.com/blog/articles/context-engineering-team-system/).
 

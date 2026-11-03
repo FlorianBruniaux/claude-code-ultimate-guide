@@ -427,12 +427,12 @@ The sections above cover the foundational CLAUDE.md patterns. When you're ready 
 
 **Auto Memory and Auto Dream (native, v2.1.59+)**
 
-Claude Code can write its own MEMORY.md between sessions (Auto Memory) and consolidate it in the background (Auto Dream). Both work out-of-the-box with `/memory` to manage stored entries. See [Memory Systems: Auto Memory](../core/memory-systems.md#22-auto-memory-v21594) and [Auto Dream](../core/memory-systems.md#23-auto-dream-background-consolidation).
+Claude Code can write its own MEMORY.md between sessions (Auto Memory) and consolidate it in the background (Auto Dream). Both work out-of-the-box with `/memory` to manage stored entries. See [Memory Systems: Auto Memory](../core/memory-systems.md#22-auto-memory-v2159) and [Auto Dream](../core/memory-systems.md#23-auto-dream-memory-consolidation).
 
 **Cross-session tools for individual developers**
 
-- **claude-mem** (89K stars, verified 2026-07-27) automatic session compression via hooks, no manual calls needed. Install: `/plugin marketplace add thedotmack/claude-mem`
-- **agentmemory** (26K stars, verified 2026-07-27) BM25 + vector + graph hybrid retrieval, 12 auto-wired hooks, 95.2% R@5 on LongMemEval-S
+- **claude-mem** (111K stars, verified 2026-11-03) automatic session compression via hooks, no manual calls needed. Turn on secret redaction, which is off by default. Install: `/plugin marketplace add thedotmack/claude-mem`
+- **agentmemory** (30K stars, verified 2026-11-03) BM25 + vector + graph hybrid retrieval, 12 hooks that capture by default (context injection is opt-in), self-reported 95.2% R@5 on LongMemEval-S
 - **ICM** (Rust binary): episodic decay + permanent knowledge graph, `brew install icm`, 14 IDE clients
 
 **Team sharing**
