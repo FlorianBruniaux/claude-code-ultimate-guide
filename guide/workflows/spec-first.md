@@ -404,8 +404,9 @@ The gate is deliberately informal: a PM signs off on the problem statement, not 
 ### With Spec Kit (greenfield)
 
 ```bash
-# Install Spec Kit
-npx @anthropic/spec-kit init
+# Install Spec Kit (requires Python 3.11+ and uv)
+uv tool install specify-cli
+specify init my-project --integration claude
 
 # Use slash commands
 /speckit.constitution  # Define project guardrails

@@ -163,7 +163,7 @@ Semantic:
 | Requirement | Details |
 |-------------|---------|
 | **Claude Code** | Version 1.5.0+ (MCP support) |
-| **Figma MCP Server** | `npm install -g @modelcontextprotocol/server-figma` |
+| **Figma MCP Server** | Community server `figma-developer-mcp` ([Framelink](https://github.com/GLips/Figma-Context-MCP)), run through `npx` |
 | **Personal Access Token** | Generated from Figma account settings → Tokens |
 | **MCP Configuration** | Token configured in Claude Code settings |
 
@@ -176,9 +176,9 @@ Add to your Claude Code MCP settings (`.claude/mcp.json` or settings UI):
   "mcpServers": {
     "figma": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-figma"],
+      "args": ["-y", "figma-developer-mcp", "--stdio"],
       "env": {
-        "FIGMA_PERSONAL_ACCESS_TOKEN": "your-token-here"
+        "FIGMA_API_KEY": "your-token-here"
       }
     }
   }
@@ -189,7 +189,7 @@ Add to your Claude Code MCP settings (`.claude/mcp.json` or settings UI):
 ```json
 {
   "env": {
-    "FIGMA_PERSONAL_ACCESS_TOKEN": "${FIGMA_TOKEN}"
+    "FIGMA_API_KEY": "${FIGMA_TOKEN}"
   }
 }
 ```

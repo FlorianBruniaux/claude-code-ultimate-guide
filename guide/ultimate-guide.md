@@ -12539,7 +12539,7 @@ ast-grep is a **community extension** for specialized structural searches where 
 brew install vercel-labs/tap/agent-browser
 
 # Or npm
-npm install -g @vercel-labs/agent-browser
+npm install -g agent-browser
 ```
 
 **Capabilities**:
@@ -12965,14 +12965,14 @@ Beyond the official servers listed above, the MCP ecosystem includes **validated
 
 ```bash
 # Installation
-npm install @microsoft/playwright-mcp
+npm install @playwright/mcp
 
 # Configuration (~/.claude.json or .mcp.json)
 {
   "mcpServers": {
     "playwright": {
       "command": "npx",
-      "args": ["--yes", "@microsoft/playwright-mcp"]
+      "args": ["--yes", "@playwright/mcp"]
     }
   }
 }
@@ -13003,15 +13003,12 @@ npm install @microsoft/playwright-mcp
 {
   "mcpServers": {
     "serena": {
-      "command": "npx",
-      "args": ["serena-mcp"],
-      "env": {
-        "PROJECT_PATH": "${PROJECT_PATH}"
-      }
+      "command": "serena",
+      "args": ["start-mcp-server", "--context", "claude-code", "--project", "${PROJECT_PATH}"]
     },
     "context7": {
       "command": "npx",
-      "args": ["@context7/mcp-server"]
+      "args": ["-y", "@upstash/context7-mcp"]
     },
     "postgres": {
       "command": "npx",
@@ -13060,13 +13057,13 @@ Reference the script in your MCP server config:
 {
   "mcpServers": {
     "github": {
-      "command": "npx",
-      "args": ["@modelcontextprotocol/server-github"],
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/",
       "headersHelper": ".claude/mcp-headers.sh"
     },
     "linear": {
-      "command": "npx",
-      "args": ["@modelcontextprotocol/server-linear"],
+      "type": "http",
+      "url": "https://mcp.linear.app/mcp",
       "headersHelper": ".claude/mcp-headers.sh"
     }
   }
@@ -13147,7 +13144,7 @@ To opt a specific server out of deferral entirely, set `alwaysLoad: true` in its
 claude mcp add -e API_KEY=your-key my-server -- npx @org/server
 
 # Multiple environment variables
-claude mcp add -e DATABASE_URL=postgresql://... -e DEBUG=true postgres -- npx @prisma/postgres
+claude mcp add -e DATABASE_URL=postgresql://... -e DEBUG=true postgres -- npx <postgres-mcp-package>
 
 # Verify with --help
 claude mcp add --help
@@ -13181,6 +13178,8 @@ For full threat model and CVE details, see [Section 8.6 MCP Security](#86-mcp-se
 | **.env + .gitignore** | Medium (file permissions) | Low | Small teams, rapid prototyping |
 | **Secret Vaults** | Very High (centralized, audited) | High | Enterprise, compliance requirements |
 
+The examples below run GitHub's official MCP server binary, `github-mcp-server` from the [github/github-mcp-server releases](https://github.com/github/github-mcp-server/releases), which reads its token from `GITHUB_PERSONAL_ACCESS_TOKEN`.
+
 ---
 
 #### Approach 1: OS Keychain (Recommended)
@@ -13210,7 +13209,7 @@ security find-generic-password -s "github-token" -w
   "mcpServers": {
     "github": {
       "command": "bash",
-      "args": ["-c", "GITHUB_TOKEN=$(security find-generic-password -s 'github-token' -w) npx @github/mcp-server"],
+      "args": ["-c", "GITHUB_PERSONAL_ACCESS_TOKEN=$(security find-generic-password -s 'github-token' -w) exec github-mcp-server stdio"],
       "env": {}
     }
   }
@@ -13231,7 +13230,7 @@ secret-tool store --label="GitHub Token" service claude key github-token
 # ~/.claude/scripts/mcp-github.sh
 #!/bin/bash
 export GITHUB_TOKEN=$(secret-tool lookup service claude key github-token)
-npx @github/mcp-server
+GITHUB_PERSONAL_ACCESS_TOKEN="$GITHUB_TOKEN" exec github-mcp-server stdio
 
 # ~/.claude.json (or .mcp.json)
 {
@@ -13252,8 +13251,8 @@ cmdkey /generic:"claude-mcp-github" /user:"token" /pass:"ghp_your_token_here"
 
 # Retrieve in PowerShell wrapper
 $password = cmdkey /list:"claude-mcp-github" | Select-String -Pattern "Password" | ForEach-Object { $_.ToString().Split(":")[1].Trim() }
-$env:GITHUB_TOKEN = $password
-npx @github/mcp-server
+$env:GITHUB_PERSONAL_ACCESS_TOKEN = $password
+github-mcp-server stdio
 ```
 
 ---
@@ -13288,10 +13287,10 @@ echo ".env" >> ~/.claude/.gitignore
 {
   "mcpServers": {
     "github": {
-      "command": "npx",
-      "args": ["@github/mcp-server"],
+      "command": "github-mcp-server",
+      "args": ["stdio"],
       "env": {
-        "GITHUB_TOKEN": "${GITHUB_TOKEN}"
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
       }
     },
     "postgres": {
@@ -13328,10 +13327,10 @@ cat > ~/.claude/mcp-config.template.json << EOF
 {
   "mcpServers": {
     "github": {
-      "command": "npx",
-      "args": ["@github/mcp-server"],
+      "command": "github-mcp-server",
+      "args": ["stdio"],
       "env": {
-        "GITHUB_TOKEN": "\${GITHUB_TOKEN}"
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "\${GITHUB_TOKEN}"
       }
     }
   }
@@ -13367,7 +13366,7 @@ vault kv put secret/claude/github token=ghp_your_token_here
 # ~/.claude/scripts/mcp-github-vault.sh
 #!/bin/bash
 export GITHUB_TOKEN=$(vault kv get -field=token secret/claude/github)
-npx @github/mcp-server
+GITHUB_PERSONAL_ACCESS_TOKEN="$GITHUB_TOKEN" exec github-mcp-server stdio
 
 # ~/.claude.json (or .mcp.json)
 {
@@ -13393,7 +13392,7 @@ export GITHUB_TOKEN=$(aws secretsmanager get-secret-value \
   --secret-id claude/github-token \
   --query SecretString \
   --output text)
-npx @github/mcp-server
+GITHUB_PERSONAL_ACCESS_TOKEN="$GITHUB_TOKEN" exec github-mcp-server stdio
 ```
 
 **1Password CLI** (team-friendly):
@@ -13406,7 +13405,7 @@ op item create --category=password \
 
 # Retrieve in wrapper
 export GITHUB_TOKEN=$(op read "op://Private/Claude MCP GitHub Token/token")
-npx @github/mcp-server
+GITHUB_PERSONAL_ACCESS_TOKEN="$GITHUB_TOKEN" exec github-mcp-server stdio
 ```
 
 ---
@@ -24493,15 +24492,12 @@ serena list-memories
 # In your project, ask Claude: "Index this project with Serena"
 
 # Session not persisting
-# Check mcp.json has correct data directory:
+# Check that mcp.json launches the uv-installed Serena (PyPI package serena-agent):
 {
   "mcpServers": {
     "serena": {
-      "command": "npx",
-      "args": ["-y", "@serenaai/serena-mcp"],
-      "env": {
-        "SERENA_DATA_DIR": "/absolute/path/to/.serena"
-      }
+      "command": "serena",
+      "args": ["start-mcp-server", "--context", "claude-code", "--project-from-cwd"]
     }
   }
 }

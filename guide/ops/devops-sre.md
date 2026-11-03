@@ -138,7 +138,7 @@ For persistent K8s context, install the K8s MCP server:
   "mcpServers": {
     "kubernetes": {
       "command": "npx",
-      "args": ["-y", "@anthropic/mcp-kubernetes"]
+      "args": ["-y", "kubernetes-mcp-server@latest"]
     }
   }
 }
@@ -825,11 +825,13 @@ approval_required:
 
 | Server | Purpose | Install |
 |--------|---------|---------|
-| Kubernetes | Direct cluster access | `npx -y @anthropic/mcp-kubernetes` |
-| AWS | AWS API access | `npx -y @anthropic/mcp-aws` |
-| GCP | GCP API access | `npx -y @anthropic/mcp-gcp` |
+| Kubernetes | Direct cluster access | `npx -y kubernetes-mcp-server@latest` |
+| AWS | AWS API access | `uvx awslabs.aws-api-mcp-server@latest` (Python) |
+| GCP | GCP API access | `npx -y @google-cloud/gcloud-mcp` |
 | Prometheus | Direct metrics queries | Community: search awesome-mcp-servers |
 | Terraform | State/plan analysis | Community: search awesome-mcp-servers |
+
+None of these servers comes from Anthropic: the Kubernetes server is maintained by the [containers organization](https://github.com/containers/kubernetes-mcp-server) (Red Hat), the AWS server by [AWS Labs](https://github.com/awslabs/mcp), and the GCP server by [Google](https://github.com/googleapis/gcloud-mcp).
 
 **Config location**: `~/.claude.json` (field `"mcpServers"`)
 
@@ -838,7 +840,7 @@ approval_required:
   "mcpServers": {
     "kubernetes": {
       "command": "npx",
-      "args": ["-y", "@anthropic/mcp-kubernetes"]
+      "args": ["-y", "kubernetes-mcp-server@latest"]
     }
   }
 }

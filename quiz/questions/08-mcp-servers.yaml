@@ -314,7 +314,7 @@ questions:
 
       For multiple environment variables:
       ```bash
-      claude mcp add -e DATABASE_URL=postgres://... -e DEBUG=true postgres -- npx @prisma/postgres
+      claude mcp add -e DATABASE_URL=postgres://... -e DEBUG=true postgres -- npx <postgres-mcp-package>
       ```
 
       This is quicker than manually editing mcp.json.
@@ -422,7 +422,7 @@ questions:
       a: claude mcp install figma
       b: claude mcp add --transport http figma https://mcp.figma.com/mcp
       c: claude figma connect
-      d: npm install @figma/mcp
+      d: claude mcp import figma
     correct: b
     explanation: "For remote MCP (all Figma plans, any machine): `claude mcp add --transport http figma https://mcp.figma.com/mcp`. For desktop MCP (requires Figma desktop app with Dev Mode): `claude mcp add --transport http figma-desktop http://127.0.0.1:3845/mcp`. Official Figma MCP was announced in 2025."
     doc_reference:

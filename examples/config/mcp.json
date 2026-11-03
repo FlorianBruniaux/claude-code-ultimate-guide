@@ -1,9 +1,9 @@
 {
   "mcpServers": {
     "serena": {
-      "command": "uvx",
-      "args": ["serena", "--project-root", "."],
-      "description": "Codebase indexation and session memory"
+      "command": "serena",
+      "args": ["start-mcp-server", "--context", "claude-code", "--project-from-cwd"],
+      "description": "Codebase indexation and session memory (install first: uv tool install -p 3.13 serena-agent)"
     },
     "context7": {
       "command": "npx",
@@ -12,12 +12,12 @@
     },
     "sequential": {
       "command": "npx",
-      "args": ["-y", "@anthropic/sequential-thinking-mcp"],
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"],
       "description": "Structured multi-step reasoning"
     },
     "playwright": {
       "command": "npx",
-      "args": ["-y", "@anthropic/playwright-mcp"],
+      "args": ["-y", "@playwright/mcp"],
       "description": "Browser automation and testing"
     },
     "postgres": {

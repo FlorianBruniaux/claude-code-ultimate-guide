@@ -10,6 +10,8 @@ on:
       - ".claude/commands/ccguide/**"
       - "guide/**"
       - "examples/**"
+      - "tools/**"
+      - "quiz/**"
       - "machine-readable/**"
       - "mcp-server/**"
       # The gates themselves live here. Without this the workflow could not fire
@@ -28,6 +30,8 @@ on:
       - ".claude/commands/ccguide/**"
       - "guide/**"
       - "examples/**"
+      - "tools/**"
+      - "quiz/**"
       - "machine-readable/**"
       - "mcp-server/**"
       # The gates themselves live here. Without this the workflow could not fire
@@ -60,6 +64,14 @@ jobs:
         run: |
           python3 scripts/check-own-repo-urls.py --self-test
           python3 scripts/check-own-repo-urls.py
+
+      - name: Check npm packages cited in npx and npm install commands are published
+        run: |
+          # A name nobody published can be registered later by anyone, and the
+          # next reader who copies the command runs that code. Queries the npm
+          # registry; the threat database is excluded because AgentSec owns it.
+          python3 scripts/check-npx-packages.py --self-test
+          python3 scripts/check-npx-packages.py
 
       - name: Check reference.yaml structural integrity
         run: |

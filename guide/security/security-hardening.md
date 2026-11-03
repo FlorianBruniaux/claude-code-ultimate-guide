@@ -349,7 +349,7 @@ Before adding any MCP server, complete this checklist:
 
 | MCP Server | Status | Notes |
 |------------|--------|-------|
-| `@anthropic/mcp-server-*` | Safe | Official Anthropic servers |
+| `@modelcontextprotocol/server-*` | Safe | Reference servers from the MCP project; several are deprecated on npm, check before installing |
 | `context7` | Safe | Read-only documentation lookup |
 | `sequential-thinking` | Safe | No external access, local reasoning |
 | `memory` | Safe | Local file-based persistence |
@@ -367,7 +367,7 @@ Before adding any MCP server, complete this checklist:
   "mcpServers": {
     "context7": {
       "command": "npx",
-      "args": ["-y", "@context7/mcp-server@1.2.3"],
+      "args": ["-y", "@upstash/context7-mcp@4.5.0"],
       "env": {}
     },
     "database": {

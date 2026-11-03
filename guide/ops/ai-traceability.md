@@ -177,8 +177,9 @@ The most comprehensive approach. git-ai creates "checkpoints" that:
 - Preserve prompt context (optional)
 
 ```bash
-# Install
-npm install -g git-ai
+# Install: official installer from usegitai.com, downloaded and read before running
+curl -fsSL https://usegitai.com/install.sh -o git-ai-install.sh
+bash git-ai-install.sh
 
 # Create checkpoint after AI session
 git-ai checkpoint --tool="claude-code" --session="feature-auth"
@@ -623,8 +624,8 @@ git config --global commit.template ~/.gitmessage
 3. **Want metrics?** Install git-ai:
 
 ```bash
-npm install -g git-ai
-git-ai init
+curl -fsSL https://usegitai.com/install.sh -o git-ai-install.sh
+bash git-ai-install.sh
 ```
 
 ### 7.2 Team adoption

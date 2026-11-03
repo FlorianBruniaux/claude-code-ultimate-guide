@@ -29,7 +29,11 @@ Prompts and utilities for Claude Code setup and optimization.
 For a fast automated scan, use the script instead:
 
 ```bash
-curl -sL https://raw.githubusercontent.com/FlorianBruniaux/claude-code-ultimate-guide/main/examples/scripts/audit-scan.sh | bash
+# Pinned to a reviewed commit: download, read, then run, instead of piping a moving branch into bash
+AUDIT_SCAN_REF=eab8adc215822f67629b6a0f9366f60a1db9b03c
+curl -fsSL "https://raw.githubusercontent.com/FlorianBruniaux/claude-code-ultimate-guide/${AUDIT_SCAN_REF}/examples/scripts/audit-scan.sh" -o audit-scan.sh
+less audit-scan.sh
+bash audit-scan.sh
 ```
 
 ---

@@ -335,9 +335,9 @@ Is it a GitHub-specific operation (PRs, Issues, Actions)?
 
 ```bash
 # Installation
-npm install @microsoft/playwright-mcp
+npm install @playwright/mcp
 # or
-npx @microsoft/playwright-mcp
+npx @playwright/mcp
 ```
 
 **Claude Code Configuration** (`~/.claude.json`):
@@ -347,7 +347,7 @@ npx @microsoft/playwright-mcp
   "mcpServers": {
     "playwright": {
       "command": "npx",
-      "args": ["--yes", "@microsoft/playwright-mcp"]
+      "args": ["--yes", "@playwright/mcp"]
     }
   }
 }
@@ -473,7 +473,7 @@ npm install @browserbasehq/mcp-server-browserbase
 **Setup**:
 
 ```bash
-npm install @modelcontextprotocol/server-chrome-devtools
+npm install chrome-devtools-mcp
 ```
 
 **Configuration**:
@@ -483,7 +483,7 @@ npm install @modelcontextprotocol/server-chrome-devtools
   "mcpServers": {
     "chrome-devtools": {
       "command": "npx",
-      "args": ["@modelcontextprotocol/server-chrome-devtools"]
+      "args": ["-y", "chrome-devtools-mcp@latest"]
     }
   }
 }
@@ -1221,7 +1221,7 @@ Two servers stand out from the community field:
 **Setup** (shinzo-labs/hubspot-mcp):
 
 ```bash
-claude mcp add hubspot -- npx -y @shinzo-labs/hubspot-mcp --api-key YOUR_HUBSPOT_PRIVATE_APP_TOKEN
+claude mcp add hubspot -e HUBSPOT_ACCESS_TOKEN=YOUR_HUBSPOT_PRIVATE_APP_TOKEN -- npx -y @shinzolabs/hubspot-mcp
 ```
 
 **Quality Score**: **6.5/10** ⭐⭐⭐
@@ -1797,7 +1797,7 @@ Scoped access is particularly valuable for the `verify_fact` tool pattern: a sub
 
 ```bash
 # Playwright (browser testing)
-npm install @microsoft/playwright-mcp
+npm install @playwright/mcp
 
 # Semgrep (security)
 uvx semgrep-mcp
