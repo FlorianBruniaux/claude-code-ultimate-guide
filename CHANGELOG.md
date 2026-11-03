@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+
+- **Autoresearch case study: when the loop repairs the baseline** (`guide/ecosystem/ai-ecosystem.md` §13): the "Sparks of Weight-Space Programming" post (MIT CSAIL, November 2, 2026), in which `gpt-6-astra` edits Qwen3.5-0.8B weights under a forward-pass budget, read against its published logs. The MATH-500 gain from 7.9% to 48.1% coincides with a drop in truncated answers (93% to 33.1%), the task prompt named repetition as the failure to fix, each budget is a single run with a different edit, and the Gemma 3 270M control moved from 6.8 to at most 7.7. A third-party re-run confirms the edited checkpoint (51.0%) but re-tested the base model on 25 problems only. Six checks carry the lesson over to `/autoresearch` loops. New evaluation `docs/resource-evaluations/weight-space-programming.md` (3/5) lists what was not verified, including the model's public availability and reactions reported on X. `reference.yaml` and its MCP mirror gain `autoresearch_pattern` and `autoresearch_repaired_baseline_case`; `mcp-product.json` and the generated chapter ranges are regenerated for the new index digest.
+
 ### Security
 
 - **AgentSec 2.33.0 coverage-gap pass (November 3, 2026)**: `guide/security/security-hardening.md` adds a November 3 paragraph to the November review. 25 CVEs from the mcp-cve-project index were checked against their primary advisories: 22 added, two kept in `monitoring`, one VS Code report set aside. It records the index error on Claude Code Action (1.0.78 and `Critical` in the index, 1.0.74 and medium in the maintainer advisory) and five informational floors (MCP Inspector 0.16.6, MCP Java SDK 1.1.1, GitHub MCP Server 1.1.0, MCP Registry 1.7.5, Copilot CLI 0.0.423). `examples/commands/resources/threat-db.yaml` mirrors the new records (252 records, 349 sources) and `machine-readable/agentsec-security-feed.v1.json` mirrors the AgentSec 2.33.0 feed.

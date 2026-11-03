@@ -2874,6 +2874,35 @@ Does not work for:
 
 The pattern is safe because of the git rollback guarantee. The agent never accumulates bad changes. Every regression disappears immediately. The only risk is if your `program.md` constraints are too loose. Write tight constraints, then widen if needed.
 
+### Case study: when the loop repairs the baseline
+
+On November 2, 2026, four MIT CSAIL researchers published [Sparks of Weight-Space Programming](https://rikiyat.github.io/blog/weight-space-programming/), a blog post without a peer-reviewed paper. In it, a model the authors' logs identify as OpenAI's `gpt-6-astra`, run through the Codex CLI with its built-in tools disabled, reads and edits neural network weights. The Qwen experiment is an autoresearch loop in all but name: the model edits the weights of Qwen3.5-0.8B from a Python kernel, measures candidates on practice problems with a budget of 10, 25 or 50 forward passes, and keeps what scores better. Gradients and training are forbidden. The authors publish every prompt, reply, code run and evaluation in [their logs repository](https://github.com/RikiyaT/lm_understand-logs).
+
+The headline numbers come from the 50-pass run: MATH-500 from 7.9% to 48.1% and IFEval from 21.0 to 62.3, after subtracting one direction from 64 MLP output columns in layers 15 and 19 (131,072 weights, 0.016% of the model). A third-party re-run of the published checkpoint, documented on its [model card](https://huggingface.co/RikiyaT/Qwen3.5-0.8B-weight-space-programming), gave 51.0% under the same protocol.
+
+The logs show what that number measures:
+
+| Observation | Source |
+|---|---|
+| 93% of the unedited model's MATH-500 answers hit the 32,768-token limit, 33.1% after the 50-pass edit | [Experiment 8 README](https://github.com/RikiyaT/lm_understand-logs/blob/main/exp8_math/README.md) |
+| The task prompt names the failure: "if the model often fails because it repeats itself and never finishes, finding and fixing what drives that repetition counts" | [First prompt of the 50-pass run](https://github.com/RikiyaT/lm_understand-logs/blob/main/exp8_math/runs/p50c/turns/t001/prompt.txt) |
+| One run per budget, each with a different edit: a rank-one projection on 30 matrices, one zeroed attention head, then MLP columns | Experiment 8 README |
+| A later prompt version without the failure example submitted no edit at 10 passes and matched the published score at 25; runs from other prompt versions are excluded from the post | [Results excerpt](https://github.com/RikiyaT/lm_understand-logs/blob/main/exp8_math/eval/RESULTS_excerpt.md) |
+| On Gemma 3 270M, which does not loop, edits moved MATH-500 from 6.8 to at most 7.7 | Results excerpt |
+
+The authors draw the line themselves: "Fixing loops, however, is not the same as making a model better at math". Subtracting a direction from the weights belongs to the same family as the directional ablation [Arditi et al.](https://arxiv.org/abs/2406.11717) applied to refusal in 2024. The top-ranked [Hacker News comment](https://news.ycombinator.com/item?id=50347685), read on November 3, 2026, calls the edit "basically a steering vector, a very established technique", an analogy, since a steering vector is added to activations at inference while this edit changes the weights. The evaluation runs at temperature 0.6 with presence penalty 1.5. The [Qwen3.5-0.8B model card](https://huggingface.co/Qwen/Qwen3.5-0.8B) warns that this model "is more prone to entering thinking loops" and states temperature 1.0 for its own benchmark table. Its thinking-mode IFEval of 44.0 comes from a different harness and is not directly comparable to the 21.0 measured here, but no published run compares the edit with the base model at the card's settings.
+
+The same traps apply to any loop you run with `/autoresearch`:
+
+1. **Read the baseline's failure distribution before the delta.** A large gain over a baseline that mostly times out, crashes or truncates measures the repair of that failure. Record the share of attempts that ended without a usable result, before and after.
+2. **Compare against the cheapest known fix.** Here, decoding settings or a token budget. In a code loop, a config flag, a lint autofix or a revert. The loop has to beat that, not the broken state.
+3. **Name the hints in `program.md`.** Pointing the agent at a failure mode is legitimate, but report it with the result. Here, the prompt without the hint produced no edit at 10 passes.
+4. **Keep every run.** One run per budget and excluded prompt versions make an anecdote. The loop's own `git reset` discards rejected candidates, so log each attempt and its measurement before the reset, not only the winning commit.
+5. **Add a control where the fix should not help.** The Gemma follow-up is a useful control because it tests the capability claim on a model that does not loop, and it came back negative.
+6. **A re-run of the artifact is not a reproduction of the claim.** The third-party run confirms the edited checkpoint's score. It tested the base model on 25 problems only and tested no alternative fix.
+
+The post's best-controlled result is elsewhere: naming which of three languages a small character-level transformer was trained on, and locating its copying heads, from its middle blocks alone and without running it. That result covers three models with two attempts each. Full evaluation: [weight-space programming](../../docs/resource-evaluations/weight-space-programming.md).
+
 ---
 
 ## Pointing Claude Code at another backend

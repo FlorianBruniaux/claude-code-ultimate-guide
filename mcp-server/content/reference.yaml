@@ -1766,6 +1766,8 @@ deep_dive:
   ai_ecosystem_multi_ide_sync: "guide/ecosystem/ai-ecosystem.md#multi-ide-configuration-sync"
   agents_md_support_status: "guide/ecosystem/ai-ecosystem.md#️-agentsmd-support-status"
   ai_ecosystem_build_vs_use: "guide/ecosystem/ai-ecosystem.md#113-when-to-build-vs-use"  # Section 11.3 - When to Build vs Use (ADK, LangChain, Vercel AI SDK)
+  autoresearch_pattern: "guide/ecosystem/ai-ecosystem.md#13-autonomous-research-loops-autoresearch-pattern"
+  autoresearch_repaired_baseline_case: "guide/ecosystem/ai-ecosystem.md#case-study-when-the-loop-repairs-the-baseline"  # Added 2026-11-03: Weight-Space Programming (MIT CSAIL blog, gpt-6-astra edits Qwen3.5-0.8B), 7.9 to 48.1 on MATH-500 mostly loop repair (93% base truncation), prompt named repetition, one run per budget, Gemma control negative; six checks for /autoresearch loops; eval docs/resource-evaluations/weight-space-programming.md
   # Architecture Diagrams as Context (advanced pattern) - Added 2026-01-25
   architecture_diagrams_input: "guide/ecosystem/ai-ecosystem.md#architecture-diagrams-as-context-advanced-pattern"
   architecture_diagrams_mcp_tools:
