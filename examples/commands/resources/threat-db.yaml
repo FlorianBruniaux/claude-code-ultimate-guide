@@ -5991,8 +5991,8 @@ scanning_tools:
   - name: "mcp-scan"
     vendor: "Invariant / Snyk"
     type: "cli"
-    command: "npx mcp-scan"
-    url: "https://github.com/invariantlabs-ai/mcp-scan"
+    command: "uvx snyk-agent-scan@latest"
+    url: "https://github.com/snyk/agent-scan"
     capabilities:
       - "Scans MCP server configurations for vulnerabilities"
       - "Detects known vulnerable MCP servers and versions"
@@ -6009,9 +6009,9 @@ scanning_tools:
 
   - name: "Ferrok"
     vendor: "rfounds"
-    type: "mcp-server"
-    command: "npx ferrok-scan"
-    url: "https://lobehub.com/mcp/rfounds-ferrok-scan"
+    type: "github-action"
+    command: "uses: rfounds/ferrok-scan@v1"
+    url: "https://github.com/rfounds/ferrok-scan"
     capabilities:
       - "Scans MCP server configurations for security misconfigurations"
       - "Maps findings to OWASP MCP Top 10 (2026) framework"
@@ -6019,7 +6019,7 @@ scanning_tools:
       - "Provides structured remediation guidance tied to OWASP categories"
     limitations:
       - "Newer tool — smaller detection database than mcp-scan"
-      - "MCP server format — requires compatible agent to invoke"
+      - "GitHub Action that requires a Ferrok API key and calls https://api.ferrok.dev by default"
     notes: "Available 2026-03-28; complements mcp-scan with OWASP MCP Top 10 alignment"
 
   - name: "skills-ref validate"
@@ -6406,7 +6406,7 @@ scanning_tools:
   - name: "Snyk Agent Scan"
     vendor: "Snyk"
     type: "cli"
-    command: "npx @snyk/agent-scan"
+    command: "uvx snyk-agent-scan@latest"
     url: "https://github.com/snyk/agent-scan"
     capabilities:
       - "Security scanner for AI agents and MCP server configurations"

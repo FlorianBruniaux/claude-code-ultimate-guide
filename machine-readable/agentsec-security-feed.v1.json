@@ -98,7 +98,7 @@
   ],
   "input_digests": {
     "intelligence_sha256": "e9a6fb2273c07882fbeb4c86243c5b5afb6b6eb9592d2cdf3bdebd4f9aabcfe0",
-    "threat_database_sha256": "a0d74c434fdf744618cbc9f3c04711cf5c69c547222e1f42503fb27865e26ad2"
+    "threat_database_sha256": "696352701a132cde459836a9cc9e8746a1dce6018faa02e4498f001750046c4d"
   },
   "intelligence": {
     "events": [

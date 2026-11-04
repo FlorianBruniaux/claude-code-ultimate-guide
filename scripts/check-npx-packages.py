@@ -8,6 +8,10 @@ On 2026-11-03 the guide cited @anthropic/mcp-kubernetes, @anthropic/mcp-aws,
 @anthropic/mcp-gcp and @anthropic/spec-kit (the npm scope `anthropic` holds
 unrelated packages), and @shinzo-labs/hubspot-mcp with a HubSpot key, while the
 published package is @shinzolabs/hubspot-mcp.
+
+A published name can still belong to someone else. On 2026-11-04 the guide
+credited `npx mcp-scan` to Snyk, but that npm name has an unrelated publisher.
+Such names are listed in WRONG_PUBLISHER and fail the check as well.
 """
 import argparse
 from concurrent.futures import ThreadPoolExecutor
@@ -29,6 +33,11 @@ TEXT_TYPES = {'.md', '.txt', '.json', '.yaml', '.yml', '.sh', '.ps1', '.toml', '
 # mirror of AgentSec Triage, which owns its corrections.
 EXCLUDED_FILES = {'examples/commands/resources/threat-db.yaml', 'scripts/check-npx-packages.py'}
 REGISTRY = 'https://registry.npmjs.org/'
+# Published npm names whose publisher is not the project the guide credits.
+WRONG_PUBLISHER = {
+    'mcp-scan': 'published by an unrelated author; the Invariant and Snyk scanner is '
+                'the PyPI package snyk-agent-scan (uvx snyk-agent-scan@latest)',
+}
 
 NAME = r'@?[A-Za-z0-9][\w.\-]*(?:/[\w.\-]+)?(?:@[\w.\-^~]+)?'
 FLAGS = r'(?:(?:-y|--yes|-q|--quiet|-g|--global|-D|--save-dev|--no-install)\s+)*'
@@ -128,6 +137,7 @@ def main():
         expected = {'@shinzo-labs/hubspot-mcp', 'kubernetes-mcp-server', '@playwright/mcp',
                     '@google-cloud/gcloud-mcp'}
         assert names == expected, names
+        assert 'mcp-scan' in {n for n, _ in extract('npx mcp-scan ./skill-directory')}
         assert bare_name('@scope/pkg@1.2.3') == '@scope/pkg' and bare_name('pkg@latest') == 'pkg'
         print('npx package extractor self-test passed.')
         return 0
@@ -141,14 +151,16 @@ def main():
             occurrences.setdefault(name, []).append(f'{shown}:{line}')
     with ThreadPoolExecutor(max_workers=8) as pool:
         statuses = dict(zip(occurrences, pool.map(registry_status, occurrences)))
+    statuses.update({n: WRONG_PUBLISHER[n] for n in statuses if n in WRONG_PUBLISHER})
     failures = {n: s for n, s in statuses.items() if s != 'published'}
     for name in sorted(failures):
         print(f'{name}: {failures[name]}')
         for where in sorted(occurrences[name]):
             print(f'  {where}')
     if failures:
-        print(f'\n{len(failures)} of {len(statuses)} npm names are not published. Replace each with the '
-              'package its maintainer publishes, or with an explicit <placeholder>.', file=sys.stderr)
+        print(f'\n{len(failures)} of {len(statuses)} npm names are not published by the project the guide '
+              'credits. Replace each with the package its maintainer publishes, or with an explicit '
+              '<placeholder>.', file=sys.stderr)
         return 1
     print(f'All {len(statuses)} npm package names cited in npx and npm install commands are published.')
     return 0

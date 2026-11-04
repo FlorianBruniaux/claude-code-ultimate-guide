@@ -22,7 +22,7 @@ Execute all checks from `/security-check` (the `examples/commands/security-check
 - Permissions & settings review
 - Exposed secrets in Claude Code config
 
-Record findings — they contribute to the final score.
+Record findings: they contribute to the final score.
 
 ---
 
@@ -179,11 +179,11 @@ Calculate total score and generate report.
 
 | Score | Grade | Meaning |
 |-------|-------|---------|
-| 90-100 | A | Excellent — production-ready security posture |
-| 75-89 | B | Good — minor improvements recommended |
-| 60-74 | C | Acceptable — address HIGH issues before production |
-| 40-59 | D | Poor — significant security gaps |
-| 0-39 | F | Critical — do not deploy, address CRITICAL issues immediately |
+| 90-100 | A | Excellent: production-ready security posture |
+| 75-89 | B | Good: minor improvements recommended |
+| 60-74 | C | Acceptable: address HIGH issues before production |
+| 40-59 | D | Poor: significant security gaps |
+| 0-39 | F | Critical: do not deploy, address CRITICAL issues immediately |
 
 ## Output Format
 
@@ -237,7 +237,7 @@ Your score vs security-hardening.md recommendations:
 - Security hardening guide: guide/security/security-hardening.md
 - Threat database: examples/commands/resources/threat-db.yaml
 - Quick check: `/security-check`
-- MCP scan tool: `npx mcp-scan` (Snyk)
+- MCP scan tool: `uvx snyk-agent-scan@latest` (Snyk Agent Scan, formerly mcp-scan)
 ```
 
 $ARGUMENTS

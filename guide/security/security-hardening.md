@@ -408,7 +408,7 @@ Earlier research by [SafeDep](https://safedep.io/agent-skills-threat-model) esti
 **Source**: [Snyk ToxicSkills](https://snyk.io/fr/blog/toxicskills-malicious-ai-agent-skills-clawhub/)
 
 **Mitigations**:
-- **Scan before installing**: `mcp-scan` (Snyk, open-source) achieves 90-100% recall on confirmed malicious skills with 0% false positives on top-100 legitimate skills
+- **Scan before installing**: Snyk Agent Scan (formerly `mcp-scan`, open-source) achieves 90-100% recall on confirmed malicious skills with 0% false positives on top-100 legitimate skills
 - **Review SKILL.md before installing**: Check `allowed-tools` for unexpected access (especially `Bash`)
 - **Validate with skills-ref**: `skills-ref validate ./skill-dir` checks spec compliance ([agentskills.io](https://agentskills.io))
 - **Pin skill versions**: Use specific commit hashes when installing from GitHub
@@ -419,8 +419,10 @@ Earlier research by [SafeDep](https://safedep.io/agent-skills-threat-model) esti
 *Brian Vermeer, Devoxx, 2026*
 
 ```bash
-# Scan a skill directory with mcp-scan (Snyk)
-npx mcp-scan ./skill-directory
+# Scan a skill directory with Snyk Agent Scan (formerly mcp-scan). It needs a
+# SNYK_TOKEN and sends skill content and tool descriptions to Snyk's analysis API.
+# The npm package named mcp-scan is not Snyk's: do not run it through npx.
+uvx snyk-agent-scan@latest ./skill-directory
 
 # Validate spec compliance with skills-ref
 skills-ref validate ./skill-directory

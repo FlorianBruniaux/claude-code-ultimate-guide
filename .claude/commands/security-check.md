@@ -189,7 +189,7 @@ grep -rn "BEGIN.*PRIVATE KEY" .claude/ ~/.claude/ 2>/dev/null
 ### 📚 References
 - Full security guide: guide/security/security-hardening.md
 - Threat database: examples/commands/resources/threat-db.yaml
-- MCP scan: `npx mcp-scan` (Snyk)
+- MCP scan: `uvx snyk-agent-scan@latest` (Snyk Agent Scan, formerly mcp-scan)
 ```
 
 If ALL checks pass, output:
