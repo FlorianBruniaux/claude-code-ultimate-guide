@@ -1541,6 +1541,7 @@ These tools host or coordinate existing coding agents. Their workspace features 
 | [Escouade](https://github.com/guillaume-gagnaire/escouade/blob/9383ada96cf91190fc719a1fcac7ac72ab00c7c4/README.md) | FR/EN Kanban with acceptance criteria, dependencies and retries; a three-ticket local trial verified worktree creation, dependency scheduling, restart/resume, and test-gated merges through MCP | Windows, macOS, Linux; 1.8.8 documents Claude Code, Codex, OpenCode, and Copilot CLI, but the trial used only Claude Code. GPL-3.0-or-later; versions through 1.7.7 were MIT. Enable tests explicitly and review MCP delivery authority |
 | [Nimbalyst](./agentic-tools.md#47-nimbalyst) | Edit and review plans, diagrams, and implementation together | See the existing profile for supported agents and limitations |
 | [Vibe Kanban](./agent-harness-landscape.md#vibe-kanban-maintenance-status) | Existing Kanban control plane over external coding agents | Bloop announced its shutdown and a community/local continuation; check the dated maintenance note before relying on remote services |
+| [KinetAios](https://github.com/phinn/KinetAios) | One window for Claude Code **and** Codex conversations with per-engine session resume — try it when the bottleneck is juggling CC and Codex threads side by side rather than parallel worktrees | Windows 11 + macOS, GPL-3.0. Young project; built-in engines are independent of Claude Code and vary in maturity; docs primarily Chinese |
 
 For example, evaluate Superset on a UI change that needs both browser inspection and code review; evaluate Emdash when the repository must stay on an SSH machine. For Escouade, verify a ticket's tests and diff independently of the agent's acceptance-criteria report. Worktrees separate Git working files; they do not sandbox processes or prevent merge conflicts.
 
@@ -1618,6 +1619,38 @@ A third-party VS Code extension (not Anthropic's official extension) that adds a
 **Note**: This is **not** the official [Claude Code for VS Code](https://marketplace.visualstudio.com/items?itemName=anthropic.claude-code) extension by Anthropic. The official extension provides inline diffs, @-mentions, and plan review directly in the editor.
 
 **Limitations**: Third-party, not Anthropic-maintained. Feature set may overlap with or lag behind the official extension.
+
+---
+
+### KinetAios
+
+A local-first multi-engine AI agent dashboard (Electron, Windows + macOS). It keeps Claude Code and Codex as
+separate conversations in one window — each engine keeps its own session identity (`--resume` / `codex exec`
+resume), and context is intentionally not shared across CLI engines, so a Claude Code thread and a Codex thread
+never bleed into each other. Its built-in engines (five generations of a ReAct/Plan-Execute-Verify-Judge loop,
+some experimental and off by default) and a plugin engine (DeepSeek Harness) live alongside the CLI engines.
+
+| Attribute | Details |
+|-----------|---------|
+| **Source** | [GitHub: phinn/KinetAios](https://github.com/phinn/KinetAios) (GPL-3.0) |
+| **Install** | Windows installer / macOS dmg from [Releases](https://github.com/phinn/KinetAios/releases) |
+| **Language** | TypeScript (Electron, vanilla TS renderer, esbuild; better-sqlite3 + FTS5 for local history/recall) |
+| **License** | GPL-3.0 |
+| **Platforms** | Windows 11, macOS (Apple Silicon + Intel) |
+| **Agents** | Claude Code, Codex, built-in Direct engines (V1–V5), plugin engines (DeepSeek Harness) |
+
+**Key features**:
+
+- Multi-engine dashboard: one conversation per engine tab, streaming output, per-conversation engine switching
+- Claude Code / Codex session resume is persisted and surfaced in the UI (session id, last-used engine)
+- Local-first storage: SQLite + FTS5 history with long-term memory recall; no cloud dependency for chat history
+- MCP support; skills auto-loading; per-conversation model/channel configuration
+- Shell/file/web tools with a confirm bridge (approval gates rendered as UI modals, not terminal prompts)
+
+**Limitations**: The built-in engines are independent of Claude Code and vary in maturity (V4/V5 are
+experimental, disabled by default). Docs and UI strings are primarily Chinese; an English README is available.
+No Linux build. The project is young — fewer contributors and fewer battle-tested edge cases than the larger
+alternatives in this table.
 
 ---
 
