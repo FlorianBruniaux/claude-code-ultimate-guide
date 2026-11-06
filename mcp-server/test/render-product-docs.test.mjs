@@ -87,6 +87,8 @@ test('renderer derives the Node badge and dependency security disclosure from ma
 
   fixture.security.production_vulnerabilities = 2
   assert.match(renderer.renderChangelog(fixture), /2 production vulnerabilities on 2026-08-31/)
+  fixture.security.production_vulnerabilities = 1
+  assert.match(renderer.renderChangelog(fixture), /reported one production vulnerability on 2026-08-31/)
 })
 
 test('rendered product documentation is current and marker-delimited once', () => {

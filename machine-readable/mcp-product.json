@@ -7,7 +7,7 @@
     "mcp_registry_name": "io.github.FlorianBruniaux/claude-code-guide",
     "node_engine": ">=18.14.1",
     "dependencies": {
-      "model_context_protocol_sdk": "1.30.0"
+      "model_context_protocol_sdk": "1.32.2"
     }
   },
   "guide": {
@@ -482,8 +482,8 @@
     ]
   },
   "security": {
-    "audit_as_of": "2026-08-31",
-    "production_vulnerabilities": 0,
+    "audit_as_of": "2026-11-06",
+    "production_vulnerabilities": 1,
     "development_only_vulnerabilities": {
       "low": 1,
       "packages": [
@@ -491,5 +491,5 @@
       ]
     }
   },
-  "source_digest": "sha256:c983f0d004ca44daebac988052a8ab2cef4f968b3cf956cc0c614c26d430d192"
+  "source_digest": "sha256:5083055640b1f45bb5a250d0d56f21f99c211af1e8b18df868a0ba6819c64637"
 }

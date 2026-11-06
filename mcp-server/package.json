@@ -51,9 +51,9 @@
     "chapters:check": "node scripts/generate-chapter-ranges.mjs --check"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.30.0",
+    "@modelcontextprotocol/sdk": "^1.32.2",
     "yaml": "^2.4.0",
-    "zod": "^4.3.6"
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
@@ -63,9 +63,12 @@
   "engines": {
     "node": ">=18.14.1"
   },
+  "overrides": {
+    "@hono/node-server": "1.19.18"
+  },
   "releaseAudit": {
-    "asOf": "2026-08-31",
-    "productionVulnerabilities": 0,
+    "asOf": "2026-11-06",
+    "productionVulnerabilities": 1,
     "developmentOnlyVulnerabilities": {
       "low": 1,
       "packages": [

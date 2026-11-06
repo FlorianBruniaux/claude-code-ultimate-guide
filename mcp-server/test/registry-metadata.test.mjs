@@ -78,7 +78,7 @@ test('npm metadata exposes the package and official MCP Registry identities', ()
     url: 'git+https://github.com/FlorianBruniaux/claude-code-ultimate-guide.git',
     directory: 'mcp-server',
   })
-  assert.equal(packageJson.dependencies.zod, '^4.3.6')
+  assert.equal(packageJson.dependencies.zod, '^4.6.7')
   assert.equal(packageJson.scripts['registry:metadata'], 'node scripts/render-registry-metadata.mjs')
   assert.equal(packageJson.scripts['registry:metadata:check'], 'node scripts/render-registry-metadata.mjs --check')
   assert.equal(

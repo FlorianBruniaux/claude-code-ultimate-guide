@@ -38,16 +38,21 @@ test('built runtime uses package.json version', async () => {
 })
 
 test('advertised Node floor covers the resolved production server dependency floor', () => {
-  const nodeServer = packageLock.packages['node_modules/@hono/node-server']
-  assert.ok(nodeServer, '@hono/node-server must be resolved in the production lock')
-  assert.equal(nodeServer.dev, undefined, '@hono/node-server must remain a production dependency')
+  // npm can nest the resolved copy under the SDK, for example when an override
+  // pins a version the SDK's own range also accepts, so check every copy.
+  const nodeServers = Object.entries(packageLock.packages)
+    .filter(([path]) => path.endsWith('node_modules/@hono/node-server'))
+  assert.ok(nodeServers.length > 0, '@hono/node-server must be resolved in the production lock')
 
   const advertisedFloor = minimumNodeVersion(pkg.engines.node)
-  const dependencyFloor = minimumNodeVersion(nodeServer.engines.node)
-  assert.ok(
-    compareVersions(advertisedFloor, dependencyFloor) >= 0,
-    `package Node floor ${pkg.engines.node} is below @hono/node-server ${nodeServer.version} floor ${nodeServer.engines.node}`,
-  )
+  for (const [path, nodeServer] of nodeServers) {
+    assert.equal(nodeServer.dev, undefined, `${path} must remain a production dependency`)
+    const dependencyFloor = minimumNodeVersion(nodeServer.engines.node)
+    assert.ok(
+      compareVersions(advertisedFloor, dependencyFloor) >= 0,
+      `package Node floor ${pkg.engines.node} is below @hono/node-server ${nodeServer.version} floor ${nodeServer.engines.node}`,
+    )
+  }
 })
 
 test('MCP initialize handshake reports package.json version', async () => {
