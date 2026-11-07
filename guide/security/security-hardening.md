@@ -109,6 +109,16 @@ and Go SDK fixes sit below floors that were already published; Zed (fixed in
 v0.218.2-pre) and the Cursor CLI have no floor. The remaining ~460 long-tail
 CVEs are not reviewed.
 
+**FakeGit agent-tool lures, November 6, 2026.** Thomas Roccia
+[reported 73 GitHub repositories](https://www.linkedin.com/posts/thomas-roccia_we-found-73-github-repos-posing-as-ai-share-7523845292753080320-VZJI/)
+posing as Claude skills, Codex tools and MCP servers, with clean skill files and
+a README that links a ZIP committed to the repository. The ZIP runs the
+SmartLoader chain. His [indicator list](https://gist.github.com/fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)
+is now in the threat database: 73 defanged repositories with their live or
+removed status, 10 SHA-256 hashes and two campaign-level C2 addresses. See
+[fake agent-tool repositories](#fake-agent-tool-repositories-fakegit) for the
+checks to run before trusting an agent-tool repository.
+
 ---
 
 ## October 2026 review
@@ -447,6 +457,30 @@ Three practices follow, and they are additive to the list above rather than repl
 
 The IOCs, affected package versions and full remediation order are in `examples/commands/resources/threat-db.yaml` under the campaign `skills.sh Skill Supply Chain (Paperclip / Browser Use Typosquats)`.
 
+#### Fake agent-tool repositories (FakeGit)
+
+The skills.sh campaign poisoned a marketplace. This one skips the marketplace and dresses up a whole GitHub repository as an agent tool.
+
+On November 4, 2026, Thomas Roccia [reported 73 GitHub repositories](https://www.linkedin.com/posts/thomas-roccia_we-found-73-github-repos-posing-as-ai-share-7523845292753080320-VZJI/) posing as Claude skills, Codex tools, MCP servers and OpenClaw add-ons, and published the [indicator list](https://gist.github.com/fr0gger/3d0288bf0fee3b8df7b618e7c10334d7). At his check, 51 repositories were live and 22 already returned 404. The `SKILL.md` and settings files were clean. The README pointed to a ZIP "installer" committed to the repository, in two cases under a `.claude/` directory such as `.claude/hooks/config/`, and told Windows users to click past SmartScreen. The ZIP holds a `.bat` or `.cmd` launcher, a LuaJIT runtime and obfuscated Lua saved as `.txt`: the SmartLoader chain, which he reports dropping the StealC infostealer.
+
+This is a slice of a longer campaign. On July 20, 2026, Island [named it AgentBaiting](https://www.island.io/blog/agentbaiting-how-800-fake-ai-skills-and-mcp-servers-delivered-malware): more than 800 fake AI skills and MCP servers across about 7,600 repositories, also listed in MCP directories. Netskope [described the same SmartLoader chain](https://www.netskope.com/blog/developers-in-the-crosshairs-fake-ai-tools-deliver-infostealer) behind fake AI developer tools, including Claude lures, on August 3, 2026, with the loader resolving its next stage through a Polygon smart contract queried via `polygon.drpc.org`. On October 8, BleepingComputer [reported the FakeGit campaign's return](https://www.bleepingcomputer.com/news/security/fakegit-malware-campaign-returns-with-17-610-malicious-github-repos/) on October 4 with 17,610 repositories, figures it attributes to Apiiro.
+
+The indicator file grades its own rows, and the threat database keeps those grades:
+
+- **Per sample:** 10 SHA-256 hashes for two ZIPs, their launchers, Lua payloads, LuaJIT files and a second stage, plus imphashes, two scheduled tasks and two dropped paths. The first sample was confirmed by sandbox runs, the second by static analysis and local hashing only.
+- **Campaign-level only:** the Polygon contract, the RPC domain and two StealC C2 addresses, which the author marks as unconfirmed for these specific builds.
+
+Blocking a hash list will not keep up with thousands of repositories. Check where the payload lives instead:
+
+```bash
+# From the root of the unfamiliar clone, before starting any agent in it
+git ls-files | grep -iE '\.(zip|7z|rar|exe|dll|bat|cmd|msi)$'
+find .claude .codex .agents .cursor .gemini -type f \
+  \( -iname '*.zip' -o -iname '*.exe' -o -iname '*.dll' -o -iname '*.bat' -o -iname '*.cmd' \) 2>/dev/null
+```
+
+The first command also catches archives in nested agent directories, such as `packages/<name>/.claude/commands/` in one lure; the second only checks the top level. A legitimate skill or MCP server installs through a package manager, a pinned commit or a release with checksums. An archive committed to the source tree is the signal, whatever the README says. The hashes, defanged repository names and the review date are in `examples/commands/resources/threat-db.yaml` under the campaign `FakeGit (SmartLoader agent-tool lures)`, and `/security-check` flags archives inside agent directories.
+
 ### 1.3 Known limitations of permissions.deny
 
 The `permissions.deny` setting in `.claude/settings.json` is the official method to block Claude from accessing sensitive files. However, security researchers have documented architectural limitations.
@@ -537,7 +571,24 @@ jq '.scripts' package.json 2>/dev/null
 
 # Check for base64 in comments
 grep -rE "#.*[A-Za-z0-9+/]{20,}={0,2}" . --include="*.py" --include="*.js"
+
+# Archives and Windows executables committed to the repository
+git ls-files | grep -iE '\.(zip|7z|rar|exe|dll|bat|cmd|msi)$'
+
+# README links to an archive instead of a package install or a release
+grep -noiE '[^ ()"<>]+\.(zip|7z|rar)' README* 2>/dev/null
 ```
+
+**A clean `SKILL.md` does not clear the repository.** In the agent-tool lures
+that Thomas Roccia reported on November 4, 2026, the skill and settings files
+were clean. The README linked a ZIP "installer" committed to the repository and
+told Windows users to click past SmartScreen's "Windows protected your PC"
+warning. Some ZIPs sat under `.claude/hooks/config/`. A README that sends you to
+an archive in the source tree, or an archive inside an agent directory, is
+reason enough to stop. Never extract or run it, and check who owns the
+repository and what its last commits changed. See
+[fake agent-tool repositories](#fake-agent-tool-repositories-fakegit) for the
+campaign.
 
 Use the [repo-integrity-scanner.sh](../../examples/hooks/bash/repo-integrity-scanner.sh) hook for automated scanning.
 

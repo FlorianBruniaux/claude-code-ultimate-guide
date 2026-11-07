@@ -2,9 +2,21 @@
 # For use with /security-check and /security-audit commands
 # Manually maintained — update after new security advisories
 
-version: "2.33.0"
-updated: "2026-11-03"
+version: "2.34.0"
+updated: "2026-11-05"
 sources:
+  - name: Thomas Roccia - 73 GitHub repositories posing as AI agent tools (SmartLoader / StealC), LinkedIn post
+    url: https://www.linkedin.com/posts/thomas-roccia_we-found-73-github-repos-posing-as-ai-share-7523845292753080320-VZJI/
+    date: '2026-11-04'
+  - name: Thomas Roccia - Agent lure IOC list (github_zip_lure_iocs_2026-11-04.csv)
+    url: https://gist.github.com/fr0gger/3d0288bf0fee3b8df7b618e7c10334d7
+    date: '2026-11-04'
+  - name: Netskope - Developers in the crosshairs, fake AI tools deliver infostealer (SmartLoader, Polygon dead drop)
+    url: https://www.netskope.com/blog/developers-in-the-crosshairs-fake-ai-tools-deliver-infostealer
+    date: '2026-08-03'
+  - name: BleepingComputer - FakeGit malware campaign returns with 17,610 malicious GitHub repos
+    url: https://www.bleepingcomputer.com/news/security/fakegit-malware-campaign-returns-with-17-610-malicious-github-repos/
+    date: '2026-10-08'
   - name: GitHub Advisory Database - mcp-remote OS command injection from an untrusted authorization endpoint
     url: https://github.com/advisories/GHSA-6xpm-ggf7-wc3p
     date: '2025-07-09'
@@ -4808,6 +4820,14 @@ iocs:
       port: 8443
       campaign: "TeamPCP / Megalodon / Miasma Worm"
       notes: "Megalodon C2 endpoint used in June 2026 Miasma campaign; exfiltrates SSH keys, AWS credentials, GitHub tokens, and crypto keystores over TLS on port 8443"
+    - ip: "217.119.129[.]110"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      confidence: "campaign-level, unconfirmed for the 2026-11-04 lure builds"
+      notes: "StealC C2 that the indicator list attributes to Derp.ca FakeGit reporting; listed by the indicator author as campaign-level, not observed for the hashed builds. Defanged: replace [.] with . before blocking"
+    - ip: "213.176.72[.]200"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      confidence: "campaign-level, unconfirmed for the 2026-11-04 lure builds"
+      notes: "StealC C2 that the indicator list attributes to Derp.ca FakeGit reporting; listed by the indicator author as campaign-level, not observed for the hashed builds. Defanged: replace [.] with . before blocking"
 
   # Exfiltration endpoints
   exfil_urls:
@@ -4866,6 +4886,446 @@ iocs:
       source: "Aikido / JFrog"
       notes: "Primary exfiltration channel: ~1,300 public repos created under compromised accounts on 2026-08-04, each holding an encrypted credential bundle. Search your own org for this description; a hit means one of your tokens was harvested"
 
+    # FakeGit agent-tool lures: 73 repos, GitHub re-check 2026-11-04 (51 live, 22 gone).
+    # URLs stay defanged. committed_zip is the archive the README links. Never clone or unpack.
+    - repo: "hxxps://github[.]com/andreiarsenevichtarkovskyinmate282/codex-messenger"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "maddish/messenger-codex-v2.6.zip"
+    - repo: "hxxps://github[.]com/Sebas2015diaz/hermes-agent-orange-book"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "undepravedness/hermes-book-orange-agent-3.1.zip"
+    - repo: "hxxps://github[.]com/montgomeryunpopular607/anywhere-agents"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "packages/pypi/anywhere_agents/composer/.claude/commands/anywhere_agents_v3.4.zip"
+    - repo: "hxxps://github[.]com/Deepu-Thapa/codex-skills"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "Felidae/skills-codex-hypoalkaline.zip"
+    - repo: "hxxps://github[.]com/silvieheadless493/claude-sbox-setup"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "bridge/scripts/sbox-setup-claude-1.7.zip"
+    - repo: "hxxps://github[.]com/adqr5270/skill-manager"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "caponier/skill-manager-v3.6.zip"
+    - repo: "hxxps://github[.]com/shaylaisotonic44/pcloud-mcp"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "internal/safepath/mcp_pcloud_2.5.zip"
+    - repo: "hxxps://github[.]com/rocksunfishsinking953/nitro-imessage-agent"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "workflows/imessage-agent-nitro-bundy.zip"
+    - repo: "hxxps://github[.]com/Seraphic-disagreement4030/claude-voice"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "tarsioid/claude_voice_sunken.zip"
+    - repo: "hxxps://github[.]com/Y-0023/cua"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "libs/agent/agent/core/Software-1.7.zip"
+    - repo: "hxxps://github[.]com/Taffyreclaimed45/ppt-agent"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "docs/images/claude/ppt_agent_v3.8.zip"
+    - repo: "hxxps://github[.]com/ankitkumar10021/genai-security-agent-capstone-2025"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "Notebook/agent-genai-security-capstone-v3.0.zip"
+    - repo: "hxxps://github[.]com/IA-NONO/skill-soulsaying"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "scripts/soulsaying_skill_3.0-alpha.4.zip"
+    - repo: "hxxps://github[.]com/expropriationhoorayhenry64/social-media-scraper-skill"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "cartographic/social-scraper-media-skill-v2.3.zip"
+    - repo: "hxxps://github[.]com/Worlda4363/ResearchForge-Autonomous-Multi-Agent-Research-System"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "graph/System_Multi_Forge_Autonomous_Research_Agent_v3.1.zip"
+    - repo: "hxxps://github[.]com/Nitricoxideatavism5584/claude-usage"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "docs/usage-claude-3.1.zip"
+    - repo: "hxxps://github[.]com/shopfloormelampsoralini924/docker-ollama"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "docs/docker-ollama-v1.1.zip"
+    - repo: "hxxps://github[.]com/TopMan124534905/designer-toy-skill"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "examples/halloween-bear-felt/designer_skill_toy_v1.9.zip"
+    - repo: "hxxps://github[.]com/Oedexcogitator347/opencode-claude-bridge"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "src/opencode_bridge_claude_2.4.zip"
+    - repo: "hxxps://github[.]com/penstemoncyananthuslogicgate5289/claude-whatsapp"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "skills/claude-whatsapp-v3.9.zip"
+    - repo: "hxxps://github[.]com/Iliegabri6556/ContinuousClaudeV4.7"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "reproachfulness/Continuous-Claude-dilettante.zip"
+    - repo: "hxxps://github[.]com/giffiepenurious252/agent-launch-scripts"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "atrocha/scripts_agent_launch_benzotetrazine.zip"
+    - repo: "hxxps://github[.]com/barrylecherous932/eurostat-mcp-server"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "changelog/eurostat-server-mcp-mannishness.zip"
+    - repo: "hxxps://github[.]com/Mauricecolorful3388/agent-native-cli"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "agents/cli-agent-native-v2.9-alpha.5.zip"
+    - repo: "hxxps://github[.]com/Harsh-Kumar-Tyagi/Wechat-Claude-bot"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "charlady/bot-Claude-Wechat-v1.2-beta.5.zip"
+    - repo: "hxxps://github[.]com/DavidLabrin/claude_proxy"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "src/claude-proxy-importunement.zip"
+    - repo: "hxxps://github[.]com/hiteknodeposit20241/autonomous-gemini-release-manager"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "backend/src/websockets/manager-release-autonomous-gemini-v3.0.zip"
+    - repo: "hxxps://github[.]com/hajahberi-hue/hermes-agent-ui-v1.0"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "Serpentis/agent-ui-v-hermes-3.3-alpha.3.zip"
+    - repo: "hxxps://github[.]com/perocar8967/super-geo-agent-readiness"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "super-geo-agent-readiness/references/readiness-super-agent-geo-protevangel.zip"
+    - repo: "hxxps://github[.]com/musharrafsaroof-123/skillpm"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "packages/skillpm-skill/skills/skillpm/Software_3.7-beta.3.zip"
+    - repo: "hxxps://github[.]com/princeca4746/DirectorSkill"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "timidity/Director-Skill-1.0-beta.4.zip"
+    - repo: "hxxps://github[.]com/Dldigisof3283/copilot-api"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "src/services/copilot/copilot_api_dargsman.zip"
+    - repo: "hxxps://github[.]com/arindamchakrabortty123/Claude-Sec"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "astrut/Sec_Claude_2.7.zip"
+    - repo: "hxxps://github[.]com/Ryan1857/openclaw-deploy-ninja"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "workflows_backup/Airtoptool/ninja-deploy-openclaw-v2.1.zip"
+    - repo: "hxxps://github[.]com/y-999/openclaw-maintenance"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "taar/openclaw-maintenance-1.3.zip"
+    - repo: "hxxps://github[.]com/leonaprosodic820/nox-core"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "claude-relay/instances/core-nox-2.4.zip"
+    - repo: "hxxps://github[.]com/6825972/a11y-tw-audit-skill"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: ".github/audit-a-skill-y-tw-2.0.zip"
+    - repo: "hxxps://github[.]com/Lucianfoul165/Agent-Signal-Bar"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "stashie/Agent_Signal_Bar_swaver.zip"
+    - repo: "hxxps://github[.]com/youngwolf2077-a11y/gmail-postmaster-tools-mcp"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "server/mcp_gmail_postmaster_tools_v1.0.zip"
+    - repo: "hxxps://github[.]com/dorothyheavyhanded764/openclaw-docs-i18n"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "ja/experiments/i-n-docs-openclaw-3.3.zip"
+    - repo: "hxxps://github[.]com/gabbiesbv/claude-code-sourcemap-learning-notebook"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "zh-CN/claude-learning-code-notebook-sourcemap-1.6-beta.1.zip"
+    - repo: "hxxps://github[.]com/RonuRoy/Fabric-MCP-Testing"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "examples/data-population/Fabric-MC-Testing-v2.4-beta.2.zip"
+    - repo: "hxxps://github[.]com/avarose57/ai-agent-wikipedia-n8n"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "screenshots/ai_agent_n_wikipedia_3.5.zip"
+    - repo: "hxxps://github[.]com/Pathwra1547/glpi-plugin-aiticketanalysis"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "docs/mcp/sympatry.zip"
+    - repo: "hxxps://github[.]com/ronniwheellike973/mini-agent"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "mini_agent/skills/algorithmic-art/templates/Agent-Mini-2.0.zip"
+    - repo: "hxxps://github[.]com/yannis9207/claude-context-optimizer-agent"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "undernote/optimizer_agent_context_claude_2.4.zip"
+    - repo: "hxxps://github[.]com/dorle5803/zag"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "examples/react-claude-interface/Software-1.1.zip"
+    - repo: "hxxps://github[.]com/alejandrowe-bot/claude-mcps-and-prompts"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "guides/and_mcps_prompts_claude_3.8.zip"
+    - repo: "hxxps://github[.]com/joowon1023/alexa-skill-virtual-bingo"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "lambda/handlers/virtual_alexa_skill_bingo_v1.5.zip"
+    - repo: "hxxps://github[.]com/cryptological-frail210/mcp-superset"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: "src/mcp_superset/tools/superset_mcp_1.0.zip"
+    - repo: "hxxps://github[.]com/Sanskar015/claude-skills-supercharged"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: live
+      status_checked: "2026-11-04"
+      committed_zip: ".claude/hooks/config/supercharged-claude-skills-v2.0.zip"
+    - repo: "hxxps://github[.]com/glassy-forceplay469/skill-autoshorts"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: gone
+      status_checked: "2026-11-04"
+      committed_zip: "pyrometry/autoshorts-skill-v2.7-beta.4.zip"
+    - repo: "hxxps://github[.]com/Tangible-startingblock577/Nexus"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: gone
+      status_checked: "2026-11-04"
+      committed_zip: "openclaw/Software_3.2.zip"
+    - repo: "hxxps://github[.]com/tucked-angiologist465/agent-automation-creator"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: gone
+      status_checked: "2026-11-04"
+      committed_zip: "skills/automation-creator-agent-v3.2.zip"
+    - repo: "hxxps://github[.]com/nonunionised-solanummacranthum370/Pi-Multi-Agent"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: gone
+      status_checked: "2026-11-04"
+      committed_zip: "web/src/components/Agent-Multi-Pi-balaclava.zip"
+    - repo: "hxxps://github[.]com/Lasting-mademoiselle566/better-than-claude-skills"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: gone
+      status_checked: "2026-11-04"
+      committed_zip: "reapologize/better_skills_than_claude_3.1.zip"
+    - repo: "hxxps://github[.]com/Superordinate-complacence439/awesome-codex-pets"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: gone
+      status_checked: "2026-11-04"
+      committed_zip: "pets/eddy-3/codex_pets_awesome_2.5.zip"
+    - repo: "hxxps://github[.]com/Euamobi4582/gemini-bridge-mcp"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: gone
+      status_checked: "2026-11-04"
+      committed_zip: "lib/gemini-mcp-bridge-v1.5.zip"
+    - repo: "hxxps://github[.]com/StanLeyJ03/mcp-for-security"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: gone
+      status_checked: "2026-11-04"
+      committed_zip: "nmap-mcp/src/for-security-mcp-3.3.zip"
+    - repo: "hxxps://github[.]com/pupal-battleofmagenta532/deepseek-openclaw-648"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: gone
+      status_checked: "2026-11-04"
+      committed_zip: "sexlessness/deepseek-openclaw-3.6.zip"
+    - repo: "hxxps://github[.]com/Disarrayed-agglutination903/multi-agent-game-engine"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: gone
+      status_checked: "2026-11-04"
+      committed_zip: "backend/agent_engine/engine/agent-engine-multi-game-3.3.zip"
+    - repo: "hxxps://github[.]com/secret-fort290/Claude-Code"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: gone
+      status_checked: "2026-11-04"
+      committed_zip: "outparagon/Claude_Code_1.5.zip"
+    - repo: "hxxps://github[.]com/parous-eclat203/agent-doctor"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: gone
+      status_checked: "2026-11-04"
+      committed_zip: "crates/agent-doctor-core/src/probe/doctor_agent_3.1.zip"
+    - repo: "hxxps://github[.]com/Similar-colpoxerosis201/codex-wechat"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: gone
+      status_checked: "2026-11-04"
+      committed_zip: "src/app/codex_wechat_v1.4.zip"
+    - repo: "hxxps://github[.]com/arbolescontract/codex-mcp-go"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: gone
+      status_checked: "2026-11-04"
+      committed_zip: "npm/codex_mcp_go_v2.2.zip"
+    - repo: "hxxps://github[.]com/taavish2008/nitrogen-bizhawk-ai-agent"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: gone
+      status_checked: "2026-11-04"
+      committed_zip: "tests/ai-bizhawk-agent-nitrogen-v3.2-alpha.5.zip"
+    - repo: "hxxps://github[.]com/sd02383/neovim-agentic-copilot"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: gone
+      status_checked: "2026-11-04"
+      committed_zip: "lua/core/agentic_neovim_copilot_2.4.zip"
+    - repo: "hxxps://github[.]com/yomyoms/claude-proxy-flask"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: gone
+      status_checked: "2026-11-04"
+      committed_zip: "api/flask_claude_proxy_2.3.zip"
+    - repo: "hxxps://github[.]com/hootie0971/claude-code-via-antigravity"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: gone
+      status_checked: "2026-11-04"
+      committed_zip: "Pachytylus/antigravity-code-claude-via-3.7.zip"
+    - repo: "hxxps://github[.]com/anantbhardwaj828/cursor-free-vip"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: gone
+      status_checked: "2026-11-04"
+      committed_zip: "electron/vip-free-cursor-v2.3.zip"
+    - repo: "hxxps://github[.]com/runemdown/ai-agent-security-hardening"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: gone
+      status_checked: "2026-11-04"
+      committed_zip: "scripts/ai_agent_hardening_security_asaddle.zip"
+    - repo: "hxxps://github[.]com/wmmahdi/Rps-plus-gemini-ai"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: gone
+      status_checked: "2026-11-04"
+      committed_zip: "frontend/Rps-plus-ai-gemini-v1.7.zip"
+    - repo: "hxxps://github[.]com/CrackOrCode/minecode-mcp"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      status: gone
+      status_checked: "2026-11-04"
+      committed_zip: "example/crystal_dimension/data/crystal/worldgen/minecode_mcp_2.5.zip"
   # AMOS sample hashes (from Koi report)
   malware_hashes:
     - hash: "1e6d4b05...e2298"
@@ -4885,6 +5345,57 @@ iocs:
       type: "Math_Symbol.js / math_init.js (stage 2 Bun payload, 727,680 bytes)"
       source: "Aikido"
 
+    # FakeGit / SmartLoader agent-tool lures (2026-11-04), full SHA-256, usable as-is
+    - hash: "53039bdeb3e155236dce324281f59846c2da7518a54859c409286aaff86d61a2"
+      type: "messenger-codex-v2.6.zip (ZIP sample 1)"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      confidence: "confirmed (local sha256sum of downloaded ZIP; GitHub size match)"
+    - hash: "bd2a6bff153d95ab3d94d7db4525c49c31f5c6f32ddbf8e7c466732b0a6eb071"
+      type: "supercharged-claude-skills-v2.0.zip (ZIP sample 2)"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      confidence: "confirmed (local sha256sum of downloaded ZIP; GitHub size match)"
+    - hash: "4f5c5ad522d8dba60e89c443e07d65c3ce373ef1a617d220d3b69a185c11dae2"
+      type: "Application.bat (launcher, sample 1)"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      confidence: "confirmed (Triage 260725-tlpnws1sfx + local hash)"
+    - hash: "2a7afb187157a4052e5b9797d1d1c7ee807b2edeffef076a08b20b12e3dcf317"
+      type: "lfs.txt (obfuscated Lua, sample 1)"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      confidence: "confirmed (Triage 260725-tlpnws1sfx + local hash)"
+    - hash: "7ad4b911d05a12f91ab27ba3baa351a56653ca099dda7ad87ee2b94f8cd018c9"
+      type: "util64.exe (LuaJIT, sample 1)"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      confidence: "confirmed (Triage 260725-tlpnws1sfx + local hash)"
+    - hash: "04d3c82782927330d56827ff551697666dbab4b3abf5b86bde492efdd142bc58"
+      type: "lua51.dll (sample 1)"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      confidence: "confirmed (Triage 260725-tlpnws1sfx + local hash)"
+    - hash: "ce1e33483d353200a266b3bc383ccf500e5a760c6dcd8218747260f5bbe39509"
+      type: "Launcher.cmd (launcher, sample 2)"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      confidence: "Echo static analysis + local hash, no public match"
+    - hash: "8cede35b80b1deaf732c2b178d908f91b3e7a0c114d06dfae9075b8a9bf78b8f"
+      type: "uix.txt (obfuscated Lua, sample 2)"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      confidence: "Echo static analysis + local hash, no public match"
+    - hash: "f3e34c9e36f3be065d80d456281d31dd1cc85eb4980db7fa8c1b0eb6f29c25d8"
+      type: "luajit.exe (LuaJIT, sample 2)"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      confidence: "Echo static analysis + local hash, no public match"
+    - hash: "ad9da27f72bb7abbfcba92f9302d3467f5487814bb34bbf4b1573abcb56e4efc"
+      type: "dist.lua (second stage (Triage run 260725-tlpnws1sfx))"
+      campaign: "FakeGit (SmartLoader agent-tool lures)"
+      source: "Thomas Roccia gist (fr0gger/3d0288bf0fee3b8df7b618e7c10334d7)"
+      confidence: "confirmed (Triage behavioral2)"
 # ═══════════════════════════════════════════════════════════════
 # SUSPICIOUS PATTERNS (for grep-based scanning)
 # ═══════════════════════════════════════════════════════════════
@@ -5491,6 +6002,43 @@ campaigns:
       - "https://zenity.io/company-overview/newsroom/company-news/zenity-labs-discovers-dozens-of-malicious-ai-agent-skills-evading-detection-launches-ai-total"
       - "https://securityboulevard.com/2026/08/zenity-labs-releases-free-ai-total-service-to-test-malicious-agent-skills/"
 
+  - name: "FakeGit (SmartLoader agent-tool lures)"
+    source: "Thomas Roccia (indicator list), Island, Netskope, BleepingComputer citing Apiiro"
+    date: "2026-11-04"
+    platform: "GitHub repositories dressed as Claude skills, Codex tools, MCP servers and OpenClaw add-ons"
+    attack_type: "Repository lure: clean SKILL.md and settings, README links a ZIP installer committed to the repository"
+    scope:
+      repositories: "73 in the 2026-11-04 indicator list; 51 live and 22 returning 404 at the author's re-check"
+      agent_directories: "2 of the 73 ZIPs sit under a .claude/ directory, one at .claude/hooks/config/"
+      lineage:
+        - "2026-07-20: Island names the campaign AgentBaiting: 800+ fake AI skills and MCP servers across about 7,600 repositories, also listed in MCP directories"
+        - "2026-08-03: Netskope describes SmartLoader behind fake AI developer tools, including Claude lures, resolving its next stage from a Polygon contract via polygon[.]drpc[.]org"
+        - "2026-10-04: FakeGit campaign resumes; BleepingComputer (2026-10-08) reports 17,610 repositories, figures attributed to Apiiro"
+        - "2026-11-04: Thomas Roccia publishes 73 agent-tool lures with hashes from two samples"
+    execution_chain:
+      - "1. README tells the user to download the ZIP from the source tree and click past SmartScreen"
+      - "2. ZIP holds a .bat or .cmd launcher, a LuaJIT runtime (util64.exe or luajit.exe, lua51.dll) and obfuscated Lua saved as .txt"
+      - "3. SmartLoader resolves the next stage through a Polygon smart contract (campaign-level)"
+      - "4. Second stage dist.lua, scheduled-task persistence, StealC infostealer reported by the author"
+    persistence:
+      - "Scheduled task CCleanerSkipUAC_<id> running %LOCALAPPDATA%\\<id>\\<id>.exe lfs.txt"
+      - "Scheduled task OfficeClickToRunTask_<id> running %LOCALAPPDATA%\\<id>\\<id>.exe dist.lua"
+      - "Dropped %LOCALAPPDATA%\\Programs\\Py\\Selenium\\Selenium.exe and C:\\Windows\\Setup\\Scripts\\ErrorHandler.cmd"
+    detection:
+      - "git ls-files | grep -iE '\\.(zip|7z|rar|exe|dll|bat|cmd|msi)$' catches archives anywhere in the tree, including nested agent directories"
+      - "/security-check Phase 4 flags archives and Windows executables at the top of agent directories"
+      - "Hashes in iocs.malware_hashes cover only the two sampled ZIPs; other builds will not match"
+    remediation:
+      - "1. Do not extract or run the ZIP. If it ran on Windows, treat the host as compromised"
+      - "2. Look for the scheduled tasks and dropped paths above"
+      - "3. Rotate browser-stored passwords, session cookies, crypto wallets and developer tokens reachable from that host"
+    false_positive_note: "polygon[.]drpc[.]org, ip-api[.]com and raw.githubusercontent[.]com are legitimate services abused by the chain. Do not block them on this campaign alone."
+    sources:
+      - "https://www.linkedin.com/posts/thomas-roccia_we-found-73-github-repos-posing-as-ai-share-7523845292753080320-VZJI/"
+      - "https://gist.github.com/fr0gger/3d0288bf0fee3b8df7b618e7c10334d7"
+      - "https://www.island.io/blog/agentbaiting-how-800-fake-ai-skills-and-mcp-servers-delivered-malware"
+      - "https://www.netskope.com/blog/developers-in-the-crosshairs-fake-ai-tools-deliver-infostealer"
+      - "https://www.bleepingcomputer.com/news/security/fakegit-malware-campaign-returns-with-17-610-malicious-github-repos/"
 # ═══════════════════════════════════════════════════════════════
 # ATTACK TECHNIQUES TAXONOMY
 # Maps to SAFE-MCP framework and common patterns

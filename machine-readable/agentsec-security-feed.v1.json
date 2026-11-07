@@ -12,12 +12,12 @@
   "database": {
     "record_counts": {
       "attack_techniques": 40,
-      "campaigns": 17,
+      "campaigns": 18,
       "cves": 243,
       "malicious_skill_records": 93
     },
-    "updated": "2026-11-03",
-    "version": "2.33.0"
+    "updated": "2026-11-05",
+    "version": "2.34.0"
   },
   "detectors": [
     {
@@ -50,6 +50,47 @@
       "technique_ids": [
         "skill.known-malicious-domain",
         "skill.delegated-setup"
+      ],
+      "version": "1"
+    },
+    {
+      "campaign_ids": [
+        "fakegit-smartloader-2025-03"
+      ],
+      "description": "Detect repository-local indicators of the FakeGit / SmartLoader campaign that poses as agent tools: sourced artifact hashes, README links to a committed installer archive, and archives inside agent configuration directories.",
+      "id": "fakegit-archive-lure",
+      "limitations": [
+        "Archive contents are never opened, unpacked, or executed.",
+        "Only confirmed archive and component hashes are bundled; runtime binaries and lower-confidence sample components are withheld.",
+        "A README link counts only when its path suffix matches an archive in the scanned repository; the owner and repository in an absolute GitHub URL are not compared with the scanned repository.",
+        "A README or archive path is a hunt lead, because legitimate projects also commit installers and link them.",
+        "Files and archives larger than max_file_bytes (4000000 at most) are not hashed; the scan reports a warning and stays complete.",
+        "Only .7z, .rar, and .zip archives are tracked.",
+        "The default source scope prunes directories such as dist and build; scan with --scope repository to include archives stored there.",
+        "Threat intelligence is bundled and is not refreshed during a scan."
+      ],
+      "not_scanned": [
+        "archive.contents",
+        "git.history",
+        "github.release_assets",
+        "repository.ownership"
+      ],
+      "remediation_url": "https://cc.bruniaux.com/security/",
+      "source_references": [
+        "https://gist.github.com/fr0gger/3d0288bf0fee3b8df7b618e7c10334d7",
+        "https://www.island.io/blog/agentbaiting-how-800-fake-ai-skills-and-mcp-servers-delivered-malware",
+        "https://www.linkedin.com/posts/thomas-roccia_we-found-73-github-repos-posing-as-ai-share-7523845292753080320-VZJI/",
+        "https://www.trendmicro.com/en_us/research/25/c/ai-assisted-fake-github-repositories.html"
+      ],
+      "supported_inputs": [
+        "all discovered regular files (SHA-256)",
+        "archive files (.7z, .rar, .zip) that the scan scope leaves out of the file list",
+        "README*.md files at any depth"
+      ],
+      "technique_ids": [
+        "payload.sha256",
+        "repository.agent-config-archive",
+        "repository.readme-archive-installer"
       ],
       "version": "1"
     },
@@ -97,11 +138,48 @@
     }
   ],
   "input_digests": {
-    "intelligence_sha256": "e9a6fb2273c07882fbeb4c86243c5b5afb6b6eb9592d2cdf3bdebd4f9aabcfe0",
-    "threat_database_sha256": "696352701a132cde459836a9cc9e8746a1dce6018faa02e4498f001750046c4d"
+    "intelligence_sha256": "af09d0896f1edaa893934fd3cb18627ce75820fa328978cbc8d655feeb619885",
+    "threat_database_sha256": "a261882de88ccf288fd135c411ecffec502372d6304d1cce1a2f002b1623237a"
   },
   "intelligence": {
     "events": [
+      {
+        "confidence": "high",
+        "date": "2026-11-05",
+        "date_kind": "updated",
+        "detector_coverage": {
+          "detector_ids": [
+            "fakegit-archive-lure"
+          ],
+          "status": "partial",
+          "summary": "Exact SHA-256 matches cover the two confirmed ZIPs and two sample-1 components. README link and agent-configuration-directory rules cover the committed-ZIP shape. Runtime binaries and sample-2 components are withheld from the hash rule, and archive contents, Git history and repository ownership are not scanned."
+        },
+        "ecosystems": [
+          "github",
+          "mcp",
+          "agent-skills"
+        ],
+        "event_type": "campaign",
+        "id": "evt-2026-11-fakegit-agent-lure-73-repos",
+        "related": {
+          "campaign_ids": [
+            "fakegit-smartloader-2025-03"
+          ],
+          "cve_ids": [],
+          "technique_ids": [
+            "payload.sha256",
+            "repository.agent-config-archive",
+            "repository.readme-archive-installer"
+          ]
+        },
+        "source_ids": [
+          "roccia-agent-lure-stealer-gist-2026-11",
+          "roccia-linkedin-73-repos-2026-11"
+        ],
+        "status": "confirmed",
+        "summary": "Thomas Roccia published a gist of 73 GitHub repositories posing as Claude skills, Codex tools, MCP servers and OpenClaw projects. Each commits a ZIP that its README links; 51 were live at a 2026-11-04 re-check. Roccia reports that SKILL.md and settings files are clean and that two repositories store the ZIP under .claude. Per-row confidence differs and is preserved in the threat database.",
+        "title": "Researcher lists 73 GitHub repositories with committed lure ZIPs"
+      },
       {
         "confidence": "confirmed",
         "date": "2026-11-03",
@@ -1910,6 +1988,38 @@
         "status": "confirmed",
         "summary": "Cursor reported that modified Anthropic.claude-code 2.1.312 and 2.1.313 builds for macOS and Windows were served by its VS Code extension marketplace for about 11 hours on October 29, 2026. A loader added to the extension attempted to install a persistent SSH backdoor and report host details. Cursor and Microsoft state that Anthropic did not build the package and that the Visual Studio Marketplace and npm distribution were not affected.",
         "title": "Tampered Claude Code extension served by the Cursor marketplace"
+      },
+      {
+        "confidence": "review",
+        "date": "2026-10-08",
+        "date_kind": "disclosed",
+        "detector_coverage": {
+          "detector_ids": [
+            "fakegit-archive-lure"
+          ],
+          "status": "partial",
+          "summary": "The README link rule covers a download button that points at a ZIP committed to the scanned repository. A button that points at a Release asset, and README-only commits in Git history, are not covered."
+        },
+        "ecosystems": [
+          "github"
+        ],
+        "event_type": "campaign",
+        "id": "evt-2026-10-fakegit-resurgence",
+        "related": {
+          "campaign_ids": [
+            "fakegit-smartloader-2025-03"
+          ],
+          "cve_ids": [],
+          "technique_ids": [
+            "repository.readme-archive-installer"
+          ]
+        },
+        "source_ids": [
+          "bleepingcomputer-fakegit-returns-2026-10"
+        ],
+        "status": "monitoring",
+        "summary": "BleepingComputer reported, citing an Apiiro analysis, that FakeGit resumed on 2026-10-04 and uses 17,610 repositories, with more than 13,000 pushed in 34 hours. In the commits Apiiro sampled, 97% touched only the README and 88% pointed the download button at a SmartLoader ZIP. The Apiiro page was not readable, so these figures are secondhand.",
+        "title": "FakeGit resurgence reported with 17,610 repositories"
       },
       {
         "confidence": "confirmed",
@@ -4215,6 +4325,42 @@
         "title": "Perplexity published the Numbat local agent monitor"
       },
       {
+        "confidence": "high",
+        "date": "2026-07-20",
+        "date_kind": "disclosed",
+        "detector_coverage": {
+          "detector_ids": [
+            "fakegit-archive-lure"
+          ],
+          "status": "partial",
+          "summary": "fakegit-archive-lure flags a README link to an archive committed to the scanned repository and an archive inside an agent configuration directory (tests/integration/test_fakegit_archive_lure_detector.py). It does not read GitHub Release assets, registry listings, Git history or repository ownership, and Island reports that part of the distribution uses Release assets."
+        },
+        "ecosystems": [
+          "github",
+          "mcp",
+          "agent-skills"
+        ],
+        "event_type": "campaign",
+        "id": "evt-2026-07-agentbaiting-fakegit-disclosure",
+        "related": {
+          "campaign_ids": [
+            "fakegit-smartloader-2025-03"
+          ],
+          "cve_ids": [],
+          "technique_ids": [
+            "repository.readme-archive-installer"
+          ]
+        },
+        "source_ids": [
+          "island-agentbaiting-2026-07",
+          "trendmicro-fake-github-smartloader-2025-03",
+          "straiker-oura-mcp-smartloader-2026-02"
+        ],
+        "status": "confirmed",
+        "summary": "Island reported about 7,600 malicious GitHub repositories tied to the FakeGit operation, over 800 of them posing as Skills or MCP servers and over 600 listings in public registries. Island also reported that Claude Code, Gemini and ChatGPT surfaced campaign repositories in its tests without being given a link. Counts come from one vendor.",
+        "title": "Island reports FakeGit repositories posing as AI Skills and MCP servers"
+      },
+      {
         "confidence": "confirmed",
         "date": "2026-06-24",
         "date_kind": "disclosed",
@@ -4321,6 +4467,16 @@
         "url": "https://aws.amazon.com/security/security-bulletins/2026-097-aws/"
       },
       {
+        "id": "bleepingcomputer-fakegit-returns-2026-10",
+        "published_date": "2026-10-08",
+        "publisher": "BleepingComputer",
+        "reviewed_date": "2026-11-05",
+        "source_type": "news",
+        "status": "active",
+        "title": "FakeGit malware campaign returns with 17,610 malicious GitHub repos",
+        "url": "https://www.bleepingcomputer.com/news/security/fakegit-malware-campaign-returns-with-17-610-malicious-github-repos/"
+      },
+      {
         "id": "cursor-claude-code-extension-notice-2026-10",
         "published_date": "2026-10-29",
         "publisher": "Cursor",
@@ -4329,6 +4485,16 @@
         "status": "active",
         "title": "Security notice: malicious version of Anthropic.claude-code identified in the Cursor VS Code Extension Marketplace",
         "url": "https://cursor.com/blog/claude-code-extension-security-notice"
+      },
+      {
+        "id": "derp-fakegit-luajit-2026-03",
+        "published_date": "2026-03-04",
+        "publisher": "Derp.ca",
+        "reviewed_date": "2026-11-05",
+        "source_type": "research",
+        "status": "active",
+        "title": "FakeGit: LuaJIT malware distributed via GitHub at scale",
+        "url": "https://www.derp.ca/research/fakegit-luajit-github-campaign/"
       },
       {
         "id": "frontmcp-ghsa-65h7-9wrw-629c",
@@ -4810,6 +4976,26 @@
         "url": "https://thehackernews.com/2026/08/keyv-linked-npm-worm-poisons-hundreds.html"
       },
       {
+        "id": "hexastrike-109-fake-repos-2026-04",
+        "published_date": "2026-04-18",
+        "publisher": "Hexastrike Cybersecurity",
+        "reviewed_date": "2026-11-05",
+        "source_type": "research",
+        "status": "active",
+        "title": "Cloned, Loaded, and Stolen: How 109 Fake GitHub Repositories Delivered SmartLoader and StealC",
+        "url": "https://hexastrike.com/resources/blog/threat-intelligence/cloned-loaded-and-stolen-how-109-fake-github-repositories-delivered-smartloader-and-stealc/"
+      },
+      {
+        "id": "island-agentbaiting-2026-07",
+        "published_date": "2026-07-20",
+        "publisher": "Island",
+        "reviewed_date": "2026-11-05",
+        "source_type": "research",
+        "status": "active",
+        "title": "AgentBaiting: How 800+ Fake AI Skills and MCP Servers Delivered Malware",
+        "url": "https://www.island.io/blog/agentbaiting-how-800-fake-ai-skills-and-mcp-servers-delivered-malware"
+      },
+      {
         "id": "jfrog-shai-hulud-2026",
         "published_date": "2026-08-04",
         "publisher": "JFrog Security Research",
@@ -4958,6 +5144,16 @@
         "status": "active",
         "title": "MySQL MCP SSE origin validation",
         "url": "https://github.com/designcomputer/mysql_mcp_server/security/advisories/GHSA-rqfv-2mw9-78g2"
+      },
+      {
+        "id": "netskope-fake-ai-tools-2026-08",
+        "published_date": "2026-08-03",
+        "publisher": "Netskope Threat Labs",
+        "reviewed_date": "2026-11-05",
+        "source_type": "research",
+        "status": "active",
+        "title": "Developers in the Crosshairs: Fake AI Tools Deliver Infostealer",
+        "url": "https://threatlabs.netskope.com/blog/2026/08/developers-in-the-crosshairs-fake-ai-tools-deliver-infostealer"
       },
       {
         "id": "nvd-cve-2026-12537",
@@ -5760,6 +5956,26 @@
         "url": "https://github.com/advisories/GHSA-xrxf-jgv3-qmrm"
       },
       {
+        "id": "roccia-agent-lure-stealer-gist-2026-11",
+        "published_date": "2026-11-04",
+        "publisher": "Thomas Roccia (GitHub gist fr0gger)",
+        "reviewed_date": "2026-11-05",
+        "source_type": "research",
+        "status": "active",
+        "title": "Agent Lure Stealer IOC list (github_zip_lure_iocs_2026-11-04.csv)",
+        "url": "https://gist.github.com/fr0gger/3d0288bf0fee3b8df7b618e7c10334d7"
+      },
+      {
+        "id": "roccia-linkedin-73-repos-2026-11",
+        "published_date": "2026-11-04",
+        "publisher": "LinkedIn (Thomas Roccia)",
+        "reviewed_date": "2026-11-05",
+        "source_type": "social",
+        "status": "active",
+        "title": "Post: We found 73 GitHub repos posing as AI agent tools",
+        "url": "https://www.linkedin.com/posts/thomas-roccia_we-found-73-github-repos-posing-as-ai-share-7523845292753080320-VZJI/"
+      },
+      {
         "id": "safedep-keyv-2026",
         "published_date": "2026-08-04",
         "publisher": "SafeDep",
@@ -5780,6 +5996,16 @@
         "url": "https://socket.dev/blog/popular-npm-packages-keyv-and-cacheable-compromised"
       },
       {
+        "id": "straiker-oura-mcp-smartloader-2026-02",
+        "published_date": "2026-02-05",
+        "publisher": "Straiker",
+        "reviewed_date": "2026-11-05",
+        "source_type": "research",
+        "status": "active",
+        "title": "SmartLoader Clones Oura Ring MCP in Supply Chain Attack",
+        "url": "https://www.straiker.ai/blog/smartloader-clones-oura-ring-mcp-to-deploy-supply-chain-attack"
+      },
+      {
         "id": "tenet-agent-jackstop-2026",
         "publisher": "Tenet Security",
         "reviewed_date": "2026-08-18",
@@ -5797,6 +6023,16 @@
         "status": "active",
         "title": "Ghostjacking Attacks and the Agentic Kill Chain",
         "url": "https://tenetsecurity.ai/blog/ghostjacking-attacks-agentic-kill-chain/"
+      },
+      {
+        "id": "trendmicro-fake-github-smartloader-2025-03",
+        "published_date": "2025-03-11",
+        "publisher": "Trend Micro",
+        "reviewed_date": "2026-11-05",
+        "source_type": "research",
+        "status": "active",
+        "title": "AI-Assisted Fake GitHub Repositories Deliver SmartLoader",
+        "url": "https://www.trendmicro.com/en_us/research/25/c/ai-assisted-fake-github-repositories.html"
       },
       {
         "id": "turnbull-shai-hulud-2026",
@@ -5838,7 +6074,7 @@
         "url": "https://zenity.io/research/ai-total"
       }
     ],
-    "updated": "2026-11-03"
+    "updated": "2026-11-05"
   },
   "landing_metrics": {
     "critical_risk_skills": 534,

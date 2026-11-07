@@ -1,6 +1,6 @@
 ---
 name: update-threat-db
-description: Update the guide's threat intelligence through AgentSec Triage, research new coding-agent and MCP security advisories, and synchronize the security feed. Use for threat database refreshes or mise a jour de la base de menaces, not repository security scans or Claude Code release tracking.
+description: Update the guide's threat intelligence through AgentSec Triage, research new coding-agent and MCP security advisories or researcher IOC lists (malicious repositories, hashes, campaign gists), and synchronize the security feed. Use for threat database refreshes or mise a jour de la base de menaces, not repository security scans or Claude Code release tracking.
 ---
 
 # Update threat intelligence through AgentSec
@@ -32,6 +32,29 @@ them. Deduplicate CVE/GHSA aliases. Keep corrections as dated events.
 Add the required regression test before each accepted data change. Distinguish
 `detected`, `partial`, `not_detected` and `not_applicable`; a documented CVE does
 not prove executable detection. Do not run malicious samples.
+
+## Researcher IOC dumps and repository lures
+
+A campaign report often arrives as a social post plus a CSV or gist of
+indicators. Treat the post as context and the indicator file as the evidence
+to review row by row.
+
+- Fetch the file through an API or raw URL into a fresh scratch directory. Never
+  clone, open or unpack a listed repository or archive.
+- Keep each row's own confidence. A hash confirmed on a sandbox run and a C2
+  address the author marks campaign-level are different claims.
+- Keep repository URLs defanged. Record live or removed status with the date of
+  the author's check, and the committed archive path when one is given.
+- Judge detector coverage on where the payload lives. A clean `SKILL.md` or
+  settings file proves nothing when the README links an archive committed to the
+  repository, or when the archive sits under `.claude/`, `.codex/` or a similar
+  agent directory.
+- Before accepting a "new" campaign, search AgentSec for its family, loader and
+  malware names. A slice reported today can belong to a campaign disclosed months
+  earlier: backfill that lineage as dated events instead of starting a new one.
+
+Credit the researcher in the guide prose with a public link to the post or the
+indicator file.
 
 ## Completion checks
 
