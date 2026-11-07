@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Author profile alignment
+
+- Align the author profile with the hands-on Fractional Chief AI Officer role, around fifteen years in software and eight to ten in technical leadership. Describe RTK as an early contribution and ongoing support, with no current active code contribution. Keep historical measurements and third-party attribution unchanged. The French full guide carries the same RTK disclosure, and its translation record is refreshed against the new English source.
+
 ### Added
 
 - **Autoresearch case study: when the loop repairs the baseline** (`guide/ecosystem/ai-ecosystem.md` §13): the "Sparks of Weight-Space Programming" post (MIT CSAIL, November 2, 2026), in which `gpt-6-astra` edits Qwen3.5-0.8B weights under a forward-pass budget, read against its published logs. The MATH-500 gain from 7.9% to 48.1% coincides with a drop in truncated answers (93% to 33.1%), the task prompt named repetition as the failure to fix, each budget is a single run with a different edit, and the Gemma 3 270M control moved from 6.8 to at most 7.7. A third-party re-run confirms the edited checkpoint (51.0%) but re-tested the base model on 25 problems only. Six checks carry the lesson over to `/autoresearch` loops. New evaluation `docs/resource-evaluations/weight-space-programming.md` (3/5) lists what was not verified, including the model's public availability and reactions reported on X. `reference.yaml` and its MCP mirror gain `autoresearch_pattern` and `autoresearch_repaired_baseline_case`; `mcp-product.json` and the generated chapter ranges are regenerated for the new index digest.

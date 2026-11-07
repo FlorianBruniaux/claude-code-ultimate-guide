@@ -6,8 +6,8 @@
       <a href="https://www.florian.bruniaux.com/about/?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=claude-code-ultimate-guide"><img src="https://cc.bruniaux.com/author.png" width="56" height="56" alt="Florian Bruniaux" /></a>
     </td>
     <td>
-      <strong><a href="https://www.florian.bruniaux.com/about/?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=claude-code-ultimate-guide">Florian BRUNIAUX</a></strong> &middot; Fractional Chief AI Officer<br />
-      13 years from developer to CTO / VP Eng &middot; <a href="https://www.florian.bruniaux.com/blog/?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=claude-code-ultimate-guide">Blog &#8599;</a> &middot; <a href="https://www.florian.bruniaux.com/projects/?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=claude-code-ultimate-guide">Projects &#8599;</a>
+      <strong><a href="https://www.florian.bruniaux.com/about/?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=claude-code-ultimate-guide">Florian BRUNIAUX</a></strong> &middot; Hands-on Fractional Chief AI Officer (CAIO)<br />
+      Around 15 years in software, including 8 to 10 in technical leadership &middot; <a href="https://www.florian.bruniaux.com/blog/?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=claude-code-ultimate-guide">Blog &#8599;</a> &middot; <a href="https://www.florian.bruniaux.com/projects/?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=claude-code-ultimate-guide">Projects &#8599;</a>
     </td>
   </tr>
 </table>
@@ -18,7 +18,7 @@
 
 <p align="center">
   <a href="./CHANGELOG.md"><img src="https://img.shields.io/badge/Guide-v3.45.2-brightgreen?style=flat-square" alt="Guide version 3.45.2" /></a>
-  <a href="./CHANGELOG.md"><img src="https://img.shields.io/badge/Updated-Nov_1,_2026_·_v3.45.2-brightgreen?style=flat-square" alt="Updated Oct 17, 2026, guide version 3.45.2" /></a>
+  <a href="./CHANGELOG.md"><img src="https://img.shields.io/badge/Updated-Nov_7,_2026_·_v3.45.2-brightgreen?style=flat-square" alt="Updated Oct 17, 2026, guide version 3.45.2" /></a>
   <a href="https://creativecommons.org/licenses/by-sa/4.0/"><img src="https://img.shields.io/badge/Guide-CC_BY--SA_4.0-blue?style=flat-square" alt="Guide license: CC BY-SA 4.0" /></a>
   <a href="https://cc.bruniaux.com/mcp/"><img src="https://img.shields.io/badge/MCP-npx_ready-blueviolet?style=flat-square" alt="MCP server available through npx" /></a>
   <a href="https://deepwiki.com/FlorianBruniaux/claude-code-ultimate-guide"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki" /></a>
@@ -419,4 +419,4 @@ Watch [GitHub Releases](https://github.com/FlorianBruniaux/claude-code-ultimate-
 
 ---
 
-*Version 3.45.2 | Updated daily · Nov 1, 2026*
+*Version 3.45.2 | Updated daily · Nov 7, 2026*

@@ -685,7 +685,7 @@ where.exe claude; claude doctor; claude mcp list
 | Tool | Purpose | Install |
 |------|---------|---------|
 | **ccusage** | Cost tracking & reports | `bunx ccusage daily` |
-| **RTK** | Shell-output reduction (up to 90%) | `brew install rtk` (or `cargo install --git https://github.com/rtk-ai/rtk`) · [Site](https://www.rtk-ai.app/) (author is a core contributor) |
+| **RTK** | Shell-output reduction (up to 90%) | `brew install rtk` (or `cargo install --git https://github.com/rtk-ai/rtk`) · [Site](https://www.rtk-ai.app/) (author is a historical contributor and current supporter) |
 | **claude-code-viewer** | Session history UI | `npx @kimuson/claude-code-viewer` |
 | **Entire CLI** | Session checkpoints + Git forge | [entire.com](https://entire.com) (CLI Feb 2026, forge Oct 2026) |
 

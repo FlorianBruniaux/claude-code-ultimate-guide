@@ -18074,7 +18074,7 @@ Se déclenche également automatiquement sur des phrases comme « sois bref » o
 
 Pour des hooks, la navigation dans le code et l'interception MCP plus larges, voir la [comparaison Tokenade et les limites des preuves](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ecosystem/third-party-tools.md#tokenade). Elle présente une alternative propriétaire avec des résultats de benchmark maintenus par son éditeur, pas une recommandation universelle de remplacement.
 
-**Dépôt :** [rtk-ai/rtk](https://github.com/rtk-ai/rtk) | **Site web :** [rtk-ai.app](https://www.rtk-ai.app/) | **Transparence :** l'auteur de ce guide est un contributeur principal de RTK (pas son créateur) ; cette recommandation n'est donc pas indépendante. Les mesures sur des tâches complètes de plusieurs études et la réponse des mainteneurs figurent dans [context-engineering-tools.md](./ecosystem/context-engineering-tools.md).
+**Dépôt :** [rtk-ai/rtk](https://github.com/rtk-ai/rtk) | **Site web :** [rtk-ai.app](https://www.rtk-ai.app/) | **Transparence :** l'auteur de ce guide a contribué à RTK à ses débuts et le soutient toujours, sans contribuer activement à son code aujourd'hui (il n'en est pas le créateur) ; cette recommandation n'est donc pas indépendante. Les mesures sur des tâches complètes de plusieurs études et la réponse des mainteneurs figurent dans [context-engineering-tools.md](./ecosystem/context-engineering-tools.md).
 
 **Installation :**
 

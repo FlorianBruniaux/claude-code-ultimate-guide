@@ -2433,7 +2433,7 @@ RTK (Rust Token Killer) is a CLI proxy that intercepts shell command output and 
 
 **What it compresses**: git, cargo, npm, pnpm, tsc, vitest, playwright, docker, kubectl, and more. RTK's README reports "up to 90%" less bash output on supported commands (output reduction, not a reduction of the bill).
 
-> **Disclosure**: the author of this guide is a core contributor to RTK (not its creator).
+> **Disclosure**: the author of this guide contributed to RTK early on and remains a supporter, without actively contributing to its code today (not its creator).
 
 **What it does not compress**: file reads, MCP tool results, anything not going through a Bash tool call.
 

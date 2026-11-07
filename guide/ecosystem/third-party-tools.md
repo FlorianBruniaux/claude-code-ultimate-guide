@@ -212,7 +212,7 @@ A public leaderboard for AI coding usage, reading the same local `ccusage` data 
 
 A CLI proxy that filters command outputs **before** they reach Claude's context. 82,094 stars (GitHub API, 2026-09-30), up from 73,531 stars and 4,597 forks on 2026-07-27, 69,042 on 2026-07-07, 24,397 in April 2026, and 446 in February 2026, continuing the same steep growth curve that's worth checking against the full star-history graph before quoting in a high-stakes context.
 
-> **Disclosure**: the author of this guide is a core contributor to RTK (not its creator). Independent whole-task measurements are in [context-engineering-tools.md](./context-engineering-tools.md).
+> **Disclosure**: the author of this guide contributed to RTK early on and remains a supporter, without actively contributing to its code today (not its creator). Independent whole-task measurements are in [context-engineering-tools.md](./context-engineering-tools.md).
 
 | Attribute | Details |
 |-----------|---------|
