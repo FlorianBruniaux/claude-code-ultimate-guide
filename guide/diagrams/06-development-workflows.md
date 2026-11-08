@@ -1,6 +1,6 @@
 ---
 title: "Claude Code: Development Workflows Diagrams"
-description: "TDD, spec-first, plan-driven, refinement and observed AI fluency behaviors"
+description: "TDD, spec-first, plan-driven, refinement, observed AI fluency behaviors and where an agent change gets explained"
 tags: [workflows, tdd, spec-first, plan-driven, iterative]
 ---
 
@@ -304,3 +304,57 @@ Recommendation: question assumptions, then verify with evidence.
 </details>
 
 > **Source**: [Guide: AI Fluency: Observed collaboration behaviors](../ultimate-guide.md#911-common-pitfalls--best-practices); [Anthropic AI Fluency Index](https://academy.claude.com/tutorials/the-ai-fluency-index)
+
+---
+
+### Three places an agent change gets explained
+
+An agent's change can be explained while it is written, after the fact on the diff, or by a review bot after the push. The tools named are examples read for this guide, not recommendations, and none of them reports a measured effect on review quality.
+
+```mermaid
+flowchart LR
+    subgraph W [Written while coding]
+        W1[Agent edits code] --> W2[Agent records its rationale<br/>diffo, glassbox, hunk]
+    end
+    subgraph L [Local review surface]
+        L1[Diff with the notes] --> L2{Reviewer feedback}
+    end
+    subgraph C [CI review bots]
+        C1[Push or merge request] --> C2[Bot comments on the diff]
+    end
+    A1[Walkthrough generated after the fact<br/>ai-pr-review, guidedreview] --> L1
+    W2 --> L1
+    L2 -->|Question or requested change| W1
+    L2 -->|Ready for the forge| C1
+    C2 --> H([Human merge decision])
+
+    classDef diagramNode fill:#F5E6D3,color:#333,stroke:#A64B00
+    class W1,W2,L1,L2,C1,C2,A1,H diagramNode
+    click W1 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/multi-provider-code-review.md#local-review-surfaces-for-agent-written-changes" "View in guide"
+    click W2 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/multi-provider-code-review.md#local-review-surfaces-for-agent-written-changes" "View in guide"
+    click L1 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/multi-provider-code-review.md#local-review-surfaces-for-agent-written-changes" "View in guide"
+    click L2 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/multi-provider-code-review.md#local-review-surfaces-for-agent-written-changes" "View in guide"
+    click C1 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/multi-provider-code-review.md#local-review-surfaces-for-agent-written-changes" "View in guide"
+    click C2 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/multi-provider-code-review.md#local-review-surfaces-for-agent-written-changes" "View in guide"
+    click A1 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/multi-provider-code-review.md#local-review-surfaces-for-agent-written-changes" "View in guide"
+    click H href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/multi-provider-code-review.md#local-review-surfaces-for-agent-written-changes" "View in guide"
+```
+
+<details>
+<summary>ASCII version</summary>
+
+```text
+Written while coding     agent edits code -> agent records its rationale (diffo, glassbox, hunk)
+                                                  |
+After the fact           walkthrough from the diff (ai-pr-review, guidedreview)
+                                                  |
+Local review surface     diff with the notes -> reviewer feedback
+                           question or requested change -> back to the agent
+                           ready -> push or merge request
+                                                  |
+CI review bots           bot comments on the diff -> human merge decision
+```
+
+</details>
+
+> **Source**: [Local review surfaces for agent-written changes](../workflows/multi-provider-code-review.md#local-review-surfaces-for-agent-written-changes)

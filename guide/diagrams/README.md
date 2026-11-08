@@ -1,12 +1,12 @@
 ---
 title: "Claude Code: Visual Diagrams"
-description: "51 Mermaid interactive diagrams covering all major Claude Code concepts"
+description: "52 Mermaid interactive diagrams covering all major Claude Code concepts"
 tags: [reference, architecture, diagrams, mermaid]
 ---
 
 # Claude Code: Visual diagrams
 
-51 Mermaid diagrams organized in 12 thematic files. Each includes an ASCII fallback and links to the guide and current product documentation. Conceptual models and organization policies are labelled as such; they do not guarantee product behavior, performance or compliance.
+52 Mermaid diagrams organized in 12 thematic files. Each includes an ASCII fallback and links to the guide and current product documentation. Conceptual models and organization policies are labelled as such; they do not guarantee product behavior, performance or compliance.
 
 > For ASCII-only diagrams and a printable visual reference → [visual-reference.md](../core/visual-reference.md)
 
@@ -47,7 +47,7 @@ All diagrams use the consistent Bold Guy palette:
 | [03-configuration-system.md](./03-configuration-system.md) | 4 | Config precedence, skills vs commands vs agents, agent lifecycle, hooks |
 | [04-architecture-internals.md](./04-architecture-internals.md) | 5 | Master loop, tool categories, system prompt assembly, sub-agent isolation, model pipelines |
 | [05-mcp-ecosystem.md](./05-mcp-ecosystem.md) | 4 | MCP ecosystem map, MCP architecture, rug pull attack, config hierarchy |
-| [06-development-workflows.md](./06-development-workflows.md) | 5 | TDD cycle, spec-first pipeline, plan-driven, iterative refinement, AI fluency paths |
+| [06-development-workflows.md](./06-development-workflows.md) | 6 | TDD cycle, spec-first pipeline, plan-driven, iterative refinement, AI fluency paths, where an agent change gets explained |
 | [07-multi-agent-patterns.md](./07-multi-agent-patterns.md) | 6 | Agent topologies, worktrees, dual-instance, horizontal scaling, decision matrix, cross-session messaging |
 | [08-security-and-production.md](./08-security-and-production.md) | 4 | 3-layer defense, sandbox decision, verification paradox, CI/CD pipeline |
 | [09-cost-and-optimization.md](./09-cost-and-optimization.md) | 4 | Model selection, cost optimization, subscription tiers, token reduction |

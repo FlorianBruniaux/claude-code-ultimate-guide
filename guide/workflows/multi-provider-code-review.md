@@ -140,6 +140,29 @@ The practical cost: a file-exclusion list (lockfiles, generated code, migrations
 
 The workflow templates target CI; the local simulation and admission worksheet serve different purposes. A separate, complementary layer is a handful of local Claude Code skills a developer runs by hand during active work: a quick check of the current PR's CI/review/preview status, a pull of everything posted since the last push across every bot and human reviewer, and a periodic retrospective audit across the last N PRs to spot findings bots keep flagging that no rule file covers yet. These are developer-convenience tools, not part of the CI pipeline, worth building as project-local skills once the CI-side architecture above is stable, not before.
 
+### Local review surfaces for agent-written changes
+
+A second local layer helps a reviewer read what an agent wrote before or during review. The six tools below were read from their source or README on November 8, 2026, not run; see the [evaluation](../../docs/resource-evaluations/agent-review-surfaces.md) for SHAs and limits.
+
+| Tool | Where the explanation comes from | Anchor | Feedback to the agent | Forge |
+|---|---|---|---|---|
+| [diffo](https://github.com/DiffoHQ/diffo) | The agent posts ordered layers and comments through its CLI | Hunk id from a content hash, then line, file, whole change | `diffo poll` returns threads typed Change or Question | GitHub through `gh` |
+| [glassbox](https://github.com/brianwestphal/glassbox) | The agent records notes (rationale, proof, risk) with `glassbox note add`, stored as SARIF in the repository | Line, re-anchored by matching the stored snippet | A review file the agent reads | None |
+| [hunk](https://github.com/modem-dev/hunk) | The agent comments in a live terminal session or a JSON sidecar | Old and new line ranges, resolved to the current hunk | The agent reads human notes and replies | Reads GitHub diffs |
+| [drift](https://github.com/tothalex/drift) | None: shows forge discussions only | GitLab `position` from `diff_refs`; outdated threads kept | Sends a selected range and an instruction to an agent pane | GitHub (`gh`) and GitLab (`glab`) |
+| [ai-pr-review](https://github.com/houshuang/ai-pr-review) | A model writes a walkthrough after the fact, from the diff | Ranges and `path:line` citations checked against the diff and tree | None | GitHub through `gh` |
+| [guidedreview](https://github.com/nshntarora/guidedreview) | An LLM groups hunks into review units with short commentary | Comments on the real diff lines | Copies a prompt built from the notes | GitHub (extension); local CLI |
+
+What the table shows, without a measurement behind it:
+
+- None places the agent's explanation in a column beside the diff; glassbox and hunk insert it under the anchored line. The four-column view described in [Resisting Cognitive Surrender](../roles/learning-with-ai.md#reviewing-machine-output-is-a-third-mode) is a custom build.
+- Only diffo types the reviewer's feedback, so the agent can tell a question from a requested change.
+- Only drift reads and writes GitLab merge request discussions.
+
+> **Security**: at the version read, ai-pr-review verified its review tips by running Codex with write access and network access on the pull request's code, with no approval prompt. Do not run it on untrusted pull requests. diffo sends anonymous telemetry by default.
+
+[Three places an agent change gets explained](../diagrams/06-development-workflows.md#three-places-an-agent-change-gets-explained) draws how these surfaces sit between the agent and the CI bots.
+
 ---
 
 ## Setup checklist

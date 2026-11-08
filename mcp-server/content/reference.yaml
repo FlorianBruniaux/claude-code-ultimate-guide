@@ -28,10 +28,10 @@ deep_dive:
   distribution_channels_registry: "machine-readable/distribution-channels.yaml"
   learning_path_slides: "docs/distribution/claude-code-learning-path-slides.pptx"
   quick_win_video_briefs: "docs/distribution/quick-win-video-series.md"
-  # Visual Diagrams Series (51 Mermaid diagrams)
+  # Visual Diagrams Series (52 Mermaid diagrams)
   mermaid_diagrams:
     path: "guide/diagrams/"
-    description: "51 Mermaid diagrams: model selection, agent lifecycle, memory hierarchy, security threats, multi-agent patterns, observed AI fluency behaviors, context engineering, enterprise governance, dense, MoE and vision-language model pipelines"
+    description: "52 Mermaid diagrams: model selection, agent lifecycle, memory hierarchy, security threats, multi-agent patterns, observed AI fluency behaviors, context engineering, enterprise governance, dense, MoE and vision-language model pipelines"
     files: 12
     total_diagrams: 50
   # Individual diagram files (all 12; see guide/diagrams/README.md for the full navigation table)
@@ -89,6 +89,8 @@ deep_dive:
   multi_provider_code_review_batched_pattern: "check-size job counts changed files, above threshold splits diff into domain matrix (migrations/backend/api/frontend/tests), parallel review + final synthesis"
   multi_provider_code_review_greptile_templates: "examples/github-actions/.greptile/" # config.json, rules.md, files.json
   multi_provider_code_review_gitlab_flow: "guide/workflows/multi-provider-code-review.md#role-separation" # GitLab Code Review Flow: agentic MR review, approval not counted, change requests block only with a beta flag (docs read 2026-11-08)
+  multi_provider_code_review_local_surfaces: "guide/workflows/multi-provider-code-review.md#local-review-surfaces-for-agent-written-changes" # diffo, glassbox, hunk, drift, ai-pr-review, guidedreview read 2026-11-08: none puts agent rationale in a column beside the diff; only diffo types feedback; only drift handles GitLab; ai-pr-review security caveat
+  diagram_agent_change_explained: "guide/diagrams/06-development-workflows.md#three-places-an-agent-change-gets-explained" # written while coding, after the fact, CI bots
   # Rules Templates (auto-loaded .claude/rules/)
   rules_templates_directory: "examples/rules/"
   rules_architecture_review: "examples/rules/architecture-review.md"
@@ -4100,6 +4102,7 @@ section_maps:
     - "cross-tool-deduplication"
     - "known-friction-rule-drift-across-configs"
     - "interactive-companions-vs-ci"
+    - "local-review-surfaces-for-agent-written-changes"
     - "setup-checklist"
   "guide/workflows/og-image-generation.md":
     - "why-bother"
