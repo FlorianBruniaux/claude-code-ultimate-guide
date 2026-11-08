@@ -1,6 +1,6 @@
 ---
 title: "Claude Code: Adoption & Learning Diagrams"
-description: "Onboarding paths, proposed UVAL comprehension practice, trust calibration"
+description: "Onboarding paths, proposed UVAL comprehension practice, trust calibration, approval check for agent changes"
 tags: [adoption, learning, onboarding, teams, trust]
 ---
 
@@ -180,3 +180,56 @@ An explanation is a hypothesis; Git rollback does not undo disclosure
 > **Source**: [Trust calibration](../ultimate-guide.md#17-trust-calibration-when-and-how-much-to-verify)
 
 > The reviewer remains responsible for the safety of proposed code and commands. Review requirements depend on the action and its effects. [Anthropic security guidance](https://code.claude.com/docs/en/security#user-responsibility).
+
+---
+
+### Approve only what you can explain
+
+A personal check before approving an agent's change. It is a practice to evaluate in your team, not a measured intervention. The agent's explanation is a claim to check against the code and the evidence, not evidence by itself.
+
+```mermaid
+flowchart TD
+    A([Agent change ready for approval]) --> B{Can you explain its intent<br/>in your own words?}
+    B -->|No| Q[Ask a question<br/>do not approve yet]
+    B -->|Yes| C{Can you name its main risk<br/>and what it could break?}
+    C -->|No| Q
+    C -->|Yes| D{Does evidence you checked<br/>cover that risk?}
+    D -->|No| E[Request a change<br/>or run the missing check]
+    D -->|Yes| F([Approve within the checked scope])
+    Q --> B
+    G[Repeatedly tapping yes, continue<br/>is a warning sign] -.-> B
+    K[Agent explanation is a claim<br/>check it against code and evidence] -.-> D
+
+    classDef diagramNode fill:#F5E6D3,color:#333,stroke:#A64B00
+    class A,B,C,D,E,F,G,K,Q diagramNode
+    click A href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/roles/learning-with-ai.md#reviewing-machine-output-is-a-third-mode" "View in guide"
+    click B href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/roles/learning-with-ai.md#reviewing-machine-output-is-a-third-mode" "View in guide"
+    click C href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/roles/learning-with-ai.md#reviewing-machine-output-is-a-third-mode" "View in guide"
+    click D href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/roles/learning-with-ai.md#reviewing-machine-output-is-a-third-mode" "View in guide"
+    click E href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/roles/learning-with-ai.md#reviewing-machine-output-is-a-third-mode" "View in guide"
+    click F href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/roles/learning-with-ai.md#reviewing-machine-output-is-a-third-mode" "View in guide"
+    click G href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/roles/learning-with-ai.md#reviewing-machine-output-is-a-third-mode" "View in guide"
+    click K href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/roles/learning-with-ai.md#reviewing-machine-output-is-a-third-mode" "View in guide"
+    click Q href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/roles/learning-with-ai.md#reviewing-machine-output-is-a-third-mode" "View in guide"
+```
+
+<details>
+<summary>ASCII version</summary>
+
+```text
+Agent change ready for approval
+  Can you explain its intent in your own words?
+    No  -> ask a question, do not approve yet
+    Yes -> can you name its main risk and what it could break?
+             No  -> ask a question
+             Yes -> does evidence you checked cover that risk?
+                      No  -> request a change or run the missing check
+                      Yes -> approve within the checked scope
+
+Warning sign: repeatedly tapping "yes, continue"
+The agent's explanation is a claim, not evidence
+```
+
+</details>
+
+> **Source**: [Reviewing machine output is a third mode](../roles/learning-with-ai.md#reviewing-machine-output-is-a-third-mode). The three questions are this guide's synthesis, informed by [Resisting Cognitive Surrender](https://knlb.dev/essays/surrender) and [Kaufman et al.](https://arxiv.org/abs/2607.08885), whose result concerns explanations of generated assertions; applying it to agent rationale is an extrapolation.

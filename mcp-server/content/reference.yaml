@@ -28,10 +28,10 @@ deep_dive:
   distribution_channels_registry: "machine-readable/distribution-channels.yaml"
   learning_path_slides: "docs/distribution/claude-code-learning-path-slides.pptx"
   quick_win_video_briefs: "docs/distribution/quick-win-video-series.md"
-  # Visual Diagrams Series (50 Mermaid diagrams)
+  # Visual Diagrams Series (51 Mermaid diagrams)
   mermaid_diagrams:
     path: "guide/diagrams/"
-    description: "50 Mermaid diagrams: model selection, agent lifecycle, memory hierarchy, security threats, multi-agent patterns, observed AI fluency behaviors, context engineering, enterprise governance, dense, MoE and vision-language model pipelines"
+    description: "51 Mermaid diagrams: model selection, agent lifecycle, memory hierarchy, security threats, multi-agent patterns, observed AI fluency behaviors, context engineering, enterprise governance, dense, MoE and vision-language model pipelines"
     files: 12
     total_diagrams: 50
   # Individual diagram files (all 12; see guide/diagrams/README.md for the full navigation table)
@@ -46,6 +46,7 @@ deep_dive:
   diagram_security_and_production: "guide/diagrams/08-security-and-production.md"
   diagram_cost_and_optimization: "guide/diagrams/09-cost-and-optimization.md"
   diagram_adoption_and_learning: "guide/diagrams/10-adoption-and-learning.md#onboarding-adaptive-learning-paths"
+  diagram_approve_only_what_you_can_explain: "guide/diagrams/10-adoption-and-learning.md#approve-only-what-you-can-explain" # D5: intent, risk, checked evidence before approving agent output
   diagram_context_engineering_series: "guide/diagrams/11-context-engineering.md#the-3-layer-context-system"
   diagram_enterprise_governance: "guide/diagrams/12-enterprise-governance.md#mcp-governance-workflow"
   # AI-Assisted Development Workflows (from MetalBear/arXiv research)
@@ -655,6 +656,7 @@ deep_dive:
   learning_review_attention_cost: "guide/roles/learning-with-ai.md#the-attention-cost-of-the-review-shift"  # Reported review burden with separate survey populations and denominators; no medical inference
   learning_review_local_calibration: "guide/roles/learning-with-ai.md#historical-review-limits-need-local-calibration"  # Historical code-review observations; no universal cognitive ceiling or line/time threshold
   learning_review_automation_bias: "guide/roles/learning-with-ai.md#reviewing-machine-output-is-a-third-mode"  # Clinical decision-support evidence and self-reported knowledge-work associations; no software effect estimate
+  learning_cognitive_surrender: "guide/roles/learning-with-ai.md#reviewing-machine-output-is-a-third-mode"  # knlb essay (2026-11): definition, "yes, continue" warning sign, comprehension tactics; Kaufman et al. 2026: explanations no overall benefit; Kerr vs Jain on what review is for; no measured intervention
   learning_review_supervision_capacity: "guide/roles/learning-with-ai.md#supervision-needs-capacity-and-a-usable-interface"  # Context, evidence, attention, skills and a real ability to pause and resume; proposed practices
   learning_junior_apprenticeship_ladder: "guide/roles/learning-with-ai.md#the-apprenticeship-ladder-ran-through-the-writing-phase"  # Stanford Canaries ~16% (ages 22-25), Westby 16.3% junior posting share, Harvard AI-adopter cohort; training mechanism unmeasured
   learning_review_shift_practices: "guide/roles/learning-with-ai.md#practices-to-evaluate-locally"  # Locally evaluate task size, evidence access, capacity, initial judgment and transfer

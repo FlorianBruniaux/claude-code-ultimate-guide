@@ -1,12 +1,12 @@
 ---
 title: "Claude Code: Visual Diagrams"
-description: "50 Mermaid interactive diagrams covering all major Claude Code concepts"
+description: "51 Mermaid interactive diagrams covering all major Claude Code concepts"
 tags: [reference, architecture, diagrams, mermaid]
 ---
 
 # Claude Code: Visual diagrams
 
-50 Mermaid diagrams organized in 12 thematic files. Each includes an ASCII fallback and links to the guide and current product documentation. Conceptual models and organization policies are labelled as such; they do not guarantee product behavior, performance or compliance.
+51 Mermaid diagrams organized in 12 thematic files. Each includes an ASCII fallback and links to the guide and current product documentation. Conceptual models and organization policies are labelled as such; they do not guarantee product behavior, performance or compliance.
 
 > For ASCII-only diagrams and a printable visual reference → [visual-reference.md](../core/visual-reference.md)
 
@@ -51,7 +51,7 @@ All diagrams use the consistent Bold Guy palette:
 | [07-multi-agent-patterns.md](./07-multi-agent-patterns.md) | 6 | Agent topologies, worktrees, dual-instance, horizontal scaling, decision matrix, cross-session messaging |
 | [08-security-and-production.md](./08-security-and-production.md) | 4 | 3-layer defense, sandbox decision, verification paradox, CI/CD pipeline |
 | [09-cost-and-optimization.md](./09-cost-and-optimization.md) | 4 | Model selection, cost optimization, subscription tiers, token reduction |
-| [10-adoption-and-learning.md](./10-adoption-and-learning.md) | 3 | Onboarding paths, UVAL protocol, trust calibration |
+| [10-adoption-and-learning.md](./10-adoption-and-learning.md) | 4 | Onboarding paths, UVAL protocol, trust calibration, approve only what you can explain |
 | [11-context-engineering.md](./11-context-engineering.md) | 4 | 3-layer context system, context budget checks, modular architecture, rule placement |
 | [12-enterprise-governance.md](./12-enterprise-governance.md) | 3 | Governance risk tiers, MCP approval workflow, data classification |
 | **Total** | **50** | |
