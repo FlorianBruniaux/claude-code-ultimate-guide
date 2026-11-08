@@ -162,6 +162,7 @@ Hands-on guides for effective development patterns:
 | [workflows/event-driven-agents.md](./workflows/event-driven-agents.md) | Event-driven agent coordination patterns |
 | [workflows/monitor-event-delegation.md](./workflows/monitor-event-delegation.md) | Monitor command/WebSocket, plugin monitors, Channels, Routines, and safe Codex delegation |
 | [workflows/github-actions.md](./workflows/github-actions.md) | Step-by-step claude-code-action setup: PR review on mention, automatic review on push, issue triage |
+| [workflows/reviewable-agent-changes.md](./workflows/reviewable-agent-changes.md) | Rationale beside the diff: what an agent note records per hunk, git notes storage and rewrites, stale notes, feedback typed as a question or a change, tested template | 15 min |
 | [workflows/code-review.md](./workflows/code-review.md) | Automated multi-agent PR review for Teams and Enterprise: setup, triggers, REVIEW.md configuration, cost management |
 | [workflows/ai-assisted-open-source-contributions.md](./workflows/ai-assisted-open-source-contributions.md) | Contribution policy, reproduction, author understanding, verification evidence and maintainer follow-up |
 | [workflows/production-reliability.md](./workflows/production-reliability.md) | Production reliability patterns: escalation design, circuit breakers, structured error propagation, graceful degradation |

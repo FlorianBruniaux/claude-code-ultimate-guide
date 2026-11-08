@@ -91,6 +91,13 @@ deep_dive:
   multi_provider_code_review_gitlab_flow: "guide/workflows/multi-provider-code-review.md#role-separation" # GitLab Code Review Flow: agentic MR review, approval not counted, change requests block only with a beta flag (docs read 2026-11-08)
   multi_provider_code_review_local_surfaces: "guide/workflows/multi-provider-code-review.md#local-review-surfaces-for-agent-written-changes" # diffo, glassbox, hunk, drift, ai-pr-review, guidedreview read 2026-11-08: none puts agent rationale in a column beside the diff; only diffo types feedback; only drift handles GitLab; ai-pr-review security caveat
   diagram_agent_change_explained: "guide/diagrams/06-development-workflows.md#three-places-an-agent-change-gets-explained" # written while coding, after the fact, CI bots
+  # Reviewable agent changes (guide/workflows/reviewable-agent-changes.md) - Added 2026-11-08
+  reviewable_agent_changes_guide: "guide/workflows/reviewable-agent-changes.md" # rationale beside the diff; explanations raise trust, not shown to improve accuracy (Kaufman 2026, Gao ISSTA 2026)
+  reviewable_agent_changes_fields: "guide/workflows/reviewable-agent-changes.md#what-an-agent-note-records" # intent, rejected alternative, risk, evidence, open question; unknown accepted; guide's proposal
+  reviewable_agent_changes_storage: "guide/workflows/reviewable-agent-changes.md#where-the-note-lives" # git notes vs committed file vs forge comment; amend/rebase with notes.rewriteRef tested, squash loses plain notes
+  reviewable_agent_changes_stale_notes: "guide/workflows/reviewable-agent-changes.md#anchoring-and-stale-notes" # hunk hash, then line text, else stale; covered by template tests
+  reviewable_agent_changes_typed_feedback: "guide/workflows/reviewable-agent-changes.md#feedback-typed-as-a-question-or-a-change" # Question vs Change; Lopopolo defer or push back; diffo intents
+  reviewable_agent_changes_template: "examples/skills/agent-rationale/" # rationale.py add/show, refs/notes/rationale, 9 tests in throwaway repos
   # Rules Templates (auto-loaded .claude/rules/)
   rules_templates_directory: "examples/rules/"
   rules_architecture_review: "examples/rules/architecture-review.md"
@@ -4094,6 +4101,14 @@ section_maps:
     - "github-to-monitor-to-codex-a-safe-pipeline"
     - "github-actions-is-a-separate-path"
     - "routines-useful-but-not-a-local-monitor"
+  "guide/workflows/reviewable-agent-changes.md":
+    - "why-the-diff-is-not-enough"
+    - "what-an-agent-note-records"
+    - "where-the-note-lives"
+    - "anchoring-and-stale-notes"
+    - "feedback-typed-as-a-question-or-a-change"
+    - "the-agent-rationale-template"
+    - "what-is-not-established"
   "guide/workflows/multi-provider-code-review.md":
     - "when-another-reviewer-earns-its-place"
     - "role-separation"

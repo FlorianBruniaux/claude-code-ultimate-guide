@@ -96,6 +96,9 @@ class RationaleTest(unittest.TestCase):
         [entry] = note["notes"]
         self.assertEqual(entry["file"], "cart.py")
         self.assertEqual(entry["intent"], "Sum prices, not item objects")
+        self.assertEqual(entry["rejected_alternative"], "Keep sum(items) and give Item an __add__ method")
+        self.assertEqual(entry["risk"], "Items without a price attribute now raise AttributeError")
+        self.assertEqual(entry["evidence"], "test_cart.py::test_total_uses_price")
         self.assertEqual(entry["open_question"], "unknown")
         self.assertEqual(entry["snippet"], "    return sum(item.price for item in items)")
         self.assertTrue(entry["hunk_hash"].startswith("sha256:"))
@@ -136,7 +139,7 @@ class RationaleTest(unittest.TestCase):
         self.repo.write("cart.py", "# cart helpers\n\n" + CHANGE)
         self.repo.commit("", amend=True)
         [entry] = self.show()
-        self.assertIn(entry["status"], ("anchored", "reanchored"))
+        self.assertEqual(entry["status"], "anchored")
         self.assertEqual(entry["line"], 6)
 
     def test_edit_elsewhere_in_the_hunk_reanchors_by_snippet(self):
@@ -164,6 +167,57 @@ class RationaleTest(unittest.TestCase):
         result = subprocess.run(["git", "notes", f"--ref={NOTES_REF}", "show", "HEAD"],
                                 cwd=self.repo.root, env=self.repo.env, capture_output=True, text=True)
         self.assertNotEqual(result.returncode, 0)
+
+
+    def test_added_line_starting_with_plus_plus_is_kept(self):
+        self.repo.write("count.c", "int n;\n++n;\nreturn n;\n")
+        self.repo.commit("counter")
+        self.repo.rationale("add", "--file", "count.c", "--line", "3", "--intent", "Return the count")
+        [entry] = self.show()
+        self.assertEqual(entry["snippet"], "return n;")
+        self.assertEqual((entry["status"], entry["line"]), ("anchored", 3))
+
+    def test_form_feed_inside_a_line_keeps_the_whole_line(self):
+        self.repo.write("page.txt", "first\fsame line\nsecond\n")
+        self.repo.commit("page")
+        self.repo.rationale("add", "--file", "page.txt", "--line", "1", "--intent", "First line")
+        self.repo.rationale("add", "--file", "page.txt", "--line", "2", "--intent", "Second line")
+        notes = self.note()["notes"]
+        self.assertEqual(notes[0]["snippet"], "first\fsame line")
+        self.assertEqual(notes[1]["snippet"], "second")
+
+    def test_duplicate_line_in_a_hunk_anchors_to_the_annotated_occurrence(self):
+        self.repo.write("dup.py", "a = 1\npass\nb = 2\npass\n")
+        self.repo.commit("dup")
+        self.repo.rationale("add", "--file", "dup.py", "--line", "4", "--intent", "Second pass")
+        [entry] = self.show()
+        self.assertEqual((entry["status"], entry["line"]), ("anchored", 4))
+
+    def test_ambiguous_snippet_after_an_edit_is_stale_not_guessed(self):
+        self.repo.git("config", "notes.rewriteRef", NOTES_REF)
+        self.repo.write("dup.py", "a = 1\npass\nb = 2\npass\n")
+        self.repo.commit("dup")
+        self.repo.rationale("add", "--file", "dup.py", "--line", "4", "--intent", "Second pass")
+        self.repo.write("dup.py", "a = 10\npass\nb = 2\npass\n")
+        self.repo.commit("", amend=True)
+        [entry] = self.show()
+        self.assertEqual(entry["status"], "stale")
+
+    def test_non_json_note_is_reported_not_a_traceback(self):
+        self.repo.git("notes", f"--ref={NOTES_REF}", "add", "-m", "written by a person", "HEAD")
+        result = self.repo.rationale("show", check=False)
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("not an agent-rationale note", result.stderr)
+        self.assertNotIn("Traceback", result.stderr)
+
+    def test_paths_are_stored_from_the_repository_root(self):
+        os.makedirs(os.path.join(self.repo.root, "src"))
+        self.repo.write("src/m.py", "x = 1\n")
+        self.repo.commit("m")
+        subprocess.run([sys.executable, "-I", SCRIPT, "add", "--file", "m.py", "--line", "1", "--intent", "x"],
+                       cwd=os.path.join(self.repo.root, "src"), env=self.repo.env, check=True, capture_output=True)
+        self.assertEqual(self.note()["notes"][0]["file"], "src/m.py")
+        self.assertEqual(self.show()[0]["status"], "anchored")
 
 
 if __name__ == "__main__":

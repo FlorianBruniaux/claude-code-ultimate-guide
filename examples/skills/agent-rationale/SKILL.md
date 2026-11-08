@@ -6,7 +6,7 @@ effort: low
 
 # agent-rationale
 
-Writes a short rationale for each hunk you changed into a git note on the commit, so the reviewer reads your reasons next to the code instead of reconstructing them. The note anchors to the hunk by a hash of its added lines; if the hunk changes later, `show` re-anchors the note by the annotated line's text or reports it as stale, never on the wrong line.
+Writes a short rationale for each hunk you changed into a git note on the commit, so the reviewer reads your reasons next to the code instead of reconstructing them. The note anchors to the hunk by a hash of its added lines; if the hunk changes later, `show` re-anchors the note by the annotated line's text when that text appears exactly once in the commit's added lines for the file, and otherwise reports the note as stale rather than guess.
 
 This is a template from the [Claude Code Ultimate Guide](https://cc.bruniaux.com/guide/), demonstrated by its own tests, not a measured improvement in review quality.
 
@@ -31,7 +31,7 @@ This is a template from the [Claude Code Ultimate Guide](https://cc.bruniaux.com
    - `--evidence`: the test, command or output that supports the change. Write `unknown` rather than invent one.
    - `--open-question`: what you could not decide and want the reviewer to answer. `unknown` is a valid answer for any field except intent.
 
-   Done when the command prints `rationale recorded`. A line outside the commit's changes is refused.
+   Done when the command prints `rationale recorded`. A line outside the commit's changes is refused; deleted lines and binary files cannot be annotated, so pick a nearby added line. Paths may be given from any directory and are stored from the repository root.
 
 3. **Check what the reviewer will see.**
 
@@ -39,7 +39,7 @@ This is a template from the [Claude Code Ultimate Guide](https://cc.bruniaux.com
    python3 -I ${CLAUDE_SKILL_DIR}/scripts/rationale.py show
    ```
 
-   Each note is `[anchored]`, `[reanchored]` (the hunk changed but the annotated line is still there) or `[stale]` (the annotated line is gone; re-check before trusting the note). Done when every note you wrote shows as anchored.
+   Each note is `[anchored]`, `[reanchored]` (the hunk changed but the annotated line is still there) or `[stale]` (the annotated line is gone or its text is no longer unique; re-check before trusting the note). Done when every note you wrote shows as anchored.
 
 ## Keep notes through amend and rebase
 
@@ -49,10 +49,10 @@ Git moves notes on `git commit --amend` and `git rebase` only when told to. Once
 git config notes.rewriteRef refs/notes/rationale
 ```
 
-A `git merge --squash` and a squash done by the forge's merge button create a new commit without the note. Notes are not pushed by default: `git push origin refs/notes/rationale`.
+A local `git merge --squash` created a commit without the note in this guide's test; a squash done by the forge's merge button was not tested. Notes are not pushed by default: `git push origin refs/notes/rationale`.
 
 ## Rules
 
 - Write the note from what you actually did and checked. A rationale is a claim the reviewer will check, not evidence by itself.
 - Do not put secrets, credentials or customer data in a note: notes are pushed with the repository's refs.
-- Never edit a note written by a human reviewer.
+- Keep human notes under another notes ref: `refs/notes/rationale` holds one agent-rationale document per commit, and `show` refuses a note it did not write.
