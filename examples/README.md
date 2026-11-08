@@ -116,6 +116,7 @@ These worksheets are proposed procedures. Their examples do not establish runtim
 
 | File | Purpose |
 |------|---------|
+| [agent-rationale/](./skills/agent-rationale/) | Record intent, rejected alternative, risk, evidence and open question per hunk in git notes, anchored by hunk hash, with stale-note detection and tests |
 | [git-ai-archaeology/](./skills/git-ai-archaeology/) | Git-history archaeology of an AI coding harness: creation, churn, copies and abandonment of each config file, AI-trailer usage per month, maturity phases |
 | [token-audit/](./skills/token-audit/) | Measure fixed-context token overhead, classify rules by usage frequency, audit hook cost, produce prioritized action plan |
 | [design-patterns/](./skills/design-patterns/) | Detect and analyze GoF design patterns with stack-aware suggestions |
