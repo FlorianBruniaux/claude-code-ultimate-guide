@@ -52,6 +52,10 @@ This guide proposes five fields per hunk. They come from comparing what existing
 | Evidence | The test, command or output that supports the change | Something the reviewer can rerun instead of trusting |
 | Open question | What the agent could not decide | Turns a silent guess into a question for the reviewer |
 
+[![Five equal cards for the fields of an agent note per hunk: intent, rejected alternative, risk, evidence and open question, each with an example from the template. Unknown is a valid answer except for intent; a note is a claim to check, not evidence.](../images/agent-note-fields.webp)](../images/agent-note-fields.webp)
+
+*The guide's proposal, not fields validated by a study. [Prompts and selection record](../../docs/visual-prompts/reviewable-agent-changes.md).*
+
 `unknown` is a valid answer for every field except intent. An agent that writes "unknown" for evidence tells the reviewer more than one that invents a test name. [docket](../../docs/resource-evaluations/agent-provenance-traces.md#docket-35) labels hunks with little evidence as "no evidence" and orders hunks by a risk score that includes that density.
 
 Write the note while the reasons are still in the agent's context, right after the commit, not reconstructed at review time. glassbox has the agent record notes with `glassbox note add` (no hook forces it), diffo has the agent post layers and comments through its CLI, and ai-pr-review writes its walkthrough after the fact from the diff ([evaluation](../../docs/resource-evaluations/agent-review-surfaces.md)).
@@ -65,6 +69,10 @@ Write the note while the reasons are still in the agent's context, right after t
 | Git notes | `refs/notes/rationale` (this template), `refs/notes/ai` (git-ai) | No, unless a tool posts it | Yes with `notes.rewriteRef` set (tested) | No for plain notes (tested); git-ai's daemon moved its note (tested) |
 | File committed with the code | SARIF under `.pr-notes/` (glassbox), a JSON sidecar if you commit it (hunk) | As a changed file | Moves with the commit's content | Kept in the squashed content; line ranges may no longer match |
 | Forge comment | Merge request discussion (drift posts them) | Yes | drift marks a thread outdated when the head changes | Depends on the forge; not checked |
+
+[![Three places an agent note can live compared on four rows: stored in, visible in the merge request, amend and rebase, squash merge. Git notes are kept through amend and rebase with notes.rewriteRef and lost on a squash merge for plain notes, both tested; the file and forge cells were read from source, not run. A forge merge button rewrites history on the server, not tested.](../images/agent-note-storage.webp)](../images/agent-note-storage.webp)
+
+*Green cells were tested in one local repository; grey cells were read from source. [Prompts and selection record](../../docs/visual-prompts/reviewable-agent-changes.md).*
 
 "Tested" refers to the runs behind [git-ai: line-level AI attribution in git notes](../../docs/resource-evaluations/git-ai-provenance-notes.md) and to the template's own tests: one local repository each, git 2.56.0. The file-based and forge rows come from reading the tools' source, not from running them.
 
