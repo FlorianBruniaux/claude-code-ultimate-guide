@@ -181,8 +181,8 @@ The most comprehensive approach. git-ai creates "checkpoints" that:
 curl -fsSL https://usegitai.com/install.sh -o git-ai-install.sh
 bash git-ai-install.sh
 
-# Create checkpoint after AI session
-git-ai checkpoint --tool="claude-code" --session="feature-auth"
+# Install the hooks that record AI authorship checkpoints
+git-ai install-hooks
 
 # View AI attribution for a file
 git-ai blame src/auth.ts
