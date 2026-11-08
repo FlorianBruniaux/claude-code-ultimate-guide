@@ -309,12 +309,12 @@ Recommendation: question assumptions, then verify with evidence.
 
 ### Three places an agent change gets explained
 
-An agent's change can be explained while it is written, after the fact on the diff, or by a review bot after the push. The tools named are examples read for this guide, not recommendations, and none of them reports a measured effect on review quality.
+An agent's change can be explained by the agent itself, by a walkthrough generated after the fact from the diff, or by a review bot after the push. The tools named are examples read for this guide, not recommendations, and none of them reports a measured effect on review quality.
 
 ```mermaid
 flowchart LR
-    subgraph W [Written while coding]
-        W1[Agent edits code] --> W2[Agent records its rationale<br/>diffo, glassbox, hunk]
+    subgraph W [Written by the agent]
+        W1[Agent edits code] --> W2[Agent records its rationale<br/>while editing: glassbox<br/>in session or at review: diffo, hunk]
     end
     subgraph L [Local review surface]
         L1[Diff with the notes] --> L2{Reviewer feedback}
@@ -344,7 +344,7 @@ flowchart LR
 <summary>ASCII version</summary>
 
 ```text
-Written while coding     agent edits code -> agent records its rationale (diffo, glassbox, hunk)
+Written by the agent     agent edits code -> records its rationale (while editing: glassbox; in session or at review: diffo, hunk)
                                                   |
 After the fact           walkthrough from the diff (ai-pr-review, guidedreview)
                                                   |

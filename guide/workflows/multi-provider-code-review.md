@@ -147,7 +147,7 @@ A second local layer helps a reviewer read what an agent wrote before or during 
 | Tool | Where the explanation comes from | Anchor | Feedback to the agent | Forge |
 |---|---|---|---|---|
 | [diffo](https://github.com/DiffoHQ/diffo) | The agent posts ordered layers and comments through its CLI | Hunk id from a content hash, then line, file, whole change | `diffo poll` returns threads typed Change or Question | GitHub through `gh` |
-| [glassbox](https://github.com/brianwestphal/glassbox) | The agent records notes (rationale, proof, risk) with `glassbox note add`, stored as SARIF in the repository | Line, re-anchored by matching the stored snippet | A review file the agent reads | None |
+| [glassbox](https://github.com/brianwestphal/glassbox) | The agent records notes (rationale, proof, risk) with `glassbox note add`, stored as SARIF in the repository | Line, re-anchored by matching the stored snippet | A review file the agent reads | None found in its source |
 | [hunk](https://github.com/modem-dev/hunk) | The agent comments in a live terminal session or a JSON sidecar | Old and new line ranges, resolved to the current hunk | The agent reads human notes and replies | Reads GitHub diffs |
 | [drift](https://github.com/tothalex/drift) | None: shows forge discussions only | GitLab `position` from `diff_refs`; outdated threads kept | Sends a selected range and an instruction to an agent pane | GitHub (`gh`) and GitLab (`glab`) |
 | [ai-pr-review](https://github.com/houshuang/ai-pr-review) | A model writes a walkthrough after the fact, from the diff | Ranges and `path:line` citations checked against the diff and tree | None | GitHub through `gh` |
@@ -155,11 +155,11 @@ A second local layer helps a reviewer read what an agent wrote before or during 
 
 What the table shows, without a measurement behind it:
 
-- None places the agent's explanation in a column beside the diff; glassbox and hunk insert it under the anchored line. The four-column view described in [Resisting Cognitive Surrender](../roles/learning-with-ai.md#reviewing-machine-output-is-a-third-mode) is a custom build.
+- None of the five read in code places the agent's explanation in a column beside the diff; glassbox and hunk insert it under the anchored line, and guidedreview's README does not say. The custom pull request view with the diff, the agent's commentary and a reviewer column, described in [Resisting Cognitive Surrender](../roles/learning-with-ai.md#reviewing-machine-output-is-a-third-mode), is a personal build.
 - Only diffo types the reviewer's feedback, so the agent can tell a question from a requested change.
-- Only drift reads and writes GitLab merge request discussions.
+- At the versions read, only drift was found to read and write GitLab merge request discussions. A third-party hunk extension for GitLab merge requests appeared later and was not read.
 
-> **Security**: at the version read, ai-pr-review verified its review tips by running Codex with write access and network access on the pull request's code, with no approval prompt. Do not run it on untrusted pull requests. diffo sends anonymous telemetry by default.
+> **Security**: at the version read, ai-pr-review verified its review tips by running Codex in a throwaway worktree with write and network access on the pull request's code and no approval prompt, so untrusted code could run on the reviewer's machine. Do not run it on untrusted pull requests. diffo sends anonymous telemetry by default.
 
 [Three places an agent change gets explained](../diagrams/06-development-workflows.md#three-places-an-agent-change-gets-explained) draws how these surfaces sit between the agent and the CI bots.
 

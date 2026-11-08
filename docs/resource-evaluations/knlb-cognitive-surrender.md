@@ -10,7 +10,7 @@ Kunal's essay is a practitioner's account of working with coding agents without 
 |---|---|---|
 | [Kunal, "Resisting Cognitive Surrender"](https://knlb.dev/essays/surrender), first final version 2026-11-01, read 2026-11-08 | Definition of cognitive surrender, the "yes, continue" warning sign, tactics under "Force yourself into the loop" and "Force comprehensibility", delegation safeguards | One author's habits; no team or outcome data |
 | [Dave Kerr (McKinsey), AI DevCon London compilation](https://www.youtube.com/watch?v=fwL31sNbq8g&t=341), AI Native Dev channel, 2026-09-07 | Review as engaging with someone else's mental model, not quality control | Compilation of several talks; speaker named in the video description and chapter titles (198 s "Dave Kerr, McKinsey", 339 s "Why you still review pull requests and specs"), not checked on screen; opinion |
-| [Ankit Jain (Aviator), "How to Kill the Code Review"](https://www.youtube.com/watch?v=YgEv7IQzGdM&t=539), AI Engineer, 2026-08-17 | A different framing: the review surface moves to the evidence of the intent and whether behavior met the acceptance criteria (539 s to 559 s) | Presents the verification system his company is building |
+| [Ankit Jain (Aviator), "How to Kill the Code Review"](https://www.youtube.com/watch?v=YgEv7IQzGdM&t=539), AI Engineer, 2026-08-17 | A different framing: the review surface moves to the evidence of the intent and whether behavior met the acceptance criteria (539 s to 559 s) | Presents the verification system Aviator is building |
 | [Kaufman, Brun, Murali, Endres, "Programmers Are Poor and Overconfident Judges of LLM-Generated Assertions"](https://arxiv.org/abs/2607.08885), arXiv, 2026-07-09 | Controlled experiment, 86 Python programmers: explanations of generated assertions gave no overall benefit; low-quality explanations lowered accuracy and raised confidence | Preprint; assertions, not agent rationale beside a diff |
 
 Quotes were read in the essay and in the two transcripts on 2026-11-08. Kerr, 341 s to 355 s: "it's not about quality control. It's about engaging with the mental model so I can see what someone has built and how it works." Jain, 539 s to 546 s: "this is now your review surface. You're not reviewing code line by line, but rather you're looking at the evidence of what was the intent".
@@ -41,7 +41,7 @@ Moderate. The terminology and the warning sign are useful, and the reviewer-faci
 ## Not verified here
 
 - That the 4-column view or the stacked-change tactic improves review outcomes in any team. The essay reports none.
-- That the Kerr quote is spoken by Dave Kerr: the video description and chapters attribute it to him, the speaker was not checked on screen.
+- That the Kerr quote is spoken by Dave Kerr: the video description and chapters attribute it to Kerr, the speaker was not checked on screen.
 - Whether either talk reports a measurement outside the excerpts read.
 - Venue and peer-review status of Kaufman et al. beyond the arXiv record.
 
