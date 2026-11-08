@@ -141,7 +141,7 @@ Its 15 tests run in throwaway repositories and cover the behaviors this page rel
 python3 -I examples/skills/agent-rationale/scripts/test_rationale.py
 ```
 
-The tests were written before the code they cover and failed first; deliberate mutations of the parser and the anchoring code each made the expected test fail. The skill has not been run by a real Claude Code session; only the script's tests were run.
+The tests were written before the code they cover and failed first; deliberate mutations of the parser and the anchoring code each made the expected test fail. A headless Claude Code session (`claude -p`, Claude Code 2.1.319) given the skill in a throwaway repository on November 8, 2026 recorded a note on the right line and wrote `unknown` for the rejected alternative, the evidence and the open question, which nothing in that repository supported. That run used the template as first committed; the current script reads its note as anchored. One session on one commit shows that the skill can be followed, not how well notes help reviewers.
 
 ---
 
