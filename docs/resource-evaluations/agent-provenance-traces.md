@@ -1,6 +1,6 @@
 # Agent provenance traces: AgentNote, docket and the Agent Trace specification
 
-**Reviewed**: 2026-11-08. **Scores**: Agent Trace specification 3/5, docket 3/5, AgentNote 2/5. Target: the planned "Provenance in git notes" subsection of [AI Traceability](../../guide/ops/ai-traceability.md); nothing is integrated by this evaluation alone.
+**Reviewed**: 2026-11-08. **Scores**: Agent Trace specification 3/5, docket 3/5, AgentNote 2/5. Integrated in [AI Traceability §3.5](../../guide/ops/ai-traceability.md#35-provenance-in-git-notes), next to git-ai, which was tested; these three were read, not run.
 
 All three record which agent session produced which lines, so that a reviewer can get back from a line to the conversation or the intent behind it. The code of AgentNote and docket was read statically at the SHAs below; nothing was installed or run. Attribution rates and survival claims are the authors' unless stated otherwise.
 
@@ -62,4 +62,4 @@ Sachin Gupta (eBay) [checked textual signals](https://www.youtube.com/watch?v=TJ
 
 ## Decision
 
-Keep all three for the planned provenance subsection, after the git-ai rewrite test: the Agent Trace record shape and content hash as the reference format, docket as the reviewer-facing design, AgentNote as a cautionary example on privacy and rewrites. Do not recommend installing AgentNote as configured. State every survival claim as untested until the subsection's own test runs.
+Used in §3.5 "Provenance in git notes", after the [git-ai rewrite test](git-ai-provenance-notes.md): the Agent Trace record shape and content hash as the reference format, docket as the reviewer-facing design, AgentNote as a cautionary example on privacy and rewrites. Do not recommend installing AgentNote as configured. Survival claims for AgentNote and docket remain untested; only git-ai was run.

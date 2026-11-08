@@ -1,6 +1,6 @@
 ---
 title: "Claude Code: Enterprise Governance Diagrams"
-description: "Proposed risk tiers, MCP approval controls, organization data policies"
+description: "Proposed risk tiers, MCP approval controls, organization data policies, AI attribution through history rewrites"
 tags: [security, enterprise, governance, compliance, mcp]
 ---
 
@@ -166,3 +166,53 @@ Read rules alone do not prove that restricted data cannot enter context
 > ZDR for Claude Code on Enterprise requires specific eligibility and enablement; it does not cover third-party tools or MCP services. Commercial training defaults, retention and organization processing approval are separate questions. [ZDR scope](https://code.claude.com/docs/en/zero-data-retention#what-zdr-does-not-cover), [Data policies](https://code.claude.com/docs/en/data-usage#data-policies).
 
 > Permissions and sandboxing are complementary controls. Use separate rules for separate file patterns, review shell and integration access, and test both permitted and blocked scenarios. Neither an instruction nor a single `Read` rule proves complete data confinement. [Permission syntax](https://code.claude.com/docs/en/permissions#permission-rule-syntax), [Permissions and sandboxing](https://code.claude.com/docs/en/permissions#how-permissions-interact-with-sandboxing).
+
+---
+
+### AI attribution through history rewrites
+
+Where AI attribution stored in git notes survives, from a local test of git-ai 1.7.7 and of plain git 2.56.0 notes for this guide. A forge merge button rewrites history on the server, outside both mechanisms; that path was not tested.
+
+```mermaid
+flowchart TD
+    A([Agent writes code]) --> B[git-ai checkpoint<br/>from agent hooks]
+    B --> C[Commit: note on refs/notes/ai<br/>line ranges per agent session]
+    C --> D{Local rewrite?}
+    D -->|amend, rebase,<br/>merge --squash| E[git-ai daemon reads trace2<br/>and moves the note: held in test]
+    D -->|plain git notes with<br/>notes.rewriteRef| F[amend and rebase held<br/>squash merge lost the note]
+    E --> G[git push origin refs/notes/ai<br/>notes are not pushed by default]
+    F --> G
+    G --> H{Squash or rebase<br/>by the forge merge button?}
+    H -->|Yes| I[Server-side rewrite<br/>check the tool's CI handling: not tested]
+    H -->|No| J([Reviewers and CI read the notes])
+    I --> J
+
+    classDef diagramNode fill:#F5E6D3,color:#333,stroke:#A64B00
+    class A,B,C,D,E,F,G,H,I,J diagramNode
+    click A href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ops/ai-traceability.md#35-provenance-in-git-notes" "View in guide"
+    click B href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ops/ai-traceability.md#35-provenance-in-git-notes" "View in guide"
+    click C href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ops/ai-traceability.md#35-provenance-in-git-notes" "View in guide"
+    click D href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ops/ai-traceability.md#35-provenance-in-git-notes" "View in guide"
+    click E href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ops/ai-traceability.md#35-provenance-in-git-notes" "View in guide"
+    click F href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ops/ai-traceability.md#35-provenance-in-git-notes" "View in guide"
+    click G href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ops/ai-traceability.md#35-provenance-in-git-notes" "View in guide"
+    click H href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ops/ai-traceability.md#35-provenance-in-git-notes" "View in guide"
+    click I href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ops/ai-traceability.md#35-provenance-in-git-notes" "View in guide"
+    click J href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ops/ai-traceability.md#35-provenance-in-git-notes" "View in guide"
+```
+
+<details>
+<summary>ASCII version</summary>
+
+```text
+Agent writes code -> git-ai checkpoint -> commit with a note on refs/notes/ai
+Local rewrite:
+  git-ai daemon (trace2)       amend, rebase, merge --squash: note held in test
+  plain git + notes.rewriteRef amend, rebase held; squash merge lost the note
+Push notes explicitly: git push origin refs/notes/ai
+Forge merge button squash or rebase: server-side, check the tool's CI handling (not tested)
+```
+
+</details>
+
+> **Source**: [Provenance in git notes](../ops/ai-traceability.md#35-provenance-in-git-notes) and the [git-ai evaluation](../../docs/resource-evaluations/git-ai-provenance-notes.md)

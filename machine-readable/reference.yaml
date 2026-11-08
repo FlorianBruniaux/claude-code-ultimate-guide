@@ -28,10 +28,10 @@ deep_dive:
   distribution_channels_registry: "machine-readable/distribution-channels.yaml"
   learning_path_slides: "docs/distribution/claude-code-learning-path-slides.pptx"
   quick_win_video_briefs: "docs/distribution/quick-win-video-series.md"
-  # Visual Diagrams Series (52 Mermaid diagrams)
+  # Visual Diagrams Series (53 Mermaid diagrams)
   mermaid_diagrams:
     path: "guide/diagrams/"
-    description: "52 Mermaid diagrams: model selection, agent lifecycle, memory hierarchy, security threats, multi-agent patterns, observed AI fluency behaviors, context engineering, enterprise governance, dense, MoE and vision-language model pipelines"
+    description: "53 Mermaid diagrams: model selection, agent lifecycle, memory hierarchy, security threats, multi-agent patterns, observed AI fluency behaviors, context engineering, enterprise governance, dense, MoE and vision-language model pipelines"
     files: 12
     total_diagrams: 50
   # Individual diagram files (all 12; see guide/diagrams/README.md for the full navigation table)
@@ -709,7 +709,9 @@ deep_dive:
   ai_traceability_disclosure_spectrum: "guide/ops/ai-traceability.md#the-disclosure-spectrum"
   ai_traceability_co_authored_by: "guide/ops/ai-traceability.md:98"
   ai_traceability_assisted_by: "guide/ops/ai-traceability.md:120"
-  ai_traceability_git_ai: "guide/ops/ai-traceability.md:170"
+  ai_traceability_git_ai: "guide/ops/ai-traceability.md#34-checkpoint-tracking-git-ai"
+  ai_traceability_provenance_git_notes: "guide/ops/ai-traceability.md#35-provenance-in-git-notes" # git-ai 1.7.7 tested 2026-11-08: note held through amend, rebase, merge --squash; plain notes.rewriteRef covers amend and rebase, not squash; forge merge-button rewrites untested; AI Code Halflife figure withdrawn (no source)
+  diagram_ai_attribution_rewrites: "guide/diagrams/12-enterprise-governance.md#ai-attribution-through-history-rewrites"
   ai_traceability_llvm_policy: "guide/ops/ai-traceability.md#41-llvm-human-in-the-loop-january-2026"
   ai_traceability_ghostty_policy: "guide/ops/ai-traceability.md#42-ghostty-mandatory-disclosure-august-2025"
   ai_traceability_fedora_policy: "guide/ops/ai-traceability.md#43-fedora-contributor-accountability-october-2025"

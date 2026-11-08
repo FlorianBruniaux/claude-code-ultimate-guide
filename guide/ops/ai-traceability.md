@@ -32,13 +32,7 @@ The rise of AI coding assistants has created a new challenge: **knowing which co
 
 ### AI code Halflife
 
-Research on git-ai tracked repositories reveals a striking metric: the **AI Code Halflife** is approximately **3.33 years** (median). This means half of AI-generated code gets replaced within 3.33 years, faster than typical code churn.
-
-Why? AI code often:
-- Lacks deep understanding of project architecture
-- Uses generic patterns that don't fit specific contexts
-- Requires rework when requirements evolve
-- Gets replaced as developers understand the problem better
+Line-level attribution makes it possible to measure how long AI-written lines survive in your own repositories. An earlier version of this page cited an "AI Code Halflife" of 3.33 years attributed to research on git-ai repositories. No source was found on November 8, 2026: the git-ai repository does not contain the term, and a web search returned only this page and its copies. The figure is withdrawn. Before comparing survival between AI-written and human-written code, compare equivalent cohorts, observation periods and review practices.
 
 ### Four drivers for traceability
 
@@ -70,7 +64,7 @@ Not all projects need the same level of attribution. Choose based on your contex
 | **None** | No disclosure | Personal projects, experiments | Side project |
 | **Minimal** | `Co-Authored-By` trailer | Casual OSS, small teams | Small utility library |
 | **Standard** | `Assisted-by` trailer + PR disclosure | Team projects, active OSS | Framework contributions |
-| **Full** | git-ai + prompt preservation | Enterprise, compliance, research | Regulated industry code |
+| **Full** | git-ai attribution + stored prompts or rationale | Enterprise, compliance, research | Regulated industry code |
 
 ### Choosing your level
 
@@ -169,27 +163,45 @@ All code has been reviewed and understood by the author.
 
 ### 3.4 Checkpoint Tracking (git-ai)
 
-The most comprehensive approach. git-ai creates "checkpoints" that:
+The most detailed of the methods above. Agents call `git-ai checkpoint` when they write files, and on commit git-ai stores line-level attribution in a git note under `refs/notes/ai`:
 
-- Survive rebase, squash, and cherry-pick
-- Store which tool generated which lines
-- Enable metrics like AI Code Halflife
-- Preserve prompt context (optional)
+- which lines came from which agent session, with the tool and model
+- kept through amend, rebase and `git merge --squash` in a local test run for this guide ([evaluation](../../docs/resource-evaluations/git-ai-provenance-notes.md)); cherry-pick, stash and reset are listed as supported by the project, not tested here
+- followed by a background daemon that reads git's trace2 events, not by git hooks
 
 ```bash
 # Install: official installer from usegitai.com, downloaded and read before running
 curl -fsSL https://usegitai.com/install.sh -o git-ai-install.sh
 bash git-ai-install.sh
 
-# Install the hooks that record AI authorship checkpoints
+# Install the agent hooks and the trace2 target that record AI authorship
+# (may also install editor extensions for detected editors)
 git-ai install-hooks
 
 # View AI attribution for a file
 git-ai blame src/auth.ts
 
-# Project-wide metrics
-git-ai stats
+# AI authorship statistics for a commit
+git-ai stats HEAD
 ```
+
+The daemon does not start inside agent sandboxes (Claude Code, Codex, Cursor): run `git-ai bg start` from a normal terminal.
+
+### 3.5 Provenance in git notes
+
+A git note attaches data to a commit without changing it. That is why several tools store agent provenance there, and why the hard part is a rewrite: amend, rebase and squash create new commits, and a note keyed to the old SHA is left behind unless something moves it.
+
+| Tool | Stored in | Records | Through amend, rebase, squash | Evidence |
+|---|---|---|---|---|
+| git-ai | `refs/notes/ai` | Line ranges per agent session, tool, model | Moved by its daemon; held in a local test (amend, rebase, `git merge --squash`) | [Tested](../../docs/resource-evaluations/git-ai-provenance-notes.md) |
+| AgentNote | `refs/notes/agentnote` | Full prompts and replies, files touched | `notes.rewriteRef` documented as planned; per the code read, notes are orphaned | [Read, not run](../../docs/resource-evaluations/agent-provenance-traces.md) |
+| docket | `refs/docket/records` (signed records) | Per-hunk intent recovered from the transcript, evidence density | Partial: a rebase copies a trailer onto a diff it was not built for | [Read, not run](../../docs/resource-evaluations/agent-provenance-traces.md) |
+
+Plain git can carry notes through `amend` and `rebase` on its own when `notes.rewriteRef` names the notes ref, for example `git config notes.rewriteRef refs/notes/ai`; a squash merge is not covered by that setting, and without it an amend leaves the note behind (checked with git 2.56.0, as was the explicit push below). A squash or rebase done by the forge's merge button happens on the server, where no local daemon or setting sees it: check how the tool handles that case in CI before relying on notes in a merge request. Notes are not pushed by a plain `git push` either; push them explicitly (`git push origin refs/notes/ai`).
+
+Two cautions from the evaluations. AgentNote pushes full, unredacted transcripts with the notes, so secrets typed in a prompt travel to the remote. And attribution is not explanation: these notes say which agent wrote a line, not why it was written that way. [Approve only what you can explain](../diagrams/10-adoption-and-learning.md#approve-only-what-you-can-explain) still applies.
+
+[AI attribution through history rewrites](../diagrams/12-enterprise-governance.md#ai-attribution-through-history-rewrites) draws the path.
 
 See [Tools & Automation](#tools--automation) for details.
 
@@ -581,7 +593,7 @@ See [Security Hardening](../security/security-hardening.md) for full guidance.
 | Concern | Impact | Mitigation |
 |---------|--------|------------|
 | Reproducibility | Can't recreate exact AI output | Store prompts with commits |
-| Debugging | Hard to understand "why this code" | git-ai checkpoints |
+| Debugging | Hard to understand "why this code" | Store the prompt or the agent's rationale with the commit; git-ai records who wrote a line, not why |
 | Auditing | Can't verify claims about AI generation | Preserve session logs |
 
 **Practical Impact:**
@@ -596,7 +608,7 @@ See [Security Hardening](../security/security-hardening.md) for full guidance.
 - Timestamp
 - Session context
 
-git-ai can store this metadata.
+git-ai records the session, tool and model for each line range; whether it stores prompts with real agents was not verified for this guide ([evaluation](../../docs/resource-evaluations/git-ai-provenance-notes.md)).
 
 ---
 
@@ -661,7 +673,7 @@ bash git-ai-install.sh
    - Training data provenance
 
 2. **Full Tracking:**
-   - git-ai with prompt preservation
+   - git-ai attribution, with prompts stored separately if required
    - Session logs archived
    - Model versions recorded
 

@@ -1,12 +1,12 @@
 ---
 title: "Claude Code: Visual Diagrams"
-description: "52 Mermaid interactive diagrams covering all major Claude Code concepts"
+description: "53 Mermaid interactive diagrams covering all major Claude Code concepts"
 tags: [reference, architecture, diagrams, mermaid]
 ---
 
 # Claude Code: Visual diagrams
 
-52 Mermaid diagrams organized in 12 thematic files. Each includes an ASCII fallback and links to the guide and current product documentation. Conceptual models and organization policies are labelled as such; they do not guarantee product behavior, performance or compliance.
+53 Mermaid diagrams organized in 12 thematic files. Each includes an ASCII fallback and links to the guide and current product documentation. Conceptual models and organization policies are labelled as such; they do not guarantee product behavior, performance or compliance.
 
 > For ASCII-only diagrams and a printable visual reference → [visual-reference.md](../core/visual-reference.md)
 
@@ -53,7 +53,7 @@ All diagrams use the consistent Bold Guy palette:
 | [09-cost-and-optimization.md](./09-cost-and-optimization.md) | 4 | Model selection, cost optimization, subscription tiers, token reduction |
 | [10-adoption-and-learning.md](./10-adoption-and-learning.md) | 4 | Onboarding paths, UVAL protocol, trust calibration, approve only what you can explain |
 | [11-context-engineering.md](./11-context-engineering.md) | 4 | 3-layer context system, context budget checks, modular architecture, rule placement |
-| [12-enterprise-governance.md](./12-enterprise-governance.md) | 3 | Governance risk tiers, MCP approval workflow, data classification |
+| [12-enterprise-governance.md](./12-enterprise-governance.md) | 4 | Governance risk tiers, MCP approval workflow, data classification, AI attribution through history rewrites |
 | **Total** | **50** | |
 
 ---
@@ -101,6 +101,7 @@ All diagrams use the consistent Bold Guy palette:
 1. [Governance Risk Tiers](./12-enterprise-governance.md#governance-risk-tiers-what-to-control-and-when): Which control level fits your context?
 2. [MCP Governance Workflow](./12-enterprise-governance.md#mcp-governance-workflow): Approval pipeline for MCP servers
 3. [Data Classification Rules](./12-enterprise-governance.md#data-classification--claude-code-access-rules): How to define and verify data-access boundaries
+4. [AI Attribution Through Rewrites](./12-enterprise-governance.md#ai-attribution-through-history-rewrites): Which rewrites keep AI attribution stored in git notes?
 
 ### "I want to improve Claude's context adherence"
 1. [Rule Placement Decision Tree](./11-context-engineering.md#rule-placement-decision-tree): Where does this rule go?

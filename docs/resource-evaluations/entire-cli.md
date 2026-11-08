@@ -2,6 +2,8 @@
 
 > **Re-evaluated October 27, 2026.** Several claims below no longer match Entire's documentation and were corrected in the guide: no SOC 2 Type II attestation for Entire was found, the commands `init`, `capture`, `rewind`, `handoff`, `approve --approver` and `audit-export` do not exist in the [CLI reference](https://docs.entire.com/cli-reference), checkpoints now default to Git refs under `refs/entire/checkpoints/`, and approval gates belong to the hosted forge launched on October 26, 2026. This February 2026 evaluation is kept as a historical record. See [Agent-native Git forges](./agent-native-git-forges.md) for the current assessment and the full list of corrections.
 
+> **Note, November 8, 2026.** The "git-ai 404" below refers to an earlier repository URL. git-ai is maintained at [`git-ai-project/git-ai`](https://github.com/git-ai-project/git-ai) and was built and tested for this guide; see [git-ai: line-level AI attribution in git notes](./git-ai-provenance-notes.md).
+
 **Date**: February 12, 2026
 **Evaluator**: Claude Sonnet 4.5 (via eval-resource skill)
 **Type**: Tool (Agent-native platform)
