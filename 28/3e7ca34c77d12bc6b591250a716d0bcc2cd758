@@ -1,0 +1,29 @@
+guide/workflows/multi-provider-code-review.md
+  s_f9a033e45af8a3::t_b5feac8a6a29af 49-51
+machine-readable/mcp-product.json
+  s_f9a033e45af8a3::t_6eb99b7d45a8b4 16,494
+machine-readable/reference.yaml
+  s_f9a033e45af8a3::t_56688490ccea88 90
+mcp-server/content/reference.yaml
+  s_f9a033e45af8a3::t_a37baf543c6e17 90
+mcp-server/src/lib/chapter-ranges.generated.json
+  s_f9a033e45af8a3::t_57ef28f6c4d150 3
+CHANGELOG.md
+  s_f9a033e45af8a3::t_2dfb82091f3c17 15
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "283e7ca34c77d12bc6b591250a716d0bcc2cd758",
+  "prompts": {},
+  "sessions": {
+    "s_f9a033e45af8a3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "646e61bd-cc92-4b20-9bca-04c66dbfea2c",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
