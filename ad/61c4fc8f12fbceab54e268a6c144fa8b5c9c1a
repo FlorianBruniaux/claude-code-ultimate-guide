@@ -1,0 +1,35 @@
+CHANGELOG.md
+  s_f9a033e45af8a3::t_02f3202b0ecd8d 9-12,19-21
+docs/resource-evaluations/README.md
+  s_f9a033e45af8a3::t_89a18e57ebbeeb 40-41
+docs/resource-evaluations/agent-provenance-traces.md
+  s_f9a033e45af8a3::t_be2ef5abda6a30 9,29,36,40,55
+docs/resource-evaluations/agent-review-surfaces.md
+  s_f9a033e45af8a3::t_a0653a80943536 12,16,22,24,28,30,36-37
+docs/resource-evaluations/knlb-cognitive-surrender.md
+  s_f9a033e45af8a3::t_8ea849185079e7 13,44
+docs/resource-evaluations/reviewable-agent-changes-talks.md
+  s_f9a033e45af8a3::t_26f1df394df1a8 11,18,22,28,30,32,39
+guide/diagrams/06-development-workflows.md
+  s_f9a033e45af8a3::t_e0fede3badf131 312,316-317,347
+guide/roles/learning-with-ai.md
+  s_f9a033e45af8a3::t_55c9168ff15a65 1108
+guide/workflows/multi-provider-code-review.md
+  s_f9a033e45af8a3::t_11c69152e0d3a6 150,158,160,162
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "ad61c4fc8f12fbceab54e268a6c144fa8b5c9c1a",
+  "prompts": {},
+  "sessions": {
+    "s_f9a033e45af8a3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "646e61bd-cc92-4b20-9bca-04c66dbfea2c",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
