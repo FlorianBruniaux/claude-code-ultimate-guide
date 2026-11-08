@@ -87,6 +87,7 @@ deep_dive:
   multi_provider_code_review_batched_workflow: "examples/github-actions/claude-code-review-batched.yml"
   multi_provider_code_review_batched_pattern: "check-size job counts changed files, above threshold splits diff into domain matrix (migrations/backend/api/frontend/tests), parallel review + final synthesis"
   multi_provider_code_review_greptile_templates: "examples/github-actions/.greptile/" # config.json, rules.md, files.json
+  multi_provider_code_review_gitlab_flow: "guide/workflows/multi-provider-code-review.md#role-separation" # GitLab Code Review Flow: agentic MR review, approval not counted, change requests block only with a beta flag (docs read 2026-11-08)
   # Rules Templates (auto-loaded .claude/rules/)
   rules_templates_directory: "examples/rules/"
   rules_architecture_review: "examples/rules/architecture-review.md"
