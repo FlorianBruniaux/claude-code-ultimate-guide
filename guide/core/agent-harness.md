@@ -628,6 +628,8 @@ The evidence is promising but young. Do not promote a candidate because its deve
 
 The practical conclusion is not “self-improving agents solve harness engineering.” It is that harness engineering can become an auditable experiment when the search space, evidence, budget, and promotion boundary are explicit.
 
+If your team needs to put these controls into practice, [get help setting up your repository harness](https://www.florian.bruniaux.com/services/agent-tooling/?utm_source=cc-guide&utm_medium=cta&utm_campaign=consulting&utm_content=agent-harness).
+
 ---
 
 ## See also

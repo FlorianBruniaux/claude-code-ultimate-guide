@@ -259,3 +259,5 @@ Four constraints decide whether it fits your repository:
 The last row matters most for a factory. An agent that can post comments in a repository where comments are commands has deploy rights by a side door. Audit the repository's comment-triggered workflows before turning it on, the same way section 4's questions audit a platform before adopting it.
 
 What the native loop does not include is the part of OpenAI's review stage that decides how much review a change gets. `/autofix-pr` reacts to whatever reviewers and CI produce. The risk classification that routes a change to more agents, a mandated human, or auto-approval (section 6.1) remains something you build. The loop removes the relay work; it does not replace the decision about who has to look.
+
+If you are ready to test this operating model on one repository, [see how I run a pilot with your team](https://www.florian.bruniaux.com/services/agent-tooling/?utm_source=cc-guide&utm_medium=cta&utm_campaign=consulting&utm_content=software-factories#pilots).

@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- Add contextual links from Agent Harness Engineering and Agentic Software Factories to the corresponding implementation offers.
+
 ### Fixed (review of this cycle's evaluations)
 
 - **Unsourced "AI Code Halflife" withdrawn** (`guide/ops/ai-traceability.md`): the page stated a median of 3.33 years attributed to research on git-ai repositories. No source was found on November 8, 2026 (not in the git-ai repository; a web search returned only this page and its copies), so the figure is removed, matching the recap cards. `git-ai stats` is described as per-commit statistics, per its help text, instead of "project-wide metrics".
