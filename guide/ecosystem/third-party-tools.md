@@ -641,6 +641,34 @@ A local TUI and report generator for inspecting AI coding-agent session history.
 
 ---
 
+### deja-vu
+
+A local CLI and MCP server that indexes session transcripts across Claude Code and 42 other AI coding agents into a local SQLite database for cross-session search, uncommitted file recovery, and cross-agent handoffs.
+
+| Attribute | Details |
+|-----------|---------|
+| **Source** | [GitHub: vshulcz/deja-vu](https://github.com/vshulcz/deja-vu) / [npm: @vshulcz/deja-vu](https://www.npmjs.com/package/@vshulcz/deja-vu) |
+| **Install** | `brew install vshulcz/tap/deja-vu` or `npx @vshulcz/deja-vu` |
+| **Language** | Go |
+| **License** | MIT |
+
+**Key features**:
+
+- Cross-session BM25F search (`deja recall`) and provenance lookup (`deja blame <file>`) across `~/.claude/projects` and 42 other agent transcript formats
+- Uncommitted file recovery (`deja restore <file>`): reconstructs file state from Write/Edit tool calls when an agent overwrites uncommitted edits before a commit
+- Cross-agent task continuation (`deja handoff --to codex`): extracts task goal, touched files, verification state, and remaining work into a briefing for another agent when hitting a usage limit
+- Built-in MCP server (`deja serve`) and Claude Code pre-compact hooks
+
+**When to choose deja-vu over claude-code-viewer or agenttrace**:
+
+- You need to search past sessions from the CLI or expose session memory to Claude Code via MCP
+- You want to recover uncommitted file edits from transcript tool calls (`deja restore`) without pre-configuring git checkpoint refs
+- You switch between Claude Code, Codex, Cursor, or Gemini CLI mid-task (`deja handoff`)
+
+**Limitations**: Local CLI and MCP tool (no web UI or cost/latency dashboard). `deja restore` only recovers file states that passed through an agent file-write or edit tool call.
+
+---
+
 ### Entire CLI
 
 Git-integrated capture of agent sessions, and terminal client of the Entire Git forge.
