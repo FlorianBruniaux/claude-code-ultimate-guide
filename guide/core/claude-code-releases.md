@@ -17,12 +17,17 @@ keywords:
 > **Release dates**: UTC publication dates from the [official npm package metadata](https://registry.npmjs.org/@anthropic-ai%2Fclaude-code). Only versions with upstream changelog entries are included.
 > **Machine-readable**: [claude-code-releases.yaml](../../machine-readable/claude-code-releases.yaml)
 
-**Latest**: v2.1.316 | **Updated**: 2026-10-31
+**Latest**: v2.1.322 | **Updated**: 2026-11-10
 
 ---
 
 ## Quick jump
 
+- [v2.1.322](#v21322-2026-11-10): fast mode on Vertex AI in the global, us and eu regions
+- [v2.1.321](#v21321-2026-11-09): ⭐ Claude Fable 5.2 default Fable model, `claude remote-control --settings`, MCP OAuth secret-redirect and sandbox-bypass fixes
+- [v2.1.319](#v21319-2026-11-06): ⭐ `permissions.denyInsteadOfPrompting`, MCP tasks in the background, auto mode without the built-in classifier fallback and `/loop` without keepalive
+- [v2.1.318](#v21318-2026-11-03): sign-in expiry in `claude auth status` and `claude -p`, `deniedMcpServers` URL matching on connectors, IDE extension no longer auto-installed
+- [v2.1.317](#v21317-2026-11-02): email-address send check, `onFailure: "block"` for SDK hook callbacks, OTel plan and seat attributes, Read unchanged-file stub removed
 - [v2.1.316](#v21316-2026-10-31): `CLAUDE_CODE_SUBAGENT_EFFORT`, Opus 4.8 fast mode deprecation, `--restricted` upload and PowerShell hook exit-code fixes
 - [v2.1.314](#v21314-2026-10-30): ⭐ `permissions.blockWritesOutsideWorkingDirectories`, idle compaction in VS Code and Desktop, sandbox on resumed worktrees and `--setting-sources` fixes
 - [v2.1.312](#v21312-2026-10-27): `oidc.user_id_claim`, large CLAUDE.md overwrite guard, `claude_code.safety_event` dropped and shorter system prompt for unrecognized cloud model names
@@ -102,6 +107,36 @@ The Max 20x plan is now called Ultra and Max 5x is now called Max (pages updated
 ---
 
 ## 2.1.x series (January-August 2026)
+
+### v2.1.322 (2026-11-10)
+
+- **Added**: Fast mode on Vertex AI in the global, us and eu regions. If Vertex refuses fast mode, the request falls back to standard speed.
+
+### v2.1.321 (2026-11-09)
+
+- **Added**: ⭐ Claude Fable 5.2 (`claude-fable-5-2`) is now the default Fable model, with a 1M context window at $8/$40 per Mtok and $0.20/Mtok cache reads. `claude remote-control` accepts `--settings <file>`, which applies a settings file to every session it starts; if the file changes, no new session starts until you restart `claude remote-control`.
+- **Fixed** (security): MCP OAuth requests no longer send secrets such as refresh tokens to another host when a server redirects them. A read-only Bash command no longer runs outside the sandbox without a permission prompt, Bash permission checks no longer judge a file write from the wrong folder, and deny rules and protected-file prompts apply to the file that a `cp` or `mv` into a directory writes.
+- **Fixed**: On network paths (UNC shares, WSL folders, `/net` mounts), Edit no longer changes the first of several matches, replaces a whole file on an empty `old_string` or edits a notebook as text, and `NotebookEdit` no longer deletes or overwrites a notebook's first cell when the call names no cell. Fast mode no longer loses replies, switches models or retries for minutes when fast serving is rate-limited, overloaded or failing: it tries standard speed on the same model first. `/config` shows Auto as the default permission mode when new sessions start in auto mode, a TLS handshake broken partway through a reply keeps the partial reply or retries, and Bash commands sent together no longer run in the wrong folder after an earlier one changed folders.
+- **Improved**: The `/model` picker puts "More models" as an unnumbered row below every other, `claude install` and the install scripts finish 2 to 4 seconds sooner, and auto mode in headless sessions, the desktop app and VS Code answers reports from background subagents that wait together in one model call.
+
+### v2.1.319 (2026-11-06)
+
+- **Added**: ⭐ `permissions.denyInsteadOfPrompting`: a tool call that would wait on a permission prompt is denied and the turn continues, in terminal sessions, subagents and teammates. MCP tasks work in the terminal: when an MCP server runs a tool call as a task, Claude Code moves it to the background right away and tells Claude the result when it finishes (`CLAUDE_CODE_DISABLE_MCP_TASK_BACKGROUND` waits inside the tool call instead, `CLAUDE_CODE_DISABLE_MCP_TASKS=1` turns MCP tasks off). `CLAUDE_CODE_DISABLE_FEATURE_FLAGS` stops feature-flag fetching without turning off telemetry, `/claude-api latency-optimize` finds where Claude API code makes people wait, and `/tasks` gains an "Earlier in this session" row listing finished subagents you can reopen and message. On the Claude apps gateway: `admin.pooled_conflict_rule` and `admin.pooled_priority_order` for developers in several pooled groups, an optional `login_notice`, and `CLAUDE_GATEWAY_LOG_FORMAT=json`.
+- **Changed**: Auto mode with telemetry or feature flags off, including behind LLM gateways, asks about or denies calls the server can't check, with no fallback to the built-in classifier; set `CLAUDE_CODE_AUTO_MODE_SERVER=0` to keep using it (Bedrock, Vertex and Foundry are unchanged). Behind an LLM gateway, `CLAUDE_CODE_AUTO_MODE_SERVER=1` turns on the server-side check even with `CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS` set. Self-paced `/loop` ends when a turn finishes without rescheduling; `CLAUDE_CODE_LOOP_KEEPALIVE=1` keeps the old fallback wakeup. With the Bash sandbox on, skills in `.claude/skills` folders below the starting folder load only if you start Claude Code there or `/cd` there. PostToolUse hooks run, with up to 10 seconds to finish, on tool calls that finish after a new message interrupts the turn. `shortcuts_list` and `shortcuts_execute` were removed from the built-in Claude in Chrome tools.
+- **Changed** (security): Monitor's WebSocket watch follows the rules on every Bash command, so a deny refuses it and an ask rule is no longer skipped by an allow on Monitor, bypass mode or auto mode. A session's exact Bash or PowerShell ask rule is refused when a broader deny rule covers the command, `which` with flags outside a lookup or display set asks for permission, `--add-dir` directories register plugin marketplaces only after their own trust dialog, project settings or plugins can no longer switch auto mode's server-side check back on, and settings files can no longer set `CLAUDE_CODE_PROXY_RESOLVES_HOSTS` where the host manages the network.
+- **Improved**: `/context` keeps each list to its 10 largest rows, with on-demand MCP tools sharing one row per server until called, and Claude in Chrome keeps `javascript_tool` results of up to 60,000 characters in the conversation.
+
+### v2.1.318 (2026-11-03)
+
+- **Added**: `claude auth status` shows when a stored claude.ai sign-in ends (`loginExpiresAt`), `claude -p` JSON results include `credential_expires_at`, and `claude -p` text output prints a one-line stderr warning starting 10 days before that date. A mod's `$.model.fork` accepts an `effort` option, and `mantle` upstreams of the Claude apps gateway accept `assume_role` for a role in another AWS account. Cloud sessions on an Anthropic-hosted environment can start with no repository.
+- **Changed**: Claude Code no longer installs or updates the IDE extension when started in an IDE terminal; use `/ide` from an outside terminal or the editor's extensions view. `deniedMcpServers` URL entries also block Anthropic-provided servers whose upstream URL matches, and connectors in cloud sessions and on self-hosted runners. Background subagents move a shell command to the background after 3 minutes on all providers, so the prompt cache doesn't expire while it runs, and subagents stop instead of switching models when "Switch models when a message is flagged" is set to "Ask each time". The 2.1.288 fix that kept the model's earlier thinking when resuming a conversation started on 2.1.286 or earlier was removed.
+- **Improved**: `~/.claude.json`, settings files and the stored login survive saves on shared network home directories more reliably, and unattended runs (`claude -p`, SDK apps) stop rewriting `~/.claude.json` on every run when nothing in it changed. MCP tool calls made before the tool is loaded return its input schema.
+
+### v2.1.317 (2026-11-02)
+
+- **Added**: A check asks before a web or shell tool call sends your account email address to the network. Agent SDK hook callbacks accept `onFailure: "block"`, so a failing callback blocks the action. OTel metrics, events and spans carry `anthropic.plan`, `anthropic.seat_type`, `anthropic.provider` and `anthropic.custom_base_url`. The Claude apps gateway admin API adds a cost report (`GET /v1/organizations/analytics/cost`) over a date range, in total, per developer, per day or per IdP group, and `/schedule` warns when a new cloud scheduled task gets connectors you did not ask for.
+- **Changed**: Subagents and teammates on a different model from the main conversation use that model's saved effort level or its default, instead of the session's. SendMessage to a running background agent arrives earlier: its running command moves to the background without being stopped. The Read tool's "file unchanged since your last Read" stub is removed, so reading an unchanged file again returns its content.
+- **Improved**: The "Resume this session with" hint at exit repeats the flags you launched with, and `/design-sync` says up front when your design system has moved to Claude.
 
 ### v2.1.316 (2026-10-31)
 
@@ -3828,6 +3863,9 @@ The Max 20x plan is now called Ultra and Max 5x is now called Max (pages updated
 
 | Version | Change |
 |---------|--------|
+| v2.1.319 | Auto mode with telemetry or feature flags off, including behind LLM gateways, no longer falls back to the built-in classifier; calls the server can't check are asked about or denied (`CLAUDE_CODE_AUTO_MODE_SERVER=0` keeps it). Self-paced `/loop` ends without a fallback wakeup (`CLAUDE_CODE_LOOP_KEEPALIVE=1` keeps it). |
+| v2.1.318 | Claude Code no longer installs or updates the IDE extension when started in an IDE terminal. |
+| v2.1.317 | The Read tool's "file unchanged" stub is removed: reading an unchanged file again returns its content. |
 | v2.1.316 | Fast mode for Opus 4.8 is deprecated as of October 30, 2026 and scheduled for removal on November 30, 2026; after removal, fast mode requests on Opus 4.8 return an error with no fallback to standard Opus 4.8. Server-managed settings for Team and Enterprise logins apply without an approval prompt. |
 | v2.1.312 | The `claude_code.safety_event` OpenTelemetry event is no longer sent. Unrecognized model names on Bedrock, Vertex, Foundry and Mantle get the shorter system prompt (`CLAUDE_CODE_SIMPLE_SYSTEM_PROMPT=0` keeps the full one). Prompt and agent hooks run at most 24 at a time per session. |
 | v2.1.311 | Bedrock, Mantle, Vertex and Foundry load a signed model catalog from downloads.claude.ai (`CLAUDE_CODE_MODEL_CATALOG=off` turns it off). JSON output escapes DEL, C1 control and Unicode format characters as `\uXXXX`. `DISABLE_COMPACT` in settings or a mod can only turn compaction off. |
@@ -3900,6 +3938,9 @@ The Max 20x plan is now called Ultra and Max 5x is now called Max (pages updated
 
 | Version | Issue |
 |---------|-------|
+| v2.1.321 | MCP OAuth requests no longer send secrets such as refresh tokens to another host on a redirect, read-only Bash commands no longer run outside the sandbox without a prompt, Bash permission checks judge writes from the right folder, and deny rules cover the file a `cp` or `mv` into a directory writes |
+| v2.1.319 | Monitor's WebSocket watch follows every Bash rule, and an exact Bash or PowerShell ask rule is refused when a broader deny rule covers the command |
+| v2.1.317 | A web or shell tool call that would send the account email address to the network asks first |
 | v2.1.316 | `--restricted` sessions no longer upload files from outside the working directories under a Read allow rule, PowerShell hooks that start with a type cast, `param`, `using` or an attribute block on exit code 2, and the Claude apps gateway checks every model a request names |
 | v2.1.314 | Sandbox protections apply to worktrees entered by `claude -p --resume` or `--continue`, Bash-matching hooks run on Monitor tool commands, `--setting-sources` exclusions hold for auto mode rules and permission consents, and remote-only `forceRemoteSettingsRefresh` no longer lapses when the stored copy expires |
 | v2.1.300 | A login refused by `forceLoginOrgUUID` no longer leaves the refused organization's token stored, hook `updatedInput` is validated like Claude's own input (unknown keys dropped, rejected input denies the call) |
@@ -3944,6 +3985,7 @@ The Max 20x plan is now called Ultra and Max 5x is now called Max (pages updated
 
 | Version | Key Features |
 |---------|--------------|
+| **v2.1.321** | Claude Fable 5.2 becomes the default Fable model with 1M context ($8/$40 per Mtok); MCP OAuth secret-redirect and sandbox-bypass security fixes |
 | **v2.1.299** | Idle compaction before the one-hour prompt cache expires; sandbox `--plugin-dir` and symlink escape fixes; MCP allow rules scoped to the named server |
 | **v2.1.293** | Claude Haiku 5.5 becomes the default Haiku model on the Anthropic API with 1M context ($0.10/$0.50 per Mtok) |
 | **v2.1.287** | Claude Mods let plugins modify deeper Claude Code behavior, with the built-in "You should know" side-agent mod; Opus 4.7+ and Fable default to 1M context on Bedrock, Vertex, Foundry and the Claude apps gateway |
