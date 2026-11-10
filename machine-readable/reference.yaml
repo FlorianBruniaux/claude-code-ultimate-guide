@@ -707,8 +707,8 @@ deep_dive:
   ai_traceability_guide: "guide/ops/ai-traceability.md"
   ai_traceability_why: "guide/ops/ai-traceability.md#why-traceability-matters-now"
   ai_traceability_disclosure_spectrum: "guide/ops/ai-traceability.md#the-disclosure-spectrum"
-  ai_traceability_co_authored_by: "guide/ops/ai-traceability.md:98"
-  ai_traceability_assisted_by: "guide/ops/ai-traceability.md:120"
+  ai_traceability_co_authored_by: "guide/ops/ai-traceability.md#31-co-authored-by-claude-code-default"
+  ai_traceability_assisted_by: "guide/ops/ai-traceability.md#32-assisted-by-trailer-llvm-standard"
   ai_traceability_git_ai: "guide/ops/ai-traceability.md#34-checkpoint-tracking-git-ai"
   ai_traceability_provenance_git_notes: "guide/ops/ai-traceability.md#35-provenance-in-git-notes" # git-ai 1.7.7 tested 2026-11-08: note held through amend, rebase, merge --squash; plain notes.rewriteRef covers amend and rebase, not squash; forge merge-button rewrites untested; AI Code Halflife figure withdrawn (no source)
   diagram_ai_attribution_rewrites: "guide/diagrams/12-enterprise-governance.md#ai-attribution-through-history-rewrites"
