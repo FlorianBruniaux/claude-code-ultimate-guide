@@ -1,16 +1,16 @@
 ---
-title: "AI FinOps guide: cost regimes and levers for coding agents"
-description: "Entry point for the cost side of coding agents: the three cost regimes (subscription quota, metered tokens, owned capacity), the Inform-Optimize-Operate loop applied to agents, and a map of every cost lever documented in the guide"
+title: "AI FinOps Reference: Measure and Control Coding-Agent Costs"
+description: "Apply the FinOps loop to coding agents. Measure cost per accepted task, choose a cost lever and set limits for a team, key or workload."
 tags: [ops, cost, finops, pricing, enterprise, guide]
 ---
 
-# AI FinOps for coding agents
+# AI FinOps reference for coding agents
 
 > **Reading time**: ≈12 minutes
 >
 > **Audience**: Developers paying for their own agent usage, tech leads who own a team budget, and platform or procurement owners who choose plans and providers.
 >
-> **Purpose**: Entry point of the AI FinOps section. Each question below links to the page that answers it in depth. Dated prices are kept in the [LLM market snapshot](./llm-market-snapshot.md), not here.
+> **Purpose**: Use this reference to define a cost metric, compare levers on a workload and set spending controls. For a worked estimate, open the [visual comparison and cost calculator](https://cc.bruniaux.com/finops/). Dated prices are collected in the [LLM market snapshot](./llm-market-snapshot.md).
 
 ---
 
