@@ -1,6 +1,6 @@
 ---
-title: "AI Design Patterns"
-description: "Crosswalk between classic software design patterns (GoF, enterprise integration, distributed systems) and agent harness patterns, anchored in documented Claude Code mechanisms, with failure modes and checks."
+title: "AI Design Patterns for Claude Code: Implementation Reference"
+description: "Implementation cards for AI design patterns in Claude Code, with the mechanism, failure mode and verification check for each pattern."
 tags: [guide, agents, architecture, patterns, hooks, subagents]
 keywords:
   - "AI design patterns"
@@ -10,11 +10,11 @@ keywords:
   - "Claude Code design patterns"
 ---
 
-# AI design patterns
+# AI design patterns for Claude Code: implementation reference
 
-Developers already share a vocabulary for structure: Observer, Chain of Responsibility, Circuit Breaker, Saga. This page maps that vocabulary onto agent harnesses, names the Claude Code mechanism behind each mapping, and states where the mapping fails.
+Use the cards when you are implementing or reviewing a pattern in an agent harness. Each card names the Claude Code mechanism, where the analogy breaks and a check you can run. To compare candidates before choosing one, start with the [visual pattern finder](https://cc.bruniaux.com/ai-design-patterns/#choose).
 
-> **Work in progress:** this page is an attempt to connect two vocabularies, not a reference. The mappings are a reading to discuss and correct, and they will change as Claude Code and the sources change. If a mapping does not hold for you, [open an issue](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/issues) with the case where it breaks. The research behind it also relies on two of the author's local research tools, which help find and cite source material: [youtube-video-insights](https://github.com/FlorianBruniaux/youtube-video-insights) for searchable conference talk transcripts with timestamps, and [paper-insights](https://github.com/FlorianBruniaux/paper-insights) for a local corpus of papers with verified citations.
+> **Work in progress:** the mapping between the two vocabularies is provisional. The mappings are a reading to discuss and correct, and they will change as Claude Code and the sources change. If a mapping does not hold for you, [open an issue](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/issues) with the case where it breaks. The research behind it also relies on two of the author's local research tools, which help find and cite source material: [youtube-video-insights](https://github.com/FlorianBruniaux/youtube-video-insights) for searchable conference talk transcripts with timestamps, and [paper-insights](https://github.com/FlorianBruniaux/paper-insights) for a local corpus of papers with verified citations.
 >
 > **Status:** No standard crosswalk exists. Published mappings agree on some pairs and disagree on others, and none of the sources read for this page maps classic patterns to Claude Code mechanisms except for hooks and CLAUDE.md. Every other Claude Code column entry is this guide's mapping, marked `Our mapping`. Mechanisms are checked against the [official documentation](https://code.claude.com/docs/llms-full.txt) (last verified 2026-10-27). Page last updated 2026-10-28.
 >

@@ -1217,6 +1217,8 @@ find ~/.claude/projects/ -name "*.jsonl" -newer "$SINCE_WEEK" | \
 
 ## See Also
 
+- [Audit agent permissions, approvals and review responsibilities](https://www.florian.bruniaux.com/services/audit/#governance) if you need to assess how these controls work in your organisation.
+
 - [Security Hardening](./security-hardening.md): Individual dev security: MCP CVEs, injection defense, 5-min audit
 - [Production Safety Rules](./production-safety.md): 6 non-negotiable rules for prod teams (ports, DB safety, infra lock)
 - [Data Privacy Guide](./data-privacy.md): What data Claude Code sends to Anthropic, retention policies
