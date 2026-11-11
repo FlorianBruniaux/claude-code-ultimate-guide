@@ -34,6 +34,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Fixed
 
+- **Scheduled guide exports** now validate the reviewed PDF and EPUB editions with read-only repository permissions. The release workflow remains available for manual publication. Both workflows use the same rendering steps.
+
 - **MCP product manifest** now reflects the 288 releases in the bundled and canonical Claude Code release registries.
 
 - **French and English PDF sources** now carry the published corrections to Fable 5.2, auto mode, Fast Mode, and Cursor and Devin pricing across seven whitepapers and three technical cards. See the [whitepaper changelog](whitepapers/CHANGELOG.md).

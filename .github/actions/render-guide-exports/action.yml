@@ -1,0 +1,58 @@
+name: Render guide exports
+description: Check translation provenance and render the reviewed PDF and EPUB editions.
+outputs:
+  languages:
+    description: The reviewed languages rendered by the publication builder.
+    value: ${{ steps.translation.outputs.languages }}
+runs:
+  using: composite
+  steps:
+    - name: Install Quarto
+      uses: quarto-dev/quarto-actions/setup@v2
+      with:
+        version: "1.10.18"
+
+    - name: Install pandoc
+      shell: bash
+      run: |
+        sudo apt-get update -q
+        sudo apt-get install -y pandoc
+
+    - name: Install Inter + JetBrains Mono fonts
+      shell: bash
+      run: |
+        mkdir -p ~/.local/share/fonts
+        # Inter
+        curl -sL https://github.com/rsms/inter/releases/download/v4.0/Inter-4.0.zip -o /tmp/inter.zip
+        unzip -q /tmp/inter.zip -d /tmp/inter
+        find /tmp/inter -name "*.ttf" -exec cp {} ~/.local/share/fonts/ \;
+        # JetBrains Mono
+        curl -sL https://github.com/JetBrains/JetBrainsMono/releases/download/v2.304/JetBrainsMono-2.304.zip -o /tmp/jbmono.zip
+        unzip -q /tmp/jbmono.zip -d /tmp/jbmono
+        find /tmp/jbmono -name "*.ttf" -exec cp {} ~/.local/share/fonts/ \;
+        fc-cache -f
+
+    - name: Check guide translation provenance
+      id: translation
+      shell: bash
+      run: |
+        python3 scripts/check-translations.py --check
+        fr_state=$(jq -r '.translations[] | select(.language == "fr") | .sync_state' machine-readable/translations.json)
+        case "$fr_state" in
+          current) echo "languages=all" >> "$GITHUB_OUTPUT" ;;
+          stale)
+            echo "languages=en" >> "$GITHUB_OUTPUT"
+            echo "::notice::French full-guide export skipped until its translation is current."
+            ;;
+          *) echo "Unexpected French sync state: $fr_state" >&2; exit 1 ;;
+        esac
+
+    - name: Render reviewed guide languages
+      shell: bash
+      run: TYPST_FONT_PATHS="$HOME/.local/share/fonts" python3 scripts/render-publications.py --lang "${{ steps.translation.outputs.languages }}" --collections guides --jobs 2
+
+    - name: Preserve source and output evidence
+      uses: actions/upload-artifact@v4
+      with:
+        name: guide-export-evidence
+        path: dist/publications/manifest.json

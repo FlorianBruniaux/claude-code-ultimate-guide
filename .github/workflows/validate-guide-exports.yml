@@ -1,0 +1,26 @@
+name: Validate Guide Exports (PDF + EPUB)
+
+on:
+  schedule:
+    # Daily at 03:00 UTC
+    - cron: "0 3 * * *"
+    # Temporary dates for an end-to-end scheduled verification.
+    - cron: "24 11 11 11 *"
+    - cron: "29 11 11 11 *"
+    - cron: "34 11 11 11 *"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Render reviewed guide exports
+        uses: ./.github/actions/render-guide-exports

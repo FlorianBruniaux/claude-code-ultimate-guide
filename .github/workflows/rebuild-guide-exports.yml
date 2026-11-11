@@ -1,24 +1,6 @@
 name: Rebuild Guide Exports (PDF + EPUB)
 
 on:
-  schedule:
-    # Daily at 03:00 UTC
-    - cron: "0 3 * * *"
-  push:
-    branches: ["main"]
-    paths:
-      - "guide/ultimate-guide.md"
-      - "guide/ultimate-guide.fr.md"
-      - "whitepapers/guide-export.qmd"
-      - "whitepapers/guide-export-fr.qmd"
-      - "scripts/preprocess-guide.py"
-      - "scripts/render-publications.py"
-      - "scripts/check-translations.py"
-      - "machine-readable/translations.json"
-      - "VERSION"
-      - "whitepapers/_extensions/whitepaper/**"
-      - "whitepapers/nocite.lua"
-      - "whitepapers/fix-lists.lua"
   workflow_dispatch:
 
 jobs:
@@ -33,59 +15,16 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install Quarto
-        uses: quarto-dev/quarto-actions/setup@v2
-        with:
-          version: "1.10.18"
-
-      - name: Install pandoc
-        run: |
-          sudo apt-get update -q
-          sudo apt-get install -y pandoc
-
-      - name: Install Inter + JetBrains Mono fonts
-        run: |
-          mkdir -p ~/.local/share/fonts
-          # Inter
-          curl -sL https://github.com/rsms/inter/releases/download/v4.0/Inter-4.0.zip -o /tmp/inter.zip
-          unzip -q /tmp/inter.zip -d /tmp/inter
-          find /tmp/inter -name "*.ttf" -exec cp {} ~/.local/share/fonts/ \;
-          # JetBrains Mono
-          curl -sL https://github.com/JetBrains/JetBrainsMono/releases/download/v2.304/JetBrainsMono-2.304.zip -o /tmp/jbmono.zip
-          unzip -q /tmp/jbmono.zip -d /tmp/jbmono
-          find /tmp/jbmono -name "*.ttf" -exec cp {} ~/.local/share/fonts/ \;
-          fc-cache -f
-
-      - name: Check guide translation provenance
-        id: translation
-        run: |
-          python3 scripts/check-translations.py --check
-          fr_state=$(jq -r '.translations[] | select(.language == "fr") | .sync_state' machine-readable/translations.json)
-          case "$fr_state" in
-            current) echo "languages=all" >> "$GITHUB_OUTPUT" ;;
-            stale)
-              echo "languages=en" >> "$GITHUB_OUTPUT"
-              echo "::notice::French full-guide export skipped until its translation is current."
-              ;;
-            *) echo "Unexpected French sync state: $fr_state" >&2; exit 1 ;;
-          esac
-
-      - name: Render reviewed guide languages
-        run: TYPST_FONT_PATHS="$HOME/.local/share/fonts" python3 scripts/render-publications.py --lang "${{ steps.translation.outputs.languages }}" --collections guides --jobs 2
-
-      - name: Preserve source and output evidence
-        uses: actions/upload-artifact@v4
-        with:
-          name: guide-export-evidence
-          path: dist/publications/manifest.json
+      - name: Render reviewed guide exports
+        id: exports
+        uses: ./.github/actions/render-guide-exports
 
       - name: Read version
         id: version
         run: echo "version=$(cat VERSION)" >> "$GITHUB_OUTPUT"
 
       - name: Update GitHub Release
-        # Scheduled runs validate exports without replacing reviewed downloads.
-        if: github.event_name != 'schedule' && steps.translation.outputs.languages == 'all'
+        if: github.event_name == 'workflow_dispatch' && steps.exports.outputs.languages == 'all'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: guide-export-v${{ steps.version.outputs.version }}
