@@ -4,10 +4,8 @@ on:
   schedule:
     # Daily at 03:00 UTC
     - cron: "0 3 * * *"
-    # Temporary dates for an end-to-end scheduled verification.
-    - cron: "24 11 11 11 *"
-    - cron: "29 11 11 11 *"
-    - cron: "34 11 11 11 *"
+    # Temporary cadence for one end-to-end scheduler test.
+    - cron: "*/5 * * * *"
 
 permissions:
   contents: read
