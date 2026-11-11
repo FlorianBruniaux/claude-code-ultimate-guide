@@ -34,6 +34,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Fixed
 
+- **MCP product manifest** now reflects the 288 releases in the bundled and canonical Claude Code release registries.
+
 - **French and English PDF sources** now carry the published corrections to Fable 5.2, auto mode, Fast Mode, and Cursor and Devin pricing across seven whitepapers and three technical cards. See the [whitepaper changelog](whitepapers/CHANGELOG.md).
 
 - **git-ai checkpoint example used flags that do not exist** (`guide/ops/ai-traceability.md` §3.4): the example ran `git-ai checkpoint --tool="claude-code" --session="feature-auth"`. In git-ai's command handler (`src/commands/git_ai_handlers.rs`, identical at upstream `8a6184a` and `5420ab9`), `checkpoint` takes `<preset> [--hook-input <json|stdin>] [files...]` and has no `--tool` or `--session` flag. The example now runs `git-ai install-hooks`, which installs the hooks that record AI authorship checkpoints.

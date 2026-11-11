@@ -14,7 +14,7 @@
     "version": "3.45.2",
     "line_count": 26193,
     "index_entries": 2028,
-    "claude_code_releases": 283
+    "claude_code_releases": 288
   },
   "runtime": {
     "tools": [
@@ -491,5 +491,5 @@
       ]
     }
   },
-  "source_digest": "sha256:accb72a447ba879d559aab3049a0d8f2e64b2ac690dda89dffb27782cbce758f"
+  "source_digest": "sha256:a9c0775f6a025b09e27efbee2a69cbf9780f1db74a26364baaf56a9f79870e74"
 }
