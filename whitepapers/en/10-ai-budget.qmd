@@ -2,11 +2,11 @@
 title: "Making the Case for AI Investment"
 subtitle: "The argumentation guide for CEOs, CTOs and CFOs"
 author: "Florian BRUNIAUX"
-date: "2026-10-06"
+date: "2026-11-11"
 date-format: "MMMM YYYY"
 version: "3.44.1"
 guide-version: "3.44.1"
-wp-version: "1.3.0"
+wp-version: "1.3.1"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -41,14 +41,14 @@ In this document, "CTO" refers to the primary technical decision-maker, regardle
 
 **Illustrative planning assumptions**
 
-Prices and break-even calculations below use the historical July 2026 assumptions in this document. They are not current quotes or measured returns. Include review, rework, training, integration and overage costs, and distinguish reusable capacity from cash savings.
+The pilot uses the Cursor Premium subscription price listed on November 11, 2026. The other budget figures are illustrative assumptions. Include review, rework, training, integration and overage costs, and distinguish reusable capacity from cash savings.
 
 | Indicator | Value |
 |-----------|-------|
-| Cursor Pro break-even | < 1 hour saved per month |
+| Cursor Premium break-even | Depends on usage charges and hourly cost |
 | Claude Max / developer cost ratio | ~1-1.6% of monthly cost |
 | Pilot duration | 8 weeks, 3-5 volunteers |
-| Minimum pilot budget | $100-200 (Cursor Pro × 5 devs) |
+| Example pilot subscription budget | $150–300 for five Cursor Premium seats over one or two months, plus third-party model usage |
 | Measured gain (Borg 2025 study) | +30% median on exploratory tasks |
 
 **Recommendation**: Run a bounded pilot with volunteers, agreed tasks and before/after measures. Obtain current pricing and usage limits from the supplier before choosing a plan. The example duration and team size below are a proposed protocol, not a guarantee of sufficient evidence.
@@ -74,8 +74,10 @@ The honest argument: we deliver roughly the same scope as before, with documente
 | Tool | Cost/dev/month | Break-even |
 |------|----------------|------------|
 | Copilot Individual | ~$10 | < 1h saved/month |
-| Cursor Pro | ~$20 | ~1h saved/month |
+| Cursor Premium | $30 + third-party model usage | About 1h/month at the assumed rate, before usage charges |
 | Claude Max | ~$100-200 | 0.5 to 1 day saved/month |
+
+On November 11, 2026, [Cursor](https://cursor.com/pricing) lists Premium at $30/month for new customers. Third-party models are billed separately at API list price. Existing subscribers can keep their [legacy $20 Pro plan](https://cursor.com/docs/account/pricing/legacy-cursor-plans).
 
 For a worked example, choose a local loaded hourly cost and record its source. Divide total incremental cost by that rate to estimate the hours of accepted work needed to cover the spend. Time released only becomes financial return if it enables useful work or actually avoids a cost.
 
@@ -133,7 +135,7 @@ The market isn't tight across the board: it's tight for seniors and experts. The
 |--------|--------------------------------|----------------|
 | Hiring (mid salaried) | ~$8,000-12,000 all-in | 1-3 months notice |
 | Freelance (mid, 20d/month) | ~$10,000-12,000 | Variable |
-| Cursor Pro × 5 devs | $100 | 1 month |
+| Cursor Premium × 5 devs | $150 plus third-party model usage | 1 month |
 | Claude Max × 5 devs | $500-1,000 | 1 month |
 
 The table is a worked comparison of assumed prices, not evidence that a license replaces a hire or guarantees a positive return.
@@ -218,9 +220,9 @@ Check whether the purchase fits an existing tooling budget and its approval poli
 
 The reality for the majority of organizations. Three approaches depending on context:
 
-1. **Reallocation from an existing tooling line**: is there an underused tool subscription (software licenses, staging cloud access, SaaS tools) that can be deactivated to fund the pilot? A Cursor Pro pilot for 5 developers costs $100/month, often below the radar of existing tooling line items.
+1. **Reallocation from an existing tooling line**: is there an underused tool subscription (software licenses, staging cloud access, SaaS tools) that can be deactivated to fund the pilot? A Cursor Premium pilot for 5 developers costs $150/month in subscriptions, plus third-party model usage.
 
-2. **CTO/VP Eng discretionary budget**: in many organizations, the CTO or VP Eng has a discretionary envelope for tools. A Cursor Pro pilot typically falls within this without a formal budget process; the envelope size varies by organization and engineering team scale.
+2. **CTO/VP Eng discretionary budget**: in many organizations, the CTO or VP Eng has a discretionary envelope for tools. A Cursor Premium pilot typically falls within this without a formal budget process; the envelope size varies by organization and engineering team scale.
 
 3. **The scale argument**: "this is a SaaS subscription, not an infrastructure investment." It doesn't carry the same approval constraints as a $50K annual contract. Verify the actual billing period, cancellation terms and dependencies before using that argument. Comparable in size to any existing SaaS tool.
 
@@ -362,7 +364,7 @@ Compare metrics. List concrete deliverables. Present to the decision-maker with 
 
 ## Pilot budget
 
-Cursor Pro × 5 devs × 2 months = $200. Claude Max × 5 devs × 2 months = $1,000-2,000. If it doesn't work, you stop. If it works, you have the data to convince at scale.
+Cursor Premium for five developers over two months costs $300 in subscriptions, plus third-party model usage. Claude Max × 5 devs × 2 months = $1,000-2,000. If it doesn't work, you stop. If it works, you have the data to convince at scale.
 
 ## From pilot to deployment: Scaling plan
 
@@ -372,9 +374,11 @@ If the pilot is positive, the next question comes immediately: how do we scale? 
 
 | Month | Cohort | Licenses | Monthly budget | Onboarding capacity |
 |-------|--------|----------|----------------|---------------------|
-| 1-2 | Pilot (volunteers) | 5 | ~$100-1,000 | 1 session × 5 devs |
-| 3 | Extension | 15 | ~$300-3,000 | 2 sessions × 5 devs |
-| 4-5 | Full deployment | 30 | ~$600-6,000 | 4 sessions × 5 devs |
+| 1-2 | Pilot (volunteers) | 5 | ~$150-1,000 | 1 session × 5 devs |
+| 3 | Extension | 15 | ~$450-3,000 | 2 sessions × 5 devs |
+| 4-5 | Full deployment | 30 | ~$900-6,000 | 4 sessions × 5 devs |
+
+The table shows base subscriptions. Add separately billed usage and check the terms of the team plan.
 
 Each cohort = 2-hour onboarding per developer on effective patterns vs common pitfalls. No "dump the tool, figure it out" rollouts. Onboarding is the variable that separates real adoption from paper adoption.
 
@@ -400,7 +404,7 @@ Resistance profiles, acculturation plans, and the transition from pilot to full 
 
 ## Tool selection
 
-- [ ] Identify the right tool for your context (Copilot if already in the GitHub ecosystem, Cursor Pro for general use, Claude Max for complex tasks)
+- [ ] Identify the right tool for your context (Copilot if already in the GitHub ecosystem, Cursor Premium for general use, Claude Max for complex tasks)
 - [ ] Verify data compliance for the chosen offering (DPA available?)
 - [ ] Calculate break-even for your specific context (license cost / day rate or internal hourly cost)
 

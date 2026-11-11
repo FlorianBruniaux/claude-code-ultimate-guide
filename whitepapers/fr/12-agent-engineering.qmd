@@ -2,11 +2,11 @@
 title: "L'Ingénierie Logicielle à l'Ère des Agents Autonomes"
 subtitle: "Harnesses, CI/CD agentic, et la mesure honnête de la productivité"
 author: "Florian BRUNIAUX"
-date: "2026-10-06"
+date: "2026-11-11"
 date-format: "MMMM YYYY"
 version: "3.44.1"
 guide-version: "3.44.1"
-wp-version: "1.5.0"
+wp-version: "1.5.1"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -232,7 +232,7 @@ Claude Code n'est pas le seul outil dans ce champ. Depuis 2024, trois familles d
 
 Le modèle d'interaction est fondamentalement différent des agents de terminal. Vous décrivez une tâche, partez, et revenez à une PR. La qualité de la spécification de la tâche détermine la qualité du résultat plus que le choix de l'agent.
 
-**Devin** (Cognition, cloud, plan Team à $500/mois) exécute dans une VM Linux cloud avec shell, éditeur et navigateur. La facturation en ACU (Agent Compute Units, 1 ACU approximativement 15 minutes d'exécution) s'applique à des clients comme Goldman Sachs, Microsoft et Palantir. Le cas d'usage idéal est une tâche bien spécifiée et bornée : refactoring documenté, implémentation d'un endpoint précisé, correction d'une régression à cause connue. Devin échoue sur les tâches qui nécessitent du contexte implicite profond sur votre codebase ou des jugements continus. À $500/mois, le calcul doit montrer un ROI net sur le temps développeur libéré, pas seulement un décompte de tâches complétées.
+**Devin Cloud** (Cognition) exécute ses tâches dans un environnement distant avec shell, éditeur et navigateur. Au 11 novembre 2026, l’[offre Teams](https://devin.ai/pricing) coûte 80 USD par mois, plus 40 USD par mois par siège développeur complet. Cinq sièges complets reviennent à 280 USD par mois avant l’achat d’usage supplémentaire, facturé au tarif API. Devin convient aux tâches bien spécifiées et bornées, comme un refactoring documenté, un endpoint défini ou une régression à cause connue. Mesurez le temps développeur libéré après revue et reprises, ainsi que l’abonnement et l’usage facturé.
 
 **SWE-agent** (Princeton NLP Group, NeurIPS 2024, 19 300+ étoiles, MIT) cible spécifiquement la résolution d'issues GitHub : vous lui passez une URL, il produit un patch. Son architecture Agent-Computer Interface (ACI) a démontré que la performance d'un agent dépend autant de la qualité d'exposition de l'environnement que de la puissance brute du modèle. Claude Code en mode headless (`claude -p`) est l'équivalent non-académique pour les équipes qui veulent ce pattern en CI.
 

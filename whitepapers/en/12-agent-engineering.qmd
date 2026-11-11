@@ -2,11 +2,11 @@
 title: "Software Engineering in the Age of Autonomous Agents"
 subtitle: "Harnesses, agentic CI/CD, and honest productivity measurement"
 author: "Florian BRUNIAUX"
-date: "2026-10-06"
+date: "2026-11-11"
 date-format: "MMMM YYYY"
 version: "3.44.1"
 guide-version: "3.44.1"
-wp-version: "1.5.0"
+wp-version: "1.5.1"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -176,7 +176,7 @@ Claude Code is one of several viable tools for teams crossing the L3 threshold. 
 
 The interaction model differs fundamentally from terminal agents. You describe a task, step away, and return to a pull request. The quality of the task specification shapes the output quality more than the choice of agent.
 
-**Devin** (Cognition, cloud, $500/month Team plan) runs in a cloud Linux VM with its own shell, editor, and browser. Billing is in ACUs (Agent Compute Units, approximately 1 ACU per 15 minutes of execution). Documented customers include Goldman Sachs, Microsoft, and Palantir. Devin works best on well-specified, bounded tasks: documented refactoring, implementing a specified endpoint, fixing a regression with a known root cause. It struggles with tasks that require deep implicit codebase context or continuous judgment calls. At $500/month, the ROI calculation requires a clear account of developer time freed, not just a count of tasks completed.
+**Devin Cloud** (Cognition) runs tasks in a remote environment with its own shell, editor, and browser. As of November 11, 2026, the [Teams plan](https://devin.ai/pricing) costs $80 per month plus $40 per month per full developer seat. Five full seats cost $280 per month before any extra usage purchased at API prices. Devin fits well-specified tasks such as a documented refactor, a defined endpoint, or a regression with a known cause. Measure developer time freed after review and rework alongside subscription and usage costs.
 
 **SWE-agent** (Princeton NLP Group, NeurIPS 2024, 19,300+ stars, MIT) was designed specifically for resolving GitHub issues from a URL alone: pass it an issue, it produces a patch. Its Agent-Computer Interface (ACI) architecture demonstrated that agent performance correlates strongly with environment quality, not just model power. Claude Code in headless mode (`claude -p`) is the non-academic production equivalent for teams that want this pattern running in CI.
 

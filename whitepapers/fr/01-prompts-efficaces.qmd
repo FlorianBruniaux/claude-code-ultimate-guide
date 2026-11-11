@@ -2,11 +2,11 @@
 title: "Prompts qui Marchent"
 subtitle: "Une méthode pour des prompts précis et vérifiables"
 author: "Florian BRUNIAUX"
-date: "2026-10-27"
+date: "2026-11-11"
 date-format: "MMMM YYYY"
 version: "3.44.1"
 guide-version: "3.44.1"
-wp-version: "1.3.5"
+wp-version: "1.3.6"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -445,7 +445,7 @@ Now analyze authentication flow.
 
 ## Thinking Modes et Efficacité
 
-Opus 5.5 est le modèle par défaut du service direct ; les politiques d’organisation et fournisseurs peuvent différer. Opus 5.5, Sonnet 5.5, Haiku 5.5 et Fable 5.1 utilisent un raisonnement adaptatif et un contexte natif de 1M tokens. L’effort influence le raisonnement et les appels d’outils. Le thinking ne peut pas être désactivé sur Opus 5.5, Sonnet 5.5, Haiku 5.5 ni Fable. Dans Claude Code, Opus 5.5, Sonnet 5.5 et Haiku 5.5 utilisent `medium` par défaut et Fable 5.1 utilise `high` ; le défaut propre de l’API Claude pour Sonnet 5.5 est `high`.
+Opus 5.5 est le modèle par défaut du service direct ; les politiques d’organisation et fournisseurs peuvent différer. Opus 5.5, Sonnet 5.5, Haiku 5.5 et Fable 5.2 utilisent un raisonnement adaptatif et un contexte natif de 1M tokens. L’effort influence le raisonnement et les appels d’outils. Le thinking ne peut pas être désactivé sur Opus 5.5, Sonnet 5.5, Haiku 5.5 ni Fable. Dans Claude Code, Opus 5.5, Sonnet 5.5 et Haiku 5.5 utilisent `medium` par défaut et Fable 5.2 utilise `high` ; le défaut propre de l’API Claude pour Sonnet 5.5 est `high`.
 
 Les modèles adaptatifs actuels acceptent `low / medium / high / xhigh / max`. Opus 4.6 et Sonnet 4.6 n’acceptent pas `xhigh`. `/effort` enregistre les niveaux compatibles jusqu’à `xhigh` par modèle ; **s** applique le choix à la session seule. `max` est limité à la session. `/effort ultracode` active les workflows dynamiques avec un raisonnement `xhigh` : ce n’est pas un sixième niveau API.
 
@@ -483,14 +483,14 @@ Currently full table scan, target < 200ms
 
 **Compromis** : un effort élevé peut consommer davantage de tokens et de temps. Comparez les résultats acceptés et les reprises sur la même tâche avant de conclure à un gain de qualité.
 
-**Évaluer Fable 5.1** : si Opus 5.5 ne satisfait pas les critères d’acceptation, comparez Fable 5.1 (`claude-fable-5-1`) lorsque le compte y donne accès. Son tarif standard est de $10/$50 par million de tokens entrée/sortie, contre $4/$20 pour Opus 5.5. Gardez les mêmes preuves et critères de vérification ; changer de modèle n’autorise pas une action irréversible.
+**Évaluer Fable 5.2** : si Opus 5.5 ne satisfait pas les critères d’acceptation, comparez Fable 5.2 (`claude-fable-5-2`) lorsque le compte y donne accès. Son [tarif API standard](https://platform.claude.com/docs/en/models/fable-5-2/overview) est de $8/$40 par million de tokens entrée/sortie, contre $4/$20 pour Opus 5.5. Gardez les mêmes preuves et critères de vérification ; changer de modèle n’autorise pas une action irréversible.
 
 **Note v2.1.89** : `showThinkingSummaries` est maintenant `false` par défaut. Pour rétablir les résumés de raisonnement visibles : `"showThinkingSummaries": true` dans `settings.json`.
 
 ::: {.callout-tip title="Memo -- Thinking Modes en 30 secondes"}
 **Quoi** : Le parametre `effort` calibre le budget de calcul du modele sur 5 paliers (low a max), pas seulement le raisonnement.
 
-**Quand** : évaluer `low`/`medium` pour les tâches bornées et `high`/`xhigh` pour l’analyse. Augmenter l’effort ou comparer les modèles lorsque les échecs mesurés le justifient. Dans Claude Code, Opus 5.5, Sonnet 5.5 et Haiku 5.5 utilisent `medium` par défaut ; Fable 5.1 utilise `high`.
+**Quand** : évaluer `low`/`medium` pour les tâches bornées et `high`/`xhigh` pour l’analyse. Augmenter l’effort ou comparer les modèles lorsque les échecs mesurés le justifient. Dans Claude Code, Opus 5.5, Sonnet 5.5 et Haiku 5.5 utilisent `medium` par défaut ; Fable 5.2 utilise `high`.
 
 **Comment** : exprimer WHAT/WHERE/HOW/VERIFY à tous les niveaux d’effort. Plus de raisonnement ne fournit pas les critères manquants.
 

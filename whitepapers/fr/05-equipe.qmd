@@ -2,11 +2,11 @@
 title: "Déployer en Équipe"
 subtitle: "De solo à 50 devs : observabilité, CI/CD, adoption"
 author: "Florian BRUNIAUX"
-date: "2026-10-27"
+date: "2026-11-11"
 date-format: "MMMM YYYY"
 version: "3.44.1"
 guide-version: "3.44.1"
-wp-version: "1.7.1"
+wp-version: "1.7.2"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -992,14 +992,14 @@ Suivez le travail en cours, l'âge de la file, le débit accepté et le temps de
 
 ## Tarifs par Modèle
 
-Tarifs API directs standard en USD par million de tokens, contrôlés le 6 octobre 2026 à la [source officielle](https://platform.claude.com/docs/en/about-claude/pricing), hors cache et fast mode. Les quotas d’abonnement ne se déduisent pas de ces tarifs.
+Tarifs API directs standard en USD par million de tokens, contrôlés le 11 novembre 2026 à la [source officielle](https://platform.claude.com/docs/en/about-claude/pricing), hors cache et fast mode. Les quotas d’abonnement ne se déduisent pas de ces tarifs.
 
 | Modèle | Entrée | Sortie | Usage à évaluer |
 |--------|--------|--------|----------------|
 | Haiku 5.5 | $0,10 | $0,50 | Tâches bornées ; tarif des prompts jusqu'à 100K ($0,50 / $2,50 au-delà) |
 | Sonnet 5.5 | $2 | $10 | Développement général |
 | Opus 5.5 | $4 | $20 | Analyse et implémentation complexes |
-| Fable 5.1 | $10 | $50 | Raisonnement approfondi selon disponibilité |
+| Fable 5.2 | $8 | $40 | Raisonnement approfondi selon disponibilité |
 
 Opus 5.5 est le modèle par défaut couvert par cet audit. Choisir Sonnet pour maîtriser les coûts est un routage explicite. Comparez le coût par résultat accepté, y compris reprises et revue.
 

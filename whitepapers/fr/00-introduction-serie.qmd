@@ -2,11 +2,11 @@
 title: "Claude Code : De Zéro à Productif"
 subtitle: "Les fondamentaux pour démarrer efficacement"
 author: "Florian BRUNIAUX"
-date: "2026-10-27"
+date: "2026-11-11"
 date-format: "MMMM YYYY"
 version: "3.44.1"
 guide-version: "3.44.1"
-wp-version: "1.5.4"
+wp-version: "1.5.5"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -72,12 +72,12 @@ Depuis fin 2025, plusieurs fonctionnalités agentic sont devenues disponibles et
 | **`/loop`** | v2.1.71+ | Intervalle fixe si précisé ; sinon Claude choisit le délai |
 | **`/branch`** | v2.1.78+ | Fork de session en parallèle (`--fork-session`) pour explorer plusieurs approches |
 | **`--bare`** | v2.1.78+ | Mode scripted sans hooks/LSP/plugins, idéal pour CI/CD |
-| **Auto mode (Max)** | v2.1.100+ | Classification des permissions ; ne sélectionne pas le modèle |
-| **`/ultrareview`** | v2.1.114+ | Revue de code multi-agents en parallèle dans le cloud ; aussi disponible en CI/CD via `claude ultrareview` (v2.1.120) |
+| **[Auto mode](https://code.claude.com/docs/en/permission-modes)** | v2.1.283+ | Mode de départ intégré en session interactive. Disponible sur toutes les offres selon le modèle, le fournisseur et les règles de l’organisation. Un réglage explicite peut primer. |
+| **`/code-review ultra`** | Alias `/ultrareview` | Revue multi-agents dans le cloud. La CLI CI/CD conserve `claude ultrareview`. |
 | **`/goal`** | v2.1.139+ | Boucle d'exécution autonome : définissez une condition, Claude travaille jusqu'à ce qu'un évaluateur séparé (Haiku par défaut sur l’API Claude) confirme qu'elle est atteinte (plus besoin de taper "continue") |
 | **Opus 5.5** | Modèle actuel | Défaut du service direct, 1M natif ; tarif standard $4/$20 et fast mode $8/$40 par Mtok |
 | **`--safe-mode`** | v2.1.169 | Flag de dépannage : désactive toutes les personnalisations (CLAUDE.md, plugins, skills, hooks, serveurs MCP) |
-| **Fable 5.1** | Modèle actuel | Modèle API direct sur comptes éligibles ; les alias des fournisseurs peuvent différer |
+| **[Fable 5.2](https://platform.claude.com/docs/en/models/fable-5-2/overview)** | v2.1.321+ | Modèle API direct sur comptes éligibles ; les alias des fournisseurs peuvent différer |
 | **Sub-agents imbriqués** | v2.1.219 | Un agent peut déléguer à d'autres agents jusqu'à 3 niveaux de profondeur par défaut (`CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH`) |
 
 ## Installation
@@ -219,7 +219,7 @@ Claude Code n'est pas un chatbot amélioré, c'est un **système de contexte à 
 
 **Résultat** : chaque couche rend la suivante plus efficace.
 
-> **Auto Dream** (v2.1.78+) : après 24h d'inactivité et 5 sessions, Claude consolide automatiquement sa mémoire projet en 4 phases (orientation, collecte, consolidation, indexation). Accessible via `/memory`.
+> **Auto Dream** consolide en arrière-plan la mémoire du projet lorsqu’il est activé. Ouvrez `/memory` pour voir les réglages disponibles.
 
 ::: {.callout-note title="Scénario illustratif : Antoine, dev full-stack dans un cabinet de conseil tech"}
 Antoine commence par un `CLAUDE.md` basique listant sa stack (Next.js, Prisma, PostgreSQL). Dès la première semaine, il constate que Claude respecte ses conventions sans qu'il ait besoin de les rappeler. En semaine 2, il ajoute un Skill "conventions API REST" qui encode ses patterns de validation. En semaine 3, un hook pre-commit vérifie automatiquement que les migrations Prisma sont générées. Résultat : ses prompts passent de 4 lignes de contexte à une simple instruction, et Claude produit du code conforme du premier coup.

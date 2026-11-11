@@ -5,10 +5,10 @@ card-number: "T19"
 category: "Technique"
 difficulty: "intermediate"
 guide-version: "3.44.1"
-wp-version: "1.0.2"
+wp-version: "1.0.3"
 author: "Florian BRUNIAUX"
 version: "3.44.1"
-date: "2026-10-27"
+date: "2026-11-11"
 layout: "two-col"
 lang: fr
 format:
@@ -23,9 +23,9 @@ format:
 | Haiku 4.5 (historique) | 200K | 64K |
 | Sonnet 5.5 | 1M natif | 128K |
 | Opus 5.5 | 1M natif | 128K |
-| Fable 5.1 | 1M natif | 128K |
+| Fable 5.2 | 1M natif | 128K |
 
-Snapshot des modèles du guide au 27 octobre 2026. Le fournisseur peut imposer d'autres limites. Consulter `/context` pour la session active.
+Snapshot des modèles du guide au 11 novembre 2026. Le fournisseur peut imposer d'autres limites. Consulter `/context` pour la session active.
 
 ## Pas de surcoût du 1M natif
 

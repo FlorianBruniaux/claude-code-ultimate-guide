@@ -2,11 +2,11 @@
 title: "Team Deployment"
 subtitle: "From solo to 50 devs: observability, CI/CD, adoption"
 author: "Florian BRUNIAUX"
-date: "2026-10-27"
+date: "2026-11-11"
 date-format: "MMMM YYYY"
 version: "3.44.1"
 guide-version: "3.44.1"
-wp-version: "1.7.1"
+wp-version: "1.7.2"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -982,9 +982,9 @@ Choose models from measured task outcomes and total cost. A team can explicitly 
 | **Haiku 5.5** | $0.10/1M | $0.50/1M | Bounded tasks; native 1M context; $0.50/$2.50 for prompts above 100K |
 | **Sonnet 5.5** | $2/1M | $10/1M | Explicit routing choice, native 1M context |
 | **Opus 5.5** | $4/1M | $20/1M | Current direct-service default, native 1M context |
-| **Fable 5.1** | $10/1M | $50/1M | Available on eligible accounts, native 1M context |
+| **Fable 5.2** | $8/1M | $40/1M | Available on eligible accounts, native 1M context |
 
-Standard direct-API rates above were checked at the official pricing source on October 6, 2026. Sonnet 5.5 replaces legacy Sonnet 5 on the direct API since v2.1.284, at the same standard $2/$10. Opus 5.5 is the direct-service default; organization policy and provider aliases can differ. Fast mode and caching use separate rates.
+Standard direct-API rates above were checked at the official pricing source on November 11, 2026. Sonnet 5.5 replaces legacy Sonnet 5 on the direct API since v2.1.284, at the same standard $2/$10. Opus 5.5 is the direct-service default; organization policy and provider aliases can differ. Fast mode and caching use separate rates.
 
 ## Cost-saving strategies
 

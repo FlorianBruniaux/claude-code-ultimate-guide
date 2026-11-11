@@ -7,23 +7,24 @@ difficulty: "intermediate"
 guide-version: "3.44.1"
 author: "Florian BRUNIAUX"
 version: "3.44.1"
-date: "2026-10-27"
+wp-version: "1.0.3"
+date: "2026-11-11"
 layout: "two-col"
 lang: en
 format:
   recap-card-typst: default
 ---
 
-## Fast mode on Opus 5.5
+## Fast mode on Fable 5.2 and Opus 5.5
 
-Fast mode uses faster serving of the same model. Anthropic advertises **up to 2.5 times faster output**, not a guarantee for every request. Claude Code selects Opus 5.5 for fast mode from v2.1.280.
+[Fast mode](https://code.claude.com/docs/en/fast-mode) speeds up the same model, by up to 2.5× according to Anthropic. Fable 5.2 needs Claude Code v2.1.321+, Opus 5.5 v2.1.280+.
 
-| Rate per million tokens | Standard | Fast |
-|-------------------------|----------|------|
-| Input | $4 | $8 |
-| Output | $20 | $40 |
+| Anthropic API, $/MTok in/out | Standard | Fast |
+|------------------------------|----------|------|
+| Fable 5.2 | $8/$40 | $16/$80 |
+| Opus 5.5 | $4/$20 | $8/$40 |
 
-Opus 5 and Opus 4.8 also support fast mode at $10/$50. Sonnet and Haiku do not. Opus 4.7 is no longer supported in fast mode.
+Opus 5 and 4.8 are in preview at $10/$50. Fast mode on Opus 4.8 was deprecated October 30 and will be removed November 30, 2026. Sonnet and Haiku do not support it.
 
 ## Activation and billing
 
@@ -59,4 +60,4 @@ Opus 4.6 removed assistant prefill. For schema-constrained JSON, use `output_con
 
 Current Opus, Sonnet 5.5, Haiku 5.5, and Fable use adaptive thinking. Fixed `budget_tokens` examples belong to older models. Legacy Haiku 4.5 has no effort parameter.
 
-Verified September 24, 2026. Sources: [Claude Code fast mode](https://code.claude.com/docs/en/fast-mode), [structured outputs](https://platform.claude.com/docs/en/build-with-claude/structured-outputs).
+Verified November 11, 2026. Sources: [Claude Code fast mode](https://code.claude.com/docs/en/fast-mode), [structured outputs](https://platform.claude.com/docs/en/build-with-claude/structured-outputs).

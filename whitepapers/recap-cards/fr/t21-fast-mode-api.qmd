@@ -5,26 +5,26 @@ card-number: "T21"
 category: "Technique"
 difficulty: "intermediate"
 guide-version: "3.44.1"
-wp-version: "1.0.2"
+wp-version: "1.0.3"
 author: "Florian BRUNIAUX"
 version: "3.44.1"
-date: "2026-10-27"
+date: "2026-11-11"
 layout: "two-col"
 lang: fr
 format:
   recap-card-typst: default
 ---
 
-## Fast Mode sur Opus 5.5
+## Fast mode sur Fable 5.2 et Opus 5.5
 
-Fast mode accélère le service du même modèle. Anthropic annonce une sortie **jusqu'à 2,5 fois plus rapide**, sans garantie pour chaque requête. Claude Code sélectionne Opus 5.5 en fast mode depuis la v2.1.280.
+Le [fast mode](https://code.claude.com/docs/en/fast-mode) accélère le même modèle, jusqu'à 2,5 fois selon Anthropic. Fable 5.2 requiert Claude Code v2.1.321+, Opus 5.5 v2.1.280+.
 
-| Prix par million de tokens | Standard | Fast |
-|----------------------------|----------|------|
-| Entrée | $4 | $8 |
-| Sortie | $20 | $40 |
+| API Anthropic, $/MTok entrée/sortie | Standard | Fast |
+|------------------------------------|----------|------|
+| Fable 5.2 | $8/$40 | $16/$80 |
+| Opus 5.5 | $4/$20 | $8/$40 |
 
-Opus 5 et Opus 4.8 acceptent aussi fast mode à $10/$50. Sonnet et Haiku ne le proposent pas. Opus 4.7 n'est plus pris en charge en fast mode.
+Opus 5 et 4.8 sont en aperçu à $10/$50. Fast mode sur Opus 4.8, déprécié depuis le 30 octobre, sera retiré le 30 novembre 2026. Sonnet et Haiku ne le proposent pas.
 
 ## Activation et facturation
 
@@ -60,4 +60,4 @@ Opus 4.6 a supprimé le préremplissage assistant. Pour du JSON contraint par un
 
 Les Opus actuels, Sonnet 5.5, Haiku 5.5 et Fable utilisent le thinking adaptatif. Les exemples avec `budget_tokens` fixe concernent d'anciens modèles. Haiku 4.5 (historique) n'a pas de paramètre effort.
 
-Vérifié le 24 septembre 2026. Sources : [Fast mode Claude Code](https://code.claude.com/docs/en/fast-mode), [sorties structurées](https://platform.claude.com/docs/en/build-with-claude/structured-outputs).
+Vérifié le 11 novembre 2026. Sources : [Fast mode Claude Code](https://code.claude.com/docs/en/fast-mode), [sorties structurées](https://platform.claude.com/docs/en/build-with-claude/structured-outputs).

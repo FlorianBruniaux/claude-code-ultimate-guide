@@ -11,6 +11,13 @@ Suivi des versions des ebooks, indépendamment de la version du guide.
 
 ---
 
+## [2026-11-11] Actualisation des PDF du portfolio
+
+- WP00, WP01, WP04, WP05 et WP07 FR/EN utilisent Fable 5.2 dans les références courantes. WP00 précise le démarrage en mode auto et la commande de revue recommandée.
+- WP10 FR/EN recalcule le budget Cursor Premium. WP12 FR/EN actualise le prix de Devin Teams.
+- T18, T19 et T21 FR/EN reflètent les spécifications de Fable 5.2 et les tarifs Fast Mode. T21 indique le retrait prévu de Fast Mode sur Opus 4.8.
+- Les révisions des ebooks et des fiches reprennent celles des PDF publiés pour l’édition du guide 3.44.1.
+
 ## [2026-10-27] Modèles Haiku 5.5, Code Review, hooks, skills et mode auto
 
 - Modèles (WP00, WP01, WP04, WP05, WP07, WP08, cheatsheets, fiche WP04, fiches T13, T18, T19, T21) : Haiku 5.5 devient le modèle Haiku actuel ($0,10/$0,50 jusqu'à 100K de prompt, 1M de contexte). Haiku 4.5 et Sonnet 5 sont marqués historiques. Effort par défaut dans Claude Code : `medium` sur Opus 5.5, Sonnet 5.5 et Haiku 5.5, `high` sur Fable 5.1. Alt+T sans effet sur ces quatre modèles. Tarifs revérifiés le 27 octobre. Idle compaction ajoutée à T19.

@@ -2,11 +2,11 @@
 title: "Claude Code: From Zero to Productive"
 subtitle: "The fundamentals to get started effectively"
 author: "Florian BRUNIAUX"
-date: "2026-10-27"
+date: "2026-11-11"
 date-format: "MMMM YYYY"
 version: "3.44.1"
 guide-version: "3.44.1"
-wp-version: "1.5.4"
+wp-version: "1.5.5"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -70,13 +70,13 @@ Since late 2025, several agentic capabilities have become available and signific
 | **`/loop`** | v2.1.71 | Recurring automation at a fixed interval (e.g. `/loop 5m /qa`) |
 | **`/branch`** | v2.1.78+ | Parallel session forking (`--fork-session`) to explore multiple approaches |
 | **`--bare`** | v2.1.78+ | Scripted mode without hooks/LSP/plugins, ideal for CI/CD |
-| **Auto mode (Max)** | v2.1.100+ | Automatic permission decisions by a classifier, subject to account and policy availability |
-| **`/ultrareview`** | v2.1.114+ | Cloud-based parallel multi-agent code review (official skill); also available in CI/CD via `claude ultrareview` (v2.1.120) |
+| **[Auto mode](https://code.claude.com/docs/en/permission-modes)** | v2.1.283+ | Built-in starting mode for interactive sessions. Available on all plans, subject to model, provider, and organization policy. Explicit settings can take precedence. |
+| **`/code-review ultra`** | Alias `/ultrareview` | Multi-agent cloud review. The CI/CD CLI still uses `claude ultrareview`. |
 | **`/goal`** | v2.1.139+ | Autonomous completion loop: set a condition, Claude keeps working until a separate evaluator (Haiku by default on the Claude API) checks it's met, no "continue" prompts needed |
 | **`xhigh` effort (Opus 4.7)** | v2.1.100+ | Additional effort tier between `high` and `max`; also supported by current adaptive models |
 | **`--safe-mode`** | v2.1.169 | Troubleshooting flag: disables all customizations (CLAUDE.md, plugins, skills, hooks, MCP servers) |
 | **Opus 5.5** | v2.1.280 | Current direct-service default, native 1M context; standard $4/$20 and fast $8/$40 per Mtok |
-| **Fable family** | v2.1.170 | Fable 5.1 is the current direct-API model where available; provider aliases differ |
+| **[Fable 5.2](https://platform.claude.com/docs/en/models/fable-5-2/overview)** | v2.1.321+ | Available on eligible accounts. Model IDs may vary by provider |
 | **Nested sub-agents** | v2.1.219 | Agents can delegate to sub-agents up to 3 levels deep by default |
 | **Sonnet 5.5** | v2.1.284 | Current direct-API Sonnet, native 1M context; standard $2/$10 per Mtok. Sonnet 5 is legacy |
 
@@ -215,7 +215,7 @@ Claude Code is not a fancy chatbot; it's a **4-layer context system**. Each laye
 
 **Result**: each layer makes the next one more effective.
 
-> **Auto Dream** (v2.1.78+): after 24h of inactivity and 5 sessions, Claude automatically consolidates its project memory in 4 phases (orient, gather signal, consolidate, prune and index). Accessible via `/memory`.
+> **Auto Dream** consolidates project memory in the background when enabled. Open `/memory` to see the available settings.
 
 ::: {.callout-note title="Illustrative scenario: Antoine, full-stack dev at a tech consultancy"}
 Antoine starts with a basic `CLAUDE.md` listing his stack (Next.js, Prisma, PostgreSQL). In the first week, he notices Claude follows his conventions without needing reminders. In week 2, he adds a "REST API conventions" Skill that encodes his validation patterns. In week 3, a pre-commit hook automatically checks that Prisma migrations are generated. Result: his prompts go from 4 lines of context to a single instruction, and Claude produces compliant code on the first try.

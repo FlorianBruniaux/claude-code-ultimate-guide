@@ -2,11 +2,11 @@
 title: "Claude Code : Le Guide de Référence"
 subtitle: "Synthèse complète + workflows avancés"
 author: "Florian BRUNIAUX"
-date: "2026-10-27"
+date: "2026-11-11"
 date-format: "MMMM YYYY"
 version: "3.44.1"
 guide-version: "3.44.1"
-wp-version: "1.5.1"
+wp-version: "1.5.2"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -1653,14 +1653,14 @@ Les numéros `v2.x` ci-dessous désignent Claude Code ; les numéros `v3.x` dés
 
 ## Modèles actuels
 
-Tarifs API standard contrôlés le 27 octobre 2026 à la source officielle. Dollars par million de tokens en entrée/sortie, hors cache.
+Tarifs API standard contrôlés le 11 novembre 2026 à la source officielle. Dollars par million de tokens en entrée/sortie, hors cache.
 
 | Modèle | Entrée / sortie | Contexte | Effort par défaut |
 |--------|-----------------|----------|-------------------|
 | Haiku 5.5 | $0,10 / $0,50 (prompts jusqu'à 100K ; $0,50 / $2,50 au-delà) | 1M | medium |
 | Sonnet 5.5 | $2 / $10 | 1M | medium |
 | Opus 5.5 | $4 / $20 | 1M | medium |
-| Fable 5.1 | $10 / $50 | 1M | high |
+| Fable 5.2 | $8 / $40 | 1M | high |
 
 Sonnet 5.5 remplace le modèle historique Sonnet 5 sur l'API directe depuis v2.1.284, au même tarif standard $2/$10. Opus 5.5 est le défaut du service direct, sauf règle du compte. Le modèle seul ne détermine pas le coût d'une tâche.
 
@@ -1670,11 +1670,11 @@ Sonnet 5.5 remplace le modèle historique Sonnet 5 sur l'API directe depuis v2.1
 
 Les alias dépendent du fournisseur. `opus` sélectionne 5.5 chez la plupart, mais 4.6 sur Foundry. `sonnet` sélectionne 5.5 sur l'API directe, 4.6 sur Claude Platform on AWS, et 4.5 sur Bedrock, Google et Foundry.
 
-`fable` sélectionne 5.1 si disponible, ou 5 via la passerelle Claude apps. `best` choisit Fable si accessible, sinon Opus. Utiliser un identifiant complet pour fixer une version.
+[`fable`](https://code.claude.com/docs/en/model-config#work-with-fable) sélectionne 5.2 si disponible. Dans une session via la passerelle Claude apps, utilisez `claude-fable-5-2`. `best` choisit Fable si accessible, sinon Opus. Utiliser un identifiant complet pour fixer une version.
 
 ## Thinking et effort
 
-Opus 5.5, Sonnet 5.5, Haiku 5.5 et Fable 5.1 utilisent le thinking adaptatif. Haiku 4.5 (historique) n'a **pas de paramètre effort**. L'effort par défaut est celui de Claude Code ; le défaut propre de l'API Claude pour Sonnet 5.5 est `high`. Sur l'API Anthropic, l'alias `haiku` sélectionne 5.5 depuis v2.1.293 ; il reste sur 4.5 sur Claude Platform on AWS, Bedrock, Agent Platform de Google Cloud et Foundry.
+Opus 5.5, Sonnet 5.5, Haiku 5.5 et Fable 5.2 utilisent le thinking adaptatif. Haiku 4.5 (historique) n'a **pas de paramètre effort**. L'effort par défaut est celui de Claude Code ; le défaut propre de l'API Claude pour Sonnet 5.5 est `high`. Sur l'API Anthropic, l'alias `haiku` sélectionne 5.5 depuis v2.1.293 ; il reste sur 4.5 sur Claude Platform on AWS, Bedrock, Agent Platform de Google Cloud et Foundry.
 
 Les modèles adaptatifs actuels acceptent `low`, `medium`, `high`, `xhigh` et `max`. Opus 4.6 et Sonnet 4.6 acceptent `max`, mais pas `xhigh`.
 
@@ -1691,7 +1691,7 @@ Les modèles adaptatifs actuels acceptent `low`, `medium`, `high`, `xhigh` et `m
 Sources : [Configuration des modèles](https://code.claude.com/docs/en/model-config), [tarifs API](https://platform.claude.com/docs/en/about-claude/pricing).
 
 
-Dates de connaissance fiables : juin 2026 pour Opus 5.5, Sonnet 5.5, Haiku 5.5 et Fable 5.1, février 2025 pour Haiku 4.5 (historique).
+Dates de connaissance fiables : juin 2026 pour Opus 5.5, Sonnet 5.5, Haiku 5.5 et Fable 5.2, février 2025 pour Haiku 4.5 (historique).
 
 ## Raccourcis clavier
 
