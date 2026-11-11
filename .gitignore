@@ -113,3 +113,11 @@ mcp-server/node_modules/
 
 # Serena MCP tool (local project context, not shared)
 .serena/
+
+# Local agentation install and personal session handoffs (not shared)
+.agents/handoffs/
+.agents/skills/agentation/
+.agents/skills/agentation-self-driving/
+/package.json
+/package-lock.json
+/skills-lock.json
