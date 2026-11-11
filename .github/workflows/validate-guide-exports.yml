@@ -4,8 +4,6 @@ on:
   schedule:
     # Daily at 03:00 UTC
     - cron: "0 3 * * *"
-    # Temporary cadence for one end-to-end scheduler test.
-    - cron: "*/5 * * * *"
 
 permissions:
   contents: read
