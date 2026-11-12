@@ -2,8 +2,8 @@ name: Validate Guide Exports (PDF + EPUB)
 
 on:
   schedule:
-    # Daily at 03:00 UTC
-    - cron: "0 3 * * *"
+    # Daily at 03:17 UTC, outside the start-of-hour peak.
+    - cron: "17 3 * * *"
 
 permissions:
   contents: read
