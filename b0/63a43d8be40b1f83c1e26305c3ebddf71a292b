@@ -1,0 +1,37 @@
+CHANGELOG.md
+  s_c8c3bca8147dad::t_5094a126d7b828 24-25,496
+README.md
+  s_c8c3bca8147dad::t_25120a5e547aad 261-262,273
+guide/ultimate-guide.fr.md
+  s_c8c3bca8147dad::t_d1526874cbabca 13031-13032,13043
+guide/ultimate-guide.md
+  s_c8c3bca8147dad::t_a055bc8461812c 12865-12866,12877
+machine-readable/mcp-product.json
+  s_c8c3bca8147dad::t_124677283349af 5,494
+mcp-server/README.md
+  s_c8c3bca8147dad::t_2be967d1130fc9 15,26,35,48,64,78,143,163
+mcp-server/package-lock.json
+  s_c8c3bca8147dad::t_ae669d6e6dcfef 3,9
+mcp-server/package.json
+  s_c8c3bca8147dad::t_92e05811966ed2 3
+mcp-server/server.json
+  s_c8c3bca8147dad::t_34ee4a73a369d8 10,15
+mcp-server/src/lib/chapter-ranges.generated.json
+  s_c8c3bca8147dad::t_e21556f2959f59 2
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "b063a43d8be40b1f83c1e26305c3ebddf71a292b",
+  "prompts": {},
+  "sessions": {
+    "s_c8c3bca8147dad": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "75019b0d-0459-41ed-aa81-ed9e92b0ac5c",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
