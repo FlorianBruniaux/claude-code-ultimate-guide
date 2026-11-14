@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Link the README's Agent engineering section to The minimal harness exercise.
 - Add contextual links from Agent Harness Engineering and Agentic Software Factories to the corresponding implementation offers.
+- Label the learning path's module links with their titles ("Module 01: Installation & setup") instead of file names.
 
 ### Fixed (review of this cycle's evaluations)
 

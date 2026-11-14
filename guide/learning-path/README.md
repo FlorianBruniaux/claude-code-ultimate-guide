@@ -115,7 +115,7 @@ The path also routes to focused pages for product surfaces that sit outside the 
 - **Exercise:** Complete the "First 5 Minutes" workflow
 
 **Complexity:** ⭐ (Beginner)
-**Read:** [01-installation.md](01-installation.md)
+**Read:** [Module 01: Installation & setup](01-installation.md)
 **Then:** Part 1: Quick Start in main guide
 
 ---
@@ -129,7 +129,7 @@ The path also routes to focused pages for product surfaces that sit outside the 
 - **Exercise:** Use `/plan` to plan a real task, observe the flow
 
 **Complexity:** ⭐ (Beginner)
-**Read:** [02-core-loop.md](02-core-loop.md)
+**Read:** [Module 02: Core loop](02-core-loop.md)
 **Then:** Part 2: Core Concepts in main guide
 
 ---
@@ -143,7 +143,7 @@ The path also routes to focused pages for product surfaces that sit outside the 
 - **Exercise:** Create your first CLAUDE.md, customize settings
 
 **Complexity:** ⭐⭐ (Intermediate)
-**Read:** [03-memory.md](03-memory.md)
+**Read:** [Module 03: Memory & config](03-memory.md)
 **Then:** Part 3: Memory & Settings in main guide
 
 ---
@@ -157,7 +157,7 @@ The path also routes to focused pages for product surfaces that sit outside the 
 - **Exercise:** Build 2 agents (generalist + specialist), test them
 
 **Complexity:** ⭐⭐ (Intermediate)
-**Read:** [04-agents.md](04-agents.md)
+**Read:** [Module 04: Agents & Specialization](04-agents.md)
 **Then:** Part 4: Agents in main guide
 
 ---
@@ -171,7 +171,7 @@ The path also routes to focused pages for product surfaces that sit outside the 
 - **Exercise:** Create a skill that solves a repeated problem
 
 **Complexity:** ⭐⭐ (Intermediate)
-**Read:** [05-skills.md](05-skills.md)
+**Read:** [Module 05: Skills & Automation](05-skills.md)
 **Then:** Part 5: Skills in main guide
 
 ---
@@ -185,7 +185,7 @@ The path also routes to focused pages for product surfaces that sit outside the 
 - **Exercise:** Add and test one narrow `PreToolUse` validation hook
 
 **Complexity:** ⭐⭐ (Intermediate)
-**Read:** [06-hooks.md](06-hooks.md)
+**Read:** [Module 06: Hooks and events](06-hooks.md)
 **Then:** Part 7: Hooks in main guide
 
 ---
@@ -199,7 +199,7 @@ The path also routes to focused pages for product surfaces that sit outside the 
 - **Exercise:** Design a 3-agent workflow for a realistic scenario
 
 **Complexity:** ⭐⭐⭐ (Advanced)
-**Read:** [07-advanced.md](07-advanced.md)
+**Read:** [Module 07: Advanced Patterns](07-advanced.md)
 **Then:** Part 9: Advanced Patterns in main guide
 
 ---
