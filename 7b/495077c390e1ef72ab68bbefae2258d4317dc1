@@ -1,0 +1,21 @@
+guide/learning-path/README.md
+  s_0d70aa95f16cda::t_85654743c473eb 118,132,146,160,174,188,202
+CHANGELOG.md
+  s_0d70aa95f16cda::t_8ef7b76c8d96be 11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "7b495077c390e1ef72ab68bbefae2258d4317dc1",
+  "prompts": {},
+  "sessions": {
+    "s_0d70aa95f16cda": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ae2a09ea-7519-4aaf-b2dd-1d28c0e08028",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
