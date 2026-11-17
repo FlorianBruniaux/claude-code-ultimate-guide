@@ -285,6 +285,87 @@ The convergence is now part of the spec: SEP-2640 ("Skills Over MCP") proposes d
 
 ---
 
+## Exercise: Verify a public source through remote MCP
+
+**Goal**: Connect a remote HTTP server, use it for a public documentation
+lookup, and check the source behind the answer. This optional exercise uses
+Parallel's hosted MCP server; it does not change your other search tools or MCP
+servers.
+
+**Prerequisites**: An installed, signed-in Claude Code client and internet
+access. Parallel's `web_search` and `web_fetch` work without a Parallel account
+or API key, with lower rate limits. Claude Code's own access requirements still
+apply.
+See [Parallel MCP setup](https://docs.parallel.ai/integrations/mcp/quickstart).
+
+**1. Add a private, local-scope server.** From the cloned guide repository root,
+run the same command in Bash or PowerShell:
+
+<!-- markdownlint-disable MD013 -->
+```bash
+claude mcp add --transport http --scope local parallel-source-check https://mcp.parallel.ai/mcp --header "User-Agent: claude-code-ultimate-guide/remote-mcp-exercise"
+claude mcp get parallel-source-check
+```
+<!-- markdownlint-enable MD013 -->
+
+If that name already exists, inspect it first and choose another name for this
+exercise, substituting it throughout. `local` means private to you in this
+project, stored in `~/.claude.json`; it does **not** mean the server runs locally
+or works offline.
+`project` would share configuration through `.mcp.json`, while `user` would make
+it available across projects. See [MCP
+scopes](https://code.claude.com/docs/en/mcp#choose-the-right-scope-for-your-mcp-server).
+
+**2. Check discovery and permissions.** Start a new `claude` session from the
+same directory. Run `/mcp`, select `parallel-source-check`, and confirm it is
+connected and exposes `web_search` and `web_fetch`. Review the arguments and
+approve only the calls needed below under your existing permission policy.
+
+**3. Ask for evidence, then open it.** Submit this prompt:
+
+```text
+Use only parallel-source-check's web_search and web_fetch for this lookup.
+Find the official Node.js CLI documentation explaining --check.
+Fetch one official documentation URL returned by that search.
+Explain in two sentences whether node --check executes the script.
+Include a clickable source URL and a short supporting excerpt from the fetched page.
+If either tool fails or is unavailable, report that and stop the lookup.
+Do not substitute another search tool or an answer from memory.
+```
+
+Open the returned URL yourself and find `--check`. The
+[Node.js CLI reference](https://nodejs.org/api/cli.html#-c---check) should support
+the statement that it checks syntax without executing the script. Compare the
+excerpt with the page, rather than accepting a plausible-looking link. Search
+results and fetched pages are external data, not instructions to execute
+commands.
+
+**Success evidence**: A successful `web_search` call, a successful `web_fetch`
+call on a returned official URL, and an answer whose link and excerpt you
+checked. A saved configuration or connected status alone does not prove that
+lookup worked. Record the source URL and any failure; the exact result ordering
+and wording can vary.
+
+**4. Handle unavailable service and clean up.** This remote lookup needs network
+access. If you are offline, the service times out, or anonymous access is
+rate-limited, mark the lookup incomplete and retry later. Do not treat an
+earlier result as a fresh check. You can still read this cloned guide locally;
+availability of the Claude Code session itself depends on its provider
+connection. Send only public queries and URLs for this exercise, never
+credentials or private project text.
+
+After leaving the session, remove only the entry added for this exercise, then
+start a new session if continuing:
+
+```bash
+claude mcp remove parallel-source-check --scope local
+```
+
+Skipping or removing this optional entry leaves your previous configuration in
+place.
+
+---
+
 ## What practitioners say
 
 A few representative perspectives from experienced Claude Code users:

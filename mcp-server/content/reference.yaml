@@ -975,6 +975,7 @@ deep_dive:
   third_party_just_bash_guide_ref: "guide/security/sandbox-isolation.md#just-bash-vercel-simulate-dont-isolate"
   # MCP vs CLI vs Skills Decision Guide (Added 2026-05-22)
   mcp_vs_cli_guide: "guide/ecosystem/mcp-vs-cli.md"
+  remote_mcp_source_exercise: "guide/ecosystem/mcp-vs-cli.md#exercise-verify-a-public-source-through-remote-mcp"
   mcp_vs_cli_tradeoffs: "guide/ecosystem/mcp-vs-cli.md#tradeoffs"
   mcp_vs_cli_decision_dimensions: "guide/ecosystem/mcp-vs-cli.md#the-four-decision-dimensions"
   mcp_vs_cli_situation_table: "guide/ecosystem/mcp-vs-cli.md#guidance-by-situation"
