@@ -1,0 +1,29 @@
+machine-readable/mcp-product.json
+  s_4eb7484edbd46f::t_159c35021d97f3 17,494
+CHANGELOG.md
+  s_18f46529408159::t_5335842c02dd62 9
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "44f33996e79e055218194136667978baf5591d8f",
+  "prompts": {},
+  "sessions": {
+    "s_18f46529408159": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1ea43-c588-7913-a019-d669904f7d29",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_4eb7484edbd46f": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1ee62-7c4e-79f2-9e2e-bf4ecf6caf6f",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
