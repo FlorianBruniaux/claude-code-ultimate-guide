@@ -1,0 +1,29 @@
+machine-readable/llms.txt
+  s_18f46529408159::t_e376fd6d62022e 5
+mcp-server/content/claude-code-releases.yaml
+  s_18f46529408159::t_d8a1286dd5e6a3 6-7,18-46,2448,2473-2474,2536
+mcp-server/content/llms.txt
+  s_18f46529408159::t_5e319a4b6c0cdf 5
+guide/core/claude-code-releases.md
+  s_18f46529408159::t_2b0d591aaccaa7 20,26-28,114-134,3890-3891,3967-3968,4016
+llms.txt
+  s_18f46529408159::t_35d97ffebf6b16 5
+machine-readable/claude-code-releases.yaml
+  s_18f46529408159::t_18510e06181f27 6-7,18-46,2448,2473-2474,2536
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "69d2ec6c1e7c5cace09470fc5f3ba096e035bcad",
+  "prompts": {},
+  "sessions": {
+    "s_18f46529408159": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1ea43-c588-7913-a019-d669904f7d29",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
