@@ -3,8 +3,8 @@
 # Purpose: Track Claude Code product releases for documentation sync
 # Maintained: Manual updates when new releases are announced
 
-latest: "2.1.322"
-updated: "2026-11-10"
+latest: "2.1.326"
+updated: "2026-11-17"
 
 # ════════════════════════════════════════════════════════════════
 # RELEASES (newest first, condensed highlights only)
@@ -14,6 +14,35 @@ releases:
   # ─────────────────────────────────────────────────────────────
   # 2.1.x Series (January-August 2026)
   # ─────────────────────────────────────────────────────────────
+
+  - version: "2.1.326"
+    date: "2026-11-16"
+    highlights:
+      - "⭐ Code Mode can run alongside agent teams"
+      - "Startup warns about malformed tool rules, and `/status` reports when the provider or environment disables features"
+      - "Fixed missing permission-denial telemetry for managed `PreToolUse` hooks and tightened sandbox checks"
+      - "Fixed background sessions losing their configured gateway and resumed sessions losing conversation history"
+    breaking:
+      - "More shell and PowerShell calls can require approval or be denied, including some calls in bypass permissions mode. A hook that returns `decision: block` can now block in more cases."
+      - "Remote Control now requires the proxy to accept CONNECT tunnels. HTTP hooks ignore configured `Content-Length` and `Transfer-Encoding` headers."
+
+  - version: "2.1.325"
+    date: "2026-11-13"
+    highlights:
+      - "Fixed a security issue in zstd response decoding"
+      - "Fixed subagents using the wrong model in plan mode and compaction failures on many third-party gateways and Foundry"
+      - "Fixed background sessions picking up credentials from the service's shell and resumed sessions losing recent turns after an abrupt exit"
+
+  - version: "2.1.323"
+    date: "2026-11-12"
+    highlights:
+      - "⭐ Introduced experimental, opt-in Code Mode, where Claude calls tools from JavaScript"
+      - "Plugins can declare a Claude Code version range, and `claude plugin validate` now type-checks TypeScript hooks"
+      - "Added a 30-second progress heartbeat during long hooks in `claude -p` and SDK sessions, and DOCX support for artifact assets"
+    breaking:
+      - "Unrecognized model IDs now default to a 1M context window. Set `CLAUDE_CODE_DISABLE_1M_CONTEXT=1` to keep the 200K default when a smaller third-party model needs it."
+      - "Removed the v1 MCP client. `MCP_SDK_GENERATION=v1` now selects v2 compatibility mode. Completing MCP sign-in through a tool requires confirmation, including in auto and bypass modes."
+      - "Outside auto and bypass modes, `/security-review` asks before running. The Bash sandbox blocks worktree creation, moves and removal on macOS and Linux."
 
   - version: "2.1.322"
     date: "2026-11-10"
@@ -2416,6 +2445,7 @@ breaking_summary:
     - "Removed # shortcut for quick memory (v2.0.70)"
     - "`modelPicker:setAsDefault` keybinding renamed to `modelPicker:thisSessionOnly` (v2.1.153)"
   security:
+    - "Fixed missing permission-denial telemetry for managed `PreToolUse` hooks (v2.1.326) and a security issue in zstd response decoding (v2.1.325)."
     - "MCP OAuth requests no longer send secrets such as refresh tokens to another host on a redirect, read-only Bash commands no longer run outside the sandbox without a prompt, Bash permission checks judge writes from the right folder, and deny rules cover the file a `cp` or `mv` into a directory writes (v2.1.321); Monitor's WebSocket watch follows every Bash rule and an exact ask rule is refused under a broader deny (v2.1.319); a web or shell tool call that would send the account email address asks first (v2.1.317)"
     - "`--restricted` sessions no longer upload files from outside the working directories under a Read allow rule, PowerShell hooks that start with a type cast, `param`, `using` or an attribute block on exit code 2, and the Claude apps gateway checks every model a request names (v2.1.316); sandbox protections apply to worktrees entered by `claude -p --resume` or `--continue`, Bash-matching hooks run on Monitor tool commands, `--setting-sources` exclusions hold for auto mode rules and permission consents, and remote-only `forceRemoteSettingsRefresh` no longer lapses when the stored copy expires (v2.1.314)"
     - "Sandboxed Bash no longer runs the shell's startup files outside the sandbox, macOS `denyWrite` globs apply through symlinked folders, sandboxed commands and auto-accepted edits can no longer modify the `--mcp-config` file, Bash permission checks no longer trust a variable from a failable redirect or skip a wrapped `cd` before git, `Edit(path)` deny rules block subshell redirects, and Linux sandbox write denies hold after the session ends (v2.1.309); Windows hooks whose command is only quoted strings fail closed without Git Bash (v2.1.310); `rm -r` of a mounted drive gets the safety prompt (v2.1.304)"
@@ -2440,6 +2470,8 @@ breaking_summary:
     - "Opus 4 and Opus 4.1 removed from Claude Code first-party API — auto-migrated to Opus 4.6 (v2.1.68)"
     - "Opus 4.7 removed from fast mode; `/fast` applies to Opus 5 and Opus 4.8 only (v2.1.219)"
   behavior:
+    - "More shell calls can ask for approval or be denied, hook `decision: block` applies in more cases, and a proxy must accept CONNECT for Remote Control. (v2.1.326)"
+    - "Unrecognized model IDs default to 1M context (`CLAUDE_CODE_DISABLE_1M_CONTEXT=1` keeps 200K). The v1 MCP client is removed and `MCP_SDK_GENERATION=v1` selects v2 compatibility mode. (v2.1.323)"
     - "Auto mode with telemetry or feature flags off, including behind LLM gateways, no longer falls back to the built-in classifier (`CLAUDE_CODE_AUTO_MODE_SERVER=0` keeps it); self-paced `/loop` ends without a fallback wakeup (`CLAUDE_CODE_LOOP_KEEPALIVE=1` keeps it). (v2.1.319)"
     - "Claude Code no longer installs or updates the IDE extension when started in an IDE terminal. (v2.1.318)"
     - "The Read tool's \"file unchanged\" stub is removed: reading an unchanged file again returns its content. (v2.1.317)"
@@ -2501,6 +2533,7 @@ breaking_summary:
 # MILESTONE FEATURES (quick reference)
 # ════════════════════════════════════════════════════════════════
 milestones:
+  "2.1.323": "Experimental opt-in Code Mode calls tools from JavaScript, and plugins can require a Claude Code version range"
   "2.1.321": "Claude Fable 5.2 becomes the default Fable model with 1M context ($8/$40 per Mtok); MCP OAuth secret-redirect and sandbox-bypass security fixes"
   "2.1.309": "Sandboxed Bash no longer runs shell startup files outside the sandbox, a batch of Bash permission and worktree-isolation fixes, `sed -i` runs as an ordinary Bash edit and `claude ultrareview` requires workspace trust"
   "2.1.299": "Idle compaction before the one-hour prompt cache expires, sandbox `--plugin-dir` and symlink escape fixes, MCP allow rules scoped to the named server"

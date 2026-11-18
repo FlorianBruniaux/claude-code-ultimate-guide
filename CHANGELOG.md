@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- **Claude Code release tracking through v2.1.326** adds v2.1.323, v2.1.325 and v2.1.326 to the guide, discovery indexes and MCP 1.3.8 candidate. The npm-dated entries cover experimental Code Mode, its support for agent teams and changes to sandboxing, permissions and MCP.
 - Link the README's Agent engineering section to The minimal harness exercise.
 - Add contextual links from Agent Harness Engineering and Agentic Software Factories to the corresponding implementation offers.
 - Label the learning path's module links with their titles ("Module 01: Installation & setup") instead of file names.

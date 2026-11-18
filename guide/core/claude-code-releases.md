@@ -17,12 +17,15 @@ keywords:
 > **Release dates**: UTC publication dates from the [official npm package metadata](https://registry.npmjs.org/@anthropic-ai%2Fclaude-code). Only versions with upstream changelog entries are included.
 > **Machine-readable**: [claude-code-releases.yaml](../../machine-readable/claude-code-releases.yaml)
 
-**Latest**: v2.1.322 | **Updated**: 2026-11-10
+**Latest**: v2.1.326 | **Updated**: 2026-11-17
 
 ---
 
 ## Quick jump
 
+- [v2.1.326](#v21326-2026-11-16): Code Mode with agent teams, stricter permissions and a Remote Control proxy change
+- [v2.1.325](#v21325-2026-11-13): zstd response decoding fix, subagent model fixes and gateway compaction fixes
+- [v2.1.323](#v21323-2026-11-12): ⭐ experimental Code Mode, plugin version ranges and MCP client changes
 - [v2.1.322](#v21322-2026-11-10): fast mode on Vertex AI in the global, us and eu regions
 - [v2.1.321](#v21321-2026-11-09): ⭐ Claude Fable 5.2 default Fable model, `claude remote-control --settings`, MCP OAuth secret-redirect and sandbox-bypass fixes
 - [v2.1.319](#v21319-2026-11-06): ⭐ `permissions.denyInsteadOfPrompting`, MCP tasks in the background, auto mode without the built-in classifier fallback and `/loop` without keepalive
@@ -107,6 +110,27 @@ The Max 20x plan is now called Ultra and Max 5x is now called Max (pages updated
 ---
 
 ## 2.1.x series (January-August 2026)
+
+### v2.1.326 (2026-11-16)
+
+- Code Mode works with agent teams. Teammates use it in the default in-process display mode and start with it off in split panes. Startup warns when `--allowedTools`, `--disallowedTools` or `--tools` contains a malformed rule. `/status` shows when a provider or environment setting disables features. OpenTelemetry can include `host.name` and `host.id` by setting `OTEL_RESOURCE_INCLUDE_HOST`.
+- Claude Code asks before more shell and PowerShell operations and can deny some calls even in bypass permissions mode. Hook responses with `"decision": "block"` apply in more cases. Sandboxed shell commands have fewer writable locations by default. A command rewritten on approval stays sandboxed by default if the original was checked as sandboxed.
+- Remote Control uses CONNECT tunnels through proxies. A proxy that refuses CONNECT prevents it from connecting. For HTTP hooks, Claude Code derives the request length from the body and ignores configured `Content-Length` and `Transfer-Encoding` headers.
+- A background session stops before sending a model request if it loses its configured gateway. Resumed sessions recover more conversation history after crashes or low memory. Denials from managed `PreToolUse` hooks appear in OpenTelemetry and `permission_denials`.
+
+### v2.1.325 (2026-11-13)
+
+- Anthropic corrected a security issue in zstd response decoding. Background sessions started with a Claude sign-in keep that sign-in instead of picking up credentials from the shell that launched the background service.
+- Subagents keep their configured model under `opusplan` or `haiku` and size file reads and MCP results for that model. Sessions on many third-party gateways and Foundry compact when they reach the context limit.
+- Resuming after an abrupt exit recovers recent turns more reliably. An approved plan edit falls back to the default plans directory with a warning if the configured directory cannot accept it.
+
+### v2.1.323 (2026-11-12)
+
+- ⭐ [Code Mode](https://code.claude.com/docs/en/code-mode) is experimental and opt-in. Claude writes JavaScript to call tools. Administrators can disable the feature for their organization.
+- A plugin can declare `engines["claude-code"]` in `plugin.json`. Installation and updates select the newest compatible release, and incompatible plugins do not load. `claude plugin validate` type-checks TypeScript hooks and fails on findings with `--strict`.
+- Long hooks in `claude -p` and SDK sessions send progress every 30 seconds to hosts that support it. The Artifact tool accepts DOCX assets.
+- Unrecognized model IDs default to a 1M context window. Set `CLAUDE_CODE_DISABLE_1M_CONTEXT=1` to preserve 200K when a smaller third-party model would otherwise hit its limit. `MCP_SDK_GENERATION=v1` now selects compatibility mode in the v2 MCP client. Finishing a server sign-in through a tool requires confirmation, including in auto and bypass modes. Use `/mcp` when the tool cannot prompt.
+- Outside auto and bypass modes, `/security-review` asks before running. On macOS and Linux, sandboxed `git worktree add`, `move` and `remove` fail with a read-only error, as do commits in worktrees outside the session's working directories.
 
 ### v2.1.322 (2026-11-10)
 
@@ -3863,6 +3887,8 @@ The Max 20x plan is now called Ultra and Max 5x is now called Max (pages updated
 
 | Version | Change |
 |---------|--------|
+| v2.1.326 | Remote Control requires proxies to accept CONNECT. More shell calls can require approval or be denied, and hooks returning `decision: block` apply in more cases. |
+| v2.1.323 | Unrecognized model IDs default to 1M (`CLAUDE_CODE_DISABLE_1M_CONTEXT=1` keeps 200K). The v1 MCP client is removed and `MCP_SDK_GENERATION=v1` selects v2 compatibility mode. |
 | v2.1.319 | Auto mode with telemetry or feature flags off, including behind LLM gateways, no longer falls back to the built-in classifier; calls the server can't check are asked about or denied (`CLAUDE_CODE_AUTO_MODE_SERVER=0` keeps it). Self-paced `/loop` ends without a fallback wakeup (`CLAUDE_CODE_LOOP_KEEPALIVE=1` keeps it). |
 | v2.1.318 | Claude Code no longer installs or updates the IDE extension when started in an IDE terminal. |
 | v2.1.317 | The Read tool's "file unchanged" stub is removed: reading an unchanged file again returns its content. |
@@ -3938,6 +3964,8 @@ The Max 20x plan is now called Ultra and Max 5x is now called Max (pages updated
 
 | Version | Issue |
 |---------|-------|
+| v2.1.326 | Managed `PreToolUse` denials now appear in OpenTelemetry and `permission_denials`. |
+| v2.1.325 | Fixed a security issue when decoding zstd responses. |
 | v2.1.321 | MCP OAuth requests no longer send secrets such as refresh tokens to another host on a redirect, read-only Bash commands no longer run outside the sandbox without a prompt, Bash permission checks judge writes from the right folder, and deny rules cover the file a `cp` or `mv` into a directory writes |
 | v2.1.319 | Monitor's WebSocket watch follows every Bash rule, and an exact Bash or PowerShell ask rule is refused when a broader deny rule covers the command |
 | v2.1.317 | A web or shell tool call that would send the account email address to the network asks first |
@@ -3985,6 +4013,7 @@ The Max 20x plan is now called Ultra and Max 5x is now called Max (pages updated
 
 | Version | Key Features |
 |---------|--------------|
+| **v2.1.323** | Experimental opt-in Code Mode calls tools from JavaScript, and plugins can require a Claude Code version range. |
 | **v2.1.321** | Claude Fable 5.2 becomes the default Fable model with 1M context ($8/$40 per Mtok); MCP OAuth secret-redirect and sandbox-bypass security fixes |
 | **v2.1.299** | Idle compaction before the one-hour prompt cache expires; sandbox `--plugin-dir` and symlink escape fixes; MCP allow rules scoped to the named server |
 | **v2.1.293** | Claude Haiku 5.5 becomes the default Haiku model on the Anthropic API with 1M context ($0.10/$0.50 per Mtok) |
