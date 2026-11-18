@@ -1541,6 +1541,7 @@ These tools host or coordinate existing coding agents. Their workspace features 
 | [Escouade](https://github.com/guillaume-gagnaire/escouade/blob/9383ada96cf91190fc719a1fcac7ac72ab00c7c4/README.md) | FR/EN Kanban with acceptance criteria, dependencies and retries; a three-ticket local trial verified worktree creation, dependency scheduling, restart/resume, and test-gated merges through MCP | Windows, macOS, Linux; 1.8.8 documents Claude Code, Codex, OpenCode, and Copilot CLI, but the trial used only Claude Code. GPL-3.0-or-later; versions through 1.7.7 were MIT. Enable tests explicitly and review MCP delivery authority |
 | [Nimbalyst](./agentic-tools.md#47-nimbalyst) | Edit and review plans, diagrams, and implementation together | See the existing profile for supported agents and limitations |
 | [Vibe Kanban](./agent-harness-landscape.md#vibe-kanban-maintenance-status) | Existing Kanban control plane over external coding agents | Bloop announced its shutdown and a community/local continuation; check the dated maintenance note before relying on remote services |
+| [KinetAios](#kinetaios) | Dual-engine dashboard resuming Claude Code and Codex CLI sessions as separate desktop conversations, with per-conversation engine/model switching and FTS5 history search | GPL-3.0; Windows, macOS. Young project (13 stars at review time, reviewed from source and docs, no runtime trial); each conversation spawns its own CLI process, so agent CLI configuration still applies |
 
 For example, evaluate Superset on a UI change that needs both browser inspection and code review; evaluate Emdash when the repository must stay on an SSH machine. For Escouade, verify a ticket's tests and diff independently of the agent's acceptance-criteria report. Worktrees separate Git working files; they do not sandbox processes or prevent merge conflicts.
 
@@ -1618,6 +1619,30 @@ A third-party VS Code extension (not Anthropic's official extension) that adds a
 **Note**: This is **not** the official [Claude Code for VS Code](https://marketplace.visualstudio.com/items?itemName=anthropic.claude-code) extension by Anthropic. The official extension provides inline diffs, @-mentions, and plan review directly in the editor.
 
 **Limitations**: Third-party, not Anthropic-maintained. Feature set may overlap with or lag behind the official extension.
+
+---
+
+### KinetAios
+
+An Electron dashboard that manages Claude Code and Codex as separate desktop conversations in one window. Each conversation resumes its own official CLI session, so switching from the terminal to the dashboard (and back) does not lose session state. GPL-3.0, Windows 11 + macOS.
+
+| Attribute | Details |
+|-----------|---------|
+| **Source** | [GitHub: phinn/KinetAios](https://github.com/phinn/KinetAios) |
+| **Install** | Prebuilt installers from [Releases](https://github.com/phinn/KinetAios/releases) (NSIS for Windows, dmg for macOS); or from source via `npm install && npm run dev` |
+| **License** | GPL-3.0 |
+| **Language** | TypeScript (Electron, no frontend framework) |
+| **Status** | Young project (started mid-2026), actively developed |
+
+**Key features**:
+
+- Dual-engine: Claude Code and Codex conversations coexist, each resuming its own CLI session (`claude --resume` / `codex`)
+- Per-conversation engine and model switching without cross-engine context pollution
+- MCP **client and server** (both directions), skills support
+- SQLite (FTS5) full-text search over all session history; local-first, no account, no cloud relay
+- Built-in ReAct engine ("Direct") for direct provider access without the CLIs (30+ tools, plugin SDK)
+
+**Limitations**: Small community so far (13 stars at review time). Windows installer must be built on Windows; macOS dmg on macOS. GPL-3.0 may matter for embedding scenarios.
 
 ---
 
