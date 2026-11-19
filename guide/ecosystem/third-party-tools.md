@@ -325,6 +325,27 @@ Claude Code plugin focused on surfacing where context budget is actually going, 
 
 ---
 
+### catude
+
+Terminal UI and CLI that reads Claude Code's local transcripts and explains where the tokens went, rather than only reporting totals.
+
+| Attribute | Details |
+|-----------|---------|
+| **Source** | [GitHub: catude/catude](https://github.com/catude/catude) |
+| **Stars** | New (first release v0.1.0, 2026-11-19) |
+
+**Key features**:
+
+- `catude why`: the share of fresh tokens spent on the cache written again after pauses of more than five minutes, on subagents, on `claude -p` runs and on the context loaded before the first message
+- Responses de-duplicated across transcript files, so a conversation resumed or forked into another folder counts once
+- Agent map: runs, tokens and an estimated cost per subagent type, and who launched each run
+- Per-project switches for MCP servers and skills through Claude Code's documented settings (`disabledMcpServers`, `disabledMcpjsonServers`, `skillOverrides`)
+- Local only: one Go binary, no account, no telemetry; Windows, macOS and Linux
+
+**When to use**: When your usage drains faster than expected and you want to know which habit or component causes it, not only how much was spent.
+
+---
+
 ### A note on the Layer 4 billing blind spot
 
 API-level gateways (Helicone, Portkey, Langfuse, Bifrost, Compresr) intercept HTTP calls and measure token usage at the API layer. This works well for applications calling the Anthropic API directly. It does not work for Claude Code Max or Pro subscriptions, because Claude Code connects directly to Anthropic servers using subscription credentials rather than an API key. There is no HTTP layer for a gateway to intercept.
