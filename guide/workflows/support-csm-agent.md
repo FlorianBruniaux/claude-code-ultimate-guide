@@ -41,6 +41,12 @@ Second, tooling. A client-facing chatbot needs a channel (web widget, WhatsApp, 
 
 ---
 
+### Brevo: explicit procedures before open-ended routing
+
+In his November 19, 2026 GenAI Days account, Emmanuel Sciara reports Charli Idrac describing Brevo replacing a hard-to-debug agent system with a decision tree encoding support procedures. LLMs intervene at selected nodes and a direct API call retrieves ticket data. A known retrieval can be a fixed operation rather than another model decision. MCP itself does not make a call probabilistic, and fixed orchestration does not make LLM outputs deterministic.
+
+Sciara also describes a separate project in which support staff build their own tools through a coding agent in Slack. Keep that activity distinct from both autonomous customer replies and this page's internal drafting assistant. The account is not a controlled productivity comparison. See the [source evaluation](../../docs/resource-evaluations/genai-days-nantes-sciara.md) before transferring the pattern or its reported gains.
+
 ## Maturity model
 
 Six levels, each buildable independently. Most teams get real value by L1 or L2 and stop there for months before pushing further; there's no requirement to reach L5.

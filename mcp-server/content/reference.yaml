@@ -2111,7 +2111,7 @@ deep_dive:
   agent_evaluation_guide: "guide/roles/agent-evaluation.md"
   agent_evaluation_metrics: "guide/roles/agent-evaluation.md#metrics-to-track"
   agent_evaluation_patterns: "guide/roles/agent-evaluation.md#implementation-patterns"
-  agent_evaluation_probabilistic: "guide/roles/agent-evaluation.md#evaluating-probabilistic-systems"
+  agent_evaluation_probabilistic: "guide/roles/agent-evaluation.md#evaluating-probabilistic-systems"  # includes criterion-specific judges and human calibration; Pennylane via Sciara, secondhand account
   agent_evaluation_tools: "guide/roles/agent-evaluation.md#tools--references"
   agent_evaluation_sample_size: "guide/roles/agent-evaluation.md#size-the-comparison-to-the-decision"  # process vs outcome signals; Khatri 2607.27250 power limit (~120 tasks for 10pp)
   agent_evaluation_ablation_runners: "guide/roles/agent-evaluation.md#configuration-ablation-runners"  # claude plugin eval, skill-eval-harness, agent-skill-eval; no direct CLAUDE.md or rules arm
@@ -3790,6 +3790,7 @@ section_maps:
     - "sanity-checks"
     - "common-pitfalls"
     - "team-size-considerations"
+    - "back-market-champions-and-role-specific-support"
     - "common-situations"
     - "start--build--scale-a-practical-navigation-layer"
     - "the-l0-l5-scale-where-is-your-team"
@@ -3803,6 +3804,7 @@ section_maps:
     - "tools--references"
     - "best-practices"
     - "evaluating-probabilistic-systems"
+    - "criterion-specific-judges-and-human-calibration"
   "guide/roles/ai-roles.md":
     - "1-the-landscape-in-one-view"
     - "2-prompt-engineer"
@@ -4229,6 +4231,7 @@ section_maps:
     - "sdd-vs-tdd-vs-bdd"
   "guide/workflows/support-csm-agent.md":
     - "core-concept"
+    - "brevo-explicit-procedures-before-open-ended-routing"
     - "maturity-model"
     - "flow"
     - "mcp-servers-for-this-pattern"

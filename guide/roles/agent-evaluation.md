@@ -611,6 +611,14 @@ The judge model is typically larger than the production model (for example, usin
 
 ---
 
+### Criterion-specific judges and human calibration
+
+A larger judge is one option. In his November 19, 2026 account, *Retour sur la conférence GenAI Days Nantes 2026*, Emmanuel Sciara reports Tristan Fransen describing Pennylane using small evaluators, each assigned one criterion, such as instruction adherence or signs of user dissatisfaction. The account also describes differently configured evaluators voting on the same criterion when data is sparse, and nightly aggregation producing a list of corrections. This is a secondhand practitioner account, not a comparison establishing that small judges outperform a larger one. See the [source evaluation and French translation](../../docs/resource-evaluations/genai-days-nantes-sciara.md).
+
+To test this variant, keep the agent result, its action trace, the user-experience signals, and the judge verdict separate. Compare a single judge and criterion-specific judges on the same independently annotated cases. Record false acceptances, false rejections, cost, and latency by criterion. Inspect disagreements with human annotations before changing a judge or its rubric, and evaluate the change on reserved cases.
+
+A copied response can indicate use, while repeated reformulation can indicate friction. Neither establishes correctness. Sparse thumbs-up/down feedback can expose disagreements, but its selection and missing coverage limit calibration. Aggregation does not establish independent errors or remove a shared bias. A vote about a criterion is also distinct from authority to accept a change or release it.
+
 ### Hallucination as a trade-off, not a bug
 
 Hallucination is a structural feature of how LLMs are trained, not a defect that can be eliminated. The training process rewards confident answers over abstentions, which means models sometimes fabricate plausible-sounding content rather than saying they do not know.

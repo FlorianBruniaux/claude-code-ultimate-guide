@@ -23,6 +23,12 @@ In [IFTTD episode 371](https://www.ifttd.io/episodes/everyone-can-build), Alexan
 
 An [Alan Product Crew interview at 10:49](https://www.youtube.com/watch?v=2quWpI_VSDQ&t=649s) also describes engineering pairing and responsibility for merging. This is another account of the same organization, not an independent replication. Track review effort and assistance over subsequent changes before claiming durable team gains. Teaching a non-engineer a bounded contribution workflow is also different from training a junior engineer; use [Learning with AI](learning-with-ai.md) for the latter.
 
+### Back Market: champions and role-specific support
+
+Emmanuel Sciara's *Retour sur la conférence GenAI Days Nantes 2026*, dated November 19, 2026, reports Nicolas Martignole describing a champion designated by each of Back Market's 40 teams, weekly champion meetings, and training for engineering managers using tasks other than coding. The group also invites each team to add repository contribution guidelines for new contributors and their agents. According to the account, Martignole chooses not to mandate AI use and opposes including it in the competency framework.
+
+This gives a concrete operating example alongside the experimentation policy above. It does not establish that voluntary adoption outperforms a mandatory rollout. In a trial, observe use on real tasks, assistance required, review effort, and accepted-work quality by role. The [source evaluation](../../docs/resource-evaluations/genai-days-nantes-sciara.md) records the secondhand evidence limit.
+
 ## What we don't know yet
 
 Before diving in, here's what remains genuinely uncertain:

@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- Add attributed examples from Emmanuel Sciara’s November 19 GenAI Days Nantes account: Pennylane’s criterion-specific judges and human calibration, Back Market’s champions and role-specific voluntary adoption, and Brevo’s explicit support procedures. Add a bilingual source evaluation with a French translation of the Pennylane section. These are secondhand practitioner accounts, without verified comparative performance or productivity gains. Update discovery indexes and MCP mirrors.
+
 - **Claude Code release tracking through v2.1.326** adds v2.1.323, v2.1.325 and v2.1.326 to the guide, discovery indexes and MCP 1.3.8 candidate. The npm-dated entries cover experimental Code Mode, its support for agent teams and changes to sandboxing, permissions and MCP. Regenerate the MCP product manifest for 291 tracked releases.
 - Link the README's Agent engineering section to The minimal harness exercise.
 - Add contextual links from Agent Harness Engineering and Agentic Software Factories to the corresponding implementation offers.
