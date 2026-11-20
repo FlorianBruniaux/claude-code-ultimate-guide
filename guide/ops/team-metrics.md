@@ -447,6 +447,7 @@ The table above covers the tools most teams reach for first. The 2026 market is 
 | Jellyfish | Positions itself in 2026 as a "software engineering intelligence platform" explicitly built for AI-integrated organizations | Same note as Cortex.io: already cited as a data source elsewhere in this guide, now documented as a tool |
 | Oobeya (oobeya.io) | Aggregates 20+ existing DevOps tools into a single layer, rather than being a standalone data source itself | Fits teams already running several disconnected DevOps tools who want one pane of glass instead of another data collector |
 | Hatica (hatica.io) | Markets "gen AI-driven engineering analytics" | Thinner on documented specifics than the other entries in this table: the underlying LLM mechanism behind its analytics claims isn't publicly detailed. Worth a direct vendor conversation before committing, don't take the marketing framing at face value |
+| Aidealy (aidealy.ai) | Labels each line of code as AI-written or human-written from Cursor and Claude Code records, compares the code quality of the two, and reports AI token cost per pull request | Counted from the tools' records, not estimated; the method is on its How it works page (aidealy.ai/en/how-it-works). Paid per seat, no free tier |
 
 ### AI-Generated board narratives
 
