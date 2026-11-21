@@ -2134,7 +2134,8 @@ deep_dive:
   api_gateway_progressive_spend_policy: "guide/ops/api-gateway.md#31-progressive-spend-policy-for-interactive-users"
   api_gateway_model_allowlists: "guide/ops/api-gateway.md#4-model-allowlists"
   api_gateway_portkey: "guide/ops/api-gateway.md#8-portkey-as-a-managed-alternative"
-  api_gateway_limits: "guide/ops/api-gateway.md#9-what-the-gateway-does-not-cover"
+  api_gateway_bifrost: "guide/ops/api-gateway.md#9-bifrost-as-a-self-hosted-alternative"
+  api_gateway_limits: "guide/ops/api-gateway.md#10-what-the-gateway-does-not-cover"
   api_gateway_scope: "proxy layer between Claude Code clients and the Anthropic API; per-session cost estimation stays in guide/ops/observability.md"
   # ── Printable cheatsheet (standalone file, distinct from the in-guide section at line 19597)
   cheatsheet_file: "guide/cheatsheet.md"

@@ -66,7 +66,7 @@ For general gateway architecture and external gateway constraints, read [Anthrop
 
 ## Third-party implementation examples
 
-The remaining LiteLLM and Portkey material is third-party implementation guidance. Its virtual keys, `403` model rejection, `429` budget behavior, and request/response logging are not claims about Claude apps gateway.
+The remaining LiteLLM, Portkey, and Bifrost material is third-party implementation guidance. Its virtual keys, `403` model rejection, `429` budget behavior, and request/response logging are not claims about Claude apps gateway.
 
 ## 1. Why a gateway layer
 
@@ -329,7 +329,32 @@ Portkey also supports `x-portkey-virtual-key` headers for routing, logging, and 
 
 ---
 
-## 9. What the gateway does not cover
+## 9. Bifrost as a self-hosted alternative
+
+[Bifrost](https://github.com/maximhq/bifrost) is an open-source (Apache 2.0) AI gateway written in Go. It runs as a single binary in your own infrastructure and exposes an Anthropic-compatible endpoint at `/anthropic`. It supports virtual keys with budgets and rate limits, and exports Prometheus metrics and OpenTelemetry traces.
+
+```bash
+# Start the gateway (API and web UI on port 8080)
+npx -y @maximhq/bifrost
+
+# Or with Docker, with a volume so keys and config survive restarts
+docker run -p 8080:8080 -v $(pwd)/data:/app/data maximhq/bifrost
+```
+
+Point Claude Code at the `/anthropic` path and pass a Bifrost virtual key:
+
+```bash
+export ANTHROPIC_BASE_URL=http://your-bifrost-host:8080/anthropic
+export ANTHROPIC_AUTH_TOKEN=sk-bf-your-virtual-key
+```
+
+Claude Code sends `ANTHROPIC_AUTH_TOKEN` as `Authorization: Bearer <token>`, and Bifrost reads it as the virtual key. A new virtual key allows no providers until you add them to it. A `403` usually means the key does not allow that provider or model.
+
+The trade-off: you run and update the gateway yourself, and request data stays in your infrastructure. SSO-based access control, guardrails, and multi-node clustering are part of the paid enterprise tier. See the [Bifrost Claude Code guide](https://docs.getbifrost.ai/cli-agents/claude-code) for setup options and checks.
+
+---
+
+## 10. What the gateway does not cover
 
 The gateway controls requests routed through it. It does not address:
 
@@ -356,3 +381,4 @@ If gateway-only API routing is a policy requirement, remove direct provider cred
 - [Claude apps gateway](https://code.claude.com/docs/en/claude-apps-gateway) for Anthropic's current gateway reference
 - [LiteLLM proxy documentation](https://docs.litellm.ai/docs/proxy/quick_start)
 - [Portkey documentation](https://docs.portkey.ai)
+- [Bifrost documentation](https://docs.getbifrost.ai)
