@@ -35,7 +35,7 @@ Buy-side deflection tools and this pattern are not competitors. A team can run I
 
 Keep the boundary explicit from day one: this is an agent-assist pattern, not an autonomous client-facing chatbot. The distinction matters for two reasons.
 
-First, scope of trust. A human reviews and sends every reply, and that single rule is what makes read/write access to production systems (CRM, database, issue tracker) an acceptable risk. The agent's output is always checked before it reaches a client, so a wrong diagnosis costs a few minutes of rework, not a bad client interaction.
+First, scope of trust. A human reviews and sends every reply. Data access needs separate enforcement: read-only credentials for L1 through L3, authorization for the requesting user, and bounded queries. Reviewing a draft cannot prevent an unauthorized read, an expensive query or disclosure to the model before that review.
 
 Second, tooling. A client-facing chatbot needs a channel (web widget, WhatsApp, email inbox), session handling, and content moderation, which is Claude Agent SDK or API territory, not Claude Code CLI. An internal agent-assist tool is a Claude Code skill or a small script a support rep runs against a ticket. Much less to build, much faster to ship.
 
@@ -83,6 +83,16 @@ Before a retention or upsell call, the agent pulls product usage data, ticket hi
 
 ---
 
+### Connect documentation, code and live data without merging their authority
+
+A company knowledge base can route a difficult question to product documentation, the relevant code and a bounded data lookup. Keep those sources distinct: documentation describes intended behavior, code shows an implementation at a revision, and a query observes data at a particular time. Confirm which code revision is deployed before treating repository behavior as production behavior.
+
+For example, investigate why an account cannot access a feature by retrieving its documented eligibility rule, inspecting the corresponding authorization code at the deployed revision, and using a permitted lookup of that account's state. Cite the document version, code revision and query time. Surface disagreements and replica lag where relevant instead of silently choosing one source as truth.
+
+Enforce the requesting user's organization, account and field permissions in the tool or service for every lookup, and apply repository access permissions before retrieving code. A read-only database role does not establish tenant or field authorization. Prefer parameterized diagnostic operations, bounded results and query timeouts, with audit records protected like the underlying data. Keep secrets and unrelated personal data out of retrieved code and responses. Human review remains an output check, alongside these access controls.
+
+Evaluate this extension against representative questions with known answers, including a denied cross-account lookup, stale documentation and a disagreement between code and data. Retain answer correctness, source traceability, abstentions and engineering escalation effort before claiming better diagnosis. [Context beyond the repository](../core/agent-harness.md#context-beyond-the-repository) describes the freshness trade-offs.
+
 ## Flow
 
 ```mermaid
@@ -104,7 +114,7 @@ flowchart LR
     style H fill:#bfb,stroke:#333
 ```
 
-The human-review step (H) is not optional and should not get automated away, even once the agent's accuracy looks good in practice. It's the control that lets you grant L2-level data access without turning every ticket into a production incident risk.
+The human-review step (H) is required for this workflow before a reply reaches a client. L2-level data access also requires the credential, authorization and query controls described above, regardless of the quality of the draft.
 
 ---
 
@@ -165,7 +175,7 @@ The recurring-cases section is where most of the value lives, and it has to come
 - **DB access via replica, not primary.** See [L2](#l2-read-only-database-access-for-technical-diagnosis) above. A replica bounds the blast radius of a bad query to a non-production system.
 - **Least privilege on API keys.** Scope the HubSpot, Zendesk, or Linear credentials to the minimum object types the skill actually needs; most of these platforms support granular scopes.
 - **PII handling.** Ticket content and CRM data both carry PII. Follow the data handling practices in [data-privacy.md](../security/data-privacy.md), and in particular don't let draft replies or diagnostic output land in logs or session transcripts that outlive the ticket.
-- **Human-in-the-loop is the actual safety mechanism**, not a nice-to-have. Every level in this pattern assumes a person reads the output before it reaches a client. Don't wire the agent's draft directly to an auto-send action.
+- **Human review before sending.** Every level in this pattern assumes a person reads the output before it reaches a client. Keep access controls at the tool boundary and do not wire the agent's draft directly to an auto-send action.
 
 ---
 
@@ -185,7 +195,7 @@ This pattern doesn't produce a "deflection rate," since there's no client-facing
 | Anti-Pattern | Problem | Solution |
 |-------------|---------|----------|
 | **Skipping straight to L2 for the demo** | Data access approval takes weeks; a team that waits for it before shipping anything gets zero value in the meantime | Ship L0 first, since it needs no new access and still saves drafting time |
-| **Auto-sending drafts** | Removes the one guardrail that makes L2-level access acceptable risk | Keep a human review step for every reply, permanently |
+| **Auto-sending drafts** | Bypasses the required check before a reply reaches the client | Keep a human review step for every reply in this workflow |
 | **DB access via primary connection** | A bad query or a runaway agent loop can degrade production | Point at a read replica, always |
 | **Generic case catalog copied from a template** | The team's actual recurring cases are specific to their product; a generic list produces generic, unhelpful drafts | Build the L0 case catalog from a real export of the team's own last 30 to 90 days of tickets |
 | **Treating this as a chatbot project** | Conflates internal agent-assist (Claude Code skill) with client-facing deflection (SDK/API and vendor evaluation) | Decide which one you're building before scoping the work, see [Core Concept](#core-concept) |

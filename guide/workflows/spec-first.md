@@ -20,6 +20,7 @@ Define what you want in CLAUDE.md BEFORE asking Claude to build. One well-struct
 4. [Task Granularity: Sizing Work for Agents](#task-granularity-sizing-work-for-agents)
 5. [CLAUDE.md Spec Templates](#claudemd-spec-templates)
 6. [Step-by-Step Workflow](#step-by-step-workflow)
+   - [From idea to prototype, business trial and day-7 review](#from-idea-to-prototype-business-trial-and-day-7-review)
 7. [Integration with Tools](#integration-with-tools)
 8. [When to Use](#when-to-use)
 9. [Anti-Patterns](#anti-patterns)
@@ -370,6 +371,38 @@ Then implement the rate limiting.
 ```
 
 ---
+
+### From idea to prototype, business trial and day-7 review
+
+Use a testable artifact when interacting with a proposal can settle an open product decision. It can be a Claude Artifact, a local mockup or a small runnable prototype. A clear bug fix does not need a prototype gate. The following internal-tool example is a proposed protocol using synthetic support tickets, not a report of a deployed tool or measured benefit.
+
+The idea is a ticket-triage view that helps support identify cases requiring engineering. Keep its problem statement, prototype link, acceptance evidence and follow-up record in the existing issue or specification. The requester owns the business trial, an engineering reviewer owns technical acceptance, and a named maintainer owns the tool after release.
+
+| Stage | Action and retained evidence | Condition for continuing |
+|---|---|---|
+| Idea | Record the recurring triage problem, current manual process, intended users, hypothesis and exclusions. Use a fixed set of synthetic tickets with expected routing decisions. | The requester agrees what a useful result would be and who will test it. |
+| Prototype | Ask Claude to build the smallest interactive triage view with synthetic data. Show an ordinary case, an escalation and an uncertain case. Label mocked integrations and retain known limitations. | The requester can inspect the workflow and choose whether to fund implementation. A convincing demo is not technical acceptance. |
+| Business trial | After required engineering checks and release approval, let the requester try the permitted workflow in the agreed environment. Record whether routing is usable, where manual correction is needed and which cases remain untested. | Record technical verification and business acceptance separately. Open defects keep their own status. |
+| Day-7 review | Seven days after the feature becomes available to the trial users, inspect permitted usage evidence and collect the requester's feedback. Record exposure, actual use, successful routing, corrections and maintenance effort against the manual baseline. | Choose continue, revise, extend the trial with a new owner-approved review date, or retire. Missing exposure or evidence means inconclusive, not success. |
+
+Before release, write a follow-up record with the feature and released revision, trial owner, availability date, review date, intended users, success criterion and evidence location. Day 7 is a trial cadence, not a universal adoption threshold. For infrequent workflows, agree a review window that can include a real opportunity to use the feature. See [feature adoption metrics](../ops/team-metrics.md#feature-adoption-rate).
+
+Create the reminder in an approved scheduler or issue tracker and retain its identifier and execution status in that record. Claude can prepare a reminder payload or a review report from authorized sources. A request inside a conversation does not establish that a future job exists or will execute. Updating the availability date should also update the review date.
+
+Example prompt for the review:
+
+```text
+Perform the day-7 review for the feature in the linked follow-up record.
+Read the linked specification, released revision, technical checks,
+business-trial feedback and usage evidence available within my access.
+Separate technical verification, business acceptance and observed use.
+Report eligible users and actual exposure before calculating adoption.
+Distinguish observations, assumptions, missing evidence and untested cases.
+Recommend continue, revise, extend the trial or retire, with supporting evidence.
+Leave the decision to the trial owner. Do not change code or send messages.
+```
+
+Keep this loop small enough to close one product decision. A passing test suite establishes only the behavior it exercises. A successful business trial does not establish sustained use, and a reminder firing does not establish that anyone tested the feature.
 
 ## Integration with tools
 

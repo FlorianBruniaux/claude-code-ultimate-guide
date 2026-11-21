@@ -322,6 +322,12 @@ Of users who could use feature X, what percentage actually use it within 14 days
 
 Segment by user cohort (new vs. returning users, different pricing tiers) to distinguish adoption problems from discoverability problems.
 
+### Day-7 review after a business trial
+
+For a bounded internal feature, attach a review to its availability date and name the requester who will decide whether it should continue. At the agreed review, retain three separate results: technical checks for the released revision, business acceptance of the workflow, and observed use by people who had access and an opportunity to try it. Record the denominator and observation window alongside any adoption rate. A feature with no exposure has an inconclusive adoption result.
+
+Claude can assemble permitted usage evidence, feedback and remaining defects into a report. The trial owner decides whether to continue, revise, extend or retire the feature. Include human assistance and maintenance effort when comparing with the previous process. The [idea-to-day-7 example](../workflows/spec-first.md#from-idea-to-prototype-business-trial-and-day-7-review) includes the reminder record and decision criteria. Seven days is a proposed checkpoint, not a measured optimum or proof of sustained adoption.
+
 ### Bug escape rate
 
 Bugs found in production divided by total bugs (pre-production bugs + production bugs). Formula: `bugs_in_prod / (bugs_before_prod + bugs_in_prod)`.

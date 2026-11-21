@@ -219,6 +219,8 @@ deep_dive:
   agent_harness_lethal_trifecta: "guide/core/agent-harness.md#3-the-lethal-trifecta-security-model"
   agent_harness_cicd: "guide/core/agent-harness.md#4-cicd-agentic-patterns"
   agent_harness_test_selection: "guide/core/agent-harness.md#test-selection-as-an-agent-primitive"
+  agent_harness_test_feedback: "guide/core/agent-harness.md#keep-test-feedback-compact-and-recoverable"
+  agent_harness_maintenance_ci: "guide/core/agent-harness.md#own-harness-maintenance-and-the-ci-feedback-path"
   agent_harness_observability: "guide/core/agent-harness.md#6-observability-stack"
   agent_harness_creator_verifier: "guide/core/agent-harness.md#8-creator-verifier-pattern"
   agent_harness_three_properties: "guide/core/agent-harness.md#1-three-foundational-properties"
@@ -588,6 +590,8 @@ deep_dive:
   review_queue_measurements: "guide/ops/team-metrics.md#measure-the-shared-verification-queue"
   review_comprehension_exercise: "examples/learning-project/review-comprehension-exercise.md"
   contribution_authority_case: "guide/roles/adoption-approaches.md#open-contribution-without-granting-unrestricted-delivery"
+  team_tool_experiment_ownership: "guide/roles/adoption-approaches.md#team-tools-need-an-owner-after-the-experiment"
+  company_brain_code_data: "guide/workflows/support-csm-agent.md#connect-documentation-code-and-live-data-without-merging-their-authority"
   data_access_continuity: "guide/security/data-privacy.md#test-access-continuity-as-well-as-data-location"
 
   practitioner_insights_guide: "guide/ecosystem/practitioner-insights.md"
@@ -1737,6 +1741,7 @@ deep_dive:
   skeleton_projects_workflow: "guide/workflows/skeleton-projects.md"
   # Spec-First Development (Addy Osmani, Jan 2026)
   spec_first_workflow: "guide/workflows/spec-first.md"
+  spec_prototype_business_trial_day7: "guide/workflows/spec-first.md#from-idea-to-prototype-business-trial-and-day-7-review"
   spec_modular_design: "guide/workflows/spec-first.md#modular-spec-design"
   spec_operational_boundaries: "guide/workflows/spec-first.md#operational-boundaries"
   spec_command_template: "guide/workflows/spec-first.md#command-spec-template"
@@ -2117,6 +2122,7 @@ deep_dive:
   agent_evaluation_ablation_runners: "guide/roles/agent-evaluation.md#configuration-ablation-runners"  # claude plugin eval, skill-eval-harness, agent-skill-eval; no direct CLAUDE.md or rules arm
   # ── Team Metrics (guide/ops/team-metrics.md) — DORA, SPACE, agentic metrics
   team_metrics_guide: "guide/ops/team-metrics.md"
+  team_metrics_day7_review: "guide/ops/team-metrics.md#day-7-review-after-a-business-trial"
   team_metrics_dora: "guide/ops/team-metrics.md#the-dora-foundation"
   team_metrics_dora_ai_context: "guide/ops/team-metrics.md#dora-in-an-ai-augmented-context"
   team_metrics_space: "guide/ops/team-metrics.md#beyond-dora-the-space-framework"

@@ -23,6 +23,14 @@ In [IFTTD episode 371](https://www.ifttd.io/episodes/everyone-can-build), Alexan
 
 An [Alan Product Crew interview at 10:49](https://www.youtube.com/watch?v=2quWpI_VSDQ&t=649s) also describes engineering pairing and responsibility for merging. This is another account of the same organization, not an independent replication. Track review effort and assistance over subsequent changes before claiming durable team gains. Teaching a non-engineer a bounded contribution workflow is also different from training a junior engineer; use [Learning with AI](learning-with-ai.md) for the latter.
 
+### Team tools need an owner after the experiment
+
+Give a team a bounded place to build internal tools with Claude: an existing repository area or a dedicated repository when access and maintenance warrant it. Start from a shared template with setup instructions, test commands, permitted data sources, and a review path. Repository count is an organizational choice, not an adoption metric.
+
+Before another team depends on the tool, record its purpose, human maintainer and backup, deployment authority, and retirement condition. A prototype using synthetic data and a shared operational tool need different access and verification. Use the [idea-to-day-7 example](../workflows/spec-first.md#from-idea-to-prototype-business-trial-and-day-7-review) to decide whether an experiment should continue.
+
+Participation can mean trying a tool, reporting a friction, improving a prototype, or maintaining a project. Reserve experimentation capacity and offer pairing before interpreting low participation as a lack of motivation. Track recurring use and maintenance effort rather than expecting every contributor to become an internal entrepreneur. This is a proposed operating policy, not evidence of an adoption gain.
+
 ### Back Market: champions and role-specific support
 
 Emmanuel Sciara's *Retour sur la conférence GenAI Days Nantes 2026*, dated November 19, 2026, reports Nicolas Martignole describing a champion designated by each of Back Market's 40 teams, weekly champion meetings, and training for engineering managers using tasks other than coding. The group also invites each team to add repository contribution guidelines for new contributors and their agents. According to the account, Martignole chooses not to mandate AI use and opposes including it in the competency framework.

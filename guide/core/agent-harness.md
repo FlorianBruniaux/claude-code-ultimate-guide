@@ -284,6 +284,20 @@ Anthropic's own service illustrates the failure mode to design around. Its v0 sp
 
 The limits: no product is named in the source, no latency SLO is published, and the distributed design is explicitly more expensive to run in exchange for being easier to scale and to profile. Treat this as a pattern to plan for, not a specific tool to adopt.
 
+### Keep test feedback compact and recoverable
+
+Give the agent a compact result for each test run: command, revision, environment, exit status, tests actually executed or skipped, and actionable failures. Keep full output available through an access-controlled artifact or log reference for diagnosis. The [Silent Success Pattern](../ultimate-guide.md#silent-success-pattern) applies to hooks. A test summary should still distinguish a successful run from no tests running, a timeout, missing output, or a reused result.
+
+Reduce repeated passing-test lines and progress messages before removing diagnostic detail. On failure, include the failing assertion, relevant stack frames, and a way to retrieve the complete trace. Check that the compact view preserves the exit status and exposes a known failure before relying on it. Fewer displayed lines alone do not establish lower total cost or better agent performance.
+
+### Own harness maintenance and the CI feedback path
+
+Assign a human maintainer and backup to shared harness configuration, with reserved capacity to reproduce recurring failures, test configuration changes, and retire obsolete controls. Product teams retain responsibility for their requirements and acceptance evidence. The maintainer supplies reusable setup, verification and recovery paths rather than becoming the reviewer for every change.
+
+Where CI is the bottleneck, give its feedback path an owner too. Record queue time separately from execution time, flaky failures, cache hits, diagnosis effort and review load. Establish a baseline before deciding whether this needs a dedicated productivity team or can remain an explicit responsibility in the existing team.
+
+[Bazel remote caching](https://bazel.build/remote/caching) can share action outputs between developers and CI. Reuse depends on reproducible inputs and outputs, and the cache backend needs operation and access controls. Its [hermeticity guidance](https://bazel.build/basics/hermeticity) recommends identifying environmental dependencies before migration. Compare representative leaf changes, shared-dependency changes and cold builds against the existing build system, including setup and maintenance work. This is an evaluation candidate, not a recommendation to migrate or a measured local speedup.
+
 ### GitHub agentic workflows
 
 The central concept: `gh aw compile` takes an agent workflow definition in Markdown and produces a `.lock.yml`, a hardened GitHub Actions file that executes the workflow with enforced isolation. The compilation step is where security properties are baked in, not added later.
