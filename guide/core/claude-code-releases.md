@@ -17,12 +17,16 @@ keywords:
 > **Release dates**: UTC publication dates from the [official npm package metadata](https://registry.npmjs.org/@anthropic-ai%2Fclaude-code). Only versions with upstream changelog entries are included.
 > **Machine-readable**: [claude-code-releases.yaml](../../machine-readable/claude-code-releases.yaml)
 
-**Latest**: v2.1.326 | **Updated**: 2026-11-17
+**Latest**: v2.1.330 | **Updated**: 2026-11-21
 
 ---
 
 ## Quick jump
 
+- [v2.1.330](#v21330-2026-11-20): ⭐ Enterprise Admin Console sign-in, easel chart mod, 30-day scheduled tasks and stricter `rm` prompts
+- [v2.1.329](#v21329-2026-11-19): hook source in the trust dialog, scheduled tasks in `/tasks`, Code Mode hook-error change and branch-wide `/code-review`
+- [v2.1.328](#v21328-2026-11-18): ⭐ auto mode for Opus 4.6 and Sonnet 4.6 on third-party providers, blocking `mcp_tool` hooks and managed hook changes
+- [v2.1.327](#v21327-2026-11-17): `claude mcp add-json` from stdin, `/status` config diagnostics and stricter working-directory checks
 - [v2.1.326](#v21326-2026-11-16): Code Mode with agent teams, stricter permissions and a Remote Control proxy change
 - [v2.1.325](#v21325-2026-11-13): zstd response decoding fix, subagent model fixes and gateway compaction fixes
 - [v2.1.323](#v21323-2026-11-12): ⭐ experimental Code Mode, plugin version ranges and MCP client changes
@@ -110,6 +114,34 @@ The Max 20x plan is now called Ultra and Max 5x is now called Max (pages updated
 ---
 
 ## 2.1.x series (January-August 2026)
+
+### v2.1.330 (2026-11-20)
+
+- ⭐ After `claude auth login`, organizations managed in Anthropic's Enterprise Admin Console apply their settings and their cloud provider or gateway. The built-in easel mod draws charts when asked and under MCP metrics results, on Pro, Max and, where available, Team and Enterprise on macOS and Linux; automatic charts can be turned off in `/config`. `CLAUDE_CODE_FULL_SIGN_IN_LINK=1` prints the full sign-in link.
+- Recurring scheduled tasks and `/loop` run up to 30 days instead of 7 while their session keeps running, and say when they end. Tasks created before this release still end at 7 days. Prompt hooks accept model aliases such as `haiku` or `sonnet` in their `model` field.
+- More `rm` commands aimed at the root, home, a top-level folder or the working folder ask for approval, and are refused where nobody can answer. `deniedMcpServers` name entries hide only the named claude.ai connector, not others at its URL; deny the exact URL to block them all.
+- `ExitWorktree` and the worktree exit dialog no longer delete a worktree that another running Claude Code session is using. This release restores the automatic retry when `max_tokens` exceeds a model's or gateway's limit, which v2.1.329 had removed.
+
+### v2.1.329 (2026-11-19)
+
+- The trust dialog says where a folder's hooks are declared. Claude Desktop and other non-interactive hosts warn in the conversation when hooks in managed settings fail to load. `/tasks` lists the session's scheduled tasks, `/loop` wakeups, the goal and the conversation's forks, and `/status` names managed marketplaces that get no automatic updates.
+- In Code Mode, a `PreToolUse` hook that errors no longer refuses a script's tool call, as outside Code Mode; set `"onFailure": "block"` on a command, HTTP or MCP tool hook that must refuse. Code Mode can run while OpenTelemetry events and metrics are enabled, but tracing still keeps it off.
+- In new signed-in sessions, most scheduled tasks saved by earlier versions need scheduling again; `--resume` of their own session still runs them. "Exit and stop tasks" ends the session's scheduled tasks so they do not run again on resume.
+- `/code-review` with no target, on most models, reviews the whole branch against the default branch. This release removed the automatic retry at the limit named in a `max_tokens` error; v2.1.330 restored it.
+
+### v2.1.328 (2026-11-18)
+
+- ⭐ Auto mode is available for Claude Opus 4.6 and Sonnet 4.6 on Amazon Bedrock, Google Cloud's Agent Platform, Microsoft Foundry and the Claude apps gateway. Interactive sessions with no permission mode start in it.
+- `mcp_tool` hooks accept `"onFailure": "block"`, as command and HTTP hooks do. `/status` and `claude doctor` flag an OpenTelemetry exporter with no endpoint. `CLAUDE_CODE_DISABLE_DEFERRED_TOOL_RESUME` lets a host stop `claude -p --resume` and `--continue` from running a tool call that a hook deferred.
+- Managed `PostToolUse` hooks no longer fire for calls refused before they ran; `PostToolBatch` receives most of them, not marked as refused. Code Mode no longer runs `UserPromptSubmit` hooks, managed ones included, on scripts' output; use a `PostToolUse` hook with `updatedToolOutput` to redact it. A shell command that a `PermissionRequest` hook rewrites to a sandbox-excluded command runs outside the sandbox.
+- `/code-review` on most models reports only bugs and CLAUDE.md violations, each marked Important, Pre-existing or Nit; `/simplify` handles reuse, simplification and efficiency cleanups. When the sandbox cannot start and `sandbox.failIfUnavailable` is not set, the next sandboxed Bash command is refused with a message that the sandbox is off for the session.
+
+### v2.1.327 (2026-11-17)
+
+- `claude mcp add-json <name> -` reads the server's JSON from stdin so tokens stay off the command line; it is not available inside a Claude Code session. `/status` lists broken agent, skill, command and output style files, keybinding errors, an unavailable sandbox, ignored permission settings and hook matchers that never match.
+- Path checks refuse some symbolic links, and some paths no longer count as inside a working directory, so they ask for permission. `permissions.blockReadsOutsideWorkingDirectories` asks about more Bash commands in bypass and auto modes, denies some in auto mode, and refuses more commands that name a path under a Read or Edit deny rule.
+- Auto mode ignores more allow rules that run any package, such as `Bash(pnpm dlx *)`, and leaves those calls to its safety check. Its notice about falling back to billed classifier requests says that an upcoming release removes the fallback. Bash commands whose variables expand to very long text are denied.
+- `ExitWorktree` asks before removing a worktree that may hold unsaved work. On newer models and in PowerShell, Claude is told not to commit files that likely contain secrets, and Claude in Chrome refuses to upload some credential files.
 
 ### v2.1.326 (2026-11-16)
 
@@ -3887,6 +3919,10 @@ The Max 20x plan is now called Ultra and Max 5x is now called Max (pages updated
 
 | Version | Change |
 |---------|--------|
+| v2.1.330 | More `rm` commands aimed at the root, home, a top-level folder or the working folder ask or are refused. `deniedMcpServers` name entries hide only the named claude.ai connector; deny the exact URL to block every connector there. |
+| v2.1.329 | In Code Mode, a `PreToolUse` hook that errors no longer refuses a script's tool call (`"onFailure": "block"` restores refusal). Most scheduled tasks saved by earlier versions need scheduling again in new signed-in sessions. |
+| v2.1.328 | Managed `PostToolUse` hooks skip calls refused before they ran, Code Mode skips `UserPromptSubmit` hooks on script output, and a `PermissionRequest` rewrite to a sandbox-excluded command runs outside the sandbox. |
+| v2.1.327 | `permissions.blockReadsOutsideWorkingDirectories` asks about or refuses more Bash commands, some symbolic links are refused, and auto mode ignores more run-any-package allow rules such as `Bash(pnpm dlx *)`. |
 | v2.1.326 | Remote Control requires proxies to accept CONNECT. More shell calls can require approval or be denied, and hooks returning `decision: block` apply in more cases. |
 | v2.1.323 | Unrecognized model IDs default to 1M (`CLAUDE_CODE_DISABLE_1M_CONTEXT=1` keeps 200K). The v1 MCP client is removed and `MCP_SDK_GENERATION=v1` selects v2 compatibility mode. |
 | v2.1.319 | Auto mode with telemetry or feature flags off, including behind LLM gateways, no longer falls back to the built-in classifier; calls the server can't check are asked about or denied (`CLAUDE_CODE_AUTO_MODE_SERVER=0` keeps it). Self-paced `/loop` ends without a fallback wakeup (`CLAUDE_CODE_LOOP_KEEPALIVE=1` keeps it). |
@@ -4013,6 +4049,7 @@ The Max 20x plan is now called Ultra and Max 5x is now called Max (pages updated
 
 | Version | Key Features |
 |---------|--------------|
+| **v2.1.330** | Sign-in to Enterprise Admin Console organizations, the built-in easel chart mod, and scheduled tasks and `/loop` running up to 30 days |
 | **v2.1.323** | Experimental opt-in Code Mode calls tools from JavaScript, and plugins can require a Claude Code version range. |
 | **v2.1.321** | Claude Fable 5.2 becomes the default Fable model with 1M context ($8/$40 per Mtok); MCP OAuth secret-redirect and sandbox-bypass security fixes |
 | **v2.1.299** | Idle compaction before the one-hour prompt cache expires; sandbox `--plugin-dir` and symlink escape fixes; MCP allow rules scoped to the named server |
