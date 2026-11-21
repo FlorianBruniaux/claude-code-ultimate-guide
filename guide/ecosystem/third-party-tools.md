@@ -325,6 +325,27 @@ Claude Code plugin focused on surfacing where context budget is actually going, 
 
 ---
 
+### deadweight
+
+CLI that measures what a Claude Code setup adds to every request before you type, attributes it to each plugin, skill, MCP server and hook, and removes what you don't use.
+
+| Attribute | Details |
+|-----------|---------|
+| **Source** | [GitHub: msertdev/deadweight](https://github.com/msertdev/deadweight), [crates.io](https://crates.io/crates/deadweight) |
+| **Stars** | 15 (GitHub API, 2026-11-21), first release v0.1.0 on 2026-11-12 |
+
+**Key features**:
+
+- Measured total from the API usage recorded in your latest session, split into skill listings, deferred tool names, MCP instructions, agent listings and hook injections, each traced to the plugin, skill, server or connector that added it
+- Usage of every skill, MCP tool, agent and slash command over the last 30 days, subagents included; flags skills listed without a description because the skill listing is full
+- `deadweight fix` disables unused plugins and hides unused skills through Claude Code's own `enabledPlugins` and `skillOverrides` settings, with a backup and `deadweight undo`
+- `deadweight scope` keeps plugins and skills that are only used in a few projects on in those projects' `.claude/settings.local.json` and off everywhere else
+- One Rust binary, local only, no network requests; also ships as a Claude Code plugin (`/deadweight`)
+
+**When to use**: When every session starts with a large fixed context and you want to know which installed plugin, skill or server it comes from, then trim it without losing what you use.
+
+---
+
 ### A note on the Layer 4 billing blind spot
 
 API-level gateways (Helicone, Portkey, Langfuse, Bifrost, Compresr) intercept HTTP calls and measure token usage at the API layer. This works well for applications calling the Anthropic API directly. It does not work for Claude Code Max or Pro subscriptions, because Claude Code connects directly to Anthropic servers using subscription credentials rather than an API key. There is no HTTP layer for a gateway to intercept.
