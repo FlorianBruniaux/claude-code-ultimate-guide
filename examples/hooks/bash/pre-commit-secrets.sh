@@ -96,6 +96,7 @@ detect_secrets() {
     fi
 
     local found_secrets=0
+    local scan_errors=""
     local secrets_report=""
 
     # Iterate through staged files
@@ -119,7 +120,14 @@ detect_secrets() {
             local pattern_name="${entry%%::*}"
             local pattern="${entry#*::}"
             local matches
-            matches=$(echo "$content" | grep -noE "$pattern" || true)
+            # -e keeps a pattern that starts with "-" (private key header) from
+            # being parsed as an option. grep exits 1 for "no match" and 2 for an
+            # error; only the latter must not pass as "no secret found".
+            local grep_rc=0
+            matches=$(echo "$content" | grep -noE -e "$pattern") || grep_rc=$?
+            if [ "$grep_rc" -gt 1 ]; then
+                scan_errors+="  ${file}: grep failed (exit $grep_rc) on pattern '${pattern_name}'\n"
+            fi
 
             if [ -n "$matches" ]; then
                 # Check each match against whitelist
@@ -156,6 +164,17 @@ detect_secrets() {
         echo "  - Edit .git/hooks/pre-commit and add to WHITELIST array"
         echo "  - Or skip hook: git commit --no-verify (USE WITH CAUTION)"
         echo ""
+        exit 1
+    fi
+
+    # Fail closed: a pattern grep could not run is not "no secret found"
+    if [ -n "$scan_errors" ]; then
+        {
+            echo -e "${RED}✗ COMMIT BLOCKED: secret scan incomplete (grep error)${NC}"
+            echo -e "$scan_errors"
+            echo "The staged files were not fully scanned, so the commit is refused."
+            echo "Fix the grep problem, or skip the hook: git commit --no-verify (USE WITH CAUTION)"
+        } >&2
         exit 1
     fi
 
