@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+
+- **Test seams and test doubles for legacy code (October 4, 2026)**: extend "TDD with legacy code" in `guide/workflows/tdd-with-claude.md` with Michael Feathers' seam and enabling point, the three seam types, and Gerard Meszaros' five test doubles mapped to what a test must control or observe. One worked TypeScript example walks through seam analysis, a Parameterize Method edit, two characterization tests with a stubbed clock and a spy mailer, and two mutation checks on the result. Both reference.yaml copies index the new anchor. Contributed by Ralf D. Müller in #91.
+
 ### Fixed
 
 - **`llms-full.txt` guide length** now states the measured 26,193 lines of `guide/ultimate-guide.md` in its stats, section index, FAQ and tree, replacing the stale 26,695 and 26,187 figures.
