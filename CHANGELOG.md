@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
+- **Three community tools in `guide/ecosystem/third-party-tools.md`**: deja-vu under session management (cross-agent transcript search, file restore and handoff over MCP; 1,649 stars and 12,769 npm downloads in the 30 days to 2026-11-21, #106), agent-manager in the multi-agent orchestration quick reference (tmux TUI for several agent CLIs; 702 stars, #87, linked to its current `wainmann/agent-manager` home), and Concord in multi-agent orchestration (MCP server for task and file claims across harnesses, with telemetry and the global `~/.claude/CLAUDE.md` write documented as limitations; 1,470 stars and 4,115 npm downloads over the same 30 days, #95). Star and download counts checked on 2026-11-22.
+
 - **Test seams and test doubles for legacy code (October 4, 2026)**: extend "TDD with legacy code" in `guide/workflows/tdd-with-claude.md` with Michael Feathers' seam and enabling point, the three seam types, and Gerard Meszaros' five test doubles mapped to what a test must control or observe. One worked TypeScript example walks through seam analysis, a Parameterize Method edit, two characterization tests with a stubbed clock and a spy mailer, and two mutation checks on the result. Both reference.yaml copies index the new anchor. Contributed by Ralf D. Müller in #91.
 
 ### Fixed
