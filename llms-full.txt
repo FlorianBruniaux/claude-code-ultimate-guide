@@ -15,7 +15,7 @@
 - License: CC BY-SA 4.0
 - Repository: https://github.com/FlorianBruniaux/claude-code-ultimate-guide
 - Landing: https://cc.bruniaux.com
-- Lines of Documentation: 26,187
+- Lines of Documentation: 26,193
 - Production Templates: 278
 - Quiz Questions: 473
 - Whitepapers: 13 titles (FR + EN)
@@ -47,7 +47,7 @@ This guide is the most comprehensive community resource for Claude Code. It cove
 - Sub-agents: isolated context, max depth=1
 - Philosophy: "less scaffolding, more model"
 
-**Main Guide Sections** (`guide/ultimate-guide.md`, 26,695 lines):
+**Main Guide Sections** (`guide/ultimate-guide.md`, 26,193 lines):
 1. Quick Start: Installation, first workflow, essential commands
 2. Core Concepts: Context management, Plan Mode, Rewind, Mental Model
 3. Memory & Settings: CLAUDE.md files, .claude/ folder, precedence rules
@@ -940,7 +940,7 @@ The 2025-2026 IFTTD additions extend Practitioner Insights to 75 attributed obse
 ## FAQ
 
 **Q: What is the Claude Code Ultimate Guide?**
-A: The most comprehensive community guide for Claude Code (Anthropic's CLI). 26,187 lines in the canonical full guide, 278 production-ready templates, 473-question quiz, and security threat database. Free and open-source (CC BY-SA 4.0).
+A: The most comprehensive community guide for Claude Code (Anthropic's CLI). 26,193 lines in the canonical full guide, 278 production-ready templates, 473-question quiz, and security threat database. Free and open-source (CC BY-SA 4.0).
 
 **Q: Is this guide free?**
 A: Yes, completely free. The guide is CC BY-SA 4.0 (share and adapt with attribution). Templates are CC0 (copy-paste freely, no attribution needed). No paywall, no login required.
@@ -996,7 +996,7 @@ claude-code-ultimate-guide/
 ├── llms.txt                        # This file (short version, for AI indexing)
 ├── llms-full.txt                   # Full content (you are here)
 ├── guide/                          # Core documentation
-│   ├── ultimate-guide.md           # Complete guide (26,695 lines)
+│   ├── ultimate-guide.md           # Complete guide (26,193 lines)
 │   ├── cheatsheet.md               # 1-page reference
 │   ├── core/architecture.md        # How Claude Code works internally
 │   ├── security/security-hardening.md  # Security best practices

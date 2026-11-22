@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Fixed
+
+- **`llms-full.txt` guide length** now states the measured 26,193 lines of `guide/ultimate-guide.md` in its stats, section index, FAQ and tree, replacing the stale 26,695 and 26,187 figures.
+
 ## [3.46.0] - 2026-11-22
 
 ### Release summary
