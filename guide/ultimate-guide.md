@@ -16,7 +16,7 @@ tags: [guide, reference, workflows, agents, hooks, mcp, security]
 
 **Last updated**: October 6, 2026 (full baseline); October 24, 2026 (selective cache and harness corrections)
 
-**Version**: 3.45.2
+**Version**: 3.46.0
 
 ---
 
@@ -26190,4 +26190,4 @@ We'll evaluate and add it to this section if it meets quality criteria.
 
 **Contributions**: Issues and PRs welcome.
 
-**Last updated**: October 6, 2026 (full baseline); October 24, 2026 (selective cache and harness corrections) | **Version**: 3.45.2
+**Last updated**: October 6, 2026 (full baseline); October 24, 2026 (selective cache and harness corrections) | **Version**: 3.46.0

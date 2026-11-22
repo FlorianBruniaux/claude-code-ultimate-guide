@@ -10,8 +10,8 @@
 
 - Title: Claude Code Ultimate Guide
 - Author: Florian Bruniaux (Fractional Chief AI Officer)
-- Version: 3.45.2
-- Last Updated: November 1, 2026
+- Version: 3.46.0
+- Last Updated: November 22, 2026
 - License: CC BY-SA 4.0
 - Repository: https://github.com/FlorianBruniaux/claude-code-ultimate-guide
 - Landing: https://cc.bruniaux.com
@@ -95,7 +95,7 @@ tags: [cheatsheet, reference]
 
 **Written with**: Claude (Anthropic)
 
-**Version**: 3.45.2 | **Last Updated**: Nov 1, 2026
+**Version**: 3.46.0 | **Last Updated**: Nov 22, 2026
 
 ---
 
@@ -812,7 +812,7 @@ Speed: `rg` (~20ms) → Serena (~100ms) → ast-grep (~200ms) → grepai (~500ms
 
 **Author**: Florian BRUNIAUX | Fractional Chief AI Officer | Written with Claude
 
-*Last updated: Nov 1, 2026 | Version 3.45.2*
+*Last updated: Nov 22, 2026 | Version 3.46.0*
 
 
 ---

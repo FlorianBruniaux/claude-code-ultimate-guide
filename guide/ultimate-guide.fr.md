@@ -16,7 +16,7 @@ tags: [guide, reference, workflows, agents, hooks, mcp, security]
 
 **Dernière mise à jour** : 6 octobre 2026 (rafraîchissement complet) ; 24 octobre 2026 (corrections ciblées du cache et des harnais)
 
-**Version** : 3.45.2
+**Version** : 3.46.0
 
 ---
 
@@ -26756,4 +26756,4 @@ Nous l'évaluerons et l'ajouterons à cette section s'il répond aux critères d
 
 **Contributions** : Issues et PRs bienvenus.
 
-**Dernière mise à jour** : 6 octobre 2026 (rafraîchissement complet) ; 24 octobre 2026 (corrections ciblées du cache et des harnais) | **Version** : 3.45.2
+**Dernière mise à jour** : 6 octobre 2026 (rafraîchissement complet) ; 24 octobre 2026 (corrections ciblées du cache et des harnais) | **Version** : 3.46.0
