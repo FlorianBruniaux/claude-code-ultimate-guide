@@ -343,8 +343,8 @@ Tokenade combines local output filtering, code navigation, MCP proxying, dedupli
 
 | Attribute | Evidence reviewed on 2026-09-08 |
 |---|---|
-| Distribution | [Public npm launcher/installer](https://github.com/pi-infected/tokenade-npm), separately distributed engine |
-| Licence | [Proprietary commercial licence](https://github.com/pi-infected/tokenade-npm/blob/main/LICENSE); the FAQ's MIT claim conflicts with this file |
+| Distribution | Reviewed on 2026-09-08: a public npm launcher/installer repository (`pi-infected/tokenade-npm`, deleted since, 404 on 2026-11-23) and a separately distributed engine. The vendor now publishes [pi-infected/tokenade](https://github.com/pi-infected/tokenade), created 2026-10-18 and not reviewed here |
+| Licence | Reviewed on 2026-09-08: a proprietary commercial licence in the launcher repository, which the FAQ's MIT claim contradicted. The new repository declares Apache-2.0 and MIT; not reviewed here |
 | Activation | Account required; free quota and paid plans. Verify current pricing before purchase |
 | Integration | Hooks, CLI and MCP proxy; features vary by client |
 | Evaluation status | Documentation, licence, benchmark manifests and published results inspected; no local runtime test or independent replication |
@@ -430,54 +430,7 @@ Highest value on TypeScript, Rust, or Python projects where large files are read
 
 ### tilth
 
-An MCP server for structural code navigation, targeting the largest single token cost in a Claude Code session: file reads. Instead of loading full file contents, tilth exposes tree-sitter-powered tools the model calls explicitly to navigate code by shape rather than by text.
-
-| Attribute | Details |
-|-----------|---------|
-| **Source** | [github.com/jahala/tilth](https://github.com/jahala/tilth) |
-| **Install** | `cargo install tilth` then `tilth install claude-code` |
-| **Language** | Rust |
-| **Architecture** | MCP server (installs into Claude Code) |
-| **Parser** | tree-sitter (multi-language) |
-
-**Key tools exposed to the model**:
-
-- File read with auto-outline: large files return a structural skeleton with section names and line ranges; the model requests specific ranges on demand
-- Symbol search: definitions, usages, and resolved callees in one call, replacing the grep-then-read loop
-- `--callers`: all call sites of a symbol, structurally rather than via text search
-- `--deps`: imports and dependents of a file, for understanding blast radius before a refactor
-- `grok <symbol>`: signature, callers, callees, sibling functions, and associated tests for one symbol in one call
-- Structural diff: changes summarized at the function level, not the line level
-- Session dedup: symbols already shown in the current session are marked `[shown earlier]` instead of being re-expanded
-
-**Benchmarks** (160 runs, 4 real repositories, metric = cost per correct answer):
-
-| Model | Cost change | Accuracy change |
-|-------|-------------|----------------|
-| Sonnet 4.6 | -44% | 84% → 94% |
-| Opus 4.6 | -39% | 91% → 92% |
-| Haiku 4.5 | -38% | 54% → 73% |
-| Average | -40% | 76% → 86% |
-
-The benchmark metric is cost per correct answer, not tokens saved in isolation. This matters: a tool that saves tokens but degrades output quality provides no real value. tilth improves on both dimensions.
-
-Why file reads are the right target: real-world billing data shows they account for approximately 65% of total token usage in a Claude Code session, versus roughly 12% for bash output. Tools that compress file reads move a larger share of the total cost than CLI output compressors can.
-
-```bash
-cargo install tilth
-tilth install claude-code   # registers the MCP server in Claude Code
-```
-
-No per-project configuration is required after global install.
-
-**Comparison with lean-ctx**: Both use tree-sitter to reduce file read token cost. lean-ctx works as a hook-level redirect that intercepts native Read calls transparently, requiring no change to model behavior. tilth exposes explicit navigation tools the model must call directly, giving it more control over what it fetches at the cost of requiring the model to use tilth's API rather than standard reads. Both approaches are valid; the right choice depends on whether you prefer passive compression or explicit navigation.
-
-**When to use tilth**:
-
-- TypeScript, Rust, or Python projects where large source files are read repeatedly
-- Sessions where context fills before the task completes
-- Codebases where call graph navigation (callers, callees, deps) is frequent
-- When you want accuracy improvements alongside cost reduction, not just compression
+> **Removed in November 2026: do not install.** tilth's maintainer account no longer exists on GitHub. The source repository and the `jahala.github.io` homepage return 404, and on crates.io the `tilth` crate is now owned by a deleted account (`ghost_388354`), so nobody can publish a fix. Because the `jahala` name is free again, a new account could take over the links this entry used to point to. If you installed it, run `cargo uninstall tilth` and remove its MCP server entry (`claude mcp list` shows it). For structural file reads, see [lean-ctx](#lean-ctx) above and Token Savior in [Context Engineering Tools](context-engineering-tools.md#token-savior).
 
 ---
 

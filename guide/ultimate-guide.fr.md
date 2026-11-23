@@ -5767,7 +5767,6 @@ tar -xzf claude-config-YYYY-MM-DD_HH-MM-SS.tar.gz -C ~/
 
 #### Solutions de la communauté
 
-- **[brianlovin/claude-config](https://github.com/brianlovin/claude-config)** : Dépôt public avec script `sync.sh` pour les sauvegardes et la restauration
 - **Approche Martin Ratinaud** : Dépôt Git + liens symboliques + `sync-mcp.sh` pour les secrets (testé sur 504 sessions)
 - **Modèle de script** : Voir [sync-claude-config.sh](../examples/scripts/sync-claude-config.sh) pour l'automatisation complète
 
