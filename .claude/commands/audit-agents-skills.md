@@ -38,7 +38,6 @@ Comprehensive quality audit for Claude Code agents, skills, and commands. Scores
    .claude/commands/
    examples/agents/      (if exists)
    examples/skills/      (if exists)
-   examples/commands/    (if exists)
    ```
 
 2. **Classify files**:
@@ -416,7 +415,7 @@ By default, report shows only **failed criteria**. Verbose mode shows **all crit
 
 - **Agent Validation Checklist** (guide line 4921): Manual 16-criteria checklist
 - **Skill Validation** (guide line 5491): Spec compliance documentation
-- **Examples**: `examples/agents/`, `examples/skills/`, `examples/commands/`
+- **Examples**: `examples/agents/`, `examples/skills/`
 - **Advanced Audit**: Use `audit-agents-skills` skill (see `examples/skills/`) for comparative analysis vs templates
 
 ---
