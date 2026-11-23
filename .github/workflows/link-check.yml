@@ -25,6 +25,8 @@ jobs:
           # public product and support pages confirm the destination is live.
           # Schneider Digital intermittently times out from GitHub's runner;
           # keep it under direct HTTP verification instead of opening noise issues.
+          # fda.gov redirects GitHub's runner to an abuse-detection page (404) while
+          # the guidance page returns 200 to a direct request (checked 2026-11-23).
           args: >
             --verbose
             --no-progress
@@ -41,6 +43,7 @@ jobs:
             --exclude "^https://www\\.linkedin\\.com"
             --exclude "^https://gemini\\.google\\.com/?$"
             --exclude "^https://shop\\.schneider-digital\\.com/en/graphics-cards/nvidia/rtx-pro-blackwell-series/nvidia-rtx-pro-6000-blackwell-workstation-edition-96gb-pcie-5\\.0-x16/?$"
+            --exclude "^https://www\\.fda\\.gov/"
             --exclude "^https://localhost"
             --exclude "^http://localhost"
             --exclude "%7B"
