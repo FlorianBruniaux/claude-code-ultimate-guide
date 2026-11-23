@@ -1,0 +1,473 @@
+.codex/agents/claude-code-guide.toml
+  s_2e5b0a77711965::t_25d49b39522675 36
+CHANGELOG.md
+  s_2e5b0a77711965::t_0bdac54cae94c4 15-26
+docs/resource-evaluations/astgrep-flavien-metivier.md
+  s_2e5b0a77711965::t_1e0c2eb87e0936 125,144,170,223
+docs/resource-evaluations/tree-sitter-progressive-code-exploration.md
+  s_2e5b0a77711965::t_80acfb192f6cf9 213,281,299
+examples/CATALOG.md
+  s_2e5b0a77711965::t_77a933a985c476 1,9,12-14,17,20,23,26-27,48,105,107-108,110-111,135,138,150,156,171,180,203,207,210,222,231,236-238,240,246,248,252,261,264,267,270,276,279,282,293-294,297,299-300,302-303,305-306,308-309,311-312,318,321-324,345,363,375,379,382,390-391,400,414-415,418,423,426,429,432,435,438,441,444-445,450-451,460,463,471-473,477-479,481,535,544,585-587,604,613-615,643,655,715,762,819,834,836,838,840
+examples/README.md
+  s_2e5b0a77711965::t_03c54d14cf2a04 11,44,83,107-109,114,122-124,126,140,142-144,146-177,328
+examples/agents/analytics-with-eval/README.md
+  s_2e5b0a77711965::t_885eb2ebdcf318 57,59-65,72-73,97-98,163,177-179,184,195,199-201,223-224,250
+examples/agents/analytics-with-eval/eval/metrics.sh
+  s_2e5b0a77711965::t_76fc3491c11d65 7-8
+examples/agents/analytics-with-eval/hooks/post-response-metrics.sh
+  s_2e5b0a77711965::t_d4b058d331bc8f 2-7,12,14-15,23-26,28,30-32,36-41,78-87
+examples/agents/architecture-reviewer.md
+  s_2e5b0a77711965::t_8ac27b3794a915 5,85-86
+examples/agents/code-reviewer.md
+  s_2e5b0a77711965::t_0d6343ce30f375 3
+examples/agents/cyber-defense/README.md
+  s_2e5b0a77711965::t_2d0cb117352d19 156,204,208-209
+examples/agents/cyber-defense/anomaly-detector.md
+  s_2e5b0a77711965::t_7c763949077a8f 5
+examples/agents/cyber-defense/log-ingestor.md
+  s_2e5b0a77711965::t_bdbb492d4d6c38 5-6
+examples/agents/cyber-defense/risk-classifier.md
+  s_2e5b0a77711965::t_e79003824c6cf0 5
+examples/agents/integration-reviewer.md
+  s_2e5b0a77711965::t_0239f3b785c8a2 157
+examples/agents/loop-monitor.md
+  s_2e5b0a77711965::t_c702ccdab961fc 5,117-118
+examples/agents/plan-challenger.md
+  s_2e5b0a77711965::t_88d658af2d9093 5,143-144
+examples/agents/planner.md
+  s_2e5b0a77711965::t_924f4d2ce9eabc 5,61-62
+examples/agents/planning-coordinator.md
+  s_2e5b0a77711965::t_7c06d4100c0431 159
+examples/claude-md/devops-sre.md
+  s_2e5b0a77711965::t_ecc3ae7bf3d24b 174-177,180
+examples/claude-md/learning-mode.md
+  s_2e5b0a77711965::t_5ec6ecbbdbe676 174-176
+examples/claude-md/rtk-optimized.md
+  s_2e5b0a77711965::t_2ac8f2a3da9b04 80
+examples/claude-md/session-naming.md
+  s_2e5b0a77711965::t_99937fcc318ab6 68
+examples/commands/README.md
+  s_3cefe7befcc161::t_5ef08745a12ee4 1-7
+examples/config/settings-personalization.json
+  s_2e5b0a77711965::t_07944ead7ba143 42,62-63,71,80-81,107,119,158,164
+examples/config/settings.local.json.example
+  s_2e5b0a77711965::t_28683008f661ec 2,10-11,22-23,26-30
+examples/context-engineering/canary-check.sh
+  s_2e5b0a77711965::t_80e69a9049ccda 71-72,74,119
+examples/context-engineering/ci-drift-check.yml
+  s_2e5b0a77711965::t_919379a15926ac 47-48
+examples/context-engineering/eval-questions.yaml
+  s_2e5b0a77711965::t_fa12528ecc32ff 69,73-76
+examples/context-engineering/skeleton-template.md
+  s_2e5b0a77711965::t_c8ce12f20a0bfd 7
+examples/github-actions/README.md
+  s_2e5b0a77711965::t_b28459b34d82bc 70,112,114-116,136,253,279,281-282,284,331,333,355
+examples/github-actions/claude-code-review-batched.yml
+  s_2e5b0a77711965::t_3441ffb81969b3 14-15,84,92-95,99-102,134-137,143-144
+examples/github-actions/claude-code-review.yml
+  s_2e5b0a77711965::t_3b5332bab1c170 32,112
+examples/github-actions/claude-issue-triage.yml
+  s_2e5b0a77711965::t_c83b32412d7f5b 14
+examples/github-actions/claude-pr-auto-review.yml
+  s_2e5b0a77711965::t_a72c01fef69d6c 25,30-31,34-47,50,55-56,59,64,113-118
+examples/github-actions/claude-security-review.yml
+  s_2e5b0a77711965::t_0620d5539833af 13,26
+examples/hooks/README.md
+  s_1d4fd6074d3311::t_3000d8fac0849b 29-30,32-35,40-42,159-160,181,199-200,308-309,338-339,362,469,485-486,493-494,574-575,584-585,593-594,602-606,608-610,619-621,634-635,638,640-641,655-656,659-660,663,689-692,705-706,752,829,835-836,858-864
+examples/hooks/bash/auto-checkpoint.sh
+  s_2e5b0a77711965::t_f78b48a51e8811 3-4,6-18,24-28,33,37-47,55-57
+examples/hooks/bash/auto-rename-session.sh
+  s_9331b80a15d699::t_5405a3ac6b3ce4 23,32-39
+examples/hooks/bash/claudemd-scanner.sh
+  s_9331b80a15d699::t_83f62ad8491578 13-14,89-91,93,95,97
+examples/hooks/bash/file-guard.sh
+  s_2e5b0a77711965::t_56d7cf812ca649 6-18,71,85,118-123,128-134
+examples/hooks/bash/governance-enforcement-hook.sh
+  s_2e5b0a77711965::t_cb344345d357fb 17-20,24-29,41-49,79-80,82,160,182
+examples/hooks/bash/identity-reinjection.sh
+  s_2e5b0a77711965::t_3433371ff47e5b 20-29,34,70-75,86-87
+examples/hooks/bash/learning-capture.sh
+  s_2e5b0a77711965::t_3db8fb9418c233 2-3,6-10,12,14,18-27,40,42-45,50-56,69-70
+examples/hooks/bash/mcp-config-integrity.sh
+  s_2e5b0a77711965::t_d34abf121d8c6d 18-21,26-27,31,47-55,61,65,69,92-93,125-126
+examples/hooks/bash/notification.sh
+  s_2e5b0a77711965::t_3292e5a31a31b4 6-9,25-26,63-69
+examples/hooks/bash/output-secrets-scanner.sh
+  s_2e5b0a77711965::t_8c1844abd15dc8 16-17,35-38
+examples/hooks/bash/output-validator.sh
+  s_2e5b0a77711965::t_c1626648522a01 14-18,26-33,144-146
+examples/hooks/bash/permission-request.sh
+  s_2e5b0a77711965::t_6eab09d6758185 3,5-19,24-26,37,41-52,55-58
+examples/hooks/bash/privacy-warning.sh
+  s_2e5b0a77711965::t_070c269bcdb02d 5,11-13,15-25,29,31
+examples/hooks/bash/repo-integrity-scanner.sh
+  s_2e5b0a77711965::t_13bbb2dfc011f6 6-7,22,203
+examples/hooks/bash/rtk-auto-wrapper.sh
+  s_2e5b0a77711965::t_a9801f3f83baf0 3,7-13,16-17,23,30-31,38-39,46-47,72-80
+examples/hooks/bash/rtk-baseline.sh
+  s_2e5b0a77711965::t_782544135834fb 16-24
+examples/hooks/bash/sandbox-validation.sh
+  s_2e5b0a77711965::t_e900391cb99a89 10-11,15-18,22-29,41-44,46,58,71-72
+examples/hooks/bash/security-check.sh
+  s_2e5b0a77711965::t_ed84cae5e91251 4-8,37,45
+examples/hooks/bash/security-gate.sh
+  s_2e5b0a77711965::t_d70c271c8b70da 9-12,26,42,44-45
+examples/hooks/bash/session-logger.sh
+  s_2e5b0a77711965::t_2f434035fb264e 13-14,37-39
+examples/hooks/bash/session-summary-config.sh
+  s_1d4fd6074d3311::t_d620fa03319a62 390,464-465,472
+examples/hooks/bash/session-summary.sh
+  s_1d4fd6074d3311::t_5132c02a3fb644 49-50,52-54,157-160,193-196,284
+examples/hooks/bash/setup-init.sh
+  s_2e5b0a77711965::t_f966d696457eb5 3-21,26,32,34,37-38,41,47
+examples/hooks/bash/subagent-stop.sh
+  s_2e5b0a77711965::t_665cdcb78baf9c 3-25,28-29,31-32,41-42,44-46
+examples/hooks/bash/test-hooks.sh
+  s_2e5b0a77711965::t_1fd0a19480451a 49-50,54
+examples/hooks/bash/test-on-change.sh
+  s_2e5b0a77711965::t_9796b6a8aabaa9 3,6-10,70-71
+examples/hooks/bash/test-private-key-detection.sh
+  s_2e5b0a77711965::t_bdf5fdbc9dc677 60,70,74
+examples/hooks/bash/tts-selective.sh
+  s_2e5b0a77711965::t_55ca5ae9183f4f 1,5-6,32
+examples/hooks/bash/typecheck-on-save.sh
+  s_2e5b0a77711965::t_97e2d96afa6f78 3,6-11,40-41
+examples/hooks/bash/unicode-injection-scanner.sh
+  s_2e5b0a77711965::t_37652d86d732ae 21
+examples/hooks/bash/velocity-governor.sh
+  s_2e5b0a77711965::t_519a111eba7b57 2-4,6-8,10,13,15,18,21-24,28,30-31,34-37,39,50,57-59,63,67,74,80-82
+examples/hooks/bm25-routing/README.md
+  s_2e5b0a77711965::t_24e3687a22035c 67
+examples/hooks/bm25-routing/install.js
+  s_2e5b0a77711965::t_081b089e5669da 64-67,69-72
+examples/hooks/powershell/auto-format.ps1
+  s_2e5b0a77711965::t_68b3555a18bc82 3-17
+examples/hooks/powershell/security-check.ps1
+  s_2e5b0a77711965::t_4a3e8549020625 3-18,47,54
+examples/index.html
+  s_2e5b0a77711965::t_768018c03d2cf2 429-430,435,437-445
+examples/mcp-configs/figma.json
+  s_2e5b0a77711965::t_bad28c1aba5332 4,8
+examples/memory/CLAUDE.md.project-template
+  s_2e5b0a77711965::t_5ef0563b8208d9 44-48
+examples/modes/MODE_Learning.md
+  s_2e5b0a77711965::t_767d86d5762913 67,103-104
+examples/modes/README.md
+  s_2e5b0a77711965::t_c994c8b23c8ef2 36,50-54,56-58,61
+examples/plugins/claude-mem.md
+  s_2e5b0a77711965::t_50c3f854ff6659 11,49-50,52,55-56,59-60
+examples/plugins/code-quality/.claude-plugin/plugin.json
+  s_2e5b0a77711965::t_84a934d02e9398 3-14
+examples/plugins/code-quality/README.md
+  s_2e5b0a77711965::t_072f4c7d9058d0 3,7-8,10,15-21,27,30
+examples/plugins/code-quality/install.sh
+  s_2e5b0a77711965::t_34df1693547164 2-4,8,11-52
+examples/plugins/devops-pipeline/.claude-plugin/plugin.json
+  s_2e5b0a77711965::t_33fe2e2a9b4bda 3-15
+examples/plugins/devops-pipeline/README.md
+  s_2e5b0a77711965::t_9326eaf097a356 3,7-8,10,15-18,23-24,27,29
+examples/plugins/devops-pipeline/install.sh
+  s_2e5b0a77711965::t_9ba6515536a4a4 2-4,8,11-52
+examples/plugins/pr-workflow/.claude-plugin/plugin.json
+  s_2e5b0a77711965::t_605144585b0857 3-14
+examples/plugins/pr-workflow/README.md
+  s_2e5b0a77711965::t_16bb8be20709c8 3,7-8,10,15-18,24,28,32-33
+examples/plugins/pr-workflow/install.sh
+  s_2e5b0a77711965::t_bf3eaf00a60d43 2-4,8,11-52
+examples/plugins/release-automation/.claude-plugin/plugin.json
+  s_2e5b0a77711965::t_a6acdec478a715 3-13
+examples/plugins/release-automation/README.md
+  s_2e5b0a77711965::t_ceae2668277217 3,7-8,10,15-18,23,26,28
+examples/plugins/release-automation/install.sh
+  s_2e5b0a77711965::t_cc7ae05655fcef 2-4,8,11-52
+examples/plugins/security-suite/.claude-plugin/plugin.json
+  s_2e5b0a77711965::t_3288d45605c08e 3-6,8-17
+examples/plugins/security-suite/README.md
+  s_2e5b0a77711965::t_dd5276bc5f509c 12-14,19-20,28,37-38,135,137-141,158,188,195,200,203,205,210,230,232,234,245
+examples/plugins/security-suite/install.sh
+  s_2e5b0a77711965::t_3bf1531ea576f8 2-4,8,11-14,16-19,22-24,26-28,31,33-35,37-40,42-45,47-50,52
+examples/rules/first-principles.md
+  s_2e5b0a77711965::t_bcef112b486216 125,131-135,141
+examples/scripts/audit-scan.sh
+  s_2e5b0a77711965::t_5a44d817b1e716 345,382-386,388,390,393,395
+examples/scripts/clean-reinstall-claude.ps1
+  s_1d4fd6074d3311::t_250a1ac3ae0bd8 29
+examples/scripts/clean-reinstall-claude.sh
+  s_1d4fd6074d3311::t_19b419c55f4014 30
+examples/scripts/statusline.py
+  s_1d4fd6074d3311::t_0132930e94ab1e 9,13,18-20,26-28,91
+examples/scripts/test-prompt-caching.ts
+  s_2e5b0a77711965::t_0089c72a6828f3 14-19,66,122
+examples/skills/ast-grep-patterns/SKILL.md
+  s_2e5b0a77711965::t_2cfcaeda44b3ff 3,7,9,11,14-15,18,20,22-27,29,31,33-35,37-38,40-41,43-44,46-47,50-52,54,56,59-60,62,65-66,69,71,74-75,77-81,84,86,88-89,92,94-95,98,100,103-104,106-109,112,114,117-118,120-123,126,128,131-132,134,137-138,141,143-144,147,150-151,153-160,163,167-174,176,178,181-182,185,188-189,194-196
+examples/skills/audit-agents-skills/SKILL.md
+  s_2e5b0a77711965::t_01f3042d354430 4,14-15,38-40,83,92-93,409,411,414,419,421,424,427,430,435,437,440-441,487,534
+examples/skills/audit-agents-skills/scoring/criteria.yaml
+  s_2e5b0a77711965::t_840401d74ed18d 32-33,158-159,260-261
+examples/skills/audit-codebase/SKILL.md
+  s_2e5b0a77711965::t_fbfd5637d8afaf 4,13,29-30,62,68,76,200,220-222,224,243-245
+examples/skills/autoresearch/SKILL.md
+  s_2e5b0a77711965::t_877771ddee5f1b 15,137,168-170,200,253,255
+examples/skills/canary/SKILL.md
+  s_2e5b0a77711965::t_f7e8a6e7cc176f 4,21,37-38,65,98,101,107,126,197,236
+examples/skills/catchup/SKILL.md
+  s_2e5b0a77711965::t_2ce35ab4f132d1 3-4,6,11,15
+examples/skills/ccboard/.claude-plugin/plugin.json
+  s_2e5b0a77711965::t_0ac3b38e9ca0bc 4-6,8
+examples/skills/ccboard/README.md
+  s_1d4fd6074d3311::t_e942b04da40a2b 6,87,114,175-176
+examples/skills/ccboard/SKILL.md
+  s_2e5b0a77711965::t_51dcdf6604b786 3-4,7,10,12,14,16,18,21,24,27-28,31,33-42,44,46,48,50,53-55,58,62-67,69,71
+examples/skills/ccboard/commands/costs.md
+  s_2e5b0a77711965::t_819761f1fd5843 2,5,7,10-12,15
+examples/skills/ccboard/commands/dashboard.md
+  s_2e5b0a77711965::t_61bee824b464c3 2,5,7,10-11,14,16
+examples/skills/ccboard/commands/install.md
+  s_2e5b0a77711965::t_072d0da1ca6b53 3,8,11-13,16,18,20-22,24
+examples/skills/ccboard/commands/mcp-status.md
+  s_2e5b0a77711965::t_f292eefaa5fef4 2,5,7,10-11,14
+examples/skills/ccboard/commands/sessions.md
+  s_2e5b0a77711965::t_ca0b4210b8e88f 2-3,6,9-13,16
+examples/skills/ccboard/commands/web.md
+  s_2e5b0a77711965::t_6b22c4b29bf5be 2,5,8-9,12,14
+examples/skills/ccboard/scripts/install-ccboard.sh
+  s_2e5b0a77711965::t_63d90932ae1a12 81
+examples/skills/check-cache-bugs/SKILL.md
+  s_2e5b0a77711965::t_a94641bfd5ba73 12,14,22-24,30,100,106,109-113,120,184-185,262,265,307
+examples/skills/ci-all/SKILL.md
+  s_2e5b0a77711965::t_c7641bd94b62d9 3,11,15,27-28,31-32,51,115,135-137
+examples/skills/ci-pipeline/SKILL.md
+  s_2e5b0a77711965::t_ab96068c3efa99 10,12,94
+examples/skills/ci-status/SKILL.md
+  s_2e5b0a77711965::t_60d3d566742194 3-4,10,89-90
+examples/skills/ci-tests/SKILL.md
+  s_2e5b0a77711965::t_6b7dd71b46bc68 11,20-23,97-99
+examples/skills/cyber-defense-team/SKILL.md
+  s_2e5b0a77711965::t_2b79bc5fbbae10 36
+examples/skills/design-patterns/SKILL.md
+  s_2e5b0a77711965::t_d143e5db1f8e4b 5,7,15-16,548-550
+examples/skills/diagnose/SKILL.md
+  s_2e5b0a77711965::t_c2aa9850a144db 4,55,65,169-170,207
+examples/skills/eval-agents/SKILL.md
+  s_2e5b0a77711965::t_21310206d8688b 143
+examples/skills/explain/SKILL.md
+  s_2e5b0a77711965::t_4ef6b5d981e4d4 4,135
+examples/skills/generate-tests/SKILL.md
+  s_2e5b0a77711965::t_19ff1415e47f5a 3,18,28,31
+examples/skills/git-ai-archaeology/SKILL.md
+  s_2e5b0a77711965::t_c88637799ffcac 4
+examples/skills/git-worktree-clean/SKILL.md
+  s_2e5b0a77711965::t_8902b388d1e921 4,16,34,81-86,115,129-132
+examples/skills/git-worktree-remove/SKILL.md
+  s_2e5b0a77711965::t_2d4626d2458b8c 4,16,116
+examples/skills/git-worktree-status/SKILL.md
+  s_2e5b0a77711965::t_245e50d3372d8a 3,13,25-28,35,88-89,91-92,94-95
+examples/skills/git-worktree/SKILL.md
+  s_2e5b0a77711965::t_c9a83b7ec5d9f5 18-20,88,108,153,202,207,217,244-245,260
+examples/skills/guide-recap/SKILL.md
+  s_1d4fd6074d3311::t_0643d5dde6fffc 5
+examples/skills/handoff-update/SKILL.md
+  s_1d4fd6074d3311::t_68c49692918fd4 16,50
+examples/skills/investigate/SKILL.md
+  s_1d4fd6074d3311::t_ede6c959320ff2 3,40,224
+examples/skills/issue-triage/SKILL.md
+  s_2e5b0a77711965::t_a379de6a856acc 3-4,7,21,280,283
+examples/skills/land-and-deploy/SKILL.md
+  s_2e5b0a77711965::t_b81735f41a9065 3-4,13,41,150-151,153,337,359
+examples/skills/landing-page-generator/SKILL.md
+  s_2e5b0a77711965::t_f8a15317511397 4,240-241
+examples/skills/learn-alternatives/SKILL.md
+  s_2e5b0a77711965::t_5ccf2f3ff351f5 3-4,15-18,109
+examples/skills/learn-quiz/SKILL.md
+  s_2e5b0a77711965::t_145aa443432fff 3,15-17,62,122
+examples/skills/learn-teach/SKILL.md
+  s_2e5b0a77711965::t_1f3f30879bb630 3-4,15-18,126,173
+examples/skills/learning-path/SKILL.md
+  s_2e5b0a77711965::t_642486b20d66f2 3-4
+examples/skills/mcp-integration-reference/SKILL.md
+  s_2e5b0a77711965::t_a8f51289c4cca6 3,5,32
+examples/skills/methodology-advisor/SKILL.md
+  s_2e5b0a77711965::t_e46aefcd9b2a5c 3
+examples/skills/optimize/SKILL.md
+  s_2e5b0a77711965::t_122e65b4f21c90 4,40,43,46,53,56,63,66,154-156
+examples/skills/pdf-generator/SKILL.md
+  s_2e5b0a77711965::t_70a874054b575c 3,5-6,27,30,33-34,36,38,43,46,50,52-53,66-68,398
+examples/skills/plan-pipeline-ceo-review/SKILL.md
+  s_1d4fd6074d3311::t_fc333421a36652 3,8,10,18,32,47,126-130
+examples/skills/plan-pipeline-eng-review/SKILL.md
+  s_1d4fd6074d3311::t_4e9a1781925a8a 3,8,10,12,18,26,50,146,184-188
+examples/skills/plan-pipeline-execute/SKILL.md
+  s_1d4fd6074d3311::t_d0f7573efb205b 3-4,9,19,55,57,90,123,126-127,179,185,235,240-244
+examples/skills/plan-pipeline-start/SKILL.md
+  s_1d4fd6074d3311::t_9c039edcb91aa9 3,8,10,50,102,107,156,158,165,168,179-183
+examples/skills/plan-pipeline-validate/SKILL.md
+  s_1d4fd6074d3311::t_961253b98b40fc 3-4,9,11,41,73,75,130,132,139,142,145,175,180,185-189
+examples/skills/plan-pipeline/SKILL.md
+  s_1d4fd6074d3311::t_c11a379aa92b26 3-5,7,14-15,20-24,50-51,53,55-56
+examples/skills/pr-triage/SKILL.md
+  s_1d4fd6074d3311::t_f4062fe9907463 3-4,7,21,70-71,227,364,366
+examples/skills/pr-triage/references/worktree-setup.md
+  s_1d4fd6074d3311::t_e9e8ca1d3c65f6 1-222
+examples/skills/pr/SKILL.md
+  s_2e5b0a77711965::t_d97f2df7d55769 53,55-56,60,63-65,67-70,176,178-180,182-183,192
+examples/skills/qa/SKILL.md
+  s_2e5b0a77711965::t_1e6e31b6471131 3-4,210
+examples/skills/recipe-template/SKILL.md
+  s_2e5b0a77711965::t_54dbfa7485de48 3,9,15
+examples/skills/refactor/SKILL.md
+  s_2e5b0a77711965::t_2299e677ef58d7 4,32,54,57,92-93,96,99
+examples/skills/release-notes-generator/SKILL.md
+  s_2e5b0a77711965::t_cf18401632c90a 99,242-245
+examples/skills/release-notes/SKILL.md
+  s_2e5b0a77711965::t_d5190454375e53 4
+examples/skills/review-pr/SKILL.md
+  s_2e5b0a77711965::t_d6c2eeaf6adbd5 3
+examples/skills/routines-discover/SKILL.md
+  s_2e5b0a77711965::t_03c3d009cdefd4 18,28
+examples/skills/scaffold/SKILL.md
+  s_2e5b0a77711965::t_8611d66867e8c4 3,10,28,51-52,63-64,76,93-94,97,99,194,199,201-202,205,239,242,246,251-252,292,295,310,394
+examples/skills/security-audit/SKILL.md
+  s_2e5b0a77711965::t_1d92fde0226175 41,59-60,177-180,182-183,185,190-191
+examples/skills/security-check/SKILL.md
+  s_2e5b0a77711965::t_34d7b8725f53e6 158
+examples/skills/security-checklist/SKILL.md
+  s_2e5b0a77711965::t_7968dc9e227682 3,51
+examples/skills/security/SKILL.md
+  s_2e5b0a77711965::t_feb6e6b9f2d670 3-4,29,44,49,58,63,82,87
+examples/skills/session-save/SKILL.md
+  s_2e5b0a77711965::t_3740a0ee5a5f6f 82
+examples/skills/ship/SKILL.md
+  s_2e5b0a77711965::t_603d0d62caf004 4,6,10,40,50,53,141,235
+examples/skills/skill-creator/SKILL.md
+  s_2e5b0a77711965::t_45566bfdc5b135 47,58-59,84,92,122
+examples/skills/skill-creator/scripts/init_skill.py
+  s_2e5b0a77711965::t_52905243b73f5a 20-21,197
+examples/skills/smart-explore/SKILL.md
+  s_2e5b0a77711965::t_520080a8dd0d80 3,320,358,487
+examples/skills/sonarqube/SKILL.md
+  s_2e5b0a77711965::t_9d331ee03cad8e 3-4,32-33,60-61,64,67-68,80,85-86,138,235-236,284,286,299,314-315,374
+examples/skills/talk-pipeline/README.md
+  s_2e5b0a77711965::t_9057340c5505ee 7,10-11,14,18,20-26
+examples/skills/talk-pipeline/SKILL.md
+  s_2e5b0a77711965::t_a387aebcd7fd7e 4-5,7,49,166-172
+examples/skills/talk-stage1-extract/SKILL.md
+  s_2e5b0a77711965::t_da832d293a28d4 148-150
+examples/skills/talk-stage2-research/SKILL.md
+  s_2e5b0a77711965::t_c9cf922caf80a3 191-193
+examples/skills/talk-stage3-concepts/SKILL.md
+  s_2e5b0a77711965::t_c8469d03f800fc 156-159
+examples/skills/talk-stage4-position/SKILL.md
+  s_2e5b0a77711965::t_802fdd753361ef 235,239-241
+examples/skills/talk-stage5-script/SKILL.md
+  s_2e5b0a77711965::t_cbc5a1c3aa8271 23,156,219-221
+examples/skills/talk-stage6-revision/SKILL.md
+  s_2e5b0a77711965::t_6725e33a2f4c3c 227-228
+examples/skills/tdd-workflow/SKILL.md
+  s_2e5b0a77711965::t_9064103b7483dc 3
+examples/skills/token-audit/SKILL.md
+  s_2e5b0a77711965::t_7ee0c3e81340fb 3,26-27,29-31,33,51,62,85,104,109,116-121,125,128,141
+examples/skills/update-threat-db/SKILL.md
+  s_2e5b0a77711965::t_db199a23ddf9e3 3-5
+examples/skills/validate-changes/SKILL.md
+  s_2e5b0a77711965::t_916aa4bc9e2846 3,24,95-96,116
+examples/skills/voice-refine/SKILL.md
+  s_2e5b0a77711965::t_f5f3ee45e02dfd 4,97
+examples/styles/custom-style-template.md
+  s_2e5b0a77711965::t_c619d02107c162 45-46,49-52
+examples/workflows/database-branch-setup.md
+  s_2e5b0a77711965::t_25896797982f76 353
+examples/workflows/memory-stack-integration.md
+  s_2e5b0a77711965::t_232cf344673c27 32-33,856
+examples/workflows/remotion-quickstart.md
+  s_2e5b0a77711965::t_2fa257134e5c02 54-56,242-243,245-246
+exports/README.md
+  s_2e5b0a77711965::t_e1cfa8641373f2 20
+guide/core/credits.md
+  s_2e5b0a77711965::t_d4630963465e91 51,58
+guide/core/known-issues.md
+  s_1d4fd6074d3311::t_996d94b2976417 106,108
+guide/ecosystem/ai-ecosystem.md
+  s_1d4fd6074d3311::t_41eb7fc69facc2 2316,2851
+guide/roles/learning-with-ai.md
+  s_2e5b0a77711965::t_8a14805d9451fb 379,476-478,480,482,484,487-492,511,1302-1304,1354-1356
+guide/security/security-hardening.md
+  s_1d4fd6074d3311::t_dc6cb0124036e3 1388
+guide/ultimate-guide.fr.md
+  s_1d4fd6074d3311::t_4eff14c9fc2f10 2694,5588,9574,9779,15146,15244,16634,16835,16850,17533-17536,18286,18337,19687,20228,24829,24863,26352
+guide/ultimate-guide.md
+  s_1d4fd6074d3311::t_d0c95329ad323b 2646,5463,9416,9617,14965,15063,16432,16631,16646,17327-17330,18076,18127,19194,19733,24293,24327,25788
+guide/workflows/pdf-generation.md
+  s_2e5b0a77711965::t_9d2766f3cb20b1 511
+guide/workflows/search-tools-mastery.md
+  s_2e5b0a77711965::t_e7f1888fbb7dde 774
+guide/workflows/tdd-with-claude.md
+  s_2e5b0a77711965::t_e499b683e820e1 323,456
+machine-readable/reference.yaml
+  s_1d4fd6074d3311::t_20f1cdeed81df7 509,520-521,539-547,1528,1531,1535,2496
+mcp-server/content/reference.yaml
+  s_1d4fd6074d3311::t_a5d10de04de770 509,520-521,539-547,1528,1531,1535,2496
+mcp-server/src/tools/list-examples.ts
+  s_2e5b0a77711965::t_5ca40660b3148c 12
+mcp-server/src/tools/search-examples.ts
+  s_2e5b0a77711965::t_9ec1b715ce7ecd 106
+quiz/questions/06-commands.yaml
+  s_2e5b0a77711965::t_9f58dd8a1531e1 548,550-552
+scripts/generate-examples-data.py
+  s_2e5b0a77711965::t_1ec075e7d49c93 267-269,286-293
+whitepapers/en/01-effective-prompts.qmd
+  s_1d4fd6074d3311::t_79f47555d2cf8f 5,9,998
+whitepapers/en/02-customization.qmd
+  s_2e5b0a77711965::t_003bba856f2d76 5,9,1106
+whitepapers/en/08-agent-teams.qmd
+  s_2e5b0a77711965::t_c2798fe9cfb5c7 5,9,747
+whitepapers/en/09-learning-with-ai.qmd
+  s_2e5b0a77711965::t_011f49fa4945de 5,9,547-549,551,553,555,1035,1037,1116-1118
+whitepapers/fr/01-prompts-efficaces.qmd
+  s_1d4fd6074d3311::t_82d147a190fc41 5,9,1032
+whitepapers/fr/02-personnalisation.qmd
+  s_2e5b0a77711965::t_3f052d187287da 5,9,1083,1341
+whitepapers/fr/08-agent-teams.qmd
+  s_2e5b0a77711965::t_79da316a1fb888 5,9,496
+whitepapers/fr/09-apprendre-avec-ia.qmd
+  s_2e5b0a77711965::t_99a3a4d44beadb 5,9,551-553,555,557,559,1052,1054,1134-1136
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "baf0263f80ca46be4ed9eb6fa7438a3f58d10696",
+  "prompts": {},
+  "sessions": {
+    "s_1d4fd6074d3311": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9a85a0d0-a117-49fa-8bd2-b176f6dc9a02",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_2e5b0a77711965": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "47c2de02-b08c-4cc2-b6e4-f2807bc478f3",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_3cefe7befcc161": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1fe4d-c237-7ed2-9068-c7619878a5dc",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_9331b80a15d699": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a20713-a7d8-7732-9c22-616c4083cff7",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
