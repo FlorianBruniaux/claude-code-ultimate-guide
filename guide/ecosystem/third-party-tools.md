@@ -1649,6 +1649,7 @@ This section covers tools for running **multiple Claude Code instances in parall
 | [swe-mux](https://github.com/jatoran/swe-mux) | Desktop/web workspace | Live per-session status for Claude Code, Codex, OpenCode and Pi, the same sessions on your phone over Tailscale, sessions survive restarts (Apache-2.0, 2026-09-23) |
 | [agent-manager](https://github.com/wainmann/agent-manager) | Multi-agent session TUI | Runs your installed Claude Code, Codex, OpenCode, Gemini CLI and other agent CLIs as-is, each in its own tmux session, with live status, optional per-session Git worktrees and a diff review that sends line comments back to the agent (540 stars, 2026-09-29) |
 | [Concord](#concord) | Coordination layer (MCP server) | Agents in one repo claim tasks and files, get overlap warnings before editing, and prompt each other across harnesses (562 stars, 2026-10-20) |
+| [mcptask.online](https://mcptask.online/?language=en) | Task queue + runner (hosted, commercial) | One task queue for people and AI developers; the runner on your own PC or Mac drives Claude Code, Codex CLI or OpenCode, and every task ends as a pull request after local CI (30 days free) |
 
 ---
 
