@@ -1519,7 +1519,7 @@ deep_dive:
   # Plan-Validate-Execute Pipeline (Mar 2026)
   plan_pipeline_workflow: "guide/workflows/plan-pipeline.md"
   plan_pipeline_philosophy: "non-prescriptive AI-first + No Bandaids first principles + ADR learning loop"
-  plan_pipeline_commands: "/plan-start → /plan-validate → /plan-execute"
+  plan_pipeline_commands: "/plan-pipeline-start → /plan-pipeline-validate → /plan-pipeline-execute"
   plan_pipeline_agent_pool: "12 research agents (trigger-based) + 8 validation agents (trigger-based)"
   plan_pipeline_adr_loop: "Watching (1) → Emerging (2) → Confirmed (3+) → CLAUDE.md promotion"
   plan_pipeline_claude_md_limit: "120 lines hard limit + pointer strategy for sub-files"

@@ -2627,9 +2627,9 @@ Claude will analyze git status, conversation history, and generate a structured 
 
 | Command | Job |
 |---------|-----|
-| `/handoff:create` | Generates the structured document from current session context |
-| `/handoff:resume` | Loads a handoff document, confirms understanding, and waits for approval before starting |
-| `/handoff:update` | Updates an existing handoff with section-specific merge rules (see below) |
+| `/handoff-create` | Generates the structured document from current session context |
+| `/handoff-resume` | Loads a handoff document, confirms understanding, and waits for approval before starting |
+| `/handoff-update` | Updates an existing handoff with section-specific merge rules (see below) |
 
 The critical addition is per-section merge rules in `update`:
 

@@ -34,9 +34,9 @@ A complete development workflow in 3 commands: plan with a dynamic research team
 ## TL;DR
 
 ```
-/plan-start    → 5-phase planning: PRD analysis + dynamic research team + ADRs
-/plan-validate → 2-layer review: structural checks + trigger-based specialist agents
-/plan-execute  → worktree + TDD + parallel execution + PR + merge + cleanup
+/plan-pipeline-start    → 5-phase planning: PRD analysis + dynamic research team + ADRs
+/plan-pipeline-validate → 2-layer review: structural checks + trigger-based specialist agents
+/plan-pipeline-execute  → worktree + TDD + parallel execution + PR + merge + cleanup
 ```
 
 **What makes this different from `/plan` mode**:
@@ -86,7 +86,7 @@ Validators that didn't write the plan are not anchored to its assumptions. Resea
 
 ## The three commands
 
-### `/plan-start`: 5-phase planning
+### `/plan-pipeline-start`: 5-phase planning
 
 **Phase 1: PRD & Design Analysis** *(interactive, no agents)*
 
@@ -128,11 +128,11 @@ Apply trigger rules against the agent pool (see [Dynamic Agent Pool](#dynamic-ag
 
 Output: `docs/plans/plan-{name}.md` + `docs/adr/ADR-XXXX.md` + `docs/plans/metrics/{name}.json`
 
-**Auto-transition**: no unresolved ambiguity → auto-start `/plan-validate`
+**Next step**: with no unresolved ambiguity, the skill tells you to run `/plan-pipeline-validate`. The stages set `disable-model-invocation: true`, so Claude does not start the next one on its own.
 
 ---
 
-### `/plan-validate`: 2-layer validation
+### `/plan-pipeline-validate`: 2-layer validation
 
 **Layer 1: Structural** *(inline, instant)*
 
@@ -166,11 +166,11 @@ Every issue must be resolved, no skipping. Triage:
 3. Issues resolvable from first principles → auto-resolve
 4. Residual → human decision → new rule → auto-resolved next time
 
-**Auto-transition**: all issues resolved → auto-start `/plan-execute`
+**Next step**: once all issues are resolved, the skill tells you to run `/plan-pipeline-execute`.
 
 ---
 
-### `/plan-execute`: Execution to merged PR
+### `/plan-pipeline-execute`: Execution to merged PR
 
 Single command handles everything:
 
@@ -192,7 +192,7 @@ If quality gate fails: up to 3 auto-fix attempts by dedicated debug agents. Stil
 
 Agents are **not** hardcoded in CLAUDE.md. They are defined at invocation time: description, trigger criteria, and model selection embedded in the plan phase where they're spawned. This keeps CLAUDE.md lightweight while giving each agent full context for its role.
 
-### Research pool (`/plan-start`)
+### Research pool (`/plan-pipeline-start`)
 
 | Agent | Trigger | Model |
 |-------|---------|-------|
@@ -214,7 +214,7 @@ Agents are **not** hardcoded in CLAUDE.md. They are defined at invocation time: 
 - Sonnet for standard research (good quality, lower cost)
 - `planning-coordinator` only spawned when 2+ agents are selected: it synthesizes, it doesn't research
 
-### Validation pool (`/plan-validate`)
+### Validation pool (`/plan-pipeline-validate`)
 
 See Layer 2 table above. These are different agents from the research pool, because validators are not biased by the creation process.
 
@@ -251,7 +251,7 @@ Every significant architectural decision generates an ADR. Over time, ADRs compo
 ### The loop
 
 ```
-/plan-start Phase 2     →  ADR created
+/plan-pipeline-start Phase 2     →  ADR created
                                ↓
                         PATTERNS.md updated
                                ↓
@@ -259,7 +259,7 @@ Every significant architectural decision generates an ADR. Over time, ADRs compo
                                ↓
                         Propose CLAUDE.md promotions
                                ↓
-Future /plan-start      ←  Confirmed rules auto-resolve decisions
+Future /plan-pipeline-start      ←  Confirmed rules auto-resolve decisions
 ```
 
 Run `/adr-review` every 10-15 plans to batch-analyze patterns and propose CLAUDE.md additions.
@@ -309,7 +309,7 @@ Review CLAUDE.md every 10-15 plans alongside `/adr-review`. Promote confirmed pa
 
 ### `/clear` between steps
 
-Run `/clear` between `/plan-start`, `/plan-validate`, and `/plan-execute`. Each command is self-contained: the plan file on disk is the handoff artifact, not in-memory context.
+Run `/clear` between `/plan-pipeline-start`, `/plan-pipeline-validate`, and `/plan-pipeline-execute`. Each command is self-contained: the plan file on disk is the handoff artifact, not in-memory context.
 
 Without `/clear`: context accumulates across all phases, compacting triggers earlier, agents inherit irrelevant context from previous phases, and token costs increase significantly.
 
@@ -347,11 +347,11 @@ For small but non-trivial changes, still run the pipeline but the system will de
 
 | Phase | Cost Driver | Approximate Range |
 |-------|-------------|-------------------|
-| `/plan-start` Tier 0 | Inline research only | $0.10-0.30 |
-| `/plan-start` Tier 1-2 | 2-6 Sonnet agents | $0.50-2.00 |
-| `/plan-start` Tier 3 | 7+ agents + Opus coordinator | $2.00-8.00 |
-| `/plan-validate` | 0-8 agents | $0.20-3.00 |
-| `/plan-execute` | Per-task agents + quality gate | $0.50-5.00 |
+| `/plan-pipeline-start` Tier 0 | Inline research only | $0.10-0.30 |
+| `/plan-pipeline-start` Tier 1-2 | 2-6 Sonnet agents | $0.50-2.00 |
+| `/plan-pipeline-start` Tier 3 | 7+ agents + Opus coordinator | $2.00-8.00 |
+| `/plan-pipeline-validate` | 0-8 agents | $0.20-3.00 |
+| `/plan-pipeline-execute` | Per-task agents + quality gate | $0.50-5.00 |
 | **Typical feature (Tier 2)** | Full pipeline | **$2-10** |
 
 Cost compounds as ADR coverage grows: fewer agents needed, fewer validation issues, faster execution.

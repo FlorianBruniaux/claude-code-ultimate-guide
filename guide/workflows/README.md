@@ -244,7 +244,7 @@ Coordinate agents through hook events rather than direct orchestration.
 
 ### [Plan Pipeline](./plan-pipeline.md)
 
-Full end-to-end plan pipeline: /plan-start, /plan-validate, /plan-execute as a coherent workflow.
+Full end-to-end plan pipeline: /plan-pipeline-start, /plan-pipeline-validate, /plan-pipeline-execute as a coherent workflow.
 
 **When to use**: Any significant feature where planning rigor pays off before writing code
 

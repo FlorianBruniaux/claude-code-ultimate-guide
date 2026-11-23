@@ -2674,9 +2674,9 @@ Claude analysera l'état Git et l'historique de conversation, puis générera un
 
 | Commande | Rôle |
 |----------|------|
-| `/handoff:create` | Génère le document structuré à partir du contexte de la session courante |
-| `/handoff:resume` | Charge un document de passation, confirme sa compréhension et attend l'approbation avant de commencer |
-| `/handoff:update` | Met à jour une passation existante avec des règles de fusion propres à chaque section (voir ci-dessous) |
+| `/handoff-create` | Génère le document structuré à partir du contexte de la session courante |
+| `/handoff-resume` | Charge un document de passation, confirme sa compréhension et attend l'approbation avant de commencer |
+| `/handoff-update` | Met à jour une passation existante avec des règles de fusion propres à chaque section (voir ci-dessous) |
 
 L'ajout déterminant concerne les règles de fusion par section dans `update` :
 

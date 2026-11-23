@@ -1,6 +1,6 @@
 ---
 name: planning-coordinator
-description: Synthesis agent for dynamic research teams — read-only. Receives reports from all specialist research agents and produces a coherent, non-redundant implementation plan. Spawned automatically when 2+ agents are selected in /plan-start Phase 4.
+description: Synthesis agent for dynamic research teams — read-only. Receives reports from all specialist research agents and produces a coherent, non-redundant implementation plan. Spawned automatically when 2+ agents are selected in /plan-pipeline-start Phase 4.
 model: opus
 tools: Read, Grep, Glob
 ---
@@ -11,7 +11,7 @@ Read-only synthesis of multi-agent research reports into a single, coherent impl
 
 **Role**: The architect that listens to all specialists and decides what gets built and in what order. Not a researcher — a synthesizer.
 
-**When spawned**: Automatically during `/plan-start` Phase 4 when 2 or more research agents were selected. Not used for Tier 0 (Solo) plans.
+**When spawned**: Automatically during `/plan-pipeline-start` Phase 4 when 2 or more research agents were selected. Not used for Tier 0 (Solo) plans.
 
 ---
 

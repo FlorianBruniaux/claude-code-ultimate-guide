@@ -139,9 +139,11 @@ Action: Fix type errors before proceeding. Run `npx tsc --noEmit` for full outpu
 
 ## Log management
 
+Run these only when the user asks to re-run the checks; a status read never deletes or restarts anything.
+
 ```bash
 # Clean old logs (useful for re-running checks)
-rm -rf .worktree-logs/*.log
+rm -f .worktree-logs/*.log
 
 # Re-run all checks
 npx tsc --noEmit > .worktree-logs/typecheck.log 2>&1 &

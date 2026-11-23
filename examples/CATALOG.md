@@ -54,7 +54,7 @@ Auto-generated template index with complexity, time, and domain filters.
   Mechanical execution agent for bounded, well-defined tasks. Scope and approach must be explicit in the task prompt. Use after a planner has produced a plan. For complex logic or design decisions, use Sonnet instead.
 
 - **[integration-reviewer](agents/integration-reviewer.md)** *intermediate* • 30 min
-  Runtime integration validator: read-only. Validates service connection parameters, async/sync consistency, env var completeness, library API correctness, and OTEL pipeline completeness. Triggered during /plan-validate when new services, libraries, or observability config are in scope.
+  Runtime integration validator: read-only. Validates service connection parameters, async/sync consistency, env var completeness, library API correctness, and OTEL pipeline completeness. Triggered during /plan-pipeline-validate when new services, libraries, or observability config are in scope.
 
 - **[log-ingestor](agents/cyber-defense/log-ingestor.md)** *intermediate* • 30 min
   Parse raw logs into structured security events. First stage of the cyber defense pipeline: reads log files and extracts typed events (errors, warnings, auth failures, anomalies).
@@ -72,7 +72,7 @@ Auto-generated template index with complexity, time, and domain filters.
   Strategic planning agent: read-only exploration before implementation. Use to decompose tasks, analyze codebases, and produce a detailed plan. Never modifies files.
 
 - **[planning-coordinator](agents/planning-coordinator.md)** *intermediate* • 30 min
-  Synthesis agent for dynamic research teams: read-only. Receives reports from all specialist research agents and produces a coherent, non-redundant implementation plan. Spawned automatically when 2+ agents are selected in /plan-start Phase 4.
+  Synthesis agent for dynamic research teams: read-only. Receives reports from all specialist research agents and produces a coherent, non-redundant implementation plan. Spawned automatically when 2+ agents are selected in /plan-pipeline-start Phase 4.
 
 - **[README](agents/cyber-defense/README.md)** *intermediate* • 30 min
   A 4-agent pipeline that detects security threats in log files. Built natively with Claude Code Agent
