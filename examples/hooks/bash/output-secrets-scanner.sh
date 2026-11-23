@@ -55,7 +55,7 @@ SECRET_PATTERNS=(
     "Twilio Key::SK[a-f0-9]{32}"
     "SendGrid Key::SG\.[a-zA-Z0-9_-]{22}\.[a-zA-Z0-9_-]{43}"
     "Slack Token::xox[baprs]-[0-9a-zA-Z-]{10,}"
-    "Discord Token::[MN][A-Za-z0-9]{23,}\.[A-Za-z0-9-_]{6}\.[A-Za-z0-9-_]{27}"
+    "Discord Token::[MN][A-Za-z0-9]{23,}\.[A-Za-z0-9_-]{6}\.[A-Za-z0-9_-]{27}"
 
     # Tokens
     "GitHub Token::(ghp|gho|ghu|ghs|ghr)_[a-zA-Z0-9]{36,}"

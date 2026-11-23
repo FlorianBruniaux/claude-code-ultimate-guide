@@ -65,6 +65,10 @@ out=$(echo "$payload" | bash "$SCANNER" 2>/dev/null) || rc=$?
 check "warns on a private key header in tool output" "$([[ "$out" =~ Private\ Key(,|\.) ]] && echo 1 || echo 0)" "stdout: ${out:0:120}"
 out=$(echo "$payload" | PATH="$WORK/badgrep:$PATH" bash "$SCANNER" 2>/dev/null) || true
 check "reports a grep failure instead of staying silent" "$([[ "$out" == *"SCAN INCOMPLETE"* ]] && echo 1 || echo 0)" "stdout: ${out:0:80}"
+# Every pattern must compile with the system grep: an invalid one (such as the
+# BSD-rejected range [A-Za-z0-9-_]) would report an incomplete scan on any output.
+out=$(jq -n '{"tool_name":"Bash","tool_output":"hello world"}' | bash "$SCANNER" 2>/dev/null) || true
+check "stays quiet on clean output (all patterns compile)" "$([[ -z "$out" ]] && echo 1 || echo 0)" "stdout: ${out:0:80}"
 
 echo "output-validator.sh"
 payload=$(jq -n --arg o "$FAKE_KEY" '{"tool_name":"Bash","tool_output":$o}')
