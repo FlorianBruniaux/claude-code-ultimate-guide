@@ -1,0 +1,21 @@
+machine-readable/translations.json
+  s_2e5b0a77711965::t_a6bd2df0c2008c 3-4,24,26-27,51-52,56-57,60,114-115,190-191
+mcp-server/content/translations.json
+  s_2e5b0a77711965::t_24699e564ab1f4 3-4,24,26-27,51-52,56-57,60,114-115,190-191
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "bf8411b987ac9665e5c7f862bf82b439e7a30452",
+  "prompts": {},
+  "sessions": {
+    "s_2e5b0a77711965": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "47c2de02-b08c-4cc2-b6e4-f2807bc478f3",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
