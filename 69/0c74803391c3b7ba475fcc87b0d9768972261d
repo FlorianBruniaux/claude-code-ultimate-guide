@@ -1,0 +1,21 @@
+.claude/commands/audit-agents-skills.md
+  s_fa0a66064fa744::t_a74ced53806c56 418
+.claude/commands/security-audit.md
+  s_fa0a66064fa744::t_fbd00690cc934f 17
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "690c74803391c3b7ba475fcc87b0d9768972261d",
+  "prompts": {},
+  "sessions": {
+    "s_fa0a66064fa744": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fcea9740-ea55-464b-921d-64b65cad38d6",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
