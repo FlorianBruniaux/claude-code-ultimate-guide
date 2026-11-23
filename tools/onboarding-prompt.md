@@ -247,7 +247,7 @@ Based on time spent and topics covered:
 
 2. **Quick wins**: Suggest 1-2 immediate actions based on their goal:
    - `get_started` → "Try running `claude` and ask it to explain a file"
-   - `optimize` → "Use `/status` to check your context usage"
+   - `optimize` → "Use `/context` to check your context usage"
    - `build_agents` → "Create a simple agent using the template shown"
    - `learn_security` → "Run `/security-check` to scan your config against known threats (30 sec)"
    - `fix_problem` → "Run `claude doctor` if issues persist"

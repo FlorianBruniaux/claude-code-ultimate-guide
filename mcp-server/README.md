@@ -97,7 +97,7 @@ This section is rendered from `machine-readable/mcp-product.json` for package 1.
 | `get_release` | Get details about Claude Code CLI official releases. Pass a version to get a specific release, or omit to get the latest and recent history. |
 | `get_threat` | Look up a specific threat by ID from the security threat database. Supports CVE IDs (e.g. "CVE-2025-53109") and technique IDs (e.g. "T001"). |
 | `init_official_docs` | Fetch the official Anthropic Claude Code docs (llms-full.txt) and store a local snapshot as the diff baseline. Run this first. Safe to re-run - overwrites previous baseline AND current. Takes ~5s (fetches ~1.2MB from Anthropic). |
-| `list_examples` | List all production-ready templates in the guide by category (agents, commands, hooks, skills, scripts). Use get_example(name) to fetch the content of any specific template. |
+| `list_examples` | List all production-ready templates in the guide by category (agents, commands, hooks, skills, scripts). Slash command templates ship as skills; the "commands" category only holds legacy resources such as the threat database. Use get_example(name) to fetch the content of any specific template. |
 | `list_threats` | Browse the security threat database. Without a category, returns a summary with counts. With a category, returns the full list for that section. |
 | `list_topics` | List all top-level topics and categories in the Claude Code Ultimate Guide. Useful for exploring what the guide covers before searching. |
 | `read_section` | Read a section from a guide file (markdown, YAML, examples). Supports pagination via offset, or a "#heading-slug" anchor to jump straight to a section (as returned by search_guide()). Use after search_guide() to fetch the full content at a specific location. |

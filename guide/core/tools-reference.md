@@ -48,13 +48,13 @@ The tables below cover built-in tools and explicitly marked removed tools. Avail
 |------|-------------|:-------------------:|
 | `Agent` | Spawn a subagent with its own context window to handle a task | No |
 | `Workflow` | Run a dynamic workflow: a script that orchestrates many subagents and returns one result | Yes |
-| `TeamCreate` `⚠️ Not in the official tools reference` (checked 2026-10-27) | Create an agent team with multiple teammates (`CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`) | No |
-| `TeamDelete` `⚠️ Not in the official tools reference` (checked 2026-10-27) | Disband an agent team and clean up teammate processes | No |
 | `ListAgents` | List every session this one can reach: subagents, agent-team teammates, other local Claude Code sessions on this machine, cloud sessions, Remote Control sessions on other machines (v2.1.224+) | No |
 | `SubagentHandback` | Deliver a subagent's final report to the conversation that receives its result; provided only in auto mode, to non-fork subagents the Agent tool runs locally | No |
 | `SendMessage` | Send a message to an agent-team teammate, resume a stopped subagent by ID, or message an independent session found via `ListAgents` (cross-session messaging, v2.1.224+) | No |
 
 ### Task management
+
+> **Availability**: the task-tracking tools (`TaskCreate`, `TaskGet`, `TaskUpdate`, `TaskList`, `TodoWrite`) are provided by default only on Opus 4.7, Sonnet 4.6, Haiku 4.5 and earlier models. On newer models such as Opus 5.5 and Sonnet 5.5 they are left out unless you set `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` (v2.1.233+).
 
 | Tool | Description | Permission Required |
 |------|-------------|:-------------------:|
@@ -74,7 +74,7 @@ The tables below cover built-in tools and explicitly marked removed tools. Avail
 | `CronDelete` | Cancel a scheduled task by ID | No |
 | `CronList` | List all scheduled tasks in the session | No |
 | `ScheduleWakeup` | Reschedule the next iteration of a self-paced `/loop` (called by Claude, not by you) | No |
-| `RemoteTrigger` | Create, update, run, and list Routines on claude.ai (Pro/Max/Team/Enterprise) | No |
+| `RemoteTrigger` | Create, update, run, and list Routines on claude.ai (Pro/Max/Ultra/Team/Enterprise) | No |
 | `PushNotification` | Send a desktop notification and a phone push when Remote Control is connected | No |
 
 ### MCP integration
@@ -96,7 +96,7 @@ The tables below cover built-in tools and explicitly marked removed tools. Avail
 | `ExitPlanMode` | Present a plan for approval and exit plan mode | Yes |
 | `AskUserQuestion` | Ask multiple-choice questions to gather requirements or clarify ambiguity | No |
 | `Skill` | Execute a skill within the main conversation | Yes |
-| `ShareOnboardingGuide` | Upload `ONBOARDING.md` and return a share link (Pro/Max/Team/Enterprise) | Yes |
+| `ShareOnboardingGuide` | Upload `ONBOARDING.md` and return a share link (Team/Enterprise) | Yes |
 | `Artifact` | Publish an HTML or Markdown file as a private, interactive claude.ai artifact that can then be shared | Yes |
 | `SendUserFile` | Send a generated file (report, diagram, screenshot, build output) to your device with an optional caption; `display` chooses inline rendering or a download card | No |
 | `ReportFindings` | Report code-review findings as a structured list (file, summary, failure scenario, optional category) for the client to render | No |
@@ -230,9 +230,9 @@ These tools schedule prompts within the current session. Tasks are session-scope
 
 Claude calls `PushNotification` to send a desktop notification and, when Remote Control is connected with "Push when Claude decides" enabled, a phone push. Useful for long tasks where you step away. Delivery runs through Anthropic-hosted infrastructure, so it is not available on Bedrock, Vertex AI, or Foundry. See [Remote Control](../ultimate-guide.md#remote-control).
 
-### Agent teams: TeamCreate / TeamDelete / SendMessage
+### Agent teams: implicit team / SendMessage
 
-Experimental feature behind `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`. `TeamCreate` spawns a team of named teammates; `SendMessage` sends a message to a teammate or resumes a stopped subagent by its agent ID; `TeamDelete` disbands the team. See the dedicated [Agent Teams guide](../workflows/agent-teams.md) for setup, patterns, and examples.
+Experimental feature behind `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`. The `TeamCreate` and `TeamDelete` tools were removed in v2.1.178: with the variable set, every session has one implicit team, and you spawn teammates directly with the `Agent` tool's `name` parameter. The `team_name` parameter is still accepted but ignored. `SendMessage` sends a message to a teammate or resumes a stopped subagent by its agent ID. See the dedicated [Agent Teams guide](../workflows/agent-teams.md) for setup, patterns, and examples.
 
 ### Cross-session messaging: ListAgents / SendMessage
 

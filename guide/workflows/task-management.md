@@ -38,14 +38,19 @@ Task management in Claude Code evolved significantly in v2.1.16 with the introdu
 | **Status tracking** | pending/in_progress/completed | pending/in_progress/completed |
 | **When to use** | Simple single-session todos | Complex multi-session projects |
 
-**Migration flag** (v2.1.19+):
-```bash
-# Use old system (TodoWrite)
-CLAUDE_CODE_ENABLE_TASKS=false claude
+**Availability and switches** (official docs, "Task tool availability"):
 
-# Use new system (Tasks API) - default since v2.1.19
-claude
+The task-tracking tools (`TaskCreate`, `TaskGet`, `TaskUpdate`, `TaskList`, `TodoWrite`) are available by default only on Opus 4.7, Sonnet 4.6, Haiku 4.5 and earlier models. On newer models (Opus 5.5, Sonnet 5.5, Fable 5.2 and others) Claude Code leaves them out unless you opt in, and the same applies to a model ID Claude Code does not recognize (for example a custom name behind an LLM gateway).
+
+```bash
+# Get the task tools on every model (v2.1.233+)
+CLAUDE_CODE_ENABLE_TODO_TOOLS=1 claude
+
+# Where the tools are available, use the legacy TodoWrite instead of the Task tools
+CLAUDE_CODE_ENABLE_TASKS=0 claude
 ```
+
+`CLAUDE_CODE_ENABLE_TASKS` only selects which tools you get (Task tools by default, `TodoWrite` with `0`); `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` controls whether they are provided at all on newer models.
 
 ---
 
@@ -702,7 +707,7 @@ claude
 
 **Symptom**: Tasks not persisting even with task list ID set
 
-**Cause**: `CLAUDE_CODE_ENABLE_TASKS=false` set in environment
+**Cause**: `CLAUDE_CODE_ENABLE_TASKS=0` set in environment (selects `TodoWrite`), or a newer model that has no task tools by default
 
 **Solution**:
 ```bash
@@ -712,8 +717,8 @@ env | grep CLAUDE_CODE_ENABLE_TASKS
 # Unset if present
 unset CLAUDE_CODE_ENABLE_TASKS
 
-# Or explicitly enable (v2.1.19+ defaults to enabled)
-export CLAUDE_CODE_ENABLE_TASKS=true
+# On Opus 5.5, Sonnet 5.5 and other newer models, opt in to the task tools (v2.1.233+)
+export CLAUDE_CODE_ENABLE_TODO_TOOLS=1
 ```
 
 ### Q: Task dependencies not enforced

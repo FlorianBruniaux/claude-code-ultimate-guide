@@ -225,17 +225,18 @@ When pushing updated PDFs to the landing/portfolio, **3 files must always be upd
 
 | File | Repo | Role |
 |------|------|------|
-| `florian-portfolio/public/guides/` | portfolio | Physical PDF files (copy with new versioned filename) |
-| `landing/src/data/whitepapers-data.ts` | landing | Direct download buttons (`const V`, `hashedFileFr/En`) |
+| `florian-portfolio/public/guides/` | portfolio | Physical PDF files, one per whitepaper and language, named `NN-name.lang.vX.Y.Z.<hash>.pdf` (for example `00-introduction-serie.fr.v3.44.1.<12 hex>.pdf`) |
+| `landing/src/data/whitepapers-data.ts` | landing | Direct download buttons: per-whitepaper `hashedFileFr` and `hashedFileEn` (the file has no `const V`) |
 | `florian-portfolio/api/guides.mjs` | portfolio | **Email links**: `GUIDE_MANIFEST` stable-ID → versioned filename |
 
 **`guides.mjs` is the one that's easy to forget.** It controls what URL is sent by email when a user subscribes. Old links in emails redirect through `/api/guides?id=...`, so updating this file retroactively fixes all past email recipients too.
 
 ```bash
-# Verify all 3 are in sync after an update:
-grep "const V" landing/src/data/whitepapers-data.ts          # should show new version
-grep "08-agent-teams.en" florian-portfolio/api/guides.mjs    # should show new version
-ls florian-portfolio/public/guides/ | grep "v3.40.0" | wc -l # should show 18+ files
+# Verify all 3 are in sync after an update (sibling checkouts, from the directory that holds them):
+grep "08-agent-teams.en" claude-code-ultimate-guide-landing/src/data/whitepapers-data.ts   # hashedFileEn
+grep "08-agent-teams.en" florian-portfolio/api/guides.mjs                                  # GUIDE_MANIFEST entry
+ls florian-portfolio/public/guides/ | grep "08-agent-teams.en"                              # the file itself (older versions stay; the hashed name must be present)
+# The three must name the same hashed filename. Repeat for every changed whitepaper and language.
 ```
 
 ## Ebook versioning

@@ -51,7 +51,7 @@ Une étude de février 2026 rapporte des constats de sécurité dans 1 467 des 3
 |---------|--------|--------|-----------|----------------------|
 | **Prompt Injection** | Manipulation du comportement | Élevé | Courant | `prompt-injection-detector.sh` → [Layer 2](#layer-2-hooks-pretooluse) |
 | **MCP Supply Chain** | Exécution de code malveillant | Critique | Rare | Version pinning + audit 5 min → [Layer 3](#layer-3-mcp-vetting) |
-| **Agent Skills Supply Chain** | 36,82 % avec constats dans le corpus de février 2026 | Critique | Non estimée | `mcp-scan` avant install → [Layer 3](#layer-3-mcp-vetting) |
+| **Agent Skills Supply Chain** | 36,82 % avec constats dans le corpus de février 2026 | Critique | Non estimée | Snyk Agent Scan avant install → [Layer 3](#layer-3-mcp-vetting) |
 | **.claude/ Attack Surface** | Backdoors dans config | Élevé | Émergent | Repository pre-scan → [Section 1.2](#claude-attack-surface) |
 | **Commandes Destructrices** | Perte de données/secrets | Élevé | Fréquent | `dangerous-actions-blocker.sh` → [Layer 2](#layer-2-hooks-pretooluse) |
 
@@ -1099,7 +1099,7 @@ Gitleaks, TruffleHog et GitGuardian couvrent des usages de détection de secrets
 | **NVD (NIST)** | National Vulnerability Database avec scores CVSS | [nvd.nist.gov](https://nvd.nist.gov) |
 | **Gitleaks** | Détection de secrets dans git (open source) | [github.com/gitleaks/gitleaks](https://github.com/gitleaks/gitleaks) |
 | **TruffleHog** | Scanner de secrets multi-source | [github.com/trufflesecurity/trufflehog](https://github.com/trufflesecurity/trufflehog) |
-| **mcp-scan (Snyk)** | Scanner supply chain pour skills et MCPs | [github.com/snyk/mcp-scan](https://github.com/snyk/mcp-scan) |
+| **Snyk Agent Scan** (ex-`mcp-scan`) | Scanner supply chain pour skills et MCPs (`uvx snyk-agent-scan@latest`) | [github.com/snyk/agent-scan](https://github.com/snyk/agent-scan) |
 | **mcpwn** | Scanner de sécurité pour serveurs MCP | [github.com/AgniveshChaubey/mcpwn](https://github.com/AgniveshChaubey/mcpwn) |
 | **Security Hardening Guide** | Guide dédié sécurité Claude Code (ce repo) | [guide/security/security-hardening.md](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/security/security-hardening.md) |
 | **38 templates hooks** | Hooks de sécurité prêts à déployer | [examples/hooks/](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/tree/main/examples/hooks/) |

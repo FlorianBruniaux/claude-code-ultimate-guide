@@ -1,6 +1,6 @@
 ---
 title: "Module 04: Agents & Specialization"
-description: "Learning Path Module 04: create specialized Claude Code agents with AGENT.md, restrict their capabilities, and decide when to use an agent versus asking Claude directly. 1.5 hours, intermediate."
+description: "Learning Path Module 04: create specialized Claude Code subagents in .claude/agents/, restrict their tools, and decide when to use a subagent versus asking Claude directly. 1.5 hours, intermediate."
 ---
 
 # Module 04: Agents & specialization
@@ -18,8 +18,8 @@ Create specialized agents for specific tasks. Learn how to focus AI capabilities
 ## What you'll learn
 
 - What agents are and why they're useful
-- Creating custom agents with AGENT.md
-- Restricting agent capabilities (sandboxing)
+- Creating custom agents (subagents) as `.claude/agents/<name>.md` files
+- Restricting an agent's tools and permissions
 - Using agents for specific tasks
 - When to use agents vs Claude directly
 
@@ -27,30 +27,31 @@ Create specialized agents for specific tasks. Learn how to focus AI capabilities
 
 ## What are agents?
 
-An **agent** is a specialized version of Claude Code configured for one specific task.
+An **agent** (Claude Code calls it a **subagent**) is a specialized assistant with its own instructions and its own context window, configured for one specific task. Claude delegates a task to it and gets a result back.
 
 ### Example: Code reviewer agent
 
-Instead of asking regular Claude for code reviews (which takes mental context-switching), you use:
+Instead of asking regular Claude for code reviews (which takes mental context-switching), you name the agent in your prompt:
 
-```bash
-/agent code-reviewer
-Review this function for bugs and performance issues
+```text
+Use the code-reviewer subagent to review this function for bugs and performance issues
 ```
 
 The code-reviewer agent:
 - Only handles code review
-- Has review-specific tools
-- Knows security vulnerability patterns
+- Has only the tools you gave it
+- Follows the review checklist in its system prompt
 - Doesn't get distracted by other tasks
+
+There is no `/agent` slash command. You invoke a subagent three ways: by naming it in a prompt, by `@`-mentioning it, or by running the whole session as that agent with `claude --agent code-reviewer`. See [Invoke subagents explicitly](https://code.claude.com/docs/en/sub-agents#invoke-subagents-explicitly).
 
 ### Normal Claude vs agents
 
 | Aspect | Normal Claude | Agent |
 |--------|---------------|-------|
 | Scope | General purpose | Specialized |
-| Context | Remembers everything | Focused task memory |
-| Tools | All available | Restricted set |
+| Context | One shared conversation | Its own context window |
+| Tools | All available | Restricted set (if you restrict it) |
 | Speed | Multi-task capable | Fast at one thing |
 | Use | Exploration, learning | Repetitive, specific tasks |
 
@@ -58,20 +59,21 @@ The code-reviewer agent:
 
 ## Creating your first agent
 
-Agents are defined in `.claude/agents/AGENT.md` files.
+A subagent is one Markdown file in `.claude/agents/` (project) or `~/.claude/agents/` (all your projects). The filename can be anything; the `name` field is the identifier. There is no `AGENT.md` file.
 
 ### Basic structure
+
+YAML frontmatter configures the agent, and the Markdown body becomes its system prompt. Only `name` and `description` are required.
 
 ```markdown
 ---
 name: code-reviewer
-type: agent
-description: Reviews code for bugs, performance, and security
-auto_invoke: false
-requires_approval: true
+description: Reviews code for bugs, performance, and security. Use proactively after code changes.
+tools: Read, Grep, Glob, Bash
+model: sonnet
 ---
 
-# Code Reviewer Agent
+You are a code reviewer.
 
 ## Purpose
 Review code for:
@@ -81,24 +83,19 @@ Review code for:
 - Code style consistency
 - Test coverage
 
-## Tools
-- Code analysis
-- Git diff viewer
-- Test runner
-- Linting tools
-
 ## Instructions
 When reviewing:
-1. Check for null pointers and edge cases
-2. Look for performance bottlenecks (O(n²), nested loops)
-3. Scan for security issues (SQL injection, XSS)
-4. Verify tests cover the change
-5. Suggest improvements without being harsh
-
-## Example Usage
-/agent code-reviewer
-Review src/auth.js for security issues
+1. Run `git diff` to see the recent changes
+2. Check for null pointers and edge cases
+3. Look for performance bottlenecks (O(n²), nested loops)
+4. Scan for security issues (SQL injection, XSS)
+5. Verify tests cover the change
+6. Suggest improvements without being harsh
 ```
+
+The `description` tells Claude when to delegate; phrases like "use proactively" encourage automatic delegation. Field names are camelCase (`disallowedTools`, `maxTurns`) and must match exactly: Claude Code silently ignores a field it does not recognize. Fields such as `type`, `auto_invoke`, `requires_approval` and `capabilities` do not exist.
+
+Other useful fields: `disallowedTools`, `model` (`sonnet`, `opus`, `haiku`, `fable`, a full ID, or `inherit`), `permissionMode`, `maxTurns`, `skills`, `memory`, `isolation`. See the [frontmatter reference](https://code.claude.com/docs/en/sub-agents#supported-frontmatter-fields).
 
 ### File location
 
@@ -111,19 +108,18 @@ my-project/
         └── code-reviewer.md
 ```
 
-### Making it available
+Claude Code watches these directories, so a new or edited file is picked up within a few seconds.
 
-In your project CLAUDE.md, reference it:
+### Making it discoverable
+
+Claude chooses subagents from their `description`. You can also list them in your project CLAUDE.md so teammates know they exist:
 
 ```markdown
-## Available Agents
-Run agents with: /agent [name]
+## Available Subagents
+Ask for them by name, for example: "Use the code-reviewer subagent on src/auth.js"
 
 - **code-reviewer** - Code quality and security review
-  Usage: /agent code-reviewer <description>
-  
 - **test-writer** - Generate tests for code
-  Usage: /agent test-writer <file path>
 ```
 
 ---
@@ -138,6 +134,7 @@ The patterns below are agent templates for common jobs. For architectural patter
 ---
 name: quality-auditor
 description: Audits code quality metrics
+tools: Read, Grep, Glob, Bash
 ---
 
 # Quality Auditor
@@ -149,10 +146,10 @@ Check code for:
 - Code duplication
 - Cyclomatic complexity
 
-## Tools
-- Code analysis
-- Coverage reporter
-- Type checker
+## How to measure
+- Run the project's coverage command via Bash
+- Run the type checker
+- Read the code for duplication and complexity
 
 ## Output Format
 - ✅ Passed: [metric] = X
@@ -169,7 +166,7 @@ Score /100 based on all metrics.
 ---
 name: security-auditor
 description: Scans code for vulnerabilities
-requires_approval: true
+tools: Read, Grep, Glob
 ---
 
 # Security Auditor
@@ -182,10 +179,10 @@ Find security vulnerabilities:
 - Data exposure risks
 - OWASP Top 10
 
-## Tools
-- Static analysis
-- Dependency checker
-- Secret detection
+## Method
+- Read the code paths that handle input, auth and secrets
+- Grep for known risky patterns
+- Report findings only; do not modify files
 
 ## Severity Levels
 - CRITICAL: Stop work immediately
@@ -230,55 +227,44 @@ Create or improve:
 
 ### Default capabilities
 
-All agents can:
-- Read files (git-aware)
-- Analyze code
-- Write documentation
-- Check syntax
-- Run tests
+A subagent inherits every tool available to the main conversation (including MCP tools) unless you narrow it with `tools` or `disallowedTools`. Without a restriction it can read files, edit files, and run shell commands, subject to your permission rules.
 
-### Restricting capabilities
+### Restricting tools
 
-Use `capabilities` to sandbox an agent:
+Use `tools` as an allowlist, or `disallowedTools` as a denylist:
 
 ```markdown
 ---
 name: code-reviewer
-capabilities:
-  - read_files      # Can read code
-  - run_tests       # Can run test suites
-  - check_syntax    # Can lint
-  - write_comments  # Can suggest changes but...
-  - NO: commit      # ...cannot commit
-  - NO: push        # ...cannot push to git
+description: Reviews code without modifying it
+tools: Read, Grep, Glob
 ---
 ```
 
-This agent can review but can't accidentally push broken code.
+This agent can read and search but has no `Edit`, `Write` or `Bash`, so it cannot change anything.
 
 ### Common restrictions
 
-```markdown
+```yaml
 # Analyzer (read-only)
-capabilities:
-  - read_files
-  - run_tests
-# Can't modify anything
+tools: Read, Grep, Glob
+# No Bash, Edit or Write: cannot modify anything
 
-# Refactoring Agent (write, no push)
-capabilities:
-  - read_files
-  - write_files
-  - run_tests
-  - NO: commit
-  - NO: push
-# Can change code but you review before pushing
+# Refactoring agent (can edit and run tests, cannot touch the network tools)
+tools: Read, Grep, Glob, Edit, Write, Bash
+disallowedTools: WebFetch, WebSearch
 
-# Full Agent (unrestricted)
-capabilities:
-  - all
-# Can do anything (use with caution)
+# Full agent (inherits everything)
+# omit `tools` entirely
+# Can do anything the main session can (use with caution)
 ```
+
+### Two traps
+
+- Allowing `Bash` is allowing the shell: `tools: Read, Grep, Glob, Bash` still lets the agent change files and run `git push` through commands. The tool list controls tools, not commands.
+- `disallowedTools: Bash(git push *)` does not block only pushes: an entry with a specifier removes the whole `Bash` tool. To block a specific command, add a deny rule in your settings (`permissions.deny: ["Bash(git push *)"]`) or enforce it with a `PreToolUse` hook (Module 06).
+
+You can also set `permissionMode` in the frontmatter (`default`, `acceptEdits`, `auto`, `dontAsk`, `bypassPermissions`, `plan`). A subagent runs in `bypassPermissions` only when the main conversation does.
 
 ---
 
@@ -286,40 +272,50 @@ capabilities:
 
 ### Calling an agent
 
-```bash
-/agent code-reviewer
-Review the changes I just made to src/auth.js
+```text
+Use the code-reviewer subagent to review the changes I just made to src/auth.js
 ```
 
-Claude switches to the code-reviewer agent and responds.
+Or `@`-mention it from the typeahead:
+
+```text
+@"code-reviewer (agent)" look at the auth changes
+```
+
+Claude delegates to the subagent, which works in its own context window and returns a summary.
 
 ### Chaining agents
 
-Use agents sequentially:
+Use agents sequentially by asking for each step in turn:
 
-```bash
-# Step 1: Test Writer generates tests
-/agent test-writer
-Write tests for src/utils/validators.js
+```text
+# Step 1: test-writer generates tests
+Use the test-writer subagent to write tests for src/utils/validators.js
 
-# Step 2: Code Reviewer checks the tests
-/agent code-reviewer
-Review the tests that were just written
+# Step 2: code-reviewer checks the tests
+Use the code-reviewer subagent to review the tests that were just written
 
-# Step 3: Security Auditor scans
-/agent security-auditor
-Check the tests and code for vulnerabilities
+# Step 3: security-auditor scans
+Use the security-auditor subagent to check the tests and code for vulnerabilities
 ```
+
+You can also chain them in one prompt: "Use test-writer for validators.js, then code-reviewer on the result."
 
 ### Agent with plan mode
 
-For risky operations, use `/plan` within an agent:
+For risky operations, run the whole session as the agent and start in plan mode:
 
 ```bash
-/agent refactoring-specialist
-/plan
+claude --agent refactoring-specialist
+```
+
+Then press `Shift+Tab` until plan mode is active (or type `/plan`) and describe the task:
+
+```text
 Refactor the payment processing module to use async/await
 ```
+
+You can also pin `permissionMode: plan` in the agent's frontmatter.
 
 ---
 
@@ -331,11 +327,8 @@ Refactor the payment processing module to use async/await
 cat > .claude/agents/test-writer.md << 'EOF'
 ---
 name: test-writer
-description: Generates comprehensive tests
-capabilities:
-  - read_files
-  - write_files
-  - run_tests
+description: Generates comprehensive tests. Use when asked to write or extend tests.
+tools: Read, Grep, Glob, Edit, Write, Bash
 ---
 
 # Test Writer Agent
@@ -353,10 +346,9 @@ Generate high-quality tests for:
 - Each test focuses on ONE behavior
 - 70%+ code coverage target
 
-## Tools
-- Test framework (Jest, pytest, etc)
-- Mock libraries
-- Assertion libraries
+## Tooling
+- Use the project's existing test framework (Jest, pytest, etc)
+- Run the new tests with Bash before reporting
 
 ## Output
 - Tests in same directory as source
@@ -368,16 +360,15 @@ EOF
 ### Step 2: Reference in CLAUDE.md
 
 ```markdown
-## Available Agents
+## Available Subagents
 - test-writer: Generate tests for any function or module
-  Usage: /agent test-writer <file path>
+  Usage: "Use the test-writer subagent on <file path>"
 ```
 
 ### Step 3: Use it
 
-```bash
-/agent test-writer
-Write tests for src/utils/formatDate.js
+```text
+Use the test-writer subagent to write tests for src/utils/formatDate.js
 ```
 
 The agent will:
@@ -401,7 +392,7 @@ Check the tests before accepting:
 
 ✅ You do the same task repeatedly (code review, testing, security audit)
 ✅ You want focused AI for one job
-✅ You want to restrict capabilities (safety)
+✅ You want to restrict tools (safety)
 ✅ You're building team workflows
 ✅ The task has clear success criteria
 
@@ -423,7 +414,7 @@ Check the tests before accepting:
 
 ✅ Document output format in the agent definition
 
-✅ Restrict capabilities you don't need
+✅ Restrict tools you don't need
 
 ✅ Test agents on sample tasks first
 
@@ -447,9 +438,9 @@ Check the tests before accepting:
 
 ✓ You understand the purpose of agents vs Claude
 
-✓ You can restrict agent capabilities
+✓ You can restrict an agent's tools (and you know `Bash` access is not command-level control)
 
-✓ You know how to call an agent (/agent name)
+✓ You know how to call an agent (name it in a prompt, `@`-mention it, or `claude --agent <name>`)
 
 ✓ You've tested your agent on a real task
 

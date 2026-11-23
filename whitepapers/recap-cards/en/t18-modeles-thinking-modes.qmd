@@ -24,7 +24,7 @@ Standard API rates verified November 11, 2026. USD per million input/output toke
 | Haiku 5.5 | $0.10 / $0.50 (over 100K: $0.50 / $2.50) | 1M | medium |
 | Sonnet 5.5 | $2 / $10 | 1M | medium |
 | Opus 5.5 | $4 / $20 | 1M | medium |
-| Fable 5.2 | $8 / $40 | 1M | high |
+| Fable 5.2 | $8 / $40 | 1M | medium |
 
 Sonnet's published rate remains $2/$10 after the launch promotion. Opus 5.5 is the direct-service default; account policy can override it. Model choice does not establish a typical task cost. Effort shown is the Claude Code default; the API default for Sonnet 5.5 is `high`.
 
@@ -50,7 +50,7 @@ Current adaptive models support `low`, `medium`, `high`, `xhigh`, and `max`. Opu
 
 `Option+T` / `Alt+T` toggles thinking where supported. It has no effect on Opus 5.5, Sonnet 5.5, Haiku 5.5, or Fable, whose thinking cannot be turned off. Lower effort for bounded work instead.
 
-`ultrathink` adds a reasoning instruction without changing API effort. `think hard` is ordinary prompt text.
+`ultrathink` adds a reasoning instruction and, since Claude Code v2.1.311 (terminal) and v2.1.316 (VS Code, desktop app), runs that turn at `xhigh` without changing the session effort. `think hard` is ordinary prompt text.
 
 ## Choose by measured results
 

@@ -28,14 +28,14 @@ Quick-reference for Claude Code community patterns, workflow terms, and AI engin
 | Agent teams | Experimental feature (v2.1.32+) enabling multi-agent coordination and messaging within a single Claude Code session. | Claude Code | Multi-Agent |
 | Agentic coding | Development style where AI agents perform multi-step tasks autonomously with minimal per-step human intervention. | AI Engineering | Paradigm |
 | AI traceability | Practices for documenting and disclosing AI involvement in code, commits, and content (git trailers, PR labels, audit logs). See [ops/ai-traceability.md](../ops/ai-traceability.md). | Operations | Compliance |
-| allowedTools | Settings key providing fine-grained tool permission control: allow or deny individual tools or by argument pattern. | Claude Code | Configuration |
+| allowedTools | CLI flag (`--allowedTools`) that pre-approves tools or argument patterns for a session. In settings files, use `permissions.allow` and `permissions.deny` instead; there is no top-level `allowedTools` key. | Claude Code | Configuration |
 | Annotation cycle | Boris Tane's workflow pattern: annotate a custom markdown plan with implementation notes before Claude executes, creating a living spec. | Workflow | Planning |
 | Anti-hallucination protocol | Explicit instructions requiring Claude to verify claims against actual code or documentation before stating them as fact. | AI Engineering | Safety |
 | Artifact Paradox | Anthropic research finding (AI Fluency Index, 2026) that users who produce AI artifacts are less likely to question the reasoning behind them. | AI Engineering | Research |
 | Auto-accept Mode | Permission mode (`acceptEdits`) that auto-approves file edits while still prompting for shell commands. Good middle ground for trusted sessions. | Claude Code | Permissions |
 | Auto-compaction | Built-in mechanism that automatically compresses conversation context (~75% threshold in VS Code extensions, ~95% in CLI). Triggered silently unless you use `/compact` first. | Architecture | Context |
 | Auto-memories | Feature (v2.1.32+) where Claude automatically stores learned project context into a persistent memory file across sessions. | Claude Code | Memory |
-| autoApproveTools | Settings array listing tools that are auto-approved without interactive prompts. More granular than permission modes. | Claude Code | Configuration |
+| autoApproveTools | Not a Claude Code setting. To auto-approve tools without prompts, list rules in `permissions.allow` or pick a permission mode. | Claude Code | Configuration |
 | awesome-claude-code | Community-curated list of Claude Code resources, tools, and examples with 51K+ stars on GitHub (verified 2026-07-27, was 20K+). | Ecosystem | Community |
 | BMAD | Business-driven, Methodical AI Development: a structured planning framework for agentic AI projects (community methodology). | Methodology | Planning |
 | Boris Cherny pattern | Horizontal scaling approach: run multiple Claude Code instances in parallel, each on a git worktree, then merge. Named after Boris Cherny, creator of Claude Code and Head of Claude Code at Anthropic. | Workflow | Multi-Agent |
@@ -46,7 +46,7 @@ Quick-reference for Claude Code community patterns, workflow terms, and AI engin
 | Checkpoint | A saved session state that can be restored via Esc x2 then /rewind. Created automatically before risky operations. | Claude Code | Session |
 | Claude Haiku 5.5 | Anthropic's fastest and cheapest current model: native 1M context, $0.10/$0.50 per MTok for prompts up to 100K tokens (higher above). Best for high-volume tasks, simple lookups, and cost-sensitive CI workflows. | Models | Tier |
 | Claude Opus 5.5 | Current Opus alias on most providers, default from v2.1.280; native 1M context and medium effort. Foundry retains older defaults. | Models | Tier |
-| Claude Fable 5.1 | Explicit higher-cost selection, subject to account access; the Claude apps gateway alias still resolves to Fable 5. | Models | Tier |
+| Claude Fable 5.2 | `claude-fable-5-2`, the model the `fable` alias resolves to since v2.1.321 (the Claude apps gateway alias still resolves to Fable 5). 1M context, $8/$40 per MTok input/output, `medium` effort by default in Claude Code. Subject to account access. | Models | Tier |
 | Claude Sonnet 5.5 | Native 1M context, $2/$10 per MTok input/output, `medium` effort by default in Claude Code. The sonnet alias depends on provider. | Models | Tier |
 | CLAUDE.md | Persistent memory file loaded automatically at session start. Contains project rules, conventions, and context. The foundation of Claude Code configuration. | Claude Code | Memory |
 | Co-Authored-By | Git trailer convention (`Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>`) for attributing AI-assisted commits. | Operations | Attribution |
@@ -65,7 +65,7 @@ Quick-reference for Claude Code community patterns, workflow terms, and AI engin
 | Default Mode | Base permission mode requiring explicit user approval for all file edits, shell commands, and commits. | Claude Code | Permissions |
 | Desloppify | Community tool ([@peteromallet](https://github.com/peteromallet), Feb 2026) that installs a workflow skill into Claude Code and runs a scan-fix-score loop to raise code quality. [github.com/peteromallet/desloppify](https://github.com/peteromallet/desloppify) | Ecosystem | Tools |
 | Diff review | The practice of reading Claude's proposed file changes before accepting or rejecting. One of the Five Golden Rules. | Claude Code | Workflow |
-| disallowedTools | Settings key that blocks specific tools from being invoked in a session or globally. | Claude Code | Configuration |
+| disallowedTools | CLI flag (`--disallowedTools`) and subagent frontmatter field that remove or deny specific tools. In settings files, use `permissions.deny`. | Claude Code | Configuration |
 | Docker sandbox | Container-based isolation for running Claude Code with strict resource and filesystem limits. See [security/sandbox-isolation.md](../security/sandbox-isolation.md). | Security | Sandbox |
 | Don't Ask Mode | Permission mode (`dontAsk`) that silently denies tools not in the pre-approved list, without prompting. | Claude Code | Permissions |
 | Dual-instance planning | Pattern by Jon Williams: one Claude instance creates a detailed plan, a separate instance executes it, preventing context contamination. | Workflow | Planning |
@@ -74,7 +74,7 @@ Quick-reference for Claude Code community patterns, workflow terms, and AI engin
 | Eval harness | Testing framework for systematically measuring agent behavior, output quality, and skill effectiveness against defined criteria. | Methodology | Testing |
 | Event-driven agents | Pattern where external events (Linear tickets, GitHub PRs, Jira webhooks) automatically trigger Claude Code agent workflows. | Workflow | Architecture |
 | Extended thinking | Model feature enabling deeper reasoning via dedicated "thinking tokens" processed before the visible response. Activated with `--thinking`. | Models | Thinking |
-| Fast Mode | Faster serving of supported Opus models. Opus 5.5 costs $8/$40 per MTok input/output, twice its standard rate. Toggle with `/fast`. | Claude Code | Modes |
+| Fast Mode | Faster serving of supported models: Fable 5.2 ($16/$80 per MTok input/output) and Opus 5.5 ($8/$40, twice its standard rate); Opus 5 and Opus 4.8 are in research preview ($10/$50). Opus 4.8 fast mode is deprecated and removed on November 30, 2026. Not available on Sonnet or Haiku. Toggle with `/fast`. | Claude Code | Modes |
 | FIRE framework | Find, Isolate, Remediate, Evaluate: a DevOps/SRE troubleshooting methodology for incident response with Claude Code. See [ops/devops-sre.md](../ops/devops-sre.md). | Methodology | Operations |
 | Fresh context pattern | Deliberately starting a new session when the current one has accumulated irrelevant context or its output quality has degraded. | Workflow | Context |
 | Gas Town | Steve Yegge's multi-agent workspace manager for running multiple coordinated Claude Code instances with a shared task queue. | Ecosystem | Orchestration |

@@ -1950,7 +1950,7 @@ echo "---"
 echo "TOTAL              : ~$(( TOTAL / 4 )) tokens"
 ```
 
-For context: Claude's window is 200K tokens. A 60K fixed overhead means 30% consumed before any work begins. Against a typical coding task that uses 20-40K additional tokens, that leaves less than half the window for actual output.
+For context: current models such as Sonnet 5.5, Opus 5.5 and Fable 5.2 have a 1M window, so a 60K fixed overhead is about 6% of it. On a 200K window (older models, or when you cap the window), the same overhead consumes 30% before any work begins, which with a typical 20-40K coding task leaves less than half the window for actual output.
 
 ### Step 3: Classify rules by usage frequency
 
@@ -2051,7 +2051,7 @@ description of what it contains.
 
 **Step 2 — Budget calculation**
 Calculate: total fixed-context tokens before any user task.
-Show the breakdown by component. Express as % of Claude's 200K window.
+Show the breakdown by component. Express as % of the window of the model you use (1M on current models, 200K on older ones).
 
 **Step 3 — Signal/noise classification**
 For every rules file, classify as ALWAYS / SOMETIMES / RARELY based on how

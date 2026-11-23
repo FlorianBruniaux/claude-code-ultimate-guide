@@ -79,17 +79,14 @@ Final Result
 **When to use**: Workflows where each step depends on the previous.
 
 **Example**:
-```bash
-/agent requirements-parser
-Parse the feature request into specifications
+```text
+Use the requirements-parser subagent to parse the feature request into specifications
 
 # Later, once we have specifications:
-/agent database-designer
-Design the schema based on these specs
+Use the database-designer subagent to design the schema based on these specs
 
 # Once schema is approved:
-/agent code-generator
-Generate models based on the schema
+Use the code-generator subagent to generate models based on the schema
 ```
 
 ### Pattern 2: Parallel (fork-join)
@@ -115,7 +112,7 @@ Multiple agents work simultaneously, results combined.
 
 **Example**:
 ```
-Request: "Review my code changes"
+Request: "Review my code changes using separate subagents for quality, security, test coverage and performance, in parallel"
 
 Parallel tasks:
 - Code quality agent reviews
@@ -123,7 +120,7 @@ Parallel tasks:
 - Test coverage agent checks
 - Performance agent analyzes
 
-(All run at the same time)
+(Claude can start independent subagents at the same time, and each works in its own context window)
 
 Results combined into one report
 ```
@@ -144,18 +141,15 @@ Result
 ```
 
 **Example**:
-```bash
-/agent bug-classifier
-Categorize this bug: security, performance, or logic
+```text
+Use the bug-classifier subagent to categorize this bug: security, performance, or logic
 
 # Based on response:
 # If security:
-/agent security-patcher
-Fix the security vulnerability
+Use the security-patcher subagent to fix the security vulnerability
 
 # If performance:
-/agent perf-optimizer
-Optimize this code
+Use the perf-optimizer subagent to optimize this code
 ```
 
 ---
@@ -182,16 +176,15 @@ You want to automate your release process. Right now you:
 ---
 name: version-manager
 description: Manages version files and tags
-capabilities:
-  - read_files
-  - write_files
-  - NO: push
+tools: Read, Edit, Write, Bash
 ---
 
 # Version Manager
 
 ## Purpose
-Update VERSION files and create git tags
+Update VERSION files and create git tags locally. Never push: the release-publisher step owns publishing.
+
+(The `tools` list does not stop `git push`, because `Bash` runs any command. Enforce "no push" outside the prompt: a `permissions.deny` rule such as `Bash(git push *)` in settings, or a `PreToolUse` hook, and scope it to the agents that must not publish.)
 
 ## Tasks
 - Bump version (patch, minor, major)
@@ -257,33 +250,36 @@ Tag and push to origin
 4. Monitor deployment
 ```
 
-**Step 2: Create a release workflow command**
+**Step 2: Create a release workflow skill**
 
-`.claude/commands/release-workflow.md`:
+Custom commands are now skills: a folder under `.claude/skills/` whose name becomes the slash command. (Existing `.claude/commands/<name>.md` files keep working.)
+
+`.claude/skills/release-workflow/SKILL.md`:
 ```markdown
-# /release-workflow
+---
+name: release-workflow
+description: Orchestrate a complete release process
+disable-model-invocation: true
+---
 
-Orchestrate a complete release process.
-
-Usage:
-```
-/release-workflow patch|minor|major
-```
+Orchestrate a complete release. The bump type is: $ARGUMENTS (patch, minor or major).
 
 ## Process
 
 1. Validate release readiness
-2. Update version (version-manager agent)
-3. Generate changelog (changelog-generator agent)
-4. Run tests (test-validator agent)
-5. Security scan (security-auditor agent)
-6. Publish and deploy (release-publisher agent)
+2. Update version (version-manager subagent)
+3. Generate changelog (changelog-generator subagent)
+4. Run tests (test-validator subagent)
+5. Security scan (security-auditor subagent)
+6. Publish and deploy (release-publisher subagent), only after I confirm
 
 ## Requirements
 - All tests passing
 - No outstanding security issues
 - Changelog updated
 ```
+
+`disable-model-invocation: true` keeps Claude from starting a release on its own: only you can type `/release-workflow`.
 
 **Step 3: Use the workflow**
 
@@ -292,12 +288,14 @@ Usage:
 ```
 
 Claude then:
-1. Calls version-manager → updates VERSION
-2. Calls changelog-generator → creates release notes
-3. Calls test-validator → verifies tests pass
-4. Calls security-auditor → scans for vulnerabilities
-5. Calls release-publisher → creates tag, pushes
-6. You review, then approve each step
+1. Delegates to version-manager → updates VERSION
+2. Delegates to changelog-generator → creates release notes
+3. Delegates to test-validator → verifies tests pass
+4. Delegates to security-auditor → scans for vulnerabilities
+5. Delegates to release-publisher → creates tag, pushes (after your confirmation)
+6. You review the result of each step
+
+The step order here is guidance to the model, not a guarantee. If a gate must never be skipped (for example "no push before tests pass"), enforce it in a script, hook or CI job.
 
 ---
 
@@ -323,17 +321,17 @@ If one agent fails, others continue:
 
 ### Pattern: Retry on failure
 
-For transient failures (network, timeouts):
+For transient failures (network, timeouts), retry the real check from a script. Slash commands cannot be called from a bash script; the script runs the actual command (here `npm test`) and uses `claude -p` only when you want Claude's judgment:
 
 ```bash
 #!/bin/bash
-# In a hook or skill
+# Release helper script (not a hook)
 
 max_retries=3
 retry=0
 
 while [ $retry -lt $max_retries ]; do
-  if /agent test-validator run-tests; then
+  if npm test; then
     echo "✅ Tests passed"
     exit 0
   fi
@@ -346,40 +344,48 @@ while [ $retry -lt $max_retries ]; do
 done
 
 echo "❌ Tests failed after $max_retries attempts"
+claude -p "Use the test-validator subagent to summarize why the tests keep failing" || true
 exit 1
 ```
 
+Gate on the real command's exit code. The exit code of `claude -p` says whether Claude ran, not whether your tests passed.
+
 ### Pattern: Rollback on error
 
-If something goes wrong, undo changes:
+If something goes wrong, undo only what the release created:
 
 ```bash
 #!/bin/bash
-# Rollback helper
+# Rollback helper (script, not a hook)
 
-ORIGINAL_VERSION=$(git rev-parse HEAD:VERSION)
-ORIGINAL_TAG=$(git describe --tags --abbrev=0)
+START_SHA=$(git rev-parse HEAD)
+NEW_TAG=""
 
 cleanup_and_exit() {
   echo "Rolling back..."
-  git reset --hard HEAD~1
-  git tag -d "$NEW_TAG"
-  echo "VERSION restored to: $ORIGINAL_VERSION"
+  # Discard uncommitted release edits, keep unrelated work intact
+  git restore VERSION CHANGELOG.md
+  # Remove the tag only if this run created it
+  [ -n "$NEW_TAG" ] && git tag -d "$NEW_TAG"
+  # Undo a release commit made by this run (history is kept, nothing is force-reset)
+  [ "$(git rev-parse HEAD)" != "$START_SHA" ] && git revert --no-edit "$START_SHA"..HEAD
   exit 1
 }
 
-# Run release steps
-if ! /agent version-manager bump-version patch; then
+# Run release steps (non-interactive Claude call for the bump, real commands for the checks)
+if ! claude -p "Use the version-manager subagent to bump the patch version"; then
   cleanup_and_exit
 fi
 
-if ! /agent test-validator validate-all; then
+if ! npm test; then
   cleanup_and_exit
 fi
 
 # If we get here, release succeeded
 exit 0
 ```
+
+Avoid `git reset --hard` in a rollback helper: it also discards unrelated uncommitted work.
 
 ---
 
@@ -406,33 +412,32 @@ Release Complete
 
 ### Pattern 2: Approval gates
 
-Block advancement until reviewed:
+Block advancement until reviewed. A hook cannot prompt in the terminal: its standard input carries JSON, not your keyboard. Use a `PreToolUse` hook to make Claude Code ask you instead.
 
+`.claude/hooks/pre-prod-deploy.sh`:
 ```bash
-# In .claude/hooks/pre-prod-deploy.sh
+#!/bin/bash
+# Ask for confirmation before any production deploy command
+input=$(cat)
+command=$(printf '%s' "$input" | jq -r '.tool_input.command // empty')
 
-echo "🚨 PRODUCTION DEPLOY"
-echo "Changes: $CHANGES"
-echo "Tests: PASSING"
-echo "Security: PASSING"
-echo ""
-read -p "Type 'I approve' to deploy to production: " approval
-
-if [ "$approval" != "I approve" ]; then
-  echo "❌ Deploy cancelled"
-  exit 1
-fi
-
+case "$command" in
+  *"deploy --env prod"*)
+    jq -n '{hookSpecificOutput: {hookEventName: "PreToolUse", permissionDecision: "ask", permissionDecisionReason: "Production deploy: confirm tests and security checks passed"}}'
+    ;;
+esac
 exit 0
 ```
 
+Register it in `.claude/settings.json` under `hooks.PreToolUse` with `"matcher": "Bash"` and `"command": "${CLAUDE_PROJECT_DIR}/.claude/hooks/pre-prod-deploy.sh"` (see Module 06 for the registration shape). Claude Code then shows its normal permission prompt with your reason. Use `"deny"` instead of `"ask"` to block outright.
+
 ### Pattern 3: Monitoring & rollback
 
-After deployment, verify health:
+After deployment, verify health with a script that your release workflow runs:
 
 ```bash
 #!/bin/bash
-# Post-deploy hook
+# post-deploy-check.sh (called by the release workflow, not a Claude Code hook event)
 
 sleep 10  # Let services start
 
@@ -464,32 +469,31 @@ You have a data science project. Release checklist:
 
 ### Step 1: Create agents
 
-Create `.claude/agents/` with:
+Create `.claude/agents/` with (each file needs `name`, `description` and, ideally, a `tools` list):
 - `model-versioner.md` - Updates VERSION, model metadata
 - `validator.md` - Runs validation tests
 - `report-generator.md` - Creates performance metrics
 - `doc-updater.md` - Updates README, API docs
 - `release-tagger.md` - Creates git tag
 
-### Step 2: Create the orchestration command
+### Step 2: Create the orchestration skill
 
-`.claude/commands/ml-release.md`:
+`.claude/skills/ml-release/SKILL.md`:
 ```markdown
-# /ml-release
+---
+name: ml-release
+description: Release a new model version
+disable-model-invocation: true
+---
 
-Release a new model version.
-
-Usage:
-```
-/ml-release [major|minor|patch]
-```
+Release a new model version. Bump type: $ARGUMENTS (major, minor or patch).
 
 ## Workflow
-1. Version agent bumps version
-2. Validator runs test suite
-3. Report agent generates metrics
-4. Doc agent updates documentation
-5. Tagger creates release tag
+1. model-versioner subagent bumps version
+2. validator subagent runs test suite
+3. report-generator subagent generates metrics
+4. doc-updater subagent updates documentation
+5. release-tagger subagent creates release tag
 ```
 
 ### Step 3: Test it
@@ -498,7 +502,7 @@ Usage:
 /ml-release patch
 ```
 
-Watch as agents coordinate the full release.
+Watch as Claude delegates each step to its subagent. Review each result before the tag step.
 
 ---
 

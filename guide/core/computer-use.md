@@ -6,7 +6,7 @@ tags: [computer-use, permissions, macos, security, guide]
 
 # Computer use in Claude Code
 
-Computer use lets Claude Code control approved macOS applications and inspect their visible screen content from an interactive CLI session. It is a research preview for Pro and Max users. It is unavailable on Team and Enterprise plans, in `claude -p`, and in the CLI on Linux or Windows. [Anthropic's current Computer Use documentation](https://code.claude.com/docs/en/computer-use) is the product authority for this page.
+Computer use lets Claude Code control approved macOS applications and inspect their visible screen content from an interactive CLI session. It is a research preview for Pro, Max, and Ultra users. It is unavailable on Team and Enterprise plans, in `claude -p`, and in the CLI on Linux or Windows. [Anthropic's current Computer Use documentation](https://code.claude.com/docs/en/computer-use) is the product authority for this page.
 
 Use it for a native app, simulator, or GUI-only tool that has no more precise integration. For a browser task, prefer [Claude in Chrome](https://code.claude.com/docs/en/chrome); for a service with an API, prefer an MCP server. The official tool-selection order is MCP, Bash, Chrome, then computer use.
 
@@ -18,7 +18,7 @@ Computer use is a built-in MCP server named `computer-use`, disabled until enabl
 2. Select `computer-use` and choose **Enable**. The project keeps that setting.
 3. When macOS asks, grant **Accessibility** for click, type, and scroll, and **Screen Recording** for screen capture. A Screen Recording grant can require restarting Claude Code.
 
-The server appears only on an eligible macOS, Pro or Max, claude.ai-authenticated, interactive session. `/status` helps verify the plan. A third-party-provider-only login, including Amazon Bedrock, Google Cloud's Agent Platform, or Microsoft Foundry, does not make the CLI surface available.
+The server appears only on an eligible macOS, Pro, Max, or Ultra, claude.ai-authenticated, interactive session. `/status` helps verify the plan. A third-party-provider-only login, including Amazon Bedrock, Google Cloud's Agent Platform, or Microsoft Foundry, does not make the CLI surface available.
 
 ## What Claude can control
 

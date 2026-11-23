@@ -242,19 +242,23 @@ When evaluating another reviewer, retain a baseline and a predeclared stopping r
 ```bash
 # .claude/hooks/post-tool-use.sh
 #!/bin/bash
-# Triggered after every tool call
+# Registered as a PostToolUse hook (fires after a tool call succeeds)
+# Hook input arrives as JSON on stdin, not as environment variables
 
-AGENT_ID=$(echo "$CLAUDE_AGENT_ID" | jq -r)
-TOOL_NAME=$(echo "$CLAUDE_TOOL_NAME" | jq -r)
-TOOL_SUCCESS=$(echo "$CLAUDE_TOOL_SUCCESS" | jq -r)
+INPUT=$(cat)
+# agent_id is only present when the call runs inside a subagent
+AGENT_ID=$(echo "$INPUT" | jq -r '.agent_id // "main"')
+TOOL_NAME=$(echo "$INPUT" | jq -r '.tool_name')
 
 # Append to metrics log
-echo "{\"timestamp\":\"$(date -Iseconds)\",\"agent\":\"$AGENT_ID\",\"tool\":\"$TOOL_NAME\",\"success\":$TOOL_SUCCESS}" \
+echo "{\"timestamp\":\"$(date -Iseconds)\",\"agent\":\"$AGENT_ID\",\"tool\":\"$TOOL_NAME\",\"success\":true}" \
   >> .claude/logs/agent-metrics.jsonl
 ```
 
+To log failures too, register a second script on the `PostToolUseFailure` event (same stdin fields plus `error`) and write `"success":false`.
+
 **Pros**: Zero manual overhead, complete coverage, time-series data
-**Cons**: Requires parsing Claude Code environment variables (may change across versions)
+**Cons**: Hook input fields may change across versions; check the [hooks reference](https://code.claude.com/docs/en/hooks)
 
 ---
 
@@ -407,10 +411,12 @@ After each query:
 ```bash
 # .claude/hooks/log-analytics-metrics.sh
 #!/bin/bash
-# Triggered after analytics-agent response
+# Registered as a SubagentStop hook (fires when the analytics agent finishes)
 
+# The final response text arrives on stdin as JSON (last_assistant_message)
+INPUT=$(cat)
 # Extract query from response (naive grep, improve with jq)
-QUERY=$(echo "$CLAUDE_RESPONSE" | grep -oP 'SELECT.*?;')
+QUERY=$(echo "$INPUT" | jq -r '.last_assistant_message // empty' | grep -oP 'SELECT.*?;')
 
 if [ -n "$QUERY" ]; then
   # Test query (requires database connection)

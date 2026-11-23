@@ -77,10 +77,10 @@ ChatGPT Pro and Team subscribers get Codex CLI usage included in their plan, mak
 
 | Aspect | Claude Code | Codex CLI |
 |--------|-------------|-----------|
-| **Models** | Claude family (Opus 5.5, Sonnet 5.5, Haiku 5.5, Fable 5.1) only | GPT-4o, o3, o3-mini, o4-mini, plus future OpenAI models |
+| **Models** | Claude family (Opus 5.5, Sonnet 5.5, Haiku 5.5, Fable 5.2) only | GPT-4o, o3, o3-mini, o4-mini, plus future OpenAI models |
 | **Language** | TypeScript | Rust |
 | **License** | Open source | Apache 2.0 |
-| **Subscription** | Anthropic Claude Max ($20-$200/mo) | OpenAI ChatGPT Pro/Team ($20-$30/mo) |
+| **Subscription** | Anthropic Claude Pro, Max, or Ultra plan (see claude.com/pricing) | OpenAI ChatGPT Pro/Team ($20-$30/mo) |
 | **MCP Support** | Native, growing ecosystem | MCP compatible |
 | **Release cadence** | Weekly | Very high (800+ releases in 13 months) |
 | **Memory** | CLAUDE.md + Auto Memory | AGENTS.md convention |

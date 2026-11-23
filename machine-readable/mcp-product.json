@@ -12,8 +12,8 @@
   },
   "guide": {
     "version": "3.46.0",
-    "line_count": 26193,
-    "index_entries": 2034,
+    "line_count": 26206,
+    "index_entries": 2035,
     "claude_code_releases": 295
   },
   "runtime": {
@@ -212,7 +212,7 @@
       },
       {
         "name": "list_examples",
-        "description": "List all production-ready templates in the guide by category (agents, commands, hooks, skills, scripts). Use get_example(name) to fetch the content of any specific template.",
+        "description": "List all production-ready templates in the guide by category (agents, commands, hooks, skills, scripts). Slash command templates ship as skills; the \"commands\" category only holds legacy resources such as the threat database. Use get_example(name) to fetch the content of any specific template.",
         "input_schema": {
           "type": "object",
           "properties": {
@@ -491,5 +491,5 @@
       ]
     }
   },
-  "source_digest": "sha256:b20879ea3cd702a0450071e7fee0253ef19a43436f5c21fcc89260cc6fe1cc83"
+  "source_digest": "sha256:17b0029d74ed3b41bb046a0de5f97f78cb745a2cf1a979acc9205f4746b6e606"
 }

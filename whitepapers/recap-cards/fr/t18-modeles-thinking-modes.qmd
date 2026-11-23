@@ -24,7 +24,7 @@ Tarifs API standard vérifiés le 11 novembre 2026. Dollars par million de token
 | Haiku 5.5 | $0,10 / $0,50 (au-delà de 100K : $0,50 / $2,50) | 1M | medium |
 | Sonnet 5.5 | $2 / $10 | 1M | medium |
 | Opus 5.5 | $4 / $20 | 1M | medium |
-| Fable 5.2 | $8 / $40 | 1M | high |
+| Fable 5.2 | $8 / $40 | 1M | medium |
 
 Le tarif publié de Sonnet reste $2/$10 après la promotion de lancement. Opus 5.5 est le défaut du service direct, sauf règle du compte. Le modèle seul ne détermine pas le coût d'une tâche. L'effort indiqué est le défaut de Claude Code ; celui de l'API pour Sonnet 5.5 est `high`.
 
@@ -50,7 +50,7 @@ Les modèles adaptatifs actuels acceptent `low`, `medium`, `high`, `xhigh` et `m
 
 `Option+T` / `Alt+T` bascule le thinking si le modèle le permet. Ce raccourci n'a pas d'effet sur Opus 5.5, Sonnet 5.5, Haiku 5.5 ni Fable, dont le thinking ne peut pas être désactivé. Réduire plutôt l'effort pour une tâche bornée.
 
-`ultrathink` ajoute une consigne de réflexion sans changer l'effort API. `think hard` est du texte ordinaire.
+`ultrathink` ajoute une consigne de réflexion et, depuis Claude Code v2.1.311 (terminal) et v2.1.316 (VS Code, application desktop), exécute ce tour à `xhigh` sans changer l'effort de la session. `think hard` est du texte ordinaire.
 
 ## Décider sur des résultats mesurés
 

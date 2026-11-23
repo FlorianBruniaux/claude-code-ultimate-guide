@@ -857,7 +857,7 @@ New developer joining a team that uses Claude Code should complete this checklis
 ## Claude Code onboarding checklist
 
 ### Setup (30 minutes)
-- [ ] Install Claude Code: `npm i -g @anthropic-ai/claude-code`
+- [ ] Install Claude Code: `curl -fsSL https://claude.ai/install.sh | bash` (native installer; `npm i -g @anthropic-ai/claude-code` also works)
 - [ ] Configure global safety hooks: `./scripts/install-global-hooks.sh`
 - [ ] Verify project config loads: `claude` then ask "What tier is this project?"
 - [ ] Read the AI Usage Charter (link to your doc)
@@ -1100,7 +1100,7 @@ LOG_FILE="$LOG_DIR/$(date +%Y-%m-%d).jsonl"
 mkdir -p "$LOG_DIR"
 
 INPUT=$(cat)
-TOOL=$(echo "$INPUT" | jq -r '.tool.name // "unknown"')
+TOOL=$(echo "$INPUT" | jq -r '.tool_name // "unknown"')
 USER=$(whoami)
 PROJECT=$(basename "$PWD")
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")

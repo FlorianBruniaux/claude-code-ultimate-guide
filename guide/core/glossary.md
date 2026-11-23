@@ -39,7 +39,7 @@ A permission mode where a separate classifier model reviews each action in the b
 
 ### Bare mode
 
-A startup flag (`--bare`) that skips auto-discovery of hooks, skills, plugins, MCP servers, auto memory, and CLAUDE.md. Only flags you pass explicitly take effect. Recommended for CI and scripted calls where you need identical behavior across machines. Available since v2.1.81. See [§9 Headless/Non-interactive Mode](../ultimate-guide.md#9-advanced-features).
+A startup flag (`--bare`) that skips auto-discovery of hooks, skills, plugins, MCP servers, auto memory, and CLAUDE.md. Only flags you pass explicitly take effect. Recommended for CI and scripted calls where you need identical behavior across machines. Available since v2.1.81. See [§9 Headless Mode](../ultimate-guide.md#headless-mode).
 
 ### Bundled skills
 
@@ -55,7 +55,7 @@ An MCP server that pushes events into your running session so Claude can react t
 
 ### Checkpoint
 
-A restore point created at each prompt you send. Claude Code snapshots files before every edit, so you can revert code, conversation, or both to an earlier state. Press `Esc` twice or run `/rewind` to restore. Checkpoints are local to the session, separate from git, and do not track changes made through the Bash tool. See [§9 Checkpointing](../ultimate-guide.md#9-advanced-features).
+A restore point created at each prompt you send. Claude Code snapshots files before every edit, so you can revert code, conversation, or both to an earlier state. Press `Esc` twice or run `/rewind` to restore. Checkpoints are local to the session, separate from git, and do not track changes made through the Bash tool. See [§2.4 Rewind](../ultimate-guide.md#24-rewind).
 
 ### `.claude` directory
 
@@ -75,7 +75,7 @@ Automatic summarization of your conversation when the context window approaches 
 
 ### Dispatch
 
-A phone-initiated task router that spawns a Claude Code session in the Desktop app when you send a coding task from the Claude mobile app. Your prompt routes to the right tool automatically. Available on Pro and Max plans. See [§9 Desktop Features](../ultimate-guide.md#9-advanced-features).
+A phone-initiated task router that spawns a Claude Code session in the Desktop app when you send a coding task from the Claude mobile app. Your prompt routes to the right tool automatically. Available on Pro, Max, and Ultra plans (not Team or Enterprise). See [Desktop app](../ultimate-guide.md#desktop-app-claude-code-without-the-terminal).
 
 ---
 
@@ -167,7 +167,7 @@ A context-saving mechanism that defers MCP tool schemas until needed. Only tool 
 
 ### Non-interactive mode
 
-A mode that executes a single prompt and exits without a conversational session, invoked with `-p` or `--print`. Used for CI, scripts, and piping. The `--bare` flag extends this for clean-slate automation. Formerly called "headless mode." See [§9 Non-interactive Mode](../ultimate-guide.md#9-advanced-features).
+A mode that executes a single prompt and exits without a conversational session, invoked with `-p` or `--print`. Used for CI, scripts, and piping. The `--bare` flag extends this for clean-slate automation. Formerly called "headless mode." See [§9 Headless Mode](../ultimate-guide.md#headless-mode).
 
 ---
 
@@ -279,7 +279,7 @@ One complete response from Claude within a session. A turn begins when you send 
 
 ### Verification loop
 
-A session pattern where you give Claude a check it can run (a test suite, a build, or a screenshot comparison) and Claude iterates until the check passes instead of stopping after one attempt. A verification loop is the prerequisite for `/goal`, unattended runs, and dynamic workflows: without one, the only signal that the agent is finished is the agent itself. See [§9 Advanced Features](../ultimate-guide.md#9-advanced-features).
+A session pattern where you give Claude a check it can run (a test suite, a build, or a screenshot comparison) and Claude iterates until the check passes instead of stopping after one attempt. A verification loop is the prerequisite for `/goal`, unattended runs, and dynamic workflows: without one, the only signal that the agent is finished is the agent itself. See [§9 Advanced Patterns](../ultimate-guide.md#9-advanced-patterns).
 
 ---
 

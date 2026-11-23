@@ -49,7 +49,7 @@ If you only have 5 minutes, here's what you need to know:
 claude                    # Start Claude Code
 /help                     # Show all commands
 /powerup                  # Interactive lessons: CLAUDE.md, /rewind, memory, effort modes
-/status                   # Check context usage
+/context                  # Check context usage
 /compact                  # Compress context when >70%
 /clear                    # Fresh start
 /plan                     # Safe read-only mode
@@ -444,7 +444,7 @@ These 7 commands are the ones I use most frequently:
 | `/help` | Show all commands | When you're lost |
 | `/clear` | Clear conversation | Start fresh |
 | `/compact` | Summarize context | Running low on context |
-| `/status` | Show session info | Check context usage |
+| `/context` | Show context usage breakdown | Check context usage |
 | `/exit` or `Ctrl+D` | Exit Claude Code | Done working |
 | `/plan` | Enter Plan Mode | Safe exploration |
 | `/rewind` | Undo changes | Made a mistake |
@@ -596,7 +596,7 @@ This suggests the form field reference is incorrect. Let me check your form hand
 
 **Limitations**:
 - Images consume significant context tokens (equivalent to ~1000-2000 words of text)
-- Use `/status` to monitor context usage after pasting images
+- Use `/context` to monitor context usage after pasting images
 - Consider describing complex diagrams textually if context is tight
 - Some terminals may not support clipboard image pasting (fallback: save and reference file path)
 
@@ -752,7 +752,7 @@ Understanding Claude's image processing helps optimize for speed and accuracy.
 - [ ] Crop to relevant area only
 - [ ] Resize to 1000-1200px if larger
 - [ ] Use PNG for wireframes/diagrams
-- [ ] Check `/status` after pasting to monitor context usage
+- [ ] Check `/context` after pasting to monitor context usage
 - [ ] Consider text description if context is >70%
 
 > **💡 Token tip**: A 1000×1000 wireframe uses ~1,334 tokens. The same information as structured text (via Figma MCP) might use 200-400 tokens. Use screenshots for visual context, structured data for implementation.
@@ -1198,7 +1198,7 @@ You're ready for Day 2 when you can:
 - [ ] Run a shell command with `!`
 - [ ] Reference a file with `@`
 - [ ] Use `/clear` to start fresh
-- [ ] Use `/status` to check context usage
+- [ ] Use `/context` to check context usage
 - [ ] Exit cleanly with `/exit` or `Ctrl+D`
 
 ## 1.6 Migrating from other AI coding tools
@@ -1228,7 +1228,7 @@ Switching from GitHub Copilot, Cursor, or other AI assistants? Here's what you n
 | **Cursor** | ✅ (2K completions) | $20/mo | Ultra $200/mo | $40/seat | - |
 | **Windsurf** | ✅ (25 prompts) | $20/mo | $200/mo | $30/seat | $60/seat |
 | **Zed** | - | $10/mo | - | - | - |
-| **Claude Code** | - | $20/mo | Max $100-200/mo | - | Via Anthropic |
+| **Claude Code** | - | $20/mo | Max / Ultra (see claude.com/pricing) | - | Via Anthropic |
 
 **Key mindset shift**: Claude Code is a **structured context system**, not a chatbot or autocomplete tool. You build persistent context (CLAUDE.md, skills, hooks) that compounds over time, see [§2.5](#from-chatbot-to-context-system).
 
@@ -1628,7 +1628,7 @@ Before your next session, verify:
 - [ ] I have a clear, specific goal
 - [ ] My project has a CLAUDE.md file (see [§2.5](#from-chatbot-to-context-system))
 - [ ] I'm on a feature branch (not main)
-- [ ] I know my context level (`/status`)
+- [ ] I know my context level (`/context`)
 - [ ] I'll review every diff before accepting
 
 > **Tip**: Bookmark Section 9.11 for detailed pitfall explanations and solutions.
@@ -1734,7 +1734,7 @@ Context is Claude's "working memory" for your conversation. It includes:
 
 ### The context budget
 
-The context window depends on the selected model and provider. Opus 5.5, Sonnet 5.5, Haiku 5.5 and Fable 5.1 have native **1M-token** windows on the direct API; the legacy Haiku 4.5 has **200K**. Inspect `/context` for the active session. Capacity does not guarantee that every detail will be retrieved reliably.
+The context window depends on the selected model and provider. Opus 5.5, Sonnet 5.5, Haiku 5.5 and Fable 5.2 have native **1M-token** windows on the direct API; the legacy Haiku 4.5 has **200K**. Inspect `/context` for the active session. Capacity does not guarantee that every detail will be retrieved reliably.
 
 ### Reading the statusline
 
@@ -1768,7 +1768,7 @@ Add to `~/.claude/settings.json`:
 }
 ```
 
-This displays: `Model: Sonnet 4.6 | Ctx: 0 | ⎇ main | (+0,-0) | Cost: $0.27 | Session: 0m | Ctx(u): 0.0%`
+This displays: `Model: Sonnet 5.5 | Ctx: 0 | ⎇ main | (+0,-0) | Cost: $0.27 | Session: 0m | Ctx(u): 0.0%`
 
 **Option 2: Custom script**
 
@@ -1948,7 +1948,7 @@ Claude Code has three distinct memory systems. Knowing which one to use avoids l
 
 **Auto-compact and PostToolUse memory capture: a conflict to know about**:
 
-Claude Code auto-compacts the conversation when the remaining context drops below a fixed buffer threshold (roughly the last 6-7% of the context window, or about 13K tokens from the effective limit). In practice, this triggers somewhere in the 90-95% usage range depending on the model's context window and reserved output tokens. Before full compaction runs, Claude Code also applies **micro-compaction**: a lighter pass that selectively compresses older tool results (file reads, bash outputs, search results) to free space incrementally without summarizing the whole conversation. If auto-compact fails (e.g., due to a rate limit), it retries up to 3 consecutive times before giving up for that session.
+Claude Code auto-compacts the conversation when the remaining context drops below a fixed buffer threshold (about 13K tokens from the effective limit on a 200K window, and around 967K tokens on a native 1M window, so the trigger sits at roughly 93-97% usage depending on the model's context window and reserved output tokens; `/autocompact` can set an earlier trigger). Before full compaction runs, Claude Code also applies **micro-compaction**: a lighter pass that selectively compresses older tool results (file reads, bash outputs, search results) to free space incrementally without summarizing the whole conversation. If auto-compact fails (e.g., due to a rate limit), it retries up to 3 consecutive times before giving up for that session.
 
 If you use a hook-based memory capture tool (like claude-mem) that saves session history via `PostToolUse`, auto-compact can fire and discard conversation history **before** the save pipeline has a chance to capture it.
 
@@ -2044,7 +2044,7 @@ Instead of looping the same task, dedicate a fresh session to each quality dimen
 4. **Review sessions**: Separate sessions for security audit, performance, code review
 5. **Repeat**: Iterate with scope adjustments as needed
 
-This combines Fresh Context (clean 200K per phase) with [OpusPlan](#opusplan-mode) (Opus for review/strategy sessions, Sonnet for implementation). Each session generates progress artifacts that feed the next.
+This combines Fresh Context (a clean context window per phase) with [OpusPlan](#opusplan-mode) (Opus for review/strategy sessions, Sonnet for implementation). Each session generates progress artifacts that feed the next.
 
 #### Practical implementation
 
@@ -2156,29 +2156,30 @@ Example output:
 Claude Code usage can draw from a subscription allowance, usage credits or API billing. Check the active account and billing path before interpreting a token-cost estimate.
 
 <a id="pricing-model-verified-september-24-2026"></a>
+<a id="pricing-model-rates-checked-october-27-2026"></a>
 
-#### Pricing Model (rates checked October 27, 2026)
+#### Pricing Model (rates checked November 23, 2026)
 
-Claude Code v2.1.280 and later defaults to **Opus 5.5** on Pro, Max, Team, Enterprise, the Anthropic API, Claude Platform on AWS, Bedrock, and Google Cloud's Agent Platform. Microsoft Foundry retains Sonnet 4.5 as its account default. Organization policy, model settings, and environment overrides can change the result. Check `/model` and `/status` for your session.
+Claude Code v2.1.280 and later defaults to **Opus 5.5** on Pro, Max, Team, Enterprise, the Anthropic API, Claude Platform on AWS, Bedrock, and Google Cloud's Agent Platform. Microsoft Foundry retains Sonnet 4.5 as its account default. Organization policy, model settings, and environment overrides can change the result. Check `/model` and the `/status` Status tab for your session.
 
 | Model | Input / MTok | Output / MTok | Cache read / MTok | Context | Default effort in Claude Code |
 |-------|--------------|---------------|-------------------|---------|-------------------------------|
 | Opus 5.5 | $4 | $20 | $0.20 | 1M | `medium` |
 | Sonnet 5.5 | $2 | $10 | $0.10 | 1M | `medium` |
 | Haiku 5.5 | $0.10 (prompts up to 100K tokens), $0.50 above | $0.50, $2.50 above 100K | $0.01, $0.05 above 100K | 1M | `medium` |
-| Fable 5.1 | $10 | $50 | $0.25 | 1M | `high` |
+| Fable 5.2 | $8 | $40 | $0.20 | 1M | `medium` |
 
-These are standard Anthropic API rates in USD, checked October 27, 2026. Subscription allowances, usage credits, cache writes, batch discounts, data residency, and partner-operated cloud pricing are separate. Sonnet 5.5 (`claude-sonnet-5-5`) replaced Sonnet 5 as the default Sonnet on the Anthropic API in Claude Code v2.1.284 (September 28, 2026) at the same $2/$10; Sonnet 5 is now a legacy model, and the September increase once announced for it did not occur. Haiku 5.5 (`claude-haiku-5-5`) replaced Haiku 4.5 as the default `haiku` on the Anthropic API in Claude Code v2.1.293 (October 7, 2026); a Haiku 5.5 request costs more per token when its prompt exceeds 100K tokens. Default effort values come from the [Claude Code model configuration](https://code.claude.com/docs/en/model-config#adjust-effort-level); the Claude API's own default for Sonnet 5.5 is `high`. [Official model pricing](https://platform.claude.com/docs/en/about-claude/pricing).
+These are standard Anthropic API rates in USD, checked November 23, 2026. Subscription allowances, usage credits, cache writes, batch discounts, data residency, and partner-operated cloud pricing are separate. Sonnet 5.5 (`claude-sonnet-5-5`) replaced Sonnet 5 as the default Sonnet on the Anthropic API in Claude Code v2.1.284 (September 28, 2026) at the same $2/$10; Sonnet 5 is now a legacy model, and the September increase once announced for it did not occur. Haiku 5.5 (`claude-haiku-5-5`) replaced Haiku 4.5 as the default `haiku` on the Anthropic API in Claude Code v2.1.293 (October 7, 2026); a Haiku 5.5 request costs more per token when its prompt exceeds 100K tokens. Default effort values come from the [Claude Code model configuration](https://code.claude.com/docs/en/model-config#adjust-effort-level); the Claude API's own default for Sonnet 5.5 and Fable 5.2 is `high`. [Official model pricing](https://platform.claude.com/docs/en/about-claude/pricing).
 
-Fast mode supports Opus 5.5 ($8/$40 per MTok), Opus 5 and Opus 4.8 ($10/$50). It is unavailable on Sonnet and Haiku. Anthropic describes up to 2.5 times faster output; this is not a guarantee for every request. Subscription fast mode uses usage credits. [Fast mode reference](https://code.claude.com/docs/en/fast-mode).
+Fast mode is available on Fable 5.2 ($16/$80 per MTok) and Opus 5.5 ($8/$40); it is in research preview on Opus 5 and Opus 4.8 ($10/$50). Opus 4.8 fast mode was deprecated on October 30, 2026 and is removed on November 30, 2026, after which the API rejects those requests (switch to Opus 5.5 or run `/fast off`). It is unavailable on Sonnet and Haiku. Anthropic describes up to 2.5 times faster output; this is not a guarantee for every request. Subscription fast mode (Pro, Max, Ultra, Team, Enterprise) uses usage credits only. [Fast mode reference](https://code.claude.com/docs/en/fast-mode).
 
-Fable 5.1 is available by explicit selection, subject to account and organization access. It is not an account-type default. Previous-generation model prices belong to the [official legacy pricing table](https://platform.claude.com/docs/en/about-claude/pricing), not to the current default rows above.
+Fable 5.2 (`claude-fable-5-2`, Claude Code v2.1.321+) is available by explicit selection with `/model fable`, subject to account and organization access. It is not an account-type default. Fable 5.1 ($10/$50, cache read $0.25) and Fable 5 remain selectable by model ID. Previous-generation model prices belong to the [official legacy pricing table](https://platform.claude.com/docs/en/about-claude/pricing), not to the current default rows above.
 
 #### 200K vs 1M context: Performance, cost & use cases
 
-Opus 5.5, Sonnet 5.5, Haiku 5.5, and Fable 5.1 have native 1M context on the Anthropic API. The older Opus 4.6 and Sonnet 4.6 use a `[1m]` variant with plan-specific access. Gateway and cloud-provider settings can expose a different window; inspect `/context` and the [provider rules](https://code.claude.com/docs/en/model-config#extended-context).
+Opus 5.5, Sonnet 5.5, Haiku 5.5, and Fable 5.2 have native 1M context on the Anthropic API. The older Opus 4.6 and Sonnet 4.6 use a `[1m]` variant with plan-specific access. Gateway and cloud-provider settings can expose a different window; inspect `/context` and the [provider rules](https://code.claude.com/docs/en/model-config#extended-context).
 
-The current native 1M models use their standard rates beyond 200K input tokens, except Haiku 5.5, whose rates rise for prompts over 100K tokens. Old beta-header and long-context premium advice for Sonnet 4/4.5 must not be applied to them. Maximum output is 128K for Opus 5.5, Sonnet 5.5, Haiku 5.5, and Fable 5.1 (64K for the legacy Haiku 4.5). [Model specifications](https://platform.claude.com/docs/en/models/overview).
+The current native 1M models use their standard rates beyond 200K input tokens, except Haiku 5.5, whose rates rise for prompts over 100K tokens. Old beta-header and long-context premium advice for Sonnet 4/4.5 must not be applied to them. Maximum output is 128K for Opus 5.5, Sonnet 5.5, Haiku 5.5, and Fable 5.2 (64K for the legacy Haiku 4.5). [Model specifications](https://platform.claude.com/docs/en/models/overview).
 
 **Illustrative token bills, not measured session costs**, without caching or retries:
 
@@ -2311,7 +2312,7 @@ response = client.messages.create(
 | Cache write | 1.25x | 5 minutes |
 | Cache write (extended) | 2x | 1 hour |
 | Cache read: Opus 5.5, Sonnet 5.5 | 0.05x | Refreshes the existing entry |
-| Cache read: Fable 5.1, Mythos 5.1 | 0.025x | Refreshes the existing entry |
+| Cache read: Fable 5.2, Fable 5.1, Mythos 5.1 | 0.025x | Refreshes the existing entry |
 | Cache read: other supported models | 0.1x | Refreshes the existing entry |
 
 For an unchanged prefix, one write plus one cache read costs less than two uncached reads with a five-minute TTL. A one-hour write becomes cheaper after two cache reads. Those comparisons exclude changing suffixes and other work. Cache writes and reads are input billing categories; generated output, including billable reasoning, remains separately charged. [Official API prices](https://platform.claude.com/docs/en/about-claude/pricing).
@@ -2334,7 +2335,7 @@ The minimum applies to the cacheable prompt prefix, not to CLAUDE.md or each blo
 
 | Models | Minimum prefix tokens |
 |---|---|
-| Opus 5.5, Sonnet 5.5, Fable 5.1, Haiku 5.5 | 512 |
+| Opus 5.5, Sonnet 5.5, Fable 5.2, Fable 5.1, Haiku 5.5 | 512 |
 | Opus 4.7 | 2,048 |
 | Opus 4.6, Opus 4.5, Haiku 4.5 | 4,096 |
 | Opus 4.8, Sonnet 5, Sonnet 4.6 | 1,024 |
@@ -2773,6 +2774,7 @@ Aliases resolve by provider and can be remapped by configuration. Verified again
 |----------|--------|----------|---------|
 | Anthropic API | Opus 5.5 | Sonnet 5.5 (since v2.1.284) | Haiku 5.5 (since v2.1.293) |
 | Claude Platform on AWS | Opus 5.5 | Sonnet 4.6 | Haiku 4.5 |
+| Claude Models on Google Cloud (Anthropic managed) | Opus 5.5 | Sonnet 5.5 | Haiku 4.5 |
 | Amazon Bedrock / Google Cloud's Agent Platform | Opus 5.5 | Sonnet 4.5 | Haiku 4.5 |
 | Microsoft Foundry | Opus 4.6 | Sonnet 4.5 | Haiku 4.5 |
 
@@ -2780,8 +2782,8 @@ Aliases resolve by provider and can be remapped by configuration. Verified again
 |-----------|---------|
 | `default` | Clear the override and use the account or organization default |
 | `haiku` | Haiku family alias; Haiku 5.5 on the Anthropic API (Claude Code v2.1.293+), Haiku 4.5 on the cloud providers above |
-| `fable` | Fable 5.1, except Fable 5 through the Claude apps gateway |
-| `best` | Same as `fable` where available, otherwise `opus` |
+| `fable` | Fable 5.2 (use `/model claude-fable-5-2` in Claude apps gateway sessions) |
+| `best` | Same model as `opus` |
 | `opus[1m]`, `sonnet[1m]` | Request a 1M variant where the provider/model needs one |
 | `opusplan` | `opus` for planning, `sonnet` for execution |
 | `opusplan[1m]` | Request 1M in both phases where not native; `/model` accepts it from v2.1.265 |
@@ -2790,7 +2792,7 @@ Pin a version with its exact provider ID, such as `claude-opus-5-5`, or the appr
 
 `/model <name>` saves a default for new sessions. In the picker, press `s` for this session only. `claude --model <name>` and `ANTHROPIC_MODEL` apply to the launched session. Project and managed settings can reapply on the next launch; resumed sessions usually restore their recorded model. `ANTHROPIC_DEFAULT_MODEL` is a lower-priority default, not a replacement for these overrides.
 
-Use the status line, `/model`, or the API response metadata to identify the active model. Model self-reports are not reliable identification. The current reliable knowledge cutoff is June 2026 for Opus 5.5, Sonnet 5.5, Haiku 5.5 and Fable 5.1 (February 2025 for the legacy Haiku 4.5). [Model specifications](https://platform.claude.com/docs/en/models/overview).
+Use the status line, `/model`, or the API response metadata to identify the active model. Model self-reports are not reliable identification. The current reliable knowledge cutoff is June 2026 for Opus 5.5, Sonnet 5.5, Haiku 5.5 and Fable 5.2 (February 2025 for the legacy Haiku 4.5). [Model specifications](https://platform.claude.com/docs/en/models/overview).
 
 ### OpusPlan mode
 
@@ -2975,20 +2977,22 @@ Cloud-based parallel multi-agent code review. Multiple review agents read throug
 **Activation**:
 
 ```bash
-/ultrareview              # Review current branch (diff from base)
-/ultrareview <PR#>        # Review a specific GitHub PR
+/code-review ultra          # Review current branch (diff from base)
+/code-review ultra <PR#>    # Review a specific GitHub PR
 ```
+
+`/ultrareview` still works as an alias when ultrareview is available to your account. Ultrareview is a research preview, so the feature, pricing, and availability may change.
 
 Ultrareview operates on **diffs, not the full codebase**: it reviews what changed on the current branch, or the changes in a given PR. The cloud session dispatches parallel agents to analyse the diff; results arrive in the browser and can optionally be teleported back to the terminal.
 
-**Launch offer**: Pro and Max subscribers receive three free ultrareviews to try the feature.
+**Launch offer**: Pro, Max, and Ultra subscribers receive three free ultrareviews to try the feature, then runs require usage credits.
 
 **Requirements**:
 
 | Requirement | Detail |
 |-------------|--------|
 | Claude Code version | v2.1.114+ |
-| Account | Pro or Max |
+| Account | claude.ai sign-in (Pro, Max, Ultra; usage credits after the free runs) |
 | Providers | Anthropic API only |
 
 ---
@@ -3175,14 +3179,14 @@ _Quick jump:_ [Decision Table](#decision-table) · [Effort Levels](#effort-level
 | Rename, format, bounded extraction | Haiku 5.5 | Default `medium`; evaluate `low` |
 | Feature work, tests, routine debugging | Sonnet 5.5 or Opus 5.5 | Model default |
 | Architecture or difficult debugging | Opus 5.5 | Increase from `medium` if evaluation warrants it |
-| Long or ambiguous work that misses the quality bar | Evaluate Fable 5.1 | Start at `high` |
+| Long or ambiguous work that misses the quality bar | Evaluate Fable 5.2 | Start at `medium` (Claude Code default), raise if evaluation warrants it |
 | Multi-agent workflow | Assign by role and measured task results | Per supported model |
 
 No fixed cost per task follows from a model name. Measure input, output, cache tokens, retries, and review effort against the same acceptance criteria. See the [pricing table](#pricing-model-verified-september-24-2026).
 
 #### Escalating to Fable
 
-Fable 5.1 (`claude-fable-5-1`, Claude Code v2.1.257+) is an explicit option when evaluations on Opus 5.5 still fall short. `/model fable` normally selects it; Claude apps gateway sessions map that alias to Fable 5, so use a full supported ID to pin the newer model. Availability and usage-credit billing depend on the account. A stronger model does not remove the need to verify security or production decisions. [Fable access and billing](https://code.claude.com/docs/en/model-config#work-with-fable).
+Fable 5.2 (`claude-fable-5-2`, Claude Code v2.1.321+) is an explicit option when evaluations on Opus 5.5 still fall short. `/model fable` selects it; in Claude apps gateway sessions run `/model claude-fable-5-2`. Fable 5.1 (`claude-fable-5-1`, v2.1.257+) and Fable 5 stay selectable by model ID. Availability and usage-credit billing depend on the account. A stronger model does not remove the need to verify security or production decisions. [Fable access and billing](https://code.claude.com/docs/en/model-config#work-with-fable).
 
 ### Effort levels
 
@@ -3190,7 +3194,7 @@ Effort controls adaptive reasoning and can change tool use, response length, lat
 
 | Models | Supported Claude Code effort levels | Default |
 |--------|-------------------------------------|---------|
-| Opus 5.5, Sonnet 5.5, Haiku 5.5 | `low`, `medium`, `high`, `xhigh`, `max` | `medium` |
+| Fable 5.2, Opus 5.5, Sonnet 5.5, Haiku 5.5 | `low`, `medium`, `high`, `xhigh`, `max` | `medium` |
 | Sonnet 5, Opus 5 / 4.8, Fable 5 / 5.1 | `low`, `medium`, `high`, `xhigh`, `max` | `high` |
 | Opus 4.7 | `low`, `medium`, `high`, `xhigh`, `max` | `xhigh` |
 | Opus 4.6, Sonnet 4.6 | `low`, `medium`, `high`, `max` | `high` |
@@ -4066,7 +4070,7 @@ def extract_with_retry(
 
     for attempt in range(1, max_attempts + 1):
         response = client.messages.create(
-            model="claude-opus-4-5",
+            model="claude-opus-5-5",
             max_tokens=1024,
             tools=[EXTRACTION_TOOL],
             tool_choice={"type": "tool", "name": "extract_fields"},
@@ -4155,7 +4159,7 @@ Asking the same model instance that generated an output to review its own output
 ```python
 # Generation pass
 generation_response = client.messages.create(
-    model="claude-opus-4-5",
+    model="claude-opus-5-5",
     max_tokens=2048,
     messages=[
         {"role": "user", "content": f"Analyze this contract:\n\n{contract_text}"}
@@ -4165,7 +4169,7 @@ analysis = generation_response.content[0].text
 
 # Review pass: fresh conversation, no generation context
 review_response = client.messages.create(
-    model="claude-opus-4-5",
+    model="claude-opus-5-5",
     max_tokens=1024,
     system="You are a critical reviewer. Identify gaps, errors, and unsupported claims.",
     messages=[
@@ -4643,7 +4647,7 @@ Context is model/provider dependent: current Opus, Sonnet, Haiku and Fable model
 | Tool results | Variable |
 | Reserved for response | 40-45K tokens |
 
-Native 1M sessions normally auto-compact around 967K tokens. `/autocompact` can choose a smaller window. Compaction can omit information needed later, so save decisions and verification commands before a handoff. Use `/compact` at logical breakpoints; a fixed percentage is not a universal quality threshold. See [Session Handoffs](line 2140) and [Auto-Compaction Research](core/architecture.md#auto-compaction).
+Native 1M sessions normally auto-compact around 967K tokens. `/autocompact` can choose a smaller window. Compaction can omit information needed later, so save decisions and verification commands before a handoff. Use `/compact` at logical breakpoints; a fixed percentage is not a universal quality threshold. See [Session handoff pattern](#session-handoff-pattern) and [Auto-Compaction Research](core/architecture.md#auto-compaction).
 
 ### Sub-agent isolation
 
@@ -5651,7 +5655,7 @@ tar -xzf claude-config-YYYY-MM-DD_HH-MM-SS.tar.gz -C ~/
 
 ### settings.json (team configuration)
 
-This file configures hooks, permissions, environment variables, and more. The project-level `.claude/settings.json` is committed to the repo (shared with team). Available keys include: `hooks`, `env`, `allowedTools`, `autoApproveTools`, `dangerouslyAllowedPatterns`, `teammates`, `teammateMode`, `apiKeyHelper`, `spinnerVerbs`, `spinnerTipsOverride`, `plansDirectory`, `enableAllProjectMcpServers`.
+This file configures hooks, permissions, environment variables, and more. The project-level `.claude/settings.json` is committed to the repo (shared with team). Available keys include: `hooks`, `env`, `permissions`, `teammates`, `teammateMode`, `apiKeyHelper`, `spinnerVerbs`, `spinnerTipsOverride`, `plansDirectory`, `enableAllProjectMcpServers`.
 
 **Hooks example** (most common use in `.claude/settings.json`):
 
@@ -5665,7 +5669,7 @@ This file configures hooks, permissions, environment variables, and more. The pr
           {
             "type": "command",
             "command": ".claude/hooks/security-check.sh",
-            "timeout": 5000
+            "timeout": 5
           }
         ]
       }
@@ -5803,32 +5807,30 @@ Use a direct path pattern for Read/Edit/Write and a command pattern for Bash. Th
 | `ask` | Prompt for confirmation |
 | (default) | Use default permission mode |
 
-### allowedTools / autoApproveTools Configuration
+### permissions.allow / permissions.deny Configuration
 
-For granular control in `~/.claude/settings.json` or `.claude/settings.json`, two formats are available.
+For granular control in `~/.claude/settings.json` or `.claude/settings.json`, list permission rules under the `permissions` key. `permissions.allow` auto-approves matching tool calls without prompts, `permissions.deny` blocks them, and `permissions.ask` forces a prompt. There is no top-level `allowedTools` or `autoApproveTools` settings key: `--allowedTools` and `--disallowedTools` exist only as CLI flags.
 
-**`autoApproveTools`** (array format, simpler) auto-approves listed tools without prompts.
-**`allowedTools`** (object format with `true`/`false` values) provides fine-grained control including explicit denials.
-
-Example using `autoApproveTools` in `~/.claude/settings.json`:
+Example in `~/.claude/settings.json`:
 
 ```json
 {
-  "allowedTools": [
-    "Read",
-    "Grep",
-    "Glob",
-    "WebFetch",
-    "TodoRead",
-    "TodoWrite",
-    "Task",
-    "Bash(git status *)",
-    "Bash(git diff *)",
-    "Bash(git log *)",
-    "Bash(pnpm typecheck *)",
-    "Bash(pnpm lint *)",
-    "Bash(pnpm test *)"
-  ]
+  "permissions": {
+    "allow": [
+      "Read",
+      "Grep",
+      "Glob",
+      "WebFetch",
+      "Task",
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(pnpm typecheck *)",
+      "Bash(pnpm lint *)",
+      "Bash(pnpm test *)"
+    ],
+    "deny": ["Read(./.env)"]
+  }
 }
 ```
 
@@ -5845,28 +5847,34 @@ Example using `autoApproveTools` in `~/.claude/settings.json`:
 **Level 1 - Beginner (very restrictive)**:
 ```json
 {
-  "autoApproveTools": ["Read", "Grep", "Glob"]
+  "permissions": {
+    "allow": ["Read", "Grep", "Glob"]
+  }
 }
 ```
 
 **Level 2 - Intermediate**:
 ```json
 {
-  "autoApproveTools": [
-    "Read", "Grep", "Glob",
-    "Bash(git *)", "Bash(pnpm *)"
-  ]
+  "permissions": {
+    "allow": [
+      "Read", "Grep", "Glob",
+      "Bash(git *)", "Bash(pnpm *)"
+    ]
+  }
 }
 ```
 
 **Level 3 - Advanced**:
 ```json
 {
-  "autoApproveTools": [
-    "Read", "Grep", "Glob", "WebFetch",
-    "Edit", "Write",
-    "Bash(git *)", "Bash(pnpm *)", "Bash(npm *)"
-  ]
+  "permissions": {
+    "allow": [
+      "Read", "Grep", "Glob", "WebFetch",
+      "Edit", "Write",
+      "Bash(git *)", "Bash(pnpm *)", "Bash(npm *)"
+    ]
+  }
 }
 ```
 
@@ -5878,7 +5886,7 @@ Horror stories from r/ClaudeAI include:
 - `DROP TABLE users` in a poorly generated migration
 - Deletion of `.env` files with credentials
 
-**Always prefer granular `allowedTools` over disabling permissions entirely.**
+**Always prefer granular `permissions.allow` rules over disabling permissions entirely.**
 
 > **Safe alternative**: For autonomous execution, run Claude Code inside [Docker Sandboxes](security/sandbox-isolation.md) or a similar isolated environment. The sandbox becomes the security boundary, making `--dangerously-skip-permissions` safe to use. See the [Sandbox Isolation Guide](security/sandbox-isolation.md) for setup instructions and alternatives.
 
@@ -8892,7 +8900,7 @@ Claude Code ships with roughly 100 built-in commands. The full categorized list 
 | `/model [model]` | Switch model and save it as your default (sonnet/opus/opusplan); no argument opens a picker |
 | `/effort [level\|auto\|status\|ultracode [on\|off]]` | Set effort: low/medium/high/xhigh/max (`max` is session-only) or `auto`; `status` prints it |
 | `/focus` | Toggle focus view: last prompt, one-line tool summary, final response. Fullscreen rendering only |
-| `/tui [default\|fullscreen]` | Set the terminal renderer and relaunch into it with the conversation intact; `fullscreen` is the flicker-free renderer |
+| `/tui [classic\|fullscreen]` | Set the terminal renderer and relaunch into it with the conversation intact (`default` still works as the old name for `classic`); `fullscreen` is the flicker-free renderer |
 | `/copy [N]` | Copy the Nth-latest response; interactive picker for code blocks or the full response |
 | `/loop [interval] [prompt]` (`/proactive`) | Bundled skill: run a prompt repeatedly while the session stays open |
 | `/code-review [level]` | Bundled skill: Review the diff for correctness bugs and cleanups. `--fix` applies them, `ultra` runs the cloud review |
@@ -8914,7 +8922,7 @@ Claude Code ships with roughly 100 built-in commands. The full categorized list 
 | `/keybindings` | Edit key bindings (opens ~/.claude/keybindings.json) |
 | `/setup-bedrock` | Interactive Bedrock configuration wizard (visible only with `CLAUDE_CODE_USE_BEDROCK=1`) |
 | `/setup-vertex` | Interactive Google Cloud Agent Platform (Vertex AI) configuration wizard (visible only with `CLAUDE_CODE_USE_VERTEX=1`) |
-| `/ultrareview [PR or branch]` | Cloud-based parallel multi-agent code review, an alias of `/code-review ultra`. 3 free runs on Pro and Max, then usage credits |
+| `/ultrareview [PR or branch]` | Cloud-based parallel multi-agent code review, an alias of `/code-review ultra`. 3 free runs on Pro, Max, and Ultra, then usage credits |
 | `/goal [condition\|clear]` | Set a completion condition. Claude works autonomously across turns until the condition is met, displaying a live overlay with elapsed time, turn count, and token usage. Example: `/goal all tests pass and build is green` (v2.1.139) |
 | `/scroll-speed` | Interactive slider to tune mouse wheel scroll speed. Changes take effect immediately with live preview. Fullscreen rendering only, not in the JetBrains terminal (v2.1.139) |
 | `/exit` (`/quit`) | Exit Claude Code |
@@ -9225,11 +9233,11 @@ EOF
 | Tool | Scope | Output | Use Case |
 |------|-------|--------|----------|
 | `/insights` | Session behavior, friction, patterns | Interactive HTML report | Workflow optimization, self-improvement |
-| `/status` | Current session only | Text summary (context, costs, tools) | Real-time monitoring |
+| `/context`, `/usage` | Current session only | Text summary (context breakdown, cost and plan limits) | Real-time monitoring |
 | `ccboard` | Economics, cost analysis, project breakdown | TUI/Web dashboard | Budget tracking, cost optimization |
 | Git history | Code changes only | Commit log | Delivery metrics, PR velocity |
 
-> **Tip**: Run `/insights` monthly, `/status` per session, and `ccboard` weekly for comprehensive visibility.
+> **Tip**: Run `/insights` monthly, `/usage` per session, and `ccboard` weekly for comprehensive visibility.
 
 ### The /simplify Command
 
@@ -9462,7 +9470,7 @@ This approach runs entirely offline without any Anthropic infrastructure and has
 | `/loop 30m /slack-feedback` | Post PRs for team feedback every 30 min |
 | `/loop 1h /pr-pruner` | Clean up stale PRs on a schedule |
 
-**Constraints**: Recurring tasks expire seven days after creation, including time spent outside the session. A session can hold up to 50 scheduled tasks. Use Routines or Desktop scheduled tasks when scheduling must survive independently of a conversation. Source: [Run prompts on a schedule](https://code.claude.com/docs/en/scheduled-tasks), checked September 10, 2026.
+**Constraints**: Recurring tasks expire 30 days after creation as of Claude Code v2.1.330 (tasks created before that release still end at 7 days), including time spent outside the session. A session can hold up to 50 scheduled tasks. Use Routines or Desktop scheduled tasks when scheduling must survive independently of a conversation. Source: [Run prompts on a schedule](https://code.claude.com/docs/en/scheduled-tasks), checked September 10, 2026.
 
 > `/loop` added in v2.1.71. Timestamp markers in loop transcripts added in v2.1.86. Cloud and Desktop Scheduled Tasks launched March 9, 2026. Source: [code.claude.com/docs/en/whats-new](https://code.claude.com/docs/en/whats-new)
 
@@ -9900,7 +9908,7 @@ Hooks run configured handlers for supported lifecycle events. Handler types incl
 | `FileChanged` | A watched file changes on disk; `matcher` specifies which filenames to watch | No | Reload config, trigger watchers |
 | `DirectoryAdded` | A working directory is added mid-session via `/add-dir` or the SDK `register_repo_root` request; `matcher` is the source (`slash_command`, `register_repo_root`) | No (the directory is already added) | Load per-directory config, audit added roots |
 | `WorktreeCreate` | A worktree is being created via `--worktree` or `isolation: "worktree"`. Replaces default git behavior | Yes (non-zero exit) | Custom VCS setup (SVN, Perforce) |
-| `WorktreeRemove` | A worktree that a `WorktreeCreate` hook created is being removed (at session exit or when a subagent finishes) | Yes (non-zero exit fails removal if the directory remains) | Clean up VCS state |
+| `WorktreeRemove` | A worktree that a `WorktreeCreate` hook created is being removed (at session exit, via `ExitWorktree`, or when a background session is deleted; not when a subagent finishes) | Yes (non-zero exit fails removal if the directory remains) | Clean up VCS state |
 
 **User interaction** (prompts & notifications):
 
@@ -9984,7 +9992,7 @@ Claude Code supports two execution models for hooks:
           {
             "type": "command",
             "command": ".claude/hooks/auto-format.sh",
-            "timeout": 10000,
+            "timeout": 10,
             "async": true  // ← Non-blocking execution
           },
           {
@@ -10091,7 +10099,7 @@ gh pr create --title "..." --body "..."
           {
             "type": "command",
             "command": ".claude/hooks/security-check.sh",
-            "timeout": 5000
+            "timeout": 5
           }
         ]
       }
@@ -10176,7 +10184,7 @@ HTTP hooks receive the same JSON payload as `command` hooks and must return vali
 
 ### Conditional Hooks with `if` (v2.1.85+)
 
-The `if` field filters when a hook fires using the same permission-rule syntax as `allowedTools`. This avoids spawning subprocesses on every event and eliminates the need for shell-side `case` statements.
+The `if` field filters when a hook fires using the same permission-rule syntax as `permissions.allow`. This avoids spawning subprocesses on every event and eliminates the need for shell-side `case` statements.
 
 ```json
 // Before: hook fires on every PostToolUse: guard logic inside the script
@@ -10518,6 +10526,7 @@ UNSTAGED=$(git diff --stat 2>/dev/null | tail -1 || echo "none")
 cat << EOF
 {
   "hookSpecificOutput": {
+    "hookEventName": "UserPromptSubmit",
     "additionalContext": "[Git] Branch: $BRANCH | Last: $LAST_COMMIT | Staged: $STAGED | Unstaged: $UNSTAGED"
   }
 }
@@ -10652,7 +10661,7 @@ if "%BRANCH%"=="" set BRANCH=not a git repo
 for /f "tokens=*" %%i in ('git log -1 --format^="%%h %%s" 2^>nul') do set LAST_COMMIT=%%i
 if "%LAST_COMMIT%"=="" set LAST_COMMIT=no commits
 
-echo {"hookSpecificOutput":{"additionalContext":"[Git] Branch: %BRANCH% | Last: %LAST_COMMIT%"}}
+echo {"hookSpecificOutput":{"hookEventName":"UserPromptSubmit","additionalContext":"[Git] Branch: %BRANCH% | Last: %LAST_COMMIT%"}}
 exit /b 0
 ```
 
@@ -10696,7 +10705,7 @@ exit 0
           {
             "type": "command",
             "command": "powershell -ExecutionPolicy Bypass -File .claude/hooks/security-check.ps1",
-            "timeout": 5000
+            "timeout": 5
           }
         ]
       }
@@ -10708,7 +10717,7 @@ exit 0
           {
             "type": "command",
             "command": "powershell -ExecutionPolicy Bypass -File .claude/hooks/auto-format.ps1",
-            "timeout": 10000
+            "timeout": 10
           }
         ]
       }
@@ -10947,7 +10956,7 @@ detect_bypass() {
           {
             "type": "command",
             "command": ".claude/hooks/file-guard.sh",
-            "timeout": 2000
+            "timeout": 2
           }
         ]
       }
@@ -11180,17 +11189,17 @@ Edit/Write → TypeCheck → Lint → Tests → Notify Claude
           {
             "type": "command",
             "command": ".claude/hooks/typecheck-on-save.sh",
-            "timeout": 5000
+            "timeout": 5
           },
           {
             "type": "command",
             "command": ".claude/hooks/lint-gate.sh",
-            "timeout": 5000
+            "timeout": 5
           },
           {
             "type": "command",
             "command": ".claude/hooks/test-on-change.sh",
-            "timeout": 10000
+            "timeout": 10
           }
         ]
       }
@@ -11386,11 +11395,11 @@ Tool Calls: 47 (OK 45 / ERR 2)
   Grep: 5   Glob: 4   WebSearch: 2
 
 Model Usage         Reqs    Input    Output
-claude-sonnet-4-5     42   493.9K     2.5K
-claude-haiku-4-5       5    12.4K       46
+claude-sonnet-5-5     42   493.9K     2.5K
+claude-haiku-5-5       5    12.4K       46
 
 Cache: 1.2M read / 45.3K created
-Est. Cost: $0.74
+Est. Cost: $1.25
 ═══════════════════════════════════════
 ```
 
@@ -11428,7 +11437,7 @@ Session summaries are also logged to `~/.claude/logs/session-summaries.jsonl` fo
   "tool_calls": {"Read": 12, "Bash": 10, "Edit": 8},
   "tool_errors": 2,
   "models": {
-    "claude-sonnet-4-5-20250929": {
+    "claude-sonnet-5-5": {
       "requests": 42,
       "input": 493985,
       "output": 2505,
@@ -11442,7 +11451,7 @@ Session summaries are also logged to `~/.claude/logs/session-summaries.jsonl` fo
     "cache_read": 1200000,
     "cache_create": 45300
   },
-  "cost_usd": 0.74
+  "cost_usd": 1.25
 }
 ```
 
@@ -11460,13 +11469,19 @@ Session summaries are also logged to `~/.claude/logs/session-summaries.jsonl` fo
 ccusage session --id <session-id> --json --offline
 ```
 
-**Fallback**: Built-in pricing table (as of 2026-02)
+**Fallback**: Built-in pricing table (as of 2026-11, standard API rates; matches `get_pricing` in `examples/hooks/bash/session-summary.sh`)
 
 | Model | Input (per 1M tokens) | Output (per 1M tokens) |
 |-------|----------------------|------------------------|
-| claude-opus-4-6 | $15.00 | $75.00 |
-| claude-sonnet-4-5 | $3.00 | $15.00 |
-| claude-haiku-4-5 | $0.80 | $4.00 |
+| claude-fable-5-2 | $8.00 | $40.00 |
+| claude-opus-5-5 | $4.00 | $20.00 |
+| claude-sonnet-5-5 | $2.00 | $10.00 |
+| claude-haiku-5-5 | $0.10 (prompts up to 100K tokens) | $0.50 |
+| claude-opus-4-6 | $5.00 | $25.00 |
+| claude-sonnet-4-6 | $3.00 | $15.00 |
+| claude-haiku-4-5 | $1.00 | $5.00 |
+
+Cache reads and writes are billed separately from these base rates.
 
 #### Edge Cases Handled
 
@@ -12899,7 +12914,7 @@ For project-scoped Claude Code use, add the server to `.mcp.json`:
 | `get_release` | Get details about Claude Code CLI official releases. Pass a version to get a specific release, or omit to get the latest and recent history. |
 | `get_threat` | Look up a specific threat by ID from the security threat database. Supports CVE IDs (e.g. "CVE-2025-53109") and technique IDs (e.g. "T001"). |
 | `init_official_docs` | Fetch the official Anthropic Claude Code docs (llms-full.txt) and store a local snapshot as the diff baseline. Run this first. Safe to re-run - overwrites previous baseline AND current. Takes ~5s (fetches ~1.2MB from Anthropic). |
-| `list_examples` | List all production-ready templates in the guide by category (agents, commands, hooks, skills, scripts). Use get_example(name) to fetch the content of any specific template. |
+| `list_examples` | List all production-ready templates in the guide by category (agents, commands, hooks, skills, scripts). Slash command templates ship as skills; the "commands" category only holds legacy resources such as the threat database. Use get_example(name) to fetch the content of any specific template. |
 | `list_threats` | Browse the security threat database. Without a category, returns a summary with counts. With a category, returns the full list for that section. |
 | `list_topics` | List all top-level topics and categories in the Claude Code Ultimate Guide. Useful for exploring what the guide covers before searching. |
 | `read_section` | Read a section from a guide file (markdown, YAML, examples). Supports pagination via offset, or a "#heading-slug" anchor to jump straight to a section (as returned by search_guide()). Use after search_guide() to fetch the full content at a specific location. |
@@ -13101,7 +13116,7 @@ Community tools (e.g. [cc-setup](https://github.com/rhuss/cc-setup)) are emergin
 
 #### MCP Tool Search: Lazy-Loading at Scale
 
-Claude Code v4 introduced **MCP Tool Search**: instead of loading all MCP tool definitions at startup, tool schemas are fetched on-demand when Claude needs them.
+Claude Code introduced **MCP Tool Search**: instead of loading all MCP tool definitions at startup, tool schemas are fetched on-demand when Claude needs them.
 
 **Why it matters**: each MCP server injects its full tool schema into the context window. With a dozen servers, that's ~77,000 tokens consumed before you've written a single prompt.
 
@@ -13658,12 +13673,14 @@ Think of plugins as **distributable packages** that bundle agents, skills, and c
 > **`${CLAUDE_PLUGIN_DATA}`, persistent plugin storage (v2.1.78+)**: Plugins can store state that survives updates using the `${CLAUDE_PLUGIN_DATA}` env variable. This variable points to a dedicated directory that is preserved when the plugin is updated and only deleted on explicit `/plugin uninstall` (with confirmation prompt). Use it for caches, user preferences, or any data your plugin needs across sessions.
 >
 > ```json
-> // In your plugin's hooks.json
+> // In your plugin's hooks/hooks.json
 > {
 >   "hooks": {
 >     "SessionStart": [{
->       "type": "command",
->       "command": "mkdir -p ${CLAUDE_PLUGIN_DATA}/cache && my-plugin init"
+>       "hooks": [{
+>         "type": "command",
+>         "command": "mkdir -p ${CLAUDE_PLUGIN_DATA}/cache && my-plugin init"
+>       }]
 >     }]
 >   }
 > }
@@ -14280,7 +14297,7 @@ Legitimate flow:  Claude → Native Read tool → Your file
 Shadowed flow:    Claude → Malicious MCP "Read" → Attacker exfiltrates content
 ```
 
-**Mitigation**: Check exposed tools with `/mcp` command. Use `disallowedTools` in settings to block suspicious tool names from specific servers.
+**Mitigation**: Check exposed tools with `/mcp` command. Use `permissions.deny` in settings to block suspicious tool names from specific servers.
 
 **Confused Deputy Problem**
 
@@ -14324,7 +14341,7 @@ MCP servers can dynamically change their tool offerings. A server might pass ini
 }
 ```
 
-> **Note**: `disallowedTools` is a root-level key or CLI flag (`--disallowedTools`), not nested under `permissions`. For settings.json, use `permissions.deny` to block tool patterns.
+> **Note**: `--disallowedTools` is a CLI flag. In settings.json, use `permissions.deny` to block tool patterns (a `disallowedTools` field also exists in subagent frontmatter).
 
 ### Red Flags
 
@@ -14495,11 +14512,11 @@ The most powerful Claude Code pattern combines three techniques:
 
 ### Extended Thinking (Opus 4.5+) & Adaptive Thinking (Opus 4.6+)
 
-The version labels in this heading preserve existing links. For the current lineup, Opus 5.5, Sonnet 5.5, Haiku 5.5, and Fable 5.1 use adaptive reasoning with the effort parameter. The legacy Haiku 4.5 supports extended thinking but has no effort parameter. [Model specifications](https://platform.claude.com/docs/en/models/overview).
+The version labels in this heading preserve existing links. For the current lineup, Opus 5.5, Sonnet 5.5, Haiku 5.5, and Fable 5.2 use adaptive reasoning with the effort parameter. The legacy Haiku 4.5 supports extended thinking but has no effort parameter. [Model specifications](https://platform.claude.com/docs/en/models/overview).
 
 #### Adaptive Thinking (Opus 4.6+, including Opus 4.8)
 
-Effort governs reasoning and can affect tool use, output length, latency, and cost. Use the [current effort table](#effort-levels) rather than assuming every model has the same default. Opus 5.5, Sonnet 5.5, and Haiku 5.5 default to `medium` in Claude Code; Fable 5.1 defaults to `high`.
+Effort governs reasoning and can affect tool use, output length, latency, and cost. Use the [current effort table](#effort-levels) rather than assuming every model has the same default. Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 default to `medium` in Claude Code (on the raw API, Fable 5.2 and Sonnet 5.5 default to `high`); Fable 5.1 defaults to `high`.
 
 ```python
 response = client.messages.create(
@@ -14534,7 +14551,7 @@ Thinking tokens are billed even when their display is collapsed or redacted. Set
 
 Assistant prefill is unsupported on Opus 4.6. Check the target model's migration guide before reusing prefill-based examples; use system instructions, examples, or supported structured outputs where prefill is unavailable.
 
-For fast mode, use a supported Opus version and the [current API fast-mode instructions](https://platform.claude.com/docs/en/build-with-claude/fast-mode). In Claude Code, `/fast` uses Opus 5.5 by default from v2.1.280. Standard Opus 5.5 costs $4/$20 per MTok and fast mode $8/$40. Older Opus 5 and 4.8 fast mode costs $10/$50. Availability, provider support, and usage-credit billing are separate from the speed setting.
+For fast mode, use a supported model (Fable 5.2 or Opus 5.5; Opus 5 and Opus 4.8 are in research preview) and the [current API fast-mode instructions](https://platform.claude.com/docs/en/build-with-claude/fast-mode). In Claude Code, `/fast` uses Opus 5.5 by default from v2.1.280. Standard Opus 5.5 costs $4/$20 per MTok and fast mode $8/$40; Fable 5.2 fast mode costs $16/$80 and Opus 5 and 4.8 fast mode $10/$50. Opus 4.8 fast mode was deprecated on October 30, 2026 and is removed on November 30, 2026 (the API then rejects those requests). Availability, provider support, and usage-credit billing are separate from the speed setting.
 
 ### Example: Using the Trinity
 
@@ -14639,8 +14656,8 @@ Run Claude Code without interactive prompts:
 # Basic headless execution
 claude -p "Run the tests and report results"
 
-# With timeout
-claude -p --timeout 300 "Build the project"
+# With a time limit (coreutils `timeout`; `claude -p` has no --timeout flag)
+timeout 300 claude -p "Build the project"
 
 # With specific model
 claude -p --model sonnet "Analyze code quality"
@@ -14812,7 +14829,7 @@ jobs:
 
 **Limitations**:
 
-- **Context size**: Large pipes may exceed token limits (monitor with `/status`)
+- **Context size**: Large pipes may exceed token limits (monitor with `/context`)
 - **Interactive prompts**: Use `-p` for automation to avoid blocking
 - **Error handling**: Pipe failures don't always propagate; add `set -e` for strict mode
 - **API costs**: Automated pipes consume API credits; monitor usage with `ccusage`
@@ -15523,8 +15540,8 @@ For terminal-native workflow:
 ```bash
 # Add to .bashrc or .zshrc
 alias cc='claude'
-alias ccp='claude --plan'
-alias cce='claude --execute'
+alias ccp='claude --permission-mode plan'
+alias cce='claude --permission-mode acceptEdits'
 
 # Quick code question
 cq() {
@@ -15542,8 +15559,8 @@ cq "What does this regex do: ^[a-z]+$"
 ```powershell
 # Add to $PROFILE (run: notepad $PROFILE to edit)
 function cc { claude $args }
-function ccp { claude --plan $args }
-function cce { claude --execute $args }
+function ccp { claude --permission-mode plan $args }
+function cce { claude --permission-mode acceptEdits $args }
 
 function cq {
     param([Parameter(ValueFromRemainingArguments)]$question)
@@ -16469,7 +16486,7 @@ Learn from common mistakes to avoid frustration and maximize productivity.
 
 - Store secrets in environment variables or secure vaults
 - Start from minimal permissions and expand gradually as needed
-- Audit regularly with `claude config list` to review active permissions
+- Audit regularly with `/permissions` (or `/config`) to review active permissions
 - Isolate risky operations in containers, VMs, or separate environments
 - Use `.gitignore` to exclude sensitive configuration files
 - Review all diffs before accepting changes, especially in security-critical code
@@ -16483,10 +16500,10 @@ Learn from common mistakes to avoid frustration and maximize productivity.
 # .claude/hooks/PreToolUse.sh - Block secrets in commits
 
 INPUT=$(cat)
-TOOL_NAME=$(echo "$INPUT" | jq -r '.tool.name')
+TOOL_NAME=$(echo "$INPUT" | jq -r '.tool_name')
 
 if [[ "$TOOL_NAME" == "Bash" ]]; then
-    COMMAND=$(echo "$INPUT" | jq -r '.tool.input.command')
+    COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command')
 
     # Block git commits with potential secrets
     if [[ "$COMMAND" == *"git commit"* ]] || [[ "$COMMAND" == *"git add"* ]]; then
@@ -16524,7 +16541,7 @@ exit 0  # Allow
 - Re-enable thinking summaries if needed: add `"showThinkingSummaries": true` to settings.json (off by default in interactive sessions since v2.1.89)
 - Use `/compact` proactively when context reaches 70%
 - Block sensitive files with `permissions.deny` in settings.json
-- Monitor cost with `/status` and adjust model/thinking levels accordingly
+- Monitor cost with `/usage` and adjust model/thinking levels accordingly
 - Cache expensive computations in memory with Serena MCP
 
 **Context Management Strategy:**
@@ -16638,7 +16655,7 @@ VERIFY:
 ```gitignore
 # Claude Code - personal
 .claude/settings.local.json
-.claude/CLAUDE.md
+CLAUDE.local.md
 .claude/.serena/
 
 # Claude Code - Team (committed)
@@ -16710,7 +16727,7 @@ class UserManager {
 
 - Use Opus for simple tasks that Sonnet can handle
 - Use deep thinking prompts for every task by default
-- Ignore the cost metrics in `/status`
+- Ignore the cost metrics in `/usage`
 - Use MCP servers that make external API calls excessively
 - Load entire codebase for focused tasks
 - Re-analyze unchanged code repeatedly
@@ -16722,7 +16739,7 @@ class UserManager {
   - Haiku: Code review, simple fixes
   - Sonnet: Most development tasks
   - Opus: Architecture, complex debugging
-- Monitor cost with `/status` regularly
+- Monitor cost with `/usage` regularly
 - Set budget alerts if using API directly
 - Use Serena memory to avoid re-analyzing code
 - Use context caching with `/compact`
@@ -17382,12 +17399,14 @@ This replaces the earlier pattern of manually passing `isolation: "worktree"` to
 
 #### Custom VCS setup with hook events (v2.1.50+)
 
-Two new hook events fire around agent worktree lifecycle:
+Two hook events fire around the worktree lifecycle:
 
 | Event | Fires | Use case |
 |-------|-------|----------|
-| `WorktreeCreate` | When an agent worktree is created | Set up DB branch, copy .env, install deps |
-| `WorktreeRemove` | When an agent worktree is torn down | Clean up DB branch, delete temp credentials |
+| `WorktreeCreate` | When a worktree is created; replaces the default git behavior and must return the path | Custom VCS (SVN, Perforce), copy .env, install deps |
+| `WorktreeRemove` | When a worktree created by a `WorktreeCreate` hook is removed | Delete the directory and any branch the create hook made |
+
+A `WorktreeCreate` hook **replaces** Claude Code's default `git worktree` behavior (use it for SVN, Perforce, Mercurial). It must return the path of the directory it created. The hook receives JSON on stdin with the worktree `name` (a slug such as `bold-oak-a3f2`); there is no `$CLAUDE_WORKTREE_PATH` variable. A command hook prints the absolute path as the last non-empty line of stdout and sends any other output to stderr; an HTTP hook returns `hookSpecificOutput.worktreePath`. If the hook fails or returns no path, worktree creation fails. Because the default behavior is replaced, `.worktreeinclude` is not processed: copy `.env` files inside your script.
 
 ```json
 // .claude/settings.json
@@ -17395,22 +17414,20 @@ Two new hook events fire around agent worktree lifecycle:
   "hooks": {
     "WorktreeCreate": [
       {
-        "matcher": "",
         "hooks": [
           {
             "type": "command",
-            "command": "scripts/worktree-setup.sh $CLAUDE_WORKTREE_PATH"
+            "command": "bash -c 'NAME=$(jq -r .name); DIR=\"$HOME/.claude/worktrees/$NAME\"; svn checkout https://svn.example.com/repo/trunk \"$DIR\" >&2 && echo \"$DIR\"'"
           }
         ]
       }
     ],
     "WorktreeRemove": [
       {
-        "matcher": "",
         "hooks": [
           {
             "type": "command",
-            "command": "scripts/worktree-teardown.sh $CLAUDE_WORKTREE_PATH"
+            "command": "bash -c 'p=$(jq -er .worktree_path) && rm -rf -- \"$p\"'"
           }
         ]
       }
@@ -17419,7 +17436,7 @@ Two new hook events fire around agent worktree lifecycle:
 }
 ```
 
-Typical `worktree-setup.sh`: create a Neon/PlanetScale DB branch, copy `.env.local`, run `npm install`.
+`WorktreeRemove` receives the path your create hook returned as `worktree_path` on stdin. It runs on session exit, `ExitWorktree`, or deleting a background session, but not when a subagent finishes (Claude Code keeps that worktree). Claude Code never deletes branches of hook-created worktrees, so delete any branch your create hook made inside the remove hook. To set up a Neon/PlanetScale DB branch or install dependencies in a normal git worktree, do it in your own wrapper script instead: the hook above replaces the git step. Hooks do not fire for `git worktree add` run through Bash (use a `PreToolUse` hook on `Bash` for that).
 
 #### Enterprise config auditing with ConfigChange (v2.1.49+)
 
@@ -17448,8 +17465,8 @@ Example `audit-config-change.sh` (log + optionally block):
 
 ```bash
 #!/bin/bash
-# Receives JSON on stdin with changed config path
-CONFIG=$(cat | jq -r '.config_path // "unknown"')
+# Receives JSON on stdin with the changed config file path (file_path)
+CONFIG=$(cat | jq -r '.file_path // "unknown"')
 echo "[ConfigChange] $(date -u +%Y-%m-%dT%H:%M:%SZ) $CONFIG" >> ~/.claude/logs/config-audit.log
 # Exit 2 to block the change, exit 0 to allow it
 exit 0
@@ -17719,10 +17736,10 @@ Session loading and API billing are different events. Instructions can enter the
 
 ```bash
 # ❌ Wait until 90% context
-/status  # Context: 92% - Too late, degraded performance
+/context  # Context: 92% - Too late, degraded performance
 
 # ✅ Compact at 70%
-/status  # Context: 72%
+/context  # Context: 72%
 /compact  # Frees up context, maintains performance
 ```
 
@@ -18130,13 +18147,10 @@ Use both, but do not extrapolate the per-command figures to a session. No source
 
 ### Cost Tracking
 
-**Monitor cost with `/status`:**
+**Monitor cost with `/usage`:**
 
 ```bash
-/status
-
-# Output:
-Model: Sonnet | Ctx: 45.2k | Cost: $1.23 | Ctx(u): 42.0%
+/usage   # Session cost estimate, plan limits, per-model breakdown
 ```
 
 **Set budget alerts (API usage):**
@@ -18277,7 +18291,7 @@ Total: ~$0.08 per interaction
 
 ```markdown
 Daily practices:
-□ Use /status to monitor context and cost
+□ Use /context and /usage to monitor context and cost
 □ Compact at 70% context usage
 □ Close sessions after task completion
 □ Use `permissions.deny` to block sensitive files
@@ -18420,8 +18434,8 @@ The help article lists the credits eligible users would receive "if and when the
 | Plan | Planned monthly programmatic credit |
 |------|-------------------------------------|
 | Pro | $20 |
-| Max 5x | $100 |
-| Max 20x | $200 |
+| Max (formerly Max 5x) | $100 |
+| Ultra (formerly Max 20x) | $200 |
 | Team, Standard seats | $20 |
 | Team, Premium seats | $100 |
 | Enterprise, usage-based | $20 |
@@ -18557,7 +18571,7 @@ Six levers control LLM costs. Some are directly accessible within Claude Code; o
 | Output compression | Caveman skill (8.5% fewer output tokens on real coding tasks per JetBrains, larger on prose-only replies), RTK for CLI output | Prompt engineering, streaming response handling | §9.13 Caveman + RTK |
 | Model routing | `/model opusplan`, `model:` agent frontmatter, `haiku` for mechanical tasks | RouteLLM (85% fewer calls to top-tier model on MT-Bench, arXiv 2406.18665) | [§2.5 Model Selection](#25-model-selection--thinking-guide) |
 | Prompt caching | Automatic for stable context prefixes (Anthropic caches repeated prefixes transparently) | `cache_control` breakpoints in API requests; up to 90% savings on repeated context | [§2.2 Token Management](#22-context-management) |
-| Batch processing | Not available in interactive Claude Code sessions | Message Batches API: 50% cheaper, async, 24-hour window, up to 100 requests per batch | [core/architecture.md, Message Batches API](./core/architecture.md#message-batches-api) |
+| Batch processing | Not available in interactive Claude Code sessions | Message Batches API: 50% cheaper, async, 24-hour window, up to 100,000 requests or 256 MB per batch | [core/architecture.md, Message Batches API](./core/architecture.md#message-batches-api) |
 | Semantic pre-indexing | grepai MCP, lean-ctx, stacklit | Semble (CPU-only, no Ollama required, native MCP server) | mcp-servers-ecosystem.md, context-engineering-tools.md |
 
 **On model routing via the API**: RouteLLM (lm-sys, ICLR 2025, arXiv 2406.18665) trains a lightweight router that decides per-call whether to invoke a strong model or a cheaper one. On MT-Bench it achieves 85% cost reduction vs always-strong routing while matching 95% of strong-model performance. The technique applies to automated pipelines built on the Anthropic API, not to interactive Claude Code sessions.
@@ -18808,7 +18822,7 @@ Session teleportation allows migrating coding sessions between cloud (claude.ai/
 
 | Command | Usage |
 |---------|-------|
-| `%` or `&` prefix | Send task to cloud (e.g., `% Fix the auth bug`) |
+| `claude --cloud "<task>"` | Create a cloud session from the terminal (e.g., `claude --cloud "Fix the auth bug"`; `--remote` is a deprecated alias) |
 | `claude --teleport` | Interactive picker for available sessions |
 | `claude --teleport <id>` | Teleport specific session by ID |
 | `/teleport` | In-REPL command to teleport current session |
@@ -19441,7 +19455,7 @@ Multi-instance workflows have hard costs and soft overhead (coordination, superv
 - Input: $2/million tokens
 - Output: $10/million tokens
 - Estimate: 30k tokens/instance/day × 20 days
-- 5 devs × 2 instances × 600k tokens/month = ~$360/month
+- 5 devs × 2 instances × 600k tokens/month = 6M tokens, only about $12-60/month at these rates. The table above assumes far heavier agentic use (long contexts re-read on every turn), so read its figures as illustrative rather than derived from this estimate
 
 **OpusPlan optimization**: Use Opus for planning (10-20% of work), Sonnet for execution (80-90%). Reduces cost while maintaining quality.
 
@@ -21151,14 +21165,14 @@ class UserController {
 # .claude/hooks/PreToolUse.sh
 
 INPUT=$(cat)
-TOOL_NAME=$(echo "$INPUT" | jq -r '.tool.name')
+TOOL_NAME=$(echo "$INPUT" | jq -r '.tool_name')
 
 if [[ "$TOOL_NAME" == "Edit" ]] || [[ "$TOOL_NAME" == "Write" ]]; then
-  FILE_PATH=$(echo "$INPUT" | jq -r '.tool.input.file_path')
+  FILE_PATH=$(echo "$INPUT" | jq -r '.tool_input.file_path')
 
   # Block controllers calling repositories directly (layering violation)
   if [[ "$FILE_PATH" == *"/controllers/"* ]]; then
-    CONTENT=$(echo "$INPUT" | jq -r '.tool.input.new_string // .tool.input.content')
+    CONTENT=$(echo "$INPUT" | jq -r '.tool_input.new_string // .tool_input.content')
 
     if echo "$CONTENT" | grep -q "Repository\\."; then
       echo "❌ Layering violation: Controllers must call Services, not Repositories directly" >&2
@@ -22551,8 +22565,8 @@ It tells you where the code is, not what it does; no business rule gets extracte
 
 **Reading time**: 7 minutes
 **Skill level**: Week 2+
-**Status**: Research Preview (as of February 2026)
-**Availability**: Pro and Max plans only, not available on Team, Enterprise, or API keys
+**Status**: Launched as a Research Preview (February 2026); the current official Remote Control page carries no preview label
+**Availability**: Pro, Max, Ultra, Team, and Enterprise plans (API keys are not supported); on Team and Enterprise an Owner must first enable the Remote Control toggle in Claude Code admin settings
 
 Remote Control lets you monitor and control a local Claude Code session from a phone, tablet, or web browser, without migrating anything to the cloud. Your terminal keeps running locally; the mobile/web interface is a remote window onto that session.
 
@@ -22579,7 +22593,7 @@ Phone / tablet / browser (claude.ai/code or Claude app)
 
 **Requirements:**
 - Claude Code v2.1.51+
-- Active Pro or Max subscription (not Team/Enterprise)
+- Active Pro, Max, Ultra, Team, or Enterprise subscription (API keys are not supported; on Team and Enterprise an Owner must enable Remote Control first)
 - Logged in (`/login`)
 
 ### Two Ways to Start
@@ -22701,7 +22715,7 @@ This gives you persistent sessions that survive closing your laptop. Combine 6-8
 | Slash commands not working | Type them in your local terminal instead |
 | Session expired | Reconnect: run `/rc` again |
 | Corporate firewall blocking | HTTPS outbound (port 443) must be allowed |
-| "Not available" error | Verify Pro or Max subscription (not Team/Enterprise) |
+| "Not available" error | Verify a Pro, Max, Ultra, Team, or Enterprise subscription (not an API key); on Team/Enterprise, ask an Owner to enable Remote Control |
 
 > **Known bug (Research Preview, March 2026)**: On iOS (confirmed iPhone), scanning the QR code opens the Claude app but the remote session doesn't appear in the session list. The bug also affects automatic session discovery in the Claude mobile app. MacStories confirmed this is inconsistent on non-local machines.
 >
@@ -22745,8 +22759,8 @@ Before moving to Section 10 (Reference), verify you understand:
 
 **Advanced Workflows**:
 - [ ] **Session Teleportation**: Migrate sessions between cloud and local environments
-- [ ] **Remote Control**: Monitor/control local sessions from mobile or browser (Pro/Max/Team/Enterprise)
-- [ ] **Background Tasks**: Run tasks in cloud while working locally (`%` prefix)
+- [ ] **Remote Control**: Monitor/control local sessions from mobile or browser (Pro/Max/Ultra/Team/Enterprise)
+- [ ] **Background Tasks**: Run tasks in cloud while working locally (`claude --cloud`)
 - [ ] **Multi-Instance Scaling**: Understand when/how to orchestrate parallel Claude instances (advanced teams only)
 - [ ] **Agent Teams**: Multi-agent coordination for read-heavy tasks (experimental, model selected per teammate)
 - [ ] **Permutation Frameworks**: Systematically test multiple approaches before committing
@@ -23750,7 +23764,7 @@ Notation: `<arg>` is required, `[arg]` is optional, aliases follow the command i
 |---------|--------|
 | `/model [model]` | Switch model and save it as the default. Left/right arrows adjust effort. Press `s` on a row for session-only |
 | `/effort [level\|auto\|status\|ultracode [on\|off]]` | Set effort: `low`, `medium`, `high`, `xhigh`, `max`, or `auto`; `status` prints it. `max` is session-only; `auto` clears the saved model level. `ultracode` enables dynamic workflows at `xhigh` for the session, and `ultracode on\|off` needs v2.1.284+ |
-| `/fast [on\|off]` | Toggle fast mode (same model, faster output, higher price) |
+| `/fast [on\|off]` | Toggle fast mode (same model, faster output, higher price). Available on Fable 5.2 and Opus 5.5; Opus 4.8 fast mode is removed on November 30, 2026 |
 | `/plan [description]` | Enter plan mode, optionally with the task to start on |
 | `/goal [condition\|clear]` | Set a completion condition. Claude works across turns until an evaluator confirms it, with a live overlay showing elapsed time, turns, and tokens (v2.1.139+) |
 | `/advisor [model\|off]` | Enable the advisor tool: a second model consulted for guidance at key moments. Accepts `fable` when available, `opus`, `sonnet`, or a model ID |
@@ -23780,7 +23794,7 @@ Notation: `<arg>` is required, `[arg]` is optional, aliases follow the command i
 | `/diff` | Interactive viewer for uncommitted changes and per-turn diffs |
 | `/code-review [low\|medium\|high\|xhigh\|max\|ultra] [--fix] [--comment] [--max-findings n\|all\|default] [target]` | **Bundled skill.** Review the diff for correctness bugs and cleanups. `--fix` applies findings, `--comment` posts them on the GitHub PR or GitLab merge request (GitLab: v2.1.257+), `ultra` runs the cloud review. `--max-findings` caps or lifts the number of findings until you pass `default` (v2.1.288). Runs as a background subagent since v2.1.218 |
 | `/review [level] [--fix] [--comment] [target]` | Alias of `/code-review` since v2.1.223; accepts the same targets, effort levels, and flags |
-| `/ultrareview [PR or branch]` | Deep multi-agent cloud review. Now an alias of `/code-review ultra`. 3 free runs on Pro and Max, then usage credits |
+| `/ultrareview [PR or branch]` | Deep multi-agent cloud review. Now an alias of `/code-review ultra`. 3 free runs on Pro, Max, and Ultra, then usage credits |
 | `/security-review` | Analyze the branch diff against origin's default branch for injection, auth, and data-exposure risks. Needs an `origin` remote |
 | `/simplify [target]` | **Bundled skill.** Four parallel agents review the changed code for reuse, simplification, efficiency, and altitude, then apply fixes. Since v2.1.154 it no longer hunts correctness bugs, that is `/code-review` |
 | `/verify` | **Bundled skill**, runs only when invoked. Confirm a change works by building the app, running it, and observing the result instead of trusting tests (v2.1.145+) |
@@ -23832,7 +23846,7 @@ Notation: `<arg>` is required, `[arg]` is optional, aliases follow the command i
 |---------|--------|
 | `/theme` | Change the color theme: auto, light, dark, daltonized, ANSI, or custom themes from `~/.claude/themes/` |
 | `/color [color\|default]` | Set the prompt bar color for the session. No argument picks one at random |
-| `/tui [default\|fullscreen]` | Set the terminal renderer and relaunch into it with the conversation intact |
+| `/tui [classic\|fullscreen]` | Set the terminal renderer and relaunch into it with the conversation intact |
 | `/focus` | Toggle focus view: last prompt, a one-line tool-call summary with diffstats, final response. Fullscreen only |
 | `/scroll-speed` | Interactive slider for mouse wheel speed, with a scrollable ruler for live preview. Fullscreen only, not in the JetBrains terminal |
 | `/voice [hold\|tap\|off]` | Toggle voice dictation or set its mode. Requires a claude.ai account |
@@ -24299,19 +24313,19 @@ Use this symptom-based guide for rapid issue identification and resolution:
 | Symptom | Likely Cause | Quick Fix | Prevention |
 |---------|--------------|-----------|------------|
 | "Context too long" error | Session accumulated too much context | `/compact` first, then `/clear` if needed | Compact regularly at 70% |
-| Slow/delayed responses | High context usage (>75%) | Check `/status`, run `/compact` | Monitor context with `/status` |
+| Slow/delayed responses | High context usage (>75%) | Check `/context`, run `/compact` | Monitor context with `/context` |
 | "Rate limit exceeded" | API throttling from frequent requests | Wait 2 minutes, use `--model haiku` for simple tasks, or use [cc-copilot-bridge](https://ccbridge.bruniaux.com/) for flat-rate access | Batch operations, use `/compact`, consider Copilot Pro |
 | Claude forgets instructions | Context overflow, CLAUDE.md lost | Create checkpoint, `/clear`, reload CLAUDE.md | Keep CLAUDE.md concise (<500 lines) |
 | MCP server not connecting | Server crashed or config error | `claude mcp list`, check paths, restart server | Test servers after config changes |
-| Permission prompts every time | Tool not in `allowedTools` | Add pattern to `settings.json` allowedTools | Use wildcards: `Bash(git *)` |
+| Permission prompts every time | Tool not in `permissions.allow` | Add pattern to `permissions.allow` in `settings.json` (or run `/permissions`) | Use wildcards: `Bash(git *)` |
 | Changes not taking effect | Cached configuration | Restart Claude Code session | Use `/exit` before config changes |
 | Session won't resume | Corrupted session file | Start fresh with `/clear` | Exit cleanly with `/exit` or `Ctrl+D` |
 
 **Quick Diagnosis Flow:**
-1. Check context: `/status` → If >70%, run `/compact`
+1. Check context: `/context` → If >70%, run `/compact`
 2. Check connectivity: Try simple command → If fails, check network
 3. Check configuration: `claude mcp list` → Verify MCP servers
-4. Check permissions: Review error message → Add to allowedTools if needed
+4. Check permissions: Review error message → Add to `permissions.allow` if needed
 5. Still failing: `/doctor` → Run diagnostics and verify system health
 
 ### Common Issues Reference
@@ -24535,13 +24549,13 @@ serena list-memories
 ```json
 // ❌ Wrong - too specific
 {
-  "allowedTools": ["Bash(npm test)"]
+  "permissions": { "allow": ["Bash(npm test)"] }
 }
 // This ONLY allows exactly "npm test"
 
 // ✅ Right - use wildcards
 {
-  "allowedTools": ["Bash(npm *)"]
+  "permissions": { "allow": ["Bash(npm *)"] }
 }
 // This allows any npm command
 ```
@@ -24550,17 +24564,19 @@ serena list-memories
 
 ```json
 {
-  "allowedTools": [
-    "Bash(git *)",           // All git commands
-    "Bash(npm *)",           // All npm commands
-    "Bash(pytest *)",        // All pytest commands
-    "Edit",                  // All file edits
-    "Write",                 // All file writes
-    "Read",                  // All file reads
-    "mcp__serena__*",        // All Serena tools
-    "mcp__context7__*",      // All Context7 tools
-    "Task"                   // Allow agent delegation
-  ]
+  "permissions": {
+    "allow": [
+      "Bash(git *)",           // All git commands
+      "Bash(npm *)",           // All npm commands
+      "Bash(pytest *)",        // All pytest commands
+      "Edit",                  // All file edits
+      "Write",                 // All file writes
+      "Read",                  // All file reads
+      "mcp__serena__*",        // All Serena tools
+      "mcp__context7__*",      // All Context7 tools
+      "Task"                   // Allow agent delegation
+    ]
+  }
 }
 ```
 
@@ -24681,7 +24697,7 @@ Get the scripts from:
 ║  ESSENTIAL COMMANDS                                      ║
 ║  ─────────────────                                       ║
 ║  /help      Show commands     /clear    Fresh start      ║
-║  /status    Session info      /compact  Save context     ║
+║  /context   Context usage     /compact  Save context     ║
 ║  /plan      Safe mode         /rewind   Undo changes     ║
 ║  /exit      Quit              Ctrl+C    Cancel           ║
 ║                                                          ║
@@ -24757,7 +24773,7 @@ Get the scripts from:
 │  MORNING (Setup)                                            │
 │  ───────────────                                            │
 │  □ Git pull latest changes                                  │
-│  □ Review context with /status                              │
+│  □ Review context with /context                              │
 │  □ Load project memory (/sc:load if using Serena)           │
 │  □ Review yesterday's progress                              │
 │                                                             │
@@ -24931,7 +24947,7 @@ exit 0
 #!/bin/bash
 CONTEXT="[Custom context here]"
 cat << EOF
-{"hookSpecificOutput":{"additionalContext":"$CONTEXT"}}
+{"hookSpecificOutput":{"hookEventName":"UserPromptSubmit","additionalContext":"$CONTEXT"}}
 EOF
 exit 0
 ```
@@ -24944,7 +24960,7 @@ exit 0
     "PreToolUse": [
       {
         "matcher": "Bash",
-        "hooks": [{"type": "command", "command": ".claude/hooks/security.sh", "timeout": 5000}]
+        "hooks": [{"type": "command", "command": ".claude/hooks/security.sh", "timeout": 5}]
       }
     ],
     "PostToolUse": [
@@ -25362,7 +25378,7 @@ claude
 1. **Use Haiku** for simple tasks (`/model haiku`)
 2. **Batch research** in Perplexity Deep Research sessions
 3. **Use free tiers**: NotebookLM, Kimi, Gemini Flash are free
-4. **Check context** regularly (`/status`) to avoid waste
+4. **Check context** regularly (`/context`) to avoid waste
 5. **Use Opus sparingly** - reserve for architectural decisions
 
 ---
@@ -25729,7 +25745,7 @@ Get-Content "$env:APPDATA\Claude\logs\mcp*.log" -Wait -Tail 50
 | **Claude config file** | `~/.claude.json` |
 | **Log files** | `~/Library/Logs/Claude/` |
 | **MCP config** | `~/.claude.json` (`mcpServers` field) |
-| **Session data** | `~/.claude/local/` |
+| **Session data** | `~/.claude/projects/` (session transcripts) |
 | **Downloads/cache** | `~/.claude/downloads/` |
 
 **Quick Access:**
@@ -25756,7 +25772,7 @@ tail -f ~/Library/Logs/Claude/mcp*.log
 | **Claude config file** | `~/.claude.json` |
 | **Log files** | `~/.local/share/claude/logs/` or `~/.cache/claude/logs/` |
 | **MCP config** | `~/.claude.json` (`mcpServers` field) |
-| **Session data** | `~/.claude/local/` |
+| **Session data** | `~/.claude/projects/` (session transcripts) |
 | **Downloads/cache** | `~/.claude/downloads/` |
 
 **Quick Access:**
@@ -25845,9 +25861,8 @@ Add these to your project's `.gitignore`:
 ```gitignore
 # Claude Code - personal/local
 .claude/settings.local.json
-.claude/CLAUDE.md
+CLAUDE.local.md
 .claude/.serena/
-.claude/local/
 
 # Claude Code - Team (DO commit these)
 # .claude/agents/
@@ -25884,7 +25899,7 @@ Thumbs.db
 | **Primary audience** | Software developers, DevOps, tech leads | Everyone (personal assistants, smart home, knowledge workers) |
 | **Core use case** | Software development (code generation, refactoring, debugging, architecture) | Personal automation, task management, smart home control, 24/7 assistance |
 | **Access model** | Local terminal session, requires being at computer or SSH | Remote access via messaging apps from any device (phone, watch, tablet) |
-| **Installation** | `npm install -g claude-code` (simple CLI install) | Self-hosted (Docker/VPS ~$5/month + LLM API costs) |
+| **Installation** | `curl -fsSL https://claude.ai/install.sh \| bash` (native installer) | Self-hosted (Docker/VPS ~$5/month + LLM API costs) |
 | **Architecture** | CLI tool + MCP servers + hooks/skills/agents system | Agent + Gateway + Skills + Memory (4-component architecture) |
 | **Smart home** | Not covered (development-focused) | ✅ Native Home Assistant integration, monitoring, automation |
 | **Code development** | ✅ Core use case (pair programming, code review, refactoring) | Possible but not the primary focus |
@@ -26117,7 +26132,7 @@ You → Coordinate next steps
 | Learning curve (first week) | Moderate | Varies | Depends on tool |
 
 **The truth**: Claude Code is **powerful and efficient**, but claims of "100x faster" are marketing hyperbole. Real advantage comes from:
-- Deep context window (200K tokens)
+- Deep context window (up to 1M tokens on current models)
 - Smart sub-agent system (prevents context pollution)
 - MCP ecosystem (specialized tools)
 - Strong system prompts (high-quality outputs)
@@ -26133,7 +26148,7 @@ You → Coordinate next steps
 3. **MCP Ecosystem**: 100+ community servers for specialized tasks
 4. **Permission System**: Granular control over tool access and dangerous operations
 5. **CLI-First Design**: Terminal integration, git workflows, IDE compatibility
-6. **Transparent Pricing**: Pay-as-you-go, no subscriptions, predictable costs
+6. **Transparent Pricing**: Subscription plans (Pro, Max, Ultra, Team, Enterprise) or pay-as-you-go API billing; check `/usage` for costs and limits
 7. **Active Development**: Weekly releases with community-driven features
 
 **Sources**: All claims verifiable in [official documentation](https://code.claude.com/docs) and [CHANGELOG](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md).

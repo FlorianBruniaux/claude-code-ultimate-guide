@@ -33,8 +33,8 @@ machine-readable/         # For LLM consumption
 └── llms.txt              # AI indexation file
 
 whitepapers/              # Focused whitepapers (FR + EN)
-├── fr/                   # 10 source files in French (.qmd)
-└── en/                   # 10 translated files in English (.qmd)
+├── fr/                   # 13 numbered whitepapers in French (.qmd), plus cheatsheets and extra sources
+└── en/                   # 13 numbered whitepapers in English (.qmd), plus cheatsheets
 # Published at: https://cc.bruniaux.com/whitepapers/
 
 tools/                    # Interactive utilities
@@ -42,7 +42,7 @@ tools/                    # Interactive utilities
 └── onboarding-prompt.md  # Personalized learning prompt
 
 docs/                     # Public documentation (tracked)
-└── resource-evaluations/ # External resource evaluations (167 files)
+└── resource-evaluations/ # External resource evaluations (218 entries)
 
 claudedocs/               # Claude working documents (gitignored)
 ├── resource-evaluations/ # Research working docs (prompts, private audits)
@@ -53,7 +53,7 @@ claudedocs/               # Claude working documents (gitignored)
 
 | File | Purpose |
 |------|---------|
-| `VERSION` | Single source of truth for version (currently 3.41.3) |
+| `VERSION` | Single source of truth for version (currently 3.46.0) |
 | `guide/ultimate-guide.md` | The main reference (search here first) |
 | `guide/cheatsheet.md` | Quick reference for daily use |
 | `machine-readable/reference.yaml` | LLM-optimized index with line numbers |
@@ -132,7 +132,7 @@ Implicit prefixes used in `.claude/commands/`:
 
 | Prefix | Pattern | Examples |
 |--------|---------|---------|
-| `audit-*` | Quality checks with scored output | `audit-agents-skills`, `audit-deps` |
+| `audit-*` | Quality checks with scored output | `audit-agents-skills`, `audit-whitepapers` |
 | `update-*` | Sync or refresh data from external source | `update-infos-release`, `update-threat-db` |
 | `security-*` | Security scans, ascending depth | `security-check` (quick), `security-audit` (full) |
 | *(no prefix)* | Core guide workflow commands | `release`, `sync`, `version`, `changelog` |
@@ -223,7 +223,7 @@ Sync workflow, trigger conditions, guide reader rebuild, RSS feed, sitemap, and 
 
 @docs/workflows/landing-sync.md
 
-## Ecosystem (4 Repositories)
+## Ecosystem (6 Repositories)
 
 Architecture, repo details, cross-repo sync triggers, relations between repos, and history:
 
@@ -258,7 +258,7 @@ External resources (articles, videos, discussions) are evaluated before integrat
 
 | Location | Content | Tracking |
 |----------|---------|----------|
-| `docs/resource-evaluations/` | Final evaluations (167 files) | ✅ Git tracked (public) |
+| `docs/resource-evaluations/` | Final evaluations (218 entries) | ✅ Git tracked (public) |
 | `claudedocs/resource-evaluations/` | Working docs, prompts, private audits | ❌ Gitignored (private) |
 
 ### Scoring Grid

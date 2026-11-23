@@ -8,7 +8,7 @@ tags: [reference, security, debugging]
 
 This document tracks verified, critical issues affecting Claude Code users based on community reports and official communications.
 
-> **Last Updated**: April 23, 2026
+> **Last Updated**: November 23, 2026
 > **Source**: [GitHub Issues](https://github.com/anthropics/claude-code/issues) + [Anthropic Official Communications](https://www.anthropic.com/engineering)
 
 See also: [Claude Code Releases](claude-code-releases.md) for the version history behind these issues, and [Production Safety Rules](../security/production-safety.md) for guardrails that reduce exposure to related incidents in production.
@@ -20,10 +20,10 @@ See also: [Claude Code Releases](claude-code-releases.md) for the version histor
 ### 0. Prompt cache bugs: Silent cost inflation (mar 2026 - present)
 
 **Severity**: 🔴 **HIGH - COST IMPACT**
-**Status**: ⚠️ PARTIALLY FIXED (Bug 3 and Bug 2 still active as of v2.1.88)
+**Status**: ⚠️ PARTIALLY FIXED (Bug 2 fixed in v2.1.90 and v2.1.97; Bug 3 and Bug 1 not re-verified against newer releases as of November 23, 2026)
 **Issue**: [#40524](https://github.com/anthropics/claude-code/issues/40524)
 **First Reported**: March 2026
-**Affected Versions**: v2.1.69+ (Bugs 2 & 3), v2.1.36+ standalone binary (Bug 1)
+**Affected Versions**: v2.1.69 to v2.1.89 (Bug 2, fixed in v2.1.90), v2.1.69+ (Bug 3), v2.1.36+ standalone binary (Bug 1)
 
 #### Problem
 
@@ -31,40 +31,16 @@ Three independent bugs break Anthropic's prefix-based prompt caching, causing `c
 (full token cost) instead of `cache_read` (discounted). Measured cost impact depends on usage pattern:
 
 - **Bug 3 alone (attribution header)**: 2-5x inflation on the ~12K-token system prompt per session start and per subagent call
-- **Bug 2 active (resume + 10+ skills)**: per-resume rebuild of 87-118K tokens; sessions with 3-4 resumes measured at **4.3-34.6% cache read ratio** (vs 95-99% healthy), translating to **10-20x cost per turn** in the worst sessions
+- **Bug 2 (resume + 10+ skills, fixed in v2.1.90)**: per-resume rebuild of 87-118K tokens; sessions with 3-4 resumes measured at **4.3-34.6% cache read ratio** (vs 95-99% healthy), translating to **10-20x cost per turn** in the worst sessions
 - **Combined effect**: 48% → 99.98% cache hit ratio improvement confirmed with workarounds applied (community measurement, CC#40524)
 
 > **Basis**: Confirmed via community reverse-engineering (CC#40524), source code analysis of the
 > leaked npm sourcemap, and independent session JSONL analysis (ArkNill, April 2026). Anthropic shipped
-> a partial fix in v2.1.88 (tool schema bytes). Bugs 2 and 3 remain unpatched.
+> a partial fix in v2.1.88 (tool schema bytes) and fixed the `--resume` cache miss (Bug 2) in v2.1.90 and v2.1.97.
 
-#### Bug 2: Full cache rebuild on --resume / --continue (v2.1.69+), HIGH IMPACT
+#### Bug 2: Full cache rebuild on --resume / --continue (v2.1.69+): fixed
 
-**Root cause**: The session JSONL writer strips `deferred_tools_delta` attachment records before
-writing to disk. On `--resume`, those records are gone, so the deferred tools layer has no prior
-announcement history and re-announces all tools from scratch. This shifts every message position in
-the restored conversation, breaking the messages-level cache prefix entirely.
-
-**Concrete evidence** (from community session JSONL analysis, sessions with 14 skills):
-
-| Entry | cache_read | cache_creation | Event |
-|-------|-----------|----------------|-------|
-| 102 | 84,164 | 174 | Normal turn |
-| 103 | 0 | 87,176 | **Resume: full rebuild** |
-| 105 | 87,176 | 561 | Recovered |
-| 166 | 115,989 | 221 | Normal turn |
-| 167 | 0 | 118,523 | **Resume: full rebuild** |
-
-Each resume = 87-118K tokens rebuilt as `cache_creation` instead of `cache_read`. 3-4 resumes per
-session = 300-400K tokens of avoidable cost. Impact scales with number of skills/deferred tools:
-users with 10+ skills (common in framework setups) see the full 0% cache ratio on every resume.
-
-**Workaround**: Avoid `--resume` and `--continue` until a fix ships. Start fresh sessions.
-Downgrade option: `npm install -g @anthropic-ai/claude-code@2.1.68` (last version before regression).
-Anthropic is tracking this internally (referenced in source telemetry as `inc-4747`).
-
-**Engineering fix**: preserve `deferred_tools_delta` and `mcp_instructions_delta` records when
-writing session JSONL, so resume can compute the delta correctly instead of re-announcing everything.
+Fixed in v2.1.90 (`--resume` full prompt-cache miss on the first request for users with deferred tools, MCP servers, or custom agents, regression since v2.1.69) and v2.1.97 (`--resume` cache misses from attachment messages not saved to the transcript). Details and the original analysis moved to [Resolved historical issues](#-resolved-historical-issues). If you are on a version older than v2.1.90, upgrade instead of avoiding `--resume`.
 
 #### Bug 3: Attribution Header (low-to-medium impact, v2.1.69+)
 
@@ -128,14 +104,14 @@ Community tools for monitoring:
 - The previously listed `cc-diag` repository is unavailable. Use the JSONL inspection method above.
 - [`claude-code-router`](https://github.com/musistudio/claude-code-router): transparent proxy with logging
 
-Community patch (applies both Bug 1 and Bug 2 fixes):
+Community patch (written before the v2.1.90 fix; the Bug 2 part is no longer needed on current versions):
 - [`cc-cache-fix`](https://github.com/Rangizingo/cc-cache-fix): community-developed patch + test toolkit
 
 #### Official response
 
-Partial fix in v2.1.88 (tool schema bytes). Bugs 2 and 3 confirmed still active.
+Partial fix in v2.1.88 (tool schema bytes). Bug 2 (`--resume` cache miss) fixed in v2.1.90 and v2.1.97. Bug 3 and Bug 1: no fix found in the release notes checked on November 23, 2026; treat as unverified rather than confirmed active.
 
-**Tracking**: [Issue #40524](https://github.com/anthropics/claude-code/issues/40524) (open since March 2026)
+**Tracking**: [Issue #40524](https://github.com/anthropics/claude-code/issues/40524) (opened March 2026; current state not re-checked)
 
 **Related issues**: [#40652](https://github.com/anthropics/claude-code/issues/40652) (cch= billing hash) · [#41663](https://github.com/anthropics/claude-code/issues/41663) (cache token consumption) · [#41607](https://github.com/anthropics/claude-code/issues/41607) (duplicate compaction subagents) · [#41767](https://github.com/anthropics/claude-code/issues/41767) (auto-compact loops v2.1.89) · [#41750](https://github.com/anthropics/claude-code/issues/41750) (context management fires every turn)
 
@@ -292,8 +268,9 @@ While Anthropic investigates:
 
 3. **Disable auto-compact** (may help):
    ```bash
-   claude config set autoCompaction false
+   export DISABLE_AUTO_COMPACT=1
    ```
+   Or turn off the **Auto-compact** toggle in `/config` (saved as `autoCompactEnabled`). `DISABLE_AUTO_COMPACT=1` overrides the setting.
 
 4. **Reduce MCP tools** if not needed:
    - Review `~/.claude.json` (field `"mcpServers"`)
@@ -301,7 +278,7 @@ While Anthropic investigates:
 
 5. **Use subagents** for isolated tasks:
    - Subagents have separate context windows
-   - Use Task tool for complex operations
+   - Use the Agent tool for complex operations
 
 6. **Track your usage patterns**:
    - Compare before/after version upgrades
@@ -319,6 +296,13 @@ If experiencing excessive consumption:
 ---
 
 ## ✅ Resolved historical issues
+
+### Prompt cache miss on `--resume` / `--continue` (Mar-Apr 2026, fixed v2.1.90 and v2.1.97)
+
+**Symptom**: Each `--resume` or `--continue` rebuilt the full prompt cache (87-118K tokens as `cache_creation` instead of `cache_read` in community measurements), regression since v2.1.69 for users with deferred tools, MCP servers, or custom agents.
+**Root cause** (community analysis, CC#40524): the session JSONL writer stripped `deferred_tools_delta` attachment records, so on resume the deferred tools layer re-announced every tool and shifted the cached message prefix.
+**Resolution**: v2.1.90 "Fixed `--resume` causing a full prompt-cache miss on the first request for users with deferred tools, MCP servers, or custom agents (regression since v2.1.69)". v2.1.97 added "Fixed `--resume` cache misses and lost mid-turn input from attachment messages not being saved to the transcript" (Claude Code CHANGELOG).
+**Advice**: the old workaround (avoid `--resume`, downgrade to 2.1.68) is obsolete. Upgrade to a current version.
 
 ### Triple harness incident: Effort, thinking tokens, verbosity (mar-apr 2026)
 
@@ -472,6 +456,8 @@ Users sometimes report shorter responses, more conservative suggestions, or unex
 ---
 
 ## 📊 Issue statistics (as of Jan 28, 2026)
+
+> These counts are a January 28, 2026 snapshot and have not been refreshed.
 
 | Metric | Count | Source |
 |--------|-------|--------|

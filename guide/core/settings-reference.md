@@ -65,7 +65,7 @@ JSON Schema URL for IDE validation and autocomplete. Add `"https://json.schemast
 **Scope:** all
 **Default:** `"default"`
 
-Override the default model for all sessions. Accepts aliases (`"sonnet"`, `"opus"`, `"haiku"`, `"opusplan"`) or full model IDs like `"claude-sonnet-4-6"`. The `ANTHROPIC_MODEL` environment variable takes precedence.
+Override the default model for all sessions. Accepts aliases (`"sonnet"`, `"opus"`, `"haiku"`, `"opusplan"`) or full model IDs like `"claude-sonnet-5-5"`. The `ANTHROPIC_MODEL` environment variable takes precedence.
 
 ```json
 { "model": "opus" }
@@ -107,9 +107,9 @@ Release channel to follow. `"stable"` is typically about one week behind `"lates
 #### `alwaysThinkingEnabled`
 **Type:** boolean
 **Scope:** all
-**Default:** `false`
+**Default:** unset (thinking is on for models that support it)
 
-Enable extended thinking by default for all sessions. Usually configured via `/config` rather than editing directly.
+Set to `false` to turn extended thinking off for every session; `true` changes nothing because thinking is already on. `false` has no effect on models that always think (Opus 5.5, Sonnet 5.5, Haiku 5.5, the Fable models). `MAX_THINKING_TOKENS` overrides it for one session. Usually configured via `/config` rather than editing directly.
 
 #### `includeGitInstructions`
 **Type:** boolean
@@ -842,7 +842,7 @@ Per-plugin MCP server configurations, keyed by `plugin@marketplace`.
 **Scope:** all
 **Values:** `"low"` | `"medium"` | `"high"` | `"xhigh"`
 
-Fallback effort for a model without a saved choice. Defaults depend on the model: Opus 5.5, Sonnet 5.5 and Haiku 5.5 use `medium`; Fable 5.1 uses `high`. The legacy Haiku 4.5 has no effort parameter. Opus 5.5 ignores this legacy key in user settings, but explicit project, local, managed, and `--settings` values still apply.
+Fallback effort for a model without a saved choice. Defaults depend on the model: Opus 5.5, Sonnet 5.5 and Haiku 5.5 use `medium`; Fable 5.2 uses `medium`; other models without a listed default use `high`; Opus 4.7 uses `xhigh`. The legacy Haiku 4.5 has no effort parameter. Opus 5.5 ignores this legacy key in user settings, but explicit project, local, managed, and `--settings` values still apply.
 
 #### `modelSettings`
 **Type:** object
@@ -889,8 +889,8 @@ Map Anthropic model IDs to provider-specific model IDs (e.g., Bedrock inference 
 | `"sonnet"` | Sonnet 5.5 on the Anthropic API; cloud-provider aliases may resolve to 4.6 or 4.5 |
 | `"opus"` | Opus 5.5 on most providers; Opus 4.6 on Foundry |
 | `"haiku"` | Haiku 5.5 on the Anthropic API (Claude Code v2.1.293+); Haiku 4.5 on cloud providers |
-| `"fable"` | Fable 5.1 where available; Fable 5 through the Claude apps gateway |
-| `"best"` | Fable where available, otherwise Opus |
+| `"fable"` | Fable 5.2 (`claude-fable-5-2`, v2.1.321+); Fable 5 through the Claude apps gateway |
+| `"best"` | Same model as `opus` (v2.1.321+; earlier versions used the model `fable` resolves to) |
 | `"sonnet[1m]"` | Sonnet with 1M token context |
 | `"opusplan"` | Opus for planning, Sonnet for execution |
 
@@ -1196,7 +1196,7 @@ Set in your shell before launching `claude`, or configure under the `env` key in
 | `ANTHROPIC_DEFAULT_SONNET_MODEL_NAME` | Display name for the Sonnet model override |
 | `ANTHROPIC_DEFAULT_SONNET_MODEL_DESCRIPTION` | Description for the Sonnet model override |
 | `ANTHROPIC_DEFAULT_SONNET_MODEL_SUPPORTED_CAPABILITIES` | Capabilities for the Sonnet model override |
-| `ANTHROPIC_DEFAULT_OPUS_MODEL` | Override the Opus model alias (e.g. `claude-opus-4-6[1m]`) |
+| `ANTHROPIC_DEFAULT_OPUS_MODEL` | Override the Opus model alias (e.g. `claude-opus-5-5`) |
 | `ANTHROPIC_DEFAULT_OPUS_MODEL_NAME` | Display name for the Opus model override |
 | `ANTHROPIC_DEFAULT_OPUS_MODEL_DESCRIPTION` | Description for the Opus model override |
 | `ANTHROPIC_DEFAULT_OPUS_MODEL_SUPPORTED_CAPABILITIES` | Capabilities for the Opus model override |
@@ -1405,7 +1405,8 @@ Standard OTEL exporter variables (`OTEL_METRICS_EXPORTER`, `OTEL_LOGS_EXPORTER`,
 | `CLAUDE_CODE_DISABLE_POLICY_SKILLS` | Set to `1` to skip loading skills from the system-wide managed skills directory |
 | `CLAUDE_CODE_DISABLE_OFFICIAL_MARKETPLACE_AUTOINSTALL` | Set to `1` to skip automatic addition of the official plugin marketplace on first run |
 | `CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION` | Set to `false` to disable prompt suggestions in the input area |
-| `CLAUDE_CODE_ENABLE_TASKS` | As of v2.1.142, Task tools are the default. Set to `0` to revert to `TodoWrite` |
+| `CLAUDE_CODE_ENABLE_TASKS` | Selects the task-tracking tools: the Task tools (`TaskCreate`, `TaskGet`, `TaskUpdate`, `TaskList`) by default, or `0` for the legacy `TodoWrite`. Only applies where the tools are provided (see `CLAUDE_CODE_ENABLE_TODO_TOOLS`) |
+| `CLAUDE_CODE_ENABLE_TODO_TOOLS` | Set to `1` to get the task-tracking tools on every model (v2.1.233+). Without it they are provided by default only on Opus 4.7, Sonnet 4.6, Haiku 4.5 and earlier models, and left out on newer ones such as Opus 5.5 and Sonnet 5.5 |
 | `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS` | Enable experimental agent teams feature (`1` to enable) |
 | `ENABLE_CLAUDEAI_MCP_SERVERS` | Set to `false` to disable Claude.ai MCP servers (enabled by default for logged-in users) |
 | `CLAUDE_CODE_USE_POWERSHELL_TOOL` | Control the PowerShell tool. Auto-enabled on Windows without Git Bash. Set `0` to disable, `1` to opt in |
@@ -1740,6 +1741,7 @@ These variables appear in the [official environment variable list](https://code.
 | `VERTEX_REGION_CLAUDE_5_SONNET` | Override region for Claude Sonnet 5 when using Google Cloud's Agent Platform. |
 | `VERTEX_REGION_CLAUDE_FABLE_5` | Override region for Claude Fable 5 when using Google Cloud's Agent Platform. |
 | `VERTEX_REGION_CLAUDE_FABLE_5_1` | Override region for Claude Fable 5.1 when using Google Cloud's Agent Platform. |
+| `VERTEX_REGION_CLAUDE_FABLE_5_2` | Override region for Claude Fable 5.2 when using Google Cloud's Agent Platform. |
 | `VERTEX_REGION_CLAUDE_HAIKU_5_5` | Override region for Claude Haiku 5.5 when using Google Cloud's Agent Platform. |
 
 ## Complete example
@@ -1751,7 +1753,7 @@ These variables appear in the [official environment variable list](https://code.
   "language": "english",
   "cleanupPeriodDays": 30,
   "autoUpdatesChannel": "stable",
-  "alwaysThinkingEnabled": false,
+  "alwaysThinkingEnabled": true,
   "includeGitInstructions": true,
   "effortLevel": "medium",
   "plansDirectory": "./plans",

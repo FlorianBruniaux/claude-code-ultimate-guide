@@ -140,7 +140,7 @@ WP[XX] ✅ — [N] sections, +[X]% FR/EN
 
 ### Shutdown
 
-Quand tous les agents ont terminé, envoyer shutdown_request à chacun, puis TeamDelete.
+Quand tous les agents ont terminé, envoyer shutdown_request à chacun. Aucune équipe à supprimer : TeamDelete a été retiré en v2.1.178 et l'équipe implicite se termine avec la session.
 
 ## Vérification Post-Enrichissement
 
