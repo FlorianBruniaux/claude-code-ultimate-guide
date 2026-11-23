@@ -8,6 +8,7 @@
     <td>
       <strong><a href="https://www.florian.bruniaux.com/about/?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=claude-code-ultimate-guide">Florian BRUNIAUX</a></strong> &middot; Hands-on Fractional Chief AI Officer (CAIO)<br />
       Around 15 years in software, including 8 to 10 in technical leadership &middot; <a href="https://www.florian.bruniaux.com/blog/?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=claude-code-ultimate-guide">Blog &#8599;</a> &middot; <a href="https://www.florian.bruniaux.com/projects/?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=claude-code-ultimate-guide">Projects &#8599;</a>
+      <br /><strong><a href="https://clauders.com/leaders/florian-bruniaux/">Official Claude Community Ambassador &middot; Paris &#8599;</a></strong>
     </td>
   </tr>
 </table>
