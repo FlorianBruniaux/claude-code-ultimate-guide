@@ -2643,7 +2643,7 @@ The critical addition is per-section merge rules in `update`:
 
 The append-only Work Done section creates an audit trail across sessions. Even if earlier work was revised, the revision appears as a new entry rather than an overwrite.
 
-Fork-ready templates at `examples/commands/handoff/` in this repo.
+Fork-ready templates at `examples/skills/handoff-create/`, `handoff-resume/` and `handoff-update/` in this repo.
 
 > Pattern inspired by [Packmind's handoff command triad](https://github.com/PackmindHub/packmind) (Apache 2.0). See [Credits](./core/credits.md).
 
@@ -5458,10 +5458,9 @@ CLAUDE.local.md            # Personal instructions (add to .gitignore)
 ```bash
 git add .claude/settings.json      # Team hooks/permissions
 git add .claude/agents/            # Custom agents
-git add .claude/commands/          # Slash commands
 git add .claude/hooks/             # Automation scripts
 git add .claude/rules/             # Team conventions
-git add .claude/skills/            # Knowledge modules
+git add .claude/skills/            # Skills and slash commands
 ```
 
 #### Version control for global config (~/.claude/)
@@ -9414,7 +9413,7 @@ Use the `/routines-discover` command to run this analysis against any codebase: 
 /routines-discover
 ```
 
-Template: `examples/commands/routines-discover.md`
+Template: `examples/skills/routines-discover/SKILL.md`
 
 #### Desktop Scheduled Tasks
 
@@ -9615,7 +9614,7 @@ If any checkpoint fails, stop and explain why.
 
 The checklist forces explicit precondition verification rather than letting Claude discover failures mid-execution. A failed checkpoint produces a clear error with a fixable reason; a mid-step failure produces a partial state that is harder to recover from.
 
-Fork-ready template at `examples/commands/recipe-template.md` in this repo.
+Fork-ready template at `examples/skills/recipe-template/SKILL.md` in this repo.
 
 > Pattern from [Packmind command files](https://github.com/PackmindHub/packmind) (Apache 2.0). See [Credits](./core/credits.md).
 
@@ -14963,7 +14962,7 @@ Before creating a PR, ensure all local checks pass. This prevents wasted CI cycl
 Build ✓ → Lint ✓ → Test ✓ → Type-check ✓ → THEN create PR
 ```
 
-**Implementation as a command** (`.claude/commands/complete-task.md`):
+**Implementation as a command** (`.claude/skills/complete-task/SKILL.md`):
 
 ```markdown
 # Complete task
@@ -15061,7 +15060,7 @@ Automate release notes and changelog generation using Claude Code.
 
 #### Approach 1: Command-Based
 
-Create `.claude/commands/release-notes.md`:
+Create `.claude/skills/release-notes/SKILL.md`:
 
 ```markdown
 # Generate release notes
@@ -16430,7 +16429,7 @@ rule            │
 
 | Problem | Solution | Where to Add |
 |---------|----------|--------------|
-| Agent forgets to run tests | Add to workflow command | `.claude/commands/complete-task.md` |
+| Agent forgets to run tests | Add to workflow command | `.claude/skills/complete-task/SKILL.md` |
 | Code review catches style issue | Add ESLint rule | `.eslintrc.js` |
 | Same architecture mistake repeated | Document decision | `docs/conventions/architecture.md` |
 | Agent uses wrong import pattern | Add example | `CLAUDE.md` |
@@ -16629,7 +16628,7 @@ VERIFY:
 - Document team-wide conventions in project `CLAUDE.md` (committed)
 - Share useful agents/skills via team repository or wiki
 - Test hooks in isolation before committing
-- Maintain README for `.claude/agents/` and `.claude/commands/`
+- Maintain README for `.claude/agents/` and `.claude/skills/`
 - Coordinate Claude Code updates and test compatibility
 - Use consistent naming conventions for custom components
 - Share useful prompts and patterns in team knowledge base
@@ -16644,7 +16643,7 @@ VERIFY:
 
 # Claude Code - Team (committed)
 # .claude/agents/
-# .claude/commands/
+# .claude/skills/
 # .claude/hooks/
 # .claude/settings.json
 
@@ -17325,10 +17324,10 @@ git worktree remove --force .worktrees/old-feature
 **Resources:**
 - [Git Worktree Documentation](https://git-scm.com/docs/git-worktree)
 - Worktree lifecycle commands:
-  - [`examples/commands/git-worktree.md`](../examples/commands/git-worktree.md): Create
-  - [`examples/commands/git-worktree-status.md`](../examples/commands/git-worktree-status.md): Status
-  - [`examples/commands/git-worktree-remove.md`](../examples/commands/git-worktree-remove.md): Remove
-  - [`examples/commands/git-worktree-clean.md`](../examples/commands/git-worktree-clean.md): Clean
+  - [`examples/skills/git-worktree/SKILL.md`](../examples/skills/git-worktree/SKILL.md): Create
+  - [`examples/skills/git-worktree-status/SKILL.md`](../examples/skills/git-worktree-status/SKILL.md): Status
+  - [`examples/skills/git-worktree-remove/SKILL.md`](../examples/skills/git-worktree-remove/SKILL.md): Remove
+  - [`examples/skills/git-worktree-clean/SKILL.md`](../examples/skills/git-worktree-clean/SKILL.md): Clean
 
 ### Claude Code Native Worktree Features (v2.1.49–v2.1.50)
 
@@ -18074,7 +18073,7 @@ Never read a file end-to-end when exploring. Structure first, drill second.
 brew install tree-sitter
 
 # Use the extract-signatures script
-# → Template: examples/skills/smart-explore.md (Approach B section)
+# → Template: examples/skills/smart-explore/SKILL.md (Approach B section)
 python3 ~/.claude/scripts/extract-signatures.py src/
 
 # Sample output for a 500-line Rust file:
@@ -18125,7 +18124,7 @@ Use both, but do not extrapolate the per-command figures to a session. No source
 
 **See also:**
 
-- Skill template: `examples/skills/smart-explore.md`
+- Skill template: `examples/skills/smart-explore/SKILL.md`
 - Evaluation: `docs/resource-evaluations/tree-sitter-progressive-code-exploration.md`
 - Reference implementation: https://aider.chat/docs/repomap.html
 
@@ -19192,7 +19191,7 @@ Multi-instance workflows **REQUIRE** git worktrees to avoid conflicts. Without w
 ```
 
 **See also**:
-- Command: [/git-worktree](../examples/commands/git-worktree.md)
+- Command: [/git-worktree](../examples/skills/git-worktree/SKILL.md)
 - Workflow: [Database Branch Setup](../examples/workflows/database-branch-setup.md)
 
 ---
@@ -19731,7 +19730,7 @@ New feature request
 - [Headless PM framework (GitHub)](https://github.com/madviking/headless-pm)
 
 **Related guides**:
-- [Git worktrees command](../examples/commands/git-worktree.md)
+- [Git worktrees command](../examples/skills/git-worktree/SKILL.md)
 - [Database branch setup workflow](../examples/workflows/database-branch-setup.md)
 - [Session observability](./ops/observability.md)
 - [Cost optimization](#913-cost-optimization-strategies)
@@ -24291,7 +24290,7 @@ claude -r abc123 -p "summarize progress"
 
 ## 10.4 Troubleshooting
 
-> **Interactive Troubleshooting**: Use the `/diagnose` command for guided, interactive problem-solving. It auto-scans your environment and provides targeted solutions. See [examples/commands/diagnose.md](../examples/commands/diagnose.md).
+> **Interactive Troubleshooting**: Use the `/diagnose` command for guided, interactive problem-solving. It auto-scans your environment and provides targeted solutions. See [examples/skills/diagnose/SKILL.md](../examples/skills/diagnose/SKILL.md).
 
 ### Quick Diagnostic Guide
 
@@ -24325,7 +24324,7 @@ Use this symptom-based guide for rapid issue identification and resolution:
 | Hook not running | Registration error | Check `settings.json` matcher |
 | MCP tool not found | Server not running | Check `mcp.json` config |
 | Agent not found | File naming | Check `.claude/agents/` |
-| Command not found | Path error | Check `.claude/commands/` |
+| Command not found | Path error | Check `.claude/skills/<name>/SKILL.md` (legacy: `.claude/commands/`) |
 | Unexpected API charges despite active subscription | `ANTHROPIC_API_KEY` set in shell or `.env` bypasses subscription | Run `echo $ANTHROPIC_API_KEY`: if it returns a value, Claude Code is billing at API rates. Unset it from your shell profile to restore subscription billing. Run `claude /cost` to check spend in the current session. |
 
 ### Context Recovery
@@ -25786,7 +25785,7 @@ These are the same across all platforms:
 | `.claude/settings.json` | Project root | Hook configuration | ✅ Yes |
 | `.claude/settings.local.json` | Project root | Personal permissions | ❌ No |
 | `.claude/agents/` | Project root | Custom agents | ✅ Yes (team) |
-| `.claude/commands/` | Project root | Custom commands | ✅ Yes (team) |
+| `.claude/commands/` | Project root | Legacy custom commands (still load; write new ones as skills) | ✅ Yes (team) |
 | `.claude/hooks/` | Project root | Event hooks | ✅ Yes (team) |
 | `.claude/skills/` | Project root | Knowledge modules | ✅ Yes (team) |
 | `.claude/rules/` | Project root | Auto-load rules | ✅ Yes (team) |
@@ -25852,7 +25851,6 @@ Add these to your project's `.gitignore`:
 
 # Claude Code - Team (DO commit these)
 # .claude/agents/
-# .claude/commands/
 # .claude/hooks/
 # .claude/skills/
 # .claude/settings.json

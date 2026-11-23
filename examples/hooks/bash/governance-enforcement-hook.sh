@@ -14,16 +14,19 @@
 #   Then add to ~/.claude/settings.json:
 #   {
 #     "hooks": {
-#       "SessionStart": ["~/.claude/hooks/governance-enforcement-hook.sh"]
+#       "SessionStart": [{
+#         "matcher": "startup",
+#         "hooks": [{ "type": "command", "command": "~/.claude/hooks/governance-enforcement-hook.sh" }]
+#       }]
 #     }
 #   }
 #
-# Or in project .claude/settings.json:
-#   {
-#     "hooks": {
-#       "SessionStart": [".claude/hooks/governance-enforcement-hook.sh"]
-#     }
-#   }
+# Or in project .claude/settings.json, with the command
+#   "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/governance-enforcement-hook.sh"
+#
+# Output: findings are returned as one `systemMessage` JSON object, which Claude
+# Code shows to the user. stderr is not used: a hook that exits 0 never shows its
+# stderr to anyone.
 
 set -euo pipefail
 
@@ -35,8 +38,15 @@ PROJECT_SETTINGS="${PWD}/.claude/settings.json"
 # Helpers
 # ─────────────────────────────────────────────────────────────────
 
-warn() { echo "GOVERNANCE WARNING: $*" >&2; }
-info() { echo "GOVERNANCE: $*" >&2; }
+MESSAGES=()
+warn() { MESSAGES+=("GOVERNANCE WARNING: $*"); }
+info() { MESSAGES+=("GOVERNANCE: $*"); }
+
+# Emit every collected message as a single systemMessage (shown to the user)
+flush_messages() {
+  [[ ${#MESSAGES[@]} -eq 0 ]] && return 0
+  printf '%s\n' "${MESSAGES[@]}" | jq -Rs '{systemMessage: .}'
+}
 
 has_command() { command -v "$1" &>/dev/null; }
 
@@ -66,9 +76,10 @@ check_project_config() {
       grep -iE '(env|secret|credential|password|token|key)' || true)
     if [[ -n "$dangerous_allows" ]]; then
       warn "DANGEROUS: permissions.allow contains sensitive patterns:"
-      echo "$dangerous_allows" | while read -r line; do
+      # Here-string, not a pipe: a pipe runs the loop in a subshell and loses MESSAGES
+      while read -r line; do
         warn "  Allowed: $line"
-      done
+      done <<< "$dangerous_allows"
     fi
   fi
 }
@@ -146,7 +157,7 @@ check_data_classification() {
   local found_sensitive=()
 
   for pattern in "${sensitive_patterns[@]}"; do
-    if compgen -G "${PWD}/${pattern}" &>/dev/null 2>/dev/null; then
+    if compgen -G "${PWD}/${pattern}" &>/dev/null; then
       found_sensitive+=("$pattern")
     fi
   done
@@ -168,6 +179,7 @@ main() {
   check_project_config
   check_mcp_registry
   check_data_classification
+  flush_messages
 
   # Always exit 0 — governance hook warns but does not block session start
   # Blocking at SessionStart creates too much friction; use periodic audits instead

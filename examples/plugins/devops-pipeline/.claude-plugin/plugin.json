@@ -1,0 +1,16 @@
+{
+  "name": "devops-pipeline",
+  "displayName": "DevOps Pipeline",
+  "version": "1.1.0",
+  "description": "Ship and deploy skills, a devops-sre agent, and a Claude Code review GitHub Actions workflow.",
+  "license": "CC-BY-SA-4.0",
+  "keywords": ["devops", "ci-cd", "deployment"],
+  "metadata": {
+    "components": {
+      "agents": ["devops-sre"],
+      "skills": ["ship", "land-and-deploy"],
+      "github_actions": ["claude-code-review"]
+    },
+    "install": "bash install.sh copies the components from examples/ into .claude/ and .github/workflows/"
+  }
+}

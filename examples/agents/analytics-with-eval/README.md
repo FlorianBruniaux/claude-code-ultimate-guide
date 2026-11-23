@@ -54,16 +54,22 @@ Add to `.claude/settings.json`:
 ```json
 {
   "hooks": {
-    "postToolUse": [
+    "SubagentStop": [
       {
-        "command": ".claude/hooks/post-response-metrics.sh",
-        "enabled": true,
-        "description": "Log analytics agent metrics"
+        "matcher": "analytics-agent",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/post-response-metrics.sh"
+          }
+        ]
       }
     ]
   }
 }
 ```
+
+`SubagentStop` fires when a subagent finishes and matches on the agent type. The hook receives JSON on stdin, including `agent_type` and `last_assistant_message`. It needs `jq`.
 
 ### 4. Create logs directory
 
@@ -88,8 +94,8 @@ mkdir -p /path/to/project/.claude/logs
 # View raw metrics log
 cat .claude/logs/analytics-metrics.jsonl
 
-# Run analysis
-./examples/agents/analytics-with-eval/eval/metrics.sh
+# Run analysis (optional arguments: log file, then start date)
+./examples/agents/analytics-with-eval/eval/metrics.sh .claude/logs/analytics-metrics.jsonl 2026-02-01
 ```
 
 ### Generate monthly report
@@ -154,7 +160,7 @@ Recommendations:
 
 ### Modify safety checks
 
-Edit `hooks/post-response-metrics.sh` line 12-16:
+Edit the destructive-operation check in `hooks/post-response-metrics.sh`:
 
 ```bash
 # Add more patterns
@@ -168,16 +174,14 @@ fi
 Extend the JSON log structure:
 
 ```bash
-echo "{
-  \"timestamp\":\"$(date -Iseconds)\",
-  \"query\":\"$QUERY\",
-  \"your_metric\":\"$VALUE\"
-}" >> .claude/logs/analytics-metrics.jsonl
+# Add a field to the jq object that builds LOG_ENTRY
+--arg your_metric "$VALUE" \
+'{timestamp: $timestamp, query: $query, your_metric: $your_metric}'
 ```
 
 ### Change log location
 
-Update `POST_RESPONSE_LOG` variable in hook script.
+Set the `CLAUDE_LOGS_DIR` environment variable, or edit `LOG_FILE` in the hook script.
 
 ---
 
@@ -188,13 +192,13 @@ Update `POST_RESPONSE_LOG` variable in hook script.
 **Check**:
 1. Hook is executable: `ls -l .claude/hooks/*.sh`
 2. Hook is enabled in settings.json
-3. Agent name matches: `analytics-agent` (hyphenated)
+3. The `SubagentStop` matcher equals the agent `name`: `analytics-agent` (hyphenated)
 
 **Debug**:
 ```bash
-# Test hook manually
-export CLAUDE_RESPONSE='{"content":"SELECT * FROM users;"}'
-./.claude/hooks/post-response-metrics.sh
+# Test hook manually with a SubagentStop payload
+echo '{"agent_type":"analytics-agent","last_assistant_message":"```sql\nSELECT 1;\n```"}' \
+  | ./.claude/hooks/post-response-metrics.sh
 ```
 
 ### No metrics in log
@@ -216,9 +220,8 @@ export CLAUDE_RESPONSE='{"content":"SELECT * FROM users;"}'
 
 ### Performance
 
-- Hook adds ~50ms overhead per response
-- Log file grows ~200 bytes per query
-- Rotate logs monthly to prevent bloat
+- The hook runs once per subagent run, not per tool call
+- The log grows by one JSON line per query: rotate it periodically
 
 ### Privacy
 
@@ -244,6 +247,6 @@ export CLAUDE_RESPONSE='{"content":"SELECT * FROM users;"}'
 
 ## License
 
-Same as parent repository (MIT)
+Same as the parent repository (see the LICENSE file at the repository root)
 
 **Questions?** Open an issue or discussion in the main repository.

@@ -1,6 +1,7 @@
 ---
 name: learning-path
-description: Run the local Claude Code learning path, record evidence, and schedule evidence-based reviews.
+description: "Run the local Claude Code learning path: pick a track, record evidence for each completed module, and schedule evidence-based reviews. Use when the user wants to follow the guide's learning path, see the next module, check progress, or list due reviews. Not for the quick skill diagnostic (use self-assessment)."
+effort: low
 ---
 
 # Claude Code learning path

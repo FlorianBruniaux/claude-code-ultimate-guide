@@ -2,11 +2,11 @@
 title: "Customizing Claude"
 subtitle: "CLAUDE.md, Agents, Skills: Your Tailor-Made Assistant"
 author: "Florian BRUNIAUX"
-date: "2026-10-27"
+date: "2026-11-23"
 date-format: "MMMM YYYY"
 version: "3.44.1"
 guide-version: "3.44.1"
-wp-version: "1.5.6"
+wp-version: "1.5.7"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -1103,7 +1103,7 @@ If $ARGUMENTS == "big" or none: Full 4-axis review
 
 This command combines Plan Mode + structured review, ideal before any architectural change.
 
-> 📖 **Go further:** [§6 Commands](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#6-commands) : slash commands, parameters | [28 command templates](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/tree/main/examples/commands/)
+> 📖 **Go further:** [§6 Commands](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#6-commands) : slash commands, parameters | [skill templates, including slash commands](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/tree/main/examples/skills/)
 
 {{< pagebreak >}}
 

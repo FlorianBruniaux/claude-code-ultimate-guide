@@ -2,6 +2,7 @@
 name: planner
 description: Strategic planning agent — read-only exploration before implementation. Use to decompose tasks, analyze codebases, and produce a detailed plan. Never modifies files.
 model: opus
+effort: high
 tools: Read, Grep, Glob
 ---
 
@@ -56,6 +57,8 @@ Read-only strategic planning. Analyzes the codebase, identifies dependencies, an
 ## Model rationale
 
 Opus is used here for its reasoning depth during planning. Planning errors compound — a wrong architecture decision in the plan propagates through all implementation steps. Sonnet or Haiku handle execution after the plan is validated.
+
+`effort: high` sits above the Opus 5.5 default of `medium` because a planning mistake is paid for in every later step. Remove the field to follow the session level.
 
 ---
 

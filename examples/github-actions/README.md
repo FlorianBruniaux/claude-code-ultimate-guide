@@ -67,7 +67,7 @@ For PRs above a file-count threshold (default 75), a single review pass either t
 
 **Features:**
 - `check-size` job counts changed files and gates the rest of the workflow on the threshold
-- Matrix `review-batch` job: one parallel run per domain, scoped via `append_system_prompt`
+- Matrix `review-batch` job: one parallel run per domain, scoped through the `prompt` text
 - `synthesis` job merges all batch comments into a single deduplicated table
 - Same prompt file as the non-batched workflow (`.github/prompts/code-review.md`), no duplicated review criteria to maintain
 
@@ -109,14 +109,11 @@ cp examples/github-actions/claude-pr-auto-review.yml .github/workflows/
 ```
 
 **Customization:**
-Add project-specific context by uncommenting the `append_system_prompt` section:
+Add project-specific context in `CLAUDE.md` (Claude reads it on every run), or pass `--append-system-prompt` in `claude_args`:
 ```yaml
-append_system_prompt: |
-  Project conventions:
-  - Use TypeScript strict mode
-  - Follow functional programming patterns
-  - All functions must have JSDoc comments
-  - Test coverage must be >80%
+claude_args: >-
+  --model claude-sonnet-5
+  --append-system-prompt "Use TypeScript strict mode. All functions need JSDoc."
 ```
 
 ---
@@ -136,7 +133,7 @@ Runs a focused security scan and comments findings directly on the PR.
 # Optional parameters in the workflow file:
 exclude-directories: "docs,examples"    # Skip certain directories
 claudecode-timeout: "20"                # Timeout in minutes
-claude-model: "claude-3-5-sonnet-20240620"  # Model to use
+claude-model: "claude-sonnet-5-5"          # Model to use
 ```
 
 **Usage:**
@@ -253,7 +250,7 @@ Two problems show up once a repo has real traffic: PRs that touch dozens of file
 
 **Large PRs**: switch to `claude-code-review-batched.yml` above a file-count threshold (see workflow 2). Splitting the diff by domain keeps each batch focused instead of asking one pass to hold the whole PR in context.
 
-**Repeated pushes**: re-reviewing the full diff on every push burns tokens on code Claude already checked. A delta-review step compares the SHA embedded in the previous review comment (post it as an HTML comment, e.g. `<!-- reviewed-sha: abc123 -->`) against the current push's SHA, and scopes the next review to only the files changed since. This repo does not ship that step as a ready-made template since it depends on how you're already tracking review state (a bot comment, a label, a separate check run); the pattern is: read the last marker, diff `git diff <last-sha>..HEAD --name-only`, pass that file list into `append_system_prompt` the same way the batched workflow scopes by domain.
+**Repeated pushes**: re-reviewing the full diff on every push burns tokens on code Claude already checked. A delta-review step compares the SHA embedded in the previous review comment (post it as an HTML comment, e.g. `<!-- reviewed-sha: abc123 -->`) against the current push's SHA, and scopes the next review to only the files changed since. This repo does not ship that step as a ready-made template since it depends on how you're already tracking review state (a bot comment, a label, a separate check run); the pattern is: read the last marker, diff `git diff <last-sha>..HEAD --name-only`, pass that file list into the `prompt` text the same way the batched workflow scopes by domain.
 
 ### Files in this directory
 
@@ -279,10 +276,12 @@ examples/github-actions/
 ## Customization
 
 ### Model selection
-Set `CLAUDE_MODEL` or `claude-model` parameter in workflows:
+In `claude-code-action` workflows, pass `--model` in `claude_args`. Without it, the action uses the Claude Code default model. The issue-triage workflow calls the API directly and reads `CLAUDE_MODEL`; the security-review action takes a `claude-model` input:
 ```yaml
+claude_args: "--model claude-sonnet-5"
+# issue triage only:
 env:
-  CLAUDE_MODEL: claude-3-5-sonnet-20240620
+  CLAUDE_MODEL: claude-sonnet-5-5
 ```
 
 ### Permissions
@@ -329,9 +328,9 @@ Run multiple workflows together for comprehensive automation:
 - Issue Triage + Auto-labeling for new issues
 
 ### Custom prompts
-Edit the `direct_prompt` section in workflows to customize Claude's focus:
+Edit the `prompt` input in workflows to customize Claude's focus (`direct_prompt` was the beta-era name):
 ```yaml
-direct_prompt: |
+prompt: |
   Review this PR focusing on:
   1. TypeScript type safety
   2. React performance patterns
@@ -353,7 +352,7 @@ jobs:
     needs: tests  # Run after tests pass
     runs-on: ubuntu-latest
     steps:
-      - uses: anthropics/claude-code-action@main
+      - uses: anthropics/claude-code-action@v1
         # ...
 ```
 

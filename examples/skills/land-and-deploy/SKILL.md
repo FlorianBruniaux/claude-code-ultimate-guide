@@ -1,7 +1,7 @@
 ---
 name: land-and-deploy
-description: Merge PR, wait for CI, verify deploy, run canary. The complete landing pipeline.
-argument-hint: "[--skip-checks] [--env staging|production]"
+description: "Merge the current PR after a readiness gate, wait for CI and the deploy, then run a production health check. Use after /ship has created the PR and the user wants it landed."
+argument-hint: "[pr-number] [production-url]"
 effort: high
 disable-model-invocation: true
 ---
@@ -10,7 +10,7 @@ disable-model-invocation: true
 
 Complete landing pipeline: merge the PR, wait for CI, verify the deployment, run a health check.
 
-Picks up where `/ship` left off. `/ship` creates the PR. This command merges it and verifies production.
+Picks up where `/ship` left off. `/ship` creates the PR. This skill merges it and verifies production.
 
 **Non-interactive by default.** The user said "land it", so land it. Stop only for the critical readiness gate and hard blockers.
 
@@ -38,7 +38,7 @@ gh pr view --json number,state,title,url,mergeStateStatus,mergeable,baseRefName,
 
 ```bash
 # Check current CI status
-gh pr checks --json name,state,status,conclusion
+gh pr checks --json name,state,bucket,workflow
 
 # Check for merge conflicts
 gh pr view --json mergeable -q .mergeable
@@ -147,11 +147,10 @@ If the user chooses B, list exactly what needs to be done and stop.
 ### Step 4: Merge the PR
 
 ```bash
-# Merge (auto-detect method from repo settings, delete branch after)
-gh pr merge --auto --delete-branch
+# Merge with an explicit method (non-interactive gh needs one unless a merge queue applies)
+gh pr merge --squash --delete-branch
 
-# Fallback if auto-merge is not enabled
-# gh pr merge --squash --delete-branch
+# Alternatives: --merge or --rebase per repo policy; add --auto to merge once required checks pass
 ```
 
 Record the merge commit SHA and timestamp.
@@ -335,7 +334,7 @@ VERDICT: DEPLOYED AND VERIFIED / DEPLOYED (UNVERIFIED) / REVERTED
 After the deploy report, suggest relevant next steps:
 
 - If production URL was verified: "Run `/canary <url>` for extended 10-minute monitoring."
-- If new features were shipped: "Run `/document-release` to update project docs."
+- If new features were shipped: suggest updating the changelog and project docs.
 
 ---
 
@@ -357,7 +356,7 @@ After the deploy report, suggest relevant next steps:
 /land-and-deploy 123 https://app.example.com        # PR number + verification URL
 ```
 
-## Related commands
+## Related skills
 
 - `/ship`: run this first to create the PR
 - `/canary`: extended post-deploy monitoring loop

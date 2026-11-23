@@ -387,7 +387,7 @@ cmd_preview() {
                 ;;
             models)
                 echo "${DIM}Model Usage${RESET}         Reqs    Input    Output"
-                printf "${CYAN}%-20s${RESET} %4d   %7s   %6s\n" "claude-opus-4-6" 59 "93K" "628"
+                printf "${CYAN}%-20s${RESET} %4d   %7s   %6s\n" "claude-opus-5-5" 59 "93K" "628"
                 ;;
             cache)
                 echo "Cache: 85% hit rate (3.9M read / 322K created)"
@@ -461,14 +461,15 @@ cmd_install() {
     local hook_session_end='{
         "hooks": [{
             "type": "command",
-            "command": "~/.claude/hooks/session-summary.sh"
+            "command": "~/.claude/hooks/session-summary.sh",
+            "timeout": 15
         }]
     }'
     local hook_session_start='{
         "hooks": [{
             "type": "command",
             "command": "~/.claude/hooks/rtk-baseline.sh",
-            "timeout": 5000
+            "timeout": 5
         }]
     }'
 

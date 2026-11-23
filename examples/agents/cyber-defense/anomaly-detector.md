@@ -2,7 +2,7 @@
 name: anomaly-detector
 description: Detect statistical anomalies and attack patterns from structured security events. Second stage of the cyber defense pipeline — reads cyber-defense-events.json and produces anomalies.
 model: sonnet
-tools: Read
+tools: Read, Write
 ---
 
 # Anomaly detector agent

@@ -1,7 +1,3 @@
----
-description: "Session invariant template - hard constraints, quality thresholds, and anti-patterns that Claude must respect throughout a session"
----
-
 # First principles: Session invariants
 
 This is a template for the "Contract" layer of your Claude Code rules. These are constraints that must hold true for the entire session, regardless of which task is active or how much context has accumulated.
@@ -126,21 +122,23 @@ Three practical strategies to keep these invariants effective across long sessio
 
 2. **Use rules files for domain-specific constraints**: Put testing thresholds in `.claude/rules/testing.md`, security rules in `.claude/rules/security.md`. They load with CLAUDE.md but keep each file focused.
 
-3. **LEARNINGS.md hook pattern**: Configure a hook that injects accumulated session learnings into sub-agents, so constraints discovered mid-session propagate to delegated work:
+3. **LEARNINGS.md hook pattern**: Configure a `SubagentStart` hook that injects accumulated session learnings into every subagent, so constraints discovered mid-session propagate to delegated work. A `SubagentStart` hook cannot block the subagent, but its `additionalContext` is added to the subagent's context before its first prompt:
 
 ```json
 // .claude/settings.json (hooks section)
 {
   "hooks": {
-    "PreToolUse": [{
-      "matcher": "Task",
-      "command": "cat .claude/LEARNINGS.md 2>/dev/null || true"
+    "SubagentStart": [{
+      "hooks": [{
+        "type": "command",
+        "command": "jq -Rs '{hookSpecificOutput: {hookEventName: \"SubagentStart\", additionalContext: .}}' .claude/LEARNINGS.md 2>/dev/null || true"
+      }]
     }]
   }
 }
 ```
 
-This ensures that when Claude spawns sub-agents via the Task tool, they receive the same session-specific learnings and constraints.
+This ensures that when Claude spawns subagents with the `Agent` tool, they receive the same session-specific learnings and constraints.
 
 ---
 

@@ -1,13 +1,13 @@
 ---
 name: ship
 description: Comprehensive pre-deployment verification to ensure release readiness
-argument-hint: "[--no-push] [--changelog-only] [--dry-run]"
+argument-hint: "[--production | --quick | --target=staging]"
 effort: medium
-when_to_use: "Use when ready to stage, commit, and push the current work."
+when_to_use: "Use before a production or staging deploy to run the readiness checklist. It reports only; it does not commit or push."
 disable-model-invocation: true
 ---
 
-# Ship command - pre-deploy checklist
+# Ship skill - pre-deploy checklist
 
 Comprehensive pre-deployment verification to ensure release readiness.
 
@@ -37,7 +37,7 @@ npm run lint 2>/dev/null || npx eslint .
 npm run build 2>/dev/null || pnpm build 2>/dev/null
 
 # 4. No secrets in code
-grep -rn "API_KEY=\|SECRET=\|PASSWORD=" --include="*.{ts,js,json}" . 2>/dev/null | grep -v node_modules | grep -v ".env.example"
+grep -rn "API_KEY=\|SECRET=\|PASSWORD=" --include="*.ts" --include="*.js" --include="*.json" . 2>/dev/null | grep -v node_modules | grep -v ".env.example"
 ```
 
 ### 🟠 High priority (should pass)
@@ -47,10 +47,10 @@ grep -rn "API_KEY=\|SECRET=\|PASSWORD=" --include="*.{ts,js,json}" . 2>/dev/null
 npm audit --audit-level=high 2>/dev/null || echo "Run manually: npm audit"
 
 # 6. No console.log in production code
-grep -rn "console\.log\|console\.debug" --include="*.{ts,js,tsx,jsx}" src/ 2>/dev/null | grep -v "// allowed" | head -10
+grep -rn "console\.log\|console\.debug" --include="*.ts" --include="*.js" --include="*.tsx" --include="*.jsx" src/ 2>/dev/null | grep -v "// allowed" | head -10
 
 # 7. No TODO/FIXME in critical paths
-grep -rn "TODO\|FIXME\|XXX\|HACK" --include="*.{ts,js}" src/ 2>/dev/null | head -10
+grep -rn "TODO\|FIXME\|XXX\|HACK" --include="*.ts" --include="*.js" src/ 2>/dev/null | head -10
 
 # 8. Database migrations ready
 [ -d "prisma/migrations" ] && echo "Prisma migrations: $(ls prisma/migrations | wc -l) total"
@@ -138,7 +138,7 @@ Overall:        [READY TO SHIP / NOT READY]
 grep -rn "DEBUG=true\|NODE_ENV=development" .env* 2>/dev/null
 
 # Verify API endpoints point to production
-grep -rn "localhost\|127\.0\.0\.1" --include="*.{ts,js,json}" src/ 2>/dev/null | grep -v test | head -5
+grep -rn "localhost\|127\.0\.0\.1" --include="*.ts" --include="*.js" --include="*.json" src/ 2>/dev/null | grep -v test | head -5
 ```
 
 ### Staging deploy
@@ -232,7 +232,7 @@ git describe --tags --abbrev=0
 4. **Document exceptions**: If skipping a check, note why
 5. **Monitor after deploy**: Ship is not done until monitoring confirms success
 
-## Related commands
+## Related skills
 
 - `/release-notes` - Generate changelog and announcements
 - `/validate-changes` - LLM-based code review

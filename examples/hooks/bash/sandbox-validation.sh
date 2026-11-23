@@ -7,23 +7,26 @@
 # Blocking: Yes (exit 2 blocks command execution)
 #
 # Installation:
-#   1. Copy to .claude/hooks/PreToolUse_sandbox-validation.sh
-#   2. chmod +x .claude/hooks/PreToolUse_sandbox-validation.sh
+#   1. Copy to .claude/hooks/sandbox-validation.sh
+#   2. chmod +x .claude/hooks/sandbox-validation.sh
 #   3. Configure in settings.json:
 #      {
 #        "hooks": {
-#          "PreToolUse": [
-#            {
-#              "command": "bash",
-#              "script": ".claude/hooks/PreToolUse_sandbox-validation.sh"
-#            }
-#          ]
+#          "PreToolUse": [{
+#            "matcher": "Bash",
+#            "hooks": [{ "type": "command", "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/sandbox-validation.sh" }]
+#          }]
 #        }
 #      }
 #
-# Environment Variables (passed by Claude Code):
-#   CLAUDE_TOOL_NAME: Name of the tool being used (e.g., "Bash")
-#   CLAUDE_TOOL_PARAMS: JSON string of tool parameters
+# Input (JSON on stdin, like every hook): tool_name and tool_input. This hook reads
+# tool_input.dangerouslyDisableSandbox, the Bash parameter Claude sets to retry a
+# command outside the sandbox.
+#
+# Limit: the hook sees the tool call, not the sandbox state. It checks the request
+# flag and whether the platform sandbox binary exists, not that the sandbox is
+# running. To enforce the sandbox, set sandbox.enabled and
+# sandbox.allowUnsandboxedCommands: false in settings instead.
 #
 # Exit Codes:
 #   0 = Allow (sandbox active or check disabled)
@@ -35,8 +38,12 @@ set -euo pipefail
 STRICT_MODE="${SANDBOX_VALIDATION_STRICT:-false}"  # Set to "true" to require sandbox in production
 PRODUCTION_MARKER="${SANDBOX_VALIDATION_MARKER:-.production}"  # File marker for production environments
 
+# Read the hook input from stdin
+INPUT=$(cat)
+TOOL_NAME=$(echo "$INPUT" | jq -r '.tool_name // empty')
+
 # Only validate Bash tool
-if [ "${CLAUDE_TOOL_NAME:-}" != "Bash" ]; then
+if [ "$TOOL_NAME" != "Bash" ]; then
   exit 0
 fi
 
@@ -48,7 +55,7 @@ is_production() {
 # Check if sandbox is active
 is_sandbox_active() {
   # Parse tool parameters to check for dangerouslyDisableSandbox
-  if echo "${CLAUDE_TOOL_PARAMS:-}" | jq -e '.dangerouslyDisableSandbox == true' >/dev/null 2>&1; then
+  if echo "$INPUT" | jq -e '.tool_input.dangerouslyDisableSandbox == true' >/dev/null 2>&1; then
     return 1  # Sandbox explicitly disabled
   fi
 
@@ -61,8 +68,8 @@ is_sandbox_active() {
       fi
       ;;
     linux*)
-      # Linux: Check if bubblewrap is available
-      if command -v bubblewrap >/dev/null 2>&1; then
+      # Linux: Check if bubblewrap is available (the binary is named bwrap)
+      if command -v bwrap >/dev/null 2>&1; then
         return 0
       fi
       ;;

@@ -3,7 +3,10 @@
 # Plays different sound based on notification type
 #
 # Place in: .claude/hooks/notification.sh
-# Register in: .claude/settings.json under Notification event
+# Register in: .claude/settings.json under Notification event (optionally with a
+# matcher such as "permission_prompt|idle_prompt" to filter by notification type)
+#
+# Input fields read: message, title (notification_type is also available)
 #
 # Note: macOS only - requires afplay and osascript
 
@@ -19,7 +22,8 @@ TITLE=$(echo "$INPUT" | jq -r '.title // "Claude Code"')
 # Select sound based on context
 select_sound() {
     local msg="$1"
-    local msg_lower=$(echo "$msg" | tr '[:upper:]' '[:lower:]')
+    local msg_lower
+    msg_lower=$(echo "$msg" | tr '[:upper:]' '[:lower:]')
 
     # Success / Completion
     if echo "$msg_lower" | grep -qE "(completed|terminé|fini|done|success|réussi|validé|finished)"; then
@@ -56,7 +60,12 @@ if [[ -f "$SOUND_FILE" ]]; then
     afplay "$SOUND_FILE" &
 fi
 
-# Display macOS notification
-osascript -e "display notification \"$MESSAGE\" with title \"$TITLE\" sound name \"\"" 2>/dev/null || true
+# Display macOS notification. Escape backslashes and double quotes so the text
+# cannot break out of the AppleScript string literal.
+MESSAGE_ESC=${MESSAGE//\\/\\\\}
+MESSAGE_ESC=${MESSAGE_ESC//\"/\\\"}
+TITLE_ESC=${TITLE//\\/\\\\}
+TITLE_ESC=${TITLE_ESC//\"/\\\"}
+osascript -e "display notification \"$MESSAGE_ESC\" with title \"$TITLE_ESC\" sound name \"\"" 2>/dev/null || true
 
 exit 0

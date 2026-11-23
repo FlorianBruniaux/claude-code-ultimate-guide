@@ -210,7 +210,7 @@ claude plugin marketplace add tirth8205/code-review-graph
 
 ### What to create
 
-**1. Skill file**: `examples/skills/smart-explore.md`
+**1. Skill file**: `examples/skills/smart-explore/SKILL.md`
 
 Teach the pattern + provide copy-paste implementations. Three approaches:
 - Pure CLI (tree-sitter CLI + bash/python script, no MCP)
@@ -278,7 +278,7 @@ Real-world reduction for typical feature work: **70-90%**. The 97% figures requi
 **Score: 4/5** (High Value — Integrate within 1 week)
 
 **Actions**:
-1. Create `examples/skills/smart-explore.md` skill (progressive code exploration pattern)
+1. Create `examples/skills/smart-explore/SKILL.md` skill (progressive code exploration pattern)
 2. Add guide section near RTK/grepai explaining the complementary three-layer token strategy
 3. Document code-review-graph separately as the strongest standalone MCP for PR review workflows (MIT, 2k stars, marketplace listed)
 
@@ -296,7 +296,7 @@ Real-world reduction for typical feature work: **70-90%**. The 97% figures requi
 **Status**: Approved for integration
 
 **Related**:
-- `examples/skills/smart-explore.md` (to be created)
+- `examples/skills/smart-explore/SKILL.md` (to be created)
 - `docs/resource-evaluations/rtk-evaluation.md` (complementary tool)
 - Guide: `guide/ultimate-guide.md` (RTK section, grepai section)
 - External: https://aider.chat/docs/repomap.html (reference implementation)

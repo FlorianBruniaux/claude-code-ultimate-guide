@@ -1,6 +1,6 @@
 ---
 name: investigate
-description: "Systematic root-cause debugging: find the cause before writing any fix"
+description: "Systematic root-cause debugging: find and confirm the cause before writing any fix. Use when a bug, test failure, or unexpected behavior needs a verified root cause and a regression test."
 argument-hint: <issue_description>
 effort: medium
 disable-model-invocation: true
@@ -37,7 +37,7 @@ Trace the code path from symptom back to potential causes. Do not guess.
 
 ```bash
 # Find all references to the failing component
-grep -rn "ComponentName\|function_name\|error_string" src/ --include="*.{ts,js,py,rb,go}" | head -30
+grep -rn "ComponentName\|function_name\|error_string" src/ --include="*.ts" --include="*.js" --include="*.py" --include="*.rb" --include="*.go" | head -30
 
 # Check recent changes to affected files
 git log --oneline -15 -- <affected-file>
@@ -221,7 +221,7 @@ RECOMMENDATION: [what the user should do next: add logging, escalate, or request
 /investigate
 ```
 
-## Related commands
+## Related skills
 
 - `/review-pr`: review the fix before merging
 - `/qa`: run browser QA on the affected feature after fixing

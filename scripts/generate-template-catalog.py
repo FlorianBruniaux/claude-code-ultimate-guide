@@ -22,7 +22,6 @@ from typing import Dict, List, Optional, Tuple
 # Template categories
 CATEGORIES = {
     'agents': ('examples/agents', 'Agent'),
-    'commands': ('examples/commands', 'Skill'),  # legacy stubs — redirect to examples/skills/
     'skills': ('examples/skills', 'Skill'),
     'hooks': ('examples/hooks', 'Hook'),
     'workflows': ('examples/workflows', 'Workflow'),

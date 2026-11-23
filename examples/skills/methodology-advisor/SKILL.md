@@ -1,6 +1,6 @@
 ---
 name: methodology-advisor
-description: Analyzes your codebase and asks 3 targeted questions to recommend the right AI-assisted development methodology stack
+description: "Analyze the codebase, ask 3 targeted questions, and recommend one AI-assisted development methodology stack (TDD, spec-driven, BDD, eval-driven, and others). Use when the user asks which methodology, workflow, or process to adopt with Claude Code for a project."
 effort: medium
 allowed-tools: Read Grep Glob
 ---

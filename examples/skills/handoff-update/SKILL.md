@@ -13,7 +13,7 @@ Update an existing handoff document with this session's progress.
 Determine which file to update, in this priority order:
 
 1. If `$ARGUMENTS[0]` was provided, use it as the file path.
-2. If this session was started via `/handoff:resume`, look in conversation history for the argument that was passed to it.
+2. If this session was started via `/handoff-resume`, look in conversation history for the argument that was passed to it.
 3. If neither is found, fall back to creating a new file: `claudedocs/handoffs/handoff_YYYYMMDD_HHMMSS.md`. Inform the user that no existing handoff was found.
 
 ## Step 2: Read the existing file
@@ -47,5 +47,5 @@ After saving, confirm:
 
 ---
 
-> This command implements the Handoff Triad pattern documented in this guide's Session Handoff Pattern section.
+> This skill implements the Handoff Triad pattern documented in this guide's Session Handoff Pattern section.
 > Template inspired by [Packmind's handoff commands](https://github.com/PackmindHub/packmind) (Apache 2.0).

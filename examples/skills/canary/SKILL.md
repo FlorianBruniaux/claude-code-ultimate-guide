@@ -1,7 +1,7 @@
 ---
 name: canary
 description: "Post-deploy monitoring: watch production after a deploy and alert on regressions"
-argument-hint: "[--baseline]"
+argument-hint: "<url> [--baseline] [--duration 5m] [--quick] [--pages /,/dashboard]"
 effort: medium
 disable-model-invocation: true
 ---
@@ -18,7 +18,7 @@ Watch a live application after deployment. Alert on errors and regressions. Comp
 
 ### Phase 1: Setup
 
-Parse the user's arguments and detect the deployment context.
+Parse the user's arguments (a base URL, then the options in the Usage section) into `BASE_URL`, and detect the deployment context. All checks below are HTTP-only (status and response time); console errors need a browser tool and are out of scope unless one is available.
 
 ```bash
 # Detect current branch and recent deploy commit
@@ -34,8 +34,8 @@ git log --oneline -5
 [ -f railway.toml ]     && echo "PLATFORM: railway"
 
 # Check for health endpoint
-curl -sf "${URL}/health" -w "\n%{http_code}" 2>/dev/null | tail -1
-curl -sf "${URL}/api/health" -w "\n%{http_code}" 2>/dev/null | tail -1
+curl -sf "${BASE_URL}/health" -w "\n%{http_code}" 2>/dev/null | tail -1
+curl -sf "${BASE_URL}/api/health" -w "\n%{http_code}" 2>/dev/null | tail -1
 ```
 
 Create the working directory:
@@ -62,7 +62,7 @@ for PAGE_PATH in "/" "/dashboard" "/settings" "/api/health"; do
   SLUG=$(echo "$PAGE_PATH" | tr '/' '_' | tr -d '?&=')
   RESULT=$(curl -sf -o /dev/null -w "%{http_code}|%{time_total}" "${BASE_URL}${PAGE_PATH}" 2>/dev/null)
   STATUS=$(echo "$RESULT" | cut -d'|' -f1)
-  TIME_MS=$(echo "$RESULT" | awk -F'|' '{printf "%.0f", $2 * 1000}')
+  TIME_MS=$(echo "$RESULT" | awk -F'|' '{printf "%.0f", \$2 * 1000}')
   echo "  ${PAGE_PATH}: HTTP ${STATUS}, ${TIME_MS}ms"
 done
 ```
@@ -95,16 +95,16 @@ If no pages were specified, auto-discover pages to monitor.
 
 ```bash
 # Check sitemap if available
-curl -sf "${URL}/sitemap.xml" 2>/dev/null | grep -oP '(?<=<loc>)[^<]+' | head -10
+curl -sf "${BASE_URL}/sitemap.xml" 2>/dev/null | grep -oE '<loc>[^<]+' | sed 's/<loc>//' | head -10
 
 # Check robots.txt for known paths
-curl -sf "${URL}/robots.txt" 2>/dev/null | grep -i "allow\|disallow" | head -10
+curl -sf "${BASE_URL}/robots.txt" 2>/dev/null | grep -i "allow\|disallow" | head -10
 
 # Common paths to always check
 echo "Always check: / /login /dashboard /settings /api/health"
 ```
 
-Default pages to monitor if nothing found: `/`, and the homepage only.
+Default pages to monitor if nothing is found: `/` only.
 
 ---
 
@@ -123,7 +123,7 @@ for PAGE_PATH in "${PAGES[@]}"; do
   RESULT=$(curl -sf -o /dev/null -w "%{http_code}|%{time_total}" \
     --max-time 10 "${BASE_URL}${PAGE_PATH}" 2>/dev/null || echo "0|0")
   STATUS=$(echo "$RESULT" | cut -d'|' -f1)
-  TIME_MS=$(echo "$RESULT" | awk -F'|' '{printf "%.0f", $2 * 1000}')
+  TIME_MS=$(echo "$RESULT" | awk -F'|' '{printf "%.0f", \$2 * 1000}')
 
   # Compare against baseline
   BASELINE_STATUS=$(jq -r ".pages[\"${PAGE_PATH}\"].status // 200" .canary/baselines/baseline.json 2>/dev/null)
@@ -194,7 +194,7 @@ VERDICT: [DEPLOY HEALTHY / DEPLOY HAS ISSUES (see alerts above)]
 =========================================
 ```
 
-Save report to `.canary/reports/<date>-canary.md`.
+Save the report to `.canary/reports/<date>-canary.md`, and the per-page measurements in the baseline schema to `.canary/reports/latest-snapshot.json`.
 
 ---
 
@@ -233,7 +233,7 @@ Inline alert format (during monitoring):
 ## Tips
 
 1. **Always capture a baseline** before deploying to production: run `/canary <url> --baseline`
-2. **Start monitoring immediately** after deploy; the first 5 minutes catch 90% of regressions
+2. **Start monitoring immediately** after deploy: regressions usually show up soonest
 3. **CRITICAL alerts** require immediate investigation; don't wait for the monitoring to finish
 4. **MEDIUM alerts (performance)** may be cache warming; give it 2-3 more checks before acting
 5. **Keep `.canary/baselines/` in git** so any team member can run canary against the same baseline

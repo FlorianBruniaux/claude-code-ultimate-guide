@@ -1,6 +1,6 @@
 ---
 name: learn-quiz
-description: Test understanding of recently written or accepted code
+description: "Quiz the user on recently written or accepted code, one question at a time with explained feedback. Use when the user asks to be quizzed or wants to check they understand code Claude just produced."
 argument-hint: "[topic] [--hard]"
 effort: low
 ---
@@ -12,9 +12,9 @@ Test understanding of recently written or accepted code.
 ## Usage
 
 ```
-/learn:quiz                     # Quiz on last code worked with
-/learn:quiz error handling      # Focus on specific aspect
-/learn:quiz --hard              # More challenging questions
+/learn-quiz                     # Quiz on last code worked with
+/learn-quiz error handling      # Focus on specific aspect
+/learn-quiz --hard              # More challenging questions
 ```
 
 ## Instructions
@@ -59,7 +59,7 @@ Test understanding of recently written or accepted code.
 
 ## Focus areas
 
-When focus is specified (e.g., `/learn:quiz error handling`), prioritize questions about:
+When focus is specified (e.g., `/learn-quiz error handling`), prioritize questions about:
 
 | Focus | Question Themes |
 |-------|-----------------|
@@ -119,7 +119,7 @@ Summarize:
 ## Example session
 
 ```
-User: /learn:quiz
+User: /learn-quiz
 
 Claude: Looking at your last code - the useEffect hook for data fetching.
 

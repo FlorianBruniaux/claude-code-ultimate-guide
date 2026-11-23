@@ -12,7 +12,7 @@ Scan codebase quality metrics, propose improvement loops, and run autonomous age
 
 **Concept**: The agent proposes a code change, runs the measurement, keeps the change if the metric improved, reverts via `git reset` if not, and repeats until manually stopped.
 
-**Time**: Scan ~30s | Per iteration: depends on scope | Loop: runs indefinitely until you stop it
+The loop has no built-in end: set an iteration cap in `program.md` or stop it yourself.
 
 ---
 
@@ -134,7 +134,7 @@ Next steps:
      Reference: scripts/autoresearch/loop-remove-as-any/program.md
   2. Create a worktree: /worktree feature/autoresearch-{loop-name}
   3. cd into the worktree
-  4. bash scripts/autoresearch/runner.sh {loop-name} 0 15
+  4. /autoresearch --run {loop-name}
 ```
 
 ---
@@ -165,8 +165,9 @@ LOOP ITERATION #{N}
 4. Apply the change
 5. Re-measure: bash scripts/autoresearch/{loop-name}/measure.sh
 6. Evaluate:
-   - direction=lower AND new < previous -> KEEP (git add -p && git commit -m "autoresearch: {description}")
-   - otherwise -> REVERT (git checkout -- .)
+   - direction=lower AND new < previous -> KEEP (git add the files in scope, then git commit -m "autoresearch: {description}")
+   - direction=higher AND new > previous -> KEEP (same commit)
+   - otherwise -> REVERT (git checkout -- . and remove any new files the change created)
 7. Log to results.tsv: {timestamp}\t{metric}\t{status}\t{description}
 8. Continue to iteration #{N+1}
 ```
@@ -196,7 +197,7 @@ for dir in scripts/autoresearch/loop-*/; do
   NAME=$(basename "$dir")
   CURRENT=$(bash "$dir/measure.sh" 2>/dev/null || echo "?")
   ITERS=$([ -f "$dir/results.tsv" ] && wc -l < "$dir/results.tsv" | tr -d ' ' || echo "0")
-  KEPT=$([ -f "$dir/results.tsv" ] && grep -c "KEPT" "$dir/results.tsv" || echo "0")
+  KEPT=$([ -f "$dir/results.tsv" ] && { grep -c "KEPT" "$dir/results.tsv" || true; } || echo "0")
   echo "$NAME | current: $CURRENT | iters: $ITERS | kept: $KEPT"
 done
 ```
@@ -249,9 +250,9 @@ Lower = better. Target: 0.
 
 ## The pattern (background)
 
-This command implements the **autoresearch loop** pattern from [karpathy/autoresearch](https://github.com/karpathy/autoresearch):
+This skill implements the **autoresearch loop** pattern from [karpathy/autoresearch](https://github.com/karpathy/autoresearch):
 
-| ML Research (karpathy) | Code Quality (this command) |
+| ML Research (karpathy) | Code Quality (this skill) |
 |------------------------|----------------------------|
 | Modify `train.py` | Modify `src/` files |
 | Measure `val_bpb` | Measure grep count |

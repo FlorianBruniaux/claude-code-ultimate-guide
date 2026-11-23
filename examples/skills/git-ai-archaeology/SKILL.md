@@ -1,6 +1,7 @@
 ---
 name: git-ai-archaeology
 description: "Git-history archaeology of a repository's AI coding harness (Copilot, Claude Code, Codex, Cursor, MCP, skills, agents, hooks). Use to date when each AI config appeared, trace how it spread, churned or was abandoned across modules, measure AI-assisted commits over time, or derive maturity phases. Not for auditing the current config or generic git stats."
+argument-hint: "repo_path=<path> [out=<dir>] [slug=<name>] [ref=<branch>] [since=<date>] [remotes=yes]"
 effort: medium
 ---
 

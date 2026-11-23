@@ -2,11 +2,11 @@
 title: "Personnaliser Claude"
 subtitle: "CLAUDE.md, Agents, Skills : votre assistant sur-mesure"
 author: "Florian BRUNIAUX"
-date: "2026-10-27"
+date: "2026-11-23"
 date-format: "MMMM YYYY"
 version: "3.44.1"
 guide-version: "3.44.1"
-wp-version: "1.5.6"
+wp-version: "1.5.7"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -1080,7 +1080,7 @@ If $ARGUMENTS == "big" or none: Full 4-axis review
 
 Ce command combine Plan Mode + review structuré → idéal avant tout changement architectural.
 
-> 📖 **Pour aller plus loin :** [§6 Commands](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#6-commands) : slash commands, paramètres | [28 templates commands](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/tree/main/examples/commands/)
+> 📖 **Pour aller plus loin :** [§6 Commands](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#6-commands) : slash commands, paramètres | [templates de skills, slash commands comprises](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/tree/main/examples/skills/)
 
 {{< pagebreak >}}
 
@@ -1338,7 +1338,7 @@ Overrides personnels de permissions (gitignored) :
 | **Templates CLAUDE.md** | 5 templates prêts à l'emploi | [examples/claude-md/](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/tree/main/examples/claude-md/) |
 | **Templates Agents** | 11 templates agents annotés | [examples/agents/](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/tree/main/examples/agents/) |
 | **Templates Skills** | 64 templates skills par domaine | [examples/skills/](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/tree/main/examples/skills/) |
-| **Templates Commands** | 28 slash commands prêtes à l'emploi | [examples/commands/](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/tree/main/examples/commands/) |
+| **Templates Commands** | Slash commands prêtes à l'emploi, livrées comme skills | [examples/skills/](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/tree/main/examples/skills/) |
 | **Templates Rules** | 4 templates rules auto-load | [examples/rules/](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/tree/main/examples/rules/) |
 
 ## Parcours recommandé

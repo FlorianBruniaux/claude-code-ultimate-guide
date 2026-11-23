@@ -41,9 +41,11 @@ src/
 
 ## Key Files
 
-- `@src/lib/db.ts` - Database connection
-- `@src/services/auth.ts` - Authentication logic
-- `@docs/api.md` - API documentation
+<!-- Plain backticked paths are only pointers Claude can read on demand.
+     Writing @src/lib/db.ts outside backticks would import the whole file into context at every launch. -->
+- `src/lib/db.ts` - Database connection
+- `src/services/auth.ts` - Authentication logic
+- `docs/api.md` - API documentation
 
 ## Testing
 

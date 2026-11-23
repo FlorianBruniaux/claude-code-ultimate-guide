@@ -1,11 +1,11 @@
 {
   "mcpServers": {
     "figma": {
-      "transport": "http",
+      "type": "http",
       "url": "https://mcp.figma.com/mcp"
     },
     "figma-desktop": {
-      "transport": "http",
+      "type": "http",
       "url": "http://127.0.0.1:3845/mcp",
       "comment": "Requires Figma desktop app with Dev Mode enabled"
     }

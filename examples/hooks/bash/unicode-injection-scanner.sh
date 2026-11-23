@@ -18,7 +18,7 @@
 #     "hooks": {
 #       "PreToolUse": [{
 #         "matcher": "Edit|Write",
-#         "hooks": ["bash examples/hooks/bash/unicode-injection-scanner.sh"]
+#         "hooks": [{ "type": "command", "command": "bash examples/hooks/bash/unicode-injection-scanner.sh" }]
 #       }]
 #     }
 #   }

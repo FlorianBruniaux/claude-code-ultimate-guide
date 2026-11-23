@@ -1,7 +1,7 @@
 ---
 name: diagnose
 description: Interactive troubleshooting assistant for Claude Code issues
-argument-hint: <error_or_symptom>
+argument-hint: "<error-or-symptom>"
 effort: medium
 when_to_use: "Use when hitting Claude Code issues, configuration errors, or unexpected behavior."
 disable-model-invocation: true
@@ -52,7 +52,7 @@ rm -f "$script"
 If the script fails, report its error to the user, then fall back to manual checks:
 
 ```bash
-# Global config
+# Global config (do not repeat values under "env": they often hold tokens)
 cat ~/.claude/settings.json 2>/dev/null || echo "No global settings"
 
 # Project config
@@ -62,7 +62,7 @@ cat .claude/settings.json 2>/dev/null || echo "No project settings"
 ls -la CLAUDE.md .claude/CLAUDE.md ~/.claude/CLAUDE.md 2>/dev/null
 
 # MCP config
-cat ~/.claude.json 2>/dev/null | jq '.mcpServers // empty' || echo "No MCP config"
+jq '(.mcpServers // {}) | map_values(del(.env, .headers))' ~/.claude.json 2>/dev/null || echo "No MCP config"
 ```
 
 ### Step 4: Present categories
@@ -166,8 +166,8 @@ cat ~/.claude/settings.json | jq '.permissions.allow'
 
 **Quick diagnostic**:
 ```bash
-# Check MCP config
-cat ~/.claude.json | jq '.mcpServers'
+# Check MCP config (env and headers removed so tokens are not printed)
+jq '(.mcpServers // {}) | map_values(del(.env, .headers))' ~/.claude.json
 
 # Check if server binary exists
 which mcp-server-sequential
@@ -204,7 +204,7 @@ which mcp-server-sequential
 **Solution**:
 1. Edit `~/.claude/settings.json`
 2. Add `"Bash(pnpm *)"` to allow array
-3. Restart Claude Code session
+3. Run `/permissions` to confirm the rule is listed
 
 ### Example 2: Hooks not triggering
 

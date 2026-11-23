@@ -17,7 +17,7 @@ The PDF exports in `deprecated/` were generated from an earlier version of the g
 
 Fresh exports are needed to match the current guide (v3.27.0+):
 
-- **PDF** — Full guide export (Quarto/Typst pipeline via [`pdf-generator` skill](../examples/skills/pdf-generator.md))
+- **PDF** — Full guide export (Quarto/Typst pipeline via [`pdf-generator` skill](../examples/skills/pdf-generator/SKILL.md))
 - **NotebookLM** — Updated visual overview
 - **EPUB** — For e-reader consumption (requested)
 

@@ -1,6 +1,21 @@
 # PreToolUse hook - Block commands containing secrets
 # Place in: .claude\hooks\security-check.ps1
-# Register in: .claude\settings.json (with -ExecutionPolicy Bypass)
+# Register in: .claude\settings.json (PreToolUse, matcher "Bash"), running in PowerShell:
+#   {
+#     "hooks": {
+#       "PreToolUse": [{
+#         "matcher": "Bash",
+#         "hooks": [{
+#           "type": "command",
+#           "shell": "powershell",
+#           "command": "& \"$env:CLAUDE_PROJECT_DIR\\.claude\\hooks\\security-check.ps1\""
+#         }]
+#       }]
+#     }
+#   }
+# Use the `$env:CLAUDE_PROJECT_DIR` spelling: the bare `$CLAUDE_PROJECT_DIR` resolves
+# to $null in PowerShell. Blocking uses exit 2 plus a message on stderr, like the
+# bash twin (security-check.sh).
 
 $inputJson = [Console]::In.ReadToEnd() | ConvertFrom-Json
 $tool = $inputJson.tool_name
@@ -29,14 +44,14 @@ if ($tool -eq "Bash") {
 
     foreach ($pattern in $patterns) {
         if ($command -match [regex]::Escape($pattern)) {
-            Write-Output "{`"decision`": `"block`", `"reason`": `"Potential secret detected: $pattern`"}"
+            [Console]::Error.WriteLine("Blocked: potential secret detected in command: $pattern")
             exit 2
         }
     }
 
     # Check for hardcoded API keys
     if ($command -match "(sk-[a-zA-Z0-9]{20,}|pk_[a-zA-Z0-9]{20,}|[a-f0-9]{32,})") {
-        Write-Output "{`"decision`": `"block`", `"reason`": `"Potential API key or hash detected`"}"
+        [Console]::Error.WriteLine("Blocked: potential API key or hash detected in command")
         exit 2
     }
 }

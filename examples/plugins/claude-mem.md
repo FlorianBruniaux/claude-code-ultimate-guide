@@ -8,7 +8,7 @@ tags: [plugin, memory, integration]
 
 **Purpose**: Automatic persistent memory across Claude Code sessions
 **Repository**: https://github.com/thedotmack/claude-mem
-**Type**: Official plugin (26.5k+ stars)
+**Type**: Community plugin (26.5k+ stars at time of writing)
 **Version**: v10.6.3
 **License**: AGPL-3.0 + PolyForm Noncommercial
 
@@ -46,18 +46,18 @@ claude
 
 ### Manual installation
 
+Claude Code manages `~/.claude/plugins/` itself, so do not clone into it. Clone anywhere and load the folder with `--plugin-dir`, the documented way to run a plugin without a marketplace:
+
 ```bash
-# Requires Bun runtime (not Node) — install first if needed:
+# Requires Bun runtime (not Node). Install first if needed:
 # curl -fsSL https://bun.sh/install | bash
 
-# Clone repository
-git clone https://github.com/thedotmack/claude-mem.git ~/.claude/plugins/claude-mem
-
-# Install dependencies
-cd ~/.claude/plugins/claude-mem
+git clone https://github.com/thedotmack/claude-mem.git
+cd claude-mem
 bun install
 
-# Restart Claude Code
+# Start Claude Code with the plugin loaded for this session
+claude --plugin-dir /path/to/claude-mem
 ```
 
 > **Dependency**: claude-mem's worker runs on [Bun](https://bun.sh), not Node. If you only have Node installed, install Bun first. Without it, the worker won't start and sessions won't be captured (fail-open — Claude Code continues working, just without memory capture).

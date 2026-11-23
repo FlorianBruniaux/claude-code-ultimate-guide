@@ -68,10 +68,10 @@ check_claude_md_size() {
 
   if [ "$lines" -lt 10 ]; then
     log_fail "CLAUDE.md has content" "Only $lines lines — too sparse to be useful"
-  elif [ "$lines" -gt 500 ]; then
-    log_warn "CLAUDE.md size" "$lines lines exceeds 500 — consider modularizing with @imports"
+  elif [ "$lines" -gt 200 ]; then
+    log_warn "CLAUDE.md size" "$lines lines exceeds 200 (official target): move scoped instructions to .claude/rules/ or @imports"
   else
-    log_pass "CLAUDE.md size" "$lines lines (healthy: 10-500)"
+    log_pass "CLAUDE.md size" "$lines lines (healthy: 10-200)"
   fi
 }
 
@@ -116,7 +116,7 @@ check_rule_count() {
   rules=$(grep -cE "^[[:space:]]*[-*] |^[[:space:]]*[0-9]+\. " "$file" 2>/dev/null || echo "0")
 
   if [ "$rules" -gt 150 ]; then
-    log_warn "Rule count" "$rules rules (adherence ceiling is ~150 — Claude may drop rules)"
+    log_warn "Rule count" "$rules rules (heuristic ceiling ~150, not an official limit; long rule lists may reduce adherence)"
   else
     log_pass "Rule count" "$rules rules"
   fi

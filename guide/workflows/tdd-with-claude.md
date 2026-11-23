@@ -320,7 +320,7 @@ Characterization tests assume you can run the code in a test harness. Legacy cod
 
 Seam and enabling point both work as [semantic anchors](../ultimate-guide.md#29-semantic-anchors): Claude knows the book, so naming them gets you a structured answer instead of a generic "add some mocks".
 
-Once you have a seam, pick the test double by what the test needs from the dependency. Gerard Meszaros' *xUnit Test Patterns* (2007) names five; the [TDD skill's table](../../examples/skills/tdd-workflow.md#test-doubles) lists four of them:
+Once you have a seam, pick the test double by what the test needs from the dependency. Gerard Meszaros' *xUnit Test Patterns* (2007) names five; the [TDD skill's table](../../examples/skills/tdd-workflow/SKILL.md#test-doubles) lists four of them:
 
 | Double | Use it when the test needs to... |
 |--------|----------------------------------|
@@ -453,7 +453,7 @@ Run tests after each change to ensure they stay green.
 - [AI Design Patterns: Template Method](../core/ai-design-patterns.md#template-method): a skill that lists the steps, with a Stop hook that checks the last one
 - [../core/methodologies.md](../core/methodologies.md): full methodology reference
 - [Tight Feedback Loops](../ultimate-guide.md): Section 9.5
-- [examples/skills/tdd-workflow.md](../../examples/skills/tdd-workflow.md): TDD skill template
+- [examples/skills/tdd-workflow/SKILL.md](../../examples/skills/tdd-workflow/SKILL.md): TDD skill template
 - [Anthropic Best Practices](https://www.anthropic.com/engineering/claude-code-best-practices)
 - [task-management.md](./task-management.md): track TDD cycles across sessions with Tasks API
 - [Superpowers](https://github.com/obra/superpowers): plugin suite that enforces TDD as a mandatory gate, code written before a failing test exists gets deleted and redone from scratch. Stricter enforcement than manual prompting.

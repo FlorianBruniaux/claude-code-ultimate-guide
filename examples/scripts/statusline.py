@@ -6,24 +6,26 @@ Reads session JSON from stdin (piped by Claude Code) and prints a two-line
 status bar showing context window usage, git branch, and model name.
 
 Usage (settings.json):
-    "statusCommand": "python3 /path/to/statusline.py"
+    "statusLine": {"type": "command", "command": "python3 /path/to/statusline.py"}
 
 Output format:
     ####--------------------------------------  18%   (context bar)
-    my-project | main | claude-sonnet-4-6 | 31K/168K
+    my-project | main | Sonnet 5.5 | 31K/168K
 
 The 32K output buffer subtraction
 ----------------------------------
 Claude Code reports context_window_size as the *total* window (e.g. 200,000
-for Sonnet 4.6). But Claude always reserves ~32,000 tokens for its own
-output. The effective *input* window is therefore:
+for a 200K-context model, 1,000,000 for a 1M-context model). This script
+assumes Claude reserves ~32,000 tokens for its own output. That figure is a
+heuristic, not a documented constant. The effective *input* window is then:
 
     effective_window = total_window - 32_000
 
 If you omit this subtraction, the bar shows 16% when you are actually at
 19% of usable space — a meaningful difference when you are approaching the
-compact threshold. Packmind discovered this empirically; the 32K figure
-matches Anthropic's reported max_tokens default for Claude models.
+compact threshold. Packmind chose the 32K figure empirically. Treat it, and
+the 200,000 fallback used below when the field is missing, as adjustable
+defaults (current models can report a 1M window).
 
 Adapted from Packmind's .claude/statusline.py (Apache 2.0).
 See guide/core/skill-design-patterns.md for the full pattern context.
@@ -86,7 +88,7 @@ def main() -> None:
 
         git_branch = get_git_branch(cwd)
 
-        # Model display name (e.g. "claude-sonnet-4-6")
+        # Model display name (e.g. "Sonnet 5.5")
         model = data.get("model", {}).get("display_name", "?")
 
         # Context window usage

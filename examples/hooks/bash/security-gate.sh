@@ -6,7 +6,10 @@
 # This hook focuses on APPLICATION security anti-patterns in code.
 #
 # Place in: .claude/hooks/security-gate.sh
-# Register in: .claude/settings.json under PreToolUse event (Write, Edit tools)
+# Register in: .claude/settings.json under PreToolUse event (matcher "Write|Edit")
+#
+# Reads tool_input.file_path, tool_input.content (Write) and tool_input.new_string
+# (Edit). These fields are nested under tool_input in the hook input.
 #
 # Exit 0 = allow, Exit 2 = block (stderr message shown to Claude)
 
@@ -20,7 +23,7 @@ if [[ "$TOOL_NAME" != "Write" && "$TOOL_NAME" != "Edit" ]]; then
     exit 0
 fi
 
-FILE_PATH=$(echo "$INPUT" | jq -r '.file_path // empty')
+FILE_PATH=$(echo "$INPUT" | jq -r '.tool_input.file_path // empty')
 
 # Skip non-source files (tests, docs, configs)
 EXTENSION="${FILE_PATH##*.}"
@@ -36,10 +39,10 @@ fi
 
 # Extract content being written
 if [[ "$TOOL_NAME" == "Write" ]]; then
-    CONTENT=$(echo "$INPUT" | jq -r '.content // empty')
+    CONTENT=$(echo "$INPUT" | jq -r '.tool_input.content // empty')
 else
-    # Edit: check both old and new strings
-    CONTENT=$(echo "$INPUT" | jq -r '.new_string // empty')
+    # Edit: check the replacement text (the old string is being removed)
+    CONTENT=$(echo "$INPUT" | jq -r '.tool_input.new_string // empty')
 fi
 
 # ── PATTERN 1: Hardcoded secrets ──────────────────────────────────────────────

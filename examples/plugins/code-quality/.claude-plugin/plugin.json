@@ -1,0 +1,15 @@
+{
+  "name": "code-quality",
+  "displayName": "Code Quality Suite",
+  "version": "1.1.0",
+  "description": "Refactoring, performance optimization, and design-pattern skills with a refactoring-specialist agent.",
+  "license": "CC-BY-SA-4.0",
+  "keywords": ["refactoring", "code-quality", "design-patterns"],
+  "metadata": {
+    "components": {
+      "agents": ["refactoring-specialist"],
+      "skills": ["refactor", "optimize", "design-patterns", "audit-codebase"]
+    },
+    "install": "bash install.sh copies the components from examples/ into .claude/"
+  }
+}

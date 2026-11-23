@@ -1,8 +1,10 @@
 ---
 name: issue-triage
-description: "3-phase issue backlog management with audit, deep analysis, and validated triage actions. Use when triaging GitHub issues, sorting bug reports, cleaning up stale tickets, or detecting duplicate issues. Args: 'all' to analyze all, issue numbers to focus (e.g. '42 57'), 'en'/'fr' for language, no arg = audit only."
+description: "Triage a GitHub issue backlog in 3 phases: audit, deep analysis, and validated comment, label, or close actions. Use when triaging GitHub issues, sorting bug reports, cleaning up stale tickets, or detecting duplicate issues. Not for pull requests (use pr-triage)."
+argument-hint: "[all | issue numbers] [en|fr]"
 allowed-tools: Bash
 effort: medium
+disable-model-invocation: true
 ---
 
 # Issue triage
@@ -16,9 +18,7 @@ effort: medium
 | `/issue-triage` | Sort, analyze, and act on an issue backlog | Triage tables + analysis + executed actions |
 | `/pr-triage` | Sort, review, and comment on a PR backlog | Triage table + reviews + posted comments |
 
-**Triggers**:
-- Manually: `/issue-triage` or `/issue-triage all` or `/issue-triage 42 57`
-- Proactively: when >10 open issues without label, or stale issues >30 days detected
+**Invocation**: `/issue-triage` (audit only), `/issue-triage all`, or `/issue-triage 42 57`. Manual only, because Phase 3 comments on, labels, and closes issues.
 
 ---
 
@@ -277,10 +277,10 @@ If "Skip" → end workflow.
 
 ### Executing analysis
 
-For each selected issue, launch an analysis agent via **Task tool in parallel**:
+For each selected issue, launch an analysis agent via the **Agent tool in parallel**:
 
 ```
-subagent_type: general
+subagent_type: general-purpose
 model: sonnet
 prompt: |
   Analyze GitHub issue #{num}: "{title}"

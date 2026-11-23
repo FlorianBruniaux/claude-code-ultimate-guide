@@ -47,7 +47,6 @@ Use get_example(name) for production-ready code:
 - guide/cheatsheet.md - Quick reference
 - guide/core/architecture.md - How Claude Code works internally
 - examples/agents/ - Custom agent templates
-- examples/commands/ - Slash command templates
 - examples/hooks/ - Event hook examples
 - examples/skills/ - Skill module templates
 - machine-readable/reference.yaml - Structured index (available via resource)`;

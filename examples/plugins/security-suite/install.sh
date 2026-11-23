@@ -1,102 +1,52 @@
 #!/bin/bash
-# Install: Security Suite plugin for Claude Code
-# This script installs all security-related agents, commands, hooks, and templates
-
+# Install the Security Suite bundle into a project's .claude/ directory.
+# Run from a clone of the repository: components are copied from the sibling
+# examples/ directories (agents/, skills/, hooks/bash/, github-actions/).
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CLAUDE_DIR="$HOME/.claude"
+EXAMPLES_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
 PROJECT_CLAUDE_DIR="${CLAUDE_PROJECT_DIR:-.claude}"
 
-echo "🔐 Installing Security Suite..."
-echo ""
+AGENTS=(security-auditor)
+SKILLS=(security-check security-audit audit-agents-skills security-checklist)
+HOOKS=(security-gate security-check)
+WORKFLOWS=()
 
-# Function to copy file with confirmation
-copy_file() {
-  local src="$1"
-  local dest="$2"
-  local type="$3"
-
-  if [ ! -f "$src" ]; then
-    echo "⚠️  Source not found: $src"
+copy_item() {
+  local src="$1" dest="$2" label="$3"
+  if [ ! -e "$src" ]; then
+    echo "  missing: $src" >&2
     return 1
   fi
-
-  mkdir -p "$(dirname "$dest")"
-
-  if [ -f "$dest" ]; then
-    echo "  ⚠️  $type already exists at $dest"
-    echo "     Backing up to ${dest}.bak"
-    cp "$dest" "${dest}.bak"
+  if [ -e "$dest" ]; then
+    echo "  skipped (already exists): $dest"
+    return 0
   fi
-
-  cp "$src" "$dest"
-  echo "  ✓ Installed: $(basename "$dest") ($type)"
+  mkdir -p "$(dirname "$dest")"
+  cp -R "$src" "$dest"
+  echo "  installed $label: $dest"
 }
 
-# 1. Install Agents
-echo "📦 Installing Agents..."
-copy_file "$SCRIPT_DIR/agents/security-auditor.md" "$PROJECT_CLAUDE_DIR/agents/security-auditor.md" "Agent"
-echo ""
+echo "Installing Security Suite into $PROJECT_CLAUDE_DIR"
 
-# 2. Install Commands
-echo "📦 Installing Commands..."
-copy_file "$SCRIPT_DIR/commands/security-check.md" "$PROJECT_CLAUDE_DIR/commands/security-check.md" "Command"
-copy_file "$SCRIPT_DIR/commands/security-audit.md" "$PROJECT_CLAUDE_DIR/commands/security-audit.md" "Command"
-copy_file "$SCRIPT_DIR/commands/audit-agents-skills.md" "$PROJECT_CLAUDE_DIR/commands/audit-agents-skills.md" "Command"
-echo ""
+for a in "${AGENTS[@]+"${AGENTS[@]}"}"; do
+  copy_item "$EXAMPLES_DIR/agents/$a.md" "$PROJECT_CLAUDE_DIR/agents/$a.md" agent
+done
 
-# 3. Install Hooks
-echo "📦 Installing Hooks..."
-if [ -d "$SCRIPT_DIR/hooks/bash" ]; then
-  for hook in "$SCRIPT_DIR"/hooks/bash/*.sh; do
-    if [ -f "$hook" ]; then
-      filename=$(basename "$hook")
-      copy_file "$hook" "$PROJECT_CLAUDE_DIR/hooks/bash/$filename" "Hook"
-      chmod +x "$PROJECT_CLAUDE_DIR/hooks/bash/$filename"
-    fi
-  done
-fi
+# Skills are folders (<name>/SKILL.md), copied whole so bundled files come along
+for s in "${SKILLS[@]+"${SKILLS[@]}"}"; do
+  copy_item "$EXAMPLES_DIR/skills/$s" "$PROJECT_CLAUDE_DIR/skills/$s" skill
+done
 
-if [ -d "$SCRIPT_DIR/hooks/powershell" ]; then
-  for hook in "$SCRIPT_DIR"/hooks/powershell/*.ps1; do
-    if [ -f "$hook" ]; then
-      filename=$(basename "$hook")
-      copy_file "$hook" "$PROJECT_CLAUDE_DIR/hooks/powershell/$filename" "Hook"
-    fi
-  done
-fi
-echo ""
+for h in "${HOOKS[@]+"${HOOKS[@]}"}"; do
+  copy_item "$EXAMPLES_DIR/hooks/bash/$h.sh" "$PROJECT_CLAUDE_DIR/hooks/bash/$h.sh" hook
+  chmod +x "$PROJECT_CLAUDE_DIR/hooks/bash/$h.sh"
+done
 
-# 4. Install Templates/Skills
-echo "📦 Installing Templates..."
-if [ -d "$SCRIPT_DIR/templates" ]; then
-  for template in "$SCRIPT_DIR"/templates/*.md; do
-    if [ -f "$template" ]; then
-      filename=$(basename "$template" .md)
-      copy_file "$template" "$PROJECT_CLAUDE_DIR/skills/$filename/SKILL.md" "Skill"
-    fi
-  done
-fi
-echo ""
+# GitHub Actions workflows go to the repository root, not into .claude/
+for w in "${WORKFLOWS[@]+"${WORKFLOWS[@]}"}"; do
+  copy_item "$EXAMPLES_DIR/github-actions/$w.yml" ".github/workflows/$w.yml" workflow
+done
 
-# 5. Update settings.json to enable hooks (if needed)
-echo "⚙️  Updating configuration..."
-if [ -f "$PROJECT_CLAUDE_DIR/settings.json" ]; then
-  echo "  ✓ settings.json exists (review hooks section manually if needed)"
-else
-  echo "  ⚠️  settings.json not found at $PROJECT_CLAUDE_DIR/settings.json"
-  echo "     Review installation guide for hook setup"
-fi
-echo ""
-
-echo "✅ Security Suite installed successfully!"
-echo ""
-echo "🚀 Next steps:"
-echo "  1. Review installed commands: ls $PROJECT_CLAUDE_DIR/commands/"
-echo "  2. Quick test: /security-check"
-echo "  3. Full audit: /security-audit"
-echo "  4. Verify agents: /audit-agents-skills"
-echo ""
-echo "📖 Documentation: README.md in this directory"
-echo ""
+echo "Done. Hooks are not active until registered in settings.json: see README.md."

@@ -1,7 +1,7 @@
 ---
 name: optimize
 description: Analyze and suggest performance improvements for code, queries, or systems
-argument-hint: "<file_or_module> [--focus speed|memory|bundle]"
+argument-hint: "[file-or-dir] [--queries|--bundle|--memory] [--target=<ms>] [--quick]"
 effort: medium
 when_to_use: "Use when a function or module needs performance analysis or improvements."
 disable-model-invocation: true
@@ -37,33 +37,33 @@ Determine optimization target:
 
 ```bash
 # Find potentially slow patterns
-grep -rn "forEach\|\.map\|\.filter\|\.reduce" --include="*.{ts,js}" . | head -20
+grep -rn "forEach\|\.map\|\.filter\|\.reduce" --include="*.ts" --include="*.js" . | head -20
 
 # Find nested loops (O(n²) potential)
-grep -rn "for.*for\|\.forEach.*\.forEach\|\.map.*\.map" --include="*.{ts,js}" . | head -10
+grep -rn "for.*for\|\.forEach.*\.forEach\|\.map.*\.map" --include="*.ts" --include="*.js" . | head -10
 
 # Find sync operations that could be async
-grep -rn "readFileSync\|writeFileSync\|execSync" --include="*.{ts,js}" . | head -10
+grep -rn "readFileSync\|writeFileSync\|execSync" --include="*.ts" --include="*.js" . | head -10
 ```
 
 #### Memory analysis
 
 ```bash
 # Large array operations
-grep -rn "new Array\|Array\.from\|\.concat\|spread" --include="*.{ts,js}" . | head -10
+grep -rn "new Array\|Array\.from\|\.concat\|spread" --include="*.ts" --include="*.js" . | head -10
 
 # Potential memory leaks (event listeners, intervals)
-grep -rn "addEventListener\|setInterval\|setTimeout" --include="*.{ts,js}" . | head -10
+grep -rn "addEventListener\|setInterval\|setTimeout" --include="*.ts" --include="*.js" . | head -10
 ```
 
 #### Database query analysis
 
 ```bash
 # N+1 query patterns
-grep -rn "await.*find\|await.*query" --include="*.{ts,js}" . | head -15
+grep -rn "await.*find\|await.*query" --include="*.ts" --include="*.js" . | head -15
 
 # Missing indexes hints
-grep -rn "WHERE\|ORDER BY\|GROUP BY" --include="*.{ts,js,sql}" . | head -15
+grep -rn "WHERE\|ORDER BY\|GROUP BY" --include="*.ts" --include="*.js" --include="*.sql" . | head -15
 ```
 
 #### Bundle analysis
@@ -151,9 +151,9 @@ users.forEach(user => {
 ### 📈 Optimization roadmap
 
 ```
-Week 1: Critical fixes (items 1-3)
-Week 2: High priority (items 4-6)
-Week 3: Measure and validate improvements
+Phase 1: Critical fixes (items 1-3)
+Phase 2: High priority (items 4-6)
+Phase 3: Measure and validate improvements
 ```
 
 ---

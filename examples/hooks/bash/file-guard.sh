@@ -3,6 +3,19 @@
 # Event: PreToolUse
 # Unified file protection with pattern matching and bash bypass detection
 # Prevents Claude from reading/writing protected files
+#
+# Blocks with exit 2 and a stderr message (Claude sees it as the denial reason).
+# Exit 1 would only be a non-blocking error and the tool call would go ahead.
+#
+# Installation (.claude/settings.json):
+#   {
+#     "hooks": {
+#       "PreToolUse": [{
+#         "matcher": "Read|Write|Edit",
+#         "hooks": [{ "type": "command", "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/file-guard.sh" }]
+#       }]
+#     }
+#   }
 
 set -euo pipefail
 
@@ -55,6 +68,7 @@ is_protected() {
 
     # Check filename patterns against basename only
     for pattern in "${FILENAME_PATTERNS[@]}"; do
+        # shellcheck disable=SC2053  # unquoted on purpose: patterns are globs
         [[ "$basename" == $pattern ]] && return 0
     done
 
@@ -68,6 +82,7 @@ is_protected() {
     if [[ -n "$IGNORE_FILE" ]]; then
         while IFS= read -r pattern; do
             [[ "$pattern" =~ ^#.*$ || -z "$pattern" ]] && continue
+            # shellcheck disable=SC2053  # unquoted on purpose: patterns are globs
             [[ "$basename" == $pattern ]] && return 0
             [[ "$file" == *"$pattern"* ]] && return 0
         done < "$IGNORE_FILE"
@@ -100,24 +115,23 @@ fi
 
 # Check for bypass attempts
 if detect_bypass "$FILE_PATH"; then
-    cat << EOF
-{
-  "block": true,
-  "systemMessage": "⛔ File access blocked: Variable expansion detected in path\n\nPath: $FILE_PATH\n\nThis looks like a bypass attempt. Use literal paths only."
-}
-EOF
-    exit 1
+    {
+        echo "File access blocked: variable expansion detected in path"
+        echo "Path: $FILE_PATH"
+        echo "This looks like a bypass attempt. Use literal paths only."
+    } >&2
+    exit 2
 fi
 
 # Check protection patterns
 if is_protected "$FILE_PATH"; then
-    cat << EOF
-{
-  "block": true,
-  "systemMessage": "⛔ File access blocked: Protected file\n\nPath: $FILE_PATH\n\nThis file is protected by .agentignore or security policy.\nTo access it, remove from ignore file and confirm manually."
-}
-EOF
-    exit 1
+    {
+        echo "File access blocked: protected file"
+        echo "Path: $FILE_PATH"
+        echo "This file is protected by .agentignore or security policy."
+        echo "To access it, remove it from the ignore file and confirm manually."
+    } >&2
+    exit 2
 fi
 
 exit 0

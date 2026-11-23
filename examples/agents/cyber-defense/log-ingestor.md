@@ -2,7 +2,8 @@
 name: log-ingestor
 description: Parse raw logs into structured security events. First stage of the cyber defense pipeline — reads log files and extracts typed events (errors, warnings, auth failures, anomalies).
 model: haiku
-tools: Read, Glob
+effort: low
+tools: Read, Write, Glob
 ---
 
 # Log ingestor agent

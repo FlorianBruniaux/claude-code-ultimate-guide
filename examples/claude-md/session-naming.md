@@ -65,6 +65,7 @@ Named sessions appear in the `/resume` picker with their descriptive titles, mak
 ## Limitations
 
 - **Tab renaming**: Terminal tab names (WebStorm, iTerm2) are NOT renamed. JetBrains filters ANSI escape sequences used for tab title changes. The Claude session itself gets renamed, not the terminal tab.
+- **Not verified**: the official docs describe `/rename` typed by the user, `claude --name`, and the `sessionTitle` output of a `SessionStart` hook. They do not document the model invoking `/rename` itself. Test this snippet in your version before relying on it, and fall back to `--name` or a hook if Claude does not rename.
 - **Timing**: Claude renames after understanding the subject, not immediately on first message.
 
 ## Verification

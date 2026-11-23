@@ -33,7 +33,7 @@ Add to `~/.claude/CLAUDE.md`:
 
 ### 3. Add flags (optional)
 
-Add to `~/.claude/FLAGS.md` for flag-based activation:
+Add to `~/.claude/FLAGS.md` for flag-based activation, and import that file from `~/.claude/CLAUDE.md` with `@FLAGS.md` so Claude reads it. These flags are prompt conventions that you type in a message. They are not `claude` command-line flags:
 
 ```markdown
 **--learn**
@@ -47,16 +47,18 @@ Add to `~/.claude/FLAGS.md` for flag-based activation:
 
 ## Usage
 
-```bash
-# Activate for entire session
-claude --learn
+Type the flag in a message inside a Claude Code session. `claude --learn` is not a valid command:
 
-# Focus on specific domain
-claude --learn focus:git
-claude --learn focus:architecture
+```text
+# Activate for the session
+--learn
+
+# Focus on a specific domain
+--learn focus:git
+--learn focus:architecture
 
 # Batch explanations at task end
-claude --learn batch
+--learn batch
 ```
 
 ## More modes: SuperClaude framework

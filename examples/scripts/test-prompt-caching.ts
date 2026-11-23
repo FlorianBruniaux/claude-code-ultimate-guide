@@ -11,11 +11,12 @@
  *   - Node 18+ (native fetch)
  *   - No dependencies required
  *
- * Gotchas discovered in production (not in official docs):
- *   1. The `anthropic-beta: prompt-caching-2024-07-31` header is required
- *      even for Claude 4.x models — omitting it silently disables caching.
- *   2. The effective token threshold for Claude 4.x is ~2048+, not the
- *      documented 1024. Blocks below this threshold return write=0 with no warning.
+ * Gotchas:
+ *   1. No beta header is needed: prompt caching is generally available on
+ *      the Messages API. Sending the old `prompt-caching-2024-07-31` header is unnecessary.
+ *   2. Each model has a minimum cacheable prompt length. Shorter prompts are
+ *      processed without caching and return write=0 with no error. See the
+ *      model table in the prompt caching documentation.
  *   3. Cached tokens are excluded from `input_tokens` in the response.
  *      Track `cache_creation_input_tokens` and `cache_read_input_tokens` instead.
  *   4. The new API format exposes a nested `cache_creation` object with
@@ -59,12 +60,10 @@ async function callAPI(callIndex: number): Promise<Usage> {
     headers: {
       "x-api-key": API_KEY!,
       "anthropic-version": "2023-06-01",
-      // Required for all models, including Claude 4.x
-      "anthropic-beta": "prompt-caching-2024-07-31",
       "content-type": "application/json",
     },
     body: JSON.stringify({
-      model: "claude-sonnet-5",
+      model: "claude-sonnet-5-5",
       max_tokens: 50,
       system: [
         {
@@ -120,7 +119,7 @@ async function main() {
   } else {
     console.log("Result: caching is NOT working. Common causes:");
     console.log("  - Token threshold not met (try increasing STABLE_SYSTEM_PROMPT)");
-    console.log("  - Missing beta header (anthropic-beta: prompt-caching-2024-07-31)");
+    console.log("  - cache_control placed on the wrong block, or the prefix changed between calls");
     console.log("  - Account tier does not support caching");
     process.exit(1);
   }

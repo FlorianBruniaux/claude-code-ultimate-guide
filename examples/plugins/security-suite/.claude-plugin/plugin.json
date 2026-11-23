@@ -1,0 +1,18 @@
+{
+  "name": "security-suite",
+  "displayName": "Security Suite",
+  "version": "1.1.0",
+  "description": "Security scanning and audit skills, a security-auditor agent, and two PreToolUse security hooks.",
+  "author": { "name": "Claude Code Ultimate Guide", "url": "https://github.com/FlorianBruniaux/claude-code-ultimate-guide" },
+  "homepage": "https://github.com/FlorianBruniaux/claude-code-ultimate-guide",
+  "license": "CC-BY-SA-4.0",
+  "keywords": ["security", "audit", "hooks", "compliance"],
+  "metadata": {
+    "components": {
+      "agents": ["security-auditor"],
+      "skills": ["security-check", "security-audit", "audit-agents-skills", "security-checklist"],
+      "hooks": ["security-gate", "security-check"]
+    },
+    "install": "bash install.sh copies the components from examples/ into .claude/"
+  }
+}

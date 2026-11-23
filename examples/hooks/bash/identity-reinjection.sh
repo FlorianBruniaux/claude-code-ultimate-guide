@@ -17,12 +17,21 @@
 #      (e.g. "LEAD:", "REVIEWER:", "DEVELOPER:")
 #   3. Wire this hook to UserPromptSubmit in settings.json
 #
-# Output format: UserPromptSubmit additionalContext injection
+# Output format: UserPromptSubmit `hookSpecificOutput.additionalContext` injection
+#
+# Installation (.claude/settings.json; UserPromptSubmit has no matcher):
+#   {
+#     "hooks": {
+#       "UserPromptSubmit": [{
+#         "hooks": [{ "type": "command", "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/identity-reinjection.sh" }]
+#       }]
+#     }
+#   }
 # Properties:
 #   - Silent no-op when identity is present (zero overhead)
 #   - Silent no-op when no identity file configured
 #   - Never blocks — exits 0 in all cases
-#   - Compatible with agent teams (SubagentStart, SubagentStop) and solo sessions
+#   - Works in solo sessions and, with a per-agent IDENTITY_FILE, in agent teams
 #
 # Based on pattern from Nick Tune: https://nick-tune.me/blog/2026-02-28-hook-driven-dev-workflows-with-claude-code/
 
@@ -58,10 +67,12 @@ if [[ -z "$TRANSCRIPT_PATH" || ! -f "$TRANSCRIPT_PATH" ]]; then
     exit 0
 fi
 
-# Extract the last assistant message from the transcript
-LAST_ASSISTANT=$(jq -r '
-    [.[] | select(.role == "assistant")] | last | .content |
-    if type == "array" then map(select(.type == "text") | .text) | join("") else . end
+# Extract the last assistant message from the transcript. The transcript is JSONL
+# (one object per line, text under .message.content), so read it with -s (slurp).
+# It is written asynchronously and may lag one turn behind.
+LAST_ASSISTANT=$(jq -rs '
+    [.[] | select(.type == "assistant")] | last | .message.content |
+    if type == "array" then map(select(.type == "text") | .text) | join("") else (. // "") end
 ' "$TRANSCRIPT_PATH" 2>/dev/null || true)
 
 # Identity is intact: no action needed
@@ -72,7 +83,7 @@ fi
 # Identity marker missing from last response — re-inject
 # This happens after context compaction strips the original system instructions
 jq -n \
-    --arg context "[Identity reminder — your role and instructions follow. Resume your role immediately.]\n\n$IDENTITY" \
-    '{"additionalContext": $context}'
+    --arg context "$(printf '[Identity reminder: your role and instructions follow. Resume your role immediately.]\n\n%s' "$IDENTITY")" \
+    '{hookSpecificOutput: {hookEventName: "UserPromptSubmit", additionalContext: $context}}'
 
 exit 0

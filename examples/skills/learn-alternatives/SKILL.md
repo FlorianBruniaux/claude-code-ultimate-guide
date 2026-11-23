@@ -1,7 +1,7 @@
 ---
 name: learn-alternatives
-description: Compare different approaches to solve the same problem
-argument-hint: "[topic]"
+description: "Compare 3-5 alternative approaches to the same problem with trade-offs and a recommendation. Use when the user asks for alternatives, options, or how else something could be done."
+argument-hint: "[topic] [--detailed|--quick]"
 effort: low
 ---
 
@@ -12,10 +12,10 @@ Compare different approaches to solve the same problem.
 ## Usage
 
 ```
-/learn:alternatives              # Compare approaches for current code
-/learn:alternatives auth         # Compare authentication methods
-/learn:alternatives state        # Compare state management options
-/learn:alternatives --detailed   # Include code examples for each
+/learn-alternatives              # Compare approaches for current code
+/learn-alternatives auth         # Compare authentication methods
+/learn-alternatives state        # Compare state management options
+/learn-alternatives --detailed   # Include code examples for each
 ```
 
 ## Instructions
@@ -106,7 +106,7 @@ Standard criteria to evaluate (adjust based on problem):
 ## Example session
 
 ```
-User: I'm using useState for form state. /learn:alternatives
+User: I'm using useState for form state. /learn-alternatives
 
 Claude: ## Problem: Managing Form State in React
 

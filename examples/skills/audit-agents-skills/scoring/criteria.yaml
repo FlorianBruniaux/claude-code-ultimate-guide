@@ -29,8 +29,8 @@ agents:
         - id: A1.3
           name: "Model specified"
           points: 3
-          detection: "frontmatter has 'model:' field (sonnet/haiku/opus)"
-          check: "Grep frontmatter for 'model: (sonnet|haiku|opus)'"
+          detection: "frontmatter has 'model:' field (alias such as sonnet/haiku/opus, a full model ID, or inherit)"
+          check: "Grep frontmatter for 'model:'; flag a pinned older model ID without a stated reason"
 
         - id: A1.4
           name: "Tools restricted appropriately"
@@ -155,8 +155,8 @@ skills:
         - id: S1.4
           name: "Allowed-tools specified"
           points: 3
-          detection: "frontmatter has 'allowed-tools:' field listing tool permissions"
-          check: "frontmatter.allowed-tools exists (list or 'all')"
+          detection: "frontmatter has 'allowed-tools:' (pre-approves the listed tools, does not restrict others) or the skill needs no tool approval"
+          check: "frontmatter.allowed-tools exists, or the body uses no tools that prompt"
 
     content:
       weight: 2
@@ -257,8 +257,8 @@ commands:
         - id: C1.1
           name: "Valid frontmatter"
           points: 3
-          detection: "has YAML frontmatter with both 'name:' and 'description:' fields"
-          check: "frontmatter.name AND frontmatter.description exist"
+          detection: "has YAML frontmatter with a 'description:' field (a command takes its name from the file name; 'name:' is not a command field)"
+          check: "frontmatter.description exists"
 
         - id: C1.2
           name: "Argument-hint if takes args"

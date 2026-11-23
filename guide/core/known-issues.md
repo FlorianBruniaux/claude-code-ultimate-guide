@@ -103,9 +103,9 @@ Note: this only affects the standalone binary, not npm/npx installs.
 
 #### Audit tool
 
-Run `/check-cache-bugs` (install from the [examples/commands](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/examples/commands/check-cache-bugs.md) directory) to audit your setup for all three bugs in ~20 seconds.
+Run `/check-cache-bugs` (install from [examples/skills/check-cache-bugs/](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/examples/skills/check-cache-bugs/SKILL.md)) to audit your setup for all three bugs in ~20 seconds.
 
-> **Best practice**: run at the very start of a fresh session, or as a one-shot via `claude -p "$(cat .claude/commands/check-cache-bugs.md)"` to avoid contaminating the current session context with `cch=` strings (potential Bug 1 trigger).
+> **Best practice**: run at the very start of a fresh session, or as a one-shot via `claude -p "$(cat .claude/skills/check-cache-bugs/SKILL.md)"` to avoid contaminating the current session context with `cch=` strings (potential Bug 1 trigger).
 
 #### Monitoring cache health
 

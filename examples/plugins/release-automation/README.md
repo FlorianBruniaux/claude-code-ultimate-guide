@@ -1,42 +1,28 @@
 # Release automation plugin
 
-Semantic versioning, changelog generation, and release management.
+Release notes generation from git history.
 
 ## Install
 
+From a clone of this repository:
+
 ```bash
-bash install.sh
+bash examples/plugins/release-automation/install.sh
 ```
 
 ## Components
 
-- **/release command**: Semantic version bumping and tagging
-- **/changelog command**: Generate release notes from commits
-- **release-notes-generator skill**: Automated release documentation
-- **version-sync hook**: Keep version consistent across files
+- **`/release-notes` skill**: generate notes from commits (manual invocation only)
+- **release-notes-generator skill**: three output formats (CHANGELOG, PR body, Slack)
+
+Version bumping, tagging, and a version-sync hook are not part of this bundle. The maintainer commands used for this repository's own releases live in `.claude/commands/` and are repository-specific.
 
 ## Quick start
 
 ```bash
-# Bump version and create release
-/release patch      # v1.0.0 → v1.0.1
-/release minor      # v1.0.1 → v1.1.0
-/release major      # v1.1.0 → v2.0.0
-
-# Generate changelog
-/changelog 10       # Last 10 releases
-
-# The hook auto-syncs VERSION across docs
+/release-notes --from v1.0.0 --format md
 ```
 
-## Features
+These bundles are project-level installers, not plugin packages: the manifest in `.claude-plugin/plugin.json` carries metadata only, and `install.sh` copies the listed components from the sibling `examples/` folders into `.claude/` (existing files are never overwritten). To ship them as a real plugin, copy the components under the plugin root (`skills/<name>/SKILL.md`, `agents/<name>.md`) and run `claude plugin validate`.
 
-✓ Semantic versioning
-✓ Automated changelog
-✓ Git tagging
-✓ Release notes
-✓ Version consistency
-
----
-
-See `guide/workflows/releases-tracking.md` for version management.
+See `guide/workflows/` for version management.

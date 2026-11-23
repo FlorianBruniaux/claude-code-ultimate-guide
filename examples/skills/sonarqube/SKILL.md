@@ -1,7 +1,7 @@
 ---
 name: sonarqube
-description: Analyze SonarCloud quality issues for a specific PR
-argument-hint: "[project_key]"
+description: Analyze SonarCloud quality issues for a specific pull request and produce a report with metrics, top violators, and an action plan. Read-only; makes no code changes.
+argument-hint: "[PR number or URL]"
 effort: medium
 when_to_use: "Use when running SonarQube analysis or interpreting SonarQube findings."
 disable-model-invocation: true
@@ -29,8 +29,8 @@ Analyze SonarCloud quality issues for a specific PR. Generates comprehensive rep
 # Set SonarQube token (add to ~/.bashrc or ~/.zshrc)
 export SONARQUBE_TOKEN="your_token_here"
 
-# Verify token is set
-echo $SONARQUBE_TOKEN
+# Verify token is set (never print its value)
+[ -n "$SONARQUBE_TOKEN" ] && echo "token set" || echo "token missing"
 ```
 
 **To get token:**
@@ -57,14 +57,15 @@ SONAR_BASE_URL="https://sonarcloud.io/api"
 
 ```bash
 # Create temporary bash script to handle authentication
-cat > /tmp/fetch_sonar.sh << 'SCRIPT'
+T="${TMPDIR:-/tmp}"
+cat > "$T/fetch_sonar.sh" << 'SCRIPT'
 #!/bin/bash
 curl -s -u "${SONARQUBE_TOKEN}:" \
-  "https://sonarcloud.io/api/issues/search?componentKeys=${SONAR_PROJECT_KEY}&pullRequest=$1&issueStatuses=OPEN,CONFIRMED&sinceLeakPeriod=true&ps=500"
+  "https://sonarcloud.io/api/issues/search?componentKeys=${SONAR_PROJECT_KEY}&pullRequest=\$1&issueStatuses=OPEN,CONFIRMED&sinceLeakPeriod=true&ps=500"
 SCRIPT
 
-chmod +x /tmp/fetch_sonar.sh
-/tmp/fetch_sonar.sh $PR_NUMBER > /tmp/sonar_pr_$PR_NUMBER.json
+chmod +x "$T/fetch_sonar.sh"
+"$T/fetch_sonar.sh" "$PR_NUMBER" > "$T/sonar_pr_$PR_NUMBER.json"
 ```
 
 **API Parameters:**
@@ -76,12 +77,13 @@ chmod +x /tmp/fetch_sonar.sh
 
 ## Analysis script
 
-Create Node.js analysis script at `/tmp/sonar_analyze.js`:
+Create a Node.js analysis script at `$TMPDIR/sonar_analyze.js` (fall back to `/tmp`):
 
 ```javascript
 const fs = require('fs');
 const prNumber = process.argv[2];
-const data = JSON.parse(fs.readFileSync(`/tmp/sonar_pr_${prNumber}.json`, 'utf8'));
+const tmp = process.env.TMPDIR || '/tmp';
+const data = JSON.parse(fs.readFileSync(`${tmp}/sonar_pr_${prNumber}.json`, 'utf8'));
 const issues = data.issues || [];
 
 // Group by severity
@@ -133,7 +135,7 @@ console.log(JSON.stringify({
 
 **Run analysis:**
 ```bash
-node /tmp/sonar_analyze.js $PR_NUMBER > /tmp/sonar_analysis_$PR_NUMBER.json
+node "$T/sonar_analyze.js" "$PR_NUMBER" > "$T/sonar_analysis_$PR_NUMBER.json"
 ```
 
 ## Report format
@@ -230,10 +232,8 @@ https://sonarcloud.io/project/pull_requests_list?id={PROJECT_KEY}&pullRequest={P
 Always clean up temporary files after execution:
 
 ```bash
-rm -f /tmp/fetch_sonar.sh
-rm -f /tmp/sonar_pr_$PR_NUMBER.json
-rm -f /tmp/sonar_analyze.js
-rm -f /tmp/sonar_analysis_$PR_NUMBER.json
+T="${TMPDIR:-/tmp}"
+rm -f "$T/fetch_sonar.sh" "$T/sonar_pr_$PR_NUMBER.json" "$T/sonar_analyze.js" "$T/sonar_analysis_$PR_NUMBER.json"
 ```
 
 ## Error handling
@@ -281,9 +281,9 @@ SonarCloud API limits:
     claude -p "/sonarqube ${{ github.event.pull_request.number }}"
 ```
 
-### Pre-merge Hook
+### Pre-merge script
 
-Add to `.claude/hooks/pre-merge.sh`:
+Call it from a script or a Git hook of your own (Claude Code has no pre-merge hook event):
 
 ```bash
 #!/bin/bash
@@ -296,7 +296,7 @@ claude -p "/sonarqube $PR_NUMBER"
 **Never:**
 - ❌ Modify code or auto-fix issues (analysis-only command)
 - ❌ Skip token verification (security risk)
-- ❌ Leave temp files in `/tmp` (cleanup required)
+- ❌ Leave temp files behind (cleanup required)
 - ❌ Commit SonarQube token to repository (use env vars)
 - ❌ Run without checking token expiration
 
@@ -310,6 +310,8 @@ claude -p "/sonarqube $PR_NUMBER"
 ## Advanced usage
 
 ### Custom filters
+
+The flags below are extension ideas. This skill does not implement them; add the filtering to the analysis script before relying on them.
 
 ```bash
 # Only show critical/blocker issues
@@ -369,7 +371,7 @@ https://sonarcloud.io/project/overview?id=YOUR_PROJECT_KEY
 # Using PR URL
 /sonarqube https://github.com/org/repo/pull/170
 
-# Custom severity filter (if implemented)
+# Custom severity filter (not implemented, see Advanced usage)
 /sonarqube 170 --critical-only
 ```
 

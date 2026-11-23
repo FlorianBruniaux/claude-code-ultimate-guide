@@ -15,7 +15,7 @@ Analyzes this codebase and surfaces actionable Routine candidates across the thr
 
 ## What are Routines
 
-A Routine is an autonomous Claude Code session running on Anthropic-managed cloud infrastructure, triggered in three ways:
+A Routine (the official docs now call these cloud scheduled tasks, backed by the `/schedule` command) is an autonomous Claude Code session running on Anthropic-managed cloud infrastructure, triggered in three ways:
 
 | Trigger | How it fires |
 |---------|-------------|
@@ -25,7 +25,7 @@ A Routine is an autonomous Claude Code session running on Anthropic-managed clou
 
 Each run clones a fresh copy of the GitHub repository, runs a full Claude Code session with configured MCP connectors (Slack, Linear, GitHub, Google Drive…), and can create branches, open PRs, post messages, and call external APIs. No local machine required.
 
-**Daily limits**: Pro 5/day · Max 15/day · Team/Enterprise 25/day.
+**Daily limits**: they depend on the plan and change over time. Check the current cloud scheduled tasks documentation before promising a run frequency.
 
 ---
 

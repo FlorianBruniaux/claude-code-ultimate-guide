@@ -1,7 +1,7 @@
 ---
 name: git-worktree-remove
 description: Safely remove a git worktree with branch cleanup and safety checks
-argument-hint: <worktree_name>
+argument-hint: "<worktree-name-or-path> [--force] [--keep-branch] [--keep-remote]"
 effort: low
 when_to_use: "Use when removing a specific worktree by name."
 disable-model-invocation: true
@@ -13,7 +13,7 @@ Safely remove a single git worktree with branch cleanup, merge verification, and
 
 **Core principle:** Safety checks first, then clean removal of worktree + branch + DB resources.
 
-**Part of:** [Worktree Lifecycle Suite](../../commands/git-worktree.md) | [`/git-worktree`](../../commands/git-worktree.md) | [`/git-worktree-status`](../../commands/git-worktree-status.md) | [`/git-worktree-clean`](../../commands/git-worktree-clean.md)
+**Part of:** Worktree Lifecycle Suite: [`/git-worktree`](../git-worktree/SKILL.md) | [`/git-worktree-status`](../git-worktree-status/SKILL.md) | [`/git-worktree-clean`](../git-worktree-clean/SKILL.md)
 
 ## Process
 
@@ -113,7 +113,7 @@ if [ -f ".env" ] && grep -q "neon" ".env"; then
   echo "DB Cleanup: neonctl branches delete $BRANCH_SLUG"
 elif [ -f ".pscale.yml" ]; then
   echo ""
-  DB_NAME=$(grep 'database:' .pscale.yml | awk '{print $2}')
+  DB_NAME=$(grep 'database:' .pscale.yml | awk '{print \$2}')
   echo "DB Cleanup: pscale branch delete $DB_NAME $BRANCH_SLUG"
 elif [ -f ".env" ] && grep -q "postgresql" ".env"; then
   echo ""

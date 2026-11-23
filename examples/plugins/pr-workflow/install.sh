@@ -1,29 +1,52 @@
 #!/bin/bash
+# Install the PR Workflow bundle into a project's .claude/ directory.
+# Run from a clone of the repository: components are copied from the sibling
+# examples/ directories (agents/, skills/, hooks/bash/, github-actions/).
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+EXAMPLES_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
 PROJECT_CLAUDE_DIR="${CLAUDE_PROJECT_DIR:-.claude}"
 
-echo "📦 Installing plugin..."
+AGENTS=(code-reviewer)
+SKILLS=(review-pr pr validate-changes)
+HOOKS=()
+WORKFLOWS=()
 
-mkdir -p "$PROJECT_CLAUDE_DIR"/{agents,commands,skills,hooks/bash}
+copy_item() {
+  local src="$1" dest="$2" label="$3"
+  if [ ! -e "$src" ]; then
+    echo "  missing: $src" >&2
+    return 1
+  fi
+  if [ -e "$dest" ]; then
+    echo "  skipped (already exists): $dest"
+    return 0
+  fi
+  mkdir -p "$(dirname "$dest")"
+  cp -R "$src" "$dest"
+  echo "  installed $label: $dest"
+}
 
-if [ -d "$SCRIPT_DIR/agents" ]; then
-  cp "$SCRIPT_DIR"/agents/*.md "$PROJECT_CLAUDE_DIR/agents/" 2>/dev/null || true
-fi
+echo "Installing PR Workflow into $PROJECT_CLAUDE_DIR"
 
-if [ -d "$SCRIPT_DIR/commands" ]; then
-  cp "$SCRIPT_DIR"/commands/*.md "$PROJECT_CLAUDE_DIR/commands/" 2>/dev/null || true
-fi
+for a in "${AGENTS[@]+"${AGENTS[@]}"}"; do
+  copy_item "$EXAMPLES_DIR/agents/$a.md" "$PROJECT_CLAUDE_DIR/agents/$a.md" agent
+done
 
-if [ -d "$SCRIPT_DIR/skills" ]; then
-  cp "$SCRIPT_DIR"/skills/*.md "$PROJECT_CLAUDE_DIR/skills/" 2>/dev/null || true
-fi
+# Skills are folders (<name>/SKILL.md), copied whole so bundled files come along
+for s in "${SKILLS[@]+"${SKILLS[@]}"}"; do
+  copy_item "$EXAMPLES_DIR/skills/$s" "$PROJECT_CLAUDE_DIR/skills/$s" skill
+done
 
-if [ -d "$SCRIPT_DIR/hooks/bash" ]; then
-  cp "$SCRIPT_DIR"/hooks/bash/*.sh "$PROJECT_CLAUDE_DIR/hooks/bash/" 2>/dev/null || true
-  chmod +x "$PROJECT_CLAUDE_DIR/hooks/bash/"*.sh 2>/dev/null || true
-fi
+for h in "${HOOKS[@]+"${HOOKS[@]}"}"; do
+  copy_item "$EXAMPLES_DIR/hooks/bash/$h.sh" "$PROJECT_CLAUDE_DIR/hooks/bash/$h.sh" hook
+  chmod +x "$PROJECT_CLAUDE_DIR/hooks/bash/$h.sh"
+done
 
-echo "✅ Plugin installed successfully!"
-echo "📖 See README.md for next steps"
+# GitHub Actions workflows go to the repository root, not into .claude/
+for w in "${WORKFLOWS[@]+"${WORKFLOWS[@]}"}"; do
+  copy_item "$EXAMPLES_DIR/github-actions/$w.yml" ".github/workflows/$w.yml" workflow
+done
+
+echo "Done. Hooks are not active until registered in settings.json: see README.md."

@@ -1,7 +1,11 @@
 #!/bin/bash
 # PreToolUse hook - Block commands containing secrets
 # Place in: .claude/hooks/security-check.sh
-# Register in: .claude/settings.json
+# Register in: .claude/settings.json (PreToolUse, matcher "Bash")
+#
+# Blocks with exit 2 and a stderr message: Claude sees the stderr text as the
+# denial reason. (A top-level "decision": "block" is deprecated for PreToolUse,
+# which uses hookSpecificOutput.permissionDecision.)
 
 INPUT=$(cat)
 TOOL=$(echo "$INPUT" | jq -r '.tool_name')
@@ -30,7 +34,7 @@ if [[ "$TOOL" == "Bash" ]]; then
 
     for PATTERN in "${PATTERNS[@]}"; do
         if echo "$COMMAND" | grep -qi "$PATTERN"; then
-            echo "{\"decision\": \"block\", \"reason\": \"Potential secret detected: $PATTERN\"}"
+            echo "Blocked: potential secret detected in command: $PATTERN" >&2
             exit 2
         fi
     done
@@ -38,7 +42,7 @@ if [[ "$TOOL" == "Bash" ]]; then
     # Check for hardcoded credentials in common formats
     # API keys (typically long alphanumeric strings)
     if echo "$COMMAND" | grep -qE "(sk-[a-zA-Z0-9]{20,}|pk_[a-zA-Z0-9]{20,}|[a-f0-9]{32,})"; then
-        echo "{\"decision\": \"block\", \"reason\": \"Potential API key or hash detected\"}"
+        echo "Blocked: potential API key or hash detected in command" >&2
         exit 2
     fi
 fi

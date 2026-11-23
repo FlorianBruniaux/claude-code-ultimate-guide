@@ -1,7 +1,7 @@
 ---
 name: security
-description: Rapid security assessment focused on OWASP Top 10 vulnerabilities
-argument-hint: "[path] [--depth quick|full]"
+description: Rapid heuristic security scan of the current codebase for OWASP Top 10 patterns (secrets, injection, XSS, dependencies, auth). Use for a quick pass on application code; for configuration and posture scoring use security-audit.
+argument-hint: "[path | auth | deps | injection]"
 effort: medium
 when_to_use: "Use when reviewing code for security vulnerabilities or before merging sensitive changes."
 disable-model-invocation: true
@@ -26,7 +26,7 @@ Perform a quick security scan to identify common vulnerabilities:
 
 ```bash
 # Common secret patterns
-grep -rn --include="*.{js,ts,py,go,java,rb,php,env}" \
+grep -rn --include="*.js" --include="*.ts" --include="*.py" --include="*.go" --include="*.java" --include="*.rb" --include="*.php" --include="*.env" \
   -E "(password|secret|api_key|apikey|token|auth|credential).*[=:].*['\"][^'\"]{8,}['\"]" \
   --exclude-dir={node_modules,vendor,.git,dist,build} . 2>/dev/null | head -20
 
@@ -41,12 +41,12 @@ find . -name ".env*" -not -path "*/node_modules/*" -type f 2>/dev/null
 
 ```bash
 # SQL injection patterns (raw queries with string concat)
-grep -rn --include="*.{js,ts,py,go,java,php}" \
+grep -rn --include="*.js" --include="*.ts" --include="*.py" --include="*.go" --include="*.java" --include="*.php" \
   -E "(query|execute|raw|sql).*\+.*\$|f['\"].*SELECT|\.format\(.*SELECT" \
   --exclude-dir={node_modules,vendor,.git} . 2>/dev/null | head -15
 
 # Command injection patterns
-grep -rn --include="*.{js,ts,py,go,rb,php}" \
+grep -rn --include="*.js" --include="*.ts" --include="*.py" --include="*.go" --include="*.rb" --include="*.php" \
   -E "(exec|spawn|system|shell_exec|popen)\s*\(" \
   --exclude-dir={node_modules,vendor,.git} . 2>/dev/null | head -15
 ```
@@ -55,12 +55,12 @@ grep -rn --include="*.{js,ts,py,go,rb,php}" \
 
 ```bash
 # Dangerous innerHTML/dangerouslySetInnerHTML usage
-grep -rn --include="*.{js,ts,jsx,tsx,vue}" \
+grep -rn --include="*.js" --include="*.ts" --include="*.jsx" --include="*.tsx" --include="*.vue" \
   -E "(innerHTML|dangerouslySetInnerHTML|v-html)" \
   --exclude-dir={node_modules,.git,dist} . 2>/dev/null | head -15
 
 # Unescaped template literals in HTML context
-grep -rn --include="*.{js,ts,jsx,tsx}" \
+grep -rn --include="*.js" --include="*.ts" --include="*.jsx" --include="*.tsx" \
   -E "\`.*\$\{.*\}.*<" \
   --exclude-dir={node_modules,.git,dist} . 2>/dev/null | head -10
 ```
@@ -79,12 +79,12 @@ grep -rn --include="*.{js,ts,jsx,tsx}" \
 
 ```bash
 # Hardcoded JWT secrets
-grep -rn --include="*.{js,ts,py,go}" \
+grep -rn --include="*.js" --include="*.ts" --include="*.py" --include="*.go" \
   -E "(jwt|JWT).*secret.*[=:].*['\"].{8,}['\"]" \
   --exclude-dir={node_modules,vendor,.git} . 2>/dev/null
 
 # Missing CSRF protection patterns
-grep -rn --include="*.{js,ts,py}" \
+grep -rn --include="*.js" --include="*.ts" --include="*.py" \
   -E "(POST|PUT|DELETE|PATCH).*fetch|axios\.(post|put|delete|patch)" \
   --exclude-dir={node_modules,vendor,.git} . 2>/dev/null | head -10
 ```

@@ -1,6 +1,6 @@
 ---
 name: review-pr
-description: Perform a comprehensive code review of a pull request
+description: Review a GitHub pull request by number or URL with a structured checklist (quality, correctness, security, tests, docs) and an optional multi-agent pass. Use when asked to review a PR before merge.
 argument-hint: "[PR_number|URL]"
 effort: high
 disable-model-invocation: true

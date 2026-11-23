@@ -1,6 +1,7 @@
 ---
 name: voice-refine
 description: "Transform verbose voice input into structured, token-efficient Claude prompts. Use when cleaning up voice memos, dictation output, or speech-to-text transcriptions that contain filler words, repetitions, and unstructured thoughts."
+argument-hint: "[--confirm | --direct] [--verbose] [--en]"
 allowed-tools: Read
 effort: low
 ---
@@ -93,4 +94,4 @@ dans le projet donc faut que ça matche avec ça...
 ## See also
 
 - `guide/ecosystem/ai-ecosystem.md` - Voice-to-Text Tools section
-- `examples/before-after.md` - Full transformation examples
+- `${CLAUDE_SKILL_DIR}/examples/before-after.md` - Full transformation examples

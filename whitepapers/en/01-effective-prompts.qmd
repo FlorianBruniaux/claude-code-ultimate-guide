@@ -2,11 +2,11 @@
 title: "Prompts That Work"
 subtitle: "A method for precise, verifiable prompts"
 author: "Florian BRUNIAUX"
-date: "2026-11-11"
+date: "2026-11-23"
 date-format: "MMMM YYYY"
 version: "3.44.1"
 guide-version: "3.44.1"
-wp-version: "1.3.6"
+wp-version: "1.3.7"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -995,7 +995,7 @@ VERIFY: XSS payload "<script>alert(1)</script>" is escaped
 Before writing a single line of code, `/review-plan` reviews the architecture. On a monolith-to-microservices migration, Claude identifies a circular dependency between two services. Fixed in 10 minutes at design time, instead of several days of refactoring after implementation.
 :::
 
-> Template: `examples/commands/review-plan.md`
+> Template: `examples/skills/review-plan/SKILL.md`
 
 ::: {.callout-tip title="Memo -- Review Plan in 30 seconds"}
 **What**: Structured review across 4 axes (Architecture, Quality, Tests, Performance) before writing code.

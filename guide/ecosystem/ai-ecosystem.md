@@ -2313,7 +2313,7 @@ External resources from experienced practitioners that validate and extend the p
 | Van Veen Pattern | This Guide Reference |
 |------------------|---------------------|
 | TDD guardrail | `guide/core/methodologies.md` (TDD, Verification Loops) |
-| Git worktrees | `examples/commands/git-worktree.md` (+ DB branching) |
+| Git worktrees | `examples/skills/git-worktree/SKILL.md` (+ DB branching) |
 | Planning phase | Plan Mode (Section 3.3) |
 | Manual commits | Git best practices (Section 9.9) |
 
@@ -2848,7 +2848,7 @@ This is structurally identical to a CLAUDE.md behavioral rule file, applied to a
 
 ### Scaffold with Claude Code
 
-Use the `/autoresearch` command (available in [examples/commands/](../../examples/commands/autoresearch.md)) to scan your codebase, detect improvement opportunities, and scaffold the mechanical files:
+Use the `/autoresearch` command (available in [examples/skills/autoresearch/](../../examples/skills/autoresearch/SKILL.md)) to scan your codebase, detect improvement opportunities, and scaffold the mechanical files:
 
 ```
 /autoresearch                              # Scan + propose loops

@@ -1,7 +1,7 @@
 ---
 name: explain
 description: Explain code, concepts, or system behavior with adjustable depth levels
-argument-hint: <file_or_concept>
+argument-hint: "[--simple|--deep|--learn] <file-or-concept>"
 effort: low
 when_to_use: "Use when asking Claude to explain code, a function, an algorithm, or a concept."
 ---
@@ -132,7 +132,7 @@ cat "$DIR/index.ts" 2>/dev/null || cat "$DIR/__init__.py" 2>/dev/null
 - Con: Regex email validation isn't RFC-compliant
 
 **Alternatives Considered**:
-- Zod schema: More powerful but adds 50KB
+- Zod schema: More powerful but adds a dependency
 - Class-validator: Better for decorators but OOP-heavy
 ```
 

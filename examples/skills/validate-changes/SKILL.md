@@ -1,6 +1,6 @@
 ---
 name: validate-changes
-description: Evaluate staged changes using LLM-as-a-Judge before committing
+description: Evaluate staged changes with the output-evaluator agent (LLM-as-a-Judge) and return an APPROVE, NEEDS_REVIEW, or REJECT verdict before committing. Use before committing significant or security-sensitive changes.
 effort: medium
 disable-model-invocation: true
 ---
@@ -21,7 +21,7 @@ Run `git diff --cached` to get the complete diff of all staged changes.
 
 ### Step 3: Invoke the evaluator
 
-Use the Task tool to launch the `output-evaluator` agent with the diff:
+Use the `Agent` tool to launch the `output-evaluator` subagent (`examples/agents/output-evaluator.md`; it must be installed in `.claude/agents/`) with the diff:
 
 ```
 Evaluate these staged changes for correctness, completeness, and safety.
@@ -92,8 +92,8 @@ How would you like to proceed?
 
 ## Cost awareness
 
-This command invokes an LLM evaluation, which uses API tokens:
-- **Typical cost**: $0.01-0.05 per evaluation (using Haiku)
+This skill invokes an LLM evaluation, which uses API tokens:
+- **Typical cost**: \$0.01-0.05 per evaluation (using Haiku)
 - **Larger diffs**: May cost more due to increased token usage
 
 ## When to use
@@ -113,4 +113,4 @@ This command invokes an LLM evaluation, which uses API tokens:
 ## Integration with git hooks
 
 For automatic evaluation on every commit, see `pre-commit-evaluator.sh` hook.
-This command is the manual alternative when you want control over when evaluation runs.
+This skill is the manual alternative when you want control over when evaluation runs.

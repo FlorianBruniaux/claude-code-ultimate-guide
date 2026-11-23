@@ -1,6 +1,7 @@
 ---
 name: audit-agents-skills
 description: "Audit Claude Code agents, skills, and commands for quality and production readiness. Use when evaluating skill quality, checking production readiness scores, or comparing agents against best-practice templates."
+argument-hint: "[path] [--mode quick|full|comparative] [--fix] [--output <file>]"
 allowed-tools: Read Grep Glob Bash Write
 effort: high
 disable-model-invocation: true
@@ -9,6 +10,8 @@ metadata:
 ---
 
 # Audit agents/skills/commands (advanced skill)
+
+Arguments: an optional project path, plus `--mode quick|full|comparative` (default `full`), `--fix` and `--output <file>`. With no path, audit the current project. Custom commands are audited as a legacy file type: they are now merged into skills and accept the same frontmatter except `name` and `paths`.
 
 Comprehensive quality audit system for Claude Code agents, skills, and commands. Provides quantitative scoring, comparative analysis, and production readiness grading based on industry best practices.
 
@@ -32,9 +35,9 @@ Comprehensive quality audit system for Claude Code agents, skills, and commands.
 
 | Mode | Usage | Output |
 |------|-------|--------|
-| **Quick Audit** | Top-5 critical criteria only | Fast pass/fail (3-5 min for 20 files) |
-| **Full Audit** | All 16 criteria per file | Detailed scores + recommendations (10-15 min) |
-| **Comparative** | Full + benchmark vs templates | Analysis + gap identification (15-20 min) |
+| **Quick Audit** | Top-5 critical criteria only | Fast pass/fail |
+| **Full Audit** | All 16 criteria per file | Detailed scores + recommendations |
+| **Comparative** | Full + benchmark vs templates | Analysis + gap identification |
 
 **Default**: Full Audit (recommended for first run)
 
@@ -77,19 +80,17 @@ The 16-criteria framework is derived from:
    ```
    .claude/agents/
    .claude/skills/
-   .claude/commands/
+   .claude/commands/     (legacy, still loaded)
    examples/agents/      (if exists)
    examples/skills/      (if exists)
-   examples/commands/    (if exists)
    ```
 
 2. **Classify files** by type (agent/skill/command)
 
 3. **Load reference templates** (for Comparative mode):
    ```
-   guide/examples/agents/     (benchmark files)
-   guide/examples/skills/     (benchmark files)
-   guide/examples/commands/   (benchmark files)
+   examples/agents/     (benchmark files, from the guide repository)
+   examples/skills/     (benchmark files, from the guide repository)
    ```
 
 ### Phase 2: Scoring engine
@@ -405,36 +406,38 @@ Focus on these gaps to reach template quality:
 
 ### Basic (full audit)
 
-```bash
+```text
 # In Claude Code
-Use skill: audit-agents-skills
+/audit-agents-skills
 
 # Specify path
-Use skill: audit-agents-skills for ~/projects/my-app
+/audit-agents-skills /path/to/project
 ```
 
 ### With options
 
-```bash
+```text
 # Quick audit (fast)
-Use skill: audit-agents-skills with mode=quick
+/audit-agents-skills --mode quick
 
 # Comparative (benchmark analysis)
-Use skill: audit-agents-skills with mode=comparative
+/audit-agents-skills --mode comparative
 
 # Generate fixes
-Use skill: audit-agents-skills with fixes=true
+/audit-agents-skills --fix
 
 # Custom output path
-Use skill: audit-agents-skills with output=~/Desktop/audit.json
+/audit-agents-skills --output audit.json
 ```
 
 ### JSON output only
 
-```bash
+```text
 # For programmatic integration
-Use skill: audit-agents-skills with format=json output=audit.json
+/audit-agents-skills --output audit.json
 ```
+
+The JSON report is written next to the Markdown report. Only `--mode`, `--fix` and `--output` are interpreted by this skill.
 
 ---
 
@@ -481,7 +484,7 @@ jobs:
 |--------|----------------------------------|-------------------|
 | **Scope** | Current project only | Multi-project, comparative |
 | **Output** | Markdown report | Markdown + JSON |
-| **Speed** | Fast (5-10 min) | Slower (10-20 min with comparative) |
+| **Speed** | Faster | Slower in comparative mode |
 | **Depth** | Standard 16 criteria | Same + benchmark analysis |
 | **Fix suggestions** | Via `--fix` flag | Built-in with recommendations |
 | **Programmatic** | Terminal output | JSON for CI/CD integration |
@@ -528,7 +531,7 @@ To support new file types (e.g., "workflows"):
 - **Command version**: `.claude/commands/audit-agents-skills.md`
 - **Agent Validation Checklist**: guide line 4921 (manual 16 criteria)
 - **Skill Validation**: guide line 5491 (spec documentation)
-- **Reference templates**: `examples/agents/`, `examples/skills/`, `examples/commands/`
+- **Reference templates**: `examples/agents/`, `examples/skills/`
 
 ---
 

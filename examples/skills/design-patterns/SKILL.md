@@ -2,14 +2,17 @@
 name: design-patterns
 description: "Detect, suggest, and evaluate GoF design patterns in TypeScript/JavaScript codebases. Use when refactoring code, applying singleton/factory/observer/strategy patterns, reviewing pattern quality, or finding stack-native alternatives for React, Angular, NestJS, and Vue."
 allowed-tools: Read Grep Glob mcp__grepai__grepai_search
+argument-hint: "[detect|suggest|evaluate] [path] [--pattern=name]"
 context: fork
-agent: specialist
+agent: general-purpose
 effort: high
 ---
 
 # Design patterns analyzer skill
 
 **Purpose**: Detect, suggest, and evaluate Gang of Four (GoF) design patterns in TypeScript/JavaScript codebases with stack-aware adaptations.
+
+This skill runs in a forked, read-only-by-intent subagent (`context: fork`, `agent: general-purpose`) that starts without the conversation history, so the task and path must come from the arguments. The reference files named below live under `${CLAUDE_SKILL_DIR}`: read them from there, not from the working directory.
 
 ## Core capabilities
 
@@ -542,10 +545,9 @@ const CartDisplay = () => {
 
 ## Integration with other skills
 
-This skill can be inherited by:
-- `refactoring-specialist.md`: Provides pattern knowledge for refactoring
-- `code-reviewer.md`: Adds pattern detection to review process
-- `architecture-advisor.md`: Informs architectural decisions with pattern usage
+A subagent can preload this skill through its `skills:` frontmatter field. Candidates in this repository:
+- `refactoring-specialist`: pattern knowledge for refactoring
+- `code-reviewer`: pattern detection during review
 
 ## Reference files
 

@@ -154,7 +154,7 @@ Do not fabricate validation results for things you cannot verify statically.
 
 ## See also
 
-- [Plan-Validate Command](../commands/plan-validate.md)
+- [Plan-Validate skill](../skills/plan-pipeline-validate/SKILL.md)
 - [Security Analyst Agent](./security-auditor.md)
 - [Planning Coordinator Agent](./planning-coordinator.md)
 - [Plan-Validate-Execute Pipeline](../../guide/workflows/plan-pipeline.md)

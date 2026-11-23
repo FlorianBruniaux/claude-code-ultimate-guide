@@ -506,7 +506,7 @@ deep_dive:
   mdma_security_note: "Audit-log chain (FNV-1a) and PII redaction hash (djb2-style) are both explicitly non-cryptographic in code comments"
   # PDF Generation
   pdf_generation: "guide/workflows/pdf-generation.md"
-  pdf_generator_skill: "examples/skills/pdf-generator.md"
+  pdf_generator_skill: "examples/skills/pdf-generator/SKILL.md"
   # OG Image Generation (Satori + resvg + Astro 5) - Added 2026-03-11
   og_image_generation_guide: "guide/workflows/og-image-generation.md"
   og_image_astro_template: "examples/scripts/og-image-astro.ts"
@@ -517,8 +517,8 @@ deep_dive:
   gstack_workflow: "guide/workflows/gstack-workflow.md"
   gstack_6_gears: "guide/workflows/gstack-workflow.md#six-selected-gates"  # Six selected gates; core questions and when to switch
   gstack_strategic_gate: "guide/workflows/gstack-workflow.md#the-gap-this-fills-pre-implementation-strategic-gate"  # Pre-implementation product gate concept
-  gstack_plan_ceo_review: "examples/skills/plan-pipeline/ceo-review/SKILL.md"  # Strategic product gate command template
-  gstack_plan_eng_review: "examples/skills/plan-pipeline/eng-review/SKILL.md"  # Engineering architecture gate command template
+  gstack_plan_ceo_review: "examples/skills/plan-pipeline-ceo-review/SKILL.md"  # Strategic product gate command template
+  gstack_plan_eng_review: "examples/skills/plan-pipeline-eng-review/SKILL.md"  # Engineering architecture gate command template
   gstack_browse_non_mcp: "guide/workflows/gstack-workflow.md#browser-qa-qa-and-browse"  # Browser QA workflow and driver; no speed comparison
   gstack_full_cycle: "guide/workflows/gstack-workflow.md#full-cycle-demo"  # Full ship cycle demo (plan-ceo → plan-eng → review → ship → browse)
   gstack_when_to_use: "guide/workflows/gstack-workflow.md#when-to-use-this-vs-other-workflows"  # Comparison vs Plan Pipeline and other workflows
@@ -536,15 +536,15 @@ deep_dive:
   # Talk Preparation Pipeline (6-stage: extract → research → concepts → position → script → revision)
   talk_pipeline_workflow: "guide/workflows/talk-pipeline.md"
   talk_pipeline_skills: "examples/skills/talk-pipeline/"
-  talk_pipeline_orchestrator: "examples/skills/talk-pipeline/orchestrator/SKILL.md"
-  talk_pipeline_stage1: "examples/skills/talk-pipeline/stage-1-extract/SKILL.md"
-  talk_pipeline_stage2: "examples/skills/talk-pipeline/stage-2-research/SKILL.md"
-  talk_pipeline_stage3: "examples/skills/talk-pipeline/stage-3-concepts/SKILL.md"
-  talk_pipeline_stage4: "examples/skills/talk-pipeline/stage-4-position/SKILL.md"
-  talk_pipeline_stage5: "examples/skills/talk-pipeline/stage-5-script/SKILL.md"
-  talk_pipeline_stage6: "examples/skills/talk-pipeline/stage-6-revision/SKILL.md"
-  talk_pipeline_kimi_template: "examples/skills/talk-pipeline/stage-5-script/templates/kimi-prompt-template.md"
-  talk_pipeline_feedback_template: "examples/skills/talk-pipeline/stage-4-position/templates/feedback-draft.md"
+  talk_pipeline_orchestrator: "examples/skills/talk-pipeline/SKILL.md"
+  talk_pipeline_stage1: "examples/skills/talk-stage1-extract/SKILL.md"
+  talk_pipeline_stage2: "examples/skills/talk-stage2-research/SKILL.md"
+  talk_pipeline_stage3: "examples/skills/talk-stage3-concepts/SKILL.md"
+  talk_pipeline_stage4: "examples/skills/talk-stage4-position/SKILL.md"
+  talk_pipeline_stage5: "examples/skills/talk-stage5-script/SKILL.md"
+  talk_pipeline_stage6: "examples/skills/talk-stage6-revision/SKILL.md"
+  talk_pipeline_kimi_template: "examples/skills/talk-stage5-script/templates/kimi-prompt-template.md"
+  talk_pipeline_feedback_template: "examples/skills/talk-stage4-position/templates/feedback-draft.md"
   talk_pipeline_modes: "REX (git archaeology) | Concept (skip stage 2)"
   talk_pipeline_outputs: "13-14 files REX mode, 10 files Concept mode"
   talk_pipeline_patterns: "skill chaining + file-based state + tool permission scoping + human-in-the-loop gate + AI-to-AI handoff (Claude → Kimi)"
@@ -1525,14 +1525,14 @@ deep_dive:
   plan_pipeline_claude_md_limit: "120 lines hard limit + pointer strategy for sub-files"
   plan_pipeline_context_reset: "/clear between each command (plan, validate, execute)"
   plan_pipeline_cost: "$2-10 typical Tier 2 feature, compounds down as ADR coverage grows"
-  plan_start_command: "examples/skills/plan-pipeline/start/SKILL.md"
+  plan_start_command: "examples/skills/plan-pipeline-start/SKILL.md"
   plan_start_phases: "5 phases: PRD analysis, design analysis, technical decisions, dynamic team, metrics"
   plan_start_tiers: "Tier 0 Solo (0 agents) → Tier 4 Full Spectrum (10+ agents)"
-  plan_validate_command: "examples/skills/plan-pipeline/validate/SKILL.md"
+  plan_validate_command: "examples/skills/plan-pipeline-validate/SKILL.md"
   plan_validate_layer1: "structural checks inline: format, deps, file existence, ADR consistency, CLAUDE.md"
   plan_validate_layer2: "0-8 specialist agents triggered by plan content (security Opus, db Opus, integration Opus)"
   plan_validate_autofix: "Bucket A auto-resolve (ADR/PATTERNS/first-principles ~95%) + Bucket B human input"
-  plan_execute_command: "examples/skills/plan-pipeline/execute/SKILL.md"
+  plan_execute_command: "examples/skills/plan-pipeline-execute/SKILL.md"
   plan_execute_flow: "worktree → TDD scaffold → parallel level execution → drift detection → quality gate → smoke test → PR merge → cleanup"
   planning_coordinator_agent: "examples/agents/planning-coordinator.md"
   planning_coordinator_role: "Opus synthesis agent: merges multi-agent reports into coherent task graph, resolves conflicts via ADR precedence"
@@ -2493,7 +2493,7 @@ mcp:
   CLAUDE_PROJECT_DIR: "auto-injected into stdio MCP server process envs; usable as ${CLAUDE_PROJECT_DIR} in plugin command strings (v2.1.139)"
   ast_grep: "optional plugin for AST-based code search (explicit invocation required)"
   ast_grep_guide: "guide/ultimate-guide.md#-search-tools-comparison-rg-vs-grepai-vs-serena-vs-ast-grep-vs-claude-mem"
-  ast_grep_skill: "examples/skills/ast-grep-patterns.md"
+  ast_grep_skill: "examples/skills/ast-grep-patterns/SKILL.md"
   ast_grep_install: "npx skills add ast-grep/agent-skill"
   ast_grep_when: "structural patterns (>50k lines, migrations, AST rules)"
   ast_grep_not_for: "simple string search, small projects (<10k lines)"

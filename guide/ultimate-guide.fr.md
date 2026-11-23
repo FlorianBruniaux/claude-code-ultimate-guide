@@ -2691,7 +2691,7 @@ L'ajout déterminant concerne les règles de fusion par section dans `update` :
 
 La section Travail réalisé, alimentée uniquement par des ajouts, crée une piste d'audit entre les sessions. Même si un travail antérieur est révisé, la révision apparaît comme une nouvelle entrée au lieu d'écraser la précédente.
 
-Des modèles prêts à adapter sont disponibles dans `examples/commands/handoff/` dans ce dépôt.
+Des modèles prêts à adapter sont disponibles dans `examples/skills/handoff-create/`, `handoff-resume/` et `handoff-update/` dans ce dépôt.
 
 > Pattern inspiré des [trois commandes de passation de Packmind](https://github.com/PackmindHub/packmind) (Apache 2.0). Voir les [Crédits](./core/credits.md).
 
@@ -5583,10 +5583,9 @@ CLAUDE.local.md            # Instructions personnelles (ajouter à .gitignore)
 ```bash
 git add .claude/settings.json      # Hooks/permissions d'équipe
 git add .claude/agents/            # Agents personnalisés
-git add .claude/commands/          # Commandes slash
 git add .claude/hooks/             # Scripts d'automatisation
 git add .claude/rules/             # Conventions d'équipe
-git add .claude/skills/            # Modules de connaissances
+git add .claude/skills/            # Skills et commandes slash
 ```
 
 #### Gestion de versions pour la configuration globale (~/.claude/)
@@ -9572,7 +9571,7 @@ Utilisez la commande `/routines-discover` pour exécuter cette analyse sur n'imp
 /routines-discover
 ```
 
-Template : `examples/commands/routines-discover.md`
+Template : `examples/skills/routines-discover/SKILL.md`
 
 #### Tâches planifiées Desktop
 
@@ -9777,7 +9776,7 @@ Si un point de contrôle échoue, arrêtez-vous et expliquez pourquoi.
 
 La liste de contrôle impose une vérification explicite des préconditions plutôt que de laisser Claude découvrir les échecs en cours d'exécution. Un point de contrôle échoué produit une erreur claire avec une raison corrigeable ; un échec en milieu d'étape produit un état partiel plus difficile à récupérer.
 
-Modèle prêt à l'emploi disponible dans `examples/commands/recipe-template.md` de ce dépôt.
+Modèle prêt à l'emploi disponible dans `examples/skills/recipe-template/SKILL.md` de ce dépôt.
 
 > Modèle inspiré des [fichiers de commande Packmind](https://github.com/PackmindHub/packmind) (Apache 2.0). Voir [Crédits](./core/credits.md).
 
@@ -15144,7 +15143,7 @@ Avant de créer une PR, assurez-vous que toutes les vérifications locales passe
 Build ✓ → Lint ✓ → Test ✓ → Type-check ✓ → THEN create PR
 ```
 
-**Implémentation en tant que commande** (`.claude/commands/complete-task.md`) :
+**Implémentation en tant que commande** (`.claude/skills/complete-task/SKILL.md`) :
 
 ```markdown
 # Complete task
@@ -15242,7 +15241,7 @@ Automatisez la génération de notes de version et de journaux des modifications
 
 #### Approche 1 : Basée sur des commandes
 
-Créez `.claude/commands/release-notes.md` :
+Créez `.claude/skills/release-notes/SKILL.md` :
 
 ```markdown
 # Generate release notes
@@ -16632,7 +16631,7 @@ de lint        OUI ─┴─ NON
 
 | Problème | Solution | Où l'ajouter |
 |---------|----------|--------------|
-| L'agent oublie d'exécuter les tests | Ajouter à la commande de flux de travail | `.claude/commands/complete-task.md` |
+| L'agent oublie d'exécuter les tests | Ajouter à la commande de flux de travail | `.claude/skills/complete-task/SKILL.md` |
 | La revue de code relève un problème de style | Ajouter une règle ESLint | `.eslintrc.js` |
 | La même erreur d'architecture se répète | Documenter la décision | `docs/conventions/architecture.md` |
 | L'agent utilise un mauvais motif d'import | Ajouter un exemple | `CLAUDE.md` |
@@ -16833,7 +16832,7 @@ VERIFY:
 - Documenter les conventions d'équipe dans le `CLAUDE.md` du projet (commité)
 - Partager les agents/skills utiles via le dépôt d'équipe ou le wiki
 - Tester les hooks isolément avant de les committer
-- Maintenir un README pour `.claude/agents/` et `.claude/commands/`
+- Maintenir un README pour `.claude/agents/` et `.claude/skills/`
 - Coordonner les mises à jour de Claude Code et tester la compatibilité
 - Utiliser des conventions de nommage cohérentes pour les composants personnalisés
 - Partager les prompts et patterns utiles dans la base de connaissances d'équipe
@@ -16848,7 +16847,7 @@ VERIFY:
 
 # Claude Code - Team (committed)
 # .claude/agents/
-# .claude/commands/
+# .claude/skills/
 # .claude/hooks/
 # .claude/settings.json
 
@@ -17531,10 +17530,10 @@ git worktree remove --force .worktrees/old-feature
 **Ressources :**
 - [Documentation Git Worktree](https://git-scm.com/docs/git-worktree)
 - Commandes du cycle de vie des worktrees :
-  - [`examples/commands/git-worktree.md`](../examples/commands/git-worktree.md) : Créer
-  - [`examples/commands/git-worktree-status.md`](../examples/commands/git-worktree-status.md) : Statut
-  - [`examples/commands/git-worktree-remove.md`](../examples/commands/git-worktree-remove.md) : Supprimer
-  - [`examples/commands/git-worktree-clean.md`](../examples/commands/git-worktree-clean.md) : Nettoyer
+  - [`examples/skills/git-worktree/SKILL.md`](../examples/skills/git-worktree/SKILL.md) : Créer
+  - [`examples/skills/git-worktree-status/SKILL.md`](../examples/skills/git-worktree-status/SKILL.md) : Statut
+  - [`examples/skills/git-worktree-remove/SKILL.md`](../examples/skills/git-worktree-remove/SKILL.md) : Supprimer
+  - [`examples/skills/git-worktree-clean/SKILL.md`](../examples/skills/git-worktree-clean/SKILL.md) : Nettoyer
 
 ### Fonctionnalités natives de worktree dans Claude Code (v2.1.49–v2.1.50)
 
@@ -18284,7 +18283,7 @@ Ne jamais lire un fichier de bout en bout lors de l'exploration. Structure d'abo
 brew install tree-sitter
 
 # Utiliser le script extract-signatures
-# → Modèle : examples/skills/smart-explore.md (section Approche B)
+# → Modèle : examples/skills/smart-explore/SKILL.md (section Approche B)
 python3 ~/.claude/scripts/extract-signatures.py src/
 
 # Exemple de sortie pour un fichier Rust de 500 lignes :
@@ -18335,7 +18334,7 @@ Utilisez les deux, mais n'extrapolez pas les chiffres par commande à une sessio
 
 **Voir aussi :**
 
-- Modèle de skill : `examples/skills/smart-explore.md`
+- Modèle de skill : `examples/skills/smart-explore/SKILL.md`
 - Évaluation : `docs/resource-evaluations/tree-sitter-progressive-code-exploration.md`
 - Implémentation de référence : https://aider.chat/docs/repomap.html
 
@@ -19685,7 +19684,7 @@ Les workflows multi-instances **NÉCESSITENT** des git worktrees pour éviter le
 ```
 
 **Voir aussi** :
-- Commande : [/git-worktree](../examples/commands/git-worktree.md)
+- Commande : [/git-worktree](../examples/skills/git-worktree/SKILL.md)
 - Workflow : [Configuration de branche de base de données](../examples/workflows/database-branch-setup.md)
 
 ---
@@ -20226,7 +20225,7 @@ New feature request
 - [Framework Headless PM (GitHub)](https://github.com/madviking/headless-pm)
 
 **Guides associés** :
-- [Commande git worktrees](../examples/commands/git-worktree.md)
+- [Commande git worktrees](../examples/skills/git-worktree/SKILL.md)
 - [Workflow de configuration de branche de base de données](../examples/workflows/database-branch-setup.md)
 - [Observabilité des sessions](./ops/observability.md)
 - [Optimisation des coûts](#913-cost-optimization-strategies)
@@ -24827,7 +24826,7 @@ claude -r abc123 -p "summarize progress"
 
 ## 10.4 Dépannage
 
-> **Dépannage interactif** : Utilisez la commande `/diagnose` pour une résolution guidée et interactive des problèmes. Elle analyse automatiquement votre environnement et fournit des solutions ciblées. Voir [examples/commands/diagnose.md](../examples/commands/diagnose.md).
+> **Dépannage interactif** : Utilisez la commande `/diagnose` pour une résolution guidée et interactive des problèmes. Elle analyse automatiquement votre environnement et fournit des solutions ciblées. Voir [examples/skills/diagnose/SKILL.md](../examples/skills/diagnose/SKILL.md).
 
 ### Guide de diagnostic rapide
 
@@ -24861,7 +24860,7 @@ Utilisez ce guide basé sur les symptômes pour identifier et résoudre rapideme
 | Hook ne s'exécute pas | Erreur d'enregistrement | Vérifier le matcher dans `settings.json` |
 | Outil MCP introuvable | Serveur non démarré | Vérifier la configuration `mcp.json` |
 | Agent introuvable | Nommage des fichiers | Vérifier `.claude/agents/` |
-| Commande introuvable | Erreur de chemin | Vérifier `.claude/commands/` |
+| Commande introuvable | Erreur de chemin | Vérifier `.claude/skills/<nom>/SKILL.md` (ancien format : `.claude/commands/`) |
 | Frais API inattendus malgré un abonnement actif | `ANTHROPIC_API_KEY` défini dans le shell ou `.env` contourne l'abonnement | Exécuter `echo $ANTHROPIC_API_KEY`. Si une valeur s'affiche, Claude Code facture aux tarifs API. Supprimer la variable de votre profil shell pour rétablir la facturation par abonnement. Exécuter `claude /cost` pour vérifier les dépenses de la session en cours. |
 
 <a id="context-recovery"></a>
@@ -26350,7 +26349,7 @@ Ces fichiers sont identiques sur toutes les plateformes :
 | `.claude/settings.json` | Racine du projet | Configuration des hooks | ✅ Oui |
 | `.claude/settings.local.json` | Racine du projet | Permissions personnelles | ❌ Non |
 | `.claude/agents/` | Racine du projet | Agents personnalisés | ✅ Oui (équipe) |
-| `.claude/commands/` | Racine du projet | Commandes personnalisées | ✅ Oui (équipe) |
+| `.claude/commands/` | Racine du projet | Anciennes commandes personnalisées (toujours chargées ; les nouvelles s'écrivent en skills) | ✅ Oui (équipe) |
 | `.claude/hooks/` | Racine du projet | Hooks d'événements | ✅ Oui (équipe) |
 | `.claude/skills/` | Racine du projet | Modules de connaissance | ✅ Oui (équipe) |
 | `.claude/rules/` | Racine du projet | Règles chargées automatiquement | ✅ Oui (équipe) |
@@ -26416,7 +26415,6 @@ Ajoutez ces entrées au `.gitignore` de votre projet :
 
 # Claude Code - Équipe (À inclure dans Git)
 # .claude/agents/
-# .claude/commands/
 # .claude/hooks/
 # .claude/skills/
 # .claude/settings.json

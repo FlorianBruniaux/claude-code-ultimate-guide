@@ -10,7 +10,7 @@ jobs:
   security:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 2
@@ -23,4 +23,4 @@ jobs:
           # Optional configuration:
           # exclude-directories: "docs,examples"
           # claudecode-timeout: "20"
-          # claude-model: "claude-3-5-sonnet-20240620"
+          # claude-model: "claude-sonnet-5-5"

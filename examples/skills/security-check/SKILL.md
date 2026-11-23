@@ -155,7 +155,7 @@ cat ~/.claude/settings.json 2>/dev/null
 
 - [ ] `permissions.deny` exists and covers `.env*`, `*.pem`, `*.key`, secrets? → MEDIUM if missing
 - [ ] No wildcard `permissions.allow` for Bash or Write? → HIGH if present
-- [ ] No `dangerouslySkipPermissions` or similar flags? → CRITICAL if present
+- [ ] No `permissions.defaultMode: "bypassPermissions"` and no wrapper scripts or aliases that pass `--dangerously-skip-permissions`? → CRITICAL if present
 
 ### Phase 7: Exposed secrets in config
 

@@ -48,14 +48,14 @@ The orchestrator reads rules files, parses `paths:` frontmatter glob patterns, m
 
 ### Pattern 5: Handoff triad with merge semantics
 
-**Guide section**: [Session Handoff Pattern](../ultimate-guide.md#session-handoff-pattern) and templates at `examples/commands/handoff/`
+**Guide section**: [Session Handoff Pattern](../ultimate-guide.md#session-handoff-pattern) and templates at `examples/skills/handoff-create/`, `handoff-resume/` and `handoff-update/`
 **Source**: `.claude/commands/create-handoff.md`, `resume-handoff.md`, `update-handoff.md`
 
 A three-command protocol for session continuity: `create-handoff` initializes a structured document, `update-handoff` applies section-specific merge rules (append-only for work log, replace for status), and `resume-handoff` loads the latest document into context.
 
 ### Pattern 6: Recipe template with context validation checkpoints
 
-**Guide section**: [Skill Design Patterns](./skill-design-patterns.md#recipe-template-and-context-validation-checkpoints) and template at `examples/commands/recipe-template.md`
+**Guide section**: [Skill Design Patterns](./skill-design-patterns.md#recipe-template-and-context-validation-checkpoints) and template at `examples/skills/recipe-template/SKILL.md`
 **Source**: recurring pattern across Packmind command files
 
 A command template structure where a "Context Validation Checkpoints" section lists preconditions Claude must verify before executing the recipe steps. Reduces errors caused by missing context or wrong environment.

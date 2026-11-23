@@ -1,12 +1,18 @@
 #!/bin/bash
-# Post-response hook for analytics agent metrics collection
-# Triggered after each agent response to log quality, performance, and safety metrics
+# SubagentStop hook for analytics-agent metrics collection
+# Runs when the analytics-agent subagent finishes and logs quality, safety and
+# performance metrics for the SQL it produced.
+#
+# Input: the hook JSON arrives on stdin. SubagentStop provides `agent_type` and
+# `last_assistant_message` (the subagent's final response text).
 #
 # Setup:
 #   1. Copy to .claude/hooks/post-response-metrics.sh
 #   2. chmod +x .claude/hooks/post-response-metrics.sh
-#   3. Add to .claude/settings.json hooks.postToolUse configuration
+#   3. Register under hooks.SubagentStop in .claude/settings.json (see README.md)
 #   4. mkdir -p .claude/logs
+#
+# Requires: jq
 
 set -euo pipefail
 
@@ -14,22 +20,25 @@ set -euo pipefail
 LOG_FILE="${CLAUDE_LOGS_DIR:-.claude/logs}/analytics-metrics.jsonl"
 AGENT_NAME="analytics-agent"
 
-# Ensure log directory exists
-mkdir -p "$(dirname "$LOG_FILE")"
-
-# Extract agent ID from environment (if available)
-# Note: This assumes Claude Code exposes agent context via environment variables
-# Adjust based on actual Claude Code hook environment
-CURRENT_AGENT="${CLAUDE_AGENT_NAME:-unknown}"
-
-# Only log if this is the analytics agent
-if [ "$CURRENT_AGENT" != "$AGENT_NAME" ]; then
+if ! command -v jq > /dev/null 2>&1; then
+  echo "post-response-metrics: jq is required" >&2
   exit 0
 fi
 
-# Extract SQL query from response
-# This is a simplified pattern - adjust based on actual response format
-QUERY=$(echo "$CLAUDE_RESPONSE" | grep -oP '```sql\s*\K[^`]+' | head -1 || echo "")
+INPUT=$(cat)
+
+# Only log the analytics agent (the settings matcher already filters, this is a safeguard)
+AGENT_TYPE=$(echo "$INPUT" | jq -r '.agent_type // empty')
+if [ "$AGENT_TYPE" != "$AGENT_NAME" ]; then
+  exit 0
+fi
+
+# Ensure log directory exists
+mkdir -p "$(dirname "$LOG_FILE")"
+
+# Extract the first ```sql fenced block from the subagent's final message
+RESPONSE=$(echo "$INPUT" | jq -r '.last_assistant_message // empty')
+QUERY=$(printf '%s\n' "$RESPONSE" | awk '/^```sql/{f=1; next} /^```/{if (f) exit} f')
 
 # If no query found, skip logging
 if [ -z "$QUERY" ]; then
@@ -66,30 +75,16 @@ EXEC_TIME="null"
 ROW_COUNT="null"
 ERROR="null"
 
-# Build JSON log entry
-# Using jq for proper JSON escaping (fallback to basic escaping if jq not available)
-if command -v jq > /dev/null 2>&1; then
-  LOG_ENTRY=$(jq -n \
-    --arg timestamp "$(date -Iseconds)" \
-    --arg query "$QUERY" \
-    --arg exec_time "$EXEC_TIME" \
-    --arg safety "$SAFETY" \
-    --arg safety_reason "$SAFETY_REASON" \
-    --arg row_count "$ROW_COUNT" \
-    --arg error "$ERROR" \
-    '{
-      timestamp: $timestamp,
-      query: $query,
-      exec_time: $exec_time,
-      safety: $safety,
-      safety_reason: $safety_reason,
-      row_count: $row_count,
-      error: $error
-    }')
-else
-  # Fallback: Basic JSON (may need escaping for special characters)
-  LOG_ENTRY="{\"timestamp\":\"$(date -Iseconds)\",\"query\":\"${QUERY//\"/\\\"}\",\"exec_time\":$EXEC_TIME,\"safety\":\"$SAFETY\",\"safety_reason\":\"$SAFETY_REASON\",\"row_count\":$ROW_COUNT,\"error\":$ERROR}"
-fi
+# Build JSON log entry (jq handles escaping)
+LOG_ENTRY=$(jq -cn \
+  --arg timestamp "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+  --arg query "$QUERY" \
+  --arg exec_time "$EXEC_TIME" \
+  --arg safety "$SAFETY" \
+  --arg safety_reason "$SAFETY_REASON" \
+  --arg row_count "$ROW_COUNT" \
+  --arg error "$ERROR" \
+  '{timestamp: $timestamp, query: $query, exec_time: $exec_time, safety: $safety, safety_reason: $safety_reason, row_count: $row_count, error: $error}')
 
 # Append to log file
 echo "$LOG_ENTRY" >> "$LOG_FILE"

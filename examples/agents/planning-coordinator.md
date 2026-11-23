@@ -156,7 +156,7 @@ Do not include commentary, confidence scores, or meta-notes in the plan document
 
 ## See also
 
-- [Plan-Start Command](../commands/plan-start.md)
+- [Plan-Start skill](../skills/plan-pipeline-start/SKILL.md)
 - [ADR Writer Agent](./adr-writer.md)
 - [Plan Challenger Agent](./plan-challenger.md)
 - [Plan-Validate-Execute Pipeline](../../guide/workflows/plan-pipeline.md)

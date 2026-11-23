@@ -44,7 +44,7 @@ with templates for CHANGELOG.md and Slack announcements
 Or via the initialization script:
 
 ```bash
-python3 ~/.claude/skills/skill-creator/scripts/init_skill.py <skill-name> --path <output-directory>
+python3 ${CLAUDE_SKILL_DIR}/scripts/init_skill.py <skill-name> --path <output-directory>
 ```
 
 ### 2. Generated SKILL.md template
@@ -55,6 +55,8 @@ The created SKILL.md follows this structure:
 ---
 name: skill-name
 description: "What the skill does. Use when [trigger conditions]."
+effort: medium
+# add disable-model-invocation: true for workflows with side effects
 ---
 
 # Skill Name
@@ -79,7 +81,7 @@ description: "What the skill does. Use when [trigger conditions]."
 
 After creation, verify:
 
-1. **Frontmatter**: `name` is kebab-case, 1-64 chars; `description` is a quoted string with "Use when" clause
+1. **Frontmatter**: `name` is kebab-case and equals the directory name; `description` is a quoted string with a "Use when" clause, key use case first; only documented keys; `argument-hint` if the body uses `\$ARGUMENTS`
 2. **Content**: Has "When to Use" section with trigger conditions and at least one usage example
 3. **Structure**: SKILL.md is under 5000 words; references and assets are in correct subdirectories
 4. **Test**: Invoke the skill with a real use case and confirm expected output
@@ -87,7 +89,7 @@ After creation, verify:
 ### 4. Package for distribution (optional)
 
 ```bash
-python3 ~/.claude/skills/skill-creator/scripts/package_skill.py <path/to/skill-folder> [output-directory]
+python3 ${CLAUDE_SKILL_DIR}/scripts/package_skill.py <path/to/skill-folder> [output-directory]
 ```
 
 ## Organizational patterns
@@ -117,4 +119,5 @@ python3 ~/.claude/skills/skill-creator/scripts/package_skill.py <path/to/skill-f
 - Use `references/` for domain knowledge that doesn't change often
 - Put templates in `assets/` so they're not auto-loaded into context
 - Always include a "Use when" clause in the description frontmatter
+- Set `disable-model-invocation: true` on skills that commit, push, deploy, or delete
 - Test with real use cases before packaging

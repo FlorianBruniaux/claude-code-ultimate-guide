@@ -350,6 +350,6 @@ cd .worktrees/perf-optimize-queries
 ---
 
 **Related guides:**
-- [Git Worktree Command Reference](../commands/git-worktree.md)
+- [Git Worktree skill](../skills/git-worktree/SKILL.md)
 - [Neon Branching Docs](https://neon.com/docs/introduction/branching)
 - [PlanetScale Branching](https://planetscale.com/docs/concepts/branching)

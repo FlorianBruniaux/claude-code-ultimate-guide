@@ -10,8 +10,8 @@
 #   {
 #     "hooks": {
 #       "SessionStart": [{
-#         "matcher": "",
-#         "hooks": ["bash examples/hooks/bash/claudemd-scanner.sh"]
+#         "matcher": "startup",
+#         "hooks": [{ "type": "command", "command": "bash examples/hooks/bash/claudemd-scanner.sh" }]
 #       }]
 #     }
 #   }
@@ -86,14 +86,15 @@ fi
 
 # Output warnings if any found
 if [[ ${#WARNINGS[@]} -gt 0 ]]; then
-    # Construct JSON response with system message
-    WARNING_TEXT="SECURITY WARNING - Suspicious content detected:\\n"
+    # Build the JSON with jq: the matched patterns contain backslashes and quotes
+    # that would otherwise produce invalid JSON. systemMessage is shown to the user.
+    WARNING_TEXT="SECURITY WARNING - Suspicious content detected:"
     for warning in "${WARNINGS[@]}"; do
-        WARNING_TEXT+="- $warning\\n"
+        WARNING_TEXT+=$'\n'"- $warning"
     done
-    WARNING_TEXT+="\\nReview these files before proceeding. See: https://github.com/FlorianBruniaux/claude-code-ultimate-guide/guide/ultimate-guide.md#security-warning-claudemd-injection"
+    WARNING_TEXT+=$'\n\n'"Review these files before proceeding. See: https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#security-warning-claudemd-injection"
 
-    echo "{\"systemMessage\": \"$WARNING_TEXT\"}"
+    jq -n --arg msg "$WARNING_TEXT" '{systemMessage: $msg}'
 fi
 
 # Always exit 0 to not block session (just warn)

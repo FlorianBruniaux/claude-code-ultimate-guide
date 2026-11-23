@@ -77,4 +77,4 @@ rtk --version  # Should show: rtk 0.16.0+
 
 ## Automation
 
-Use RTK automatically via hook (see `.claude/hooks/bash/rtk-wrapper.sh`) or `rtk init` for hook-first setup.
+Use RTK automatically via hook (see `examples/hooks/bash/rtk-auto-wrapper.sh`) or `rtk init` for hook-first setup.

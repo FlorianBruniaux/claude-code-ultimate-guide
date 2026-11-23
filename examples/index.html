@@ -426,23 +426,23 @@
         icon: "📚",
         description: "Reusable knowledge modules. Place in .claude/skills/ or ~/.claude/skills/",
         files: [
-          { name: "tdd-workflow.md", path: "skills/tdd-workflow.md", description: "Test-Driven Development process" },
-          { name: "security-checklist.md", path: "skills/security-checklist.md", description: "OWASP Top 10 security checks" }
+          { name: "tdd-workflow.md", path: "skills/tdd-workflow/SKILL.md", description: "Test-Driven Development process" },
+          { name: "security-checklist.md", path: "skills/security-checklist/SKILL.md", description: "OWASP Top 10 security checks" }
         ]
       },
       commands: {
         icon: "⚡",
-        description: "Custom slash commands. Place in .claude/commands/ or ~/.claude/commands/",
+        description: "User-invocable skills (slash commands). Place each folder in .claude/skills/ or ~/.claude/skills/",
         files: [
-          { name: "commit.md", path: "commands/commit.md", description: "/commit - Conventional commit messages" },
-          { name: "pr.md", path: "commands/pr.md", description: "/pr - Create well-structured PRs" },
-          { name: "review-pr.md", path: "commands/review-pr.md", description: "/review-pr - PR review workflow" },
-          { name: "release-notes.md", path: "commands/release-notes.md", description: "/release-notes - Generate in 3 formats" },
-          { name: "sonarqube.md", path: "commands/sonarqube.md", description: "/sonarqube - Analyze SonarCloud issues" },
-          { name: "generate-tests.md", path: "commands/generate-tests.md", description: "/generate-tests - Test generation" },
-          { name: "git-worktree.md", path: "commands/git-worktree.md", description: "/git-worktree - Isolated worktree setup" },
-          { name: "diagnose.md", path: "commands/diagnose.md", description: "/diagnose - Interactive troubleshooting" },
-          { name: "validate-changes.md", path: "commands/validate-changes.md", description: "/validate-changes - Pre-commit validation" }
+          { name: "commit/", path: "skills/commit/SKILL.md", description: "/commit - Conventional commit messages" },
+          { name: "pr/", path: "skills/pr/SKILL.md", description: "/pr - Create well-structured PRs" },
+          { name: "review-pr/", path: "skills/review-pr/SKILL.md", description: "/review-pr - PR review workflow" },
+          { name: "release-notes/", path: "skills/release-notes/SKILL.md", description: "/release-notes - Generate in 3 formats" },
+          { name: "sonarqube/", path: "skills/sonarqube/SKILL.md", description: "/sonarqube - Analyze SonarCloud issues" },
+          { name: "generate-tests/", path: "skills/generate-tests/SKILL.md", description: "/generate-tests - Test generation" },
+          { name: "git-worktree/", path: "skills/git-worktree/SKILL.md", description: "/git-worktree - Isolated worktree setup" },
+          { name: "diagnose/", path: "skills/diagnose/SKILL.md", description: "/diagnose - Interactive troubleshooting" },
+          { name: "validate-changes/", path: "skills/validate-changes/SKILL.md", description: "/validate-changes - Pre-commit validation" }
         ]
       },
       "hooks/bash": {

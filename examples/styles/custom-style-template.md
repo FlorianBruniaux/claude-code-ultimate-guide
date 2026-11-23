@@ -42,14 +42,14 @@ HOW TO USE:
 1. Copy this file to `.claude/output-styles/strict-reviewer.md` (rename as needed)
 2. Edit the Instructions, Tone, and Format sections to match your workflow
 3. Activate:
-   - Interactive: /config -> "Preferred output style" -> type your style name
-   - Persistent:  add `"outputStyle": "strict-reviewer"` to .claude/settings.json
+   - Interactive: `/output-style Strict reviewer`, or `/config` and pick it under "Output style"
+   - Persistent:  add `"outputStyle": "Strict reviewer"` to .claude/settings.json
 
 NOTES:
-- Style name = filename without .md extension (case-sensitive)
-- `keep-coding-instructions: true` preserves the built-in Claude Code software engineering instructions; without it, a custom style omits them
-- Changes take effect after `/clear` or a new session
-- Built-in styles (Default, Explanatory, Learning) take precedence if you use those exact names
+- Style name = the `name` field, or the file name without .md when `name` is omitted. The `outputStyle` value is case-sensitive and a non-matching value falls back to the Default style
+- `keep-coding-instructions: true` preserves the built-in Claude Code software engineering instructions; without it, a custom style omits them (full system prompt only)
+- A style switched mid-session applies from your next message. Style files are read at startup, so restart Claude Code after editing one
+- `force-for-plugin` is only for styles shipped in a plugin
 - Official docs: https://code.claude.com/docs/en/output-styles
 
 -->

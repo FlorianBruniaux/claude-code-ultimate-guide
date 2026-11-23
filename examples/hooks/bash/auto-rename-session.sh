@@ -20,7 +20,7 @@
 #       "SessionEnd": [
 #         {
 #           "matcher": "",
-#           "hooks": [{ "type": "command", "command": "~/.claude/hooks/auto-rename-session.sh" }]
+#           "hooks": [{ "type": "command", "command": "~/.claude/hooks/auto-rename-session.sh", "timeout": 30 }]
 #         }
 #       ]
 #     }
@@ -29,8 +29,14 @@
 # Configuration:
 #   SESSION_AUTORENAME=0   Disable this hook for a specific session
 #
-# Note: Output goes to /dev/tty (or /dev/stderr as fallback) to avoid interfering
-# with Claude Code's JSON parsing of hook stdout.
+# Timeout: SessionEnd hooks share a 1.5 second budget by default. A per-hook
+# `timeout` (seconds) raises the budget to match, up to 60 seconds, so the
+# "timeout": 30 above is required for the title call to finish.
+#
+# Note: The confirmation line goes to /dev/tty, with /dev/stderr as fallback, so it
+# never pollutes hook stdout. The hooks reference says /dev/tty is unavailable to
+# hooks and Claude Code discards SessionEnd JSON output, so the line may not be
+# visible in every terminal. The rename itself does not depend on it.
 
 set -uo pipefail
 

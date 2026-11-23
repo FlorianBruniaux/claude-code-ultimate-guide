@@ -38,7 +38,7 @@ If the user doesn't answer or is unsure, default to **production** (conservative
 
 ### Phase 1: Configuration security (via /security-check)
 
-Execute all checks from `/security-check` (the `examples/skills/security-check/SKILL.md` command). This covers:
+Execute all checks from `/security-check` (the `examples/skills/security-check/SKILL.md` skill). This covers:
 - MCP server audit against CVE database
 - Skills & agents against known malicious entries
 - Hook exfiltration patterns
@@ -56,8 +56,8 @@ Scan the entire project for exposed secrets and credentials:
 
 ```bash
 # API keys and tokens
-grep -rn --include="*.{js,ts,py,go,java,rb,php,yaml,yml,json,toml,env,cfg,ini,conf}" \
-  -E '(?i)(api[_-]?key|apikey|secret|password|passwd|token|bearer|auth)\s*[=:]\s*["'\''"][^"'\'']{8,}["'\''"]\s' \
+grep -rn --include="*.js" --include="*.ts" --include="*.py" --include="*.go" --include="*.java" --include="*.rb" --include="*.php" --include="*.yaml" --include="*.yml" --include="*.json" --include="*.toml" --include="*.env" --include="*.cfg" --include="*.ini" --include="*.conf" \
+  -iE '(api[_-]?key|apikey|secret|password|passwd|token|bearer|auth)\s*[=:]\s*["'\''"][^"'\'']{8,}["'\''"]\s' \
   --exclude-dir={node_modules,vendor,.git,dist,build,target,__pycache__,.venv} . 2>/dev/null | head -30
 
 # Known provider key patterns
@@ -174,22 +174,21 @@ Verify security hooks from `guide/security/security-hardening.md` are properly i
 # Check for recommended security hooks
 echo "=== Checking security hooks ==="
 
-# PreToolUse hooks (should block dangerous patterns)
-ls .claude/hooks/PreToolUse* 2>/dev/null || echo "⚠️ No PreToolUse hooks found"
+# Hooks are declared under the "hooks" key of settings files, not by file name
+for f in .claude/settings.json .claude/settings.local.json ~/.claude/settings.json; do
+  [ -f "$f" ] && echo "$f:" && jq -r '.hooks // {} | to_entries[] | "  \(.key): \(.value | length) matcher group(s)"' "$f" 2>/dev/null
+done
 
-# PostToolUse hooks (should monitor output)
-ls .claude/hooks/PostToolUse* 2>/dev/null || echo "⚠️ No PostToolUse hooks found"
+# Hook scripts present on disk
+find .claude/hooks ~/.claude/hooks -type f 2>/dev/null
 
-# Check if prompt injection detector exists
+# Look for a prompt injection detector or output scanner among them
 find . -path "*/hooks/*injection*" -o -path "*/hooks/*security*" -o -path "*/hooks/*scanner*" 2>/dev/null
-
-# Check settings for hook configuration
-grep -c "hooks" .claude/settings.json 2>/dev/null || echo "No hooks in settings.json"
 ```
 
 **Scoring:**
-- PreToolUse security hooks installed → +10 points
-- PostToolUse output scanner installed → +5 points
+- PreToolUse security hooks declared in settings → +10 points
+- PostToolUse output scanner declared in settings → +5 points
 - Prompt injection detector hook → +5 points
 - No hooks at all → 0 points
 

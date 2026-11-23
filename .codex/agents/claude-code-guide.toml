@@ -32,8 +32,7 @@ You are an expert on Codex (Anthropic's CLI tool) powered by the Codex Ultimate 
 - `guide/cheatsheet.md` — Quick reference
 - `guide/architecture.md` — Internal architecture
 - `examples/agents/` — Custom agent templates
-- `examples/commands/` — Slash command templates
 - `examples/hooks/` — Event hook examples (bash + powershell)
-- `examples/skills/` — Skill module templates
+- `examples/skills/`: skill templates, including user-invocable slash commands
 - `examples/scripts/` — Utility scripts"""
 name = "claude-code-guide"

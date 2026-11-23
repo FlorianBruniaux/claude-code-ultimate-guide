@@ -29,6 +29,8 @@ rg "authenticate|session" --type ts | head -20
 
 **Problem**: Too many files, no context on architecture decisions.
 
+> **Illustrative scenario.** The project, counts, token savings and costs in this walkthrough are hypothetical and were not measured. `serena ...` lines are shorthand for Serena MCP tool calls (Serena is an MCP server, not a standalone CLI in this flow). Check each tool's current install and tool names in its repository before copying a command.
+
 ---
 
 ### After Installing claude-mem
@@ -851,7 +853,7 @@ serena read_memory jwt_validation_results >> docs/jwt-migration.md
 - Section 8.2.3: Serena (Symbol Memory)
 - Section 8.2.4: grepai (Semantic Search)
 - Section 8.2.5: claude-mem (Automatic Session Memory)
-- Memory Tools Decision Matrix: guide/ultimate-guide.md:8630
+- Memory Tools Decision Matrix: `guide/ultimate-guide.md`, memory tools section
 
 ---
 
