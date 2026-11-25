@@ -1,0 +1,19 @@
+CHANGELOG.md
+  s_a76087f74be2bb::t_0ad0cb4778f56e 11-12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "6647cc193099a545e4bb640c152358f1c1358789",
+  "prompts": {},
+  "sessions": {
+    "s_a76087f74be2bb": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a01f2a-b167-78f0-a126-7450029bd920",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

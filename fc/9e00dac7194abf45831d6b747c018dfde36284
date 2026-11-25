@@ -1,0 +1,55 @@
+CHANGELOG.md
+  s_2c4b8634291107::t_d3130a06bac913 9-10
+docs/resource-evaluations/README.md
+  s_086a4384cc84fe::t_7e623fc061cfd5 40,130
+docs/resource-evaluations/boucard-frugal-agent-harnesses.md
+  s_086a4384cc84fe::t_7ca6b0051ffa7e 1-24
+guide/ultimate-guide.fr.md
+  s_086a4384cc84fe::t_9224521d854264 17,2196,2200,2321,2325,2327-2332,2336,2338-2344,2346,2348,2354,2356,2358,2362,2364,2366-2369,2371,2375,2377,2380-2382,2385,2389-2396,17736,23455-23467,23512,23525,23531,23592,23727,26503
+guide/ultimate-guide.md
+  s_086a4384cc84fe::t_eed809f1d95fc2 17,2156,2160,2281,2285,2287-2292,2296,2298-2304,2306,2308,2314,2316,2318,2322,2324,2326-2329,2331,2335,2340-2342,2345,2349-2356,17525,22935-22947,22992,23005,23011,23072,23208,25936
+llms-full.txt
+  s_086a4384cc84fe::t_e76c2f9eada703 352-353
+llms.txt
+  s_086a4384cc84fe::t_2f0775caf6cea4 28
+machine-readable/llms.txt
+  s_086a4384cc84fe::t_95319fb8c1172e 28
+machine-readable/mcp-product.json
+  s_086a4384cc84fe::t_461cf2b6182f52 15-16,488
+machine-readable/reference.yaml
+  s_086a4384cc84fe::t_31329da0db573b 56,213-216,935,1009-1010,1012,1100,1103,1105-1106,1111-1112,1115,1119,1122,1125,1130-1135,1138,1140-1143,1145-1146,1148,1162,1188,1245-1248,1347-1349,1417,1419-1420,1422,1426,1430-1431,1434,1441,1485,1497,1499-1500,1503,1506,1553,1575,1704,1706,1708-1712,1761,1814,1838,2555,2625-2626,2630
+mcp-server/content/llms.txt
+  s_086a4384cc84fe::t_3c5782f8a07985 28
+mcp-server/content/reference.yaml
+  s_086a4384cc84fe::t_fdf80439e12f06 56,213-216,935,1009-1010,1012,1100,1103,1105-1106,1111-1112,1115,1119,1122,1125,1130-1135,1138,1140-1143,1145-1146,1148,1162,1188,1245-1248,1347-1349,1417,1419-1420,1422,1426,1430-1431,1434,1441,1485,1497,1499-1500,1503,1506,1553,1575,1704,1706,1708-1712,1761,1814,1838,2555,2625-2626,2630
+mcp-server/src/lib/chapter-ranges.generated.json
+  s_086a4384cc84fe::t_07b0116f53a9a9 2-4,18,22-23,27-28,32-33,37-38,42-43,47-48,52-53,57-58,62-63,67-68
+guide/core/agent-harness.md
+  s_086a4384cc84fe::t_56cc63c0fcb56a 409-421
+guide/core/context-engineering.md
+  s_086a4384cc84fe::t_f79373275cd231 124,1889-1891,2338-2340,2343-2344,2347-2361,2364
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "fc9e00dac7194abf45831d6b747c018dfde36284",
+  "prompts": {},
+  "sessions": {
+    "s_086a4384cc84fe": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1695b-1c2f-7800-b60d-f6354e17817f",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_2c4b8634291107": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0d9d74ae-39ae-4425-a7eb-691eca9b23c3",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

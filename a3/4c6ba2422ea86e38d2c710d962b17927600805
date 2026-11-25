@@ -1,0 +1,71 @@
+.github/workflows/index-integrity.yml
+  s_a76501fd0ec82b::t_4c5362acaaf282 8,26
+CHANGELOG.md
+  s_29abe1a98b476c::t_6b117fe709c134 24-25
+README.md
+  s_a9da11c3793263::t_945224f37f7534 21,417
+guide/ecosystem/team-knowledge-base.md
+  s_a76501fd0ec82b::t_6781606e318b28 6,360
+guide/ultimate-guide.md
+  s_29abe1a98b476c::t_b761ba15f87c77 20761,20763,20765,20767-20772,20774,20776-20779,20781-20783,20786,20788,20790-20796,20798,20800,20802,20804-20805,20807,20809,20811,20817,20819-20820,20822,20825,20827,20829,20831-20838,20840-20845,20847,20849-20856,20859-20860,20862-20864,20866-20869,20872,20874,20876
+llms.txt
+  s_29abe1a98b476c::t_51c0734cf59f33 5
+machine-readable/llms.txt
+  s_29abe1a98b476c::t_17b48083a0fa0d 5
+machine-readable/reference.yaml
+  s_29abe1a98b476c::t_2b26f7f928cbbd 7,66,298,386,554,595,720,724-725,728-729,746,754,807,813,845,873,888,890,975,986-988,997,1005-1010,1013,1015-1017,1023,1037,1043,1056,1058,1062-1063,1065,1120-1121,1280,1282-1283,1293,1295,1297,1304,1348,1360,1362-1363,1366,1414,1425,1553-1554,1556,1558-1562,1610,1658,1665,1682,1687,2181,2369,2440
+mcp-server/content/llms.txt
+  s_29abe1a98b476c::t_6392b3c41f57b3 5
+mcp-server/content/reference.yaml
+  s_29abe1a98b476c::t_91cf17d4c17f13 7,66,298,386,554,595,720,724-725,728-729,746,754,807,813,845,873,888,890,975,986-988,997,1005-1010,1013,1015-1017,1023,1037,1043,1056,1058,1062-1063,1065,1120-1121,1280,1282-1283,1293,1295,1297,1304,1348,1360,1362-1363,1366,1414,1425,1553-1554,1556,1558-1562,1610,1658,1665,1682,1687,2181,2369,2440
+mcp-server/test/render-product-docs.test.mjs
+  s_a76501fd0ec82b::t_3f5d03a88d0cb8 9,167-173
+docs/workflows/releases-tracking.md
+  s_5fb623f460fd4b::t_def802591b1f44 9,11-12,15-16,37-49
+docs/workflows/translations.md
+  s_5fb623f460fd4b::t_43426df2033e0b 35-49,55
+machine-readable/README.md
+  s_5fb623f460fd4b::t_0604b84274d044 25,80-82,181-188
+scripts/check-translations.py
+  s_5fb623f460fd4b::t_1cf73c80c56b63 88-98,152-155,157-167,507-520,528
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "a34c6ba2422ea86e38d2c710d962b17927600805",
+  "prompts": {},
+  "sessions": {
+    "s_29abe1a98b476c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a06830-fc8a-7512-9cb6-a879928c6f7e",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_5fb623f460fd4b": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a06b8a-8a7a-70a3-ba59-1d5ee70131e8",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_a76501fd0ec82b": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a06b73-c04c-7b02-b6b1-4b44b6601a1f",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_a9da11c3793263": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a06ae1-8792-7e60-83fb-6d0a140d2d38",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

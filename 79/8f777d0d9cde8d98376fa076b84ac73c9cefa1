@@ -1,0 +1,45 @@
+.claude/commands/audit-prose.md
+  s_fa0a66064fa744::t_344d359af8dbe6 7,102,133,138
+.claude/commands/release.md
+  s_e12c1124616984::t_65197d26723b30 21,67-68,77-78,83,87,92,95,98,100-101,106,122,127,136,143,145-153,155-156,185,192,197,204-205,208,246
+.claude/settings.json
+  s_fa0a66064fa744::t_45057abdb98689 23,35,53,85,96
+CHANGELOG.md
+  s_e12c1124616984::t_1ab18dd75af75f 34
+docs/ecosystem.md
+  s_1d4fd6074d3311::t_0152f82ff5c76c 36
+llms-full.txt
+  s_1d4fd6074d3311::t_54113d1f411121 823
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "798f777d0d9cde8d98376fa076b84ac73c9cefa1",
+  "prompts": {},
+  "sessions": {
+    "s_1d4fd6074d3311": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9a85a0d0-a117-49fa-8bd2-b176f6dc9a02",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_e12c1124616984": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a20eb7-a3da-7100-960e-e0a836a63621",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_fa0a66064fa744": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fcea9740-ea55-464b-921d-64b65cad38d6",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

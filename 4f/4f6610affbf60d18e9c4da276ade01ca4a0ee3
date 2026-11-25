@@ -1,0 +1,53 @@
+docs/visual-prompts/agent-harness-landscape.md
+  s_1154b4eaec1074::t_cf859881d02b09 51,61,74
+guide/ecosystem/agent-harness-landscape.md
+  s_a76087f74be2bb::t_4e57d2ad9669bd 55-96,108-121,147-168,176-192,200-217,225-249,257-271,279-283,291-302,310-313,321-330,338-356,364-371,379-383,395-417,419-425,430
+mcp-server/content/agent-harnesses.json
+  s_a76087f74be2bb::t_5798714c4cf125 1-13218
+mcp-server/README.md
+  s_776b013068abdc::t_7ab670307c9f24 3,52
+mcp-server/src/prompts/index.ts
+  s_776b013068abdc::t_79032e7241ce98 12,25
+scripts/build-agent-harness-page.py
+  s_776b013068abdc::t_aa0af35414954a 38,135-136,151-152,184
+scripts/test-agent-harness-page.py
+  s_776b013068abdc::t_4350215172be89 66-73,106-118,134
+whitepapers/CHANGELOG.md
+  s_776b013068abdc::t_d6cad7cd2ede89 31
+whitepapers/README.md
+  s_a76087f74be2bb::t_88d3c6deabb2af 77,83,161
+whitepapers/recap-cards/README.md
+  s_776b013068abdc::t_db265efda01ceb 5,11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "4f4f6610affbf60d18e9c4da276ade01ca4a0ee3",
+  "prompts": {},
+  "sessions": {
+    "s_1154b4eaec1074": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a04239-d1b3-78a3-94c6-57a972d138fc",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_776b013068abdc": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0474c-4ea1-7513-bafc-4c470e24a1d4",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_a76087f74be2bb": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a01f2a-b167-78f0-a126-7450029bd920",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

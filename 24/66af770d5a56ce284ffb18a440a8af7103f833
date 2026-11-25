@@ -1,0 +1,59 @@
+.claude/settings.json
+  s_7209357c35edaa::t_76218d83d9995d 92
+CHANGELOG.md
+  s_7209357c35edaa::t_5ced452d5f470c 11-12
+guide/core/context-engineering.md
+  s_894be90d20fb4c::t_a9c1b40a707f32 49-52,135-136,143-144,160-161,1573-1580,2189-2206
+guide/ecosystem/context-engineering-tools.md
+  s_7209357c35edaa::t_bd2ba2fc414373 9,20-22,89-96,111,114-115,138,140,143-146,148,176-199,301,303,306-307,345-352,391-398,728
+guide/ecosystem/mcp-servers-ecosystem.md
+  s_7209357c35edaa::t_3bc1636faffb8d 118-134
+guide/ecosystem/practitioner-insights.md
+  s_894be90d20fb4c::t_cceee0824872be 11,59-100,157-192,231-272
+guide/ecosystem/third-party-tools.md
+  s_7209357c35edaa::t_51d963b1a3f593 181,263
+guide/ops/ai-unit-economics.md
+  s_7209357c35edaa::t_3b76a78539508e 1-175
+guide/ops/observability.md
+  s_894be90d20fb4c::t_56375516d6b97a 571-574,895-900
+guide/roles/adoption-approaches.md
+  s_7209357c35edaa::t_d350d38a6c3c9a 46-67
+guide/roles/agent-evaluation.md
+  s_894be90d20fb4c::t_53ed0e40138c6d 434-443,454-465,488-497,559-588
+guide/roles/ai-roles.md
+  s_7209357c35edaa::t_a4c8ed0e26e82f 338-341
+guide/roles/learning-with-ai.md
+  s_894be90d20fb4c::t_e85412962b0cee 159-162
+guide/security/sandbox-isolation.md
+  s_7209357c35edaa::t_ad449612e8d82b 553-556,559-562
+guide/security/sandbox-native.md
+  s_894be90d20fb4c::t_e7ad217063625c 80-83
+guide/security/security-hardening.md
+  s_7209357c35edaa::t_9d708d7cd5d411 188-191,507-510
+guide/workflows/agent-teams.md
+  s_894be90d20fb4c::t_f9a876de806fa7 1502-1505
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "2466af770d5a56ce284ffb18a440a8af7103f833",
+  "prompts": {},
+  "sessions": {
+    "s_7209357c35edaa": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4df79c49-168e-4b4a-92ab-b25e6bcb4c92",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_894be90d20fb4c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0c10e740-f0f7-449d-8e25-e81ffb2665d5",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

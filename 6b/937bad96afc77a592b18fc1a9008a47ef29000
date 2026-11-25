@@ -1,0 +1,43 @@
+CHANGELOG.md
+  s_e565b1ef574aef::t_9ff41746ff8e62 31,39-41
+guide/core/claude-code-releases.md
+  s_4f906aa0b5259e::t_f8beca591de610 14,20,29-54
+machine-readable/claude-code-releases.yaml
+  s_4f906aa0b5259e::t_524e3c389c1887 6-7,18-43,1571,1588-1590,1596-1597
+mcp-server/content/claude-code-releases.yaml
+  s_ffb0258382ec96::t_46773a119fb2b1 6-7,18-43,1571,1588-1590,1596-1597
+mcp-server/package.json
+  s_e565b1ef574aef::t_ae32dfd5ed97ae 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "6b937bad96afc77a592b18fc1a9008a47ef29000",
+  "prompts": {},
+  "sessions": {
+    "s_4f906aa0b5259e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0829d7b6-db7f-4b8b-a481-3ae18e085f34",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_e565b1ef574aef": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "dc5f91b4-5e50-4140-8499-379c519a3c22",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_ffb0258382ec96": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2daefe8b-a631-4244-a885-98843bed663c",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

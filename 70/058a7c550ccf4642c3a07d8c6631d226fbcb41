@@ -1,0 +1,37 @@
+llms.txt
+  s_814c80431996d6::t_a092d2128cac8d 5
+machine-readable/llms.txt
+  s_814c80431996d6::t_b507a285585ae2 5
+machine-readable/mcp-product.json
+  s_814c80431996d6::t_f0d9bfb557bd92 15-17,488
+machine-readable/reference.yaml
+  s_814c80431996d6::t_326603abebcc97 915-916,918,1007,1018-1020,1029,1037-1042,1045,1047-1048,1069,1153-1155,1315,1317-1318,1328-1330,1332,1339,1383,1395,1397-1398,1401,1465,1594,1596,1598-1602,1651,1699,1723,2413
+machine-readable/translations.json
+  s_814c80431996d6::t_0d73ffa0c0ebee 4,24,26-27,71-72,114-115,190-191
+mcp-server/content/llms.txt
+  s_814c80431996d6::t_f231d8fb97400c 5,32
+mcp-server/content/reference.yaml
+  s_814c80431996d6::t_14ef68ad4a55c5 915-916,918,1007,1018-1020,1029,1037-1042,1045,1047-1048,1069,1153-1155,1315,1317-1318,1328-1330,1332,1339,1383,1395,1397-1398,1401,1465,1594,1596,1598-1602,1651,1699,1723,2413
+mcp-server/content/translations.json
+  s_814c80431996d6::t_02408dec986e86 4,24,26-27,71-72,114-115,190-191
+mcp-server/package-lock.json
+  s_814c80431996d6::t_72935d44bba7d2 3,9
+mcp-server/server.json
+  s_814c80431996d6::t_f05ad363d1b5a5 10,15
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "70058a7c550ccf4642c3a07d8c6631d226fbcb41",
+  "prompts": {},
+  "sessions": {
+    "s_814c80431996d6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3e937e35-c0e0-4f42-b4e4-9c5cb10b5535",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

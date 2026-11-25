@@ -1,0 +1,72 @@
+examples/README.md
+  s_f9a033e45af8a3::t_11f98f6758aa6a 119
+examples/skills/agent-rationale/SKILL.md
+  s_d7b29a8e0631b4::t_06a56347814a97 1-8,10-33,35-41,43-51,53-57
+  s_f9a033e45af8a3::t_a0e5fceaf3a1cc 9,34,42,52,58
+examples/skills/agent-rationale/scripts/rationale.py
+  s_54e6057b3124d8::t_cf4c184ab570d6 1-13,16-21,24-37,43-48,50-55,62,69-70,73-76,78-90,98-102,105,108-109,112-113,115,117-130,132,134-135,138,143-190
+  s_f9a033e45af8a3::t_06b5722e8eac29 14-15,22-23,38-42,49,56-61,63-68,71-72,77,91-97,103-104,106-107,110-111,114,116,131,133,136-137,139-142
+examples/skills/agent-rationale/scripts/test_rationale.py
+  s_2e9ca0d5560653::t_0b5ecbfbf3e92d 1-98,102-141,143-171,223-224
+  s_f9a033e45af8a3::t_7025aeadcc3fe2 99-101,142,172-222
+CHANGELOG.md
+  s_f9a033e45af8a3::t_c2a1b731b8be70 22-23
+README.md
+  s_f9a033e45af8a3::t_4f5f3eb5160eeb 178
+guide/README.md
+  s_f9a033e45af8a3::t_dab997a2573043 165
+guide/workflows/reviewable-agent-changes.md
+  s_f9a033e45af8a3::t_6b3b70a689bfb8 1-162
+llms.txt
+  s_f9a033e45af8a3::t_fe7364610efd74 27
+machine-readable/llms.txt
+  s_f9a033e45af8a3::t_45a269251d5df1 27
+machine-readable/mcp-product.json
+  s_f9a033e45af8a3::t_12741b2c2a6b8e 16
+machine-readable/reference.yaml
+  s_f9a033e45af8a3::t_9345ae3310bfe5 94-100,4104-4111
+mcp-server/content/llms.txt
+  s_f9a033e45af8a3::t_0af52ec5983c6a 27
+mcp-server/content/reference.yaml
+  s_f9a033e45af8a3::t_2e0953bf939755 94-100,4104-4111
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "cca1ca2adefc0b67b3d3e35c388fdd6323a88af3",
+  "prompts": {},
+  "sessions": {
+    "s_2e9ca0d5560653": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ff5faa5e-0006-4c12-83cb-c362dfd2ef9b",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_54e6057b3124d8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6dc50dd2-cb25-4e4a-87f5-36097cce75ab",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_d7b29a8e0631b4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2ec561fb-2241-4bd3-b961-b7ba4c9920ab",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_f9a033e45af8a3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "646e61bd-cc92-4b20-9bca-04c66dbfea2c",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

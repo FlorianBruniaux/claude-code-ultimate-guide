@@ -1,0 +1,30 @@
+machine-readable/claude-code-releases.yaml
+  s_0dda567a5b96e4::t_fd50b5e61f52bc 6-7,18-30
+  s_0dda567a5b96e4::t_fcb276481549cc 1515
+  s_0dda567a5b96e4::t_ab9cff92673abf 31
+guide/core/claude-code-releases.md
+  s_0dda567a5b96e4::t_b9f5cfe6339a5c 60
+  s_0dda567a5b96e4::t_0822dd24d579e4 51
+  s_0dda567a5b96e4::t_178dfe0c80f48c 2656
+  s_0dda567a5b96e4::t_60304c6ac21b18 20
+  s_0dda567a5b96e4::t_7c1b8d298add81 41,43
+  s_0dda567a5b96e4::t_e88396a99b0dd0 64
+  s_0dda567a5b96e4::t_1b0fbd293e3bf7 29-40,42,44-50,52-59,61-63,65-69
+  s_0dda567a5b96e4::t_59b72d56c2d32e 14
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.5",
+  "base_commit_sha": "cf2ea51aa4977f7a04e070bc1b5ece50a24bffdd",
+  "prompts": {},
+  "sessions": {
+    "s_0dda567a5b96e4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f89ce4e1-7c47-42db-ad0d-32ea0c6b474a",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

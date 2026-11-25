@@ -1,0 +1,47 @@
+CHANGELOG.md
+  s_73ab09d8e049db::t_20d73a2f9d2fb8 9-10
+README.md
+  s_73ab09d8e049db::t_3d3495ab1544be 326-327
+docs/resource-evaluations/README.md
+  s_73ab09d8e049db::t_671d284c032be5 40,127
+docs/resource-evaluations/agent-workspace-cockpits.md
+  s_73ab09d8e049db::t_e2be6334dbb1cc 1-90
+guide/README.md
+  s_73ab09d8e049db::t_785c8ec300e704 105
+guide/ecosystem/agent-harness-landscape.md
+  s_73ab09d8e049db::t_51f71a6cd5311d 30,173-180
+guide/ecosystem/ai-ecosystem.md
+  s_73ab09d8e049db::t_027bad771a2179 1264-1265
+guide/ecosystem/third-party-tools.md
+  s_73ab09d8e049db::t_e38bbe48cb1fdd 15,1380,1385,1387-1388,1391,1393,1395,1397,1399,1401,1403-1410,1412,1414,1416,1432,1436,1462,1934
+machine-readable/reference.yaml
+  s_73ab09d8e049db::t_067635e45fbef0 839-841,859-860,863
+mcp-server/content/reference.yaml
+  s_73ab09d8e049db::t_19c60d48975cf2 839-841,859-860,863
+mcp-server/src/lib/chapter-ranges.generated.json
+  s_a40a3d06fae758::t_603b3b84bf2f75 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "4626b47dfe7777efad43ee3e7967f0237d8fb7f3",
+  "prompts": {},
+  "sessions": {
+    "s_73ab09d8e049db": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a13409-d15d-7761-b3b8-0fcd083b1f73",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_a40a3d06fae758": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a13987-56fc-7163-a771-05b90c005330",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

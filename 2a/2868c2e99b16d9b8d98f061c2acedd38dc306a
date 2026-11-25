@@ -1,0 +1,27 @@
+machine-readable/mcp-product.json
+  s_2efec322df84ae::t_9535b1134e7fe7 488
+machine-readable/reference.yaml
+  s_2efec322df84ae::t_2459d21e6546e5 990,1000,1118-1119,1289,1294,1369,1411,1559,1658
+machine-readable/translations.json
+  s_2efec322df84ae::t_57cc60d85dfd17 4,24,26-27,71-72,114-115,190-191,200-203,214-216,226-229,269-271
+mcp-server/content/reference.yaml
+  s_2efec322df84ae::t_9857c5cad875e7 990,1000,1118-1119,1289,1294,1369,1411,1559,1658
+mcp-server/content/translations.json
+  s_2efec322df84ae::t_979e8f893e285a 4,24,26-27,71-72,114-115,190-191,200-203,214-216,226-229,269-271
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "2a2868c2e99b16d9b8d98f061c2acedd38dc306a",
+  "prompts": {},
+  "sessions": {
+    "s_2efec322df84ae": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a056aa-68dc-76c1-95fa-3e383c196e6d",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

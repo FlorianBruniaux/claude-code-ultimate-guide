@@ -1,0 +1,29 @@
+.claude/settings.json
+  s_a4d2224bdc73f3::t_4f0e85eef4b4f5 92
+CHANGELOG.md
+  s_7822d22b95538c::t_7f15b2bb9cd742 9-14,17
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.9",
+  "base_commit_sha": "b298ff8694878516062559d89d666d2fd7b3ba3f",
+  "prompts": {},
+  "sessions": {
+    "s_7822d22b95538c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9f995c64-3d04-4e7f-bcba-7ed3d7a5d5fb",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_a4d2224bdc73f3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "136f1ee6-2449-4c4b-a089-e106f09467ed",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+guide/core/claude-code-releases.md
+  s_7822d22b95538c::t_0f7901941c75d1 14,20,27-71,2700
+machine-readable/claude-code-releases.yaml
+  s_7822d22b95538c::t_3cd5c7ebe2ef2d 6-7,15,18-33,1531
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.9",
+  "base_commit_sha": "b1f77415519de1c5debd8c3b6651e84ec14bdc00",
+  "prompts": {},
+  "sessions": {
+    "s_7822d22b95538c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9f995c64-3d04-4e7f-bcba-7ed3d7a5d5fb",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

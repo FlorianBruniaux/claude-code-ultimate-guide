@@ -1,0 +1,77 @@
+.claude/commands/security-check.md
+  s_9a99498fa5f378::t_1e70a468a23488 117-127
+examples/commands/resources/threat-db.yaml
+  s_5692e144b6e2e7::t_950e2d9d86249d 5-6,8-19,4823-4830,4889-5328,5348-5398,6005-6041
+examples/skills/security-check/SKILL.md
+  s_b8856734d9cecd::t_3c2c3aa2c21af0 125-135
+guide/security/security-hardening.md
+  s_2c4b8634291107::t_92dafa77e5728d 112-121,460-483,574-579,582-592
+machine-readable/agentsec-security-feed.v1.json
+  s_5692e144b6e2e7::t_588aa61f9ab009 15,19-20,56-96,141-142,146-182,1992-2023,4327-4362,4469-4478,4489-4498,4978-4997,5148-5157,5958-5977,5998-6007,6027-6036,6077
+machine-readable/mcp-product.json
+  s_9ba1bc8a2e85e7::t_838352df1c9dad 16,494
+machine-readable/reference.yaml
+  s_5692e144b6e2e7::t_f5f526dc62f022 1898
+mcp-server/content/reference.yaml
+  s_5692e144b6e2e7::t_1073df6c54e271 1898
+mcp-server/src/lib/chapter-ranges.generated.json
+  s_9ba1bc8a2e85e7::t_97920627d473ed 2-3
+CHANGELOG.md
+  s_9ba1bc8a2e85e7::t_5c55c2ba6ecd3c 20,24,41
+.agents/skills/update-threat-db/SKILL.md
+  s_5692e144b6e2e7::t_9e9d67ab9b2d41 3,36-58
+.agents/skills/update-threat-db/evals/scenarios.json
+  s_5692e144b6e2e7::t_4de7391af7252b 15-17,27-28
+.claude/skills/update-threat-db/SKILL.md
+  s_5692e144b6e2e7::t_9a57ecd54ad41b 3,36-58
+.claude/skills/update-threat-db/evals/scenarios.json
+  s_5692e144b6e2e7::t_531b24dc029b64 15-17,27-28
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "6940e3aa9f23bc7d934aad40f75d759aee580f65",
+  "prompts": {},
+  "sessions": {
+    "s_2c4b8634291107": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0d9d74ae-39ae-4425-a7eb-691eca9b23c3",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_5692e144b6e2e7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e191b99e-d200-4dae-a50b-febf2902c870",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_9a99498fa5f378": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1a721-aa7b-7ae0-a69d-fb74df6e106e",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_9ba1bc8a2e85e7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5880965e-13e1-4301-b156-0e4ce78295e9",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_b8856734d9cecd": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6fadf8cc-5bdc-4e98-8b22-621922e0cbd4",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

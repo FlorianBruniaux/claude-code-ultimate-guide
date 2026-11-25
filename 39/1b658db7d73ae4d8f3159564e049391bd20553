@@ -1,0 +1,35 @@
+CHANGELOG.md
+  s_03ba8b1a919c17::t_39d6fb48130493 26
+whitepapers/_extensions/whitepaper/typst-template.typ
+  s_03ba8b1a919c17::t_c06c4d1632221c 341,365,369-372
+whitepapers/en/03-security.qmd
+  s_03ba8b1a919c17::t_60718de0952ce7 211,1151
+whitepapers/en/_extensions/whitepaper/typst-template.typ
+  s_03ba8b1a919c17::t_333b98e2c02b4f 328,352,356-359
+whitepapers/en/cheatsheet.qmd
+  s_03ba8b1a919c17::t_8c16348c93eaec 119-121
+whitepapers/fr/03-securite.qmd
+  s_03ba8b1a919c17::t_79fe65a0811546 177,1065
+whitepapers/fr/08-agent-teams.qmd
+  s_03ba8b1a919c17::t_1bbd39e39ff94e 975,986-987
+whitepapers/fr/_extensions/whitepaper/typst-template.typ
+  s_03ba8b1a919c17::t_70b204b2b62c83 328,352,356-359
+whitepapers/fr/cheatsheet.qmd
+  s_03ba8b1a919c17::t_00c35267b8bc13 119-121
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "391b658db7d73ae4d8f3159564e049391bd20553",
+  "prompts": {},
+  "sessions": {
+    "s_03ba8b1a919c17": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0d374-0cc8-7963-b9d1-425a32259a25",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

@@ -1,0 +1,55 @@
+CHANGELOG.md
+  s_222d39e032fac4::t_0f916dddc5f8f7 9-24
+examples/README.md
+  s_222d39e032fac4::t_ac7ef612fc84bd 54,67
+examples/workflows/lean-harness-experiment.md
+  s_222d39e032fac4::t_c297c29a489618 1-32
+examples/workflows/review-admission.md
+  s_222d39e032fac4::t_ffe58a6585dba1 19-20,30,50
+guide/core/agent-harness.md
+  s_222d39e032fac4::t_aaddf628bd7eaf 423-434
+guide/core/context-engineering.md
+  s_222d39e032fac4::t_09fb639f09d643 141-148
+guide/core/loop-graph-engineering.md
+  s_222d39e032fac4::t_cfa023a8b7a63c 260-279
+guide/core/methodologies.md
+  s_222d39e032fac4::t_7ad10f9e98ae67 11,28-33,55,60,63,65,67,78-80,86-120,129,132,134-138,227,476,481,551,553-560,568
+guide/ecosystem/third-party-tools.md
+  s_222d39e032fac4::t_db52a5bbacf553 1931-1932
+guide/ops/team-metrics.md
+  s_222d39e032fac4::t_535813819f84f6 201,207,239-242,278,329
+guide/workflows/agentic-software-factories.md
+  s_222d39e032fac4::t_e20f9dc8cebb76 42,50
+guide/workflows/gstack-workflow.md
+  s_222d39e032fac4::t_4dcae34c7f43fb 3,9,19,24-27,34,38,41-42,61,63,103,105,107,113-114,148-149,151-152,154-155,157,176,187-188,191
+guide/workflows/spec-first.md
+  s_222d39e032fac4::t_ecb522bb780fa8 370,373,377
+llms.txt
+  s_222d39e032fac4::t_0f12866947d112 27-28
+machine-readable/README.md
+  s_222d39e032fac4::t_333c17e136ba70 35
+machine-readable/llms.txt
+  s_222d39e032fac4::t_12ce412aaa1ae7 27-28
+machine-readable/reference.yaml
+  s_222d39e032fac4::t_1b5f003da6b780 200-203,513-515
+mcp-server/content/llms.txt
+  s_222d39e032fac4::t_f4cdac6d3fb408 27-28
+mcp-server/content/reference.yaml
+  s_222d39e032fac4::t_95c7701493d0d6 200-203,513-515
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "2ffa95f89332b4cd249358f470db82dea490fcf9",
+  "prompts": {},
+  "sessions": {
+    "s_222d39e032fac4": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0fd10-0234-7173-845d-899eaaa568f7",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

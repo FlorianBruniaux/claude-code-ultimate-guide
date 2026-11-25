@@ -1,0 +1,33 @@
+machine-readable/reference.yaml
+  s_4ef5554bf194a6::t_b1c789e8e77d13 1499,2978
+mcp-server/content/reference.yaml
+  s_a344663771d926::t_23459693f1b9cd 1499,2978
+CHANGELOG.md
+  s_a344663771d926::t_b99322be1c17e9 31
+guide/ecosystem/local-vs-cloud-inference.md
+  s_a344663771d926::t_f7667dc714066f 24,198-211
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.24",
+  "base_commit_sha": "c65cc0bf36317408992258129c92f2b50560ed62",
+  "prompts": {},
+  "sessions": {
+    "s_4ef5554bf194a6": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a03846-1217-74b1-8253-9a8b77645d36",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_a344663771d926": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6bf12911-8795-4088-b8a4-c648c238a31e",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

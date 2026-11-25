@@ -1,0 +1,95 @@
+CHANGELOG.md
+  s_1b8664c0d3f819::t_25c91e11004836 24
+docs/workflows/whitepaper-build.md
+  s_f1e2d821a75fe5::t_c8da1082efa619 116
+examples/github-actions/claude-code-review-batched.yml
+  s_f1e2d821a75fe5::t_5b8c405d3be58f 91,137
+examples/github-actions/claude-code-review.yml
+  s_f1e2d821a75fe5::t_37dd014ec9a9ad 45,216
+examples/github-actions/claude-pr-auto-review.yml
+  s_f1e2d821a75fe5::t_6e6dd319c7304d 58
+examples/hooks/bash/session-summary.sh
+  s_f1e2d821a75fe5::t_02b1d79810254c 184-188,192-195
+examples/modes/README.md
+  s_f1e2d821a75fe5::t_5c84b2d4eddfac 74
+examples/plugins/security-suite/README.md
+  s_f1e2d821a75fe5::t_1b85ec8a091d4d 272
+examples/plugins/security-suite/plugin.json
+  s_f1e2d821a75fe5::t_fec3ee880ebf41 12
+examples/scripts/sonnetplan.sh
+  s_98db97e8935135::t_a12686d02b9ab9 2,22,29
+examples/scripts/test-prompt-caching.ts
+  s_f1e2d821a75fe5::t_253c11c99b2887 67
+guide/cheatsheet.md
+  s_f1e2d821a75fe5::t_30a3f965562dd2 21-22,31-32,35,37,39,43,48,51-52,54-55,60,255,313-314
+guide/core/community-patterns.md
+  s_f1e2d821a75fe5::t_80bc7729d39ebe 48,50,52,62,99
+guide/core/context-engineering.md
+  s_f1e2d821a75fe5::t_4aa93c386786ca 194,249
+guide/core/glossary.md
+  s_f1e2d821a75fe5::t_161722cf056a47 80
+guide/core/settings-reference.md
+  s_f1e2d821a75fe5::t_38d07536e0dfcb 716,738-739,1096,1135
+guide/diagrams/09-cost-and-optimization.md
+  s_f1e2d821a75fe5::t_beefbab3ffb6d6 27,31,52,55,65-66,77-78,80-81,84-85
+guide/ecosystem/agentic-tools.md
+  s_f1e2d821a75fe5::t_a5cfebfe5fc827 76,250,281,384,483,490
+guide/ecosystem/ai-ecosystem.md
+  s_f1e2d821a75fe5::t_9a08fd7ae95375 3205,3241-3243,3245,3289
+guide/ecosystem/mcp-vs-cli.md
+  s_f1e2d821a75fe5::t_dfc38400fd7c83 56,120,142
+guide/learning-path/03-memory.md
+  s_f1e2d821a75fe5::t_fe37fdb50e1c4a 329
+guide/ops/api-gateway.md
+  s_f1e2d821a75fe5::t_fed83c6ac23c42 65,67,120,133
+guide/roles/agent-evaluation.md
+  s_f1e2d821a75fe5::t_a10a379aeefc5a 507
+guide/ultimate-guide.md
+  s_98db97e8935135::t_5d948e4f3d872c 1069,1079,1091,2227,2229,2231,2235-2241,2247,2249,2266-2268,2274,2276,2278-2280,2288-2291,2295,2298,2455-2456,2993-2994,3005-3009,3142,3178,3270,3295,3516,3547-3548,7586,7602,9260-9261,9269,9271-9273,9275,9277,9281-9283,9285,9288,9290-9293,9300,9340,14787,14822-14823,14834,14879-14886,14894,14957,16570,16906,17320,17362,18546,18659-18661,18665-18667,20075-20076,20079-20081,20083,22738,22769,22795,24271-24277,24279-24433,25205,26287-26288
+guide/workflows/agent-teams-quick-start.md
+  s_f1e2d821a75fe5::t_06a194ec5581e8 53,58
+guide/workflows/agent-teams.md
+  s_f1e2d821a75fe5::t_e70617c4b04da6 10,16,55,140,258,281,731,734-736,739-741,1177,1202
+guide/workflows/dual-instance-planning.md
+  s_f1e2d821a75fe5::t_7f98a4282ad838 631
+guide/workflows/dynamic-workflows.md
+  s_f1e2d821a75fe5::t_2f658625ceed11 92
+guide/workflows/iterative-refinement.md
+  s_f1e2d821a75fe5::t_eec96305b84234 606
+machine-readable/cowork-reference.yaml
+  s_f1e2d821a75fe5::t_96584a10d403f3 86-88,125,161,203
+scripts/translate-guide.py
+  s_f1e2d821a75fe5::t_6ebc09efaeb687 7,24
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "11cceb22c8cac8be27dfc469a0ae1e1503706cb4",
+  "prompts": {},
+  "sessions": {
+    "s_1b8664c0d3f819": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b6993f8a-047d-4058-835f-0daf75d63db0",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_98db97e8935135": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b667dd8a-0b50-4b85-b44b-61f7a21fb7c6",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_f1e2d821a75fe5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7e4696bc-b5a7-4365-838d-a60de3930a10",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

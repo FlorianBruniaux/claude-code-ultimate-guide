@@ -1,0 +1,31 @@
+mcp-server/test/fixtures/expected-resource-uris.json
+  s_9cf259c16931e6::t_b731156d546ff5 1-7
+mcp-server/test/runtime-contract.test.mjs
+  s_9cf259c16931e6::t_f808efadb348a9 1-46
+mcp-server/test/package-archive.test.mjs
+  s_3196d2c8c02668::t_b917b28b97dc1d 1-48
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "cd9c1ee3e814b37c8d9cda4344242b2679a53560",
+  "prompts": {},
+  "sessions": {
+    "s_3196d2c8c02668": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a05713-a85c-76d1-b7c5-74d5d4caca7e",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_9cf259c16931e6": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a03e6c-f9af-7811-b19d-91365bbf6d38",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

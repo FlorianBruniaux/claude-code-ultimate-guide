@@ -1,0 +1,65 @@
+CHANGELOG.md
+  s_00124b26877032::t_f8b8555946315c 9-12
+README.md
+  s_00124b26877032::t_320982a12f8562 180
+examples/CATALOG.md
+  s_00124b26877032::t_e447c51d7a1332 9,13,15,21,27-28,265,285-287,429-431,492-500,568-570,752,767-769,788,799,820,893,1031-1034
+examples/README.md
+  s_00124b26877032::t_ad3baa6c2f93ff 52,54,63-70
+examples/learning-project/review-comprehension-exercise.md
+  s_00124b26877032::t_ba799b46984f6b 1-29
+examples/templates/ai-assisted-contribution.md
+  s_00124b26877032::t_312f8338370b34 1-51
+examples/workflows/review-admission.md
+  s_00124b26877032::t_6b360dee8a06ae 1-45
+guide/README.md
+  s_00124b26877032::t_8de995ac63f903 107,162
+guide/core/credits.md
+  s_00124b26877032::t_6ed126115b2735 122,127,303-306
+guide/core/loop-graph-engineering.md
+  s_00124b26877032::t_fc61053d7acf3e 228-235
+guide/ecosystem/practitioner-insights.md
+  s_00124b26877032::t_a44bdee36f267e 11,211-222,377-388,463-474,479,494-499
+guide/ops/team-metrics.md
+  s_00124b26877032::t_0ef9991f586dda 221-238
+guide/roles/adoption-approaches.md
+  s_00124b26877032::t_79aea668509992 13-25
+guide/roles/ai-roles.md
+  s_00124b26877032::t_1c6935729f520c 823-830
+guide/roles/learning-with-ai.md
+  s_00124b26877032::t_df7944932ce160 972-977,1204-1209
+guide/security/data-privacy.md
+  s_00124b26877032::t_7bf291423c1d6f 371-380
+guide/workflows/README.md
+  s_00124b26877032::t_1ee1076d74c169 44-49
+guide/workflows/ai-assisted-open-source-contributions.md
+  s_00124b26877032::t_ecf5e4c4c586c7 1-68
+guide/workflows/multi-provider-code-review.md
+  s_00124b26877032::t_f7b2a306943ef2 53-60
+llms-full.txt
+  s_00124b26877032::t_e0d0c8de7e1913 464-472
+llms.txt
+  s_00124b26877032::t_b67f5bb6cf675c 32
+machine-readable/llms.txt
+  s_00124b26877032::t_75897eb0c3cd7b 32
+machine-readable/reference.yaml
+  s_00124b26877032::t_b9e336caeb1bf4 471-480,482,489,3009,3500,3507,3518,3699-3706
+mcp-server/content/reference.yaml
+  s_00124b26877032::t_ee2193c8fd9089 471-480,482,489,3009,3500,3507,3518,3699-3706
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2",
+  "base_commit_sha": "e3383ee96f8190d90e3fc3d7877d82e25825d9e3",
+  "prompts": {},
+  "sessions": {
+    "s_00124b26877032": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a085e5-0fab-7773-b893-3ddc489c0d23",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

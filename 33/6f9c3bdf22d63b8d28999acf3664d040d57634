@@ -1,0 +1,29 @@
+scripts/check-landing-sync.sh
+  s_11947b329028ec::t_d53746aeb3e58c 2,5-6,18,32-35,39,41,54,56-59,64-65,72-75,83-90,93-96,99-100,103-108,122-123,127-130,132-139,147-150,153-159,162,167,172,207-212,214
+CHANGELOG.md
+  s_e36ff2e8006ce9::t_376c7640bf5dd8 17
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.9",
+  "base_commit_sha": "336f9c3bdf22d63b8d28999acf3664d040d57634",
+  "prompts": {},
+  "sessions": {
+    "s_11947b329028ec": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "025e4ee5-10b4-4cfe-81d8-50a66ff8d72b",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_e36ff2e8006ce9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "eb4d3f9f-cccd-4cca-bcf1-665033fc314e",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

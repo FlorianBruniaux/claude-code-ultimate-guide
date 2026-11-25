@@ -1,0 +1,41 @@
+CHANGELOG.md
+  s_19d6af3ee5ee74::t_4c39d0d452a6c8 9-10
+docs/resource-evaluations/README.md
+  s_19d6af3ee5ee74::t_911fd607278ff9 40
+docs/resource-evaluations/genai-days-nantes-sciara.md
+  s_19d6af3ee5ee74::t_c694085177b189 1-35
+guide/roles/adoption-approaches.md
+  s_19d6af3ee5ee74::t_9939f80c9eb4fe 26-31
+guide/roles/agent-evaluation.md
+  s_19d6af3ee5ee74::t_94c4fc0a82c736 614-621
+guide/workflows/support-csm-agent.md
+  s_19d6af3ee5ee74::t_d91c6ca15c3843 44-49
+llms.txt
+  s_19d6af3ee5ee74::t_6221e7182aa331 20
+machine-readable/llms.txt
+  s_19d6af3ee5ee74::t_40c60974c69e4f 20
+machine-readable/mcp-product.json
+  s_19d6af3ee5ee74::t_731a4d966d4465 494
+machine-readable/reference.yaml
+  s_19d6af3ee5ee74::t_7b4b21015a1ecd 2114,3793,3807,4234
+mcp-server/content/llms.txt
+  s_19d6af3ee5ee74::t_abf5f9871224cb 20
+mcp-server/content/reference.yaml
+  s_19d6af3ee5ee74::t_20c13b44b14024 2114,3793,3807,4234
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "2422682dafd34af987a147128c3590b9c612eb13",
+  "prompts": {},
+  "sessions": {
+    "s_19d6af3ee5ee74": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1f2c1-1946-7001-bb6b-87d39a0e7a7b",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

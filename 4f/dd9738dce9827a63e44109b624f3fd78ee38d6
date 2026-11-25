@@ -1,0 +1,95 @@
+CHANGELOG.md
+  s_e4657147639b3d::t_c395e62333884d 16-17
+examples/hooks/README.md
+  s_e4657147639b3d::t_e487911f27d279 870
+examples/styles/custom-style-template.md
+  s_e4657147639b3d::t_22a54df775b8e2 9
+guide/cheatsheet.md
+  s_e4657147639b3d::t_a921f75d47556b 115,127,716
+guide/core/architecture.md
+  s_e4657147639b3d::t_dd9ee6959e9853 465
+guide/core/claude-code-releases.md
+  s_e4657147639b3d::t_2a05b31a5464fb 3555
+guide/core/glossary.md
+  s_e4657147639b3d::t_44181c4bd975e5 182
+guide/core/settings-reference.md
+  s_e4657147639b3d::t_b7f12b8f13c8a6 942-946,948-950,1161
+guide/ecosystem/ai-ecosystem.md
+  s_e4657147639b3d::t_c1370d014f80a2 3403
+guide/ops/ai-unit-economics.md
+  s_e4657147639b3d::t_b867a263dad626 136
+guide/ops/devops-sre.md
+  s_e4657147639b3d::t_84c451e5a4033a 857
+guide/ops/llm-market-snapshot.md
+  s_e4657147639b3d::t_3152c8ccb85ac5 50
+guide/roles/learning-with-ai.md
+  s_e4657147639b3d::t_a935ae40fe72ee 1297
+guide/ultimate-guide.fr.md
+  s_e4657147639b3d::t_5d5253007d23d3 2411,6546,6550-6557,6560,6562-6568,7329,13936,13938-13939,13941,13945-13946,13948-13949,13952,13954-13970,13972,13974,13978-13982,13987-13989,13998,14007-14021,14034-14067,16072,16076-16082,16086-16089,16091,16099-16101,16105,16109,16116-16125,24107-24118,24453-24483,26130
+guide/ultimate-guide.md
+  s_e4657147639b3d::t_83fecfc53c35f7 2371,6419,6423-6430,6433,6435-6441,7193,13764,13766-13767,13769,13773-13774,13776-13777,13780,13782-13798,13800,13802,13806-13810,13815-13817,13826,13835-13849,13862-13895,15881,15885-15891,15895-15898,15900,15908-15910,15914,15918,15925-15934,23601-23612,23920-23950,25567
+machine-readable/reference.yaml
+  s_e4657147639b3d::t_9478df5e1e44d6 357-369,994,1124-1125,1128,1132,1138,1202,1259,1261-1262,1282,1431,1433-1434,1436,1440,1444-1445,1448,1455,1499,1511,1513-1514,1517,1520,1567,1589,1718,1720,1722-1726,1775,1828,1852,2647-2648,2652
+mcp-server/content/reference.yaml
+  s_e4657147639b3d::t_f7f19df389e4dc 357-369,994,1124-1125,1128,1132,1138,1202,1259,1261-1262,1282,1431,1433-1434,1436,1440,1444-1445,1448,1455,1499,1511,1513-1514,1517,1520,1567,1589,1718,1720,1722-1726,1775,1828,1852,2647-2648,2652
+quiz/questions/01-quick-start.yaml
+  s_e4657147639b3d::t_3ed02c45745441 173,180,311
+quiz/questions/02-core-concepts.yaml
+  s_e4657147639b3d::t_09beaaee01f969 30,32-35,37,285,287-292
+quiz/questions/03-memory-settings.yaml
+  s_e4657147639b3d::t_f246bfb36a2788 12,14-17,19,33,37,242,394,396-400,402
+quiz/questions/04-agents.yaml
+  s_e4657147639b3d::t_732b969931a3e9 240
+quiz/questions/06-commands.yaml
+  s_e4657147639b3d::t_28a7ca58c5940b 109,416,418-423,438,440,560,564
+quiz/questions/07-hooks.yaml
+  s_e4657147639b3d::t_2c6ed67bd6f12d 373,375-378,381,387,391,595,597-601,603,605
+quiz/questions/08-mcp-servers.yaml
+  s_e4657147639b3d::t_d3b6f61643c412 363-365,369,372
+quiz/questions/09-advanced-patterns.yaml
+  s_e4657147639b3d::t_991f11e13314c5 21,65-66,1060,1101,1121,1177,1256,1260,1285,1287-1288,1290,1292
+quiz/questions/10-reference.yaml
+  s_e4657147639b3d::t_ddfb5573fb57e9 77,144,155-156,225,228-230,233,235,361,369,518,520-522,524,526,528,563,654,662-668
+quiz/questions/11-learning-with-ai.yaml
+  s_e4657147639b3d::t_32b89e0aad8c2a 219,238,256
+quiz/questions/12-architecture.yaml
+  s_e4657147639b3d::t_7eb3b5a88df4f1 3,19,28,30-35,54,62,64-69,88,97,100-104,114,116-119,121,157,174,201,206-208,210,212,214,218,236
+quiz/questions/14-privacy-observability.yaml
+  s_e4657147639b3d::t_e81d30405a6958 141,151,158
+quiz/questions/15-ai-ecosystem.yaml
+  s_e4657147639b3d::t_e09e2931ef94d8 100,104,289,367,371
+whitepapers/CHANGELOG.md
+  s_e4657147639b3d::t_fcf0980a0089ff 24
+whitepapers/en/00-series-introduction.qmd
+  s_e4657147639b3d::t_93a7e47129d2e2 66,432
+whitepapers/en/01-effective-prompts.qmd
+  s_e4657147639b3d::t_738efdcbe22f7d 1140
+whitepapers/en/07-reference-guide.qmd
+  s_e4657147639b3d::t_0117e1b4be82d6 2280,2282
+whitepapers/fr/00-introduction-serie.qmd
+  s_e4657147639b3d::t_b66748f5274da0 68,399
+whitepapers/fr/01-prompts-efficaces.qmd
+  s_e4657147639b3d::t_2532aeaf3df7a4 1137
+whitepapers/fr/07-guide-reference.qmd
+  s_e4657147639b3d::t_d20da19cbce1fb 1874
+whitepapers/recap-cards/en/m08-agents-custom.qmd
+  s_e4657147639b3d::t_5200bbead42243 8,38
+whitepapers/recap-cards/fr/m08-agents-custom.qmd
+  s_e4657147639b3d::t_ee33d18f717317 8,38
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "4fdd9738dce9827a63e44109b624f3fd78ee38d6",
+  "prompts": {},
+  "sessions": {
+    "s_e4657147639b3d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8a74dfbb-37e9-436b-ad1f-75650865d964",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

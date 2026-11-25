@@ -1,0 +1,37 @@
+CHANGELOG.md
+  s_95392a6b844626::t_292d6124cfdc3c 22
+guide/ops/ai-traceability.md
+  s_95392a6b844626::t_865eaa592c4414 934
+guide/ops/api-gateway.md
+  s_95392a6b844626::t_ad9b10a0806ef8 24,70,72-75,77,83,199-200,233-234,307,309-310,316-317
+guide/ops/observability.md
+  s_95392a6b844626::t_05d05e8491a00a 1030,1032,1034
+guide/ecosystem/context-engineering-tools.md
+  s_c2174b9e521e6b::t_2ea55011965a08 417,439,454
+llms-full.txt
+  s_c2174b9e521e6b::t_5ef16fb81ede17 471
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "387b055c13747100dad96cd129864d95669997b0",
+  "prompts": {},
+  "sessions": {
+    "s_95392a6b844626": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a04821-7023-7112-aeb8-f4aa59348ce9",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_c2174b9e521e6b": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0540b-8786-76e1-9f39-ced61d0ad7b7",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

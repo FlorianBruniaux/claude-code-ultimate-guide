@@ -1,0 +1,97 @@
+CHANGELOG.md
+  s_fe0439327f4400::t_1f7ded8876d8e4 17-18,31
+docs/resource-evaluations/liza-mas-framework.md
+  s_aeebbf2fc2680c::t_542f0aacc93748 5,7,29-38,51,99,109,111,125,137-138,149-150,163
+guide/core/agent-harness.md
+  s_787e22a0128d74::t_4175133483fca4 74-75,79-80,394-395
+guide/ecosystem/agent-harness-landscape.md
+  s_a76087f74be2bb::t_69a5056dfdeeed 11,129,144,153-160,194,444,472
+guide/ecosystem/agentic-tools.md
+  s_0a442347250965::t_7839f7a4a3818e 992-1021,1042,1044,1066
+guide/roles/agent-evaluation.md
+  s_787e22a0128d74::t_d25b7af6b591d0 45-46
+guide/security/security-hardening.md
+  s_787e22a0128d74::t_41479259c81b97 46-47
+guide/workflows/spec-first.md
+  s_787e22a0128d74::t_ebeee5031fefa6 1016
+llms.txt
+  s_787e22a0128d74::t_180c1f52ee69f5 18
+machine-readable/README.md
+  s_787e22a0128d74::t_88d418cb8e3639 13
+machine-readable/agent-harnesses-overrides.json
+  s_0a442347250965::t_cfbbeff7dbcd46 458-482,549-550
+machine-readable/agent-harnesses.json
+  s_a76087f74be2bb::t_bc21b3eb26c1ca 3,136-150,1027-1068,13263,13267
+machine-readable/agent-harnesses.schema.json
+  s_0a442347250965::t_7d077be3f27f2e 53,93-94,127-128
+machine-readable/llms.txt
+  s_787e22a0128d74::t_8e870da6fdfe7b 18
+machine-readable/reference.yaml
+  s_787e22a0128d74::t_568ec2fb667d1a 837,847,852,1121
+mcp-server/content/llms.txt
+  s_787e22a0128d74::t_816a0b9bf13ed9 18
+mcp-server/content/reference.yaml
+  s_787e22a0128d74::t_76ad290fa8329a 837,847,852,1121
+scripts/lib/agent_harnesses.py
+  s_0a442347250965::t_aefe1a7dcd3614 325-326,345
+scripts/test-agent-harness-page.py
+  s_95392a6b844626::t_5a9cd473eba8df 48,52,66,69
+scripts/test-agent-harnesses.py
+  s_fe0439327f4400::t_05cd6bdaa121dd 464,466,767,770
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "0082b0d3a2f7e81d4a40cc27346ad4dae93051cc",
+  "prompts": {},
+  "sessions": {
+    "s_0a442347250965": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a04233-7990-7c82-96d1-1418fd7722e9",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_787e22a0128d74": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a048f1-6c01-74b0-957c-5613dbb569d7",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_95392a6b844626": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a04821-7023-7112-aeb8-f4aa59348ce9",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_a76087f74be2bb": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a01f2a-b167-78f0-a126-7450029bd920",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_aeebbf2fc2680c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a03e20-0cfd-78b0-b1fa-bfb10ef6a72f",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_fe0439327f4400": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a04a06-10cf-7540-bf95-498a7612e6b2",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

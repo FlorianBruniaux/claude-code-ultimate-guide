@@ -1,0 +1,61 @@
+CHANGELOG.md
+  s_7e139d1394bbe9::t_fbde34f693df88 37-38
+whitepapers/CHANGELOG.md
+  s_7e139d1394bbe9::t_76bb464b4541d8 14-20
+whitepapers/en/00-series-introduction.qmd
+  s_7e139d1394bbe9::t_d98fd4af1fa586 5,9,73-74,79,218
+whitepapers/en/01-effective-prompts.qmd
+  s_7e139d1394bbe9::t_5fb18806cdbc13 5,9,441,475,482
+whitepapers/en/04-architecture.qmd
+  s_7e139d1394bbe9::t_8e8ffa9252a11f 5,9,60,67,77,81,248,276,864
+whitepapers/en/05-team.qmd
+  s_7e139d1394bbe9::t_26c32d74f8a3b8 5,9,985,987
+whitepapers/en/07-reference-guide.qmd
+  s_7e139d1394bbe9::t_60ef132dce6545 5,9,334,650,2058,2065,2075,2079,2096
+whitepapers/en/10-ai-budget.qmd
+  s_7e139d1394bbe9::t_2ed454aa2946bc 5,9,44,48,51,77,80-81,138,223,225,367,377-381,407
+whitepapers/en/12-agent-engineering.qmd
+  s_7e139d1394bbe9::t_4e6bcf857e5973 5,9,179
+whitepapers/fr/00-introduction-serie.qmd
+  s_7e139d1394bbe9::t_b005259ca85964 5,9,75-76,80,222
+whitepapers/fr/01-prompts-efficaces.qmd
+  s_7e139d1394bbe9::t_a0f26cc7878d4d 5,9,448,486,493
+whitepapers/fr/04-architecture.qmd
+  s_7e139d1394bbe9::t_b71a38386b8395 5,9,67,74,84,88,266,811
+whitepapers/fr/05-equipe.qmd
+  s_7e139d1394bbe9::t_b3c9a3228414de 5,9,995,1002
+whitepapers/fr/07-guide-reference.qmd
+  s_7e139d1394bbe9::t_29779e0633dc9e 5,9,1656,1663,1673,1677,1694
+whitepapers/fr/10-budget-ia.qmd
+  s_7e139d1394bbe9::t_2ae6c7e8eeb8bb 5,9,64,66,69,198,200,340,350-354,380
+whitepapers/fr/12-agent-engineering.qmd
+  s_7e139d1394bbe9::t_b5546cab1b2c16 5,9,235
+whitepapers/recap-cards/en/t18-modeles-thinking-modes.qmd
+  s_7e139d1394bbe9::t_02689ca71ac532 10-11,20,27,37,45
+whitepapers/recap-cards/en/t19-context-window-200k-1m.qmd
+  s_7e139d1394bbe9::t_be28b471bece35 10-11,26,28
+whitepapers/recap-cards/en/t21-fast-mode-api.qmd
+  s_7e139d1394bbe9::t_3abba9a90254e5 10-11,18,20,22-25,27,63
+whitepapers/recap-cards/fr/t18-modeles-thinking-modes.qmd
+  s_7e139d1394bbe9::t_4a3ffe1c638be8 8,11,20,27,37,45
+whitepapers/recap-cards/fr/t19-context-window-200k-1m.qmd
+  s_7e139d1394bbe9::t_6afd198cf5a079 8,11,26,28
+whitepapers/recap-cards/fr/t21-fast-mode-api.qmd
+  s_7e139d1394bbe9::t_db1a97aaf4e3d9 8,11,18,20,22-25,27,63
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "4007467631a2368cbb38d55bd0b2b8d055500b76",
+  "prompts": {},
+  "sessions": {
+    "s_7e139d1394bbe9": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1c714-3efc-72d1-a65c-fa87d9134845",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

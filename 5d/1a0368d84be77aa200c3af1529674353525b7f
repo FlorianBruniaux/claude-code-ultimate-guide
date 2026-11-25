@@ -1,0 +1,37 @@
+CHANGELOG.md
+  s_5149cee0db2bb2::t_94173f638c24fe 9-13
+README.md
+  s_5149cee0db2bb2::t_85259a86e0fadb 397
+guide/ecosystem/mcp-servers-ecosystem.md
+  s_5149cee0db2bb2::t_95842c6d044b0e 70
+guide/security/production-safety.md
+  s_5149cee0db2bb2::t_550019fb09bc35 427
+guide/security/sandbox-isolation.md
+  s_5149cee0db2bb2::t_e91dd25bf55a00 12
+guide/security/security-hardening.md
+  s_5149cee0db2bb2::t_bcf094c907d135 17
+guide/workflows/agent-teams.md
+  s_5149cee0db2bb2::t_82e15182f3f8aa 394
+guide/workflows/code-review.md
+  s_5149cee0db2bb2::t_d81178f0e29517 171
+guide/workflows/multi-provider-code-review.md
+  s_5149cee0db2bb2::t_4a9035a386c9e9 161-162
+guide/workflows/tdd-with-claude.md
+  s_5149cee0db2bb2::t_d4bff8ec3e6974 358
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "5d1a0368d84be77aa200c3af1529674353525b7f",
+  "prompts": {},
+  "sessions": {
+    "s_5149cee0db2bb2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "42678932-438d-4a77-bfac-283615695d86",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

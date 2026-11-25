@@ -1,0 +1,31 @@
+guide/core/context-engineering.md
+  s_7209357c35edaa::t_fc899bf526a7a9 248-249,453-454,2195-2198
+guide/ecosystem/practitioner-insights.md
+  s_7209357c35edaa::t_db0d55ec75cbd1 311-340,385-414,435-493
+guide/ecosystem/mcp-servers-ecosystem.md
+  s_839799f38522e9::t_5ad7f0e2a353c4 76-79
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "0266072391cc99d4413e2f638d556c894043a87f",
+  "prompts": {},
+  "sessions": {
+    "s_7209357c35edaa": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4df79c49-168e-4b4a-92ab-b25e6bcb4c92",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_839799f38522e9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-awave1-d-context-3b4d76811182ce38",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

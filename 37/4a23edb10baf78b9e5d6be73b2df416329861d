@@ -1,0 +1,85 @@
+CHANGELOG.md
+  s_4ba5307cc00a1e::t_9c5f3fbb92d486 25-26
+README.md
+  s_4ba5307cc00a1e::t_855fb38cd00319 21,418
+docs/resource-evaluations/2026-09-05-multica.md
+  s_a9da11c3793263::t_7177041860786c 1-83
+docs/resource-evaluations/README.md
+  s_4ba5307cc00a1e::t_9c59155ff4956f 102,110
+guide/ecosystem/agent-harness-landscape.md
+  s_4ba5307cc00a1e::t_4ad41ed5fd25a2 11,84,163,229,479,509
+guide/ecosystem/third-party-tools.md
+  s_15709588a2f141::t_65c180953093e8 1492
+guide/ultimate-guide.md
+  s_4ba5307cc00a1e::t_a61ab3d8357d0d 20107,20129,20132-20133
+llms-full.txt
+  s_1b5008099987d2::t_a895e52180e9d0 13-14,69-73,78
+machine-readable/agent-harnesses-overrides.json
+  s_15709588a2f141::t_544459d74ea095 2,569-593,661-662
+machine-readable/agent-harnesses.json
+  s_4ba5307cc00a1e::t_138dd5be66d419 3-4,151-165,1252-1295,13531,13535
+machine-readable/llms.txt
+  s_4ba5307cc00a1e::t_266eb5f1d05812 20
+mcp-server/content/agent-harnesses.json
+  s_4ba5307cc00a1e::t_01aaa6304c3a76 3-4,151-165,1252-1295,13531,13535
+mcp-server/content/llms.txt
+  s_4ba5307cc00a1e::t_66497434065c92 20
+mcp-server/content/reference.yaml
+  s_4ba5307cc00a1e::t_b04a0a1c67b23f 913,928,935,1210,1399-1403
+scripts/lib/agent_harnesses.py
+  s_15709588a2f141::t_6260207b64f234 344-345,369
+guide/ecosystem/agentic-tools.md
+  s_4ba5307cc00a1e::t_727b7aa8bb7216 1067-1127,1150,1152,1176
+llms.txt
+  s_4ba5307cc00a1e::t_83eba49c63ff8e 20
+machine-readable/README.md
+  s_4ba5307cc00a1e::t_7742b086033aa6 13
+machine-readable/agent-harnesses.schema.json
+  s_4ba5307cc00a1e::t_c0b4dc306227e8 53,93-94,127-128
+machine-readable/reference.yaml
+  s_4ba5307cc00a1e::t_e2d173e0b24f31 913,928,935,1210,1399-1403
+scripts/test-agent-harness-page.py
+  s_4ba5307cc00a1e::t_ea51d51910a4fa 56,60,74,77
+scripts/test-agent-harnesses.py
+  s_4ba5307cc00a1e::t_8eff01734ac57e 783,785,1100,1103
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2",
+  "base_commit_sha": "374a23edb10baf78b9e5d6be73b2df416329861d",
+  "prompts": {},
+  "sessions": {
+    "s_15709588a2f141": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a06cf8-d5d0-74d2-8a15-2f0d9aa53d9a",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_1b5008099987d2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fc271144-098a-4469-ace6-be051749d402",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_4ba5307cc00a1e": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a071cf-c02a-7fc2-8310-13b337a70c1a",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_a9da11c3793263": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a06ae1-8792-7e60-83fb-6d0a140d2d38",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

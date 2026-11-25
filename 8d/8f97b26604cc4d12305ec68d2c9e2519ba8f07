@@ -1,0 +1,47 @@
+CHANGELOG.md
+  s_853dc82c7e37cc::t_21cb3850b9bbcf 17
+README.md
+  s_853dc82c7e37cc::t_dfb1a48256ae6c 248-249,260
+guide/ultimate-guide.md
+  s_853dc82c7e37cc::t_66b3e3cdb63184 13132-13133,13144
+machine-readable/mcp-product.json
+  s_853dc82c7e37cc::t_9fbf9971dfbaa4 5,488
+mcp-server/README.md
+  s_853dc82c7e37cc::t_c0ab976ff15ff5 15,26,35,48,64,78,142,162
+mcp-server/package-lock.json
+  s_9cf259c16931e6::t_9712e812d8af27 3,9
+mcp-server/package.json
+  s_9cf259c16931e6::t_1a3cbb88b27bc4 3,20
+mcp-server/scripts/generate-product-manifest.mjs
+  s_9cf259c16931e6::t_8be82a053518a6 77
+mcp-server/scripts/render-registry-metadata.mjs
+  s_9cf259c16931e6::t_4c83e7c61447f0 18,22
+mcp-server/server.json
+  s_853dc82c7e37cc::t_47ef3009bc0acb 10,15
+mcp-server/test/registry-metadata.test.mjs
+  s_9cf259c16931e6::t_315aaacea45767 75,91
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "8d8f97b26604cc4d12305ec68d2c9e2519ba8f07",
+  "prompts": {},
+  "sessions": {
+    "s_853dc82c7e37cc": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0594f-09de-75a1-b540-e1e13a8196d1",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_9cf259c16931e6": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a03e6c-f9af-7811-b19d-91365bbf6d38",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

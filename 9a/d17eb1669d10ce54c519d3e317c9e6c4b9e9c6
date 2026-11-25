@@ -1,0 +1,43 @@
+CHANGELOG.md
+  s_af62eded887a85::t_d226cf04ab50ce 9-10
+guide/workflows/agentic-software-factories.md
+  s_fde706510359c6::t_8eb76b9436ed53 48,161-205
+machine-readable/reference.yaml
+  s_755ee685588f9c::t_1038d329c9aca5 1244,1622,3202,3710
+mcp-server/content/reference.yaml
+  s_755ee685588f9c::t_d08535774ad373 1244,1622,3202,3710
+docs/resource-evaluations/2026-09-15-openai-agentic-software-factory.md
+  s_af62eded887a85::t_68db6fb4edd24f 1-92
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "9ad17eb1669d10ce54c519d3e317c9e6c4b9e9c6",
+  "prompts": {},
+  "sessions": {
+    "s_755ee685588f9c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fae34233-f38a-4902-a704-4d1d0c611340",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_af62eded887a85": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c75cd713-9c2b-4cdf-b45c-f2089777b95b",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_fde706510359c6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2abcd8d3-18c0-44b2-af4c-1ac992e7a9c3",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

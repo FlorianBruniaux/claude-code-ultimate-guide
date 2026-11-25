@@ -1,0 +1,43 @@
+CHANGELOG.md
+  s_3c0d2aef294649::t_fce3436a5e856a 42-43
+docs/resource-evaluations/README.md
+  s_73ab09d8e049db::t_746efbd27ba02a 45,128
+docs/resource-evaluations/fixtures/grob-boundary-probe.rs
+  s_592023fb892cc1::t_5966c98cb51ecd 1-89
+docs/resource-evaluations/grob-llm-proxy.md
+  s_592023fb892cc1::t_d4a42f73ce1af3 1-124
+machine-readable/README.md
+  s_592023fb892cc1::t_d7601850aeca81 9,21
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "4384e30418f675a7bcff64c86bdf8210424bd5f5",
+  "prompts": {},
+  "sessions": {
+    "s_3c0d2aef294649": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a13ef5-fd55-70b1-9bf3-2f6b3e80e564",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_592023fb892cc1": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a13ef9-a7a2-70c0-810c-f2b1bb109816",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_73ab09d8e049db": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a13409-d15d-7761-b3b8-0fcd083b1f73",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

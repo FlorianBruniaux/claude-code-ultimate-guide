@@ -1,0 +1,19 @@
+mcp-server/content/translations.json
+  s_cae630130d25b9::t_e48cf658029f8b 3-4,24,26-27,51-52,56-57,60,114-115,190-191
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "25bad0b843e3e11ce28cec55779e7e889a29cf28",
+  "prompts": {},
+  "sessions": {
+    "s_cae630130d25b9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bd0308eb-fb52-4899-bde8-5c46ebd61524",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

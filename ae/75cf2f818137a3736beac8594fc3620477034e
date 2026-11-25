@@ -1,0 +1,31 @@
+machine-readable/reference.yaml
+  s_4ed23f6af55279::t_3f573c2d6a2abc 2596,2648
+mcp-server/content/reference.yaml
+  s_4ed23f6af55279::t_85bd8caf1574fa 2596,2648
+mcp-server/src/lib/chapter-ranges.generated.json
+  s_e4657147639b3d::t_0c412b419278d8 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "ae75cf2f818137a3736beac8594fc3620477034e",
+  "prompts": {},
+  "sessions": {
+    "s_4ed23f6af55279": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a17476-8ed2-74a0-8a57-959e38f8cf62",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_e4657147639b3d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8a74dfbb-37e9-436b-ad1f-75650865d964",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

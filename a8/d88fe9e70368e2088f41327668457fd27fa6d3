@@ -1,0 +1,57 @@
+.claude/commands/update-threat-db.md
+  s_a6272ac9eeea28::t_4f65e08bbf7734 1,3-5,7,9-11,13-17,19,21,23-26,28-30,33-35,38-40,42,44,46-51,53-54
+CHANGELOG.md
+  s_958cad3948f5dd::t_ffd73b8a8c44f8 9-11,23-24
+README.md
+  s_0df90997879182::t_dab70419c36905 11,293-294,297,681,687,696,950
+examples/commands/resources/threat-db.yaml
+  s_a6272ac9eeea28::t_281e648f9449cb 5-6,8-43,1245-1273,2429-2589,2613,2630-2633,2717-2724,3219-3222,3308-3360,3814-3854,4464-4512,4699-4708
+examples/skills/security-audit/SKILL.md
+  s_a6272ac9eeea28::t_7903bd00fff3d3 279
+examples/skills/security-check/SKILL.md
+  s_a6272ac9eeea28::t_146d3adb3f8fd8 17,21,199
+examples/skills/update-threat-db/SKILL.md
+  s_a6272ac9eeea28::t_44b1eeb35e1d47 3,6,8-9,11,13-21,23-24,26-27
+guide/security/security-hardening.md
+  s_a6272ac9eeea28::t_9f9047d22fbce8 91-93,210-228
+machine-readable/agentsec-security-feed.v1.json
+  s_0df90997879182::t_b55e8270d70de0 16-17,19-20,67-68,72-166,237-369,384-443,464-483,504-522,531-550,553
+machine-readable/reference.yaml
+  s_a6272ac9eeea28::t_1ab99f0f4185af 1509
+mcp-server/content/reference.yaml
+  s_a6272ac9eeea28::t_3bb43d06cdf460 1509
+tools/audit-prompt.md
+  s_a6272ac9eeea28::t_dad479d5095cf5 612
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "a8d88fe9e70368e2088f41327668457fd27fa6d3",
+  "prompts": {},
+  "sessions": {
+    "s_0df90997879182": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fd73a-588d-7f03-ab50-494ca0e95848",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_958cad3948f5dd": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "53b15b1a-d8dd-4dd4-b9b6-3db1b9882465",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_a6272ac9eeea28": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c67912ad-4ff6-4340-b106-34a9a2e26546",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

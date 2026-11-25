@@ -1,0 +1,19 @@
+.claude/settings.json
+  s_6cbd9c10aafe14::t_0acf7ef416ddf9 92
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "1992963fe29d4f4c8a7846a32dc8925ea730c846",
+  "prompts": {},
+  "sessions": {
+    "s_6cbd9c10aafe14": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f5be6659-44a9-481c-9426-2910621b2cce",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

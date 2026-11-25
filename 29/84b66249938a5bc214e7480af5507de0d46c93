@@ -1,0 +1,37 @@
+docs/resource-evaluations/README.md
+  s_f9a033e45af8a3::t_f307b7ce2983b1 40
+guide/diagrams/06-development-workflows.md
+  s_f9a033e45af8a3::t_af710075aedb04 3,307-360
+guide/diagrams/README.md
+  s_f9a033e45af8a3::t_925bbfe506e705 3,9,50
+guide/workflows/multi-provider-code-review.md
+  s_f9a033e45af8a3::t_cfad46246fc064 143-165
+machine-readable/mcp-product.json
+  s_f9a033e45af8a3::t_4955c20515fad9 16,494
+machine-readable/reference.yaml
+  s_f9a033e45af8a3::t_28721550ca8629 31,34,92-93,4105
+mcp-server/content/reference.yaml
+  s_f9a033e45af8a3::t_04d9610bac04d6 31,34,92-93,4105
+mcp-server/src/lib/chapter-ranges.generated.json
+  s_f9a033e45af8a3::t_71ea1b18b0b690 3
+CHANGELOG.md
+  s_f9a033e45af8a3::t_4cb5c5bbe3d573 15
+docs/resource-evaluations/agent-review-surfaces.md
+  s_f9a033e45af8a3::t_5047caafc86148 1-50
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "2984b66249938a5bc214e7480af5507de0d46c93",
+  "prompts": {},
+  "sessions": {
+    "s_f9a033e45af8a3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "646e61bd-cc92-4b20-9bca-04c66dbfea2c",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

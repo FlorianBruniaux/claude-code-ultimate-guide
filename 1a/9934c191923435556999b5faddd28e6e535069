@@ -1,0 +1,59 @@
+CHANGELOG.md
+  s_a40a3d06fae758::t_695f8df87d4af3 31-32
+docs/resource-evaluations/README.md
+  s_a40a3d06fae758::t_b4716d47d93c65 40-41,125
+docs/resource-evaluations/honkonen-architect-engineer.md
+  s_a40a3d06fae758::t_669f5e9de5c4b0 1-40
+docs/resource-evaluations/lopopolo-harness-engineering.md
+  s_a40a3d06fae758::t_b15424101ddc7d 1-41
+examples/skills/handoff-create/SKILL.md
+  s_a40a3d06fae758::t_21495b4eab6d49 26,45,52,74-76
+examples/skills/handoff-resume/SKILL.md
+  s_a40a3d06fae758::t_4bee8f46297c27 3,23,25,29-32
+examples/skills/handoff-update/SKILL.md
+  s_a40a3d06fae758::t_edb34ca088104b 30-31,34,38
+guide/core/context-engineering.md
+  s_a40a3d06fae758::t_ab4a685f12491b 1010,1012-1017,1020,1699-1706,1725
+guide/core/memory-systems.md
+  s_a40a3d06fae758::t_b6a6504788826e 564-577
+guide/roles/agent-evaluation.md
+  s_a40a3d06fae758::t_c7bb057002e5bc 49-63
+guide/ultimate-guide.md
+  s_a40a3d06fae758::t_cbb67999184a85 18937,18939,18943,18947,18951-18955,18957,18959,18963-18968,18970,18972,18974,18978,18980,18984,18988,18992-18995,23155,23157,23159-23164,23166,23168,23170,23174,23232-23247,23259
+guide/workflows/dual-instance-planning.md
+  s_a40a3d06fae758::t_64fa58bf76e294 3,9,11,16,18-22,26-30,32,36,40-44,46,50,56,58,60,62-67,70,72-77,80,84,86,88,92,94,96,98,100,102,104,106,108-114,116,118,120,124,126,130,133,135-138,140-143,145-147,149-152,154-158,161,165,167,169,173-177,181-185,187
+guide/workflows/task-management.md
+  s_a40a3d06fae758::t_dee333fa297bad 817,839,843
+llms-full.txt
+  s_a40a3d06fae758::t_4f065bd795f104 343-348
+llms.txt
+  s_a40a3d06fae758::t_673b465095d140 43-45
+machine-readable/README.md
+  s_a40a3d06fae758::t_3b5195d32c880e 3,9-12,17-18,21,23,102-114,202,212-213
+machine-readable/llms.txt
+  s_a40a3d06fae758::t_6b8f455c931ba2 43-45
+machine-readable/reference.yaml
+  s_a40a3d06fae758::t_6c3d0586876fee 7,132,1405,1413-1416,1422-1423,1456,1470-1471,1474,1477,1524,1546,1665,1675,1677,1679-1683,1732,1782,1806,2042-2052,2056,3912-3913
+mcp-server/content/llms.txt
+  s_a40a3d06fae758::t_8a9b338f4a57a4 43-45
+mcp-server/content/reference.yaml
+  s_a40a3d06fae758::t_b5578fd5eb10f5 7,132,1405,1413-1416,1422-1423,1456,1470-1471,1474,1477,1524,1546,1665,1675,1677,1679-1683,1732,1782,1806,2042-2052,2056,3912-3913
+mcp-server/src/lib/chapter-ranges.generated.json
+  s_a40a3d06fae758::t_840cb3ce45c3fb 2-4,53,57-58,62-63,67-68
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "1a9934c191923435556999b5faddd28e6e535069",
+  "prompts": {},
+  "sessions": {
+    "s_a40a3d06fae758": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a13987-56fc-7163-a771-05b90c005330",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

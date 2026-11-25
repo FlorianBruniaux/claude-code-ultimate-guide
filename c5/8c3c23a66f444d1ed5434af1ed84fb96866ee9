@@ -1,0 +1,31 @@
+CHANGELOG.md
+  s_03ba8b1a919c17::t_9ab488de38a016 11
+machine-readable/mcp-product.json
+  s_03ba8b1a919c17::t_bf25ac4b8141db 15,488
+docs/audits/2026-09-24-commands-models.md
+  s_1f1365ec6663ab::t_cf1e54d0e3d0a9 58,61-62,106,108,111
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "c58c3c23a66f444d1ed5434af1ed84fb96866ee9",
+  "prompts": {},
+  "sessions": {
+    "s_03ba8b1a919c17": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0d374-0cc8-7963-b9d1-425a32259a25",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_1f1365ec6663ab": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0d509-7ecc-7cb3-9add-7328eddaa933",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

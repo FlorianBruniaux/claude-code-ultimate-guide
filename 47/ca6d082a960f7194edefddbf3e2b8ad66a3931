@@ -1,0 +1,21 @@
+CHANGELOG.md
+  s_b69396dcaed2ba::t_e41f422949bb3b 13-14
+guide/ecosystem/local-vs-cloud-inference.md
+  s_b69396dcaed2ba::t_36eeb3695498f5 742,749,752,756,805,813,821,850
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "47ca6d082a960f7194edefddbf3e2b8ad66a3931",
+  "prompts": {},
+  "sessions": {
+    "s_b69396dcaed2ba": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1bfee-7258-7df0-a01a-0f4ec0b69e14",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

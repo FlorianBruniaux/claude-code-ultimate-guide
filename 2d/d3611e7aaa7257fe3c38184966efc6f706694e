@@ -1,0 +1,41 @@
+.github/workflows/link-check.yml
+  s_0cab20d7d05da4::t_552e195d3065ec 28-29,45
+CHANGELOG.md
+  s_0cab20d7d05da4::t_8f3d71a3b08b41 9-18
+docs/resource-evaluations/README.md
+  s_0cab20d7d05da4::t_c3a53eae4715d5 40-41
+docs/resource-evaluations/codealong-session-board.md
+  s_0cab20d7d05da4::t_bf35356b4e412a 1-51
+docs/resource-evaluations/orcapromptvault-claude-code-captures.md
+  s_d54a79afd079d4::t_d007fa85a93e6a 1-42
+guide/core/architecture.md
+  s_0cab20d7d05da4::t_b309ad632c9a6c 472-473
+guide/ecosystem/mcp-servers-ecosystem.md
+  s_0cab20d7d05da4::t_60ecbfd14e7e02 1977
+guide/ecosystem/third-party-tools.md
+  s_0cab20d7d05da4::t_f035ad67faeb70 1669
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "2dd3611e7aaa7257fe3c38184966efc6f706694e",
+  "prompts": {},
+  "sessions": {
+    "s_0cab20d7d05da4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9bc35d4e-a268-4d56-a1df-d9abd54f1301",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_d54a79afd079d4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1127b626-b9f0-4cf1-a4fb-e1c1892e639b",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

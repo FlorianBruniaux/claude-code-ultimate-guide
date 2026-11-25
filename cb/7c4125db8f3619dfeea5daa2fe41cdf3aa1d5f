@@ -1,0 +1,37 @@
+CHANGELOG.md
+  s_a6272ac9eeea28::t_ae2f4f2ba41ea2 33-34
+guide/README.md
+  s_a6272ac9eeea28::t_c7d1c8d39b65e5 89
+guide/ecosystem/agent-harness-landscape.md
+  s_a6272ac9eeea28::t_530618ff55913b 1-73
+guide/ecosystem/agentic-tools.md
+  s_a6272ac9eeea28::t_e4d8ced32ab48d 4,15-16,25,304-448
+machine-readable/reference.yaml
+  s_de692bb179c40a::t_ef36a389cef34f 792-798
+mcp-server/content/reference.yaml
+  s_a6272ac9eeea28::t_72a59973734e10 792-798
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "cb7c4125db8f3619dfeea5daa2fe41cdf3aa1d5f",
+  "prompts": {},
+  "sessions": {
+    "s_a6272ac9eeea28": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c67912ad-4ff6-4340-b106-34a9a2e26546",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_de692bb179c40a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4f4ae5d4-c465-46f2-9e32-fbaf8b9f2b3a",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

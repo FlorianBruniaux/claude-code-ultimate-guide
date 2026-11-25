@@ -1,0 +1,103 @@
+.claude/commands/audit-quiz-coverage.md
+  s_70603bfa823e50::t_e8ca80e4592a00 1-77
+CHANGELOG.md
+  s_149fde6f799a0f::t_989282259ffd1d 11-18
+docs/resource-evaluations/README.md
+  s_e96098627995a9::t_5b8a9114550f00 79-82,90
+docs/resource-evaluations/agent-orchestrator-composio.md
+  s_e96098627995a9::t_763ec37950dd5a 1-96
+docs/resource-evaluations/bmad-method-spec-driven-agents.md
+  s_3a6b72c7c93da5::t_f66a7a0b8ba8fd 1-91
+docs/resource-evaluations/openhands-autonomous-agent.md
+  s_3a6b72c7c93da5::t_e02c877c4ff5f9 1-89
+docs/resource-evaluations/spec-kitty-worktree-isolation.md
+  s_3a6b72c7c93da5::t_8279a1febce771 1-88
+guide/core/methodologies.md
+  s_6b14c9a9e6e313::t_be40a69ce34bbe 93-94
+guide/ecosystem/agentic-tools.md
+  s_d29eb9ea5439e1::t_c3f9d8dcc28e9d 414-437
+guide/ecosystem/context-engineering-tools.md
+  s_669fcb6882e7d0::t_7bbc83c7c4a287 22,385-398,421,423-429,431,433,450-457,564-567
+guide/ecosystem/mcp-vs-cli.md
+  s_669fcb6882e7d0::t_790f59079e023c 236-238
+guide/ecosystem/third-party-tools.md
+  s_e96098627995a9::t_12cff8ba5a03e2 1381-1402
+guide/ops/ai-unit-economics.md
+  s_669fcb6882e7d0::t_2b3a2aedc64e47 159-181
+guide/workflows/spec-first.md
+  s_7119d32cc95d48::t_9c90a04ac30260 327-351,959-976
+machine-readable/reference.yaml
+  s_e96098627995a9::t_cda6cc7ca9aa65 7,294-298,566-569,938-955,957-958,961-962
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "e67839f3607f9c8fd5109ed27fd55282e4834259",
+  "prompts": {},
+  "sessions": {
+    "s_149fde6f799a0f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "853c8aa9-64a3-4b58-98cd-48ae88a76834",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_3a6b72c7c93da5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "dbd6ce09-712c-4307-a3f8-930bfa7f44dc",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_669fcb6882e7d0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "10b00866-e51c-4f90-a531-f0a0c1772281",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_6b14c9a9e6e313": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "51f67cbe-a7cf-4ee3-b002-46f1c2477e23",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_70603bfa823e50": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7abbd90c-250f-4a29-b81b-ade2c110ce13",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_7119d32cc95d48": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9d0a6e7f-413a-4950-be72-b2cbeadcbe5d",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_d29eb9ea5439e1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e0d3c1bc-558c-4830-8f95-18022a8077c1",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_e96098627995a9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "01a2de0a-20d3-483d-b4df-376a786bac22",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

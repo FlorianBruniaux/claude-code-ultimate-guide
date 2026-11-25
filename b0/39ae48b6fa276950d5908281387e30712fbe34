@@ -1,0 +1,29 @@
+CHANGELOG.md
+  s_a9da11c3793263::t_c517898d243cc6 9-10
+machine-readable/mcp-public-runtime.json
+  s_b75681c86b5534::t_1d014e4ca45ef1 3,6,10
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2",
+  "base_commit_sha": "b039ae48b6fa276950d5908281387e30712fbe34",
+  "prompts": {},
+  "sessions": {
+    "s_a9da11c3793263": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a06ae1-8792-7e60-83fb-6d0a140d2d38",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_b75681c86b5534": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08528-8a68-7b00-beb6-4e1a263caf75",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

@@ -1,0 +1,51 @@
+guide/core/context-engineering.md
+  s_7209357c35edaa::t_b07bbdeb3e54f3 252
+guide/core/credits.md
+  s_7209357c35edaa::t_6aee0703dacb83 127,266,271,278-281
+guide/ecosystem/practitioner-insights.md
+  s_7209357c35edaa::t_610436d8749e11 11,17,61
+guide/ops/ai-unit-economics.md
+  s_7209357c35edaa::t_a864f42d47dd39 17
+machine-readable/reference.yaml
+  s_6f37177639fda9::t_0a28fe9cbd4f04 300-308,373,376
+CHANGELOG.md
+  s_d196487d494d06::t_97282ce4736753 40
+docs/resource-evaluations/README.md
+  s_d196487d494d06::t_67d18d45897c18 78
+docs/resource-evaluations/mdma-evaluation.md
+  s_d196487d494d06::t_f7923af55fa620 1-123
+guide/ecosystem/ai-ecosystem.md
+  s_d196487d494d06::t_edcecf05e4b9e0 26,1461-1511
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "e6f2d232e68890488abcaeb51df76d5585564bfe",
+  "prompts": {},
+  "sessions": {
+    "s_6f37177639fda9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "967f71f3-5d4c-4503-a581-b2b36ea8d2dd",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_7209357c35edaa": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4df79c49-168e-4b4a-92ab-b25e6bcb4c92",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_d196487d494d06": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-ae7af1f4e4f103700",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

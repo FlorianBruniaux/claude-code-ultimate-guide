@@ -1,0 +1,53 @@
+AGENTS.md
+  s_814c80431996d6::t_3c54a3fe4756eb 152-162
+CHANGELOG.md
+  s_814c80431996d6::t_af67270658ffc8 21-24,58-61
+CLAUDE.md
+  s_814c80431996d6::t_fd142d193a0d31 152-162
+examples/styles/custom-style-template.md
+  s_814c80431996d6::t_bd579595270db2 1-6,9,42,50-51
+guide/cheatsheet.md
+  s_814c80431996d6::t_4b85fc9d8cfb6a 119,490-491
+guide/core/agent-harness.md
+  s_814c80431996d6::t_f7000b1d4f8db9 421
+guide/core/loop-graph-engineering.md
+  s_814c80431996d6::t_7d9f9b2de133b7 197-202
+guide/core/settings-reference.md
+  s_814c80431996d6::t_351da4f912adac 912
+guide/ecosystem/agentic-tools.md
+  s_814c80431996d6::t_490684bab1b0c6 1040
+guide/ultimate-guide.fr.md
+  s_814c80431996d6::t_d85b843f1948b0 1382,1386,1388-1394,1398,1400,1402,1432,1434,1446,1453-1459,1462,1464,15218,15221,15225-15226,21073,21075,21077
+guide/ultimate-guide.md
+  s_814c80431996d6::t_73c02075dc8ab8 1491,1495,1497-1503,1507,1509,1511,1541,1543,1555,1562-1568,1571,1573,16185,16188,16192-16193,21814,21816,21818
+guide/workflows/iterative-refinement.md
+  s_814c80431996d6::t_73c56d1ba05294 359,373,375,388-390,393-396,404,406-407,411-412,435,437-440,447,452,456,460,474,479-485,487,493-494
+guide/workflows/multi-provider-code-review.md
+  s_814c80431996d6::t_ab90c56fc7a366 9,13,35,37,46-47,70,76,78,80,82-88,106-107,134,136
+llms-full.txt
+  s_814c80431996d6::t_e91f1c760882c0 310-311,320
+machine-readable/reference.yaml
+  s_814c80431996d6::t_403a21c9c0cede 56,66,82,85,320,841,915-918,995,999,1007,1010,1012-1013,1022,1024,1026,1029,1032,1037-1042,1045,1047-1050,1052-1053,1055,1069,1095,1152-1153,1324,1329,1451,1599,1699,2236,2413,2432,2479-2480
+machine-readable/translations.json
+  s_814c80431996d6::t_d413d9efc130f8 3-4,24,26-27,51,60,66,71-72,114-115,190-191
+mcp-server/content/reference.yaml
+  s_814c80431996d6::t_63cf171388ae75 56,66,82,85,320,841,915-918,995,999,1007,1010,1012-1013,1022,1024,1026,1029,1032,1037-1042,1045,1047-1050,1052-1053,1055,1069,1095,1152-1153,1324,1329,1451,1599,1699,2236,2413,2432,2479-2480
+mcp-server/content/translations.json
+  s_814c80431996d6::t_179d0a6e900989 3-4,24,26-27,51,60,66,71-72,114-115,190-191
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "209af3852f287e4bf4d2e599bd4971b0b98c57be",
+  "prompts": {},
+  "sessions": {
+    "s_814c80431996d6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3e937e35-c0e0-4f42-b4e4-9c5cb10b5535",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

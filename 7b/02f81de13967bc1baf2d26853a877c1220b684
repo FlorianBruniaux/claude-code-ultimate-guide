@@ -1,0 +1,41 @@
+CHANGELOG.md
+  s_74a04fe9c554be::t_1a3ac316a862f0 9-10
+README.md
+  s_74a04fe9c554be::t_b766de81b6acc4 21,419
+guide/cheatsheet.md
+  s_74a04fe9c554be::t_acc75060cab38b 52
+guide/core/loop-graph-engineering.md
+  s_74a04fe9c554be::t_b6be44ddc44d3e 242-263
+guide/ultimate-guide.fr.md
+  s_74a04fe9c554be::t_9fe0a6808f2eaf 8648,8783,8791-8795,8805,18483,18501,18511-18514,18519-18520,18533,18540
+guide/ultimate-guide.md
+  s_74a04fe9c554be::t_9a383c46f4a24b 9616,9753,9761-9765,9775,19224,19242,19252-19255,19260-19261,19274,19281
+guide/workflows/iterative-refinement.md
+  s_74a04fe9c554be::t_7bf5097be10fc7 114-125,637
+llms-full.txt
+  s_74a04fe9c554be::t_57c20993de4894 109-110
+machine-readable/reference.yaml
+  s_74a04fe9c554be::t_a0a072442a2c0f 355-362,835,1018-1019,1022,1026,1032,1152-1155,1315,1317-1318,1320,1324,1328-1329,1332,1339,1383,1395,1397-1398,1401,1404,1451,1454,1465,1594,1596,1598-1602,1651,1699,1706,1723,2036,2478-2479,2483
+machine-readable/translations.json
+  s_74a04fe9c554be::t_5e9ef74d245425 3-4,24,27,51,60,66,72,115,191
+mcp-server/content/reference.yaml
+  s_74a04fe9c554be::t_82fcd04b850e5f 355-362,835,1018-1019,1022,1026,1032,1152-1155,1315,1317-1318,1320,1324,1328-1329,1332,1339,1383,1395,1397-1398,1401,1404,1451,1454,1465,1594,1596,1598-1602,1651,1699,1706,1723,2036,2478-2479,2483
+mcp-server/content/translations.json
+  s_74a04fe9c554be::t_fbcc15449e0d2d 3-4,24,27,51,60,66,72,115,191
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "7b02f81de13967bc1baf2d26853a877c1220b684",
+  "prompts": {},
+  "sessions": {
+    "s_74a04fe9c554be": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08a4a-1d42-7491-87b2-790685dc0c42",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

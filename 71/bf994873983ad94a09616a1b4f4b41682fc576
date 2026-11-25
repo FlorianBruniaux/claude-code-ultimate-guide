@@ -1,0 +1,29 @@
+CHANGELOG.md
+  s_9e15cec8cf2013::t_c9a887da16901a 13-24
+machine-readable/mcp-product.json
+  s_d6b910c42dc21c::t_89a3899f2eba5b 15-16,488
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "71bf994873983ad94a09616a1b4f4b41682fc576",
+  "prompts": {},
+  "sessions": {
+    "s_9e15cec8cf2013": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ee55b5e6-c13f-4366-8ef6-02c6713eec4b",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_d6b910c42dc21c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "54c1be32-96ed-400e-9ea7-7dd550b0fdbb",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

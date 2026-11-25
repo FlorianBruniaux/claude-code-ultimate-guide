@@ -1,0 +1,21 @@
+guide/core/agent-harness.md
+  s_de692bb179c40a::t_1db678f56b5fe5 29-30
+guide/ecosystem/agent-harness-landscape.md
+  s_de692bb179c40a::t_7a070bb5081e91 15-16
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "ac5d35972d68a6b5d99f2649adc8290b6831f14b",
+  "prompts": {},
+  "sessions": {
+    "s_de692bb179c40a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4f4ae5d4-c465-46f2-9e32-fbaf8b9f2b3a",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

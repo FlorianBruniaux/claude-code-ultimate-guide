@@ -1,0 +1,53 @@
+.claude/commands/security-audit.md
+  s_0cab20d7d05da4::t_6ece4211e3dce9 25,182-186,240
+.claude/commands/security-check.md
+  s_0cab20d7d05da4::t_60fcb726eec2d4 192
+CHANGELOG.md
+  s_b8856734d9cecd::t_2cd5f92e9d7e51 15-16
+examples/commands/resources/threat-db.yaml
+  s_9ba1bc8a2e85e7::t_e872716efe88d2 5994-5995,6012-6014,6022,6409
+examples/skills/security-audit/SKILL.md
+  s_9ba1bc8a2e85e7::t_8cf6220b484624 281
+examples/skills/security-check/SKILL.md
+  s_0cab20d7d05da4::t_ec669121517daa 200
+guide/security/security-hardening.md
+  s_9ba1bc8a2e85e7::t_7a7fcd94582e20 411,422-425
+machine-readable/agentsec-security-feed.v1.json
+  s_9ba1bc8a2e85e7::t_02000ca769c149 101
+quiz/questions/13-security.yaml
+  s_9ba1bc8a2e85e7::t_1e08a1642d152b 436,440
+scripts/check-npx-packages.py
+  s_0cab20d7d05da4::t_15b2bd9e868530 11-14,36-40,140,154,161-163
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "ccf9e0f7bd8102b0bf4566ec640f2991a7a64236",
+  "prompts": {},
+  "sessions": {
+    "s_0cab20d7d05da4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9bc35d4e-a268-4d56-a1df-d9abd54f1301",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_9ba1bc8a2e85e7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5880965e-13e1-4301-b156-0e4ce78295e9",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_b8856734d9cecd": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6fadf8cc-5bdc-4e98-8b22-621922e0cbd4",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

@@ -1,0 +1,89 @@
+CHANGELOG.md
+  s_4e1865c8fd3c39::t_cc54970764e2e2 9-10,13-18
+README.md
+  s_4e1865c8fd3c39::t_dd26a131bd1d22 21,420
+docs/resource-evaluations/README.md
+  s_4e1865c8fd3c39::t_726f90957c7658 40-44,116
+docs/resource-evaluations/agents-md-empirical-study-2602-11988.md
+  s_4e1865c8fd3c39::t_260b1c7fef2dc8 1,3-4,6,8,10,12,14,16,18,20,22
+docs/resource-evaluations/autoharness-2026.md
+  s_4e1865c8fd3c39::t_eddc65999212d5 1-29
+docs/resource-evaluations/harness-corpus-supplement-2026.md
+  s_4e1865c8fd3c39::t_5e59c8130b93df 1-33
+docs/resource-evaluations/harness-evidence-marmelab-2026.md
+  s_4e1865c8fd3c39::t_3e89f2a03feebe 1-28
+docs/resource-evaluations/human-oversight-agents-2608-23642.md
+  s_a587b5c02ec5ed::t_6faf021cb85652 1-28
+docs/resource-evaluations/learn-harness-engineering-2026.md
+  s_a587b5c02ec5ed::t_0103e7d4dfeff9 1-27
+examples/github-actions/README.md
+  s_4e1865c8fd3c39::t_e5692a2310553b 22,26,33,57-60,263,377
+examples/github-actions/claude-code-review.yml
+  s_4e1865c8fd3c39::t_2715be8290b02b 25-26,46-52,54-57,74-78,104-105,174-176,179-181,188
+examples/learning-project/review-comprehension-exercise.md
+  s_a587b5c02ec5ed::t_67b56728f1ea2c 30-46
+examples/workflows/review-admission.md
+  s_a587b5c02ec5ed::t_cc40ba102bdbc2 29-31,48-49
+examples/workflows/review-control-demo.py
+  s_4e1865c8fd3c39::t_55c0c869a2e734 1-252
+guide/core/agent-harness.md
+  s_4e1865c8fd3c39::t_6a67889aebe66e 31-32,35,295,409-422,425-436,441-442,457-458,496-497,560-567,613,618
+guide/core/loop-graph-engineering.md
+  s_4e1865c8fd3c39::t_a84888d6e9ba1e 218-239
+guide/core/memory-systems.md
+  s_4e1865c8fd3c39::t_b6942df05e5c7f 141,1079-1088,1131-1136
+guide/images/harness-review/README.md
+  s_4e1865c8fd3c39::t_6c0774ede8403a 1-19
+guide/roles/agent-evaluation.md
+  s_4e1865c8fd3c39::t_0d31995b6bf397 43-44,67-82,85-92,113,305
+guide/roles/learning-with-ai.md
+  s_4e1865c8fd3c39::t_579566cec60465 103,127,233,240-242,244,273,275,288,301,323-324,383,385,387,389-394,396,589,890,1063,1065,1067,1075,1077,1079,1081,1083,1085,1087,1089,1091,1104-1106,1108,1110,1112,1114,1126-1128,1130,1132-1139,1141,1149,1151,1153,1166,1171,1182,1209,1217,1222,1229,1314,1317
+guide/ultimate-guide.md
+  s_4e1865c8fd3c39::t_df5a5eff348ac2 5091,17767,17785,23392-23394,23398,23420,23422,23435,23448-23452,23458,24063
+guide/workflows/code-review.md
+  s_4e1865c8fd3c39::t_e3ae6d0196086a 153-156
+guide/workflows/multi-provider-code-review.md
+  s_4e1865c8fd3c39::t_932f377ac1d151 3,9,11,19,33,45,48,54-57,70,82,96-101,122-124,138,146,149
+llms.txt
+  s_4e1865c8fd3c39::t_e13f274f296965 26,36-38
+machine-readable/README.md
+  s_4e1865c8fd3c39::t_d817ca960e8bf0 95-100,108
+machine-readable/llms.txt
+  s_4e1865c8fd3c39::t_d451c0bbf20538 26,36-38
+machine-readable/mcp-product.json
+  s_4e1865c8fd3c39::t_51d668c4d332f5 15-16,488
+machine-readable/reference.yaml
+  s_4e1865c8fd3c39::t_7131d462b94e47 199-207,494-499,556-559,561,1264-1266,1613,1615,1617-1621,1670,1718,1742,3112,3773,3884
+machine-readable/translations.json
+  s_4e1865c8fd3c39::t_3a689f7e4d712e 209,213-214,259-260,262,264-265,268-269,274
+mcp-server/content/llms.txt
+  s_4e1865c8fd3c39::t_c073e430297c37 26,36-38
+mcp-server/content/reference.yaml
+  s_4e1865c8fd3c39::t_130e1788f8c7e0 199-207,494-499,556-559,561,1264-1266,1613,1615,1617-1621,1670,1718,1742,3112,3773,3884
+mcp-server/content/translations.json
+  s_4e1865c8fd3c39::t_ceedb8bf720e81 209,213-214,259-260,262,264-265,268-269,274
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "aa4fb020ec8b44f75f5c6f694b0d315bea96c29a",
+  "prompts": {},
+  "sessions": {
+    "s_4e1865c8fd3c39": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0dd48-5418-7f33-b960-b099ac58d3ff",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_a587b5c02ec5ed": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0dd7f-0605-7542-bbb1-bba326c12fa3",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

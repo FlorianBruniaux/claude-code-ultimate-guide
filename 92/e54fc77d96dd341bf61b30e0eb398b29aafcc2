@@ -1,0 +1,14 @@
+scripts/test-agent-harness-page.py
+  h_07916ece6468dd 258
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "92e54fc77d96dd341bf61b30e0eb398b29aafcc2",
+  "prompts": {},
+  "humans": {
+    "h_07916ece6468dd": {
+      "author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

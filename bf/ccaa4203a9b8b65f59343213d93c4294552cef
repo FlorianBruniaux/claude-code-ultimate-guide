@@ -1,0 +1,16 @@
+CHANGELOG.md
+  h_07916ece6468dd 11
+guide/ecosystem/local-vs-cloud-inference.md
+  h_07916ece6468dd 19,55,61-79,112,117-119,127,147,149,151,167,173,194,196,212,216,235,252-253,269,271,273,275,277-279,285,299,309,355,357,359,369,375,378-379,389,397-398,406,409,411-413,420,422,424,426,428
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.24",
+  "base_commit_sha": "bfccaa4203a9b8b65f59343213d93c4294552cef",
+  "prompts": {},
+  "humans": {
+    "h_07916ece6468dd": {
+      "author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+mcp-server/test/render-product-docs.test.mjs
+  s_853dc82c7e37cc::t_7a04deb43c6a97 81
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "630aefbd4c5d7854db2cd3c3f2870312492dc2b6",
+  "prompts": {},
+  "sessions": {
+    "s_853dc82c7e37cc": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0594f-09de-75a1-b540-e1e13a8196d1",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

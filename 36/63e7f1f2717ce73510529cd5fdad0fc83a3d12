@@ -1,0 +1,19 @@
+docs/visual-prompts/ai-finops.md
+  s_9e15cec8cf2013::t_662591405bcd88 1-171
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "3663e7f1f2717ce73510529cd5fdad0fc83a3d12",
+  "prompts": {},
+  "sessions": {
+    "s_9e15cec8cf2013": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ee55b5e6-c13f-4366-8ef6-02c6713eec4b",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

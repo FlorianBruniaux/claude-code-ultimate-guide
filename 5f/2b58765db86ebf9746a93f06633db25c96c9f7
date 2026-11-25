@@ -1,0 +1,23 @@
+CHANGELOG.md
+  s_f9a033e45af8a3::t_a48ab13a3f7a5f 20
+docs/visual-prompts/reviewable-agent-changes.md
+  s_f9a033e45af8a3::t_b2ed8c6b9a9f2c 1-80
+guide/workflows/reviewable-agent-changes.md
+  s_f9a033e45af8a3::t_4fd23a5cc3104f 55-58,73-76
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "5f2b58765db86ebf9746a93f06633db25c96c9f7",
+  "prompts": {},
+  "sessions": {
+    "s_f9a033e45af8a3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "646e61bd-cc92-4b20-9bca-04c66dbfea2c",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

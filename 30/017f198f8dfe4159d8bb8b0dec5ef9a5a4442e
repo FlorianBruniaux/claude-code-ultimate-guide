@@ -1,0 +1,33 @@
+docs/resource-evaluations/claude-code-current-surface-2026-08.md
+  s_d812a5cba40e21::t_607b9fe9f99465 1-55
+guide/core/computer-use.md
+  s_d812a5cba40e21::t_ac025c8c5e5e27 1-71
+guide/ecosystem/plugin-distribution.md
+  s_d812a5cba40e21::t_fd05728c0416fb 1-74
+guide/ops/api-gateway.md
+  s_0a442347250965::t_4be2f507233ddc 3,28-61,129,311-313
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "30017f198f8dfe4159d8bb8b0dec5ef9a5a4442e",
+  "prompts": {},
+  "sessions": {
+    "s_0a442347250965": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a04233-7990-7c82-96d1-1418fd7722e9",
+        "model": "gpt-5.6-terra"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_d812a5cba40e21": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a033c4-cc98-74d2-adf5-63f175b8463b",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

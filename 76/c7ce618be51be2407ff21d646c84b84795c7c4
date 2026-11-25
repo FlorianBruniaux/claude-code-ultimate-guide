@@ -1,0 +1,191 @@
+CHANGELOG.md
+  s_f5a9dbdf651254::t_083b89f1e4812b 9-16
+docs/resource-evaluations/015-everything-claude-code-github-repo.md
+  s_597d8e964fbc3a::t_997e3eba3ff6c5 9,15,48,201,241,284,318
+docs/resource-evaluations/074-ruflo-multi-agent-orchestration.md
+  s_597d8e964fbc3a::t_5d192c403a8d87 8,69,103,115,136
+docs/resource-evaluations/076-packmind-contextops-platform.md
+  s_597d8e964fbc3a::t_02a291f3c8153d 19,94
+docs/resource-evaluations/079-fabro-workflow-orchestration.md
+  s_f5a9dbdf651254::t_a20b46c6c4e59b 7,36,119
+docs/resource-evaluations/080-goose-block-coding-agent.md
+  s_efdd231b024392::t_d10cbebfffc902 7,54,99
+docs/resource-evaluations/082-multi-session-management-landscape.md
+  s_f5a9dbdf651254::t_a9c4b9df3a6551 21-24,27,37,39,50,53,61-62,64,66,77,112
+docs/resource-evaluations/2026-02-23-agentsview-session-analytics.md
+  s_806623b3bb7a68::t_62aac76f214177 51
+docs/resource-evaluations/2026-02-25-context-evaluator-packmind.md
+  s_c24c90e299949a::t_6d79e618158296 16
+docs/resource-evaluations/2026-03-02-mcp-servers-veille.md
+  s_f5a9dbdf651254::t_216a17381078f1 16-18,76,80,82
+docs/resource-evaluations/2026-03-04-agent-browser-vercel-labs.md
+  s_c24c90e299949a::t_0120b24dd7fecc 7
+docs/resource-evaluations/2026-03-16-agent-trace-siddhant-github.md
+  s_c24c90e299949a::t_c58d333b401def 12
+docs/resource-evaluations/2026-03-16-andrewyng-context-hub.md
+  s_c24c90e299949a::t_1a348161e6303b 18
+docs/resource-evaluations/2026-03-16-karl-mazier-claudemd-templates-linkedin.md
+  s_f5a9dbdf651254::t_837a78492ad14e 16,33
+docs/resource-evaluations/2026-03-16-paul-rayner-contextflow-refactoring-linkedin.md
+  s_c24c90e299949a::t_c8b72796c8607f 100
+docs/resource-evaluations/2026-03-16-vickairo-claude-security-audit.md
+  s_c24c90e299949a::t_4de5c6b3c61aa5 9
+docs/resource-evaluations/2026-03-17-mcp2cli-token-optimization.md
+  s_c24c90e299949a::t_2e268008c73e60 9
+docs/resource-evaluations/2026-03-17-mcporter-mcp-toolkit.md
+  s_c24c90e299949a::t_8f3849158163ba 8
+docs/resource-evaluations/2026-03-20-yagr-etienne-lescot.md
+  s_806623b3bb7a68::t_2b630ea13b7886 13
+docs/resource-evaluations/2026-03-31-drona23-claude-token-efficient.md
+  s_c24c90e299949a::t_d1b6c742518854 28
+docs/resource-evaluations/agent-orchestrator-composio.md
+  s_c24c90e299949a::t_ea5eae3f8f2fe2 13,49
+docs/resource-evaluations/agentskills-io-specification.md
+  s_c24c90e299949a::t_92c8fa02c65682 4,126-127
+docs/resource-evaluations/awesome-claude-skills-github.md
+  s_c24c90e299949a::t_ebba27c7ca38d0 55,73,86
+docs/resource-evaluations/bmad-method-spec-driven-agents.md
+  s_806623b3bb7a68::t_a8388bc19bf44f 73
+docs/resource-evaluations/caliber-config-quality-tool.md
+  s_c24c90e299949a::t_7f068449d78e67 13
+docs/resource-evaluations/claude-mem-evaluation.md
+  s_c24c90e299949a::t_205034cdb912de 18
+docs/resource-evaluations/clawdbot-twitter-analysis.md
+  s_806623b3bb7a68::t_31b11b128e7ab2 99-100
+docs/resource-evaluations/crit-human-in-loop-review.md
+  s_c24c90e299949a::t_575e7e77e84638 87
+docs/resource-evaluations/diffmem-git-native-memory.md
+  s_c24c90e299949a::t_9ab219a4dfe769 45
+docs/resource-evaluations/git-mcp-server-evaluation.md
+  s_c24c90e299949a::t_093a8c678b4861 31
+docs/resource-evaluations/gsd-evaluation.md
+  s_c24c90e299949a::t_9bd9068183a4fc 66,107
+docs/resource-evaluations/icm-infinite-context-memory.md
+  s_c24c90e299949a::t_738d7caf9e2d55 23,89
+docs/resource-evaluations/larridin-ai-native-teams-kanitkar.md
+  s_c24c90e299949a::t_33ff6cc32ec631 98-99,103
+docs/resource-evaluations/liza-mas-framework.md
+  s_c24c90e299949a::t_9e19c71b4bc3f9 41,70-79,115,117-122
+docs/resource-evaluations/liza-mas-token-saving-cli-tools.md
+  s_c24c90e299949a::t_c41240a59d3f8b 14-17
+docs/resource-evaluations/nick-jensen-plugins.md
+  s_c24c90e299949a::t_f1389935a8230f 74
+docs/resource-evaluations/obra-superpowers-evaluation.md
+  s_c24c90e299949a::t_464f12d9fae184 39,72
+docs/resource-evaluations/openhands-autonomous-agent.md
+  s_c24c90e299949a::t_eec7372a5ab668 31,44,70
+docs/resource-evaluations/reddit-claude-code-max-plan-optimization.md
+  s_c24c90e299949a::t_4d480f72c130ef 17
+docs/resource-evaluations/remotion-claude-code-video.md
+  s_806623b3bb7a68::t_b43e2b707345fa 238
+docs/resource-evaluations/rtk-evaluation.md
+  s_c24c90e299949a::t_01b07dc82e7956 9,21,296,341
+docs/resource-evaluations/se-cove-plugin.md
+  s_c24c90e299949a::t_7edf95178e7b7f 51
+docs/resource-evaluations/semble-code-search.md
+  s_c24c90e299949a::t_9d1701b8fd2c60 31
+docs/resource-evaluations/skill-doctor-github-action.md
+  s_c24c90e299949a::t_f3e867ea574049 78
+docs/resource-evaluations/spec-kitty-worktree-isolation.md
+  s_c24c90e299949a::t_6c100e56950969 31
+docs/resource-evaluations/sylvain-chabaud-spec-to-code-factory.md
+  s_c24c90e299949a::t_d8f45d396fb48b 105
+docs/resource-evaluations/system-prompts-official-vs-community.md
+  s_c24c90e299949a::t_1f8503195f59fc 33,199
+docs/resource-evaluations/tree-sitter-progressive-code-exploration.md
+  s_c24c90e299949a::t_40d579e43c8a9a 7,53,81,103,135,149,168-172,264,269-270
+docs/resource-evaluations/ui-ux-pro-max-skill.md
+  s_c24c90e299949a::t_b16be6d904c3f6 19,36
+docs/resource-evaluations/watch-list.md
+  s_c24c90e299949a::t_fefba5bd6a55b8 21
+docs/resource-evaluations/worktrunk-evaluation.md
+  s_c24c90e299949a::t_09b31996bd0cd6 12,210
+guide/core/community-patterns.md
+  s_c24c90e299949a::t_2790ac76c03416 39
+guide/core/memory-systems.md
+  s_f5a9dbdf651254::t_d71c17a5f7ce74 11,333,380,469,493,577,582,660,682,710,965-966,990-991
+guide/core/methodologies.md
+  s_c24c90e299949a::t_582c7cf32391d9 94
+guide/ecosystem/agentic-tools.md
+  s_c24c90e299949a::t_73925c9ca9ca9d 298,560-561,571,648,652,697,714,729,746,766
+guide/ecosystem/ai-ecosystem.md
+  s_c24c90e299949a::t_70d1ee3f7253a2 2591,2735
+guide/ecosystem/context-engineering-tools.md
+  s_c24c90e299949a::t_5609c49772fa60 93,140,355,357,544
+guide/ecosystem/mcp-servers-ecosystem.md
+  s_c24c90e299949a::t_a289cc42c993b0 152,250,307,991,1035,1833
+guide/ecosystem/mcp-vs-cli.md
+  s_c24c90e299949a::t_b312c1306c1778 243-245
+guide/ecosystem/third-party-tools.md
+  s_c24c90e299949a::t_c9dd37eec410c4 181,219,980,1055,1461,1463,1531,1592,1815,1818
+guide/learning-path/03-memory.md
+  s_f5a9dbdf651254::t_90f900b52caed5 429-430
+guide/ops/devops-sre.md
+  s_c24c90e299949a::t_1e97307607713a 851-852
+guide/ultimate-guide.fr.md
+  s_5be62dc1381a2e::t_09fff6f40a7e1d 7823,7936,8114,11502,11512,11518,11578,11934,12019,12064,12254,13435,13437,17461,17520,17526,17720,17769,17772,19130,19201,19392,25043
+guide/ultimate-guide.md
+  s_5be62dc1381a2e::t_ce7a12e804905b 8698,8811,8989,9084,12419,12429,12435,12495,12865,12950,12995,13091,13187,14368,14370,16598,18163,18222,18228,18422,18471,18474,19832,19903,20094,25740,26286
+guide/workflows/github-actions.md
+  s_c24c90e299949a::t_d74ca97a8223fa 9
+guide/workflows/gstack-workflow.md
+  s_c24c90e299949a::t_30105f9b203421 9
+guide/workflows/spec-first.md
+  s_c24c90e299949a::t_634257eb6e50ea 329,346,977,1029
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "76c7ce618be51be2407ff21d646c84b84795c7c4",
+  "prompts": {},
+  "sessions": {
+    "s_597d8e964fbc3a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6efa8fc0-1db3-462b-b91f-88dd9ae5bcfc",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_5be62dc1381a2e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0f98e965-0988-4d98-9c60-6d8b5ce6e758",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_806623b3bb7a68": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e59a0be2-3a3b-4457-aba7-f94fb9edf56c",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_c24c90e299949a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ff2b68f1-90c8-42eb-82e8-7bf70c0b40a4",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_efdd231b024392": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ff14fa0d-c54a-4a6f-b6db-e21e508f53ef",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_f5a9dbdf651254": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fe43611c-8317-417c-b802-915b2cf0cc8a",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

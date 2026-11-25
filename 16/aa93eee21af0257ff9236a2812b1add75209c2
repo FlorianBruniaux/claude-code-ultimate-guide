@@ -1,0 +1,41 @@
+.agents/skills/source-command-update-infos-release/SKILL.md
+  s_3c0d2aef294649::t_70a5f4b70d9cd7 2-3,6,8,10-12
+.agents/skills/source-command-update-infos-release/evals/scenarios.json
+  s_3c0d2aef294649::t_a2f2d2fd8aa0a9 1-23
+.claude/commands/update-infos-release.md
+  s_3c0d2aef294649::t_f44119a0bdffde 99-105,107,148,185,314
+.claude/skills/source-command-update-infos-release/SKILL.md
+  s_3c0d2aef294649::t_5c5de79aa24f75 1-12
+.claude/skills/source-command-update-infos-release/evals/scenarios.json
+  s_3c0d2aef294649::t_59f9d14bf396a2 1-23
+CHANGELOG.md
+  s_592023fb892cc1::t_513b8c7f432d43 13-14
+scripts/sync-release-tracking-skill.py
+  s_3c0d2aef294649::t_838c7c9279c365 1-37
+scripts/test-release-tracking-skill.py
+  s_3c0d2aef294649::t_208e60c12c207e 1-61
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "16aa93eee21af0257ff9236a2812b1add75209c2",
+  "prompts": {},
+  "sessions": {
+    "s_3c0d2aef294649": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a13ef5-fd55-70b1-9bf3-2f6b3e80e564",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_592023fb892cc1": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a13ef9-a7a2-70c0-810c-f2b1bb109816",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

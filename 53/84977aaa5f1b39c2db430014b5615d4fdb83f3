@@ -1,0 +1,29 @@
+machine-readable/mcp-product.json
+  s_09d9cb0145f609::t_54e24eba10c64b 488
+mcp-server/package-lock.json
+  s_a76501fd0ec82b::t_0c93f58a272d8e 3,9
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "5384977aaa5f1b39c2db430014b5615d4fdb83f3",
+  "prompts": {},
+  "sessions": {
+    "s_09d9cb0145f609": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a067aa-fca5-7e33-8bc1-60a9a6437e67",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_a76501fd0ec82b": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a06b73-c04c-7b02-b6b1-4b44b6601a1f",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

@@ -1,0 +1,41 @@
+guide/ecosystem/agent-harness-landscape.md
+  s_0a442347250965::t_26b5bb93b18273 15
+whitepapers/recap-cards/en/c12-agent-sdk-integrations-ide.qmd
+  s_0a442347250965::t_61e58bd71013c9 10
+whitepapers/recap-cards/fr/c12-agent-sdk-integrations-ide.qmd
+  s_0a442347250965::t_e357866f73c5df 10
+whitepapers/recap-cards/fr/c14-agent-harness-map.qmd
+  s_0a442347250965::t_c01257697810b6 10
+whitepapers/CHANGELOG.md
+  s_a76087f74be2bb::t_440b1151febd71 31
+whitepapers/recap-cards/en/c14-agent-harness-map.qmd
+  s_a76087f74be2bb::t_a769ab9abe8d0d 10
+whitepapers/recap-cards/en/t22-third-party-tools.qmd
+  s_a76087f74be2bb::t_e6ef610d4edf12 10
+whitepapers/recap-cards/fr/t22-third-party-tools.qmd
+  s_a76087f74be2bb::t_1df26eede6e547 10
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "53c6ae47a563c0058bd850745dc303628b4103a8",
+  "prompts": {},
+  "sessions": {
+    "s_0a442347250965": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a04233-7990-7c82-96d1-1418fd7722e9",
+        "model": "gpt-5.6-terra"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_a76087f74be2bb": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a01f2a-b167-78f0-a126-7450029bd920",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

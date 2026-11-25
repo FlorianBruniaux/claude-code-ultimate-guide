@@ -1,0 +1,1291 @@
+CONTRIBUTING.md
+  s_9e15cec8cf2013::t_45ec6f1a27d53a 5,13,27,40,42,49,57,83,87,102,104,111,130,144,157,170
+docs/competitive-analysis.md
+  s_9e15cec8cf2013::t_3223927d9087a7 1,9,25,43,70,110,129,149,158,169,186,215,228,243,253,260,270,274,287,307,316,324,340,353,365,374,382,394,418,420,429,452,488,497,509,532
+docs/distribution/README.md
+  s_9e15cec8cf2013::t_7050c80f0a85d3 1
+docs/distribution/quick-win-video-series.md
+  s_9e15cec8cf2013::t_5c61e0f21409a8 1
+docs/ecosystem.md
+  s_d6b910c42dc21c::t_e18e53d7fc9960 1,51,60,80,103,112,135,148
+docs/for-cto.md
+  s_9e15cec8cf2013::t_90ec0a9a7de8df 1,19
+docs/for-product-managers.md
+  s_9e15cec8cf2013::t_8c6147db5c4cc2 1
+docs/for-tech-leads.md
+  s_9e15cec8cf2013::t_39fd7341f367c7 1
+docs/media-mentions/README.md
+  s_9e15cec8cf2013::t_d74728ea91311c 1
+docs/resource-evaluations/015-everything-claude-code-github-repo.md
+  s_9e15cec8cf2013::t_c5dd85a61ac6cb 1,13,21,35,37,63,96,130,162,198,234,307,326,335,340,345,350,355,360,365,370,377,379,389,394,399,406
+docs/resource-evaluations/016-gang-rui-tasks-api-limitations.md
+  s_9e15cec8cf2013::t_4958189c7fafad 1,10,34,56,66,68,78,91,100,114,116,135,144,146,157,191,211,213,226,251,270,272,280,306
+docs/resource-evaluations/017-pat-cullen-final-review.md
+  s_9e15cec8cf2013::t_94f860293421f9 1,26,122,144
+docs/resource-evaluations/023-community-discussions-report-jan2026.md
+  s_9e15cec8cf2013::t_e734db58fea3fc 1,10,23,29,46,48,62,73,88,90,105,117,131,166,177,179,203,213,231,243,261
+docs/resource-evaluations/024-addy-osmani-80-percent-problem.md
+  s_9e15cec8cf2013::t_04e3f121c44f10 1,24,38,40,50,59,75,91,115,127
+docs/resource-evaluations/025-community-signals-feb2026.md
+  s_9e15cec8cf2013::t_bac70b6b41eb02 1,99
+docs/resource-evaluations/025-vercel-agents-md-vs-skills-eval.md
+  s_9e15cec8cf2013::t_399cfdbd3ba9ee 1,31,45,47,56,64,86,101,116,122,129
+docs/resource-evaluations/026-contribution-metrics-blog.md
+  s_9e15cec8cf2013::t_6c9d5162d61a52 1,22,31,44,56
+docs/resource-evaluations/069-claude-code-best-practice-repo-eval.md
+  s_9e15cec8cf2013::t_174a36f3db9712 1,28,42,64,74,102
+docs/resource-evaluations/070-claude-code-best-practice-dot-claude-eval.md
+  s_9e15cec8cf2013::t_beb38c4ab4d980 1,24,38,87
+docs/resource-evaluations/071-steven-ge-technical-writing-workflow.md
+  s_9e15cec8cf2013::t_ea44d672eeb1c1 1,89
+docs/resource-evaluations/072-rippletide-ai-reliability-platform.md
+  s_9e15cec8cf2013::t_8d4de75c5b7fa3 1,90
+docs/resource-evaluations/073-athena-flow-workflow-runtime.md
+  s_9e15cec8cf2013::t_ddc3210184f24d 1,96
+docs/resource-evaluations/074-ruflo-multi-agent-orchestration.md
+  s_9e15cec8cf2013::t_0b5bcc49eafdfa 1,132
+docs/resource-evaluations/075-paillard-design-system-first-website.md
+  s_9e15cec8cf2013::t_954ebe3af9959e 1,25,35,50,59
+docs/resource-evaluations/076-addy-osmani-agents-md-init-antipattern.md
+  s_9e15cec8cf2013::t_2e79b831faa204 1,12,30,64,81,180
+docs/resource-evaluations/076-packmind-contextops-platform.md
+  s_9e15cec8cf2013::t_f42395d7274189 1,9,23,53,83,100
+docs/resource-evaluations/077-comprehension-debt-ai-coding.md
+  s_9e15cec8cf2013::t_62b7513f1078a1 1,18,87,105
+docs/resource-evaluations/078-claude-swarm-monitor.md
+  s_9e15cec8cf2013::t_35287ee905bb70 9,80,98
+docs/resource-evaluations/079-fabro-workflow-orchestration.md
+  s_9e15cec8cf2013::t_8b01d9a847ea12 24,115,135
+docs/resource-evaluations/080-addy-osmani-code-agent-orchestra.md
+  s_9e15cec8cf2013::t_1092c7f0743faf 1,27,43,45,58,72,121,133
+docs/resource-evaluations/080-goose-block-coding-agent.md
+  s_9e15cec8cf2013::t_342ed2f63b2cd2 1,24,32,48,95,115
+docs/resource-evaluations/081-rippletide-code-rule-enforcement.md
+  s_9e15cec8cf2013::t_b8d0dcb326dae2 1,10,24,105,127
+docs/resource-evaluations/082-multi-session-management-landscape.md
+  s_9e15cec8cf2013::t_94d787287ee1e5 1,31,33,46,57,70,92,110,141
+docs/resource-evaluations/083-sandcastle-agent-orchestration.md
+  s_9e15cec8cf2013::t_b684038fc6dca9 1,26,40,42,53,63,79,95
+docs/resource-evaluations/084-rippletide-harness-is-the-agent.md
+  s_9e15cec8cf2013::t_d1f5f04351d401 1,10,26,71,82
+docs/resource-evaluations/2026-01-27-claude-code-hidden-feature-social-post.md
+  s_9e15cec8cf2013::t_ae5437bffb727f 1,16,26,36,54,70,80,91,105,123,125,131,160,168,176,184,192,202
+docs/resource-evaluations/2026-02-07-paul-rayner-agent-teams-linkedin.md
+  s_9e15cec8cf2013::t_3cabf8490e9daf 1,18,34,45,57,59,95,109,122,127,172,203,261,272,274,294,401,425,450,464,489,513,520,534
+docs/resource-evaluations/2026-02-11-openai-harness-engineering.md
+  s_9e15cec8cf2013::t_f5e71e96dfaa09 1,31,53,72,87,103
+docs/resource-evaluations/2026-02-14-simone-ruggiero-qmd-token-savings-medium.md
+  s_9e15cec8cf2013::t_b29aee5eae8eaf 1,20,32,42,56,75,92,102,108
+docs/resource-evaluations/2026-02-19-allanhillgeek-decomposition-agentic-dev.md
+  s_9e15cec8cf2013::t_314ce0bbdb711c 1,45,101,116,136
+docs/resource-evaluations/2026-02-19-augment-context-engine-mcp.md
+  s_9e15cec8cf2013::t_cf1a25f9f8113d 1,11,32,43,51,90,106,145
+docs/resource-evaluations/2026-02-19-echoes-of-ai-maintainability-study.md
+  s_9e15cec8cf2013::t_177351be383cdf 1,9,42,56,108,110,123,150
+docs/resource-evaluations/2026-02-19-linkedin-activity-7428930570451083264.md
+  s_9e15cec8cf2013::t_c10af7779be363 10
+docs/resource-evaluations/2026-02-19-linkedin-context-engineering-augment.md
+  s_9e15cec8cf2013::t_7addf86a63d3d9 1,12,30,45
+docs/resource-evaluations/2026-02-19-stasbel-skillmind-boris-cherny-workflow.md
+  s_9e15cec8cf2013::t_56fde46ec9de64 1,101
+docs/resource-evaluations/2026-02-20-mergify-cross-system-support-investigator.md
+  s_9e15cec8cf2013::t_ac74e6f9068aa2 1,49
+docs/resource-evaluations/2026-02-22-boris-cherny-worktree-tips-reddit.md
+  s_9e15cec8cf2013::t_581e670b6481bc 129
+docs/resource-evaluations/2026-02-22-fp-dev-issue-tracker.md
+  s_9e15cec8cf2013::t_e85bd54ad95a62 1,10,80
+docs/resource-evaluations/2026-02-22-guillaume-moigneu-worktree-linkedin.md
+  s_9e15cec8cf2013::t_f278ae9a1876ef 96
+docs/resource-evaluations/2026-02-22-veille-hebdo-anthropic-17-23-fev.md
+  s_9e15cec8cf2013::t_c3a3ae081b6ca0 33
+docs/resource-evaluations/2026-02-23-agentsview-session-analytics.md
+  s_9e15cec8cf2013::t_511ecaac4c9cab 1,9,24,55,74,76,89,118,141
+docs/resource-evaluations/2026-02-23-anthropic-ai-fluency-index.md
+  s_9e15cec8cf2013::t_983d40e3801053 1,10,35,48,58,75,94
+docs/resource-evaluations/2026-02-23-veille-cc-releases-2144-2150.md
+  s_9e15cec8cf2013::t_635ab282b90704 23,33,102,110
+docs/resource-evaluations/2026-02-25-boris-cherny-lenny-newsletter-podcast.md
+  s_9e15cec8cf2013::t_629bb4a98f2563 1,9,168
+docs/resource-evaluations/2026-02-25-claude-code-remote-control.md
+  s_9e15cec8cf2013::t_4acc37a6b513e2 1,21,42,62,78,102,126,144,160,164,176,185,195,201
+docs/resource-evaluations/2026-02-25-context-evaluator-packmind.md
+  s_9e15cec8cf2013::t_58f4573f3e8fb7 1,62
+docs/resource-evaluations/2026-02-25-kairn-memory-mcp.md
+  s_9e15cec8cf2013::t_6c7776898343a5 1
+docs/resource-evaluations/2026-03-02-mcp-servers-veille.md
+  s_9e15cec8cf2013::t_c9ad7dbb0fc81e 1,72,104
+docs/resource-evaluations/2026-03-04-agent-browser-vercel-labs.md
+  s_9e15cec8cf2013::t_56caea60b84d4a 1,12,20,22,37,50,97,116,126,128,138,148
+docs/resource-evaluations/2026-03-04-compound-engineering-every-to.md
+  s_9e15cec8cf2013::t_b6c4fa229086cb 1,12,20,22,31,40,77,79,94,105,132,134,145,154
+docs/resource-evaluations/2026-03-04-eveillard-generation-llm.md
+  s_9e15cec8cf2013::t_864cc0a636143d 1,23,33,52,61
+docs/resource-evaluations/2026-03-16-agent-trace-siddhant-github.md
+  s_9e15cec8cf2013::t_7db512532ba736 18,29,37,71
+docs/resource-evaluations/2026-03-16-andrewyng-context-hub.md
+  s_9e15cec8cf2013::t_f512bc5a14ceb7 1,11,28,55
+docs/resource-evaluations/2026-03-16-karl-mazier-claudemd-templates-linkedin.md
+  s_9e15cec8cf2013::t_9ebe306effc70a 81,97
+docs/resource-evaluations/2026-03-16-nick-tune-hook-driven-workflows.md
+  s_9e15cec8cf2013::t_6c63d8e188d17a 1,12,20,34,46,63,65,76,80,86,90,94,100,110,112,124,132,138,154
+docs/resource-evaluations/2026-03-16-nick-tune-workflow-dsl-ddd.md
+  s_9e15cec8cf2013::t_fd2e152a8ded81 1,11,42,57,89,106
+docs/resource-evaluations/2026-03-16-paul-rayner-contextflow-refactoring-linkedin.md
+  s_9e15cec8cf2013::t_8479d78c4b97e7 1,45,91
+docs/resource-evaluations/2026-03-16-vickairo-claude-security-audit.md
+  s_9e15cec8cf2013::t_07b313a15816fa 13,19,30,78
+docs/resource-evaluations/2026-03-17-circleci-mcp-vs-cli-blog.md
+  s_9e15cec8cf2013::t_d43561802deb8e 1,12,18,34,49,81
+docs/resource-evaluations/2026-03-17-context7-cli.md
+  s_9e15cec8cf2013::t_92c029b9f926cc 1,22,26,30
+docs/resource-evaluations/2026-03-17-martignole-agent-maturity-levels.md
+  s_9e15cec8cf2013::t_a9a151727ffa3b 1,20,34
+docs/resource-evaluations/2026-03-17-mcp2cli-token-optimization.md
+  s_9e15cec8cf2013::t_79eabc64ffe138 13,19,30,45,71
+docs/resource-evaluations/2026-03-17-mcporter-mcp-toolkit.md
+  s_9e15cec8cf2013::t_be7e11ebe5dbba 13,19,34,49,71
+docs/resource-evaluations/2026-03-19-manomano-project-aegis-serena.md
+  s_9e15cec8cf2013::t_1b5478daf3e31d 1,13,19,52,67,118
+docs/resource-evaluations/2026-03-20-yagr-etienne-lescot.md
+  s_9e15cec8cf2013::t_958f1b45804070 33,59
+docs/resource-evaluations/2026-03-22-harman-jittesting-meta-arxiv.md
+  s_9e15cec8cf2013::t_e0f1cddc3e9cb8 2,13,24,40,54,87,106
+docs/resource-evaluations/2026-03-23-veille-cc-releases-2177-2181.md
+  s_9e15cec8cf2013::t_0ffffc3af8a82b 66
+docs/resource-evaluations/2026-03-23-veille-hebdo-anthropic-16-23-mars.md
+  s_9e15cec8cf2013::t_93f4e7d955c5b1 24,35,37,59
+docs/resource-evaluations/2026-03-31-drona23-claude-token-efficient.md
+  s_9e15cec8cf2013::t_ae95b1196ddc40 41,43,52,60,74
+docs/resource-evaluations/2026-05-18-skillsight-packmind.md
+  s_9e15cec8cf2013::t_e0ecb57fc4df77 1,12,62,83,97,109,121,139
+docs/resource-evaluations/2026-08-26-anthropic-ai-native-sdlc-playbook.md
+  s_9e15cec8cf2013::t_cebdb48e95c1ba 1,89
+docs/resource-evaluations/README.md
+  s_9e15cec8cf2013::t_f644ede67e37f3 1,32,115
+docs/resource-evaluations/addy-osmani-good-spec.md
+  s_9e15cec8cf2013::t_0b287559e14720 1,27,38,46,64,75,91,93,123,141,170
+docs/resource-evaluations/addy-osmani-linkedin-anthropic-study.md
+  s_9e15cec8cf2013::t_ca0a1293beb7a0 1,24,38,40,50,59,75,89,109,124
+docs/resource-evaluations/agent-orchestrator-composio.md
+  s_9e15cec8cf2013::t_2ad46c8511bc76 1,71
+docs/resource-evaluations/agentskills-io-specification.md
+  s_9e15cec8cf2013::t_0c4886241b454e 1,121
+docs/resource-evaluations/alan-tour-eiffel-paradigm.md
+  s_d6b910c42dc21c::t_8195dcd2922172 12,24,26,56,64,70,90,92,107,109,127,147,153,168,170,188,205,207,221,234,243,271
+docs/resource-evaluations/anaconda-croce-evaluation.md
+  s_9e15cec8cf2013::t_279ab4c933837e 1,9,46,61,63,73,83,97,99,110,122,134,139,148,162,164,171,188,196,215
+docs/resource-evaluations/anthropic-2026-agentic-coding-trends.md
+  s_9e15cec8cf2013::t_f6e80edd782301 1,163,208
+docs/resource-evaluations/anthropic-releases-jan16-23-2026.md
+  s_9e15cec8cf2013::t_84c8e08e5efc15 71,129
+docs/resource-evaluations/aristote-ai-instructions-patterns.md
+  s_9e15cec8cf2013::t_6abadeb97e666d 16,40,42,63
+docs/resource-evaluations/arnaud-gaches-mcp-vs-cli-devwithia.md
+  s_9e15cec8cf2013::t_fef4891eddf990 12
+docs/resource-evaluations/astgrep-flavien-metivier.md
+  s_9e15cec8cf2013::t_d8c039a30e2cc3 10,22,36,55,88,90,102,135,174,195
+docs/resource-evaluations/awesome-claude-skills-github.md
+  s_9e15cec8cf2013::t_d7a0c823833dcd 1,11,23,29,49,51,65,78,88,96,100,111,132,141,158,160,162,173,210,224,226,233,243,257,259,269,279,289
+docs/resource-evaluations/benchmark-ai-coding-tools-feb2026.md
+  s_9e15cec8cf2013::t_2d615cc40f8f35 1,11,102
+docs/resource-evaluations/best-of-n-verification-evidence.md
+  s_9e15cec8cf2013::t_0a111a266bcf02 7
+docs/resource-evaluations/beyond-vibe-coding.md
+  s_9e15cec8cf2013::t_c995fc2e7e08c3 1,38,53,55,78,80,89,100,102,114,126,130,142,170,172,182,191,207,221
+docs/resource-evaluations/bmad-method-spec-driven-agents.md
+  s_9e15cec8cf2013::t_1bb03cd4c72bd1 1,69
+docs/resource-evaluations/boris-cowork-video-eval.md
+  s_9e15cec8cf2013::t_aea40f5ebf823d 1,9,35,59,61,71,86,88,99,111,122,134,157,161,167,185,192
+docs/resource-evaluations/boris-tane-how-i-use-claude-code.md
+  s_9e15cec8cf2013::t_0fa1efa74d5bd3 1,17,31,33,36,41,44,47,55,66,86
+docs/resource-evaluations/bun-rust-rewrite-claude-code.md
+  s_9e15cec8cf2013::t_90325145d58c15 1
+docs/resource-evaluations/caliber-config-quality-tool.md
+  s_9e15cec8cf2013::t_f2ef3db372ef60 94
+docs/resource-evaluations/ccboard-activity-module-plan.md
+  s_9e15cec8cf2013::t_4bf41eb333fa03 1,20,41,52,179,211,259,280,296,305,314,329,369
+docs/resource-evaluations/claude-code-current-surface-2026-08.md
+  s_9e15cec8cf2013::t_34afc42c6ff437 8,28
+docs/resource-evaluations/claude-mem-evaluation.md
+  s_9e15cec8cf2013::t_f5e1d6ba175d58 11,25,54,56,74,92,94,141,187,201,213,259,288,312,329,350
+docs/resource-evaluations/claudekit-evaluation.md
+  s_d6b910c42dc21c::t_598aeabbbe8a6e 1,11,26,41,56,122,137,139,160,180,201,217,231,233,250
+docs/resource-evaluations/clawdbot-twitter-analysis.md
+  s_9e15cec8cf2013::t_0cf6522a27c823 1,95
+docs/resource-evaluations/community-signals-benchmark-march-2026.md
+  s_9e15cec8cf2013::t_4bc774f430f46a 1,38
+docs/resource-evaluations/context-evaluator-evaluation.md
+  s_9e15cec8cf2013::t_a7baeb9adc7420 12,18,30,44,46,57,78,88,127
+docs/resource-evaluations/crit-human-in-loop-review.md
+  s_9e15cec8cf2013::t_5af21fbe49c848 1,12,35,65,67,73,77,83,124,137,152,167
+docs/resource-evaluations/daniel-miessler-the-great-transition.md
+  s_9e15cec8cf2013::t_f46eae724bbb68 1,77
+docs/resource-evaluations/darkmoon-strix-agentic-pentesting.md
+  s_9e15cec8cf2013::t_8d68503305346d 1
+docs/resource-evaluations/databricks-managing-ai-coding-costs-scale.md
+  s_9e15cec8cf2013::t_49057cdd2276a6 1
+docs/resource-evaluations/dclaude-docker-wrapper.md
+  s_9e15cec8cf2013::t_a9c4301d624491 1,22,31,55,69
+docs/resource-evaluations/diffmem-git-native-memory.md
+  s_9e15cec8cf2013::t_2e4a6b8a17ac85 1,35,78
+docs/resource-evaluations/docker-sandboxes-isolation.md
+  s_9e15cec8cf2013::t_5081955627f978 1,21,32,44,58
+docs/resource-evaluations/entire-cli.md
+  s_d6b910c42dc21c::t_2d6e9b05a81e19 1,9,22,40,54,88,106,118,139,153,163,184,186,194,201,210,212,218,225,233
+docs/resource-evaluations/eval-claude-1m-context-window-jp-caparas.md
+  s_9e15cec8cf2013::t_a9d710195b3317 1,18,40,55
+docs/resource-evaluations/eval-claude-code-releases-jan2026.md
+  s_9e15cec8cf2013::t_309be0e9d5e45a 1,21,44,66,80,124,130
+docs/resource-evaluations/git-mcp-server-evaluation.md
+  s_9e15cec8cf2013::t_24a79a4de5314f 1,11,19,21,33,43,45,55,98,113,115,127,136,138,153,170,172,179,187,193,201,222,230,232,242,252,266,268,276,286,288,313
+docs/resource-evaluations/gohel-sdlc-to-adlc-post.md
+  s_9e15cec8cf2013::t_f8176af67300f5 1
+docs/resource-evaluations/google-antigravity-evaluation.md
+  s_9e15cec8cf2013::t_fbc5754208c95a 1,11,19,21,29,44,59,72,80,88,100
+docs/resource-evaluations/grenier-agent-skill-quality.md
+  s_9e15cec8cf2013::t_e258814f813c42 1,26,40,56,58,86,101,116,129,143,163
+docs/resource-evaluations/grenier-multi-project-agent-network.md
+  s_9e15cec8cf2013::t_130c61a911a087 1
+docs/resource-evaluations/gsd-evaluation.md
+  s_9e15cec8cf2013::t_7c98c24b11e62d 1,99
+docs/resource-evaluations/gur-sannikov-embedded-os-linkedin.md
+  s_9e15cec8cf2013::t_6631f20909a2d1 1,12,37,39,47,55,57,67,76,78,90,101,113,126,128,138,146,154,156,207,217
+docs/resource-evaluations/hugo-ai-impact-2026.md
+  s_9e15cec8cf2013::t_740934a954813c 1,30,44,64,79,98,102,117,133,155,166,168,175
+docs/resource-evaluations/human-oversight-agents-2608-23642.md
+  s_9e15cec8cf2013::t_a7657c49ebb1bd 1
+docs/resource-evaluations/ia-qa-cli-llm-testing.md
+  s_9e15cec8cf2013::t_54eb8c0ba1dd27 13,25,44,138,149
+docs/resource-evaluations/icm-infinite-context-memory.md
+  s_9e15cec8cf2013::t_2f01d774aa422d 1,15,40,78,95,103,108
+docs/resource-evaluations/ischenko-claude-code-workflow-quality.md
+  s_9e15cec8cf2013::t_6b25b45db92863 1,30,32,44,48,54,65
+docs/resource-evaluations/jon-williams-dual-instance-pattern.md
+  s_9e15cec8cf2013::t_a01ae5f8987a26 1,9,41,60,62,73,84,86,105,122,144,170,178,186,204,222,237,239,247,262
+docs/resource-evaluations/just-bash-simulated-shell.md
+  s_9e15cec8cf2013::t_070fa920dc5e3d 1
+docs/resource-evaluations/kajan-siva-insights-command.md
+  s_9e15cec8cf2013::t_b122336e3173d5 1,12,32,62,89,107,150,156,166,179,208,218
+docs/resource-evaluations/kajan-siva-mini-claude-code.md
+  s_9e15cec8cf2013::t_3044a86751a249 1,12,20,49,62,71,77
+docs/resource-evaluations/larridin-ai-native-teams-kanitkar.md
+  s_9e15cec8cf2013::t_47e74a3558d3f9 1,11,53,92,110
+docs/resource-evaluations/liza-mas-framework.md
+  s_9e15cec8cf2013::t_08e4959f7f5c75 1,51
+docs/resource-evaluations/liza-mas-token-saving-cli-tools.md
+  s_9e15cec8cf2013::t_d56ead9713acb5 1,10,25,101,113,130
+docs/resource-evaluations/lorenz-session-handoffs-2026.md
+  s_9e15cec8cf2013::t_0c479394d50952 1,10,20,22,30,41,55,57,64,73,75,85,95,105,112,114,125,134,146,148,155,163,175,188,213,215,221,227,234,259,274,276,283
+docs/resource-evaluations/mcp-apps-announcement.md
+  s_9e15cec8cf2013::t_7327862f9558db 1,26,33,58,73,83,96,111,129,152
+docs/resource-evaluations/mdma-evaluation.md
+  s_9e15cec8cf2013::t_43a66bef4faa2c 1,11,19,21,30,47,61,73,79,86,98
+docs/resource-evaluations/melvyn-malherbe-async-hooks-linkedin.md
+  s_9e15cec8cf2013::t_6ff1c9b4376085 1,9,19,48,60,76,78,98,104,117,130,150
+docs/resource-evaluations/mikul-gohil-hooks-evaluation.md
+  s_9e15cec8cf2013::t_3b2220e2b4be50 1,11,19,21,27,33,42,50,58,68,70,77,85,93,95,123,138,151,153
+docs/resource-evaluations/nao-framework.md
+  s_9e15cec8cf2013::t_dc609ed57bf739 25,44,59,63,79,101,113,117,123,133,140,146,157,176,182,188
+docs/resource-evaluations/native-sandbox-official-docs.md
+  s_9e15cec8cf2013::t_dd71f62857c65c 1,18,32,61,63,69,91,113,115,147,167,176,207
+docs/resource-evaluations/nick-jensen-plugins.md
+  s_9e15cec8cf2013::t_832e4dac65f66e 1,11,23,34,36,47,57,69,82,86,126,135
+docs/resource-evaluations/nick-tune-feedback-loops.md
+  s_9e15cec8cf2013::t_a9eca6e7df1de4 1,7,22,34,46,57,71,86
+docs/resource-evaluations/obra-superpowers-evaluation.md
+  s_9e15cec8cf2013::t_917eecf1709a65 1,11,53,68,106,108,143
+docs/resource-evaluations/om-nalinde-30-concepts-infographic.md
+  s_9e15cec8cf2013::t_61c696b10f762a 1,54
+docs/resource-evaluations/openhands-autonomous-agent.md
+  s_9e15cec8cf2013::t_6f2ba1b031647a 1,66
+docs/resource-evaluations/orf-open-reasoning-format.md
+  s_9e15cec8cf2013::t_fcf6bae03acc9c 1,22,59,73,89,104
+docs/resource-evaluations/osmani-brownfield-agentic-engineering.md
+  s_9e15cec8cf2013::t_19d6908e91ab23 1
+docs/resource-evaluations/paddo-team-tips-eval.md
+  s_d6b910c42dc21c::t_d3f3569395eb3c 1,9,28,52,67,77
+docs/resource-evaluations/pavan-belagatti-agentic-engineering-2026.md
+  s_9e15cec8cf2013::t_f663e0234bcf6f 1
+docs/resource-evaluations/prompt-repetition-paper.md
+  s_9e15cec8cf2013::t_40b6fe53dbc6e9 1,11,13,26,42,50,59,68,70,75,86,88,105,114,143,150,161,169
+docs/resource-evaluations/rakesh-gohel-aakash-gupta-master-claude-code.md
+  s_9e15cec8cf2013::t_beebb37ab50032 1,61
+docs/resource-evaluations/ratinaud-config-management-evaluation.md
+  s_9e15cec8cf2013::t_47181edb03dd6e 1,17,31,74,91,93,101,109,120,158,220,243,286
+docs/resource-evaluations/reddit-claude-code-max-plan-optimization.md
+  s_9e15cec8cf2013::t_daef1030a6c6c7 1,11,21,34,36,48,60,73,84,86,91,97,101,105,113,119,126
+docs/resource-evaluations/remotion-claude-code-video.md
+  s_9e15cec8cf2013::t_b9c525a790a731 1,135
+docs/resource-evaluations/rtk-evaluation.md
+  s_9e15cec8cf2013::t_517ff947b18f2d 1,13,17,30,40,49,62,68,84,94,107,115,131,403,424,525,527,535,542,549,556,566,568,575,581,587,593,600,608,630
+docs/resource-evaluations/sankalp-claude-code-experience.md
+  s_9e15cec8cf2013::t_b7d381412dc4a1 1,12,20,34,53,69,77,83,87,104,116,120,146,161
+docs/resource-evaluations/se-cove-plugin.md
+  s_9e15cec8cf2013::t_308e530e756c14 1,16,31,46,55,57,67,76,84,98,100,106,119,126,138,140,152,168,172,186,221,223,231,242,254,256,264,274,276,285,293
+docs/resource-evaluations/self-improve-skill.md
+  s_9e15cec8cf2013::t_3e923282dffe51 1,10,21,23,38,73,94,103,129,138,160
+docs/resource-evaluations/semble-code-search.md
+  s_9e15cec8cf2013::t_fb5be325af705c 13,23,41,55,65,96,106,120
+docs/resource-evaluations/shiptypes-evaluation.md
+  s_9e15cec8cf2013::t_667c85a3b8b285 1,12,22,24,32,38,40,57,59,70,106,110,117,131,133,147,162,172,174,181,188
+docs/resource-evaluations/siddhant-khare-ai-fatigue.md
+  s_9e15cec8cf2013::t_88d81d479f4fe7 1,9,44,56,74,91,114,120,166
+docs/resource-evaluations/skill-doctor-github-action.md
+  s_9e15cec8cf2013::t_977e4029898b7f 1,74
+docs/resource-evaluations/snyk-toxicskills-evaluation.md
+  s_9e15cec8cf2013::t_9eda86fa08d3f3 1,25,36,49,59
+docs/resource-evaluations/spec-kitty-worktree-isolation.md
+  s_9e15cec8cf2013::t_e8fcfb9448074c 1,66
+docs/resource-evaluations/steinberger-inference-speed.md
+  s_9e15cec8cf2013::t_8b890b0fd7c326 1,9,32,115
+docs/resource-evaluations/straude-evaluation.md
+  s_9e15cec8cf2013::t_e46119cb995229 160
+docs/resource-evaluations/supermemory-memory-context-engine.md
+  s_9e15cec8cf2013::t_052d1bb9b226c5 1,11,19,35,37,53,68,88
+docs/resource-evaluations/sylvain-chabaud-spec-to-code-factory.md
+  s_9e15cec8cf2013::t_aa3434bcebfe56 1,31,39,46,60,68,97
+docs/resource-evaluations/system-prompts-official-vs-community.md
+  s_9e15cec8cf2013::t_be992e6a418549 1,9,24,26,55,57,80,91,109,140,142,158,172,195,217,223,268,298,306,319,321,328,335,348,365,373
+docs/resource-evaluations/system-prompts-opus-4-6-update.md
+  s_9e15cec8cf2013::t_66b73b50bec713 1,9,23,25,37,49,66,102
+docs/resource-evaluations/tree-sitter-progressive-code-exploration.md
+  s_9e15cec8cf2013::t_deecdccc1761f4 1,11,21,48,164,176,195,209,211,226,234,260
+docs/resource-evaluations/ui-ux-pro-max-skill.md
+  s_9e15cec8cf2013::t_791ffd2fac5682 1,32,50
+docs/resource-evaluations/uml-oop-diagrams.md
+  s_9e15cec8cf2013::t_ace24b4ce606f0 1,63
+docs/resource-evaluations/veille-hebdo-cc-2026-02-16.md
+  s_9e15cec8cf2013::t_133c5055eb46de 50
+docs/resource-evaluations/vibe-coding-rusitschka.md
+  s_9e15cec8cf2013::t_e4ae6c694381f5 1,25,38,62,97,114,147,160,186,196
+docs/resource-evaluations/vitals-codebase-health-plugin.md
+  s_9e15cec8cf2013::t_b7092691c7e72e 1,26,40,42,50,59,74
+docs/resource-evaluations/wasp-fullstack-essentials-eval.md
+  s_9e15cec8cf2013::t_65b2d70a55e69f 1,9,36,57,67,90,96,105,118,128,135,141,143,161,177,192,207
+docs/resource-evaluations/watch-list.md
+  s_9e15cec8cf2013::t_90a0b5c51e78a1 1,15
+docs/resource-evaluations/weekly-intel-2026-W09.md
+  s_9e15cec8cf2013::t_be05f02460005b 1,97
+docs/resource-evaluations/weller-session-migration-skill.md
+  s_9e15cec8cf2013::t_cef77109b21597 11,17,31,49,105,117,133,148,161,180,187,194
+docs/resource-evaluations/wooldridge-productivity-stack.md
+  s_9e15cec8cf2013::t_8473cb1445802b 1,163,234
+docs/resource-evaluations/worktrunk-evaluation.md
+  s_9e15cec8cf2013::t_f6a0671893f415 260,266
+docs/resource-evaluations/zolkos-insights-deep-dive.md
+  s_9e15cec8cf2013::t_3fb9891e7887a8 1,12,27,62,84,109,186,198,209,293,332,342
+docs/template-metadata-schema.md
+  s_9e15cec8cf2013::t_24c50bbdf104e6 1,17,34,63,275,287,302,323,345,347,355,386
+docs/visual-prompts/agent-harness-landscape.md
+  s_9e15cec8cf2013::t_3629c0d7991d72 1
+docs/visual-prompts/ai-subscription-and-inference.md
+  s_9e15cec8cf2013::t_8fe363e513dc7d 1
+docs/workflows/landing-sync.md
+  s_9e15cec8cf2013::t_7bb340878d3027 1,7,17,38,68,91
+docs/workflows/readme-site-coupling.md
+  s_9e15cec8cf2013::t_ac3561a0270476 1
+docs/workflows/releases-tracking.md
+  s_9e15cec8cf2013::t_8b617b3aeb63a2 1,17,28,51
+docs/workflows/translations.md
+  s_9e15cec8cf2013::t_f7aca0dfa12e78 1
+docs/workflows/whitepaper-build.md
+  s_9e15cec8cf2013::t_ca84fca78815ac 1,5,44,131,139,158
+examples/CATALOG.md
+  s_9e15cec8cf2013::t_8fc976c1f06409 1,18,24,32,782,1037,1045
+examples/README.md
+  s_9e15cec8cf2013::t_03e0fa0e156983 7,14,71,77,91,309,357,371,379
+examples/agents/adr-writer.md
+  s_9e15cec8cf2013::t_76745a26163b14 8,14,18,31,48,56,69,71,122,146,159,182,190,197
+examples/agents/analytics-with-eval/README.md
+  s_9e15cec8cf2013::t_1ff7e3125fc880 7,17,30,40,50,68,78,85,95,106,123,155,166,178,186,200,207,215,229,237
+examples/agents/analytics-with-eval/analytics-agent.md
+  s_9e15cec8cf2013::t_41986bde180767 8,18,34,36,45,55,57,67,78,96,114,116,157,173,175,188,198,200,209,227,231,244,255,307
+examples/agents/analytics-with-eval/eval/report-template.md
+  s_9e15cec8cf2013::t_74bd2a2d41304e 7,16,29,40,48,58,60,68,86,88,98,116,118,125,131,141,143,149,155,157,169,201,209,217,223,249
+examples/agents/architecture-reviewer.md
+  s_9e15cec8cf2013::t_d32ee30362d8dc 8,14,26,53,66,73,80
+examples/agents/code-reviewer.md
+  s_9e15cec8cf2013::t_1ec88b47684690 8,14,45,68,77,81,109,134,138,162,179,196,220,253,282
+examples/agents/cyber-defense/README.md
+  s_9e15cec8cf2013::t_72af9a9db61c78 1,29,33,141,160,178,196
+examples/agents/cyber-defense/anomaly-detector.md
+  s_9e15cec8cf2013::t_6718d5d5c2fe7a 8,18,20,25,31,36
+examples/agents/cyber-defense/log-ingestor.md
+  s_9e15cec8cf2013::t_4fb5ce8f1def62 8,29
+examples/agents/cyber-defense/risk-classifier.md
+  s_9e15cec8cf2013::t_4a806a276d892c 8,18,44,60
+examples/agents/cyber-defense/threat-reporter.md
+  s_9e15cec8cf2013::t_26980f35b404b5 8,21,65
+examples/agents/devops-sre.md
+  s_9e15cec8cf2013::t_0491d0483041bf 8,14,18,24,36,42,44,50,56,61,63,82,99,119,136,138,150,162
+examples/agents/implementer.md
+  s_9e15cec8cf2013::t_a5fe1759b75106 8,14,22,32,57
+examples/agents/integration-reviewer.md
+  s_9e15cec8cf2013::t_77f47a38ceb613 8,18,32,34,45,61,75,85,95,109,155
+examples/agents/loop-monitor.md
+  s_9e15cec8cf2013::t_8c6e45ae70241b 8,14,16,29,35,74,106,112
+examples/agents/output-evaluator.md
+  s_9e15cec8cf2013::t_b8d9451b77b3bb 8,16,23,51,59,85,93,99
+examples/agents/plan-challenger.md
+  s_9e15cec8cf2013::t_821ca69912ad3f 8,16,30,41,51,66,104,112,119,126,138
+examples/agents/planner.md
+  s_9e15cec8cf2013::t_e4e1b62176b807 8,21,49,56
+examples/agents/planning-coordinator.md
+  s_9e15cec8cf2013::t_265b253900dd2b 8,28,30,37,49,62,120,141,157
+examples/agents/refactoring-specialist.md
+  s_9e15cec8cf2013::t_60c4fb135100f6 8,14,16,23,34,36,61,77,87,95,117
+examples/agents/security-auditor.md
+  s_9e15cec8cf2013::t_a96e7e2482bce7 8,14,16,22,34,44,50,55,61,66,76,101
+examples/agents/security-patcher.md
+  s_9e15cec8cf2013::t_4981f70c246c8f 8,17,31,80,100,146,156
+examples/agents/test-writer.md
+  s_9e15cec8cf2013::t_cf9751620ffbf3 8,14,21,23,29,52,55,57,84,101
+examples/claude-md/TESTING.md
+  s_9e15cec8cf2013::t_b3f53263de8a8e 1
+examples/claude-md/agent-progress.md
+  s_9e15cec8cf2013::t_73c7a80a4731a0 1,13,16,19,23,28,40
+examples/claude-md/design-reference-file.md
+  s_9e15cec8cf2013::t_31aa2c6be5bb87 7,13,17,26,56,83,127,165
+examples/claude-md/devops-sre.md
+  s_9e15cec8cf2013::t_8e5039f3eb22c6 7,111,123,125,139,155,172,191
+examples/claude-md/learning-mode.md
+  s_9e15cec8cf2013::t_f4d5d5b3a55abd 7,107,109,118,129,138,150,172
+examples/claude-md/product-designer.md
+  s_9e15cec8cf2013::t_315acf0db71cc8 7,225,227,274,311,357,367,369,379,391,403
+examples/claude-md/rtk-optimized.md
+  s_9e15cec8cf2013::t_7608fcc4bc8fa0 7,11,47
+examples/claude-md/session-naming.md
+  s_9e15cec8cf2013::t_c44e6aa42b32ca 7,11,15
+examples/claude-md/tts-enabled.md
+  s_9e15cec8cf2013::t_a127d02cbbd404 7,11,19,21,33,43,51,73,75,82,89
+examples/commands/audit-agents-skills.md
+  s_9e15cec8cf2013::t_c02119faf7b719 1
+examples/commands/audit-codebase.md
+  s_9e15cec8cf2013::t_4adcc053dea410 1
+examples/commands/autoresearch.md
+  s_9e15cec8cf2013::t_dd65c0b431580e 1
+examples/commands/canary.md
+  s_9e15cec8cf2013::t_c3da9abb330ca4 1
+examples/commands/catchup.md
+  s_9e15cec8cf2013::t_1b988fe4a4cfe0 1
+examples/commands/check-cache-bugs.md
+  s_9e15cec8cf2013::t_5998add5862918 1
+examples/commands/ci/README.md
+  s_9e15cec8cf2013::t_62085f91c4d723 1
+examples/commands/ci/all.md
+  s_9e15cec8cf2013::t_bf089f33d3e3d3 1
+examples/commands/ci/pipeline.md
+  s_9e15cec8cf2013::t_ebeaf046dcc55a 1
+examples/commands/ci/status.md
+  s_9e15cec8cf2013::t_44762c1120ef34 1
+examples/commands/ci/tests.md
+  s_9e15cec8cf2013::t_8595422b947f7a 1
+examples/commands/commit.md
+  s_9e15cec8cf2013::t_798b66725f985a 1
+examples/commands/diagnose.md
+  s_9e15cec8cf2013::t_8da8d661918555 1
+examples/commands/explain.md
+  s_9e15cec8cf2013::t_ac749fe0f3791d 1
+examples/commands/generate-tests.md
+  s_9e15cec8cf2013::t_ee9dbb88dae50e 1
+examples/commands/git-worktree-clean.md
+  s_9e15cec8cf2013::t_65887274330c6b 1
+examples/commands/git-worktree-remove.md
+  s_9e15cec8cf2013::t_44fc283c231387 1
+examples/commands/git-worktree-status.md
+  s_9e15cec8cf2013::t_a8f053c60e6503 1
+examples/commands/git-worktree.md
+  s_9e15cec8cf2013::t_b88af21c203feb 1
+examples/commands/handoff/create-handoff.md
+  s_9e15cec8cf2013::t_ad2fac4235565b 1
+examples/commands/handoff/resume-handoff.md
+  s_9e15cec8cf2013::t_ffbccb54ee6448 1
+examples/commands/handoff/update-handoff.md
+  s_9e15cec8cf2013::t_bcdb610d3560b8 1
+examples/commands/investigate.md
+  s_9e15cec8cf2013::t_35291082053f01 1
+examples/commands/land-and-deploy.md
+  s_9e15cec8cf2013::t_c995f909b11b27 1
+examples/commands/learn/alternatives.md
+  s_9e15cec8cf2013::t_8232f73bdc4468 1
+examples/commands/learn/quiz.md
+  s_9e15cec8cf2013::t_9217bf739794d6 1
+examples/commands/learn/teach.md
+  s_9e15cec8cf2013::t_07e28124c029e8 1
+examples/commands/methodology-advisor.md
+  s_9e15cec8cf2013::t_fe36228431d7a7 1
+examples/commands/optimize.md
+  s_9e15cec8cf2013::t_a9e4eb542ef043 1
+examples/commands/plan-ceo-review.md
+  s_9e15cec8cf2013::t_92bf001ade1418 1
+examples/commands/plan-eng-review.md
+  s_9e15cec8cf2013::t_919e2b0f667883 1
+examples/commands/plan-execute.md
+  s_9e15cec8cf2013::t_22384a5a945164 1
+examples/commands/plan-start.md
+  s_9e15cec8cf2013::t_53239b6481ecbc 1
+examples/commands/plan-validate.md
+  s_9e15cec8cf2013::t_252bf2268da9c0 1
+examples/commands/pr.md
+  s_9e15cec8cf2013::t_50be4271069362 1
+examples/commands/qa.md
+  s_9e15cec8cf2013::t_997734442a8637 1
+examples/commands/recipe-template.md
+  s_9e15cec8cf2013::t_0c0f49bd3e4932 1
+examples/commands/refactor.md
+  s_9e15cec8cf2013::t_0ca625063f7b60 1
+examples/commands/release-notes.md
+  s_9e15cec8cf2013::t_47d1991f3b44b8 1
+examples/commands/review-plan.md
+  s_9e15cec8cf2013::t_098d5c98e7fec1 1
+examples/commands/review-pr.md
+  s_9e15cec8cf2013::t_99db343d46929d 1
+examples/commands/routines-discover.md
+  s_9e15cec8cf2013::t_0f740469468e15 1
+examples/commands/sandbox-status.md
+  s_9e15cec8cf2013::t_fcda6fc4dd60cc 1
+examples/commands/scaffold.md
+  s_9e15cec8cf2013::t_fac4cc4854ad18 1
+examples/commands/security-audit.md
+  s_9e15cec8cf2013::t_2fa83b4c0677fa 1
+examples/commands/security-check.md
+  s_9e15cec8cf2013::t_6ed1477eb40486 1
+examples/commands/security.md
+  s_9e15cec8cf2013::t_1ad7a07b36a333 1
+examples/commands/session-save.md
+  s_9e15cec8cf2013::t_f0024f754b7884 1
+examples/commands/ship.md
+  s_9e15cec8cf2013::t_5ddbf4af635731 1
+examples/commands/sonarqube.md
+  s_9e15cec8cf2013::t_ba6217ab3c1582 1
+examples/commands/update-threat-db.md
+  s_9e15cec8cf2013::t_57ba51b7fcac31 1
+examples/commands/validate-changes.md
+  s_9e15cec8cf2013::t_104ae59a221af4 1
+examples/config/CONTRIBUTING-ai-disclosure.md
+  s_9e15cec8cf2013::t_09e8d2d4f675f8 7,13,18,27,34,50
+examples/config/PULL_REQUEST_TEMPLATE-ai.md
+  s_9e15cec8cf2013::t_9c4cc5d6013847 7,17,27,50
+examples/context-engineering/README.md
+  s_9e15cec8cf2013::t_0742304142f530 1,19,74
+examples/context-engineering/rules/knowledge-feeding.md
+  s_9e15cec8cf2013::t_3c821a6df6bf33 1,5,17,33,63,82
+examples/context-engineering/rules/update-loop-retro.md
+  s_9e15cec8cf2013::t_75d44e153fc9ab 1,7,25,38,63,98
+examples/context-engineering/skeleton-template.md
+  s_9e15cec8cf2013::t_5c2ce2f782ebd7 1,16,60,70,85,107,131,133,146,158,182,189,196,235,248,257,263,277
+examples/github-actions/README.md
+  s_9e15cec8cf2013::t_7fbd73a6ad5cd6 7,20,22,64,87,124,152,182,281,296,324,326,331,342,360,372
+examples/github-actions/prompts/code-review.md
+  s_9e15cec8cf2013::t_63b5c7c5de650b 1,9,22,30,42,58,83,97,124
+examples/hooks/README.md
+  s_9e15cec8cf2013::t_7d818da30395b1 7,11,52,134,227,345,604,606,637,648,658,705,726,743,745,761,767,776,782,788,804,806,830,858
+examples/hooks/bm25-routing/README.md
+  s_9e15cec8cf2013::t_b43038c3a22f06 1
+examples/integrations/agent-vibes/README.md
+  s_d6b910c42dc21c::t_0ab50e70604283 7,16,32,47,80,104,120,122,135,150,166,168,177,188,199,210,223,250,252,262,270,282,303,305,320,329,346,362,374,388,401
+examples/integrations/agent-vibes/installation.md
+  s_9e15cec8cf2013::t_297cb4791e4bd1 7,15,29,60,62,77,95,107,120,122,134,157,177,192,210,240,250,267,278,289,300,321,336,348,361,363,372,381,390,401,418,432,434,441,464,466,483,499,510,529
+examples/integrations/agent-vibes/troubleshooting.md
+  s_9e15cec8cf2013::t_13d11bcebd7e10 7,14,21,84,93,123,255,274,282,289,321,329,344,367,423,434
+examples/integrations/agent-vibes/voice-catalog.md
+  s_9e15cec8cf2013::t_d539d3d36a3bf2 7,14,96,143,209,231,233,240,260,262,269,289,293,304,323,325,337,348
+examples/memory/icm-session-starter.md
+  s_9e15cec8cf2013::t_1a690d40b72e2f 1
+examples/modes/MODE_Learning.md
+  s_9e15cec8cf2013::t_de120949357b24 7,11,18,23,29,31,37,59,73,81,83,88,93,97,101,110,119
+examples/modes/README.md
+  s_9e15cec8cf2013::t_a398cc5a561b12 7,11,62,79
+examples/plugins/claude-mem.md
+  s_9e15cec8cf2013::t_f32976bb9cf44a 7,17,33,47,69,95,134,162,174,194,222,224,239,249,264,266,288,310,336,338,377,402,418,433,446,462,489,497,507
+examples/plugins/code-quality/README.md
+  s_9e15cec8cf2013::t_6fb7eb36f7d16a 1,18
+examples/plugins/devops-pipeline/README.md
+  s_9e15cec8cf2013::t_b15cc27518c743 1,17
+examples/plugins/pr-workflow/README.md
+  s_9e15cec8cf2013::t_9451e08fca3e16 1,18,40
+examples/plugins/release-automation/README.md
+  s_9e15cec8cf2013::t_65427622d96233 1,18
+examples/plugins/se-cove.md
+  s_9e15cec8cf2013::t_97599823151fe5 9,13,20,32,46,55,95
+examples/plugins/security-suite/README.md
+  s_9e15cec8cf2013::t_1fc1fce51e5c38 1,7,16,32,48,72,116,133,149,151,161,170,180,192,227,242,261
+examples/rules/architecture-review.md
+  s_9e15cec8cf2013::t_bb6200937c8e73 5,9,19
+examples/rules/code-quality-review.md
+  s_9e15cec8cf2013::t_8c1f6195ab98b2 5,14,19,25,30
+examples/rules/first-principles.md
+  s_9e15cec8cf2013::t_c7750bc2ab0536 5,13,41,72,95,121
+examples/rules/performance-review.md
+  s_9e15cec8cf2013::t_cd04d0e00ed3ae 5,9
+examples/rules/test-review.md
+  s_9e15cec8cf2013::t_7f292fc58c8f7c 5,9,14,20,25
+examples/scripts/README.md
+  s_9e15cec8cf2013::t_a7ad17df7c9cad 36,155,169,178,187,195,212,228,242,256,266,276,325
+examples/scripts/ai-usage-charter-template.md
+  s_9e15cec8cf2013::t_d1d07497f04a26 1,25,37,48,54,60,75,90,104,106,123,134,143,150,159,178,192
+examples/semantic-anchors/anchor-catalog.md
+  s_9e15cec8cf2013::t_e9a59ef7a9f46d 7,13,21,23,33,45,47,57,68,80,82,92,102,114,116,125,136,138,147,160,169,180,182,191,204,213,226,246,248,260,271,285,325,327,341
+examples/skills/ast-grep-patterns.md
+  s_9e15cec8cf2013::t_1fc2eea81346f6 7,38,48,50,68,85,96,112,130,144,159,176,200,216,227,245,254,264,279,295,313,315,329,343,357,383
+examples/skills/audit-agents-skills/SKILL.md
+  s_9e15cec8cf2013::t_0a3ead42a346f7 11,45,53,95,120,141,199,222,273,275,288,300,315,331,354,356,378,382,406,416,432,478,496,512
+examples/skills/audit-codebase/SKILL.md
+  s_9e15cec8cf2013::t_af2c030c82d92b 9,23,56,87,121,151,184,211,252,254,264,332
+examples/skills/autoresearch/SKILL.md
+  s_9e15cec8cf2013::t_45d152d07e22cc 9,217,250
+examples/skills/best-of-n/SKILL.md
+  s_9e15cec8cf2013::t_66015fcd35a357 9
+examples/skills/canary/SKILL.md
+  s_9e15cec8cf2013::t_b4ca3c5bc77c80 9,90,111,170,201,212,241
+examples/skills/catchup/SKILL.md
+  s_9e15cec8cf2013::t_6f8a118c21040b 10,24,38,49,56,70,76,82,88,97,105,125
+examples/skills/ccboard/README.md
+  s_9e15cec8cf2013::t_9baccd0f864883 1,8,20,70,81,90,99,124
+examples/skills/ccboard/SKILL.md
+  s_d6b910c42dc21c::t_71d1304199f9e3 10,29,57,59,68,74,82,88,94,100,106,140,149,173,175,187,200,212,226,308,321
+examples/skills/ccboard/commands/costs.md
+  s_9e15cec8cf2013::t_2530c915bb13dc 7,36,44
+examples/skills/ccboard/commands/dashboard.md
+  s_9e15cec8cf2013::t_3b775a2bbc1e66 7
+examples/skills/ccboard/commands/install.md
+  s_9e15cec8cf2013::t_29e6c907d4144b 42,50
+examples/skills/ccboard/commands/mcp-status.md
+  s_9e15cec8cf2013::t_714c406fa20036 7,31,39
+examples/skills/ccboard/commands/sessions.md
+  s_9e15cec8cf2013::t_9a945ea22b36f2 7,35,44,55
+examples/skills/ccboard/commands/web.md
+  s_9e15cec8cf2013::t_a30ed8f6cb5538 7,56
+examples/skills/check-cache-bugs/SKILL.md
+  s_9e15cec8cf2013::t_e807558d80342b 8,207
+examples/skills/commit/SKILL.md
+  s_9e15cec8cf2013::t_03c2c7b3d346ac 10,20
+examples/skills/cyber-defense-team/SKILL.md
+  s_9e15cec8cf2013::t_8428e58d67a503 11,15,32,34,38,49,59,67,75,91,97,109
+examples/skills/design-patterns/SKILL.md
+  s_9e15cec8cf2013::t_7d5016498c3f7a 10,14,21,85,116,144,165,195,218,220,290,418,483,485,490,495,500,505,507,519,531,543,550
+examples/skills/design-patterns/checklists/pattern-evaluation.md
+  s_9e15cec8cf2013::t_ccb55ee0c3a8b2 7,11,28,74,86,106,151,155,173,216,220,238,288,308,380,382,396,410,426,442,454,472,507
+examples/skills/design-patterns/reference/behavioral.md
+  s_9e15cec8cf2013::t_6b0845c399ce21 7,11,16,22,71,86,97,103,172,185,190,231,272,277,352,370,381,386,452,463,469,544,567,571,583,588,634,700,711,717,758,779,784,790,795,800,860,871,876,933,937,948,953,1004,1010,1026
+examples/skills/design-patterns/reference/creational.md
+  s_9e15cec8cf2013::t_bee327fdb10f2f 7,16,23,47,75,81,85,92,99,104,110,160,173,179,184,189,196,201,207,293,299,303,308,320,326,397,410,416,428,435,447,453,498,513,520,525,539,546,556
+examples/skills/design-patterns/reference/structural.md
+  s_9e15cec8cf2013::t_d7b0334dd68c7a 7,16,22,61,92,98,102,114,120,166,221,226,237,242,305,366,372,376,388,394,438,476,482,486,498,504,554,607,612,616,627,633,692,741,746,757,763,816,842,848,855,867
+examples/skills/diagnose/SKILL.md
+  s_9e15cec8cf2013::t_9ea2bbbc74d47c 10,18,25,36,61,93,134,136,151,169,182,202
+examples/skills/eval-agents/SKILL.md
+  s_9e15cec8cf2013::t_e369a80932cbd8 9,15,25,111,149,255
+examples/skills/eval-hooks/SKILL.md
+  s_d6b910c42dc21c::t_ae428c84179cba 9,17,41,173,196,262,467,493
+examples/skills/eval-rules/SKILL.md
+  s_9e15cec8cf2013::t_3a58d294381d3e 9,15,32,78,214
+examples/skills/eval-skills/SKILL.md
+  s_9e15cec8cf2013::t_340759d2832ee9 10,14,61,77,106,122,189,202,219,291
+examples/skills/explain/SKILL.md
+  s_9e15cec8cf2013::t_67a0bd5f35d564 9,23,31,39,53,55,64,68,72,78,84,95,139
+examples/skills/generate-tests/SKILL.md
+  s_9e15cec8cf2013::t_2a34ade6f09a55 10,21,23,28,35,38,40,43,49,55,60
+examples/skills/git-ai-archaeology/SKILL.md
+  s_9e15cec8cf2013::t_0f088b05339dac 14,38,55,93,129,181,200,308,317,325
+examples/skills/git-worktree-clean/SKILL.md
+  s_9e15cec8cf2013::t_302f4d8659f369 10,36,76,88,110,164,212,225
+examples/skills/git-worktree-remove/SKILL.md
+  s_9e15cec8cf2013::t_5ee63ce18e8654 10,30,32,45,61,77,105,124,159,171
+examples/skills/git-worktree-status/SKILL.md
+  s_9e15cec8cf2013::t_a90b17b07ded16 9,24,39,41,62,84,103,139,150
+examples/skills/git-worktree/SKILL.md
+  s_9e15cec8cf2013::t_7e0d03196085bf 10,40,58,60,75,91,104,126,145,168,180,184,203,217,228,245
+examples/skills/guide-recap/SKILL.md
+  s_9e15cec8cf2013::t_4ad7e5fa40cfca 9,13,38,40,53,69,83,124,141
+examples/skills/guide-recap/assets/linkedin-template.md
+  s_9e15cec8cf2013::t_186b5be08e3727 1,5,21,37
+examples/skills/guide-recap/assets/newsletter-template.md
+  s_9e15cec8cf2013::t_d93abac61184a0 1,5,29,53
+examples/skills/guide-recap/assets/slack-template.md
+  s_9e15cec8cf2013::t_d280ae398f2168 1,5,15,25,59
+examples/skills/guide-recap/assets/twitter-template.md
+  s_9e15cec8cf2013::t_e5ee4953c5773f 1,5,9,19,41,66,91,129
+examples/skills/guide-recap/examples/week-output.md
+  s_9e15cec8cf2013::t_51f16091589c3f 7,20
+examples/skills/guide-recap/references/changelog-parsing-rules.md
+  s_9e15cec8cf2013::t_b8d00958afe53d 1,5,29,31,44,53,68,80,102,124,135
+examples/skills/guide-recap/references/content-transformation.md
+  s_9e15cec8cf2013::t_4663ddb54fcf38 1,5,13,15,27,39,47,56,66,68,88,100,118,120,127,134
+examples/skills/guide-recap/references/tone-guidelines.md
+  s_9e15cec8cf2013::t_845f54af424a77 1,5,26,43,55,66
+examples/skills/handoff-create/SKILL.md
+  s_9e15cec8cf2013::t_e3c397cc1b0e18 13
+examples/skills/handoff-update/SKILL.md
+  s_9e15cec8cf2013::t_0e371f7b01fed5 11,19,23
+examples/skills/investigate/SKILL.md
+  s_9e15cec8cf2013::t_6b5700c2ad283c 9,19,34,53,92,117,180,208,224
+examples/skills/issue-triage/SKILL.md
+  s_9e15cec8cf2013::t_0bd12e9ba1784c 8,12,91,117,147,181,225,250,278,329,348,407
+examples/skills/issue-triage/templates/issue-comment.md
+  s_9e15cec8cf2013::t_04a6b14062de1f 1,7,29,46,66,87
+examples/skills/land-and-deploy/SKILL.md
+  s_9e15cec8cf2013::t_715626f301f8f4 9,37,70,170,210,239,305,333,342,360
+examples/skills/landing-page-generator/SKILL.md
+  s_9e15cec8cf2013::t_87b89d441e0e9c 8,12,19,27,29,35,41,54,68,81,140,159,167,177,193
+examples/skills/landing-page-generator/references/landing-pattern.md
+  s_9e15cec8cf2013::t_0cce34c7a79f0f 1,5,15,33,35,70,97,128,151,165,183,197,240,242,292,347,365,367,402,423,458,469
+examples/skills/learn-alternatives/SKILL.md
+  s_9e15cec8cf2013::t_711d07634db030 8,32,71,86,106,186
+examples/skills/learn-quiz/SKILL.md
+  s_9e15cec8cf2013::t_e620af6de06e02 8,33,60,73,86,111,119,144
+examples/skills/learn-teach/SKILL.md
+  s_9e15cec8cf2013::t_7c107ff0f92904 8,31,82,103,105,111,117,123,173
+examples/skills/learning-path/README.md
+  s_9e15cec8cf2013::t_d20282b244f149 1
+examples/skills/learning-path/SKILL.md
+  s_9e15cec8cf2013::t_b12823d5f5652f 6
+examples/skills/mcp-integration-reference/SKILL.md
+  s_9e15cec8cf2013::t_2440555cded5d2 10,14,27,39,54,65,78,120,128
+examples/skills/mcp-integration-reference/references/sentry-mcp.md
+  s_9e15cec8cf2013::t_96f33ae63335a0 1,9,68,91,106,140
+examples/skills/methodology-advisor/SKILL.md
+  s_d6b910c42dc21c::t_fff3b287fc7985 8,145
+examples/skills/optimize/SKILL.md
+  s_9e15cec8cf2013::t_7a070b92d6b280 10,25,34,36,49,59,69,86,90,103,105,133,139,145,151,161,163,179
+examples/skills/pdf-generator.md
+  s_9e15cec8cf2013::t_9fd234b374ec1b 8,12,57,86,104,118,131,133,139,163,165,181,218,260,276,286,302,314,342,344,363,378
+examples/skills/plan-pipeline/SKILL.md
+  s_9e15cec8cf2013::t_0cd117566c0f17 8,31,54
+examples/skills/plan-pipeline/ceo-review/SKILL.md
+  s_9e15cec8cf2013::t_c013fd93fe5ad6 8,16,22,30,44,123
+examples/skills/plan-pipeline/eng-review/SKILL.md
+  s_9e15cec8cf2013::t_a418d7f206b4bf 8,16,24,33,47,181
+examples/skills/plan-pipeline/execute/SKILL.md
+  s_9e15cec8cf2013::t_6df672fa0e665f 8,22,34,48,80,102,150,165,230,234
+examples/skills/plan-pipeline/start/SKILL.md
+  s_9e15cec8cf2013::t_cafd1ae4995c8e 8,14,16,30,48,64,98,150,156,172,178
+examples/skills/plan-pipeline/validate/SKILL.md
+  s_9e15cec8cf2013::t_8c828441f506b7 8,22,55,87,109,129,179,183
+examples/skills/pr-triage/SKILL.md
+  s_9e15cec8cf2013::t_98210e16ecf1e6 8,12,122,149,167,192,223,268,278,324,583
+examples/skills/pr-triage/templates/review-comment.md
+  s_9e15cec8cf2013::t_2105f38093e3d6 1,50
+examples/skills/pr/SKILL.md
+  s_9e15cec8cf2013::t_5fb1f701a4458e 10,24,38,48,81,88,98,131,143,171,186
+examples/skills/qa/SKILL.md
+  s_9e15cec8cf2013::t_9b2e14c08d68d5 9,17,38,48,107,124,143,210
+examples/skills/recipe-template/SKILL.md
+  s_9e15cec8cf2013::t_efd64fd1da26e0 9,13,18,27,53,61
+examples/skills/refactor/SKILL.md
+  s_9e15cec8cf2013::t_cba5b66e209b6c 10,24,42,44,60,67,74,81,88,102,109,113,118,128,159,167,173,179
+examples/skills/release-notes-generator/SKILL.md
+  s_9e15cec8cf2013::t_419077492747fd 8,21,23,33,39,45,78,88,97,111,125,141,145,171,216,240,247
+examples/skills/release-notes-generator/assets/changelog-template.md
+  s_9e15cec8cf2013::t_015df3e2316836 1
+examples/skills/release-notes-generator/assets/slack-template.md
+  s_9e15cec8cf2013::t_cc2b51a681e7bc 1,64,75
+examples/skills/release-notes-generator/references/commit-categories.md
+  s_9e15cec8cf2013::t_9f5549c14f881d 1,5,15,73,91,100,107,114
+examples/skills/release-notes-generator/references/tech-to-product-mappings.md
+  s_9e15cec8cf2013::t_e207b3f7c2ef05 1,5,22,48,70,84
+examples/skills/release-notes/SKILL.md
+  s_9e15cec8cf2013::t_d4328f7eab6913 10,23,51,58,69,89,102,117,148,163,179,194,219,229
+examples/skills/review-plan/SKILL.md
+  s_9e15cec8cf2013::t_c3061cd803c828 10,14,24,28,37,46,54,62,78
+examples/skills/review-pr/SKILL.md
+  s_9e15cec8cf2013::t_f5fc85cb929d7f 9,19,21,49,89,104,136,177,203,225,246,269,283
+examples/skills/routines-discover/SKILL.md
+  s_9e15cec8cf2013::t_46960c34c4c4a2 8,16
+examples/skills/rtk-optimizer/SKILL.md
+  s_9e15cec8cf2013::t_9ebc3dbd809e3f 10,14,21,49,53,61,77,90,99,119
+examples/skills/sandbox-status/SKILL.md
+  s_9e15cec8cf2013::t_2e9e4b18db3433 9,19,142,174,181
+examples/skills/sandbox-unblock/SKILL.md
+  s_9e15cec8cf2013::t_89a1d5ee73eb70 204
+examples/skills/scaffold/SKILL.md
+  s_9e15cec8cf2013::t_864e1106c4084b 8
+examples/skills/security-audit/SKILL.md
+  s_9e15cec8cf2013::t_88af4ed4f00bdb 9,23,39,53,106,140,169,198,229
+examples/skills/security-check/SKILL.md
+  s_9e15cec8cf2013::t_e121dc22e9c942 9,19,26,44,103,125,137,149,163
+examples/skills/security-checklist.md
+  s_9e15cec8cf2013::t_1370d8a01f3a41 7,9,24,30,43,45,54,66,78,90,104,120,139
+examples/skills/security/SKILL.md
+  s_9e15cec8cf2013::t_eede5525ad87aa 10,25,40,54,68,78,92,96,101,107,113,126,134
+examples/skills/session-save/SKILL.md
+  s_9e15cec8cf2013::t_95bdf1e215299e 12,26,28,31,39,46,53,60,66,77,89,101
+examples/skills/ship/SKILL.md
+  s_9e15cec8cf2013::t_12738f7b8630f2 10,23,25,43,60,73,77,84,94,121,129,131,144,154,174,189,235
+examples/skills/skill-creator/SKILL.md
+  s_9e15cec8cf2013::t_0931df2ef8fe7b 8,12,19,31,50,78,87,93,102
+examples/skills/smart-explore.md
+  s_9e15cec8cf2013::t_9e035ea345d009 7,13,36,52,66,68,105,293,370,440,455
+examples/skills/sonarqube/SKILL.md
+  s_9e15cec8cf2013::t_018de8f1ab8888 10,26,41,54,77,139,209,219,239,250,252,264,272,294,310,312,360
+examples/skills/talk-pipeline/README.md
+  s_9e15cec8cf2013::t_8a0882c81083fc 1,27
+examples/skills/talk-pipeline/orchestrator/SKILL.md
+  s_9e15cec8cf2013::t_57535b06afc451 8,27,55,87,106
+examples/skills/talk-pipeline/stage-1-extract/SKILL.md
+  s_9e15cec8cf2013::t_24fbfd0fec8841 8,12,18,41,53,115,131
+examples/skills/talk-pipeline/stage-2-research/SKILL.md
+  s_9e15cec8cf2013::t_e613897e303178 14,20,65,160,175
+examples/skills/talk-pipeline/stage-3-concepts/SKILL.md
+  s_9e15cec8cf2013::t_72ac28a5c963ba 8,12,18,39,62,81,139
+examples/skills/talk-pipeline/stage-4-position/SKILL.md
+  s_9e15cec8cf2013::t_71eb3a2e2864ce 8,12,18,176,202,217
+examples/skills/talk-pipeline/stage-4-position/templates/feedback-draft.md
+  s_9e15cec8cf2013::t_109558a6430d88 1
+examples/skills/talk-pipeline/stage-5-script/SKILL.md
+  s_9e15cec8cf2013::t_cd0e409b6deb48 8,14,20,168,185,196
+examples/skills/talk-pipeline/stage-5-script/templates/kimi-prompt-template.md
+  s_9e15cec8cf2013::t_be5e489408e04d 1,11,21,54,56,84,92,100,108,116,129,138,157
+examples/skills/talk-pipeline/stage-6-revision/SKILL.md
+  s_9e15cec8cf2013::t_b1e522fff49523 8,12,18,40,178,180,209
+examples/skills/tdd-workflow.md
+  s_9e15cec8cf2013::t_5dc1f07c272bb8 7,9,16,26,31,33,43,59,65,112,121,127,135
+examples/skills/token-audit/skill.md
+  s_9e15cec8cf2013::t_a391695ba0bb37 8,20,36,76,101,133,147,157,205
+examples/skills/update-threat-db/SKILL.md
+  s_9e15cec8cf2013::t_2d071ccc90be6e 6
+examples/skills/validate-changes/SKILL.md
+  s_9e15cec8cf2013::t_fe6e606b6acc57 8,14,18,22,34,61,93,99,106,113
+examples/skills/voice-refine/SKILL.md
+  s_9e15cec8cf2013::t_bcb820219245c5 8,13,20,29,56,58,71,79,87,93
+examples/skills/voice-refine/examples/before-after.md
+  s_9e15cec8cf2013::t_e2bf31530e26f0 7,13,50,90,122,168,180,182,189
+examples/styles/custom-style-template.md
+  s_9e15cec8cf2013::t_480c7c446a3528 7
+examples/team-config/claude-skeleton.md
+  s_9e15cec8cf2013::t_985acda2da2748 1,9,15,28,36,43,50,58,65
+examples/templates/session-handoff-lorenz.md
+  s_9e15cec8cf2013::t_3fbc27ee78203f 7,15,24,45,62,77,90,94,98,102,112,135,144,157
+examples/workflows/bounded-loop-contract.md
+  s_9e15cec8cf2013::t_723df81459cebf 12
+examples/workflows/database-branch-setup.md
+  s_9e15cec8cf2013::t_56da5cde99c740 7,15,30,32,110,144,146,157,170,172,201,221,292,313,315,335
+examples/workflows/memory-stack-integration.md
+  s_9e15cec8cf2013::t_d4a3e921ae2e84 7,17,19,85,125,144,146,203,241,264,333,383,426,428,552,630,668,724,763,765,782,799,826
+examples/workflows/remotion-quickstart.md
+  s_9e15cec8cf2013::t_dbc92ff0f80a33 7,28,30,389,417,427,461
+guide/cheatsheet.md
+  s_9e15cec8cf2013::t_01b80cc40e0d04 7,19,67,87,130,163,178,194,208,217,226,238,252,267,293,303,344,374,399,464,483,509,522,535,553,571,582,619,631,645,667,680,693
+guide/core/agent-harness.md
+  s_d6b910c42dc21c::t_0d32dc66d8880b 15,57,74,108,120,124,146,170,178,186,192,198,206,212,243,273,277,287,315,337,395,437,498,536,572,603
+guide/core/architecture.md
+  s_9e15cec8cf2013::t_5dc30e43f8a513 7,19,33,41,59,96,117,171,191,198,262,318,336,347,369,384,412,421,460,490,532,542,569,588,595,627,636,647,656,711,759,776,860,920,927,940,975,985,996,1002,1008,1059,1115,1126,1139,1165,1175,1201,1269,1289,1337,1363,1381,1392,1401,1434,1444,1455,1465,1472,1479,1488,1502,1511,1522,1538,1548,1564,1577,1579,1595,1602,1612,1616,1627,1637,1662,1742
+guide/core/claude-code-releases.md
+  s_9e15cec8cf2013::t_972b3914a5d2fe 13,24,53,3490,3570,3585,3598,3647,3661,3696,3735
+guide/core/community-patterns.md
+  s_9e15cec8cf2013::t_8df1c2fdbc08e2 7
+guide/core/computer-use.md
+  s_9e15cec8cf2013::t_b82cf471caab6a 7
+guide/core/context-engineering.md
+  s_9e15cec8cf2013::t_f9cf8643f03eed 7,21,41,51,55,71,96,108,126,145,184,186,202,212,226,237,259,282,284,304,340,401,413,433,448,450,466,519,551,602,636,715,717,731,804,838,932,986,1012,1014,1042,1078,1089,1131,1146,1186,1188,1213,1272,1295,1328,1378,1390,1392,1406,1417,1456,1480,1497,1526,1588,1596,1620,1624,1635,1649,1664,1670,1684,1708,1726,1732,1743,1775,1787,1793,1799,1811,1819,1823,1862,1900,1904,1931,1948,1965,1989,2014,2040,2054,2066,2116,2120,2137,2159,2177,2208,2212,2231,2237,2249,2328,2342,2370,2418,2470,2478,2496,2573
+guide/core/credits.md
+  s_9e15cec8cf2013::t_f6e3cb2b137c42 7,13,21,28,35,42,49,56,73,80,89,97,116,203,210,280,303,307
+guide/core/glossary.md
+  s_9e15cec8cf2013::t_4dcae207478f25 158
+guide/core/hooks-events-reference.md
+  s_9e15cec8cf2013::t_9a2cb21de7ff41 7,17,59,158,197,355,397,474,500
+guide/core/known-issues.md
+  s_9e15cec8cf2013::t_57457afe2e66ab 7,18,20,104,110,134,144,173,183,214,223,231,262,269,310,321,323,333,341,349,356,363,379,394,402,408,419,425,431,441,451,460,474,486,488,498,504,513
+guide/core/loop-graph-engineering.md
+  s_9e15cec8cf2013::t_399943061b54e7 13
+guide/core/memory-systems.md
+  s_9e15cec8cf2013::t_71844085d3c366 7,19,56,95,97,168,202,256,293,319,331,333,382,421,495,549,575,597,616,640,668,712,726,748,750,787,805,815,819,829,837,845,855,865,873,900,902,931,939,947,953,961,977,979,1012,1037,1095,1107,1120,1135,1155
+guide/core/methodologies.md
+  s_9e15cec8cf2013::t_4302bd91e3befe 7,17,25,36,52,85,89,110,182,204,262,359,434,445,465,473,478,489,497,503,513,528,552,560,594,601,612
+guide/core/settings-reference.md
+  s_9e15cec8cf2013::t_1a71a64933eaee 1,14,41,43,234,318,401,756,827,1096,1125,1139,1153,1172,1200,1270,1294,1327,1339,1371,1409,1422,1437,1454,1494,1509,1516,1536,1609
+guide/core/skill-design-patterns.md
+  s_9e15cec8cf2013::t_969d1865b45a4b 7,15,50,95,117,150,189,215,269,302,341,364
+guide/core/tools-reference.md
+  s_9e15cec8cf2013::t_71af8a8b813e5d 1
+guide/core/translations.md
+  s_9e15cec8cf2013::t_2eb4e5442de41c 7,19,27,45,53,68,74,82
+guide/core/visual-reference.md
+  s_9e15cec8cf2013::t_6ee08cceb76152 7,18,24,62,91,124,155,187,242,281,310,333,368,422,463,487,507,535,559,599,652,690,734
+guide/cowork.md
+  s_9e15cec8cf2013::t_355ddea88dfc2b 7,15,19,30,57,68
+guide/diagrams/01-foundations.md
+  s_9e15cec8cf2013::t_a9883c67986615 13,83,145,209
+guide/diagrams/02-context-and-sessions.md
+  s_9e15cec8cf2013::t_78d1de428d6149 7,13,90,161,207
+guide/diagrams/03-configuration-system.md
+  s_9e15cec8cf2013::t_45b59a81c61c69 7,13,63,135,185
+guide/diagrams/04-architecture-internals.md
+  s_9e15cec8cf2013::t_7abc091a6a4f4f 7,13,86,191,246
+guide/diagrams/05-mcp-ecosystem.md
+  s_9e15cec8cf2013::t_67d367a8ea0b27 7,13,100,169,216
+guide/diagrams/06-development-workflows.md
+  s_9e15cec8cf2013::t_008e444b6b20e4 7,13,90,192,272,351
+guide/diagrams/07-multi-agent-patterns.md
+  s_d6b910c42dc21c::t_9c9e09b7eb208c 7,13,91,155,205,273,347
+guide/diagrams/08-security-and-production.md
+  s_9e15cec8cf2013::t_5e75f2b5866297 7,13,95,170,236
+guide/diagrams/09-cost-and-optimization.md
+  s_9e15cec8cf2013::t_87225a48a8d641 7,13,95,176,262
+guide/diagrams/10-adoption-and-learning.md
+  s_9e15cec8cf2013::t_fdad011cf97538 7,13,90,146
+guide/diagrams/11-context-engineering.md
+  s_9e15cec8cf2013::t_b054224f823a5a 7,15,92,151,218
+guide/diagrams/12-enterprise-governance.md
+  s_9e15cec8cf2013::t_28c6cddff157b6 15,80,145
+guide/diagrams/README.md
+  s_9e15cec8cf2013::t_c68fe4825f0d48 7,15,28,61
+guide/ecosystem/agent-harness-landscape.md
+  s_d6b910c42dc21c::t_fc578b4aa03a82 7,33,50,58,79,145,196,212,227,520,535,559,573,585
+guide/ecosystem/ai-ecosystem.md
+  s_9e15cec8cf2013::t_1faed398bb03b5 7,15,23,54,74,88,90,127,147,156,173,175,197,224,226,234,245,247,271,294,312,322,330,332,355,376,390,392,404,406,436,476,561,598,637,668,706,728,745,756,773,807,837,841,872,911,915,937,952,976,978,1015,1034,1054,1080,1087,1095,1104,1138,1148,1163,1182,1213,1226,1240,1253,1274,1293,1311,1315,1326,1339,1377,1395,1401,1418,1438,1440,1449,1458,1460,1486,1488,1503,1529,1537,1539,1581,1583,1600,1616,1635,1678,1701,1800,1811,1829,1843,1847,1871,1873,1885,1907,1917,1925,1939,1948,1957,1975,2006,2008,2023,2038,2056,2071,2090,2092,2104,2116,2122,2134,2144,2155,2170,2184,2188,2200,2212,2227,2231,2235,2249,2258,2288,2321,2360,2387,2452,2517,2521,2531,2562,2573,2590,2594,2626,2634,2644,2654,2658,2665,2673,2688,2704,2719,2738,2744,2750,2766,2779,2795,2817,2857,2870,2876,2895,2908,2915,2923,2936,2946,2959,2969,2988,3043,3058,3087,3101,3228,3245,3249,3269,3275,3283,3355,3372,3398,3435,3452
+guide/ecosystem/ai-executive-agents.md
+  s_9e15cec8cf2013::t_8d8e8493f030d9 7,30,36,58,75,92,102
+guide/ecosystem/local-vs-cloud-inference.md
+  s_9e15cec8cf2013::t_403dbea75f6844 7,15,38,64,83,110,144,230,296,375,400,435,469,483,503,521,574,590,659
+guide/ecosystem/mcp-servers-ecosystem.md
+  s_9e15cec8cf2013::t_01156062ad03c0 7,15,35,46,68,82,86,93,101,108,116,122,135,141,161,230,240,252,262,313,315,514,761,854,1050,1125,1202,1260,1371,1373,1381,1447,1519,1525,1614,1694,1720,1772,1794,1810,1820,1824,1846,1856,1884,1903,1909,1925,1944,1950,1965,1978,1980,1993
+guide/ecosystem/mcp-vs-cli.md
+  s_9e15cec8cf2013::t_8eb251b5b17f28 15,254
+guide/ecosystem/plugin-distribution.md
+  s_9e15cec8cf2013::t_1d8c044b5ea61e 7
+guide/ecosystem/practitioner-insights.md
+  s_9e15cec8cf2013::t_1a0d38fe08da44 7,15,107,223,309,389,477,521,560
+guide/ecosystem/remarkable-ai.md
+  s_9e15cec8cf2013::t_4b9dff20f2f276 7,15,100,163,172,208,253,270,285,328
+guide/ecosystem/team-knowledge-base.md
+  s_9e15cec8cf2013::t_9a0c631518dbaf 1,8,43,136,199,258,306,331
+guide/learning-path/01-installation.md
+  s_9e15cec8cf2013::t_36c221f0c10ab7 1,11,22,52,60,82,94,96,107,118,130,141,178,197,207,217
+guide/learning-path/02-core-loop.md
+  s_9e15cec8cf2013::t_b32e1d375f24a3 1,13,23,87,108,116,120,129,146,164,168,177,195,207,209,220,229,239,243,251,265,300,314,324
+guide/learning-path/03-memory.md
+  s_9e15cec8cf2013::t_5fb7627a455bb4 1,11,21,54,58,91,120,124,136,146,171,210,212,218,243,245,284,299,346,363,389,403,419
+guide/learning-path/04-agents.md
+  s_9e15cec8cf2013::t_8f8e7e20fd5a08 6,18,28,32,47,59,63,103,114,131,133,164,195,227,229,238,257,283,285,294,312,324,326,374,396,398,406,416,442,456
+guide/learning-path/05-skills.md
+  s_9e15cec8cf2013::t_fdd69059a1c149 6,18,30,36,56,69,86,90,100,132,134,146,162,174,192,194,212,229,250,278,284,320,333,348,364,387,413
+guide/learning-path/06-hooks.md
+  s_9e15cec8cf2013::t_0a8000d6ab0aa0 1
+guide/learning-path/07-advanced.md
+  s_9e15cec8cf2013::t_664d9d86deeffe 6,16,27,33,59,61,95,131,163,176,304,306,324,352,386,388,407,429,454,465,474,495,505,535,549,561
+guide/learning-path/README.md
+  s_9e15cec8cf2013::t_836a3ae592e969 1,9,25,27,41,62,69,85,95,107,207,235,247,260,276
+guide/ops/ai-traceability.md
+  s_d6b910c42dc21c::t_831ee11df79710 7,15,29,33,43,52,64,75,85,96,98,120,146,197,236,261,278,290,303,531,557,591,593,630,658,660,686,709,738,759,795,810,816,827,836,858,913,943,949,951,957
+guide/ops/api-gateway.md
+  s_d6b910c42dc21c::t_0093b0f5224cb0 7,71,84,149,206,228,264,279,318,332,348
+guide/ops/devops-sre.md
+  s_9e15cec8cf2013::t_acf2c0cadf8dc5 21,32,36,46,71,99,125,129,131,151,197,206,216,258,260,276,287,297,311,319,329,333,337,418,420,438,453,477,500,506,525,527,537,552,563,579,589,606,616,630,632,643,655,659,661,676,687,689,699,713,730,748,755,767,769,794,806,824,847,849,854,867
+guide/ops/observability.md
+  s_9e15cec8cf2013::t_28e855e2fe5972 12,18,33,45,55,75,79,89,134,141,163,167,177,215,234,250,296,326,328,341,358,370,380,405,438,478,499,501,505,523,544,548,561,572,589,604,621,656,781,787,806,841,872,874,887,896,916,925,935,946,952,963,989,1019,1023,1029,1055,1086,1103
+guide/ops/subscription-strategy.md
+  s_9e15cec8cf2013::t_e5735ace2fe42d 7
+guide/ops/team-metrics.md
+  s_d6b910c42dc21c::t_50db6688ffa0d9 7,11,31,41,47,57,67,77,87,97,105,109,117,121,127,131,137,163,169,175,179,185,189,197,203,209,215,241,309,315,321,335,339,355,378,393,433,447,459,481,485,491,497,505,545
+guide/roles/adoption-approaches.md
+  s_9e15cec8cf2013::t_fb42efe38de686 7,26,39,85,98,118,120,143,157,169,173,181,193,216,220,230,236,250,265,269,284,310,369,437,451,490,492,504,516
+guide/roles/agent-evaluation.md
+  s_9e15cec8cf2013::t_d7a7ac0a4cd5f9 7,13,33,39,49,73,93,95,123,151,180,208,210,234,269,313,341,345,378,423,425,427,446,458,460,467,474,481,492,496,506,516,528,550,560,575,611,621,631,641,651
+guide/roles/ai-roles.md
+  s_9e15cec8cf2013::t_31c1b833a665fd 7,21,54,130,165,208,246,284,317,351,388,419,448,486,513,540,567,606,648,675,694,723,753,784,831,863,891,920,939,959,976,982
+guide/roles/learning-with-ai.md
+  s_9e15cec8cf2013::t_37abecc0963bb7 7,19,41,53,65,80,90,111,115,129,142,168,178,231,248,277,286,303,319,325,355,383,400,404,415,430,434,438,471,509,511,530,541,555,559,571,581,592,603,607,617,628,644,654,658,660,669,681,698,700,723,737,741,753,780,795,824,856,884,894,911,939,957,999,1024,1037,1071,1093,1116,1157,1173,1186,1188,1195,1201,1213,1231,1239,1246,1254,1260,1267,1277,1279,1287,1295,1305,1307,1323,1330,1338
+guide/security/agentic-pentesting.md
+  s_9e15cec8cf2013::t_8f15e7549943f7 7
+guide/security/data-privacy.md
+  s_d6b910c42dc21c::t_fee9100cbf0283 13,19,32,34,63,75,77,88,104,117,140,149,204,236,238,240,267,287,310,320,328,338,351,353,361,381,405
+guide/security/enterprise-governance.md
+  s_d6b910c42dc21c::t_34cd5c905f066d 7,32,36,47,64,86,92,174,209,253,257,301,372,408,412,422,508,514,587,591,597,603,608,689,693,700,707,713,787,796,802,908
+guide/security/production-safety.md
+  s_9e15cec8cf2013::t_6a8760a9716716 7,27,39,41,51,108,118,120,129,224,247,249,262,348,350,358,412,414,429,510,512,520,647,649,667,673,769,778,792,802,804,816,917,929,931,942,952,982,984,993,1073,1084
+guide/security/sandbox-isolation.md
+  s_9e15cec8cf2013::t_c62efce2780813 7,37,49,77,128,164,198,221,241,285,299,315,339,371,382,396,406,423,437,465,498,515,543,567,584,597,607,613,626
+guide/security/sandbox-native.md
+  s_9e15cec8cf2013::t_22d73f7fcb8db0 7,53,55,72,88,217,219,252,304,306,333,373,390,392,424,434,450,470,547,549,568,600,624,640,664,676,704,723,725,755,779,796,979
+guide/security/security-hardening.md
+  s_9e15cec8cf2013::t_b5f1f6789b2590 11,21,91,107,109,117,136,184,192,204,219,246,285,304,308,319,327,350,362,374,398,404,415,427,450,467,484,511,543,551,555,565,584,608,624,638,659,661,665,677,699,714,720,736,747,757,803,805,854,886,917,1029,1081,1083,1091,1109,1111,1179,1209,1238,1255,1267,1286,1295,1308,1322,1343,1365
+guide/workflows/README.md
+  s_9e15cec8cf2013::t_18724fcfa6d38d 7,13,36,158,192,204,271
+guide/workflows/agent-teams-quick-start.md
+  s_9e15cec8cf2013::t_054b29e3f28f60 7,27,42,44,61,109,111,157,196,253,321,336,353,384,393,402,411,421,423,433,468,494,496,506,538,580
+guide/workflows/agent-teams.md
+  s_9e15cec8cf2013::t_9603b1c4d9ec27 7,22,30,47,62,74,89,93,109,122,130,154,171,173,197,215,248,265,285,299,318,355,382,384,396,429,453,488,531,560,590,592,606,637,682,684,707,736,765,785,817,842,844,860,893,919,966,968,1014,1052,1077,1102,1139,1162,1182,1204,1329,1370,1397,1419,1445,1462,1476,1486,1492,1518,1528,1538,1544,1619,1709,1749,1796,1875,1935,1960,1987
+guide/workflows/agentic-software-factories.md
+  s_d6b910c42dc21c::t_6e7a7d0679e9b5 7,17,53
+guide/workflows/ai-assisted-open-source-contributions.md
+  s_9e15cec8cf2013::t_f78174c839d282 7
+guide/workflows/best-of-n.md
+  s_9e15cec8cf2013::t_368aa3e388165f 7
+guide/workflows/changelog-fragments.md
+  s_9e15cec8cf2013::t_7937b055d24548 6,12,24,28,76,102,137,170,186
+guide/workflows/code-review.md
+  s_9e15cec8cf2013::t_e3c1366e314e51 7,49,53
+guide/workflows/cross-session-messaging.md
+  s_9e15cec8cf2013::t_f7da0f791356cb 7
+guide/workflows/design-to-code.md
+  s_d6b910c42dc21c::t_4d87c50f4cc27f 7,15,44,65,67,85,115,125,152,161,170,201,203,263,308,364,417,421,427,453,491,532,546,557,570,572,584,596,604,612,623,635,654,656,668,679,724,741,743,761,779,799,806,824,830,838
+guide/workflows/dual-instance-planning.md
+  s_9e15cec8cf2013::t_3431ad8edc665c 7,15,42,44,53,61,73,93,118,145,149,162,169,197,421,522,614,616,626,645,647,676,686,700,743
+guide/workflows/dynamic-workflows.md
+  s_9e15cec8cf2013::t_e009a08da1ddf5 7,22,348
+guide/workflows/event-driven-agents.md
+  s_9e15cec8cf2013::t_48e4095812caa7 7,19,33,55,90,94,98,110,114,118,128,182,214,222,235,246,260,262,266,270,276
+guide/workflows/exploration-workflow.md
+  s_9e15cec8cf2013::t_f9532f800daa1a 7,16,42,44,61,72,82,91,103,120,134,136,146,160,194,208,210,222,247,260,262,318
+guide/workflows/github-actions.md
+  s_9e15cec8cf2013::t_8b733d700f9c8a 7,15,59,82,90,128,177,213,257,295,326,367,387
+guide/workflows/gstack-workflow.md
+  s_9e15cec8cf2013::t_aae52269c326d1 7,34,47,72,88,106,130,198,213
+guide/workflows/iterative-refinement.md
+  s_9e15cec8cf2013::t_3a5f5665b44479 7,15,44,46,58,66,88,90,99,110,126,140,150,164,176,204,208,219,250,260,277,279,290,300,314,316,328,342,357,379,409,443,458,477,489,501,503,537,541,568,587,612,643,655
+guide/workflows/monitor-event-delegation.md
+  s_9e15cec8cf2013::t_c2f205c5109c2a 7
+guide/workflows/multi-provider-code-review.md
+  s_9e15cec8cf2013::t_7638f916ec278c 7,17,33,41,66,78,102,110,120,128,136,142,154
+guide/workflows/og-image-generation.md
+  s_9e15cec8cf2013::t_845a8b653fe2dd 1
+guide/workflows/pdf-generation.md
+  s_9e15cec8cf2013::t_3003ef3d08617a 7,15,46,61,95,114,127,176,192,235,245,259,307,331,345,367,383,416,446,462,472,490,506
+guide/workflows/plan-driven.md
+  s_9e15cec8cf2013::t_bbfce08857d98d 7,15,40,42,55,63,94,101,114,116,126,137,141,176,189,198,210,221,230,242,251,258,272,290,314,391,411,422
+guide/workflows/plan-pipeline.md
+  s_9e15cec8cf2013::t_366dcfbb734036 7,19,54,65,81,87,89,135,173,191,195,217,223,227,242,251,273,288,302,308,310,316,322,324,333,340,346,363
+guide/workflows/production-reliability.md
+  s_9e15cec8cf2013::t_d7e9049e788851 7,15,28,32,42,104,138,161,236,269,346,397,439,472,519,537,553
+guide/workflows/rpi.md
+  s_9e15cec8cf2013::t_bfd12d3a75f473 7,15,54,56,64,73,81,119,131,234,249,350,365,387,398,422,533,625,635,639,643,649,651,671,685,697,720,734,760
+guide/workflows/search-tools-mastery.md
+  s_9e15cec8cf2013::t_b6c181506bfdd7 17,30,47,49,67,78,89,91,104,126,150,152,188,227,268,294,339,382,482,484,493,507,533,535,551,567,587,610,627,629,714,729,770
+guide/workflows/skeleton-projects.md
+  s_9e15cec8cf2013::t_a3dcc785653d6f 7,13,32,34,82,110,137,152,167,193,205
+guide/workflows/smart-suggest-routing.md
+  s_9e15cec8cf2013::t_728d5151d11c97 7
+guide/workflows/spec-first.md
+  s_9e15cec8cf2013::t_b566151958c75e 7,15,42,75,81,108,150,152,182,212,254,256,281,290,300,312,314,342,368,385,393,404,406,416,427,429,445,457,469,473,482,491,520,567,571,581,608,638,647,680,684,688,706,743,780,824,826,837,889,947,954,1062
+guide/workflows/support-csm-agent.md
+  s_9e15cec8cf2013::t_866f802fb8ad7a 7,19,34,44,105,120,156,166,177,190,192,199,206
+guide/workflows/talk-pipeline.md
+  s_9e15cec8cf2013::t_a4cada90ee43bb 7,15,75,112,149,341,369,390,421,461,485,530
+guide/workflows/task-management.md
+  s_9e15cec8cf2013::t_4725068aa883a2 7,30,52,56,69,82,137,141,147,166,188,215,219,229,265,283,312,316,333,367,371,388,439,441,456,458,465,487,505,525,527,529,543,556,573,592,614,628,650,741,745,786,798,853
+guide/workflows/tdd-with-claude.md
+  s_9e15cec8cf2013::t_56067cf5977df0 15,39,70,84,86,112,130,146,164,177,200,212,214,244,269,271,282,291,313,315,349
+guide/workflows/team-ai-instructions.md
+  s_9e15cec8cf2013::t_f07d0a253fea38 7,44,73,106,144,178,221,263,300,311
+guide/workflows/tts-setup.md
+  s_9e15cec8cf2013::t_aab82459dd4b66 7,16,37,55,71,84,100,102,114,135,151,166,194,210,232,249,265,269,271,304,317,326
+scripts/generate-audit-report.py
+  s_9e15cec8cf2013::t_fc7fb9b98792ad 85,91,101,186
+scripts/generate-template-catalog.py
+  s_9e15cec8cf2013::t_29b856ed1fe745 165,197,216,235
+scripts/preprocess-guide.py
+  s_9e15cec8cf2013::t_35f0e49c1ff360 57,63
+scripts/resync-reference-yaml.py
+  s_9e15cec8cf2013::t_412f0beea335d0 623
+tools/README.md
+  s_9e15cec8cf2013::t_ab4159964fa937 1,27
+tools/audit-cheatsheet-prompt.md
+  s_9e15cec8cf2013::t_d85796814eb1ab 1,11,29,45,47,58,62,68,431
+tools/audit-prompt.md
+  s_9e15cec8cf2013::t_9962a1316ad174 1,11,34,51,53,64,68,72,81,533,556,558,578,594,623,632,642,680
+tools/context-audit-prompt.md
+  s_9e15cec8cf2013::t_76c40e3b6386b9 1,11,26,43,45,56,60,64,73,443,447,466,477,506,534
+tools/mobile-access.md
+  s_9e15cec8cf2013::t_03bd6e45c786cb 1,10,39,41,88,90,111,185,201,229,240,253,312,329,356
+tools/onboarding-prompt.md
+  s_9e15cec8cf2013::t_8427b4356f2d2b 1,11,27,42,60,322,371,382
+tools/permissions-audit-prompt.md
+  s_9e15cec8cf2013::t_5b6e6abc40c072 1,104
+tools/spec-completeness-audit.md
+  s_9e15cec8cf2013::t_d99a731bf16e76 1,12,23,94,113,336,338,347,351
+whitepapers/en/00-series-introduction.qmd
+  s_9e15cec8cf2013::t_ba5fbbf0d3dcb7 109,122,132,146,162,194,202,223,243,272,376,410,433,454
+whitepapers/en/01-effective-prompts.qmd
+  s_d6b910c42dc21c::t_d25317f108e4e3 43,45,57,71,81,94,115,125,142,153,182,184,195,218,222,232,242,257,280,318,372,378,391,438,488,492,506,526,544,562,566,581,597,641,660,662,686,703,743,765,789,791,815,819,837,862,880,919,921,935,947,969,1009,1050,1054,1079,1122,1132,1143,1164
+whitepapers/en/02-customization.qmd
+  s_d6b910c42dc21c::t_d7577bb571fbc3 43,57,73,86,120,122,153,214,250,321,352,367,378,382,420,431,447,482,486,517,529,570,597,609,611,691,699,741,745,767,786,805,874,908,923,925,929,949,959,988,1020,1066,1104,1142,1144,1198,1216,1231,1281,1303,1318,1366,1385
+whitepapers/en/03-security.qmd
+  s_d6b910c42dc21c::t_fc2f1abfaf7426 43,57,59,75,86,99,111,115,127,150,182,184,234,245,249,262,287,291,323,346,379,402,496,510,526,536,542,544,576,606,712,730,743,769,831,841,919,921,923,942,952,972,990,992,1004,1064,1066,1085,1102,1104,1113,1124,1145,1168,1180,1203
+whitepapers/en/04-architecture.qmd
+  s_d6b910c42dc21c::t_1413bab35a9548 43,57,70,78,90,112,114,125,146,161,183,203,214,227,243,245,267,278,284,296,304,312,327,352,372,393,416,433,449,453,470,481,490,505,511,551,562,575,589,623,632,658,662,680,696,733,737,758,785,789,798,812,820,837,860,872,893
+whitepapers/en/05-team.qmd
+  s_d6b910c42dc21c::t_e4bc693bf3679e 43,47,58,72,74,83,93,115,148,154,179,187,189,199,232,258,268,290,311,344,365,386,401,403,427,492,520,567,579,654,656,658,690,698,721,732,766,783,817,821,863,883,896,913,931,946,963,965,978,980,988,998,1007,1025,1042,1061,1072,1074,1078,1097,1114,1162,1183,1195,1205,1226
+whitepapers/en/06-privacy.qmd
+  s_9e15cec8cf2013::t_9993c70dc17a9c 43,71,86,113,129,131,148,154,182,207,223,242,254,267,315,327,354,366,381,402,404,416,426,446,454,470,476,478,491,502,512,519,543,564,570,574,592,601,650,662,677,699
+whitepapers/en/07-reference-guide.qmd
+  s_d6b910c42dc21c::t_e339b41f66acea 56,68,97,103,113,124,151,174,176,185,197,203,207,224,240,260,279,281,291,301,311,323,353,355,363,371,390,394,409,428,432,434,446,466,494,526,545,557,563,573,575,614,638,651,663,665,714,720,729,733,765,795,801,834,862,889,906,955,961,965,983,1017,1021,1031,1050,1054,1085,1087,1104,1115,1119,1128,1147,1160,1169,1199,1216,1224,1238,1276,1299,1330,1383,1420,1426,1442,1444,1453,1463,1481,1511,1521,1525,1536,1550,1556,1570,1658,1729,1744,1760,1796,1802,1814,1837,1850,1869,1899,1915,1917,1939,1966,1981,2043,2056,2064,2076,2085,2117,2172,2174,2187,2200,2213,2228,2244,2261,2275,2316
+whitepapers/en/08-agent-teams.qmd
+  s_d6b910c42dc21c::t_ae07879f1b9eaa 51,58,72,93,95,101,127,136,162,192,196,213,230,247,266,305,307,319,355,366,389,426,454,489,491,507,546,578,580,629,679,706,726,750,780,806,832,858,882,884,896,932,934,957,979,981,1007,1038,1069,1092,1108,1110,1132,1146,1158,1188,1223,1225,1263,1277,1296,1311,1319,1395,1456,1566,1571,1573,1577,1585,1593,1600,1607,1619,1627,1635,1678,1725,1771,1789,1791,1805,1815,1837,1845,1855,1859,1932,2020,2058,2103,2180,2238,2266
+whitepapers/en/09-learning-with-ai.qmd
+  s_9e15cec8cf2013::t_3439fc5cb5948f 57,72,74,107,123,144,146,162,188,190,212,240,256,271,325,335,346,352,356,372,396,406,415,452,456,467,473,479,501,540,575,594,605,619,621,634,646,660,676,685,697,701,711,724,728,734,749,772,774,798,807,820,850,890,901,903,920,926,937,948,958,960,970,979,988,996,998,1032,1055,1072,1074,1094,1101,1109,1118,1129,1142
+whitepapers/en/10-ai-budget.qmd
+  s_9e15cec8cf2013::t_efb8f8cdfc093d 39,57,65,71,85,87,97,101,105,196,198,240,256,274,300,314,326,338,340,356,360,376,384,386,394,400,407,418,425,432,503,537,548
+whitepapers/en/11-team-metrics.qmd
+  s_d6b910c42dc21c::t_73c39812540019 44,52,58,62,72,82,92,100,108,114,140,146,152,164,168,174,180,186,192,198,202,208,220,233,249,260,266,272,276,280,286,292,304,308,326,349,362,401,415,427,431,447,451,461,467,473,477,485,491,497,503,507,513,542,546,553
+whitepapers/en/12-agent-engineering.qmd
+  s_9e15cec8cf2013::t_79199d085bd3e8 45,78,118,150,162,166,174,182,198,202,229,237,269,311,341,351,367
+whitepapers/en/cheatsheet.qmd
+  s_9e15cec8cf2013::t_e5a837937a4f85 23,33,64,83,91,110,134,151,169,179,186,198,212,230,246,257,296,298,324,326,361
+whitepapers/fr/00-introduction-serie.qmd
+  s_9e15cec8cf2013::t_d9ddc9d865efbf 109,122,132,162,225,392
+whitepapers/fr/01-prompts-efficaces.qmd
+  s_d6b910c42dc21c::t_fec99ac5bf7167 44,74,86,99,149,189,225,325,499,503,517,537,555,573,590,594,609,625,692,773,819,894,981,1003,1045,1049,1143
+whitepapers/fr/02-personnalisation.qmd
+  s_d6b910c42dc21c::t_ee5c05e92da697 57,369,380,420,447,482,610,698,744,764,871,920,926,946,997,1043,1081,1120,1259,1336
+whitepapers/fr/03-securite.qmd
+  s_d6b910c42dc21c::t_194bb4f82e816d 57,99,107,123,148,150,234,259,318,351,445,457,483,499,526,632,652,834,873,885,917,1017,1037,1082,1102
+whitepapers/fr/04-architecture.qmd
+  s_9e15cec8cf2013::t_fc1fcbe50d445d 43,45,119,151,187,207,302,351,424,463,478,484,531,539,554,583,622,729,752,754,784,807,822
+whitepapers/fr/05-equipe.qmd
+  s_d6b910c42dc21c::t_20323a31f9c52f 83,150,175,185,187,197,230,365,399,428,457,522,550,597,609,686,688,728,814,850,854,938,971,996,1004,1023,1050,1079,1111,1113,1134,1220,1232,1255
+whitepapers/fr/06-privacy.qmd
+  s_9e15cec8cf2013::t_f4f14bd8fe45f9 43,69,129,147,187,228,272,354,492,502,511,552,558,637,662,677
+whitepapers/fr/07-guide-reference.qmd
+  s_d6b910c42dc21c::t_5aa2842f7706c0 68,97,103,113,124,187,199,219,284,322,417,429,435,445,526,538,606,610,642,672,678,726,781,841,845,874,909,911,928,939,943,952,971,1010,1028,1058,1068,1072,1083,1257,1305,1313,1335,1404,1432,1501,1555,1683,1762,1764,1777,1790,1803,1818,1855
+whitepapers/fr/08-agent-teams.qmd
+  s_9e15cec8cf2013::t_8d1cd75616667f 73,103,111,231,336,420,623,668,682,684,779,808,854,866,887,1091,1137,1155,1157,1171,1181
+whitepapers/fr/09-apprendre-avec-ia.qmd
+  s_d6b910c42dc21c::t_5b6069609cc999 72,74,107,146,162,188,190,212,256,354,358,374,398,417,483,505,605,632,645,657,671,687,708,712,722,739,745,760,784,786,812,821,864,904,915,1015,1049,1073,1090,1092,1112,1119,1136
+whitepapers/fr/10-budget-ia.qmd
+  s_9e15cec8cf2013::t_0de444ac16bcb3 175,233,275
+whitepapers/fr/11-team-metrics.qmd
+  s_9e15cec8cf2013::t_6dbc736f53209a 70,80,90,98,112,172,178,196,200,280,286,292,401,431,542
+whitepapers/fr/12-agent-engineering.qmd
+  s_9e15cec8cf2013::t_a440fea6665513 148,170,293,489
+whitepapers/fr/fiches/fiche-01-prompts.qmd
+  s_9e15cec8cf2013::t_c259807de384fc 3
+whitepapers/fr/fiches/fiche-04-architecture.qmd
+  s_9e15cec8cf2013::t_2e01ea41a7bbee 3
+whitepapers/fr/fiches/fiche-06-privacy.qmd
+  s_9e15cec8cf2013::t_ef196b6c6f9af2 3
+whitepapers/fr/fiches/fiche-08-agent-teams.qmd
+  s_9e15cec8cf2013::t_fe23dba3a289be 3
+whitepapers/recap-cards/en/01-commandes-essentielles.qmd
+  s_9e15cec8cf2013::t_24f6c886899902 18,32,44,54,71,79,87,97
+whitepapers/recap-cards/en/03-permission-modes.qmd
+  s_9e15cec8cf2013::t_c9c1509be7c7b2 18,34,66,78,91
+whitepapers/recap-cards/en/04-context-management.qmd
+  s_9e15cec8cf2013::t_2ea3a7c11dbff4 32,41,54,62
+whitepapers/recap-cards/en/06-hierarchie-configuration.qmd
+  s_9e15cec8cf2013::t_0df2e3987aa496 18,29,58,74
+whitepapers/recap-cards/en/25-erreurs-courantes.qmd
+  s_9e15cec8cf2013::t_10014553f46472 18,62
+whitepapers/recap-cards/en/c01-trust-calibration.qmd
+  s_9e15cec8cf2013::t_b6356d5f2941ff 65
+whitepapers/recap-cards/en/c02-prompting-basics.qmd
+  s_9e15cec8cf2013::t_63c11a7a75224c 17
+whitepapers/recap-cards/en/c04-commands-skills-plugins-agents.qmd
+  s_9e15cec8cf2013::t_c0cffa645754a6 18,49,65,73,90
+whitepapers/recap-cards/en/c07-conventions-equipe-scale.qmd
+  s_9e15cec8cf2013::t_878ea0c2d0c5c5 24
+whitepapers/recap-cards/en/c10-ai-traceability.qmd
+  s_9e15cec8cf2013::t_1851c4f027de87 75
+whitepapers/recap-cards/en/c12-agent-sdk-integrations-ide.qmd
+  s_9e15cec8cf2013::t_2cd8a0ed990162 18,28,38
+whitepapers/recap-cards/en/c14-agent-harness-map.qmd
+  s_9e15cec8cf2013::t_c21b258bbf777a 17,32,40,52
+whitepapers/recap-cards/en/m01-workflow-quotidien.qmd
+  s_9e15cec8cf2013::t_8522fd9a9efe54 18,34,48,65,74,88
+whitepapers/recap-cards/en/m03-sessions-continuité.qmd
+  s_9e15cec8cf2013::t_55f4fb71d69191 18,36,50,56,65,69,77
+whitepapers/recap-cards/en/m04-compact-vs-clear.qmd
+  s_9e15cec8cf2013::t_ffcf4122aebabc 18,29,33,46,59,69,79
+whitepapers/recap-cards/en/m05-plan-mode.qmd
+  s_9e15cec8cf2013::t_83686efefd3826 28,34,47,57,72,84
+whitepapers/recap-cards/en/m08-agents-custom.qmd
+  s_9e15cec8cf2013::t_b218f2b1cb7d01 63
+whitepapers/recap-cards/en/m09-slash-commands.qmd
+  s_9e15cec8cf2013::t_052b5aaf0297d1 95
+whitepapers/recap-cards/en/m10-skills.qmd
+  s_9e15cec8cf2013::t_bd78edb5bd9021 32,57,68
+whitepapers/recap-cards/en/m11-hooks-evenements-systeme.qmd
+  s_9e15cec8cf2013::t_aff58f04b21f4f 83
+whitepapers/recap-cards/en/m14-plan-validate-execute.qmd
+  s_9e15cec8cf2013::t_f11215fcc96da4 70
+whitepapers/recap-cards/en/m15-tdd-bdd-sdd.qmd
+  s_9e15cec8cf2013::t_a62cb39d269934 27,46,83,89
+whitepapers/recap-cards/en/m16-multi-agent-topologie.qmd
+  s_9e15cec8cf2013::t_dc6e262e79e46d 75,92
+whitepapers/recap-cards/en/m17-multi-agent-communication-trust.qmd
+  s_9e15cec8cf2013::t_83aaf337fe4de9 81
+whitepapers/recap-cards/en/m18-event-driven-agents.qmd
+  s_9e15cec8cf2013::t_7b2b9f3f48ab8d 62
+whitepapers/recap-cards/en/m19-github-actions.qmd
+  s_9e15cec8cf2013::t_267ce19792ca17 32
+whitepapers/recap-cards/en/t02-mode-non-interactif.qmd
+  s_9e15cec8cf2013::t_fc30a9b5738eb1 81
+whitepapers/recap-cards/en/t08-auto-memories.qmd
+  s_9e15cec8cf2013::t_e4cd795de3f3d2 50
+whitepapers/recap-cards/en/t18-modeles-thinking-modes.qmd
+  s_9e15cec8cf2013::t_40a716183b3695 17,30,42,54
+whitepapers/recap-cards/en/t19-context-window-200k-1m.qmd
+  s_9e15cec8cf2013::t_eddd6effc3ffc0 17,28,34,50,58
+whitepapers/recap-cards/en/t20-token-optimization.qmd
+  s_9e15cec8cf2013::t_e6b4877574c207 18,32,36,47,57,71,87
+whitepapers/recap-cards/en/t21-fast-mode-api.qmd
+  s_9e15cec8cf2013::t_498ca8663b080c 17,28,38,56
+whitepapers/recap-cards/en/t22-third-party-tools.qmd
+  s_9e15cec8cf2013::t_43c1158c9a6483 18,38,48,64,73,81,90
+whitepapers/recap-cards/fr/03-permission-modes.qmd
+  s_9e15cec8cf2013::t_91358add99ccee 18,91
+whitepapers/recap-cards/fr/06-hierarchie-configuration.qmd
+  s_9e15cec8cf2013::t_aa0a2342c912e1 58,84
+whitepapers/recap-cards/fr/c01-trust-calibration.qmd
+  s_9e15cec8cf2013::t_23a54eda9be004 65
+whitepapers/recap-cards/fr/c02-prompting-basics.qmd
+  s_9e15cec8cf2013::t_06400a7dcbbe95 18
+whitepapers/recap-cards/fr/c07-conventions-equipe-scale.qmd
+  s_9e15cec8cf2013::t_5ca1a9dee6de1a 24
+whitepapers/recap-cards/fr/c10-ai-traceability.qmd
+  s_9e15cec8cf2013::t_9f102741203844 75
+whitepapers/recap-cards/fr/m01-workflow-quotidien.qmd
+  s_9e15cec8cf2013::t_f301c5b2491869 65
+whitepapers/recap-cards/fr/m03-sessions-continuité.qmd
+  s_9e15cec8cf2013::t_2758239b40b61c 50,77
+whitepapers/recap-cards/fr/m04-compact-vs-clear.qmd
+  s_9e15cec8cf2013::t_3207109f14cdb3 18,33,46,69,79
+whitepapers/recap-cards/fr/m05-plan-mode.qmd
+  s_9e15cec8cf2013::t_20f4e982f5c689 28,34,57,72
+whitepapers/recap-cards/fr/m08-agents-custom.qmd
+  s_9e15cec8cf2013::t_c6179fed7f8fd1 63
+whitepapers/recap-cards/fr/m09-slash-commands.qmd
+  s_9e15cec8cf2013::t_2425b834e0a6a7 93
+whitepapers/recap-cards/fr/m10-skills.qmd
+  s_9e15cec8cf2013::t_b3ad61012eba2d 58
+whitepapers/recap-cards/fr/m14-plan-validate-execute.qmd
+  s_9e15cec8cf2013::t_9e0c6f7dc89b42 70
+whitepapers/recap-cards/fr/m15-tdd-bdd-sdd.qmd
+  s_9e15cec8cf2013::t_9e553fd05f216f 27,46,83
+whitepapers/recap-cards/fr/m18-event-driven-agents.qmd
+  s_9e15cec8cf2013::t_ddbdf66fc07ae8 62
+whitepapers/recap-cards/fr/m19-github-actions.qmd
+  s_9e15cec8cf2013::t_6e4e1dca84c476 32
+whitepapers/recap-cards/fr/t02-mode-non-interactif.qmd
+  s_9e15cec8cf2013::t_0f4de538159f8d 81
+whitepapers/recap-cards/fr/t08-auto-memories.qmd
+  s_9e15cec8cf2013::t_de716ecec5ce3a 50
+whitepapers/recap-cards/fr/t20-token-optimization.qmd
+  s_9e15cec8cf2013::t_c8ea46ce6af938 36
+whitepapers/recap-cards/fr/t22-third-party-tools.qmd
+  s_9e15cec8cf2013::t_a53b0ae4ae02bf 38,48,64,90
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "11fa8f307a90a62dbc99eed25ba4d3a5477bb14b",
+  "prompts": {},
+  "sessions": {
+    "s_9e15cec8cf2013": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ee55b5e6-c13f-4366-8ef6-02c6713eec4b",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_d6b910c42dc21c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "54c1be32-96ed-400e-9ea7-7dd550b0fdbb",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

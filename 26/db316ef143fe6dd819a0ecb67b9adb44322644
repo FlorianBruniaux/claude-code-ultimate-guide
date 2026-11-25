@@ -1,0 +1,63 @@
+CHANGELOG.md
+  s_d1d495428ad5fe::t_d0b3ddf464859d 15-24
+docs/resource-evaluations/README.md
+  s_44d586a9075e5e::t_bc65f8e2847551 83-85,93
+docs/resource-evaluations/fusion-multi-agent-orchestrator.md
+  s_44d586a9075e5e::t_0627e5f372edb7 1-148
+docs/resource-evaluations/ia-qa-cli-llm-testing.md
+  s_79850fc432f518::t_7c3ee2e9d8d45c 1-167
+docs/resource-evaluations/liza-mas-framework.md
+  s_44d586a9075e5e::t_8e46d40c4f6b0a 1-152
+guide/README.md
+  s_d1d495428ad5fe::t_f41fc70bb13d6e 113
+guide/ecosystem/agentic-tools.md
+  s_d1d495428ad5fe::t_c59600cb35701c 3-4,31-34,589-620,673-738,752,755-759,777-780,804
+guide/ops/ai-unit-economics.md
+  s_8cb65101c5656f::t_4281e7fddf8eff 121,173-174,179
+guide/workflows/agentic-software-factories.md
+  s_d1d495428ad5fe::t_c9f2ac2c9b600e 1-127
+guide/workflows/spec-first.md
+  s_d1d495428ad5fe::t_f0b4ba5ea6e823 972,977-989,1005
+machine-readable/reference.yaml
+  s_d1d495428ad5fe::t_55d8830fdcde48 690,694-696,958-969
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "26db316ef143fe6dd819a0ecb67b9adb44322644",
+  "prompts": {},
+  "sessions": {
+    "s_44d586a9075e5e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3a5cd187-9fad-47ff-a92f-93e751818501",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_79850fc432f518": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "08a3290f-4072-41ab-a9ac-ccfbd7776cf6",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_8cb65101c5656f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "78afca4d-720a-44d2-9f77-a122efbc13f4",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_d1d495428ad5fe": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1d182dca-4cd0-4000-afd6-9c92c63115f4",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+CHANGELOG.md
+  s_73ab09d8e049db::t_87c701c37d7695 9-10
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "48c3fd705fc6063fec7dd331bb7af0308f386fd9",
+  "prompts": {},
+  "sessions": {
+    "s_73ab09d8e049db": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a13409-d15d-7761-b3b8-0fcd083b1f73",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

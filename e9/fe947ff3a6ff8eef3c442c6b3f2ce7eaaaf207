@@ -1,0 +1,29 @@
+CHANGELOG.md
+  s_e1805c6e8b625d::t_72830d55a143a2 15-16,19
+docs/resource-evaluations/README.md
+  s_e1805c6e8b625d::t_f52d682019352a 86-87,95
+docs/resource-evaluations/diffmem-git-native-memory.md
+  s_e1805c6e8b625d::t_79aaae94915ccf 1-93
+guide/core/credits.md
+  s_e1805c6e8b625d::t_81a273f878dd2a 97-115
+guide/core/memory-systems.md
+  s_e1805c6e8b625d::t_fc0c659f8da11c 36-38,545-569,588,601-602,734-735,1095-1096,1117-1119,1145-1147
+machine-readable/reference.yaml
+  s_e1805c6e8b625d::t_37997017d5833d 164-165
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "e9fe947ff3a6ff8eef3c442c6b3f2ce7eaaaf207",
+  "prompts": {},
+  "sessions": {
+    "s_e1805c6e8b625d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8457c43e-1ee3-4e85-9f75-603a7f6c909e",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

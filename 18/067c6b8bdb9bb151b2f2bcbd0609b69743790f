@@ -1,0 +1,19 @@
+.superpowers/sdd/2026-08-31-learning-priorities-implementation/task-3-report.md
+  s_95392a6b844626::t_3a758bceb54f2e 1-82
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "18067c6b8bdb9bb151b2f2bcbd0609b69743790f",
+  "prompts": {},
+  "sessions": {
+    "s_95392a6b844626": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a04821-7023-7112-aeb8-f4aa59348ce9",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

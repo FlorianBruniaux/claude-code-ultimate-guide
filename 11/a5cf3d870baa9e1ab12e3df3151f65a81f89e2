@@ -1,0 +1,95 @@
+docs/resource-evaluations/README.md
+  s_0df90997879182::t_2a6caf9b6e8502 40,108
+docs/resource-evaluations/databricks-managing-ai-coding-costs-scale.md
+  s_d812a5cba40e21::t_d84f135c76b13f 1-99
+guide/core/agent-harness.md
+  s_1c04bf45bace81::t_b4f26187aa8aa0 87,524-525
+guide/core/glossary.md
+  s_0dc2862ef80535::t_de1e63a59935b5 152
+guide/diagrams/09-cost-and-optimization.md
+  s_aeebbf2fc2680c::t_cd7c99bef90110 15,24,27,31,59,70,77-78,80,103,107,111,115,119,148-152,160-164,264,273,281,289,296-297,300,312,315,318,320-322,331,333,335,337,339
+guide/ecosystem/agent-harness-landscape.md
+  s_1c04bf45bace81::t_7bc530e70d713e 199
+guide/ops/ai-unit-economics.md
+  s_2efec322df84ae::t_270907f98ad0f6 3,150,154,156-168,184-185,218-226,228,230-232,240-241,279
+guide/ops/api-gateway.md
+  s_785221fef14e1f::t_a75b9bf2b43309 3,23-24,188-203,250-251,335,349
+guide/ops/subscription-strategy.md
+  s_2efec322df84ae::t_34ceeca9bfedf2 22,118,180-181,188-189,205,230,270,287,293,302,331
+machine-readable/reference.yaml
+  s_c2174b9e521e6b::t_fec11d7c9ae6ee 192,486,488-490,502-503,1901
+mcp-server/content/reference.yaml
+  s_c2174b9e521e6b::t_a3889e9908c900 192,486,488-490,502-503,1901
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "11a5cf3d870baa9e1ab12e3df3151f65a81f89e2",
+  "prompts": {},
+  "sessions": {
+    "s_0dc2862ef80535": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a05948-f3b4-7723-8bcd-abb99da006c9",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_0df90997879182": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fd73a-588d-7f03-ab50-494ca0e95848",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_1c04bf45bace81": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a05916-1377-73c0-9d6b-ca9edc3fb47e",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_2efec322df84ae": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a056aa-68dc-76c1-95fa-3e383c196e6d",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_785221fef14e1f": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0576c-628d-7c50-99b4-3750eac428eb",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_aeebbf2fc2680c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a03e20-0cfd-78b0-b1fa-bfb10ef6a72f",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_c2174b9e521e6b": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0540b-8786-76e1-9f39-ced61d0ad7b7",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_d812a5cba40e21": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a033c4-cc98-74d2-adf5-63f175b8463b",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

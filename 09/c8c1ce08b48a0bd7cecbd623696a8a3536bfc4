@@ -1,0 +1,21 @@
+guide/ultimate-guide.fr.md
+  s_5149cee0db2bb2::t_303a428fe0589c 24800,25597,26484,26497
+machine-readable/translations.json
+  s_5149cee0db2bb2::t_81ed37a41e9005 4,24,26-27,71-72,114-115,190-191
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "09c8c1ce08b48a0bd7cecbd623696a8a3536bfc4",
+  "prompts": {},
+  "sessions": {
+    "s_5149cee0db2bb2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "42678932-438d-4a77-bfac-283615695d86",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

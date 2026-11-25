@@ -1,0 +1,79 @@
+CHANGELOG.md
+  s_eaa7b024c41dd5::t_d520e9ab65a339 17-38,63,74-76,171-172
+docs/resource-evaluations/2026-02-07-paul-rayner-agent-teams-linkedin.md
+  s_d60909e31ccde3::t_ba9ce4d5065261 42
+docs/resource-evaluations/README.md
+  s_d60909e31ccde3::t_2d5b74aa0f939b 83-85,93
+docs/resource-evaluations/beyond-vibe-coding.md
+  s_d60909e31ccde3::t_df3944ea54bc64 137
+docs/resource-evaluations/fusion-multi-agent-orchestrator.md
+  s_d60909e31ccde3::t_131b81d0fef3fd 1-148
+docs/resource-evaluations/ia-qa-cli-llm-testing.md
+  s_d60909e31ccde3::t_57dd854ce9ec00 1-177
+docs/resource-evaluations/liza-mas-framework.md
+  s_d60909e31ccde3::t_2340b517fbf904 1-152
+docs/resource-evaluations/mikul-gohil-hooks-evaluation.md
+  s_d60909e31ccde3::t_130f8efdd8baa8 62-63,196
+docs/resource-evaluations/nick-jensen-plugins.md
+  s_d60909e31ccde3::t_91f5679e6e267f 137
+docs/resource-evaluations/orf-open-reasoning-format.md
+  s_d60909e31ccde3::t_f892c35ce4df2a 1-114
+docs/resource-evaluations/siddhant-khare-ai-fatigue.md
+  s_d60909e31ccde3::t_64de83e30ed628 60,195-196
+docs/resource-evaluations/system-prompts-official-vs-community.md
+  s_d60909e31ccde3::t_ee93d492ef9ef9 239
+examples/skills/eval-hooks/SKILL.md
+  s_d60909e31ccde3::t_2c847b784beb16 101
+guide/README.md
+  s_d60909e31ccde3::t_da2b2172983db4 113
+guide/core/architecture.md
+  s_d60909e31ccde3::t_f3eef81a1f6610 1891-1892
+guide/core/claude-code-releases.md
+  s_d60909e31ccde3::t_2f43c2bac1728c 14,20,29-138,2850-2851,2881-2883,2891-2893
+guide/ecosystem/agentic-tools.md
+  s_d60909e31ccde3::t_8a007c3c1a2296 3-4,31-34,589-620,673-777,791,794-798,816-819,843
+guide/ecosystem/third-party-tools.md
+  s_d60909e31ccde3::t_0cfcbdfbcd6861 11,1867-1868
+guide/ops/ai-unit-economics.md
+  s_d60909e31ccde3::t_cb10088503a96d 105-134,151,203-204,209
+guide/security/data-privacy.md
+  s_d60909e31ccde3::t_0941d29d23f7f3 198-229,423
+guide/workflows/agentic-software-factories.md
+  s_d60909e31ccde3::t_b01a69b09d9686 1-133
+guide/workflows/spec-first.md
+  s_d60909e31ccde3::t_6a7992b613f8b6 972,977-1007,1023
+machine-readable/claude-code-releases.yaml
+  s_d60909e31ccde3::t_61521b4c81835a 6-7,18-75,1644,1647-1649,1658-1660
+machine-readable/reference.yaml
+  s_d60909e31ccde3::t_aebba5ce4be4d3 392,534,692,696-698,960-971
+mcp-server/content/claude-code-releases.yaml
+  s_d60909e31ccde3::t_52abb8a51604a6 6-7,18-75,1644,1647-1649,1658-1660
+mcp-server/content/reference.yaml
+  s_d60909e31ccde3::t_d48c8736bbfc13 7,294-298,392,534,568-571,692,696-698,943-972,974-975,978-979
+mcp-server/package.json
+  s_d60909e31ccde3::t_9351770ddf6e15 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "dad5a6d137708b73cc5d9c22efa68217fae36f80",
+  "prompts": {},
+  "sessions": {
+    "s_d60909e31ccde3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9caec40b-5230-4d77-816f-dfd4de36c4e0",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_eaa7b024c41dd5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a48d0498-cb25-4b2d-ae23-61afb07f378f",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

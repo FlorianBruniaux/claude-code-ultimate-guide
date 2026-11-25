@@ -1,0 +1,21 @@
+CHANGELOG.md
+  s_b300c6b453e28d::t_9d5595ae3421e1 11-14,23-24
+guide/workflows/tdd-with-claude.md
+  s_b300c6b453e28d::t_d9d7f72de81d3f 188-193
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "c9eb1829c11a3e18ab2f5074691e8897ed4133e5",
+  "prompts": {},
+  "sessions": {
+    "s_b300c6b453e28d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bc65c768-be3c-4bef-849a-105c06a52c8f",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

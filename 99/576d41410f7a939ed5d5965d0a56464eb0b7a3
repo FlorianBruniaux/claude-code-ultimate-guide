@@ -1,0 +1,21 @@
+guide/ecosystem/third-party-tools.md
+  s_755ee685588f9c::t_20adaa99e40fb5 1516,1591,1606
+CHANGELOG.md
+  s_755ee685588f9c::t_d5b5227a61caf2 9-10
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "99576d41410f7a939ed5d5965d0a56464eb0b7a3",
+  "prompts": {},
+  "sessions": {
+    "s_755ee685588f9c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fae34233-f38a-4902-a704-4d1d0c611340",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

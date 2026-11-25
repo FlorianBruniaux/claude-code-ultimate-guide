@@ -1,0 +1,49 @@
+whitepapers/CHANGELOG.md
+  s_d7df80c9e5143c::t_eaf7fe0c7964e9 19-22,31
+whitepapers/README.md
+  s_d7df80c9e5143c::t_3172a61fc64a29 20-21,25-26,77,83,161
+whitepapers/en/04-architecture.qmd
+  s_c1d3d14c39829d::t_17bf0c5e6d50d4 8
+whitepapers/en/07-reference-guide.qmd
+  s_d7df80c9e5143c::t_0535c1198f81dd 8
+whitepapers/en/08-agent-teams.qmd
+  s_c1d3d14c39829d::t_ff1e0cfeb5b343 8
+whitepapers/en/11-team-metrics.qmd
+  s_c1d3d14c39829d::t_feeb87bcd70f63 8
+whitepapers/fr/04-architecture.qmd
+  s_c1d3d14c39829d::t_d66dd0c3d9156c 8
+whitepapers/fr/07-guide-reference.qmd
+  s_d7df80c9e5143c::t_014e9bead5983a 8
+whitepapers/fr/08-agent-teams.qmd
+  s_c1d3d14c39829d::t_409e5463e912c1 8
+whitepapers/fr/11-team-metrics.qmd
+  s_c1d3d14c39829d::t_3b1973dfa86a94 8
+whitepapers/fr/fiches/fiche-08-agent-teams.qmd
+  s_d7df80c9e5143c::t_e8fbe0cbc8c3b0 1-24
+whitepapers/fr/fiches/fiche-12-agent-engineering.qmd
+  s_d7df80c9e5143c::t_0c83c7fe12c03f 1-25
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "e5cdd4fb5ed63ca6f069276c5b1ae86051602427",
+  "prompts": {},
+  "sessions": {
+    "s_c1d3d14c39829d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0477d-5998-7dd2-8a1c-b313bb3d2a74",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_d7df80c9e5143c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a04767-471c-7a12-a96d-d68d236950b5",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

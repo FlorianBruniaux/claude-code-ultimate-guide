@@ -1,0 +1,49 @@
+CHANGELOG.md
+  s_42e65d4075e555::t_5105babdb3b45f 13-16
+docs/resource-evaluations/README.md
+  s_42e65d4075e555::t_45972ae6ddc9eb 40
+docs/resource-evaluations/logseq-wiki-llm-wiki-port.md
+  s_42e65d4075e555::t_9b1074d40a7b98 1-66
+guide/core/memory-systems.md
+  s_42e65d4075e555::t_6e0b192aaa0c8e 914-928,966
+guide/ops/team-metrics.md
+  s_5db8177fd51cc9::t_acd5e68f09aae1 307
+guide/workflows/agentic-software-factories.md
+  s_13e3fa5d5ffade::t_12e8497a5d4831 34,40-50
+machine-readable/reference.yaml
+  s_42e65d4075e555::t_81022c2e789826 257,1262
+mcp-server/content/reference.yaml
+  s_42e65d4075e555::t_76b547019c25f4 257,1262
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "366c3a22c4cd93963bb8719c67bd10d573dac44d",
+  "prompts": {},
+  "sessions": {
+    "s_13e3fa5d5ffade": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bf261c02-4032-46c7-8c90-82790e40891c",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_42e65d4075e555": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "afce0f20-f09f-4d3e-87f0-c18508ee6c21",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_5db8177fd51cc9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "54f8a288-59e6-42c4-ae6d-85b4b534a6f4",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

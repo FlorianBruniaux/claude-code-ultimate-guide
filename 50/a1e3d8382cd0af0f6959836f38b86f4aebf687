@@ -1,0 +1,31 @@
+guide/core/claude-code-releases.md
+  s_69d378fb527c04::t_e5452dd6789ad2 14,20,29-79
+machine-readable/claude-code-releases.yaml
+  s_69d378fb527c04::t_2464a7d92fac93 6-7,18-51,1558,1566
+CHANGELOG.md
+  s_dd914174d66bf8::t_76c7a778edf71d 15,18-22
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "50a1e3d8382cd0af0f6959836f38b86f4aebf687",
+  "prompts": {},
+  "sessions": {
+    "s_69d378fb527c04": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5eb7d7ba-06d0-4a9e-85cc-6c343273adf6",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_dd914174d66bf8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "35a09f3c-07ba-4b88-816b-946af42e3ecc",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

@@ -1,0 +1,76 @@
+whitepapers/en/cheatsheet.qmd
+  s_fc3845b47fd9a6::t_f499d017607557 1-4,6,9-37,39-43,45-46,50-51,55,62-74,76,78-91,108-115,117,121-140,144-146,148-183,185,187-191,194-243,255-266,269-348
+  s_fc3845b47fd9a6::t_7c0a20f83336c1 5,7-8,38,44,47-49,52-54,56-61,75,77,92-107,116,118-120,141-143,147,184,186,192-193,244-254,267-268,349
+whitepapers/fr/cheatsheet.qmd
+  s_fc3845b47fd9a6::t_d0796fa818e0a4 3-349
+  s_7a8d0aac16b364::t_7dea7a8fc47fbf 1-2
+.claude/commands/audit-whitepapers.md
+  s_fc3845b47fd9a6::t_2a7237851a6092 122
+  s_fc3845b47fd9a6::t_997de7a92d4d8b 121
+  s_dd8a5efe130e9b::t_727d3ba916bffb 1-120,123-404
+guide/cheatsheet.md
+  s_fc3845b47fd9a6::t_c5fae39b7f0ce5 704
+CHANGELOG.md
+  s_fc3845b47fd9a6::t_9370fccce57223 9-15
+whitepapers/en/11-team-metrics.qmd
+  s_fc3845b47fd9a6::t_c2f15f642005bf 1-7,9-426
+  s_fc3845b47fd9a6::t_c2a77dc4bb04e6 8
+llms-full.txt
+  s_f35b28e8ce1146::t_3b10959cd7d8c2 21,514
+machine-readable/reference.yaml
+  s_d48bc6ed1298bd::t_f0a41202bd2452 342,346-351
+whitepapers/en/11-team-metrics.pdf
+  s_fc3845b47fd9a6::t_3629b5b160d348 1-13707
+whitepapers/en/cheatsheet.pdf
+  s_fc3845b47fd9a6::t_caa52bcc884694 1-17033
+whitepapers/fr/cheatsheet.pdf
+  s_fc3845b47fd9a6::t_04601f59ad73e8 1-17225
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.5",
+  "base_commit_sha": "df431384d72e9274f3788fffcf9a26f5fa504c98",
+  "prompts": {},
+  "sessions": {
+    "s_7a8d0aac16b364": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "696ea49d-45bf-48ac-8e7c-122303242963",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_d48bc6ed1298bd": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "77ea9f27-e72e-4737-a53c-bea9fc57c451",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_dd8a5efe130e9b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ecdc1484-e66a-45f5-9a3a-7b9399121199",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_f35b28e8ce1146": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3b3e30a3-b532-4850-8050-2e225facfd38",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_fc3845b47fd9a6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f822a6db-3c7e-4ca7-a0ab-9d3c1e888cac",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

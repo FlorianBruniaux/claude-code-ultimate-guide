@@ -1,0 +1,69 @@
+CHANGELOG.md
+  s_0df90997879182::t_26bfd698548a96 11-14
+README.md
+  s_7754953c862376::t_6bacaf18eea212 289
+docs/visual-prompts/ai-subscription-and-inference.md
+  s_bd1e403875ee43::t_1c6587a0da719f 1-122
+guide/README.md
+  s_785221fef14e1f::t_4a73127c9c5d35 133
+guide/ecosystem/local-vs-cloud-inference.md
+  s_bd1e403875ee43::t_1dfe0f5744e033 604-609
+guide/ops/api-gateway.md
+  s_bd1e403875ee43::t_8a0dae695ede49 52-53
+guide/ops/subscription-strategy.md
+  s_bd1e403875ee43::t_d8f285b6440c7b 3-4,9,11,24,29-30,228-290,299-300,302,310-330
+llms.txt
+  s_95392a6b844626::t_8f86aa0b701e09 26
+machine-readable/llms.txt
+  s_95392a6b844626::t_de2fa0fd4c0975 26
+mcp-server/content/llms.txt
+  s_95392a6b844626::t_1f8c626be27385 26
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "53647d34ac9157467d85d4d679cbc5943b26edd4",
+  "prompts": {},
+  "sessions": {
+    "s_0df90997879182": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fd73a-588d-7f03-ab50-494ca0e95848",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_7754953c862376": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a056db-d641-7e30-b80a-556c46eb5001",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_785221fef14e1f": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0576c-628d-7c50-99b4-3750eac428eb",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_95392a6b844626": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a04821-7023-7112-aeb8-f4aa59348ce9",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_bd1e403875ee43": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "953892dc-6069-48d6-8505-998f61d64787",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

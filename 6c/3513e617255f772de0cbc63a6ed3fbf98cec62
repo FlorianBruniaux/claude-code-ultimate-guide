@@ -1,0 +1,99 @@
+.github/workflows/link-check.yml
+  s_fa0a66064fa744::t_06975c58af29f3 28-29,46-50
+CHANGELOG.md
+  s_fa0a66064fa744::t_b0af475c7a09ed 11-13,34-41,566
+docs/resource-evaluations/README.md
+  s_fa0a66064fa744::t_0c03fe69ee275f 40
+docs/resource-evaluations/e2e-agentic-testing-framework.md
+  s_fa0a66064fa744::t_49c3f724eb486c 1-71
+examples/workflows/remotion-quickstart.md
+  s_fa0a66064fa744::t_73d156a8f44489 398,444
+guide/cheatsheet.md
+  s_fa0a66064fa744::t_12e02e922d24ff 688
+guide/core/context-engineering.md
+  s_fa0a66064fa744::t_83c4777545c7a1 2441
+guide/core/credits.md
+  s_fa0a66064fa744::t_0b79459a2cef5b 122
+guide/core/loop-graph-engineering.md
+  s_fa0a66064fa744::t_b0f6e7f849350d 260
+guide/core/memory-systems.md
+  s_fa0a66064fa744::t_fa07ddbfae4fac 309
+guide/core/methodologies.md
+  s_fa0a66064fa744::t_ca9cde26564d38 227,476
+guide/ecosystem/agent-harness-landscape.md
+  s_fa0a66064fa744::t_0fb47bf6081fde 156,166,263,397,497
+guide/ecosystem/agentic-tools.md
+  s_fa0a66064fa744::t_49f1e14a8282d2 786-787,790-792
+guide/ecosystem/context-engineering-tools.md
+  s_fa0a66064fa744::t_406a3ca058cdff 21,202,298,304,363,478,894
+guide/ecosystem/mcp-servers-ecosystem.md
+  s_fa0a66064fa744::t_3d894fa4ecd90b 514-548
+guide/ecosystem/practitioner-insights.md
+  s_fa0a66064fa744::t_a8834cc719e8d9 11
+guide/ecosystem/third-party-tools.md
+  s_fa0a66064fa744::t_f0f3dd9e65b324 221,223,249-284,449,2085
+guide/ops/observability.md
+  s_fa0a66064fa744::t_4ca36681806a7c 238
+guide/roles/ai-roles.md
+  s_fa0a66064fa744::t_cdcc591ed52c01 961
+guide/roles/learning-with-ai.md
+  s_fa0a66064fa744::t_640a6e4335292f 1313
+guide/security/data-privacy.md
+  s_fa0a66064fa744::t_5df875f0929843 373
+guide/ultimate-guide.fr.md
+  s_fa0a66064fa744::t_fe203c0a8aeff7 14226,14257,18088,18099,18105,18112,18229
+guide/ultimate-guide.md
+  s_fa0a66064fa744::t_6c932c3418b814 14057,14088,17882,17891,17897,17904,18021
+machine-readable/agent-harnesses-overrides.json
+  s_fa0a66064fa744::t_91aa173dcd71ec 664-683
+machine-readable/agent-harnesses.json
+  s_fa0a66064fa744::t_12dddfdb209487 3,331,333-337,363-364,8615-8619,8706-8707,11102-11106,11195-11196
+machine-readable/agent-harnesses.schema.json
+  s_fa0a66064fa744::t_3fd035a6645d0e 252-261
+machine-readable/mcp-public-runtime.json
+  s_fa0a66064fa744::t_cb42d2f4e77f52 3,6,10
+machine-readable/mcp-stats.json
+  s_fa0a66064fa744::t_1bd38c267454ca 3,5,7,11-12,16-17,20-22,25-27,30-33,36-37,1003,1168,1268,1288,1293,1429,1468,1508,1538-1668
+machine-readable/reference.yaml
+  s_1d4fd6074d3311::t_032177b0ed7ca4 461,471,995,1164,1166-1167,1172-1173,1176,1180,1183,1186,1250,1307-1310,1479,1481-1482,1484,1488,1492-1493,1496,1503,1547,1559,1561-1562,1565,1615,1638,1768,1770,1772-1776,1827,1880,1904,2477-2480,2632,2659,2710-2711
+machine-readable/translations.json
+  s_1d4fd6074d3311::t_4b0aa2be5ce471 3-4,24,26-27,51-52,56-57,60,114-115,190-191
+mcp-server/content/agent-harnesses.json
+  s_fa0a66064fa744::t_16fefee9275cdc 3,331,333-337,363-364,8615-8619,8706-8707,11102-11106,11195-11196
+mcp-server/content/reference.yaml
+  s_1d4fd6074d3311::t_0044cf0a948436 461,471,995,1164,1166-1167,1172-1173,1176,1180,1183,1186,1250,1307-1310,1479,1481-1482,1484,1488,1492-1493,1496,1503,1547,1559,1561-1562,1565,1615,1638,1768,1770,1772-1776,1827,1880,1904,2477-2480,2632,2659,2710-2711
+scripts/build-agent-harness-page.py
+  s_fa0a66064fa744::t_6d1406e229b16a 199-203,219-224,398-399
+scripts/collect-agent-harnesses-github.py
+  s_fa0a66064fa744::t_0e5387bf3294b5 113-117
+scripts/lib/agent_harnesses.py
+  s_fa0a66064fa744::t_fecfee4ba43ed7 198,241-253,634-660,740-742
+scripts/test-agent-harness-page.py
+  s_fa0a66064fa744::t_31514f51ec55b0 71-73,79-82,86-87,90-124
+scripts/test-agent-harnesses.py
+  s_fa0a66064fa744::t_ead205c77a0934 280-297,958-989
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "6c3513e617255f772de0cbc63a6ed3fbf98cec62",
+  "prompts": {},
+  "sessions": {
+    "s_1d4fd6074d3311": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9a85a0d0-a117-49fa-8bd2-b176f6dc9a02",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_fa0a66064fa744": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fcea9740-ea55-464b-921d-64b65cad38d6",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

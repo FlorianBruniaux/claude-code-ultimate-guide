@@ -1,0 +1,27 @@
+CHANGELOG.md
+  s_e5007346b6f028::t_008f6d66fcfe2f 9-10,224
+machine-readable/mcp-public-runtime.json
+  s_e5007346b6f028::t_f58d70e791e0a2 3,6,10
+machine-readable/mcp-stats.json
+  s_e5007346b6f028::t_635c9d226512df 3,5,7
+scripts/collect-mcp-stats.py
+  s_e5007346b6f028::t_f257dbdd886eb2 13,27,391-403,415
+scripts/test-collect-mcp-stats.py
+  s_e5007346b6f028::t_543ca71968ec94 14-15,45-61
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "1086583c1e33774e42002a15542c30f3b3eeeb2d",
+  "prompts": {},
+  "sessions": {
+    "s_e5007346b6f028": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a10b0e-e938-75c0-8af5-8513ebc5272f",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

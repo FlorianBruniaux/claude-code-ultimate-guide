@@ -1,0 +1,83 @@
+CHANGELOG.md
+  s_e4657147639b3d::t_8f2ed8a262101f 21-24,29-30
+docs/resource-evaluations/README.md
+  s_e4657147639b3d::t_d428a1adb40a3c 41
+docs/resource-evaluations/ai-design-pattern-crosswalks.md
+  s_e4657147639b3d::t_bbedf12573a0c5 9-10,56
+examples/hooks/bm25-routing/README.md
+  s_e4657147639b3d::t_376b18dadd51c6 7-8
+guide/core/ai-design-patterns.md
+  s_e4657147639b3d::t_b5cc1c4fcffbfc 17-18,45,47,51,55,59,86,102,105,137-138,140,153,167,182,197,224,235-237,244,262,264,280,296,310,325,329-330,342,357,367,369-372,387,402,408,412-415,423,427,431,433,439,458,470,476,480,482-483,488,490,493,495,501,505,508,521,533,546,575,589,644,646,676,701
+guide/core/architecture.md
+  s_e4657147639b3d::t_3b94f36ae5bed3 529-530
+guide/core/hooks-events-reference.md
+  s_e4657147639b3d::t_56223c8ca41452 527-528
+guide/core/memory-systems.md
+  s_e4657147639b3d::t_6e7b0d9d7dad34 332-333
+guide/ecosystem/mcp-servers-ecosystem.md
+  s_e4657147639b3d::t_6552dcecc4fdf4 2006-2007
+guide/ops/ai-traceability.md
+  s_e4657147639b3d::t_91a2038b7085ab 897
+guide/ops/observability.md
+  s_e4657147639b3d::t_92069c347bbc24 1106
+guide/security/production-safety.md
+  s_e4657147639b3d::t_ca1f2cce67f136 919
+guide/security/sandbox-isolation.md
+  s_e4657147639b3d::t_16f2403c0ddbab 631
+guide/security/sandbox-native.md
+  s_e4657147639b3d::t_a943f1fe89a00e 1051
+guide/workflows/agent-teams.md
+  s_e4657147639b3d::t_f7d29be6de3d9c 1520
+guide/workflows/best-of-n.md
+  s_e4657147639b3d::t_c461d41c3a1eb9 119-120
+guide/workflows/cross-session-messaging.md
+  s_e4657147639b3d::t_1246068ef9627d 299-300
+guide/workflows/dual-instance-planning.md
+  s_e4657147639b3d::t_fd94c91234d4b1 181
+guide/workflows/dynamic-workflows.md
+  s_e4657147639b3d::t_6e642ef6e47609 842
+guide/workflows/github-actions.md
+  s_e4657147639b3d::t_00838322559aa2 389
+guide/workflows/multi-provider-code-review.md
+  s_e4657147639b3d::t_db8dfd52dd08e0 156
+guide/workflows/plan-driven.md
+  s_e4657147639b3d::t_ab5fa633ff5fd0 424
+guide/workflows/tdd-with-claude.md
+  s_e4657147639b3d::t_ac6e7545eb30ee 351
+guide/workflows/team-ai-instructions.md
+  s_e4657147639b3d::t_c3de389189e793 327
+llms.txt
+  s_e4657147639b3d::t_02e920073f98e6 21
+machine-readable/README.md
+  s_e4657147639b3d::t_4aa92dd89158ee 130
+machine-readable/ai-design-patterns.json
+  s_e4657147639b3d::t_2d82ee0124e76c 87,93,100-111,146-157,245-256,301-317,394-400,432-433,440-451,502,527,533-546,597-613,665-681,725-731,784-804,857-873,925-941,954,970,980-981,991-1002,1054-1065,1112-1123,1144,1150-1151,1156-1172,1187,1213-1229,1262-1278,1300,1309-1327,1338,1344,1348,1356-1362,1377,1384,1396-1407,1422,1445-1461,1494-1510,1548-1559,1608,1803,1817,1885-1891,2042,2161,2175,2210,2272-2273
+machine-readable/ai-design-patterns.schema.json
+  s_e4657147639b3d::t_b39568c85d63b3 29-54,105,124
+machine-readable/llms.txt
+  s_e4657147639b3d::t_ec24776b376d23 21
+machine-readable/mcp-product.json
+  s_e4657147639b3d::t_131cea565c3433 15-16,494
+mcp-server/content/ai-design-patterns.json
+  s_e4657147639b3d::t_26d62b642aa8fa 87,93,100-111,146-157,245-256,301-317,394-400,432-433,440-451,502,527,533-546,597-613,665-681,725-731,784-804,857-873,925-941,954,970,980-981,991-1002,1054-1065,1112-1123,1144,1150-1151,1156-1172,1187,1213-1229,1262-1278,1300,1309-1327,1338,1344,1348,1356-1362,1377,1384,1396-1407,1422,1445-1461,1494-1510,1548-1559,1608,1803,1817,1885-1891,2042,2161,2175,2210,2272-2273
+mcp-server/content/llms.txt
+  s_e4657147639b3d::t_23b87192ee2be1 21
+scripts/build-ai-design-patterns.py
+  s_e4657147639b3d::t_4a98f20e0b69db 15,34-39,83-100,122,151,188-199,240-258,314,316,336,338
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "70e5226f12c396340c865425d00be64074db202b",
+  "prompts": {},
+  "sessions": {
+    "s_e4657147639b3d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8a74dfbb-37e9-436b-ad1f-75650865d964",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
