@@ -2474,6 +2474,10 @@ mcp:
   context7: "library docs lookup"
   sequential: "structured multi-step reasoning"
   playwright: "browser automation / E2E"
+  e2e_mcp_guide: "guide/ecosystem/mcp-servers-ecosystem.md#e2e-agentic-test-runner-documentation-review"  # e2e: agentic test runner and stdio MCP server (documentation review, not run)
+  e2e_mcp_install: "claude mcp add --scope project e2e -- npx e2e mcp"
+  e2e_mcp_evaluation: "docs/resource-evaluations/e2e-agentic-testing-framework.md"
+  e2e_mcp_status: "3/5, pre-1.0, vendor-authored suggestion, telemetry on by default (opt out E2E_TELEMETRY_DISABLED=1), docs read and nothing run"
   figma: "design file access, tokens, structure (official)"
   git_mcp: "version control automation (official Anthropic) - 12 tools for commits, branches, diffs, logs"
   git_mcp_guide: "guide/ecosystem/mcp-servers-ecosystem.md#git-mcp-anthropic"
