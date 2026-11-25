@@ -1565,7 +1565,7 @@ deep_dive:
   headless_pm_framework: 19482  # anchor: headless-pm-open-source
   multi_instance_implementation: "guide/ultimate-guide.md#implementation-guide-progressive-scaling"  # was 19268, drifted
   multi_instance_monitoring: "guide/ultimate-guide.md#monitoring--observability"  # was 19268, drifted
-  multi_instance_decision_matrix: 19712  # anchor: decision-matrix | Multi-instance selection matrix
+  multi_instance_decision_matrix: 19711  # anchor: decision-matrix | Multi-instance selection matrix
   # External orchestration systems
   external_orchestrators:
     gas_town:
@@ -2712,7 +2712,7 @@ hooks_session_scoped: 10136  # Session-scoped hooks (ephemeral, no settings.json
 hooks_async_support: "v2.1.0+ - add 'async: true' for non-blocking execution; 'asyncRewake: true' for background with exit-2 wakeup"
 hooks_async_use_cases: "logging, notifications, formatting, metrics (no feedback needed)"
 hooks_sync_use_cases: "validation, type checking, security (feedback required)"
-hooks_decision_matrix: 10010  # anchor: decision-matrix | Hook Execution Model
+hooks_decision_matrix: 10009  # anchor: decision-matrix | Hook Execution Model
 hooks_async_limitations: "no exit code feedback for blocking (exit 2 ignored), no real-time systemMessage, no guaranteed execution order. Note: additionalContext IS delivered on the next conversation turn after the background process exits."
 hooks_async_bug_fix: "v2.1.23 - fixed cancellation in headless streaming"
 
