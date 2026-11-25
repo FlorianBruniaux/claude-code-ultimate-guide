@@ -5768,7 +5768,6 @@ tar -xzf claude-config-YYYY-MM-DD_HH-MM-SS.tar.gz -C ~/
 
 #### Solutions de la communauté
 
-- **[brianlovin/claude-config](https://github.com/brianlovin/claude-config)** : Dépôt public avec script `sync.sh` pour les sauvegardes et la restauration
 - **Approche Martin Ratinaud** : Dépôt Git + liens symboliques + `sync-mcp.sh` pour les secrets (testé sur 504 sessions)
 - **Modèle de script** : Voir [sync-claude-config.sh](../examples/scripts/sync-claude-config.sh) pour l'automatisation complète
 
@@ -14224,7 +14223,7 @@ L'écosystème de plugins Claude Code a considérablement évolué. Voici des re
 | Marketplace | Statistiques | Focus |
 |-------------|-------------|-------|
 | [wshobson/agents](https://github.com/wshobson/agents) | 67 plugins, 99 agents, 107 skills | Workflows de développement prêts pour la production, DevOps, sécurité |
-| [claude-plugins.dev](https://claude-plugins.dev) | 11 989 plugins, 63 065 skills indexés | Registre + CLI pour la découverte de plugins |
+| [claude-plugins.dev](https://web.archive.org/web/20261105112617/https://claude-plugins.dev/) | 11 989 plugins, 63 065 skills indexés | Registre + CLI pour la découverte de plugins |
 | [claudemarketplaces.com](https://claudemarketplaces.com) | Scanne GitHub automatiquement | Répertoire de marketplaces |
 
 **Exemple d'installation (wshobson/agents) :**
@@ -14255,7 +14254,7 @@ L'écosystème de plugins Claude Code a considérablement évolué. Voici des re
 - [awesome-claude-code-plugins](https://github.com/ccplugins/awesome-claude-code-plugins) - Sélection axée sur les plugins
 - [awesome-claude-skills](https://github.com/BehiSecc/awesome-claude-skills) (9,8K étoiles au 27/07/2026, contre 5,5k) - Taxonomie axée sur les skills (62 skills dans 12 catégories)
 
-> **Source** : Statistiques issues de [claude-plugins.dev](https://claude-plugins.dev), [analyse Firecrawl](https://www.firecrawl.dev/blog/best-claude-code-plugins) (jan. 2026). Les chiffres évoluent rapidement.
+> **Source** : Statistiques issues de [claude-plugins.dev](https://web.archive.org/web/20261105112617/https://claude-plugins.dev/), [analyse Firecrawl](https://www.firecrawl.dev/blog/best-claude-code-plugins) (jan. 2026). Les chiffres évoluent rapidement.
 
 ### Plugins prêts pour la production issus de ce guide
 
@@ -18086,7 +18085,7 @@ Se déclenche également automatiquement sur des phrases comme « sois bref » o
 
 **RTK (Rust Token Killer)** filtre les sorties des commandes avant qu'elles n'atteignent le modèle. Les réductions rapportées concernent les sorties shell traitées, pas la session entière ou la facture. `rtk gain` utilise des estimations locales de tokens ; comptabilisez séparément les reprises et les résultats des tâches.
 
-Pour des hooks, la navigation dans le code et l'interception MCP plus larges, voir la [comparaison Tokenade et les limites des preuves](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ecosystem/third-party-tools.md#tokenade). Elle présente une alternative propriétaire avec des résultats de benchmark maintenus par son éditeur, pas une recommandation universelle de remplacement.
+Pour comparer d'autres optimiseurs de sortie, et savoir pourquoi les résultats publiés par leurs auteurs demandent de la prudence, voir les [benchmarks indépendants](ecosystem/context-engineering-tools.md#independent-benchmarks).
 
 **Dépôt :** [rtk-ai/rtk](https://github.com/rtk-ai/rtk) | **Site web :** [rtk-ai.app](https://www.rtk-ai.app/) | **Transparence :** l'auteur de ce guide a contribué à RTK à ses débuts et le soutient toujours, sans contribuer activement à son code aujourd'hui (il n'en est pas le créateur) ; cette recommandation n'est donc pas indépendante. Les mesures sur des tâches complètes de plusieurs études et la réponse des mainteneurs figurent dans [context-engineering-tools.md](./ecosystem/context-engineering-tools.md).
 
@@ -18097,20 +18096,20 @@ Pour des hooks, la navigation dans le code et l'interception MCP plus larges, vo
 brew install rtk
 
 # Option 2 : Cargo (toutes plateformes, utiliser --git : une autre crate "rtk" existe sur crates.io)
-cargo install --git https://github.com/rtk-ai/rtk
+cargo install --git https://github.com/rtk-ai/rtk rtk
 
 # Option 3 : Script d'installation (Linux/macOS, installe dans ~/.local/bin)
 curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/install.sh | sh
 
 # Vérifier l'installation
-rtk --version  # dernière version vérifiée le 2026-09-30 : v0.50.0
+rtk --version  # dernière version vérifiée le 2026-11-25 : v1.2.1
 ```
 
 **Mesurez l'effet sur votre travail :**
 
 Comparez des commandes équivalentes sur le même état du dépôt et conservez les sorties brutes pour le diagnostic. `rtk gain` rapporte des estimations sur les sorties shell filtrées, sans mesurer l'économie sur la facture totale. Une sortie `git log` ou des logs de tests plus courts ne prouvent pas une réduction universelle de la session. Voir [comment RTK mesure les économies](https://github.com/rtk-ai/rtk#how-savings-work).
 
-**Fonctionnalités clés (liste à la v0.28.0 ; dernière version : v0.50.0) :**
+**Fonctionnalités clés (liste à la v0.28.0 ; dernière version : v1.2.1) :**
 
 ```bash
 # Opérations Git
@@ -18227,7 +18226,7 @@ exclude_commands = ["my-interactive-tool", "fzf"]  # Ne jamais réécrire ceux-c
 Après mise à jour depuis v0.24.0 ou antérieur, exécutez `rtk init --global` pour installer le nouveau hook délégateur léger. L'ancien hook fonctionne toujours, mais ne récupèrera pas automatiquement les nouveaux mappings de commandes.
 
 ```bash
-cargo install --git https://github.com/rtk-ai/rtk          # Mettre à jour le binaire
+cargo install --git https://github.com/rtk-ai/rtk rtk          # Mettre à jour le binaire
 rtk init --global          # Remplacer le hook par le délégateur léger
 ```
 

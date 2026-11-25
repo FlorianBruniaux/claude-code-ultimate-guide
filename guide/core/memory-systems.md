@@ -306,7 +306,7 @@ A lock file prevents concurrent runs on the same project.
 
 **When Auto Dream matters**: projects where memory is written but never manually curated, active teams, long-running projects with 50+ sessions, or any context where MEMORY.md exceeds 150 lines with no cleanup. If you actively manage memory files, Auto Dream is largely redundant.
 
-**Community implementations**: [dream-skill](https://github.com/grandamenium/dream-skill) (open-source replication) and [ai-dream](https://github.com/VoidLight00/ai-dream) (alternative implementation).
+**Community implementations**: [dream-skill](https://github.com/grandamenium/dream-skill) (open-source replication).
 
 > **Full documentation**: [Auto Dream in the Ultimate Guide](../ultimate-guide.md#auto-dream-memory-consolidation-community-discovered)
 

@@ -110,7 +110,11 @@ def catalog_repository_urls(catalog: dict[str, Any]) -> list[str]:
         records = list(sets["upstream_snapshot"]["projects"]) + list(sets["guide_supplement"])
     except (KeyError, TypeError) as error:
         raise ValueError("catalog does not contain Agent Harness project sets") from error
-    urls = [canonical_repository_url(record["repository_url"]) for record in records if record.get("repository_url")]
+    urls = [
+        canonical_repository_url(record["repository_url"])
+        for record in records
+        if record.get("repository_url") and not record.get("availability")
+    ]
     if len({url.casefold() for url in urls}) != len(urls):
         raise ValueError("catalog contains a duplicate canonical GitHub repository")
     return sorted(urls, key=str.casefold)

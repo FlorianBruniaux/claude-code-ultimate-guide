@@ -958,7 +958,7 @@ Use these terms to describe depth or search for adjacent postings. Do not design
 
 ## 27. Evidence snapshot
 
-The following primary employer pages were live or indexed as current during the August 31, 2026 review. A live vacancy proves title usage at that employer on that date. It does not prove market share or future persistence.
+The following primary employer pages were live or indexed as current during the August 31, 2026 review. Postings close over time: a link that no longer resolves was live on that date, and the monthly link check skips job boards for that reason. A live vacancy proves title usage at that employer on that date. It does not prove market share or future persistence.
 
 | Role family | Cross-employer evidence sampled | Review conclusion |
 |-------------|---------------------------------|-------------------|

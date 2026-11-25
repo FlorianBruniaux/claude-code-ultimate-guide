@@ -2438,7 +2438,7 @@ RTK (Rust Token Killer) is a CLI proxy that intercepts shell command output and 
 **What it does not compress**: file reads, MCP tool results, anything not going through a Bash tool call.
 
 ```bash
-brew install rtk              # or: cargo install --git https://github.com/rtk-ai/rtk
+brew install rtk              # or: cargo install --git https://github.com/rtk-ai/rtk rtk
 rtk init --global              # installs PreToolUse hook + settings.json patch
 rtk gain                       # dashboard: tokens saved per command
 ```

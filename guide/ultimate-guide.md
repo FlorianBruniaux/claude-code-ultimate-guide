@@ -5645,7 +5645,6 @@ tar -xzf claude-config-YYYY-MM-DD_HH-MM-SS.tar.gz -C ~/
 
 #### Community solutions
 
-- **[brianlovin/claude-config](https://github.com/brianlovin/claude-config)**: Public repo with `sync.sh` script for backups and restore
 - **Martin Ratinaud approach**: Git repo + symlinks + `sync-mcp.sh` for secrets (504 sessions tested)
 - **Script template**: See [sync-claude-config.sh](../examples/scripts/sync-claude-config.sh) for full automation
 
@@ -14055,7 +14054,7 @@ The Claude Code plugin ecosystem has grown significantly. Here are verified comm
 | Marketplace | Stats | Focus |
 |-------------|-------|-------|
 | [wshobson/agents](https://github.com/wshobson/agents) | 67 plugins, 99 agents, 107 skills | Production-ready dev workflows, DevOps, security |
-| [claude-plugins.dev](https://claude-plugins.dev) | 11,989 plugins, 63,065 skills indexed | Registry + CLI for plugin discovery |
+| [claude-plugins.dev](https://web.archive.org/web/20261105112617/https://claude-plugins.dev/) | 11,989 plugins, 63,065 skills indexed | Registry + CLI for plugin discovery |
 | [claudemarketplaces.com](https://claudemarketplaces.com) | Auto-scans GitHub | Marketplace directory |
 
 **Installation example (wshobson/agents):**
@@ -14086,7 +14085,7 @@ The Claude Code plugin ecosystem has grown significantly. Here are verified comm
 - [awesome-claude-code-plugins](https://github.com/ccplugins/awesome-claude-code-plugins) - Plugin-focused curation
 - [awesome-claude-skills](https://github.com/BehiSecc/awesome-claude-skills) (9.8K stars as of 2026-07-27, was 5.5k) - Skills-only taxonomy (62 skills across 12 categories)
 
-> **Source**: Stats from [claude-plugins.dev](https://claude-plugins.dev), [Firecrawl analysis](https://www.firecrawl.dev/blog/best-claude-code-plugins) (Jan 2026). Counts evolve rapidly.
+> **Source**: Stats from [claude-plugins.dev](https://web.archive.org/web/20261105112617/https://claude-plugins.dev/), [Firecrawl analysis](https://www.firecrawl.dev/blog/best-claude-code-plugins) (Jan 2026). Counts evolve rapidly.
 
 ### Production-Ready Plugins from This Guide
 
@@ -17880,7 +17879,7 @@ Also auto-triggers on phrases like "be brief" or "less tokens please." Auto-disa
 
 **Repository:** [rtk-ai/rtk](https://github.com/rtk-ai/rtk) | **Website:** [rtk-ai.app](https://www.rtk-ai.app/) | **Disclosure:** the author of this guide contributed to RTK early on and remains a supporter, without actively contributing to its code today (not its creator), so this is not an independent recommendation; whole-task measurements from several studies, and the maintainers' response to them, are in [context-engineering-tools.md](./ecosystem/context-engineering-tools.md).
 
-For broader hooks, code navigation and MCP interception, see the [Tokenade comparison and evidence boundary](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ecosystem/third-party-tools.md#tokenade). It covers a proprietary alternative with vendor-maintained benchmark results, not a universal replacement recommendation.
+For how other output optimizers compare, and why maker-run results need care, see [independent benchmarks](ecosystem/context-engineering-tools.md#independent-benchmarks).
 
 **Installation:**
 
@@ -17889,20 +17888,20 @@ For broader hooks, code navigation and MCP interception, see the [Tokenade compa
 brew install rtk
 
 # Option 2: Cargo (all platforms, use --git: another "rtk" crate exists on crates.io)
-cargo install --git https://github.com/rtk-ai/rtk
+cargo install --git https://github.com/rtk-ai/rtk rtk
 
 # Option 3: Install script (Linux/macOS, installs to ~/.local/bin)
 curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/install.sh | sh
 
 # Verify installation
-rtk --version  # latest release checked 2026-09-30: v0.50.0
+rtk --version  # latest release checked 2026-11-25: v1.2.1
 ```
 
 **Measure the effect on your workload:**
 
 Compare equivalent commands on the same repository state and retain raw output for diagnosis. `rtk gain` reports estimates for filtered shell output, not measured savings on the entire invoice. No universal session reduction follows from a smaller `git log` or test log. See [how RTK measures savings](https://github.com/rtk-ai/rtk#how-savings-work).
 
-**Key features (listed as of v0.28.0; latest release is v0.50.0):**
+**Key features (listed as of v0.28.0; latest release is v1.2.1):**
 
 ```bash
 # Git operations
@@ -18019,7 +18018,7 @@ exclude_commands = ["my-interactive-tool", "fzf"]  # Never rewrite these
 After upgrading from v0.24.0 or earlier, run `rtk init --global` to install the new thin-delegator hook. The old hook still works, but won't pick up new command mappings automatically.
 
 ```bash
-cargo install --git https://github.com/rtk-ai/rtk  # Upgrade the correct RTK project
+cargo install --git https://github.com/rtk-ai/rtk rtk  # Upgrade the correct RTK project
 rtk init --global          # Replace hook with thin delegator
 ```
 

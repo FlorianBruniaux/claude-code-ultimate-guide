@@ -68,16 +68,59 @@ class AgentHarnessPageTests(unittest.TestCase):
             self.assertTrue(rows)
             for row in rows:
                 first_cell = row.split("|", 2)[1]
+                if "(repository not found," in first_cell:
+                    self.assertNotIn("](", first_cell)
+                    continue
                 self.assertRegex(first_cell, r"\[[^]]+\]\(https://[^)]+\)")
                 self.assertNotRegex(first_cell, r"\]\((?:\.\.?/|/guide/)")
 
     def test_all_193_directory_rows_link_to_external_projects(self):
         directory = self.builder.render_project_catalog(self.catalog)
-        rows = [line for line in directory.splitlines() if line.startswith("| [")]
+        rows = [
+            line for line in directory.splitlines()
+            if line.startswith("| ") and not line.startswith(("| Project", "| ---"))
+        ]
         self.assertEqual(193, len(rows))
         for row in rows:
             first_cell = row.split("|", 2)[1]
+            if "(repository not found," in first_cell:
+                continue
             self.assertRegex(first_cell, r"\[[^]]+\]\(https://[^)]+\)")
+
+    def test_unavailable_repositories_render_unlinked_without_stars(self):
+        unavailable = [
+            record for record in self.builder.project_index(self.catalog).values()
+            if record.get("availability")
+        ]
+        self.assertEqual(
+            {"AgentsMesh/AgentsMesh", "proliferate-ai/proliferate", "microsoft/agent-framework"},
+            {record["id"] for record in unavailable},
+        )
+        for record in unavailable:
+            cell = self.builder.render_project_cell(record)
+            self.assertNotIn("](", cell)
+            self.assertNotIn("★", cell)
+            self.assertIn("repository not found, checked 2026-11-25", cell)
+            self.assertNotIn(record["repository_url"], self.page)
+            self.assertIsNone(record["stars"])
+
+    def test_sidecar_ignores_unavailable_repositories(self):
+        catalog = {
+            "_meta": {},
+            "sets": {
+                "upstream_snapshot": {"projects": [
+                    {"repository_url": "https://github.com/owner/gone", "availability": {"status": "repository_not_found"}},
+                ]},
+                "guide_supplement": [],
+            },
+        }
+        bind_catalog_checksum(catalog)
+        sidecar = {
+            "schema_version": "1.0.0", "catalog_sha256": catalog["_meta"]["dataset_sha256"],
+            "captured_at": "2026-11-25T00:00:00Z", "repositories": [],
+        }
+        merged = self.builder.apply_github_sidecar(catalog, sidecar)
+        self.assertEqual([], merged["sets"]["guide_supplement"])
 
     def test_stars_render_only_with_repository_and_capture_date(self):
         records = self.builder.project_index(self.catalog)

@@ -235,7 +235,7 @@ claude --continue
 
 **claude-migrate-session** by Jim Weller (inspired by Alexis Laporte) automates the manual process above:
 
-- **Historical source** (before the skill was renamed): [jimweller/dotfiles](https://github.com/jimweller/dotfiles/tree/7a1d306b15de0a89ea0a809ca42fff5ad5a16e43/dotfiles/claude-code/skills/claude-migrate-session)
+- **Source**: no longer published. The `jimweller/dotfiles` repository that hosted it returns 404 (checked 2026-11-23), so the skill can no longer be installed from its author
 - **Features**: Global search with filtering, preserves `.jsonl` + subagents, uses ripgrep for performance
 - **Status**: Personal dotfiles (0 stars/forks as of Feb 2026), limited adoption
 - **Command**: `/claude-migrate-session <source> <target>`

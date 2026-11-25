@@ -224,7 +224,7 @@ Document your team's plan-first triggers:
 | **Req-Driven** | Rich artifact context (20+ artifacts) | Complex requirements | ⭐⭐ Heavy setup |
 | **DDD** | Domain language first | Business logic | ⭐⭐ Design-time |
 
-**SDD (Spec-Driven Development)**: Make intended behavior explicit before implementation and revise the spec when evidence changes the requirement. A project instruction file such as `CLAUDE.md` carries stable conventions; it is not automatically the feature specification. [Spec Kit's SDD documentation](https://github.com/github/spec-kit/blob/main/docs/concepts/sdd.md) covers both new and existing projects.
+**SDD (Spec-Driven Development)**: Make intended behavior explicit before implementation and revise the spec when evidence changes the requirement. A project instruction file such as `CLAUDE.md` carries stable conventions; it is not automatically the feature specification. [Spec Kit's SDD documentation](https://github.com/github/spec-kit/blob/main/docs/how-to/sdd.md) covers both new and existing projects.
 
 **Doc-Driven Development**: Living documentation versioned in git becomes the single source of truth. Changes to specs trigger implementation.
 
@@ -473,7 +473,7 @@ Three tools have emerged to formalize Spec-Driven Development:
 
 | Tool | Use Case | Official Docs | Claude Integration |
 |------|----------|---------------|-------------------|
-| **Spec Kit** | New and existing projects, structured specs | [Spec Kit SDD docs](https://github.com/github/spec-kit/blob/main/docs/concepts/sdd.md) | `/speckit.constitution`, `/speckit.specify`, `/speckit.plan` |
+| **Spec Kit** | New and existing projects, structured specs | [Spec Kit SDD docs](https://github.com/github/spec-kit/blob/main/docs/how-to/sdd.md) | `/speckit.constitution`, `/speckit.specify`, `/speckit.plan` |
 | **OpenSpec** | Brownfield, changes | [github.com/Fission-AI/OpenSpec](https://github.com/Fission-AI/OpenSpec) | `/openspec:proposal`, `/openspec:apply`, `/openspec:archive` |
 | **Specmatic** | API contract testing | [specmatic.io](https://specmatic.io) | MCP agent available |
 | **Spec-to-Code Factory** | Greenfield, enforcement outillé | [github.com/SylvainChabaud/spec-to-code-factory](https://github.com/SylvainChabaud/spec-to-code-factory) | Implémentation référence multi-agents (BREAK→MODEL→ACT→DEBRIEF) |

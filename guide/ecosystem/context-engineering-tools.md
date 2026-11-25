@@ -18,7 +18,7 @@ This page maps the ecosystem of tools that help you manage what enters the conte
 
 1. [The Mental Model](#1-the-mental-model)
 2. [Core Concepts](#2-core-concepts) (MVC, context rot, semantic priming, ghost tokens)
-3. [Output Compression: CLI & Tool Output](#3-output-compression-cli--tool-output) ([independent benchmarks](#independent-benchmarks), RTK, Headroom, pxpipe, tilth, shunt, Token Savior, context-mode, stacklit, Cloudflare Code Mode MCP)
+3. [Output Compression: CLI & Tool Output](#3-output-compression-cli--tool-output) ([independent benchmarks](#independent-benchmarks), RTK, Headroom, pxpipe, shunt, Token Savior, context-mode, stacklit, Cloudflare Code Mode MCP)
 4. [Prompt Compression](#4-prompt-compression) (LLMLingua, Selective Context, AutoCompressors/Gisting, RECOMP, AttnComp, TOON)
 5. [AI Gateways](#5-ai-gateways)
 6. [RAG Optimization](#6-rag-optimization)
@@ -199,7 +199,7 @@ RTK is a CLI proxy that intercepts command output before it reaches Claude's con
 | Attribute | Details |
 |-----------|---------|
 | **Source** | [github.com/rtk-ai/rtk](https://github.com/rtk-ai/rtk) |
-| **Install** | `brew install rtk`, the install script from the README, or `cargo install --git https://github.com/rtk-ai/rtk` (a different "rtk" crate exists on crates.io) |
+| **Install** | `brew install rtk`, the install script from the README, or `cargo install --git https://github.com/rtk-ai/rtk rtk` (a different "rtk" crate exists on crates.io) |
 | **Stars** | 82,094 (GitHub API, 2026-09-30), up from 69,042 on 2026-07-07, 24,397 in April 2026 and 446 in February 2026 |
 | **Integration** | Claude Code hook via `rtk init --global` |
 
@@ -295,43 +295,13 @@ ANTHROPIC_BASE_URL=http://127.0.0.1:47821 claude
 
 ### tilth
 
-tilth is an MCP server for code navigation that targets the largest single source of token usage in Claude Code sessions: file reads. Rather than returning full file contents, it provides structural navigation via tree-sitter, so the model reads shapes and relationships instead of raw text.
-
-| Attribute | Details |
-|-----------|---------|
-| **Source** | [github.com/jahala/tilth](https://github.com/jahala/tilth) |
-| **Install** | `cargo install tilth` then `tilth install claude-code` |
-| **Architecture** | MCP server, installs into Claude Code |
-| **Parser** | tree-sitter (multi-language) |
-
-The core tools it exposes:
-
-- **File read with auto-outline**: for large files, instead of the full text, returns a structural skeleton with section names and line ranges. The model requests specific ranges on demand.
-- **Symbol search**: definitions, usages, and resolved callees in a single call, replacing the grep-then-read loop.
-- **`--callers`**: all call sites of a symbol, structurally, not via text search.
-- **`--deps`**: imports and dependents of a file, useful before a refactor to understand blast radius.
-- **`grok <symbol>`**: everything about one symbol in one call: signature, callers, callees, sibling functions, associated tests.
-- **Structural diff**: change summary at the function level, not the line level.
-- **Session dedup**: symbols already shown in the session are marked `[shown earlier]` rather than re-expanded.
-
-**Benchmarks**: tilth has retired its earlier cost benchmark (v0.5.0, early-2026 models). Its README, read 2026-09-30, says that benchmark "no longer describes the tool" and that "tilth makes no cost claim"; the harness is kept under a `benchmark-archive` tag. Earlier versions of this guide quoted that benchmark's -40% cost per correct answer; do not reuse it. No third-party measurement was found.
+> **Removed in November 2026: do not install.** tilth's maintainer account no longer exists on GitHub. The source repository and the `jahala.github.io` homepage return 404, and on crates.io the `tilth` crate is now owned by a deleted account (`ghost_388354`), so nobody can publish a fix. Because the `jahala` name is free again, a new account could take over the links this entry used to point to. If you installed it, run `cargo uninstall tilth` and remove its MCP server entry (`claude mcp list` shows it). For structural file reads, see [Token Savior](#token-savior) below and [lean-ctx](third-party-tools.md#lean-ctx).
 
 Why file reads are a large target: in Marmelab's measured workload, `Read` results were 90.6% of tool-result tokens and `Bash` 6.4%, and the author of the maki agent reports reads at about 65% of his total token usage versus about 12% for bash. A smaller read does not guarantee a smaller bill, for the reasons given in [independent benchmarks](#independent-benchmarks).
 
-**Install:**
-
-```bash
-cargo install tilth
-tilth install claude-code   # registers the MCP server in Claude Code
-```
-
-No per-project configuration is needed after global install.
-
-**Comparison with lean-ctx**: Both tilth and lean-ctx use tree-sitter to compress file reads. lean-ctx operates as a hook-level redirect (intercepts native Read calls at the MCP layer), while tilth exposes explicit navigation tools the model calls directly. lean-ctx is more transparent and requires no change to how the model requests files. tilth gives the model more control over what it fetches but requires it to use the tilth tools rather than standard read operations. On teams that want the model to actively navigate code structure rather than have reads compressed passively, tilth's explicit tools fit better.
-
 ### shunt (delegation, not compression)
 
-shunt targets the same pool as tilth and lean-ctx, file reads, with a different mechanism. It does not compress what Claude reads. It keeps the file away from Claude entirely: a hook blocks the read, and a script sends the files and the question to a cheaper model, which answers with a summary. Claude only sees that summary.
+shunt targets the same pool as lean-ctx, file reads, with a different mechanism. It does not compress what Claude reads. It keeps the file away from Claude entirely: a hook blocks the read, and a script sends the files and the question to a cheaper model, which answers with a summary. Claude only sees that summary.
 
 | Attribute | Details |
 |-----------|---------|
@@ -390,7 +360,7 @@ jq -n --arg r "File is $lines lines (threshold: $MIN_LINES). Ask the bulk-reader
 
 Register it under `hooks.PreToolUse` with `"matcher": "Read"` in `.claude/settings.json`. The hook uses the current `hookSpecificOutput` format, exits silently when it has nothing to decide, and reads `agent_type` so the subagent is not blocked by the rule it serves. File reads are already resolved to absolute paths by Claude Code, so the `~` problem above does not apply to a Read hook. The trade-off stays the same as shunt's: a summary replaces the file, which is fine for "what does this module do" and wrong for "fix line 212". Measure before and after with `/cost` on the same questions, and check the answers, not only the token count.
 
-**Comparison with tilth and lean-ctx**: they cut the tokens of a read locally, without adding a model, and keep exact content available. shunt and the subagent variant replace the read with an answer from another model: larger savings on exploratory questions, lossy by construction, and useless for edits.
+**Comparison with lean-ctx**: it cuts the tokens of a read locally, without adding a model, and keeps exact content available. shunt and the subagent variant replace the read with an answer from another model: larger savings on exploratory questions, lossy by construction, and useless for edits.
 
 ### Token Savior
 
@@ -439,7 +409,6 @@ ts init --agent claude --yes   # merges hooks into ~/.claude/settings.json
 WORKSPACE_ROOTS=/your/project uvx token-savior
 ```
 
-**Comparison with tilth**: tilth (Rust, 14 languages; its cost benchmark is retired) focuses on structural code navigation and file outlines. Token Savior adds Bash output compaction and persistent cross-session memory, features tilth does not have. Choose tilth for a Rust code navigation layer with no index to maintain. Choose Token Savior if you also need Bash compaction and memory persistence across sessions.
 
 ### context-mode
 
@@ -506,7 +475,7 @@ This is a shipped production feature at a major infrastructure vendor, not a sid
 
 [claude-token-efficient](https://github.com/drona23/claude-token-efficient) (6,072 stars, GitHub API, 2026-09-30) is a single `CLAUDE.md` file that instructs Claude to generate concise responses. No binary, no MCP server, no hooks.
 
-The README's 63% figure is a word count over four prompts, single run each, which the README itself calls "a directional indicator"; its newer benchmark with the current file gives about 4%, 12% and 7% fewer output tokens on Haiku, Sonnet and Opus. THOL measured -11.6% end-to-end cost on long sessions, with an interval that crosses zero. The approach works within a real but narrow scope: if verbose model output is your primary cost driver, a style instruction in `CLAUDE.md` costs nothing to try. It cannot compress shell output, file reads, or tool responses. Those require tools like RTK, lean-ctx, Headroom, or tilth. The near-6K star count reflects genuine demand for zero-config options, not validated performance across diverse workloads.
+The README's 63% figure is a word count over four prompts, single run each, which the README itself calls "a directional indicator"; its newer benchmark with the current file gives about 4%, 12% and 7% fewer output tokens on Haiku, Sonnet and Opus. THOL measured -11.6% end-to-end cost on long sessions, with an interval that crosses zero. The approach works within a real but narrow scope: if verbose model output is your primary cost driver, a style instruction in `CLAUDE.md` costs nothing to try. It cannot compress shell output, file reads, or tool responses. Those require tools like RTK, lean-ctx, or Headroom. The near-6K star count reflects genuine demand for zero-config options, not validated performance across diverse workloads.
 
 Use it as a starting point. When you hit the ceiling, the tools above address what a `CLAUDE.md` file cannot.
 
@@ -922,7 +891,7 @@ These tools are not mutually exclusive. Langfuse for tracing plus Phoenix for RA
 | Problem | Tool |
 |---------|------|
 | Command outputs flooding context | RTK |
-| File reads consuming most of context budget | tilth, lean-ctx, or Token Savior |
+| File reads consuming most of context budget | lean-ctx or Token Savior |
 | Exploratory questions over large files, where a summary is enough | A Read hook that redirects to a Haiku subagent (the [shunt](#shunt-delegation-not-compression) pattern) |
 | Monitoring token spend | ccusage (see [Third-Party Tools](./third-party-tools.md)) |
 | Context growing too long in a session | `/compact` at 70% usage |

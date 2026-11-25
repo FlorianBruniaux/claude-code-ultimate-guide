@@ -395,7 +395,7 @@ npm run build
 |-----------|------|-----|----------|
 | **Official Resources** | Hub central | [remotion.dev/docs/resources](https://www.remotion.dev/docs/resources) | 50+ templates, intégrations, effects |
 | **Fireship Tutorial** | Vidéo (8min) | [This video was made with code](https://www.youtube.com/watch?v=deg8bOoziaE) | Intro ultra-rapide, 1M+ vues |
-| **Discord Community** | Support live | [Remotion Discord](https://discord.com/servers/remotion-809501355504959528) | 5.6K+ membres, bot AI intégré |
+| **Discord Community** | Support live | [Remotion Discord](https://remotion.dev/discord) | 5.6K+ membres, bot AI intégré |
 
 ### 📖 Tutoriels Écrits Recommandés
 
@@ -441,7 +441,7 @@ Produits réels générant des revenus avec Remotion:
 
 | Plateforme | URL | Meilleur pour | Activité |
 |------------|-----|---------------|----------|
-| **Discord** | [Remotion Discord](https://discord.com/servers/remotion-809501355504959528) | Support rapide, bot AI | ⭐⭐⭐⭐⭐ Très élevée |
+| **Discord** | [Remotion Discord](https://remotion.dev/discord) | Support rapide, bot AI | ⭐⭐⭐⭐⭐ Très élevée |
 | **GitHub Discussions** | [remotion-dev/discussions](https://github.com/orgs/remotion-dev/discussions) | Questions architecturales | ⭐⭐⭐ Modérée |
 | **Stack Overflow** | [#remotion tag](https://stackoverflow.com/questions/tagged/remotion) | Problèmes spécifiques | ⭐⭐ Faible |
 

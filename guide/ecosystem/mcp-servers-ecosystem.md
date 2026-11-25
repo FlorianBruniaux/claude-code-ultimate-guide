@@ -511,6 +511,41 @@ npm install chrome-devtools-mcp
 
 ---
 
+#### e2e (agentic test runner, documentation review)
+
+**e2e** is an Apache-2.0 TypeScript test runner for web, iOS and Android apps. A test mixes plain locators and assertions with `agent.act()` goals that an agent carries out. Its `npx e2e mcp` command is a stdio MCP server that gives a coding agent a live session on the app. It is not a drop-in alternative to the three servers above: it targets suites that run in CI, and the MCP server is one entry point to the same runner. Reviewed from its repository documentation only, not run, and not scored under the framework above (details in [the evaluation](../../docs/resource-evaluations/e2e-agentic-testing-framework.md)).
+
+**What it adds to this section**:
+
+| Capability | Source |
+|------------|--------|
+| iOS simulator and Android emulator sessions, besides Chromium, Firefox and WebKit through Playwright | Repository README |
+| Each MCP action returns the test line that repeats it, so the agent builds the test while it walks the flow | MCP server documentation |
+| A verified `agent.act` step is recorded and replayed without a model call until the app changes | Caching documentation |
+
+**Setup** (Claude Code, from the project directory):
+
+```bash
+claude mcp add --scope project e2e -- npx e2e mcp
+```
+
+The Claude Code plugin (`claude plugin marketplace add e2e-inc/e2e`) ships skills only. Its own README says the Claude Code plugin registers no MCP server, so the command above is still needed.
+
+**Caveats before adopting it**:
+
+- **Vendor-authored suggestion.** The resource was proposed by a contributor to the project (disclosed in the issue). One maintainer says in the project's Show HN post that he co-founded TesterArmy, a commercial testing platform. The framework itself is open source.
+- **Pre-1.0.** The README states that APIs and config can change between minor releases (version 0.24.0 on 2026-11-25).
+- **Replay is narrower than the headline.** Only `agent.act` steps replay, and only after a later check verifies them. `agent.assert`, `agent.waitFor` and `agent.extract` call the model on every run. `e2e init` gitignores the recordings, a stale recording makes the agent take over unless CI runs with `--strict-cache`, and retries never replay.
+- **Telemetry is on by default.** Opt out with `E2E_TELEMETRY_DISABLED=1`, `DO_NOT_TRACK=1` or `npx e2e telemetry disable`. Its documentation lists an event per MCP session with the client name and tool-call counts, and says it never sends test content, URLs or credentials; that claim was not tested here. Videos recorded through the server are not masked, and screenshots mask secure fields only.
+- **Agent steps send the screen to the model provider you configure**, after redaction.
+
+**Resources**:
+- **GitHub**: https://github.com/e2e-inc/e2e
+- **MCP server docs**: https://e2e.com/docs/mcp-server
+- **Telemetry docs**: https://e2e.com/docs/telemetry
+
+---
+
 ### DevOps & infrastructure
 
 #### Kubernetes MCP (Red Hat)

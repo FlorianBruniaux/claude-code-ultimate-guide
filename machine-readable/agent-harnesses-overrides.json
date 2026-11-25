@@ -661,6 +661,26 @@
     {"id": "liza", "project_ref": "liza-mas/liza", "source_set": "guide_supplement", "owns_loop": "no", "evidence_status": "confirmed", "evidence_url": "https://github.com/liza-mas/liza/blob/a22c12381c5d884d2586a48aaaa517bca184f9cf/specs/architecture/supervision-model.md", "source_type": "source_code_review"},
     {"id": "multica", "project_ref": "multica-ai/multica", "source_set": "guide_supplement", "owns_loop": "no", "evidence_status": "confirmed", "evidence_url": "https://github.com/multica-ai/multica/blob/7a438bd5b8bf39afd54259a7eb0971390e50a8ef/apps/docs/content/docs/how-multica-works.mdx", "source_type": "source_code_review"}
   ],
+  "unavailable_repositories": [
+    {
+      "id": "AgentsMesh/AgentsMesh",
+      "status": "repository_not_found",
+      "checked_at": "2026-11-25",
+      "evidence": "GET /repos/AgentsMesh/AgentsMesh returned HTTP 404 on 2026-11-25. The AgentsMesh organization still lists 11 public repositories, none with this name; AgentsMesh/AgentsMeshRunner is marked deprecated with the note that it moved to this repository."
+    },
+    {
+      "id": "proliferate-ai/proliferate",
+      "status": "repository_not_found",
+      "checked_at": "2026-11-25",
+      "evidence": "GET /repos/proliferate-ai/proliferate returned HTTP 404 on 2026-11-25. The proliferate-ai organization exists and lists 0 public repositories."
+    },
+    {
+      "id": "microsoft/agent-framework",
+      "status": "repository_not_found",
+      "checked_at": "2026-11-25",
+      "evidence": "GET /repos/microsoft/agent-framework returned HTTP 404 on 2026-11-25. The microsoft organization lists microsoft/agent-framework-go (Go implementation, whose README still points to the missing repository for .NET and Python) and Agent-Framework-Samples; no repository with this name or a documented successor was found."
+    }
+  ],
   "excluded_candidates": [
     {
       "id": "google/agents-cli",

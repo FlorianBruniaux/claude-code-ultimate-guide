@@ -119,7 +119,7 @@ DiffMem is documented as a case study in [memory-systems.md §3.7](memory-system
 **Host**: Bruno Soulez
 **License**: Editorial citation (no code)
 
-IFTTD is a French tech podcast (360+ episodes, 2020-2026) covering practical software engineering. Selected transcripts informed the guide, with six public-transcript additions checked on September 9, 2026: episodes 362, 363, 364, 371, 372 and 373. The [2025-2026 season synthesis](https://bilan.ifttd.io/) helped identify these additions. Practitioner Insights uses English paraphrases attributed by episode; the synthesis and its underlying episodes are not independent evidence.
+IFTTD is a French tech podcast (360+ episodes, 2020-2026) covering practical software engineering. Selected transcripts informed the guide, with six public-transcript additions checked on September 9, 2026: episodes 362, 363, 364, 371, 372 and 373. The [2025-2026 season synthesis](https://web.archive.org/web/20260911121625/https://bilan.ifttd.io/) (archived copy; the site went offline in November 2026) helped identify these additions. Practitioner Insights uses English paraphrases attributed by episode; the synthesis and its underlying episodes are not independent evidence.
 
 ### Sections drawing on IFTTD
 

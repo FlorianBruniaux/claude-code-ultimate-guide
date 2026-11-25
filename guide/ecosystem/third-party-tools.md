@@ -218,9 +218,9 @@ A CLI proxy that filters command outputs **before** they reach Claude's context.
 |-----------|---------|
 | **Source** | [GitHub: rtk-ai/rtk](https://github.com/rtk-ai/rtk) |
 | **Website** | [rtk-ai.app](https://www.rtk-ai.app/) |
-| **Install** | `brew install rtk` (recommended by the README), the install script `curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/install.sh \| sh`, or `cargo install --git https://github.com/rtk-ai/rtk` (a different "rtk" crate exists on crates.io) |
+| **Install** | `brew install rtk` (recommended by the README), the install script `curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/install.sh \| sh`, or `cargo install --git https://github.com/rtk-ai/rtk rtk` (a different "rtk" crate exists on crates.io) |
 | **Language** | Rust (standalone binary) |
-| **Version** | Latest release v0.50.0 (2026-09-30); the feature list below was written against v0.28.0 |
+| **Version** | Latest release v1.2.1 (published 2026-11-19, checked 2026-11-25); the feature list below was written against v0.28.0 |
 
 **Key features**:
 
@@ -245,6 +245,42 @@ A CLI proxy that filters command outputs **before** they reach Claude's context.
 **Limitations**: Not suitable for interactive commands or very small outputs (<100 chars).
 
 > **Cross-ref**: Full docs at [ultimate-guide.md Section 9](#command-output-optimization-with-rtk)
+
+#### RTK v1 pipelines
+
+RTK 1.0 expresses what it does as a **pipeline**: a TOML file that says when RTK acts, on what, and what it does. Every built-in behavior is written in that same grammar, and the file is agent-agnostic (RTK translates it for Claude Code, Cursor, Gemini CLI and the other agents set up with `rtk init`). Source: [pipelines overview](https://github.com/rtk-ai/rtk/blob/master/docs/guide/pipelines/overview.md).
+
+**Where a pipeline acts**:
+
+| Place | What RTK can do there | Needs |
+|-------|-----------------------|-------|
+| `hook`, inside the agent around each tool call | Before a tool runs: rewrite a shell command through `rtk`, refuse the call, or route the work to a cheaper model. After it runs: compress the output before the agent reads it | `rtk init` registers the hooks |
+| `proxy`, between the agent and the model provider | Compress blocks already in the conversation and place the cache breakpoint | The separate `rtk-proxy` daemon running |
+
+A pipeline can also carry directives (text put in front of the agent) and tasks (commands that delegate work to a cheaper model, using a model key you provide).
+
+**The default is a no-op**: the overview states that upgrading from RTK 0.51 or earlier needs no migration. `rtk:default` is the previous behavior (the shell-command rewrite, the awareness file, your `filters.toml` and `config.toml`), and `PostToolUse` is registered only if you enable `rtk:posthook`.
+
+**Six built-in pipelines** ([reference pipelines](https://github.com/rtk-ai/rtk/blob/master/docs/guide/pipelines/reference-pipelines.md)): `rtk:default`, `rtk:posthook` (compress every tool's output), `rtk:proxy` (cache alignment in the proxy), `rtk:delegate-reads` (route oversize reads to a cheaper model you configure), `rtk:verbatim-diffs`, `rtk:terse`. Print one with `rtk pipeline show <name>`.
+
+**Working example**: [`opt-in.toml`](https://github.com/rtk-ai/rtk/blob/master/examples/pipelines/opt-in.toml) from the RTK repository turns on post-tool compression and the proxy layer:
+
+```toml
+schema_version = 1
+
+[pipeline]
+extends = ["rtk:posthook", "rtk:proxy"]
+```
+
+Put it in the user pipeline file (`~/.config/rtk/pipeline.toml` on Linux, `~/Library/Application Support/rtk/pipeline.toml` on macOS) or in `.rtk/pipeline.toml` for one project (trust-gated by `rtk init`), then run `rtk init -g` again so the new `PostToolUse` hook is registered. `rtk pipeline validate` prints `hook needed: ...` until you do. `rtk:proxy` also needs the proxy daemon, which `rtk init` offers to install.
+
+**Failure behavior**: per the overview, transform rules fail open (a rule naming an unknown method gets a warning and is skipped), while control rules (deny, route, rewrite) must validate completely or the file is rejected.
+
+**Two editions**: the pipeline engine is BUSL-1.1 and ships only in the default `rtk` download (Apache-2.0 plus BUSL-1.1). The `rtk-oss` download is Apache-2.0 only and has no engine: `rtk pipeline` is absent and a `pipeline.toml` on disk is inert, while the PreToolUse rewrite hook and the command filters behave the same. The two cannot be installed side by side. The BUSL grant allows free production use but not offering RTK as a commercial product or service. Source: [editions and licensing](https://github.com/rtk-ai/rtk/blob/master/docs/guide/resources/editions.md).
+
+**Install from source**: the `proxy/` directory declares its own binary, so a bare `cargo install --git https://github.com/rtk-ai/rtk` aborts with "multiple packages with binaries found: rtk, rtk-proxy". Name the package: `cargo install --git https://github.com/rtk-ai/rtk rtk`. This was reproduced with cargo 1.96.0 on 2026-11-25 (bare form fails with that message). The corrected form was not built to completion.
+
+**Not verified here**: the savings of any pipeline (no independent measurement), the behavior of `rtk:delegate-reads` with a real model key, and the pipeline commands on a live install.
 
 ---
 
@@ -337,26 +373,6 @@ All four tools above (Claude Code Usage Monitor, claude-spend, cc-statistics, cl
 
 Tools that reduce tokens entering LLM context through compression, lazy-loading, or intelligent filtering, complementary to the tracking tools above.
 
-### Tokenade
-
-Tokenade combines local output filtering, code navigation, MCP proxying, deduplication and concise-output instructions. Coverage depends on the agent integration; Codex CLI and Codex desktop are separate entries in the vendor's compatibility table.
-
-| Attribute | Evidence reviewed on 2026-09-08 |
-|---|---|
-| Distribution | [Public npm launcher/installer](https://github.com/pi-infected/tokenade-npm), separately distributed engine |
-| Licence | [Proprietary commercial licence](https://github.com/pi-infected/tokenade-npm/blob/main/LICENSE); the FAQ's MIT claim conflicts with this file |
-| Activation | Account required; free quota and paid plans. Verify current pricing before purchase |
-| Integration | Hooks, CLI and MCP proxy; features vary by client |
-| Evaluation status | Documentation, licence, benchmark manifests and published results inspected; no local runtime test or independent replication |
-
-**Compared with RTK:** Tokenade changes more than shell output. Its [THOL manifest](https://github.com/pi-infected/token-harness-optimizer-leaderboard/blob/main/competitors/tokenade/manifest.json) also changes instructions and context settings. RTK supports compact file reads through its CLI, including signatures-only output; its Claude Code Bash hook does not intercept native Read/Grep calls. Do not repeat the vendor comparison's blanket exclusion of RTK file compression or native Windows support.
-
-**Benchmark boundary:** The vendor-maintained [THOL campaign data](https://github.com/pi-infected/token-harness-optimizer-leaderboard/blob/main/docs/data/results.json) for Claude Code 2.1.206 reports a Tokenade 0.8.13 cost ratio of 0.768 versus control (95% interval 0.647–0.900), and RTK 0.42.3 at 1.052 (0.913–1.190). Each arm has 170 successful runs across 17 tasks. These are geometric means of per-task ratios. The experiment favours the full Tokenade configuration within that campaign; it does not isolate the contribution of each mechanism or prove equivalence for RTK. Include licence, setup, recovery and quality when evaluating your own workload.
-
-Inspect overlapping hooks before combining optimizers. A public installer is not evidence that the proprietary engine preserves every detail or transmits only the declared telemetry.
-
----
-
 ### lean-ctx
 
 A local-first context compression CLI and MCP server written in Rust. Installs once globally and activates in every Claude Code project without per-project configuration.
@@ -430,54 +446,7 @@ Highest value on TypeScript, Rust, or Python projects where large files are read
 
 ### tilth
 
-An MCP server for structural code navigation, targeting the largest single token cost in a Claude Code session: file reads. Instead of loading full file contents, tilth exposes tree-sitter-powered tools the model calls explicitly to navigate code by shape rather than by text.
-
-| Attribute | Details |
-|-----------|---------|
-| **Source** | [github.com/jahala/tilth](https://github.com/jahala/tilth) |
-| **Install** | `cargo install tilth` then `tilth install claude-code` |
-| **Language** | Rust |
-| **Architecture** | MCP server (installs into Claude Code) |
-| **Parser** | tree-sitter (multi-language) |
-
-**Key tools exposed to the model**:
-
-- File read with auto-outline: large files return a structural skeleton with section names and line ranges; the model requests specific ranges on demand
-- Symbol search: definitions, usages, and resolved callees in one call, replacing the grep-then-read loop
-- `--callers`: all call sites of a symbol, structurally rather than via text search
-- `--deps`: imports and dependents of a file, for understanding blast radius before a refactor
-- `grok <symbol>`: signature, callers, callees, sibling functions, and associated tests for one symbol in one call
-- Structural diff: changes summarized at the function level, not the line level
-- Session dedup: symbols already shown in the current session are marked `[shown earlier]` instead of being re-expanded
-
-**Benchmarks** (160 runs, 4 real repositories, metric = cost per correct answer):
-
-| Model | Cost change | Accuracy change |
-|-------|-------------|----------------|
-| Sonnet 4.6 | -44% | 84% → 94% |
-| Opus 4.6 | -39% | 91% → 92% |
-| Haiku 4.5 | -38% | 54% → 73% |
-| Average | -40% | 76% → 86% |
-
-The benchmark metric is cost per correct answer, not tokens saved in isolation. This matters: a tool that saves tokens but degrades output quality provides no real value. tilth improves on both dimensions.
-
-Why file reads are the right target: real-world billing data shows they account for approximately 65% of total token usage in a Claude Code session, versus roughly 12% for bash output. Tools that compress file reads move a larger share of the total cost than CLI output compressors can.
-
-```bash
-cargo install tilth
-tilth install claude-code   # registers the MCP server in Claude Code
-```
-
-No per-project configuration is required after global install.
-
-**Comparison with lean-ctx**: Both use tree-sitter to reduce file read token cost. lean-ctx works as a hook-level redirect that intercepts native Read calls transparently, requiring no change to model behavior. tilth exposes explicit navigation tools the model must call directly, giving it more control over what it fetches at the cost of requiring the model to use tilth's API rather than standard reads. Both approaches are valid; the right choice depends on whether you prefer passive compression or explicit navigation.
-
-**When to use tilth**:
-
-- TypeScript, Rust, or Python projects where large source files are read repeatedly
-- Sessions where context fills before the task completes
-- Codebases where call graph navigation (callers, callees, deps) is frequent
-- When you want accuracy improvements alongside cost reduction, not just compression
+> **Removed in November 2026: do not install.** tilth's maintainer account no longer exists on GitHub. The source repository and the `jahala.github.io` homepage return 404, and on crates.io the `tilth` crate is now owned by a deleted account (`ghost_388354`), so nobody can publish a fix. Because the `jahala` name is free again, a new account could take over the links this entry used to point to. If you installed it, run `cargo uninstall tilth` and remove its MCP server entry (`claude mcp list` shows it). For structural file reads, see [lean-ctx](#lean-ctx) above and Token Savior in [Context Engineering Tools](context-engineering-tools.md#token-savior).
 
 ---
 
@@ -2113,7 +2082,7 @@ These are known issues under active development. The fixes are straightforward; 
 Claude Code's plugin system supports community-built extensions. For detailed documentation:
 
 - **[Ultimate Guide Section 8](../ultimate-guide.md)** - Plugin system, commands, installation
-- **[claude-plugins.dev](https://claude-plugins.dev)** - 11,989 plugins, 63,065 skills indexed
+- **[claude-plugins.dev](https://web.archive.org/web/20261105112617/https://claude-plugins.dev/)** - 11,989 plugins, 63,065 skills indexed
 - **[claudemarketplaces.com](https://claudemarketplaces.com)** - Auto-scan GitHub for marketplace plugins
 - **[agentskills.io](https://agentskills.io)** - Open standard for agent skills (26+ platforms)
 
