@@ -199,7 +199,7 @@ RTK is a CLI proxy that intercepts command output before it reaches Claude's con
 | Attribute | Details |
 |-----------|---------|
 | **Source** | [github.com/rtk-ai/rtk](https://github.com/rtk-ai/rtk) |
-| **Install** | `brew install rtk`, the install script from the README, or `cargo install --git https://github.com/rtk-ai/rtk` (a different "rtk" crate exists on crates.io) |
+| **Install** | `brew install rtk`, the install script from the README, or `cargo install --git https://github.com/rtk-ai/rtk rtk` (a different "rtk" crate exists on crates.io) |
 | **Stars** | 82,094 (GitHub API, 2026-09-30), up from 69,042 on 2026-07-07, 24,397 in April 2026 and 446 in February 2026 |
 | **Integration** | Claude Code hook via `rtk init --global` |
 

@@ -18082,7 +18082,7 @@ Pour comparer d'autres optimiseurs de sortie, et savoir pourquoi les résultats 
 brew install rtk
 
 # Option 2 : Cargo (toutes plateformes, utiliser --git : une autre crate "rtk" existe sur crates.io)
-cargo install --git https://github.com/rtk-ai/rtk
+cargo install --git https://github.com/rtk-ai/rtk rtk
 
 # Option 3 : Script d'installation (Linux/macOS, installe dans ~/.local/bin)
 curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/install.sh | sh
@@ -18212,7 +18212,7 @@ exclude_commands = ["my-interactive-tool", "fzf"]  # Ne jamais réécrire ceux-c
 Après mise à jour depuis v0.24.0 ou antérieur, exécutez `rtk init --global` pour installer le nouveau hook délégateur léger. L'ancien hook fonctionne toujours, mais ne récupèrera pas automatiquement les nouveaux mappings de commandes.
 
 ```bash
-cargo install --git https://github.com/rtk-ai/rtk          # Mettre à jour le binaire
+cargo install --git https://github.com/rtk-ai/rtk rtk          # Mettre à jour le binaire
 rtk init --global          # Remplacer le hook par le délégateur léger
 ```
 

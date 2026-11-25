@@ -218,7 +218,7 @@ A CLI proxy that filters command outputs **before** they reach Claude's context.
 |-----------|---------|
 | **Source** | [GitHub: rtk-ai/rtk](https://github.com/rtk-ai/rtk) |
 | **Website** | [rtk-ai.app](https://www.rtk-ai.app/) |
-| **Install** | `brew install rtk` (recommended by the README), the install script `curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/install.sh \| sh`, or `cargo install --git https://github.com/rtk-ai/rtk` (a different "rtk" crate exists on crates.io) |
+| **Install** | `brew install rtk` (recommended by the README), the install script `curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/install.sh \| sh`, or `cargo install --git https://github.com/rtk-ai/rtk rtk` (a different "rtk" crate exists on crates.io) |
 | **Language** | Rust (standalone binary) |
 | **Version** | Latest release v0.50.0 (2026-09-30); the feature list below was written against v0.28.0 |
 
@@ -245,6 +245,42 @@ A CLI proxy that filters command outputs **before** they reach Claude's context.
 **Limitations**: Not suitable for interactive commands or very small outputs (<100 chars).
 
 > **Cross-ref**: Full docs at [ultimate-guide.md Section 9](#command-output-optimization-with-rtk)
+
+#### RTK v1 pipelines
+
+RTK 1.0 expresses what it does as a **pipeline**: a TOML file that says when RTK acts, on what, and what it does. Every built-in behavior is written in that same grammar, and the file is agent-agnostic (RTK translates it for Claude Code, Cursor, Gemini CLI and the other agents set up with `rtk init`). Source: [pipelines overview](https://github.com/rtk-ai/rtk/blob/master/docs/guide/pipelines/overview.md).
+
+**Where a pipeline acts**:
+
+| Place | What RTK can do there | Needs |
+|-------|-----------------------|-------|
+| `hook`, inside the agent around each tool call | Before a tool runs: rewrite a shell command through `rtk`, refuse the call, or route the work to a cheaper model. After it runs: compress the output before the agent reads it | `rtk init` registers the hooks |
+| `proxy`, between the agent and the model provider | Compress blocks already in the conversation and place the cache breakpoint | The separate `rtk-proxy` daemon running |
+
+A pipeline can also carry directives (text put in front of the agent) and tasks (commands that delegate work to a cheaper model, using a model key you provide).
+
+**The default is a no-op**: the overview states that upgrading from RTK 0.51 or earlier needs no migration. `rtk:default` is the previous behavior (the shell-command rewrite, the awareness file, your `filters.toml` and `config.toml`), and `PostToolUse` is registered only if you enable `rtk:posthook`.
+
+**Six built-in pipelines** ([reference pipelines](https://github.com/rtk-ai/rtk/blob/master/docs/guide/pipelines/reference-pipelines.md)): `rtk:default`, `rtk:posthook` (compress every tool's output), `rtk:proxy` (cache alignment in the proxy), `rtk:delegate-reads` (route oversize reads to a cheaper model you configure), `rtk:verbatim-diffs`, `rtk:terse`. Print one with `rtk pipeline show <name>`.
+
+**Working example**: [`opt-in.toml`](https://github.com/rtk-ai/rtk/blob/master/examples/pipelines/opt-in.toml) from the RTK repository turns on post-tool compression and the proxy layer:
+
+```toml
+schema_version = 1
+
+[pipeline]
+extends = ["rtk:posthook", "rtk:proxy"]
+```
+
+Put it in the user pipeline file (`~/.config/rtk/pipeline.toml` on Linux, `~/Library/Application Support/rtk/pipeline.toml` on macOS) or in `.rtk/pipeline.toml` for one project (trust-gated by `rtk init`), then run `rtk init -g` again so the new `PostToolUse` hook is registered. `rtk pipeline validate` prints `hook needed: ...` until you do. `rtk:proxy` also needs the proxy daemon, which `rtk init` offers to install.
+
+**Failure behavior**: per the overview, transform rules fail open (a rule naming an unknown method gets a warning and is skipped), while control rules (deny, route, rewrite) must validate completely or the file is rejected.
+
+**Two editions**: the pipeline engine is BUSL-1.1 and ships only in the default `rtk` download (Apache-2.0 plus BUSL-1.1). The `rtk-oss` download is Apache-2.0 only and has no engine: `rtk pipeline` is absent and a `pipeline.toml` on disk is inert, while the PreToolUse rewrite hook and the command filters behave the same. The two cannot be installed side by side. The BUSL grant allows free production use but not offering RTK as a commercial product or service. Source: [editions and licensing](https://github.com/rtk-ai/rtk/blob/master/docs/guide/resources/editions.md).
+
+**Install from source**: the `proxy/` directory declares its own binary, so a bare `cargo install --git https://github.com/rtk-ai/rtk` aborts with "multiple packages with binaries found: rtk, rtk-proxy". Name the package: `cargo install --git https://github.com/rtk-ai/rtk rtk`. This was reproduced with cargo 1.96.0 on 2026-11-25 (bare form fails with that message). The corrected form was not built to completion.
+
+**Not verified here**: the savings of any pipeline (no independent measurement), the behavior of `rtk:delegate-reads` with a real model key, and the pipeline commands on a live install.
 
 ---
 

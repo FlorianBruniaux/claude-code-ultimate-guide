@@ -17872,7 +17872,7 @@ For how other output optimizers compare, and why maker-run results need care, se
 brew install rtk
 
 # Option 2: Cargo (all platforms, use --git: another "rtk" crate exists on crates.io)
-cargo install --git https://github.com/rtk-ai/rtk
+cargo install --git https://github.com/rtk-ai/rtk rtk
 
 # Option 3: Install script (Linux/macOS, installs to ~/.local/bin)
 curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/install.sh | sh
@@ -18002,7 +18002,7 @@ exclude_commands = ["my-interactive-tool", "fzf"]  # Never rewrite these
 After upgrading from v0.24.0 or earlier, run `rtk init --global` to install the new thin-delegator hook. The old hook still works, but won't pick up new command mappings automatically.
 
 ```bash
-cargo install --git https://github.com/rtk-ai/rtk  # Upgrade the correct RTK project
+cargo install --git https://github.com/rtk-ai/rtk rtk  # Upgrade the correct RTK project
 rtk init --global          # Replace hook with thin delegator
 ```
 
