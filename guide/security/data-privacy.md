@@ -370,7 +370,7 @@ The [DarkMoon case study and Strix comparison](https://github.com/FlorianBruniau
 
 ### Test access continuity as well as data location
 
-The [IFTTD sovereignty chapter](https://bilan.ifttd.io/apprentissage-4/?niveau=2) distinguishes hosting location from the ability to access data when needed. Treat that as an operational question: a locally stored export can still depend on a remote identity provider, unavailable keys, a proprietary format or an external service. Data residency alone does not establish continuity or legal compliance.
+The IFTTD sovereignty chapter (published on `bilan.ifttd.io`, offline since November 2026, no archived copy found) distinguishes hosting location from the ability to access data when needed. Treat that as an operational question: a locally stored export can still depend on a remote identity provider, unavailable keys, a proprietary format or an external service. Data residency alone does not establish continuity or legal compliance.
 
 Run a scoped drill with synthetic data and a disposable environment. Inventory authentication, model access, export format, decryption and tool dependencies. Simulate the chosen provider being unavailable without changing production access. Attempt to open the exported data and complete one representative task through the approved fallback. Record what worked, what degraded, what required the unavailable provider, and who owns recovery.
 

@@ -14209,7 +14209,7 @@ L'écosystème de plugins Claude Code a considérablement évolué. Voici des re
 | Marketplace | Statistiques | Focus |
 |-------------|-------------|-------|
 | [wshobson/agents](https://github.com/wshobson/agents) | 67 plugins, 99 agents, 107 skills | Workflows de développement prêts pour la production, DevOps, sécurité |
-| [claude-plugins.dev](https://claude-plugins.dev) | 11 989 plugins, 63 065 skills indexés | Registre + CLI pour la découverte de plugins |
+| [claude-plugins.dev](https://web.archive.org/web/20261105112617/https://claude-plugins.dev/) | 11 989 plugins, 63 065 skills indexés | Registre + CLI pour la découverte de plugins |
 | [claudemarketplaces.com](https://claudemarketplaces.com) | Scanne GitHub automatiquement | Répertoire de marketplaces |
 
 **Exemple d'installation (wshobson/agents) :**
@@ -14240,7 +14240,7 @@ L'écosystème de plugins Claude Code a considérablement évolué. Voici des re
 - [awesome-claude-code-plugins](https://github.com/ccplugins/awesome-claude-code-plugins) - Sélection axée sur les plugins
 - [awesome-claude-skills](https://github.com/BehiSecc/awesome-claude-skills) (9,8K étoiles au 27/07/2026, contre 5,5k) - Taxonomie axée sur les skills (62 skills dans 12 catégories)
 
-> **Source** : Statistiques issues de [claude-plugins.dev](https://claude-plugins.dev), [analyse Firecrawl](https://www.firecrawl.dev/blog/best-claude-code-plugins) (jan. 2026). Les chiffres évoluent rapidement.
+> **Source** : Statistiques issues de [claude-plugins.dev](https://web.archive.org/web/20261105112617/https://claude-plugins.dev/), [analyse Firecrawl](https://www.firecrawl.dev/blog/best-claude-code-plugins) (jan. 2026). Les chiffres évoluent rapidement.
 
 ### Plugins prêts pour la production issus de ce guide
 

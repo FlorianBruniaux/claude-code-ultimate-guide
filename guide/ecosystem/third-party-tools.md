@@ -2046,7 +2046,7 @@ These are known issues under active development. The fixes are straightforward; 
 Claude Code's plugin system supports community-built extensions. For detailed documentation:
 
 - **[Ultimate Guide Section 8](../ultimate-guide.md)** - Plugin system, commands, installation
-- **[claude-plugins.dev](https://claude-plugins.dev)** - 11,989 plugins, 63,065 skills indexed
+- **[claude-plugins.dev](https://web.archive.org/web/20261105112617/https://claude-plugins.dev/)** - 11,989 plugins, 63,065 skills indexed
 - **[claudemarketplaces.com](https://claudemarketplaces.com)** - Auto-scan GitHub for marketplace plugins
 - **[agentskills.io](https://agentskills.io)** - Open standard for agent skills (26+ platforms)
 
