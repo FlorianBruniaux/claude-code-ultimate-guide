@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "dataset_sha256": "2397a6c1cb2058946313758ae1ba773bf1f6e5e45b1232e4948979b9d980db0f",
+    "dataset_sha256": "78f7eb2d2fbecc4cb81dd29a012291989eb715a3165a4407523dc8279f9a16b0",
     "generated_at": "2026-09-09T00:00:00Z",
     "license": "CC-BY-SA-4.0 for upstream-derived records; project metadata retains its source terms",
     "provenance": {
@@ -328,8 +328,13 @@
       },
       {
         "adoption_surface": "unknown",
-        "archived": false,
+        "archived": "unknown",
         "autonomy": "unknown",
+        "availability": {
+          "checked_at": "2026-11-25",
+          "evidence": "GET /repos/AgentsMesh/AgentsMesh returned HTTP 404 on 2026-11-25. The AgentsMesh organization still lists 11 public repositories, none with this name; AgentsMesh/AgentsMeshRunner is marked deprecated with the note that it moved to this repository.",
+          "status": "repository_not_found"
+        },
         "category": "multi-agent",
         "features": {},
         "freshness": {
@@ -355,8 +360,8 @@
         "provider_strategy": "unknown",
         "recovery": "unknown",
         "repository_url": "https://github.com/AgentsMesh/AgentsMesh",
-        "stars": 2330,
-        "stars_captured_at": "2026-08-28",
+        "stars": null,
+        "stars_captured_at": null,
         "summary": "The README documents a control-plane and data-plane system for operating external coding agents.",
         "tags": []
       },
@@ -8607,6 +8612,11 @@
           "adoption_surface": "slightly_complex",
           "archived": "unknown",
           "autonomy": "bounded",
+          "availability": {
+            "checked_at": "2026-11-25",
+            "evidence": "GET /repos/microsoft/agent-framework returned HTTP 404 on 2026-11-25. The microsoft organization lists microsoft/agent-framework-go (Go implementation, whose README still points to the missing repository for .NET and Python) and Agent-Framework-Samples; no repository with this name or a documented successor was found.",
+            "status": "repository_not_found"
+          },
           "category": "multi-agent",
           "features": {
             "build_vs_buy": {
@@ -8693,8 +8703,8 @@
           "provider_strategy": "unknown",
           "recovery": "resumable",
           "repository_url": "https://github.com/microsoft/agent-framework",
-          "stars": 13060,
-          "stars_captured_at": "2026-08-23",
+          "stars": null,
+          "stars_captured_at": null,
           "summary": "Microsoft's convergence of AutoGen and Semantic Kernel: build, orchestrate, and deploy agents and multi-agent workflows in Python and .NET, with graph-based workflows and checkpointing — the designated successor harness for both lines.",
           "tags": [
             "multi-agent",
@@ -11089,6 +11099,11 @@
           "adoption_surface": "complex",
           "archived": "unknown",
           "autonomy": "bounded",
+          "availability": {
+            "checked_at": "2026-11-25",
+            "evidence": "GET /repos/proliferate-ai/proliferate returned HTTP 404 on 2026-11-25. The proliferate-ai organization exists and lists 0 public repositories.",
+            "status": "repository_not_found"
+          },
           "category": "coding-agent-products",
           "features": {
             "build_vs_buy": {
@@ -11177,8 +11192,8 @@
           "provider_strategy": "unknown",
           "recovery": "resumable",
           "repository_url": "https://github.com/proliferate-ai/proliferate",
-          "stars": 310,
-          "stars_captured_at": "2026-08-23",
+          "stars": null,
+          "stars_captured_at": null,
           "summary": "Open-source AI IDE for Claude Code, Codex, OpenCode, and more. The **harness** contribution is the workspace/session orchestration layer: run multiple coding agents in parallel, locally or in the cloud, with isolated workspaces, reusable workflows, and shared team context.",
           "tags": [
             "ide",

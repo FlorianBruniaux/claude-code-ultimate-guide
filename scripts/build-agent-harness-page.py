@@ -196,7 +196,11 @@ def apply_github_sidecar(catalog: dict[str, Any], sidecar: dict[str, Any]) -> di
         merged["sets"]["upstream_snapshot"]["projects"]
         + merged["sets"]["guide_supplement"]
     )
-    catalog_urls = {record["repository_url"] for record in records if record.get("repository_url")}
+    catalog_urls = {
+        record["repository_url"]
+        for record in records
+        if record.get("repository_url") and not record.get("availability")
+    }
     if set(sidecar_by_url) != catalog_urls:
         raise ValueError("GitHub sidecar repository URLs do not match catalog")
     if repositories != sorted(repositories, key=lambda item: item["repository_url"].casefold()):
@@ -212,6 +216,12 @@ def apply_github_sidecar(catalog: dict[str, Any], sidecar: dict[str, Any]) -> di
 
 
 def render_project_cell(record: dict[str, Any]) -> str:
+    availability = record.get("availability")
+    if availability:
+        return (
+            f"{markdown_escape(record['name'])} (repository not found, "
+            f"checked {availability['checked_at']})"
+        )
     suffix = " (Archived)" if record.get("archived") is True else ""
     cell = f"[{markdown_escape(record['name'])}]({record['project_url']}){suffix}"
     stars = record.get("stars")
@@ -385,7 +395,8 @@ def count_upstream_project_links(fragment: str) -> int:
     return sum(
         1
         for line in match.group(1).splitlines()
-        if line.startswith("| [") and "](https://" in line.split("|", 2)[1]
+        if line.startswith("| ")
+        and ("](https://" in line.split("|", 2)[1] or "(repository not found," in line.split("|", 2)[1])
     )
 
 

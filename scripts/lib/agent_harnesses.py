@@ -195,7 +195,7 @@ def validate_record(record: Any) -> list[str]:
     missing = sorted(required - set(record))
     if missing:
         errors.append(f"missing project fields: {', '.join(missing)}")
-    extra = sorted(set(record) - required)
+    extra = sorted(set(record) - required - {"availability"})
     if extra:
         errors.append(f"project has unknown fields: {', '.join(extra)}")
     if not _is_https(record.get("project_url")):
@@ -238,6 +238,19 @@ def validate_record(record: Any) -> list[str]:
             errors.append("interfaces must be unique and deterministically sorted")
     if record.get("archived") not in {True, False, "unknown"}:
         errors.append("archived must be true, false, or unknown")
+    if "availability" in record:
+        availability = record["availability"]
+        if (
+            not isinstance(availability, dict)
+            or set(availability) != {"status", "checked_at", "evidence"}
+            or availability.get("status") != "repository_not_found"
+            or not DATE_RE.match(str(availability.get("checked_at", "")))
+            or not isinstance(availability.get("evidence"), str)
+            or not availability["evidence"].strip()
+        ):
+            errors.append("availability must record status repository_not_found, checked_at and evidence")
+        if stars is not None:
+            errors.append("an unavailable repository must not carry stars")
     features = record.get("features")
     if not isinstance(features, dict):
         errors.append("features must be an object")
@@ -618,6 +631,33 @@ def _apply_upstream_project_override(
     return record
 
 
+def _apply_unavailable_repositories(
+    records: list[dict[str, Any]], entries: Any
+) -> None:
+    """Mark records whose GitHub repository no longer resolves, and drop their stale stars."""
+    if not isinstance(entries, list):
+        raise ValueError("unavailable_repositories must be an array")
+    by_id = {record["id"]: record for record in records}
+    seen: set[str] = set()
+    for entry in entries:
+        if not isinstance(entry, dict) or set(entry) != {"id", "status", "checked_at", "evidence"}:
+            raise ValueError("unavailable_repositories entries need id, status, checked_at and evidence")
+        if entry["id"] in seen:
+            raise ValueError("unavailable_repositories ids must be unique")
+        seen.add(entry["id"])
+        if entry["id"] not in by_id:
+            raise ValueError(f"unavailable_repositories reference unknown project: {entry['id']}")
+        record = by_id[entry["id"]]
+        record["availability"] = {
+            "status": entry["status"],
+            "checked_at": entry["checked_at"],
+            "evidence": entry["evidence"],
+        }
+        record["stars"] = None
+        record["stars_captured_at"] = None
+        record["archived"] = "unknown"
+
+
 def build_catalog(source: dict[str, Any], overrides: dict[str, Any]) -> dict[str, Any]:
     meta = source.get("meta", {})
     projects = source.get("projects", [])
@@ -696,6 +736,9 @@ def build_catalog(source: dict[str, Any], overrides: dict[str, Any]) -> dict[str
             for item in overrides.get("guide_supplement", [])
         ),
         key=lambda item: item["id"].casefold(),
+    )
+    _apply_unavailable_repositories(
+        normalized_projects + supplements, overrides.get("unavailable_repositories", [])
     )
     map_defaults = overrides.get("map_defaults", {})
     strict = sorted(

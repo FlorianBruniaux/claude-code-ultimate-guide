@@ -783,13 +783,13 @@ Microsoft's multi-agent framework, mid-transition from the original AutoGen libr
 
 | Attribute | Details (MAF) |
 |-----------|---------|
-| **GitHub** | [microsoft/agent-framework](https://github.com/microsoft/agent-framework) |
-| **Stars** | 12,444 (MAF, active, verified 2026-07-27; was 10,800+ earlier) |
+| **GitHub** | `microsoft/agent-framework` returned HTTP 404 on 2026-11-25. No replacement repository was found: the Go implementation lives in [microsoft/agent-framework-go](https://github.com/microsoft/agent-framework-go), and its README still sends .NET and Python readers to the missing repository. Product documentation is at `learn.microsoft.com/en-us/agent-framework/` (linked from that README, not fetched in this check) |
+| **Stars** | Not available (the 12,444 recorded on 2026-07-27 came from the repository that is no longer reachable) |
 | **Legacy GitHub** | [microsoft/autogen](https://github.com/microsoft/autogen) (60,033 stars as of 2026-07-27, was 58,400, maintenance mode since Sep 2025) |
 | **Language** | Python + C# + TypeScript |
-| **License** | MIT |
-| **Version** | python-1.6.0 (May 22, 2026) |
-| **Production release** | v1.0 (April 2026) |
+| **License** | MIT (recorded earlier, not re-checked) |
+| **Version** | python-1.6.0 (May 22, 2026, recorded earlier, not re-checked) |
+| **Production release** | v1.0 (April 2026, recorded earlier, not re-checked) |
 
 #### What is Microsoft Agent Framework?
 

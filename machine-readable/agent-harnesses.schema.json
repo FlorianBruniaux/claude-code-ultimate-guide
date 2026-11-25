@@ -249,6 +249,16 @@
           "additionalProperties": {"$ref": "#/$defs/feature"}
         },
         "freshness": {"$ref": "#/$defs/freshness"},
+        "availability": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "checked_at", "evidence"],
+          "properties": {
+            "status": {"const": "repository_not_found"},
+            "checked_at": {"type": "string", "format": "date"},
+            "evidence": {"type": "string", "minLength": 1}
+          }
+        },
         "provenance": {
           "type": "array",
           "minItems": 1,

@@ -277,6 +277,24 @@ class GithubMetadataCollectorTests(unittest.TestCase):
             sidecar["repositories"],
         )
 
+    def test_skips_repositories_recorded_as_not_found(self):
+        """Break caught: a repository known to be gone makes every refresh fail on its 404."""
+        collector = load_script("collect-agent-harnesses-github.py")
+        catalog = self.catalog("https://github.com/owner/repo", "https://github.com/owner/gone")
+        catalog["sets"]["upstream_snapshot"]["projects"][1]["availability"] = {
+            "status": "repository_not_found", "checked_at": "2026-11-25", "evidence": "HTTP 404",
+        }
+        recompute_internal_checksum(catalog)
+        requests: list[str] = []
+
+        def transport(url: str, _headers: dict[str, str]):
+            requests.append(url)
+            return 200, {}, self.repository_payload()
+
+        sidecar = collector.collect_metadata(catalog, transport, self.captured_at)
+        self.assertEqual(["https://api.github.com/repos/owner/repo"], requests)
+        self.assertEqual(1, len(sidecar["repositories"]))
+
     def test_rejects_partial_http_result_before_publication(self):
         """Break caught: one HTTP failure must not publish a partial sidecar."""
         collector = load_script("collect-agent-harnesses-github.py")
@@ -936,6 +954,38 @@ class CatalogTests(unittest.TestCase):
             item["project_ref"] for item in self.catalog["sets"]["strict_runtime_map"]
         }
         self.assertNotIn("AtlasOmnia/hermes-autoresearch", strict_refs)
+
+    def test_repositories_that_return_404_are_marked_unavailable(self):
+        """Break caught: dead repositories presented as live, with stale stars."""
+        records = {
+            record["id"]: record
+            for record in self.catalog["sets"]["upstream_snapshot"]["projects"]
+            + self.catalog["sets"]["guide_supplement"]
+        }
+        for project_id in ("AgentsMesh/AgentsMesh", "proliferate-ai/proliferate", "microsoft/agent-framework"):
+            with self.subTest(project=project_id):
+                record = records[project_id]
+                self.assertEqual("repository_not_found", record["availability"]["status"])
+                self.assertEqual("2026-11-25", record["availability"]["checked_at"])
+                self.assertIsNone(record["stars"])
+                self.assertEqual("unknown", record["archived"])
+        with_availability = [record["id"] for record in records.values() if "availability" in record]
+        self.assertEqual(3, len(with_availability))
+
+    def test_unavailable_override_for_unknown_project_fails_closed(self):
+        overrides = json.loads(
+            (ROOT / "machine-readable/agent-harnesses-overrides.json").read_text(encoding="utf-8")
+        )
+        overrides["unavailable_repositories"].append({
+            "id": "owner/missing", "status": "repository_not_found",
+            "checked_at": "2026-11-25", "evidence": "HTTP 404",
+        })
+        source = json.loads(
+            (ROOT / "machine-readable/sources/best-of-agent-harnesses-ece314654d2c.json").read_text(encoding="utf-8")
+        )
+        from lib.agent_harnesses import build_catalog
+        with self.assertRaisesRegex(ValueError, "unknown project"):
+            build_catalog(source, overrides)
 
     def test_google_agents_cli_is_an_explicit_false_positive(self):
         overrides = json.loads(
