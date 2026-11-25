@@ -4,7 +4,7 @@ description: Add descriptive prose to bare sections in whitepapers (FR + EN) usi
 argument-hint: "[wp-number|all]"
 ---
 
-# Audit Prose — Enrichissement des Sections Bare
+# Audit Prose : Enrichissement des Sections Bare
 
 Ajoute de la prose descriptive (2-4 phrases) devant chaque section "bare" des whitepapers.
 Une section "bare" = heading suivi directement d'une table, code block, ou liste sans paragraphe d'intro.
@@ -99,7 +99,7 @@ Pour CHAQUE bare section identifiée :
 1. Ajouter 2-4 phrases AVANT le contenu structuré
 2. Chaque phrase apporte une INFO NOUVELLE : le pourquoi, le quand utiliser,
    les implications, le choix de design, ou le contexte pratique
-3. PAS de reformulation de ce qui suit — COMPLETER avec du contexte manquant
+3. PAS de reformulation de ce qui suit : COMPLETER avec du contexte manquant
 
 ## Sources de contexte
 - `machine-readable/reference.yaml` : mapping complet sujets → guide principal
@@ -130,12 +130,12 @@ Pour CHAQUE bare section identifiée :
 Attendre les retours de tous les agents. Pour chaque WP completed, afficher :
 
 ```
-WP[XX] ✅ — [N] sections, +[X]% FR/EN
+WP[XX] ✅ : [N] sections, +[X]% FR/EN
 ```
 
 ### Shutdown
 
-Quand tous les agents ont terminé, envoyer shutdown_request à chacun, puis TeamDelete.
+Quand tous les agents ont terminé, envoyer shutdown_request à chacun. Aucune équipe à supprimer : TeamDelete a été retiré en v2.1.178 et l'équipe implicite se termine avec la session.
 
 ## Vérification Post-Enrichissement
 

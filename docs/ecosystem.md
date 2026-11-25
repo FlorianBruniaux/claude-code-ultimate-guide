@@ -33,7 +33,7 @@ This guide is part of a 6-repo ecosystem separating audiences (devs vs knowledge
 | Aspect | Details |
 |--------|---------|
 | **GitHub** | https://github.com/FlorianBruniaux/claude-code-ultimate-guide |
-| **Content** | Guide ~26K lines, 305 templates (counted with the `find` of `scripts/check-landing-sync.sh`: md/sh/ps1/yml/yaml/json under `examples/`, excluding README.md, index.md and `commands/`), workflows, architecture |
+| **Content** | Guide ~26K lines, 306 templates (counted with the `find` of `scripts/check-landing-sync.sh`: md/sh/ps1/yml/yaml/json under `examples/`, excluding README.md, index.md and `commands/`), workflows, architecture |
 | **Audience** | Developers, DevOps, tech leads |
 
 ## 2. Claude Cowork Guide (dedicated repo)

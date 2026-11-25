@@ -18,7 +18,7 @@ Release a new version of the Claude Code Ultimate Guide.
 
 ## Step 1: Validate
 
-1. Parse `$ARGUMENTS` — must be exactly one of: `patch`, `minor`, `major`. If missing or invalid, ask.
+1. Parse `$ARGUMENTS`: it must be exactly one of `patch`, `minor`, `major`. If missing or invalid, ask.
 2. Run `git status` in the guide repo. If working tree is clean with no staged changes, abort: "Nothing to release."
 3. Read `VERSION` file → current version.
 
@@ -64,8 +64,8 @@ Calculate current metrics:
 ```bash
 # Quiz questions count (sum across all YAML files)
 grep -r '  - id:' quiz/questions/ | wc -l
-# Templates count
-find examples/ -type f \( -name "*.md" -o -name "*.sh" -o -name "*.ps1" -o -name "*.yml" -o -name "*.yaml" -o -name "*.json" \) -not -name "README.md" -not -name "index.md" | wc -l
+# Templates count (same definition as scripts/check-landing-sync.sh)
+find examples/ -type f \( -name "*.md" -o -name "*.sh" -o -name "*.ps1" -o -name "*.yml" -o -name "*.yaml" -o -name "*.json" \) -not -name "README.md" -not -name "index.md" -not -path '*/commands/*' | wc -l
 # Guide lines
 wc -l guide/ultimate-guide.md
 ```
@@ -74,36 +74,36 @@ Update these counts wherever they appear in:
 - `README.md`
 - `machine-readable/reference.yaml`
 - `CLAUDE.md` (the VERSION reference in Key Files table)
-- `llms.txt` (root) — Version, Last Updated, Lines, Templates, Quiz (3 occurrences total)
-- `llms-full.txt` (root) — same Metadata fields + these additional occurrences:
+- `llms.txt` (root): the sentence `Guide version X.Y.Z, tracking Claude Code up to vA.B.C (Month YYYY).`
+- `llms-full.txt` (root): its metadata fields, if present, plus these occurrences:
   - "For Learning" section: `Interactive Quiz (N questions)` URL text
   - "Template Library (N templates)" section heading
   - FAQ answer (first FAQ entry, line starting with "A: The most comprehensive...")
   - Repo tree comment: `quiz/ # N-question interactive quiz`
-- `machine-readable/llms.txt` — must be identical to root `llms.txt` at all times
+- `machine-readable/llms.txt` and `mcp-server/content/llms.txt`: both must be identical to root `llms.txt` at all times
 
 Only update values that actually changed. Don't touch counts that are still correct.
 
-**Verification gate — run after updating, before moving to Step 5:**
+**Verification gate: run after updating, before moving to Step 5:**
 
 ```bash
 VERSION=$(cat VERSION)
 QUIZ=$(grep -r '  - id:' quiz/questions/ | wc -l | tr -d ' ')
-TEMPLATES=$(find examples/ -type f \( -name "*.md" -o -name "*.sh" -o -name "*.ps1" -o -name "*.yml" -o -name "*.yaml" -o -name "*.json" \) -not -name "README.md" -not -name "index.md" | wc -l | tr -d ' ')
+TEMPLATES=$(find examples/ -type f \( -name "*.md" -o -name "*.sh" -o -name "*.ps1" -o -name "*.yml" -o -name "*.yaml" -o -name "*.json" \) -not -name "README.md" -not -name "index.md" -not -path '*/commands/*' | wc -l | tr -d ' ')
 
 echo "=== llms.txt check ==="
-grep "Version:\|Quiz Questions:\|Production Templates:" llms.txt
+grep -n "Guide version" llms.txt
 
 echo "=== llms-full.txt check ==="
-grep "Version:\|Quiz Questions:\|Production Templates:\|Template Library\|question interactive" llms-full.txt
+grep -n "Version:\|Quiz Questions:\|Template Library\|question interactive" llms-full.txt
 
-echo "=== machine-readable/llms.txt check ==="
-grep "Version:\|Quiz Questions:\|Production Templates:" machine-readable/llms.txt
+echo "=== llms.txt mirrors ==="
+cmp llms.txt machine-readable/llms.txt && cmp llms.txt mcp-server/content/llms.txt && echo identical
 
 echo "=== Expected: VERSION=$VERSION QUIZ=$QUIZ TEMPLATES=$TEMPLATES ==="
 ```
 
-All three files must show the same values. If any mismatch, fix before continuing.
+All values must match the expected line and the mirrors must be identical. If any mismatch, fix before continuing.
 
 ## Step 5: Sync Version
 
@@ -119,11 +119,12 @@ This propagates the version into: README.md, cheatsheet.md, ultimate-guide.md, r
 
 ## Step 5.5: Sync MCP Server Content
 
-`mcp-server/content/` is a bundled copy of 3 source files, published to npm. It does NOT auto-update, sync it manually every release:
+`mcp-server/content/` is a bundled copy of source files, published to npm. It does NOT auto-update, sync it manually every release:
 
 ```bash
 cp machine-readable/claude-code-releases.yaml mcp-server/content/claude-code-releases.yaml
 cp machine-readable/reference.yaml mcp-server/content/reference.yaml
+cp machine-readable/translations.json mcp-server/content/translations.json
 cp llms.txt mcp-server/content/llms.txt
 
 # Bump mcp-server/package.json version (patch, unless tool code also changed → minor)
@@ -132,23 +133,28 @@ cd mcp-server && npm run build && cd ..
 
 Commit `mcp-server/content/*` + `mcp-server/package.json` (dist/ is gitignored, rebuilt at publish time).
 
-**Publish** (irreversible, public — always confirm with the user before running):
+**Publish** (irreversible and public, always confirm with the user before running):
 ```bash
 cd mcp-server && npm publish && cd ..
 ```
 
 ## Step 6: Sync Landing
 
-Working directory: `/Users/florianbruniaux/Sites/perso/claude-code-ultimate-guide-landing/`
+Working directory: the sibling checkout `../claude-code-ultimate-guide-landing/`.
 
-1. Update guide version in `index.html` (footer + FAQ sections)
-2. Update quiz question count in `index.html`, `quiz/index.html`, `learning/index.html` if changed
-3. Update templates count in `index.html`, `examples/index.html` if changed
-4. If quiz YAML files were modified, compile them:
+The landing is an Astro site. `src/pages/changelog/index.astro` reads `VERSION` at build time, so the guide version has no hard-coded copy to edit.
+
+1. From the guide repo, run the sync check and edit only the landing files it names:
    ```bash
-   ./scripts/compile-questions.sh
+   ./scripts/check-landing-sync.sh
    ```
-5. Update `CLAUDE.md` in the landing repo if counts changed
+2. Quiz questions live as Markdown in the landing (`src/content/questions/`). If quiz YAML files were modified here, port the changed questions there. The sync check compares question counts only, so it does not catch an edited question.
+3. Update `CLAUDE.md` in the landing repo if counts changed
+4. Rebuild the guide reader before pushing the landing:
+   ```bash
+   cd ../claude-code-ultimate-guide-landing
+   node scripts/prepare-guide-content.mjs && pnpm build
+   ```
 
 **Verification gate:**
 ```bash
@@ -176,31 +182,30 @@ In the landing repo, add an entry to `src/data/rss-entries.ts`:
 3. **Prepend** it at the top of the `rssEntries` array (newest first).
 4. Present the draft to the user. Adjust wording if needed, then write.
 
-**Rule**: always add an entry for patch/minor/major — even small patches are worth tracking.
+**Rule**: always add an entry for patch/minor/major, even small patches are worth tracking.
 
 ## Step 7: Commit & Push Both Repos
 
 ### Guide repo
 
 ```bash
-cd /Users/florianbruniaux/Sites/perso/claude-code-ultimate-guide
-git add [all modified files — list them explicitly]
+git add [all modified files, listed explicitly]
 git commit -m "release: vX.Y.Z - [short description from CHANGELOG]
 
 [2-3 line summary of main changes]
 
-Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>"
+[attribution line provided by your host]"
 git push
 ```
 
 ### Landing repo
 
 ```bash
-cd /Users/florianbruniaux/Sites/perso/claude-code-ultimate-guide-landing
-git add [all modified files — list them explicitly]
+cd ../claude-code-ultimate-guide-landing
+git add [all modified files, listed explicitly]
 git commit -m "sync: guide vX.Y.Z - [short description]
 
-Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>"
+[attribution line provided by your host]"
 git push
 ```
 
