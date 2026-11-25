@@ -18071,7 +18071,7 @@ Se déclenche également automatiquement sur des phrases comme « sois bref » o
 
 **RTK (Rust Token Killer)** filtre les sorties des commandes avant qu'elles n'atteignent le modèle. Les réductions rapportées concernent les sorties shell traitées, pas la session entière ou la facture. `rtk gain` utilise des estimations locales de tokens ; comptabilisez séparément les reprises et les résultats des tâches.
 
-Pour des hooks, la navigation dans le code et l'interception MCP plus larges, voir la [comparaison Tokenade et les limites des preuves](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ecosystem/third-party-tools.md#tokenade). Elle présente une alternative propriétaire avec des résultats de benchmark maintenus par son éditeur, pas une recommandation universelle de remplacement.
+Pour comparer d'autres optimiseurs de sortie, et savoir pourquoi les résultats publiés par leurs auteurs demandent de la prudence, voir les [benchmarks indépendants](ecosystem/context-engineering-tools.md#independent-benchmarks).
 
 **Dépôt :** [rtk-ai/rtk](https://github.com/rtk-ai/rtk) | **Site web :** [rtk-ai.app](https://www.rtk-ai.app/) | **Transparence :** l'auteur de ce guide a contribué à RTK à ses débuts et le soutient toujours, sans contribuer activement à son code aujourd'hui (il n'en est pas le créateur) ; cette recommandation n'est donc pas indépendante. Les mesures sur des tâches complètes de plusieurs études et la réponse des mainteneurs figurent dans [context-engineering-tools.md](./ecosystem/context-engineering-tools.md).
 

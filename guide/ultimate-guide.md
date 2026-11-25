@@ -17863,7 +17863,7 @@ Also auto-triggers on phrases like "be brief" or "less tokens please." Auto-disa
 
 **Repository:** [rtk-ai/rtk](https://github.com/rtk-ai/rtk) | **Website:** [rtk-ai.app](https://www.rtk-ai.app/) | **Disclosure:** the author of this guide contributed to RTK early on and remains a supporter, without actively contributing to its code today (not its creator), so this is not an independent recommendation; whole-task measurements from several studies, and the maintainers' response to them, are in [context-engineering-tools.md](./ecosystem/context-engineering-tools.md).
 
-For broader hooks, code navigation and MCP interception, see the [Tokenade comparison and evidence boundary](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ecosystem/third-party-tools.md#tokenade). It covers a proprietary alternative with vendor-maintained benchmark results, not a universal replacement recommendation.
+For how other output optimizers compare, and why maker-run results need care, see [independent benchmarks](ecosystem/context-engineering-tools.md#independent-benchmarks).
 
 **Installation:**
 
