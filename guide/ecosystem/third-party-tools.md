@@ -220,7 +220,7 @@ A CLI proxy that filters command outputs **before** they reach Claude's context.
 | **Website** | [rtk-ai.app](https://www.rtk-ai.app/) |
 | **Install** | `brew install rtk` (recommended by the README), the install script `curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/install.sh \| sh`, or `cargo install --git https://github.com/rtk-ai/rtk rtk` (a different "rtk" crate exists on crates.io) |
 | **Language** | Rust (standalone binary) |
-| **Version** | Latest release v0.50.0 (2026-09-30); the feature list below was written against v0.28.0 |
+| **Version** | Latest release v1.2.1 (published 2026-11-19, checked 2026-11-25); the feature list below was written against v0.28.0 |
 
 **Key features**:
 

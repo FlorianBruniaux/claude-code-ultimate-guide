@@ -18088,14 +18088,14 @@ cargo install --git https://github.com/rtk-ai/rtk rtk
 curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/install.sh | sh
 
 # Vérifier l'installation
-rtk --version  # dernière version vérifiée le 2026-09-30 : v0.50.0
+rtk --version  # dernière version vérifiée le 2026-11-25 : v1.2.1
 ```
 
 **Mesurez l'effet sur votre travail :**
 
 Comparez des commandes équivalentes sur le même état du dépôt et conservez les sorties brutes pour le diagnostic. `rtk gain` rapporte des estimations sur les sorties shell filtrées, sans mesurer l'économie sur la facture totale. Une sortie `git log` ou des logs de tests plus courts ne prouvent pas une réduction universelle de la session. Voir [comment RTK mesure les économies](https://github.com/rtk-ai/rtk#how-savings-work).
 
-**Fonctionnalités clés (liste à la v0.28.0 ; dernière version : v0.50.0) :**
+**Fonctionnalités clés (liste à la v0.28.0 ; dernière version : v1.2.1) :**
 
 ```bash
 # Opérations Git
