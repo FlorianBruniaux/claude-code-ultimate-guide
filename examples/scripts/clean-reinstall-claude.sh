@@ -27,7 +27,7 @@ cp ~/.claude.json ~/.claude.json.backup-$timestamp 2>/dev/null || true
 
 # 5. Reinstall
 echo "[5/5] Reinstalling Claude Code..."
-npm install -g @anthropic-ai/claude-code
+curl -fsSL https://claude.ai/install.sh | bash
 
 echo -e "\n✓ Clean reinstall complete!"
 echo "Run 'claude --version' to verify installation"

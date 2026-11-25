@@ -1,65 +1,16 @@
 ---
-name: dashboard
-description: Launch ccboard TUI dashboard
-category: monitoring
+description: Launch the ccboard TUI dashboard for Claude Code usage
 ---
 
-# Dashboard command
+# Dashboard
 
-Launch the interactive ccboard TUI to visualize and monitor your Claude Code usage.
-
-## Features
-
-- **8 Interactive Tabs**: Dashboard, Sessions, Config, Hooks, Agents, Costs, History, MCP
-- **Real-time Monitoring**: File watcher for live updates
-- **MCP Management**: Server status and configuration
-- **Cost Tracking**: Token usage and pricing analytics
-- **Session Explorer**: Browse and search conversation history
-- **File Editing**: Press `e` to edit files in $EDITOR
-
-## Usage
+The ccboard TUI is interactive and needs a real terminal, so it cannot run inside this session's Bash tool. Check that it is installed, then tell the user to run it in a separate terminal.
 
 ```bash
-# Launch TUI dashboard
-/dashboard
-
-# Alternative: run directly
-ccboard
+if ! command -v ccboard >/dev/null 2>&1; then echo "ccboard is not installed. Install it with /ccboard-install or: cargo install ccboard"; exit 1; fi
+ccboard --version
 ```
 
-## Navigation
+Tell the user to run `ccboard` in another terminal. Inside the TUI, `?` shows the current keys and tabs, `r` refreshes, `q` quits.
 
-- `1-8` : Jump to specific tab
-- `Tab` / `Shift+Tab` : Navigate tabs
-- `q` : Quit
-- `F5` : Refresh data
-- `e` : Edit selected file
-- `o` : Reveal file in finder
-
-## Requirements
-
-ccboard must be installed. If not installed, run:
-```bash
-/ccboard-install
-```
-
-## Implementation
-
-```bash
-#!/bin/bash
-
-# Check if ccboard is installed
-if ! command -v ccboard &> /dev/null; then
-    echo "❌ ccboard is not installed"
-    echo ""
-    echo "Install with:"
-    echo "  /ccboard-install"
-    echo ""
-    echo "Or manually:"
-    echo "  cargo install ccboard"
-    exit 1
-fi
-
-# Launch ccboard TUI
-exec ccboard
-```
+For numbers without opening the TUI, run `ccboard stats` and summarize the output.

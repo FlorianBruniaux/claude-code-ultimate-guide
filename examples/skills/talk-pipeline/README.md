@@ -4,25 +4,26 @@
 
 ## Install
 
-Copy the `talk-pipeline/` directory to your project's `.claude/skills/` folder:
+Claude Code loads skills only from `.claude/skills/<skill-name>/SKILL.md`, one level deep, so the orchestrator and each stage are separate sibling directories. From the repository root, copy them to your project's skills folder:
 
 ```bash
-cp -r examples/skills/talk-pipeline ~/.claude/skills/
+mkdir -p .claude/skills
+cp -r examples/skills/talk-pipeline examples/skills/talk-stage* .claude/skills/
 ```
 
-Or install only the stages you need (each stage is independent).
+Or install only the stages you need (each stage is independent). The orchestrator runs the stages by name, so it needs all of them.
 
 ## Stages
 
-| Stage | Skill file | Mode | Description |
+| Stage | Skill file (relative to this directory) | Mode | Description |
 |-------|-----------|------|-------------|
-| 1 | `stage-1-extract/SKILL.md` | REX + Concept | Extract source material into structured summary |
-| 2 | `stage-2-research/SKILL.md` | REX only | Git archaeology + timeline |
-| 3 | `stage-3-concepts/SKILL.md` | REX + Concept | Scored concept catalogue |
-| 4 | `stage-4-position/SKILL.md` | REX + Concept | Angles, titles, descriptions + CHECKPOINT |
-| 5 | `stage-5-script/SKILL.md` | REX + Concept | 5-act pitch + slides spec + Kimi prompt |
-| 6 | `stage-6-revision/SKILL.md` | REX + Concept | Revision sheets + Q&A cheat-sheet |
-| — | `orchestrator/SKILL.md` | REX + Concept | Run the full pipeline from one invocation |
+| 1 | `../talk-stage1-extract/SKILL.md` | REX + Concept | Extract source material into structured summary |
+| 2 | `../talk-stage2-research/SKILL.md` | REX only | Git archaeology + timeline |
+| 3 | `../talk-stage3-concepts/SKILL.md` | REX + Concept | Scored concept catalogue |
+| 4 | `../talk-stage4-position/SKILL.md` | REX + Concept | Angles, titles, descriptions + CHECKPOINT |
+| 5 | `../talk-stage5-script/SKILL.md` | REX + Concept | 5-act pitch + slides spec + Kimi prompt |
+| 6 | `../talk-stage6-revision/SKILL.md` | REX + Concept | Revision sheets + Q&A cheat-sheet |
+| 0 | `SKILL.md` (this directory) | REX + Concept | Run the full pipeline from one invocation |
 
 ## Quick start
 

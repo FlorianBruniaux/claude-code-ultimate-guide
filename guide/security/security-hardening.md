@@ -962,14 +962,23 @@ Recommended security hook configuration for `~/.claude/settings.json`:
       {
         "matcher": "Bash",
         "hooks": [
-          "~/.claude/hooks/dangerous-actions-blocker.sh"
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/dangerous-actions-blocker.sh"
+          }
         ]
       },
       {
         "matcher": "Edit|Write",
         "hooks": [
-          "~/.claude/hooks/prompt-injection-detector.sh",
-          "~/.claude/hooks/unicode-injection-scanner.sh"
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/prompt-injection-detector.sh"
+          },
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/unicode-injection-scanner.sh"
+          }
         ]
       }
     ],
@@ -977,12 +986,22 @@ Recommended security hook configuration for `~/.claude/settings.json`:
       {
         "matcher": "Bash",
         "hooks": [
-          "~/.claude/hooks/output-secrets-scanner.sh"
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/output-secrets-scanner.sh"
+          }
         ]
       }
     ],
     "SessionStart": [
-      "~/.claude/hooks/mcp-config-integrity.sh"
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/mcp-config-integrity.sh"
+          }
+        ]
+      }
     ]
   }
 }
@@ -1199,7 +1218,7 @@ Entire's own documentation calls redaction "a safety net rather than a guarantee
 |-------|---------|----------------------|-------------|
 | **1. Scoped Revocation** | Disable specific capabilities | [`dangerous-actions-blocker.sh`](../../examples/hooks/bash/dangerous-actions-blocker.sh) hook, `permissions.deny` in settings | Suspicious behavior, restrict scope |
 | **2. Velocity Governor** | Rate-limit or threshold triggers | Custom hook tracking command frequency, `--allowedTools` flag to restrict tool set | Agent acting erratically, too many changes |
-| **3. Global Hard Stop** | Kill everything immediately | `Ctrl+C` / `Esc`, `claude config set --disable`, uninstall | Confirmed compromise, emergency |
+| **3. Global Hard Stop** | Kill everything immediately | `Ctrl+C` / `Esc`, `/exit`, uninstall | Confirmed compromise, emergency |
 
 **Practical example: Level 2 velocity governor hook**
 
@@ -1385,7 +1404,7 @@ Security professionals who need more than defensive review should check Anthropi
 - [Enterprise AI Governance](./enterprise-governance.md): Org-level MCP governance (approval workflow, registry, guardrail tiers). This guide covers individual MCP vetting; that guide covers org-level policy.
 - [Data Privacy Guide](./data-privacy.md): Retention policies, compliance, what data leaves your machine
 - [AI Traceability](../ops/ai-traceability.md): PromptPwnd vulnerability, CI/CD security, attribution policies
-- [Security Checklist Skill](../../examples/skills/security-checklist.md): OWASP Top 10 patterns for code review
+- [Security Checklist Skill](../../examples/skills/security-checklist/SKILL.md): OWASP Top 10 patterns for code review
 - [Security Auditor Agent](../../examples/agents/security-auditor.md): Automated vulnerability detection (read-only)
 - [Security Patcher Agent](../../examples/agents/security-patcher.md): Applies patches from audit findings (human approval required)
 - [Security Gate Hook](../../examples/hooks/bash/security-gate.sh): Blocks vulnerable code patterns at write time (7 patterns)
@@ -1411,7 +1430,7 @@ Security professionals who need more than defensive review should check Anthropi
 
 ## Part 7: Remote Control security {#remote-control-security}
 
-> **Feature context**: Remote Control (Research Preview, Feb 2026) allows controlling a local Claude Code session from a phone, tablet, or browser. Available on Pro and Max plans only.
+> **Feature context**: Remote Control (Research Preview, Feb 2026) allows controlling a local Claude Code session from a phone, tablet, or browser. Available on Pro, Max, Ultra, Team, and Enterprise plans (on Team and Enterprise an Owner must first enable it in Claude Code admin settings; API keys are not supported).
 
 ### Architecture
 
@@ -1461,7 +1480,7 @@ Local terminal ──HTTPS outbound──► Anthropic relay ──► Mobile/Br
 
 Remote Control is **not available** on Team or Enterprise plans. However:
 
-- Developers on personal Pro/Max accounts may use it on corporate hardware
+- Developers on personal Pro, Max, or Ultra accounts may use it on corporate hardware
 - The relay traffic (your commands and Claude's responses) passes through Anthropic infrastructure
 - If your organization has strict data residency requirements, treat Remote Control like any cloud-routed tool
 - Recommended: use only on a dedicated "sandbox" workstation without access to production systems

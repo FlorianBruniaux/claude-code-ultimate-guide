@@ -17,7 +17,8 @@ from pathlib import Path
 
 SKILL_MD_TEMPLATE = '''---
 name: {skill_name}
-description: [One-line description of what this skill does and when to use it]
+description: "[What this skill does. Use when (trigger situations).]"
+effort: medium
 ---
 
 # {skill_title}
@@ -193,7 +194,7 @@ def create_skill(skill_name: str, output_path: str) -> bool:
         print("   2. Add scripts to scripts/ for automation")
         print("   3. Add reference docs to references/")
         print("   4. Add templates to assets/")
-        print(f"   5. Test with: skill: \"{skill_name}\"")
+        print(f"   5. Test by running /{skill_name} or by describing its use case")
 
         return True
 

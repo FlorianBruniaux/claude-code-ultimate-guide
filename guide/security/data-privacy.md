@@ -125,14 +125,14 @@ What gets included in a bug report: your entire session context at the time of `
 **Verify if you have already disabled it:**
 
 ```bash
-echo $DISABLE_BUG_COMMAND
+echo $DISABLE_FEEDBACK_COMMAND
 ```
 
-If empty, the command is active. To disable permanently:
+If empty, the command is active (the older name `DISABLE_BUG_COMMAND` is still accepted as an alias). To disable permanently:
 
 ```bash
 # Add to ~/.zshrc or ~/.bashrc
-export DISABLE_BUG_COMMAND=1
+export DISABLE_FEEDBACK_COMMAND=1
 ```
 
 If you work on multiple machines or share dotfiles via a repo, adding this to your profile is the only way to keep it off across environments. Environment variables set in `.claude/settings.json` do not persist across shell sessions.
@@ -271,10 +271,10 @@ Create `.claude/hooks/PreToolUse.sh`:
 ```bash
 #!/bin/bash
 INPUT=$(cat)
-TOOL_NAME=$(echo "$INPUT" | jq -r '.tool.name')
+TOOL_NAME=$(echo "$INPUT" | jq -r '.tool_name')
 
 if [[ "$TOOL_NAME" == "Read" ]]; then
-    FILE_PATH=$(echo "$INPUT" | jq -r '.tool.input.file_path')
+    FILE_PATH=$(echo "$INPUT" | jq -r '.tool_input.file_path')
 
     # Block reading sensitive files
     if [[ "$FILE_PATH" =~ \.env|credentials|secrets|\.pem|\.key ]]; then
@@ -292,7 +292,7 @@ Claude Code connects to third-party services for operational metrics (Statsig) a
 |----------|-----------------|
 | `DISABLE_TELEMETRY=1` | Statsig operational metrics (latency, reliability, usage patterns) |
 | `DISABLE_ERROR_REPORTING=1` | Sentry error logging |
-| `DISABLE_BUG_COMMAND=1` | The `/bug` command (prevents sending full conversation history) |
+| `DISABLE_FEEDBACK_COMMAND=1` | The `/feedback` command, plus `/bug` and `/share` (prevents sending full conversation history). Older name `DISABLE_BUG_COMMAND` is still accepted |
 | `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1` | All non-essential network traffic at once |
 | `CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY=1` | Session quality surveys (note: surveys only send your numeric rating, never transcripts) |
 
@@ -302,7 +302,7 @@ Add these to your shell profile for permanent effect:
 # In ~/.zshrc or ~/.bashrc
 export DISABLE_TELEMETRY=1
 export DISABLE_ERROR_REPORTING=1
-export DISABLE_BUG_COMMAND=1
+export DISABLE_FEEDBACK_COMMAND=1
 ```
 
 > **Note**: When using Bedrock, Vertex, or Foundry providers, all non-essential traffic (telemetry, error reporting, bug command, surveys) is disabled by default.
@@ -412,9 +412,9 @@ Go to [claude.ai/settings/data-privacy-controls](https://claude.ai/settings/data
 **2. `/bug` command disabled**
 
 ```bash
-echo $DISABLE_BUG_COMMAND
+echo $DISABLE_FEEDBACK_COMMAND
 # Should print: 1
-# If empty: add "export DISABLE_BUG_COMMAND=1" to your ~/.zshrc
+# If empty: add "export DISABLE_FEEDBACK_COMMAND=1" to your ~/.zshrc
 ```
 
 **3. `.env` files blocked**

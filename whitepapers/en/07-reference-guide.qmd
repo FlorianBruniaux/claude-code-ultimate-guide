@@ -335,7 +335,7 @@ Claude Code's context budget depends on the selected model and provider. Underst
 
 ```
 +--------------------------------------------------------+
-|              CONTEXT BUDGET (~200K tokens)              |
+|       CONTEXT BUDGET (illustrative, ~200K)              |
 +--------------------------------------------------------+
 |  System Prompt                            (~5-15K)     |
 |  CLAUDE.md Files                          (~1-10K)     |
@@ -344,7 +344,8 @@ Claude Code's context budget depends on the selected model and provider. Underst
 |  Reserved for Response                    (~40-45K)    |
 +--------------------------------------------------------+
 
-USABLE = Total - System - Reserved (varies by model and session)
+USABLE = Total - System - Reserved (varies by model and session;
+the window is 1M on current models, 200K here is only an example)
 ```
 
 ## Context management signals
@@ -647,7 +648,7 @@ effort: high
 ---
 ```
 
-Current adaptive models support `low`, `medium`, `high`, `xhigh`, and `max`; legacy Haiku 4.5 has no effort parameter. In Claude Code, Opus 5.5, Sonnet 5.5 and Haiku 5.5 default to `medium` and Fable 5.2 to `high` (the Claude API's own default for Sonnet 5.5 is `high`). Choose a supported level and verify the result; `xhigh` is not the highest API level.
+Current adaptive models support `low`, `medium`, `high`, `xhigh`, and `max`; legacy Haiku 4.5 has no effort parameter. In Claude Code, Opus 5.5, Sonnet 5.5, Haiku 5.5 and Fable 5.2 default to `medium` (the Claude API's own default for Fable 5.2 and Sonnet 5.5 is `high`). Choose a supported level and verify the result; `xhigh` is not the highest API level.
 
 ### Bundled resources
 
@@ -1218,7 +1219,7 @@ You: "What did the research find?"
 
 | Component | Role |
 |-----------|------|
-| `TeamCreate` | Create a team of agents |
+| `TeamCreate` | Removed in v2.1.178: teammates join the session's implicit team via the Agent tool `name` |
 | `SendMessage` | Send messages between agents |
 | `TaskList` | View all agents' tasks |
 
@@ -2002,7 +2003,7 @@ These commands target specific use cases: cost optimization (`/model`, `/cost`, 
 | `/teleport` | Teleport session from web | Web->CLI migration |
 | `/tasks` | View and manage background work, including finished subagents | Background agents |
 | `/remote-env` | Configure cloud environment | Remote setup |
-| `/fast` | Toggle Opus 5.5 fast mode ($8/$40 per MTok, up to 2.5x output speed) | Compare latency and total cost |
+| `/fast` | Toggle fast mode on Opus 5.5 ($8/$40 per MTok) or Fable 5.2 ($16/$80), up to 2.5x output speed | Compare latency and total cost |
 | `/debug` (bundled skill) | Enables debug logging and troubleshoots from the session debug log | Structured debugging |
 | `/config [key=value]` | Open Settings, or set a key directly | Setup |
 | `/cost` | View session costs (alias `/usage`) | Monitoring |
@@ -2033,8 +2034,8 @@ The table combines built-in commands and optional custom skills from several rel
 | `/session-save` (custom skill) | Structured session handoff | v3.37.x |
 | `/autoresearch` (custom skill) | Autonomous code quality loop | v3.37.x |
 | `/loop [interval] [cmd]` | Fixed interval when supplied; otherwise Claude chooses the delay. Custom skills must allow model invocation | v2.1.71 |
-| `/ultrareview` | Cloud-based parallel multi-agent code review (local branch or GitHub PR) | v3.39.1 |
-| `/fewer-permission-prompts` (bundled skill) | Scans transcripts for common read-only Bash and MCP calls and adds a prioritized allowlist to project `.claude/settings.json` | v3.39.1 |
+| `/ultrareview` | Cloud-based parallel multi-agent code review (local branch or GitHub PR) | v2.1.111 (improved in v2.1.114) |
+| `/fewer-permission-prompts` (bundled skill) | Scans transcripts for common read-only Bash and MCP calls and adds a prioritized allowlist to project `.claude/settings.json` | v2.1.111 (shipped as `/less-permission-prompts`) |
 | `/usage` | Session cost, plan usage limits and activity stats; `/cost` and `/stats` are aliases | v2.1.118 |
 | `/proactive` | Alias for `/loop` | v2.1.105 |
 | `/team-onboarding` | Generates a personalized onboarding guide for the team | v2.1.106 |
@@ -2062,7 +2063,7 @@ Standard API rates, checked November 11, 2026 at the official pricing source. US
 | Haiku 5.5 | $0.10 / $0.50 (prompts up to 100K; $0.50 / $2.50 above) | 1M | medium |
 | Sonnet 5.5 | $2 / $10 | 1M | medium |
 | Opus 5.5 | $4 / $20 | 1M | medium |
-| Fable 5.2 | $8 / $40 | 1M | high |
+| Fable 5.2 | $8 / $40 | 1M | medium |
 
 Default effort is the Claude Code default. Sonnet 5.5 replaces legacy Sonnet 5 on the direct API since v2.1.284, at the same standard $2/$10. Haiku 4.5 ($1/$5, 200K, no effort parameter) is legacy. Opus 5.5 is the direct-service default; account policy can override it. Model choice does not establish a typical task cost.
 
@@ -2084,7 +2085,7 @@ Current adaptive models support `low`, `medium`, `high`, `xhigh`, and `max`. Opu
 
 `Option+T` / `Alt+T` toggles thinking where supported. It has no effect on Opus 5.5, Sonnet 5.5, Haiku 5.5, or Fable, whose thinking cannot be turned off. Lower effort for bounded work instead.
 
-`ultrathink` adds a reasoning instruction without changing API effort. `think hard` is ordinary prompt text.
+`ultrathink` adds a reasoning instruction and, since Claude Code v2.1.311 (terminal) and v2.1.316 (VS Code, desktop app), runs that turn at `xhigh` without changing the session effort. `think hard` is ordinary prompt text.
 
 ## Choose by measured results
 
@@ -2110,7 +2111,7 @@ Keyboard shortcuts let you control Claude Code without breaking your flow. The m
 
 Use **Plan only** for risky refactorings: review the plan, then `Shift+Tab` back to Default to execute.
 
-**v3.39.1 changes**: Auto mode is now available directly for Max subscribers without the `--enable-auto-mode` flag. Read-only bash glob patterns no longer trigger permission prompts.
+**Auto mode note**: Auto mode no longer needs the `--enable-auto-mode` flag, and read-only bash glob patterns no longer trigger permission prompts.
 :::
 
 | Shortcut | Action | When to use |
@@ -2252,7 +2253,7 @@ To go deeper on each topic, consult the dedicated whitepapers:
 | 05 | Team | ~28 | Adoption, standards, CI/CD, metrics |
 | 06 | Privacy | ~18 | Data retention, compliance, opt-out |
 | **07** | **Reference Guide** | **~120** | **This document: synthesis + new content** |
-| 08 | Agent Teams | ~15 | TeamCreate, SendMessage, multi-agent coordination |
+| 08 | Agent Teams | ~15 | Agent tool `name`, SendMessage, multi-agent coordination |
 
 ## Reading matrix by need
 

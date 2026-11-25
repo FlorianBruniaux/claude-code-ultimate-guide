@@ -114,8 +114,6 @@ jobs:
       - uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          claude_env: |
-            GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
 ```
 
 **Usage examples:**
@@ -294,30 +292,47 @@ jobs:
 
 ## Authentication alternatives
 
-The examples above use `ANTHROPIC_API_KEY` directly. For teams using cloud providers:
+The examples above use `ANTHROPIC_API_KEY` directly. For teams using cloud providers, the official GitHub Actions page authenticates with OIDC (workload identity) instead of static keys: grant the workflow `id-token: write`, exchange the OIDC token with your cloud provider, and pass the model through `claude_args`. The model IDs below are the ones that page uses; check it for current values.
 
-**Amazon Bedrock:**
+**Amazon Bedrock** (OIDC via `aws-actions/configure-aws-credentials`):
 ```yaml
-- uses: anthropics/claude-code-action@v1
-  with:
-    use_bedrock: 'true'
-  env:
-    AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-    AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    AWS_REGION: us-east-1
-    ANTHROPIC_MODEL: 'anthropic.claude-3-5-sonnet-20241022-v2:0'
+permissions:
+  contents: read
+  id-token: write
+steps:
+  - uses: aws-actions/configure-aws-credentials@v4
+    with:
+      role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+      aws-region: us-west-2
+  - uses: anthropics/claude-code-action@v1
+    with:
+      use_bedrock: "true"
+      claude_args: '--model us.anthropic.claude-sonnet-4-6'
 ```
 
-**Google Vertex AI:**
+Bedrock model IDs carry a cross-region inference profile prefix such as `us.`. Use the prefix for the region group where you granted model access.
+
+**Google Cloud Agent Platform** (the official page's name for what this guide previously called Vertex AI; OIDC via workload identity federation):
 ```yaml
-- uses: anthropics/claude-code-action@v1
-  with:
-    use_vertex: 'true'
-  env:
-    ANTHROPIC_VERTEX_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-    CLOUD_ML_REGION: us-east5
-    ANTHROPIC_MODEL: 'claude-3-5-sonnet-v2@20241022'
+permissions:
+  contents: read
+  id-token: write
+steps:
+  - id: auth
+    uses: google-github-actions/auth@v2
+    with:
+      workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+      service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+  - uses: anthropics/claude-code-action@v1
+    with:
+      use_vertex: "true"
+      claude_args: '--model claude-sonnet-5'
+    env:
+      ANTHROPIC_VERTEX_PROJECT_ID: ${{ steps.auth.outputs.project_id }}
+      CLOUD_ML_REGION: us-east5
 ```
+
+Microsoft Foundry is also supported (`use_foundry: "true"`). The input name `use_vertex` keeps its historical spelling.
 
 Cloud providers benefit from data residency compliance and can use existing IAM policies instead of managing a separate API key.
 

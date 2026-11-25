@@ -26,20 +26,20 @@ Hooks are scripts that execute automatically on Claude Code events. They enable 
 | [rtk-baseline.sh](./bash/rtk-baseline.sh) | SessionStart | Save RTK baseline for session savings tracking | Bash |
 | [session-summary.sh](./bash/session-summary.sh) | SessionEnd | Full session analytics (15 configurable sections) | Bash |
 | [session-summary-config.sh](./bash/session-summary-config.sh) | CLI tool | Configure session-summary sections, order, preview | Bash |
-| [learning-capture.sh](./bash/learning-capture.sh) | Stop | Prompt for daily learning capture | Bash |
-| [sandbox-validation.sh](./bash/sandbox-validation.sh) | PreToolUse | Validate sandbox isolation | Bash |
+| [learning-capture.sh](./bash/learning-capture.sh) | Stop | Remind once per session to log one learning | Bash |
+| [sandbox-validation.sh](./bash/sandbox-validation.sh) | PreToolUse | Refuse `dangerouslyDisableSandbox` retries in strict or production mode | Bash |
 | [file-guard.sh](./bash/file-guard.sh) | PreToolUse | Protect sensitive files from modification | Bash |
-| [permission-request.sh](./bash/permission-request.sh) | PreToolUse | Explicit permission flow for risky ops | Bash |
-| [rtk-auto-wrapper.sh](./bash/rtk-auto-wrapper.sh) | PreToolUse | Auto-wrap commands with RTK for token savings | Bash |
-| [setup-init.sh](./bash/setup-init.sh) | SessionStart | Initialize session environment | Bash |
-| [auto-checkpoint.sh](./bash/auto-checkpoint.sh) | PostToolUse | Auto-checkpoint work at intervals | Bash |
+| [permission-request.sh](./bash/permission-request.sh) | PermissionRequest | Log permission dialogs, deny risky writes through a `decision` object | Bash |
+| [rtk-auto-wrapper.sh](./bash/rtk-auto-wrapper.sh) | PreToolUse | Rewrite verbose commands to `rtk <command>` via `updatedInput` | Bash |
+| [setup-init.sh](./bash/setup-init.sh) | Setup | Log and report project state for `--init-only` or `-p --init` runs | Bash |
+| [auto-checkpoint.sh](./bash/auto-checkpoint.sh) | Stop | Snapshot tracked changes into a git stash after each response | Bash |
 | [typecheck-on-save.sh](./bash/typecheck-on-save.sh) | PostToolUse | Run TypeScript checks on save | Bash |
 | [test-on-change.sh](./bash/test-on-change.sh) | PostToolUse | Run tests on file changes | Bash |
 | [output-validator.sh](./bash/output-validator.sh) | PostToolUse | Heuristic output validation | Bash |
 | [session-logger.sh](./bash/session-logger.sh) | PostToolUse | Log operations for monitoring | Bash |
-| [privacy-warning.sh](./bash/privacy-warning.sh) | PostToolUse | Warn on potential privacy leaks | Bash |
-| [tts-selective.sh](./bash/tts-selective.sh) | PostToolUse | Text-to-speech for selected outputs | Bash |
-| [subagent-stop.sh](./bash/subagent-stop.sh) | Stop | Clean up sub-agent resources | Bash |
+| [privacy-warning.sh](./bash/privacy-warning.sh) | SessionStart | Remind the user what data goes to Anthropic | Bash |
+| [tts-selective.sh](./bash/tts-selective.sh) | Notification | Text-to-speech for selected notifications | Bash |
+| [subagent-stop.sh](./bash/subagent-stop.sh) | SubagentStop | Log subagent completions | Bash |
 | [pre-commit-secrets.sh](./bash/pre-commit-secrets.sh) | Git hook | Block secrets from entering commits | Bash |
 | [pre-commit-evaluator.sh](./bash/pre-commit-evaluator.sh) | Git hook | LLM-as-a-Judge pre-commit validation | Bash |
 | [notification.sh](./bash/notification.sh) | Notification | Contextual macOS sound alerts | Bash (macOS) |
@@ -156,8 +156,8 @@ Detects and blocks prompt injection attempts before they reach Claude:
     "PreToolUse": [{
       "hooks": [{
         "type": "command",
-        "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/prompt-injection-detector.sh",
-        "timeout": 5000
+        "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/prompt-injection-detector.sh",
+        "timeout": 5
       }]
     }]
   }
@@ -178,7 +178,7 @@ Heuristic validation of Claude's outputs (no LLM call, pure bash):
 - Incomplete implementations: `NotImplementedError`, `throw new Error`
 - Unverified reference claims
 
-**Behavior**: Warns via `systemMessage`, does not block. For deeper validation, use the `output-evaluator` agent.
+**Behavior**: Warns via `systemMessage` (shown to the user), does not block. Scans `tool_input.content` or `tool_input.new_string` for Write and Edit, and `tool_response` for Bash. For deeper validation, use the `output-evaluator` agent.
 
 ### session-logger.sh
 
@@ -196,12 +196,13 @@ Logs all Claude operations to JSONL files for monitoring and cost tracking:
 
 **Analysis**: Use `session-stats.sh` script to analyze logs.
 
+The session id is read from the `session_id` field of the hook input.
+
 **Environment Variables**:
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `CLAUDE_LOG_DIR` | `~/.claude/logs` | Log directory |
 | `CLAUDE_LOG_TOKENS` | `true` | Enable token estimation |
-| `CLAUDE_SESSION_ID` | auto | Custom session ID |
 
 See [Observability Guide](../../guide/ops/observability.md) for full documentation.
 
@@ -304,8 +305,8 @@ Scans CLAUDE.md files at session start for potential prompt injection attacks:
     "SessionStart": [{
       "hooks": [{
         "type": "command",
-        "command": ".claude/hooks/claudemd-scanner.sh",
-        "timeout": 5000
+        "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/claudemd-scanner.sh",
+        "timeout": 5
       }]
     }]
   }
@@ -334,8 +335,8 @@ Complements `security-check.sh` by scanning tool **outputs** (not inputs) for le
     "PostToolUse": [{
       "hooks": [{
         "type": "command",
-        "command": ".claude/hooks/output-secrets-scanner.sh",
-        "timeout": 5000
+        "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/output-secrets-scanner.sh",
+        "timeout": 5
       }]
     }]
   }
@@ -358,7 +359,7 @@ Captures RTK cumulative stats at session start for delta tracking. Paired with `
       "hooks": [{
         "type": "command",
         "command": "~/.claude/hooks/rtk-baseline.sh",
-        "timeout": 5000
+        "timeout": 5
       }]
     }]
   }
@@ -465,7 +466,7 @@ Git: +142 -37 lines · 4 files changed
 Code: +87 -12 net (via Edit/Write)
 
 Model Usage         Reqs    Input    Output
-claude-opus-4-6       59      93K      628
+claude-opus-5-5       59      93K      628
 Cache: 85% hit rate (3.9M read / 322K created)
 Est. Cost: $0.045
 
@@ -481,12 +482,15 @@ Turns: 12 (8 interactive · 4 auto) · Avg 6.7s/turn
     "SessionEnd": [{
       "hooks": [{
         "type": "command",
-        "command": "~/.claude/hooks/session-summary.sh"
+        "command": "~/.claude/hooks/session-summary.sh",
+        "timeout": 15
       }]
     }]
   }
 }
 ```
+
+SessionEnd hooks share a 1.5 second budget by default and are cancelled when it runs out. A per-hook `timeout` (in seconds) raises the budget to match, up to 60 seconds, so keep the `timeout` above or the summary can be cut off. Claude Code discards the JSON output of SessionEnd hooks, so the summary reaches the terminal only through `/dev/tty` or stderr and is always written to the JSONL log.
 
 **Quick Install**: Plugin system (see above) or manual: `session-summary-config.sh install` (copies hooks + updates settings.json)
 
@@ -567,8 +571,8 @@ Hooks are configured in `.claude/settings.json`:
         "matcher": "Bash|Edit|Write",
         "hooks": [{
           "type": "command",
-          "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/dangerous-actions-blocker.sh",
-          "timeout": 5000
+          "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/dangerous-actions-blocker.sh",
+          "timeout": 5
         }]
       }
     ],
@@ -577,8 +581,8 @@ Hooks are configured in `.claude/settings.json`:
         "matcher": "Edit|Write",
         "hooks": [{
           "type": "command",
-          "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/auto-format.sh",
-          "timeout": 10000
+          "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/auto-format.sh",
+          "timeout": 10
         }]
       }
     ],
@@ -586,8 +590,8 @@ Hooks are configured in `.claude/settings.json`:
       {
         "hooks": [{
           "type": "command",
-          "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/notification.sh",
-          "timeout": 5000
+          "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/notification.sh",
+          "timeout": 5
         }]
       }
     ]
@@ -595,11 +599,15 @@ Hooks are configured in `.claude/settings.json`:
 }
 ```
 
-**Matcher Patterns**:
-- `".*"` - Match all tools
-- `"Bash"` - Match only Bash tool
+`timeout` is in seconds (the defaults are 600 for command hooks, 30 on `UserPromptSubmit`). A value such as `5000` means about 83 minutes, not 5 seconds.
+
+**Matcher Patterns** (a matcher made only of letters, digits, `_`, `-`, spaces, `,` and `|` is an exact name or list of names; any other character makes it a regular expression):
+- `"*"`, `""` or omitted - Match every occurrence of the event
+- `"Bash"` - Match only the Bash tool
 - `"Edit|Write"` - Match Edit OR Write tools
-- `"Bash|Edit|Write"` - Match multiple tools
+- `"Agent"` - Match the subagent tool (formerly `Task`)
+- `"mcp__.*"` - Match every MCP tool
+- Events such as `UserPromptSubmit`, `Stop`, and `SubagentStop` ignore or reinterpret the matcher: see the event table in the hooks reference for what each event filters on
 
 ## Creating custom hooks
 
@@ -608,7 +616,9 @@ Hooks are configured in `.claude/settings.json`:
 ```bash
 #!/bin/bash
 # Hook: [EventType] - Description
-# Exit 0 = success/allow, Exit 2 = block (PreToolUse only)
+# Exit 0 = success/allow, Exit 2 = blocking error (what it blocks depends on the
+# event: PreToolUse blocks the tool call, UserPromptSubmit rejects the prompt, Stop
+# keeps Claude working; PostToolUse only shows stderr to Claude, the tool already ran)
 
 set -e
 
@@ -621,12 +631,14 @@ TOOL_INPUT=$(echo "$INPUT" | jq -r '.tool_input // empty')
 
 # Your logic here...
 
-# Return optional JSON
+# Return optional JSON (print one JSON object and nothing else on stdout).
+# systemMessage is shown to the user; additionalContext is what Claude sees.
 cat << EOF
 {
-  "systemMessage": "Message displayed to Claude",
+  "systemMessage": "Message displayed to the user",
   "hookSpecificOutput": {
-    "additionalContext": "Extra context added"
+    "hookEventName": "UserPromptSubmit",
+    "additionalContext": "Extra context added for Claude"
   }
 }
 EOF
@@ -640,14 +652,15 @@ Available in hook scripts:
 
 | Variable | Description |
 |----------|-------------|
-| `CLAUDE_PROJECT_DIR` | Current project path |
-| `CLAUDE_FILE_PATHS` | Files passed with `-f` flag |
-| `CLAUDE_TOOL_INPUT` | Tool input as JSON |
+| `CLAUDE_PROJECT_DIR` | Project root where the session started (stays put when Claude enters a worktree; read `cwd` from the input JSON for the current directory) |
+| `CLAUDE_ENV_FILE` | File a `SessionStart` or `Setup` hook can append `export` lines to, to persist variables into later Bash commands |
 | `HOME` | User home directory |
+
+Everything else about the event arrives as JSON on stdin (`session_id`, `cwd`, `tool_name`, `tool_input`, `tool_response`, `hook_event_name`, `agent_type`, and so on). The hooks reference documents no `CLAUDE_TOOL_NAME`, `CLAUDE_TOOL_INPUT` or `CLAUDE_SESSION_ID` variables, so read the stdin JSON instead.
 
 ### Best practices
 
-1. **Short Timeout**: Max 5-10s to avoid blocking Claude
+1. **Short Timeout**: Max 5-10s (`timeout` is in seconds) to avoid blocking Claude
 2. **Fail Gracefully**: Use `|| true` for non-critical operations
 3. **Minimal Logging**: Avoid stdout except structured JSON
 4. **Require jq**: Parse JSON with `jq` for reliability
@@ -673,12 +686,10 @@ LAST_COMMIT=$(git log -1 --oneline 2>/dev/null || echo "none")
 UNCOMMITTED=$(git status --short 2>/dev/null | wc -l | tr -d ' ')
 STAGED=$(git diff --cached --name-only 2>/dev/null | wc -l | tr -d ' ')
 
-# Return enriched context
-cat << EOF
-{
-  "systemMessage": "[Git] Branch: $BRANCH | Last: $LAST_COMMIT | Uncommitted: $UNCOMMITTED files | Staged: $STAGED files"
-}
-EOF
+# Return enriched context (additionalContext reaches Claude; systemMessage would
+# only be shown to the user). jq escapes quotes in the commit subject.
+jq -n --arg ctx "[Git] Branch: $BRANCH | Last: $LAST_COMMIT | Uncommitted: $UNCOMMITTED files | Staged: $STAGED files" \
+    '{hookSpecificOutput: {hookEventName: "UserPromptSubmit", additionalContext: $ctx}}'
 
 exit 0
 ```
@@ -691,8 +702,8 @@ Register in settings:
       {
         "hooks": [{
           "type": "command",
-          "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/git-context.sh",
-          "timeout": 3000
+          "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/git-context.sh",
+          "timeout": 3
         }]
       }
     ]
@@ -738,7 +749,7 @@ chmod +x ~/.claude/hooks/*.sh
 
 3. Configure in `~/.claude/settings.json`
 
-**Priority**: Project hooks override global hooks.
+**Precedence**: hooks from user, project and local settings do not override each other: every matching hook runs, in parallel. An identical handler defined in several files runs once.
 
 ## Platform-specific notes
 
@@ -815,14 +826,14 @@ set -e
 
 INPUT=$(cat)
 TOOL=$(echo "$INPUT" | jq -r '.tool_name')
+SESSION=$(echo "$INPUT" | jq -r '.session_id')
 LOG_FILE="$HOME/.claude/logs/activity-$(date +%Y-%m-%d).jsonl"
 
 mkdir -p "$(dirname "$LOG_FILE")"
 
 # Create log entry
-cat << EOF >> "$LOG_FILE"
-{"timestamp":"$(date -u +%Y-%m-%dT%H:%M:%SZ)","tool":"$TOOL","session":"$CLAUDE_SESSION_ID"}
-EOF
+jq -nc --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" --arg tool "$TOOL" --arg session "$SESSION" \
+    '{timestamp: $ts, tool: $tool, session: $session}' >> "$LOG_FILE"
 
 exit 0
 ```
@@ -844,11 +855,13 @@ if [[ "$TOOL" == "Write" ]]; then
     FILE=$(echo "$INPUT" | jq -r '.tool_input.file_path')
 
     if [[ "$FILE" == *"/migrations/"* ]]; then
-        cat << EOF
-{
-  "systemMessage": "⚠️ Database migration created: $FILE\n\nReminder:\n1. Review migration carefully\n2. Test on dev database first\n3. Run 'prisma migrate deploy' after merge"
-}
-EOF
+        jq -n --arg file "$FILE" '{
+          systemMessage: ("Database migration created: " + $file),
+          hookSpecificOutput: {
+            hookEventName: "PostToolUse",
+            additionalContext: ("A database migration was created at " + $file + ". Review it, test it on a dev database first, and run prisma migrate deploy after merge.")
+          }
+        }'
     fi
 fi
 

@@ -9,15 +9,15 @@ This plugin bundles everything you need to secure your Claude Code setup: automa
 ✓ **Security Auditor Agent**: Specialist for threat modeling and CVE analysis
 ✓ **Quick Security Check**: 30-second configuration scan
 ✓ **Full Security Audit**: 6-phase deep dive with score /100
-✓ **Pre-Commit Security Gates**: Block dangerous operations before execution
-✓ **Configuration Audits**: Verify agents, skills, commands quality
-✓ **Compliance Templates**: Automated checklists for governance
+✓ **Security Hooks**: PreToolUse checks that block risky code patterns and secrets in commands
+✓ **Configuration Audits**: Verify agents, skills, and commands quality
+✓ **Compliance Checklist**: A `security-checklist` skill for governance
 
 ## Quick install
 
 ```bash
-# From this directory:
-bash install.sh
+# From a clone of this repository:
+bash examples/plugins/security-suite/install.sh
 
 # Verify installation:
 /security-check
@@ -25,7 +25,7 @@ bash install.sh
 /audit-agents-skills
 ```
 
-**Time:** 5 minutes. No external dependencies.
+No external dependencies beyond `jq` for the hooks. The installer copies components from `examples/` into `.claude/` and never overwrites existing files.
 
 ## Components
 
@@ -34,8 +34,8 @@ bash install.sh
 Specialist agent focused exclusively on security analysis.
 
 ```bash
-# Assign to a complex threat modeling task:
-@security-auditor Analyze this multi-agent setup for supply chain risks
+# Ask Claude to delegate:
+Use the security-auditor agent to analyze this multi-agent setup for supply chain risks
 ```
 
 **Capabilities:**
@@ -132,19 +132,13 @@ Verify quality of your custom agents, skills, commands.
 
 ### 5. Security hooks
 
-**Pre-commit Hook:** `security-gate.sh`
-Blocks dangerous operations before they execute:
-- Prevents `eval()` in custom code
-- Stops secret exposure (API keys, tokens)
-- Validates hook syntax
-- Checks for command injection patterns
+Both hooks are `PreToolUse` hooks.
 
-**Post-execution Hook:** `security-check.sh`
-Validates outputs for security issues:
-- Detects accidental secret exposure
-- Checks for path traversal attempts
-- Monitors resource usage (DoS detection)
-- Flags dangerous patterns
+**`security-gate.sh`** (matcher `Write|Edit`) detects vulnerable code patterns before they are written to source files.
+
+**`security-check.sh`** (matcher `Bash`) blocks commands that contain secrets.
+
+See the header comment of each script for the exact patterns.
 
 ## Usage scenarios
 
@@ -161,7 +155,7 @@ Validates outputs for security issues:
 ### Scenario 2: Evaluating a third-party skill
 
 ```
-1. Download skill to examples/skills/
+1. Copy the skill folder into `.claude/skills/`
 2. Run: /audit-agents-skills
 3. Review tool restrictions and code patterns
 4. If safe, integrate; otherwise reject
@@ -191,52 +185,35 @@ Validates outputs for security issues:
 
 ### Hook enablement
 
-If hooks don't auto-enable, add to `.claude/settings.json`:
+The installer copies the scripts but does not register them. Add to `.claude/settings.json`:
 
 ```json
 {
   "hooks": {
     "PreToolUse": [
       {
-        "matcher": "Bash|Edit",
+        "matcher": "Write|Edit",
         "hooks": [
           {
             "type": "command",
             "command": "bash .claude/hooks/bash/security-gate.sh",
-            "timeout": 3000
+            "timeout": 5
           }
         ]
-      }
-    ],
-    "PostToolUse": [
+      },
       {
-        "matcher": ".*",
+        "matcher": "Bash",
         "hooks": [
           {
             "type": "command",
             "command": "bash .claude/hooks/bash/security-check.sh",
-            "async": true
+            "timeout": 5
           }
         ]
       }
     ]
   }
 }
-```
-
-### Environment variables
-
-Configure security parameters:
-
-```bash
-# Maximum tool timeouts (prevent DoS)
-export CLAUDE_SECURITY_TIMEOUT=30000
-
-# Enable strict mode (block all unreviewed code)
-export CLAUDE_SECURITY_STRICT=true
-
-# Security audit level (quick|standard|paranoid)
-export CLAUDE_SECURITY_LEVEL=standard
 ```
 
 ## Learning path
@@ -250,13 +227,11 @@ export CLAUDE_SECURITY_LEVEL=standard
 5. **Deep dive** → Use `/self-assessment` to identify security knowledge gaps
 6. **Verify** → Re-audit until you hit your target score (85+/100 recommended)
 
+This bundle is a project-level installer, not a plugin package: `.claude-plugin/plugin.json` carries metadata only. To ship it as a real plugin, copy the components under the plugin root (`skills/<name>/SKILL.md`, `agents/<name>.md`, `hooks/hooks.json`) and run `claude plugin validate`.
+
 ## Uninstall
 
-```bash
-bash uninstall.sh
-```
-
-This removes all Security Suite components but preserves your backups (`.bak` files).
+Delete the copied files from `.claude/` (agents, skills, hooks) and remove the hook entries from `settings.json`.
 
 ## Getting help
 
@@ -267,9 +242,7 @@ This removes all Security Suite components but preserves your backups (`.bak` fi
 
 ## Version
 
-- **Plugin Version:** 1.0.0
-- **Requires:** Claude Code 2.1.0+
-- **Compatible Models:** Opus 5.5, Sonnet 5.5, Haiku 5.5
+- **Bundle version:** 1.1.0
 
 ## License
 

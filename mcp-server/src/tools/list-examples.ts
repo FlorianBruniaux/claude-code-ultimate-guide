@@ -9,7 +9,7 @@ type Category = typeof CATEGORIES[number];
 export function registerListExamples(server: McpServer): void {
   server.tool(
     'list_examples',
-    'List all production-ready templates in the guide by category (agents, commands, hooks, skills, scripts). Use get_example(name) to fetch the content of any specific template.',
+    'List all production-ready templates in the guide by category (agents, commands, hooks, skills, scripts). Slash command templates ship as skills; the "commands" category only holds legacy resources such as the threat database. Use get_example(name) to fetch the content of any specific template.',
     {
       category: z
         .enum(CATEGORIES)

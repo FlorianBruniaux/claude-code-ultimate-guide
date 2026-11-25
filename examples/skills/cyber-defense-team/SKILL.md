@@ -33,7 +33,7 @@ Stages 2 and 3 are sequential (each depends on previous output). Stage 4 runs af
 
 ### Step 1: Validate input
 
-Check that the log file exists (or that log content was provided inline). If the path doesn't exist, tell the user immediately and don't proceed.
+The log file path is the skill argument. Check that the file exists (or that log content was provided inline). If the path doesn't exist, tell the user immediately and don't proceed.
 
 ### Step 2: Spawn log ingestor
 

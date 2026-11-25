@@ -1,14 +1,13 @@
 ---
 name: ci-status
-description: Show current pipeline status for the active branch (GitLab CI or GitHub Actions)
-argument-hint: "[pr_number optional]"
+description: "Show the CI pipeline status for the active branch (GitLab CI or GitHub Actions), or for a given MR or PR number. Use when asked whether CI passed, is running, or failed."
+argument-hint: "[mr-or-pr-number]"
 allowed-tools: [Bash]
 model: haiku
 effort: low
-disable-model-invocation: true
 ---
 
-# /ci:status: Pipeline status
+# /ci-status: Pipeline status
 
 Quick snapshot of the CI pipeline on the current branch.
 
@@ -87,8 +86,8 @@ URL: https://gitlab.com/org/my-app/-/pipelines?ref=feat/add-payment-retry
 ## Usage
 
 ```
-/ci:status
-/ci:status 42    # MR or PR number 42
+/ci-status
+/ci-status 42    # MR or PR number 42
 ```
 
 Target: $ARGUMENTS

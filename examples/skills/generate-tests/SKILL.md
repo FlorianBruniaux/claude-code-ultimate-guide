@@ -1,10 +1,8 @@
 ---
 name: generate-tests
-description: Generate comprehensive tests for specified code
+description: "Generate tests for given code in the project's own test framework, covering happy path, edge cases and error cases. Use when adding test coverage for a function, module, or feature."
 argument-hint: "<file_or_module> [--framework jest|vitest|pytest]"
 effort: medium
-when_to_use: "Use when adding test coverage for a function, module, or feature."
-disable-model-invocation: true
 ---
 
 # Generate tests
@@ -17,6 +15,7 @@ Generate comprehensive tests for specified code.
 2. Identify testable units (functions, classes, methods)
 3. Generate tests following project conventions
 4. Ensure high coverage of edge cases
+5. Run the new tests and fix failures caused by the tests themselves; report any that expose a bug in the code instead of changing the assertion to pass
 
 ## Test generation process
 
@@ -26,10 +25,10 @@ Generate comprehensive tests for specified code.
 - Note edge cases and boundaries
 
 ### 2. Detect test framework
-Check for:
+If `--framework` was given, use it. Otherwise check for:
 - `jest.config.js` → Jest
 - `vitest.config.ts` → Vitest
-- `pytest.ini` → pytest
+- `pytest.ini` or `[tool.pytest]` in `pyproject.toml` → pytest
 - `mocha` in package.json → Mocha
 
 ### 3. Generate tests

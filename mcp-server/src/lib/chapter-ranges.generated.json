@@ -1,7 +1,7 @@
 {
-  "sourceSha256": "b9e293087f6fca52dc6257b54695c915eb5ba9d620678f52fd5b46e9469e6137",
-  "referenceSha256": "ef4abd7c77adec7ae3b19a26357d5427b831f78af3d414ed823cbef2c1937628",
-  "lineCount": 26194,
+  "sourceSha256": "718b277fcdf0c5714a02d06364709a550a167a499b175d293955812849c27c9f",
+  "referenceSha256": "61cf598b6b5d8567a279161bb6de25c5627992c201c410420e9cf285d0c3f836",
+  "lineCount": 26206,
   "ranges": [
     {
       "from": 1,
@@ -15,57 +15,57 @@
     },
     {
       "from": 1646,
-      "to": 4832,
+      "to": 4836,
       "slug": "02-core-workflow"
     },
     {
-      "from": 4833,
-      "to": 6368,
+      "from": 4837,
+      "to": 6374,
       "slug": "03-memory-files"
     },
     {
-      "from": 6369,
-      "to": 7262,
+      "from": 6375,
+      "to": 7268,
       "slug": "04-agents"
     },
     {
-      "from": 7263,
-      "to": 8870,
+      "from": 7269,
+      "to": 8876,
       "slug": "05-skills"
     },
     {
-      "from": 8871,
-      "to": 9807,
+      "from": 8877,
+      "to": 9813,
       "slug": "06-commands"
     },
     {
-      "from": 9808,
-      "to": 11715,
+      "from": 9814,
+      "to": 11728,
       "slug": "07-hooks"
     },
     {
-      "from": 11716,
-      "to": 14364,
+      "from": 11729,
+      "to": 14379,
       "slug": "08-mcp"
     },
     {
-      "from": 14365,
-      "to": 23679,
+      "from": 14380,
+      "to": 23691,
       "slug": "09-advanced-patterns"
     },
     {
-      "from": 23680,
-      "to": 25028,
+      "from": 23692,
+      "to": 25042,
       "slug": "10-reference"
     },
     {
-      "from": 25029,
-      "to": 25693,
+      "from": 25043,
+      "to": 25707,
       "slug": "11-ai-ecosystem"
     },
     {
-      "from": 25694,
-      "to": 26194,
+      "from": 25708,
+      "to": 26206,
       "slug": "12-appendices"
     }
   ]

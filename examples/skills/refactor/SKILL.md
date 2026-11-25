@@ -1,7 +1,7 @@
 ---
 name: refactor
 description: Analyze code for SOLID violations and suggest targeted improvements
-argument-hint: "<file_or_module> [--pattern <name>]"
+argument-hint: "[file-or-dir] [--focus=srp|ocp|lsp|isp|dip] [--threshold=low|medium|high]"
 effort: medium
 when_to_use: "Use when a module has SOLID violations, code smells, or duplication to address."
 disable-model-invocation: true
@@ -29,7 +29,7 @@ Determine the refactoring scope from user input:
 - Function/class: Focused extraction suggestions
 
 ```bash
-# Get file/directory stats
+# Get file/directory stats (TARGET is the path from $ARGUMENTS)
 if [ -f "$TARGET" ]; then
   wc -l "$TARGET"
   echo "Single file analysis"
@@ -51,10 +51,10 @@ Look for:
 
 ```bash
 # Find large files
-find . -name "*.{ts,js,py}" -exec wc -l {} + 2>/dev/null | sort -rn | head -10
+find . \( -name "*.ts" -o -name "*.js" -o -name "*.py" \) -exec wc -l {} + 2>/dev/null | sort -rn | head -10
 
 # Functions with high line count (approximate)
-grep -rn "function\|def \|fn " --include="*.{ts,js,py,rs}" . | head -20
+grep -rn "function\|def \|fn " --include="*.ts" --include="*.js" --include="*.py" --include="*.rs" . | head -20
 ```
 
 #### O - open/closed principle
@@ -89,14 +89,14 @@ Look for:
 
 ```bash
 # Duplication patterns
-grep -rn --include="*.{ts,js,py}" . 2>/dev/null | \
-  awk -F: '{print $3}' | sort | uniq -c | sort -rn | head -10
+grep -rn --include="*.ts" --include="*.js" --include="*.py" . 2>/dev/null | \
+  awk -F: '{print \$3}' | sort | uniq -c | sort -rn | head -10
 
 # Long parameter lists (> 4 params)
-grep -rn "function.*,.*,.*,.*," --include="*.{ts,js}" . 2>/dev/null | head -10
+grep -rn "function.*,.*,.*,.*," --include="*.ts" --include="*.js" . 2>/dev/null | head -10
 
 # Deep nesting (4+ levels)
-grep -rn "^\s\{16,\}" --include="*.{ts,js,py}" . 2>/dev/null | head -10
+grep -rn "^\s\{16,\}" --include="*.ts" --include="*.js" --include="*.py" . 2>/dev/null | head -10
 ```
 
 ### Step 4: Complexity assessment

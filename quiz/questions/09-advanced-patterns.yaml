@@ -750,12 +750,12 @@ questions:
     question: What is the Plan-Validate-Execute pipeline and what makes it different from using `/plan` mode?
     options:
       a: A 3-command workflow where each command runs in a separate terminal window simultaneously
-      b: A 3-command workflow (/plan-start, /plan-validate, /plan-execute) where planning, independent validation, and parallel execution are deliberately separated
+      b: A 3-command workflow (/plan-pipeline-start, /plan-pipeline-validate, /plan-pipeline-execute) where planning, independent validation, and parallel execution are deliberately separated
       c: Three phases of the /plan command toggled by pressing Tab between each
       d: A git branching strategy with plan, staging, and production branches
     correct: b
     explanation: |-
-      The Plan-Validate-Execute pipeline runs in 3 explicit commands: `/plan-start` (5-phase planning with a dynamic research agent team + ADRs), `/plan-validate` (independent 2-layer review by specialist agents, no confirmation bias), `/plan-execute` (parallel worktree agents through to merged PR). The key differentiator from native `/plan` mode: research is done by specialized agents in parallel (not one agent sequentially), validation is independent from planning, and every significant decision generates an ADR that auto-resolves future decisions. Run `/clear` between commands to reset context.
+      The Plan-Validate-Execute pipeline runs in 3 explicit commands: `/plan-pipeline-start` (5-phase planning with a dynamic research agent team + ADRs), `/plan-pipeline-validate` (independent 2-layer review by specialist agents, no confirmation bias), `/plan-pipeline-execute` (parallel worktree agents through to merged PR). The key differentiator from native `/plan` mode: research is done by specialized agents in parallel (not one agent sequentially), validation is independent from planning, and every significant decision generates an ADR that auto-resolves future decisions. Run `/clear` between commands to reset context.
       ---
     doc_reference:
       file: guide/workflows/plan-pipeline.md
@@ -1289,7 +1289,7 @@ questions:
       c: "Opus 4.6: 2,048 tokens (Opus and Sonnet share the same minimum)"
       d: "Opus 4.6: 8,192 tokens (most prompts are too short to be cached)"
     correct: b
-    explanation: Minimum thresholds for prompt caching vary by model. Opus 5.5, Sonnet 5.5, Fable 5.1, and Haiku 5.5 require 512 tokens. Opus 4.7 requires 2,048. Opus 4.6, Opus 4.5, and Haiku 4.5 require 4,096. Opus 4.8, Sonnet 5, and Sonnet 4.6 require 1,024. The minimum applies to the cacheable prompt prefix, not to CLAUDE.md or each block in isolation, so a short CLAUDE.md can be part of a sufficiently large cached prefix alongside tools and other instructions. Check the exact model and platform before applying a threshold.
+    explanation: Minimum thresholds for prompt caching vary by model. Opus 5.5, Sonnet 5.5, Fable 5.2, Fable 5.1, and Haiku 5.5 require 512 tokens. Opus 4.7 requires 2,048. Opus 4.6, Opus 4.5, and Haiku 4.5 require 4,096. Opus 4.8, Sonnet 5, and Sonnet 4.6 require 1,024. The minimum applies to the cacheable prompt prefix, not to CLAUDE.md or each block in isolation, so a short CLAUDE.md can be part of a sufficiently large cached prefix alongside tools and other instructions. Check the exact model and platform before applying a threshold.
     doc_reference:
       file: guide/ultimate-guide.md
       section: Cost Optimization

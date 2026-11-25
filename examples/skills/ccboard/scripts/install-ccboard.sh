@@ -78,7 +78,7 @@ else
     echo "  1. Ensure cargo is up to date: rustup update"
     echo "  2. Check network connection"
     echo "  3. Try manual installation from source:"
-    echo "     git clone https://github.com/{OWNER}/ccboard"
+    echo "     git clone https://github.com/FlorianBruniaux/ccboard"
     echo "     cd ccboard"
     echo "     cargo install --path crates/ccboard"
     exit 1

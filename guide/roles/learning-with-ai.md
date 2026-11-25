@@ -376,7 +376,7 @@ After I accept generated code, help me verify understanding.
 3. What would break if we removed line X?"
 ```
 
-See [/learn:quiz command](../../examples/commands/learn/quiz.md) for a more comprehensive version.
+See [/learn-quiz skill](../../examples/skills/learn-quiz/SKILL.md) for a more comprehensive version.
 
 ---
 
@@ -473,17 +473,23 @@ Full template: [examples/claude-md/learning-mode.md](../../examples/claude-md/le
 | Command | Purpose | When to Use |
 |---------|---------|-------------|
 | `/explain` | Explain existing code | Built-in: use on any confusing code |
-| `/learn:quiz` | Test your understanding | After implementing a new concept |
-| `/learn:alternatives` | Show other approaches | When you want to understand trade-offs |
-| `/learn:teach <concept>` | Step-by-step explanation | When learning something new |
+| `/learn-quiz` | Test your understanding | After implementing a new concept |
+| `/learn-alternatives` | Show other approaches | When you want to understand trade-offs |
+| `/learn-teach <concept>` | Step-by-step explanation | When learning something new |
 
-> **Note**: Commands use the `/learn:` namespace. Place files in `.claude/commands/learn/`.
+> **Note**: These are custom skills, not built-in commands. Place each one in `.claude/skills/<name>/SKILL.md`; the folder name becomes the command (`/learn-quiz`). Custom commands were merged into skills: a legacy `.claude/commands/learn/quiz.md` file still works and is invoked as `/learn:quiz`.
 
-#### Creating /learn:quiz
+#### Creating /learn-quiz
 
-Create `.claude/commands/learn/quiz.md`:
+Create `.claude/skills/learn-quiz/SKILL.md`:
 
 ```markdown
+---
+description: Quiz me on the code I just wrote or accepted. Use after implementing a new concept.
+argument-hint: "[focus area]"
+disable-model-invocation: true
+---
+
 # Quiz Me
 
 Test my understanding of the code I just wrote or accepted.
@@ -502,7 +508,7 @@ Test my understanding of the code I just wrote or accepted.
 $ARGUMENTS (optional: focus area like "error handling" or "performance")
 ```
 
-Full template: [examples/commands/learn/quiz.md](../../examples/commands/learn/quiz.md)
+Full template: [examples/skills/learn-quiz/SKILL.md](../../examples/skills/learn-quiz/SKILL.md)
 
 ---
 
@@ -1293,9 +1299,9 @@ Practitioner reports from real-world usage provide empirical validation of theor
 ### Templates & examples
 
 - [Learning Mode CLAUDE.md](../../examples/claude-md/learning-mode.md): Configuration template
-- [/learn:quiz Command](../../examples/commands/learn/quiz.md): Self-testing slash command
-- [/learn:teach Command](../../examples/commands/learn/teach.md): Step-by-step concept explanations
-- [/learn:alternatives Command](../../examples/commands/learn/alternatives.md): Compare different approaches
+- [/learn-quiz skill](../../examples/skills/learn-quiz/SKILL.md): Self-testing slash command
+- [/learn-teach skill](../../examples/skills/learn-teach/SKILL.md): Step-by-step concept explanations
+- [/learn-alternatives skill](../../examples/skills/learn-alternatives/SKILL.md): Compare different approaches
 - [Learning Capture Hook](../../examples/hooks/bash/learning-capture.sh): Automated insight logging
 
 ### External resources
@@ -1345,9 +1351,9 @@ Applying known skills: 30% struggle, 70% AI
 
 ```
 /explain              — Understand existing code
-/learn:quiz           — Test your understanding
-/learn:teach <topic>  — Learn something new
-/learn:alternatives   — Compare approaches
+/learn-quiz           # Test your understanding
+/learn-teach <topic>  # Learn something new
+/learn-alternatives   # Compare approaches
 ```
 
 ---

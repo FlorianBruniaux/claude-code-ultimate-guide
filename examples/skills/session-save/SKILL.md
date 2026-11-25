@@ -79,7 +79,7 @@ Save the handoff to `.claude/sessions/handoff-[YYYY-MM-DD-HHMM].md`. Then output
 To resume from a handoff:
 
 ```
-/session-resume .claude/sessions/handoff-YYYY-MM-DD-HHMM.md
+/handoff-resume .claude/sessions/handoff-YYYY-MM-DD-HHMM.md
 ```
 
 Or manually: read the handoff file, then read the files listed in "Context to Reload" before continuing.

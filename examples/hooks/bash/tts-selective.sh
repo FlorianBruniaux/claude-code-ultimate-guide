@@ -1,7 +1,9 @@
-#!/opt/homebrew/bin/bash
+#!/usr/bin/env bash
 #
 # File: tts-selective.sh
 # Purpose: Selective TTS hook - Speak only specific types of messages
+# Event: Notification (reads the `message` field). To read the end of each turn
+# aloud instead, register it on Stop and read `last_assistant_message`.
 #
 # Usage: Replace .claude/hooks/play-tts.sh with this script for selective TTS
 #
@@ -27,7 +29,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Read input from stdin
 INPUT=$(cat)
-BODY=$(echo "$INPUT" | jq -r '.notification.body // empty')
+BODY=$(echo "$INPUT" | jq -r '.message // empty')
 
 # Exit if no body
 if [[ -z "$BODY" ]]; then

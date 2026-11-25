@@ -803,9 +803,11 @@ This PreToolUse hook writes a structured log to `.claude/logs/activity-{date}.js
 LOG_DIR="${HOME}/.claude/logs"
 mkdir -p "$LOG_DIR"
 
-TOOL_NAME="${CLAUDE_TOOL_NAME:-unknown}"
-TOOL_INPUT="${CLAUDE_TOOL_INPUT:-{}}"
-SESSION_ID="${CLAUDE_SESSION_ID:-unknown}"
+# Hook input arrives as JSON on stdin
+INPUT=$(cat)
+TOOL_NAME=$(echo "$INPUT" | jq -r '.tool_name // "unknown"')
+TOOL_INPUT=$(echo "$INPUT" | jq -c '.tool_input // {}')
+SESSION_ID=$(echo "$INPUT" | jq -r '.session_id // "unknown"')
 DATE=$(date +%Y-%m-%d)
 
 echo "{\"timestamp\":\"$(date -u +%FT%TZ)\",\"session_id\":\"${SESSION_ID}\",\"tool\":\"${TOOL_NAME}\",\"input\":${TOOL_INPUT},\"user\":\"$(whoami)\",\"repo\":\"$(git rev-parse --show-toplevel 2>/dev/null)\"}" \

@@ -15,7 +15,9 @@ Create isolated git worktrees for feature development without switching branches
 
 **Requires:** Git 2.5.0+ (July 2015)
 
-**Companion commands:** [`/git-worktree-status`](../../commands/git-worktree-status.md) | [`/git-worktree-remove`](../../commands/git-worktree-remove.md) | [`/git-worktree-clean`](../../commands/git-worktree-clean.md)
+**Companion skills:** [`/git-worktree-status`](../git-worktree-status/SKILL.md) | [`/git-worktree-remove`](../git-worktree-remove/SKILL.md) | [`/git-worktree-clean`](../git-worktree-clean/SKILL.md)
+
+**Built-in alternative:** `claude --worktree <name>` (`-w`) starts a session in an isolated worktree at `<repo>/.claude/worktrees/<name>`. This skill is for creating a worktree under `.worktrees/` from inside a running session.
 
 ## Process
 
@@ -83,7 +85,7 @@ grep -q "^\.worktrees/$" .gitignore || grep -q "^worktrees/$" .gitignore
 
 **If NOT in .gitignore:**
 1. Add line to .gitignore
-2. Commit the change
+2. Ask the user whether to commit the change now, and wait for the answer
 3. Proceed with worktree creation
 
 **Why critical:** Prevents accidentally committing worktree contents.
@@ -103,7 +105,7 @@ cd .worktrees/$BRANCH_NAME
 
 ## Dependency optimization (node.js)
 
-**Default behavior:** Symlink `node_modules` from main worktree to avoid duplicate installs (~30s saved).
+**Default behavior:** Symlink `node_modules` from main worktree to avoid duplicate installs.
 
 ```bash
 # Symlink node_modules (default, unless --isolated)
@@ -148,7 +150,7 @@ if [ -f go.mod ]; then go mod download; fi
 
 ```bash
 # Create log directory
-mkdir -p .worktree-logs
+mkdir -p .worktree-logs   # add .worktree-logs/ to .gitignore too
 
 # Background type check (Node.js)
 if [ -f tsconfig.json ]; then
@@ -197,12 +199,12 @@ Worktree created at .worktrees/feat/auth
 
 DB Isolation: neonctl branches create --name feat-auth --parent main
    Then update .env with new DATABASE_URL
-   Full guide: ../workflows/database-branch-setup.md
+   Full guide: examples/workflows/database-branch-setup.md
 ```
 
 ### .worktreeinclude setup
 
-**Critical for environment variables:**
+**For environment variables:**
 
 ```bash
 # .worktreeinclude (at project root)
@@ -212,7 +214,7 @@ DB Isolation: neonctl branches create --name feat-auth --parent main
 **/.claude/settings.local.json
 ```
 
-**Why:** Without this, `.env` files won't be copied to worktrees.
+**Why:** Claude Code reads `.worktreeinclude` when it creates a worktree itself (`--worktree`, subagent isolation) and copies the matching gitignored files. A plain `git worktree add`, as used above, does not process it, so copy the listed files into the new worktree yourself (for example `cp ../../.env .env`).
 
 ### When to create database branch
 
@@ -233,14 +235,14 @@ DB Isolation: neonctl branches create --name feat-auth --parent main
 | `worktrees/` exists | Use it (verify .gitignore) |
 | Both exist | Use `.worktrees/` |
 | Neither exists | Check CLAUDE.md, then ask user |
-| Not in .gitignore | Add + commit immediately |
 | No branch prefix | Auto-prefix with `feat/` |
 | Node.js project | Symlink `node_modules` by default |
 | `--fast` flag | Skip install + tests |
 | `--isolated` flag | Fresh `node_modules` install |
 | Neon detected | Suggest `neonctl branches create` |
 | PlanetScale detected | Suggest `pscale branch create` |
-| No .worktreeinclude | Create with `.env` pattern |
+| No .worktreeinclude | Create with `.env` pattern (used by built-in worktrees; copy files by hand after `git worktree add`) |
+| Not in .gitignore | Add the line, ask before committing |
 
 ## Common mistakes
 
@@ -255,7 +257,7 @@ DB Isolation: neonctl branches create --name feat-auth --parent main
 
 **Not copying .env to worktree**
 - Symptom: Claude fails with "DATABASE_URL not found"
-- Fix: Add `.env` to `.worktreeinclude`
+- Fix: Copy `.env` into the worktree (and list it in `.worktreeinclude` for built-in worktrees)
 
 **Using shared database for schema changes**
 - Symptom: Migration conflicts, broken dev environment

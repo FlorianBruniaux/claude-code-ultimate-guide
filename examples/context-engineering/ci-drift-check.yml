@@ -44,8 +44,8 @@ on:
 
 env:
   # Customize these thresholds for your project
-  CLAUDE_MD_MAX_LINES: 500
-  CLAUDE_MD_WARN_LINES: 400
+  CLAUDE_MD_MAX_LINES: 200
+  CLAUDE_MD_WARN_LINES: 150
 
 jobs:
   drift-check:

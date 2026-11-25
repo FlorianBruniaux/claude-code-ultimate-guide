@@ -12,7 +12,7 @@ tags: [cheatsheet, reference]
 
 **Written with**: Claude (Anthropic)
 
-**Version**: 3.46.0 | **Last Updated**: Oct 27, 2026
+**Version**: 3.46.0 | **Last Updated**: Nov 23, 2026
 
 ---
 
@@ -43,16 +43,16 @@ These are selected daily commands. Availability depends on your version, provide
 | `/remote-env` | Configure cloud environment |
 | `/remote-control` (`/rc`) | Connect this local session to web/mobile; Team/Enterprise require owner enablement |
 | `/mobile` | QR code to download the Claude mobile app |
-| `/fast` | Toggle faster Opus output; Opus 5.5 costs $8/$40 per MTok in fast mode |
+| `/fast` | Toggle fast mode on Fable 5.2 ($16/$80 per MTok) and Opus 5.5 ($8/$40); Opus 5 and Opus 4.8 ($10/$50) are research preview. Opus 4.8 fast mode is removed on November 30, 2026 (the API then rejects requests). Not on Sonnet or Haiku; usage credits only on subscription plans |
 | `/voice [hold\|tap\|off]` | Toggle voice input (hold Space to speak, release to send). Requires a Claude.ai account |
 | `/recap` | One-line summary of the current session on demand (v2.1.108) |
 | `/effort [level\|auto\|status\|ultracode [on\|off]]` | Effort: low/medium/high/xhigh/max (max is session-only) or auto; `status` prints it (v2.1.111) |
-| `/tui [default\|fullscreen]` | Set the renderer and relaunch with the conversation intact; `fullscreen` is flicker-free (v2.1.110) |
+| `/tui [classic\|fullscreen]` | Set the renderer and relaunch with the conversation intact; `fullscreen` is flicker-free (v2.1.110), `classic` replaces `default` (v2.1.327) |
 | `/focus` | Toggle minimal focus view (fullscreen rendering only), separate from Ctrl+O (v2.1.110) |
-| `/auto-mode-setup` | Guided setup that reads the project and recent sessions to teach auto mode about your environment (v2.1.228+ on Pro/Max/Team, v2.1.283+ on Enterprise or Console API key) |
+| `/auto-mode-setup` | Guided setup that reads the project and recent sessions to teach auto mode about your environment (v2.1.228+ on Pro/Max/Ultra/Team, v2.1.233+ on native Windows, v2.1.283+ on Enterprise or Console API key) |
 | `/fewer-permission-prompts` | Scan transcripts and propose a read-only tool allowlist (shipped as `/less-permission-prompts` in v2.1.111) |
 | `/btw [question]` | Side question overlay: read-only ephemeral agent, no history pollution, no tools |
-| `/loop [interval] [prompt]` | Repeat on a fixed interval, or let Claude choose the interval when omitted; recurring tasks expire after 7 days (see scheduling reference) |
+| `/loop [interval] [prompt]` | Repeat on a fixed interval, or let Claude choose the interval when omitted; recurring tasks run up to 30 days while the session keeps running (v2.1.330; tasks created before that release still end at 7 days; see scheduling reference) |
 | `/usage` (`/cost`, `/stats`) | Token + cost usage per model, plan limits, activity graph (merged in v2.1.118) |
 | `/ultrareview` | Multi-agent cloud code review, now an alias of `/code-review ultra` (v2.1.114). `/code-review --max-findings <n>\|all` caps or lifts the finding count until `default` (v2.1.288) |
 | `/goal [condition\|clear]` | Autonomous multi-turn mode: Claude works until condition is met, live overlay shows elapsed/turns/tokens (v2.1.139) |
@@ -107,7 +107,7 @@ These are selected daily commands. Availability depends on your version, provide
 |---------|-------|--------------|
 | **Tasks API** | v2.1.16 | Persistent task lists with dependencies; opt in on newer models with `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` |
 | **Background Agents** | v2.0.60 | Sub-agents work while you code. Since v2.1.232 forking is the default: a `subagent_type: "fork"` agent inherits the full conversation and prompt cache, and non-teammate spawns go background on their own |
-| **Agent Teams** | v2.1.32 | Multi-agent coordination (TeamCreate/SendMessage) |
+| **Agent Teams** | v2.1.32 | Multi-agent coordination (Agent tool `name` + SendMessage; TeamCreate removed in v2.1.178) |
 | **Cross-Session Messaging** | v2.1.224 | Sessions message each other across all your machines. `ListAgents` to discover, `SendMessage` to talk, `@name` to mention (v2.1.232). macOS, Linux, Windows (v2.1.234+). [Full guide →](./workflows/cross-session-messaging.md) |
 | **Self-Hosted Environments** | v2.1.224 | `claude self-hosted-runner` makes your own machine or container the place web, mobile, and desktop sessions execute. Team and Enterprise |
 | **Auto-Memories** | v2.1.32 | Automatic cross-session context capture |
@@ -115,7 +115,7 @@ These are selected daily commands. Availability depends on your version, provide
 | **LSP Tool** | v2.0.74 | Diagnostics after edits plus definitions, references and symbols, via an official code intelligence plugin per language (13 listed) |
 | **Voice Mode** | v2.1.x | Native voice input, free transcription, no rate limit impact |
 | **Remote Control** | v2.1.51 | Control a local session from phone/browser; subscription required, with owner enablement on Team/Enterprise |
-| **`/loop`** | v2.1.71 | Session-scoped recurring scheduler: `/loop 5m check the deploy` (stops when session ends). Min 1 min, max 50 tasks/session |
+| **`/loop`** | v2.1.71 | Session-scoped recurring scheduler: `/loop 5m check the deploy` (runs while the session is open, up to 30 days since v2.1.330). Min 1 min, max 50 tasks/session |
 | **`/goal`** | v2.1.139 | Autonomous completion loop: set a condition, Claude works across turns until a separate evaluator (Haiku by default on the Claude API) judges the surfaced evidence. Live overlay shows elapsed time, turns, and tokens. Three-element formula: measurable end state + verification mechanism + constraints. |
 | **Cloud Scheduled Tasks** | 2026 | Machine-off scheduling via `/schedule` or `claude.ai/code/scheduled`. Runs on Anthropic infra, clones repo fresh each run, min 1h interval. Pro/Max/Team/Enterprise |
 | **Desktop Scheduled Tasks** | 2026 | Local machine scheduling via Desktop app. Min 1 min, full local file access, no session required |
@@ -141,7 +141,7 @@ These are selected daily commands. Availability depends on your version, provide
 | dontAsk | Only if in allow rules | Only if in allow rules |
 | bypassPermissions | Auto | Auto (CI/CD only) |
 
-**Shift+Tab** to switch modes. Since v2.1.283, interactive terminal and VS Code sessions start in `auto` when no permission mode is configured; set `permissions.defaultMode` to choose another. `/auto-mode-setup` tunes the classifier for your environment
+**Shift+Tab** to switch modes. Since v2.1.284, interactive terminal and VS Code sessions start in `auto` when no permission mode is configured (v2.1.283 did this only on third-party providers or with telemetry off); set `permissions.defaultMode` to choose another. `/auto-mode-setup` tunes the classifier for your environment
 
 ---
 
@@ -167,7 +167,7 @@ These are selected daily commands. Availability depends on your version, provide
 
 ```
 .claude/
-├── CLAUDE.md           # Local memory (gitignored)
+├── CLAUDE.md           # Optional project memory location (committed; personal notes go in CLAUDE.local.md, gitignored)
 ├── settings.json       # Hooks (committed)
 ├── settings.local.json # Permissions (not committed)
 ├── agents/             # Custom agents
@@ -182,7 +182,7 @@ These are selected daily commands. Availability depends on your version, provide
 
 ```
 1. Start session      → claude
-2. Check context      → /status
+2. Check context      → /context
 3. Plan Mode          → Shift+Tab × 2 (for complex tasks)
 4. Describe task      → Clear, specific prompt
 5. Review changes     → Always read the diff!
@@ -274,7 +274,7 @@ Evaluate the exact model-harness pair for a bounded coding task. Introduce orche
 | **Plan Mode** | `Shift+Tab × 2` or `/plan` | Explore without modifying |
 | **OpusPlan** | `/model opusplan` | Opus for planning, Sonnet for execution |
 
-> **Verified October 27, 2026**: Opus 5.5, Sonnet 5.5 and Haiku 5.5 default to `medium`; Fable 5.1 defaults to `high`. Only the legacy Haiku 4.5 has no effort parameter. `ultrathink` adds a reasoning instruction for the turn without changing API effort.
+> **Verified November 23, 2026**: Fable 5.2, Opus 5.5, Sonnet 5.5 and Haiku 5.5 default to `medium` in Claude Code (on the raw API, Fable 5.2 and Sonnet 5.5 default to `high`). Only the legacy Haiku 4.5 has no effort parameter. `ultrathink` adds a reasoning instruction and, since v2.1.311 (terminal) and v2.1.316 (VS Code, desktop Code tab), runs that turn at `xhigh` without changing the session effort.
 
 | Control | Action | Persistence |
 |---------|--------|-------------|
@@ -299,7 +299,7 @@ Evaluate the exact model-harness pair for a bounded coding task. Introduce orche
 |------|-------|--------|
 | Rename, boilerplate, test gen | Haiku 5.5 | Default `medium`; try `low` |
 | Feature dev, debug, refactor | Sonnet 5.5 or Opus 5.5 | Start at the model default |
-| Architecture, security audit | Opus 5.5; evaluate Fable 5.1 if needed | Increase with evidence |
+| Architecture, security audit | Opus 5.5; evaluate Fable 5.2 if needed | Increase with evidence |
 
 > Full decision table and pricing boundaries: [Section 2.5 Model Selection & Thinking Guide](ultimate-guide.md#25-model-selection--thinking-guide)
 
@@ -327,18 +327,18 @@ claude --model sonnet
 - ✅ Use Haiku for: simple fixes, typos, validation checks
 - Model switches keep conversation history but can invalidate prompt caches; switch at a useful task boundary.
 
-**Standard Anthropic API rates**, USD per million tokens, checked October 27, 2026:
+**Standard Anthropic API rates**, USD per million tokens, checked November 23, 2026:
 
 | Model | Input | Output | Context |
 |-------|-------|--------|---------|
 | Opus 5.5 | $4 | $20 | 1M |
 | Sonnet 5.5 | $2 | $10 | 1M |
 | Haiku 5.5 | $0.10 ($0.50 over 100K) | $0.50 ($2.50 over 100K) | 1M |
-| Fable 5.1 | $10 | $50 | 1M |
+| Fable 5.2 | $8 | $40 | 1M |
 
-Opus 5.5 fast mode costs $8/$40. Subscription allowances, usage credits, cache tokens, and cloud-provider pricing are separate. [Official pricing](https://platform.claude.com/docs/en/about-claude/pricing).
+Fast mode costs $16/$80 on Fable 5.2 and $8/$40 on Opus 5.5. Subscription allowances, usage credits, cache tokens, and cloud-provider pricing are separate. [Official pricing](https://platform.claude.com/docs/en/about-claude/pricing).
 
-On the direct Anthropic service, the account default and `opus` select Opus 5.5; `sonnet` selects Sonnet 5.5 and `haiku` selects Haiku 5.5 (v2.1.293+). Provider aliases differ: check the [provider table](ultimate-guide.md#model-aliases). `fable` normally selects Fable 5.1, while Claude apps gateway sessions resolve it to Fable 5.
+On the direct Anthropic service, the account default and `opus` select Opus 5.5; `sonnet` selects Sonnet 5.5 and `haiku` selects Haiku 5.5 (v2.1.293+). Provider aliases differ: check the [provider table](ultimate-guide.md#model-aliases). `fable` normally selects Fable 5.2, while Claude apps gateway sessions resolve it to Fable 5.
 
 **Source**: [Gur Sannikov embedded engineering workflow](https://www.linkedin.com/posts/gursannikov_claudecode-embeddedengineering-aiagents-activity-7423851983331328001-DrFb)
 
@@ -513,7 +513,7 @@ VERIFY: Empty email shows error, invalid format shows error
 
 | Command | Description |
 |---------|-------------|
-| `claude purge [path]` | Delete all local Claude Code state for a project (transcripts, tasks, history, config entry). `--dry-run` previews, `--all` covers every project. `claude project purge` is not in the official CLI reference (checked 2026-10-27) |
+| `claude purge [path]` | Delete all local Claude Code state for a project (transcripts, tasks, history, config entry). `--dry-run` previews, `--all` covers every project. Renamed from `claude project purge` in v2.1.288; the old name still works and prints a notice |
 | `claude ultrareview [target]` | Non-interactive cloud code review for CI. `--json` output. Exits 0/1. (v2.1.120). Requires workspace trust since v2.1.309: scripts pass `--trust-workspace` |
 | `claude plugin prune` | Remove orphaned auto-installed plugin deps. (v2.1.121) |
 | `claude plugin details <name>` | Show plugin inventory and token cost estimate. (v2.1.139) |
@@ -724,4 +724,4 @@ Speed: `rg` (~20ms) → Serena (~100ms) → ast-grep (~200ms) → grepai (~500ms
 
 **Author**: Florian BRUNIAUX | Fractional Chief AI Officer | Written with Claude
 
-*Last updated: Oct 27, 2026 | Version 3.46.0*
+*Last updated: Nov 23, 2026 | Version 3.46.0*

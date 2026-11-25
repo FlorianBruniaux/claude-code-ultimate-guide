@@ -342,7 +342,7 @@ fi
 # Claude Code stores MCP config in multiple locations:
 # 1. ~/.claude.json under projects.<cwd>.mcpServers (per-project)
 # 2. ~/.claude.json under mcpServers (global - applies to ALL projects)
-# 3. ./.claude/mcp.json (project-level)
+# 3. ./.mcp.json (project scope; ./.claude/mcp.json as fallback)
 # 4. ~/.claude/mcp.json (legacy global)
 MCP_PROJECT_SERVERS=""
 MCP_GLOBAL_SERVERS=""
@@ -379,17 +379,20 @@ if [[ -f "${HOME}/.claude.json" ]]; then
   fi
 fi
 
-# Check 2: Project-level .claude/mcp.json
-if [[ -z "$MCP_PROJECT_SERVERS" && -f "./.claude/mcp.json" ]]; then
+# Check 2: Project-level .mcp.json at the project root (the project scope file);
+# ./.claude/mcp.json is kept as a fallback for older setups.
+PROJECT_MCP_FILE=""
+if [[ -f "./.mcp.json" ]]; then PROJECT_MCP_FILE="./.mcp.json"; elif [[ -f "./.claude/mcp.json" ]]; then PROJECT_MCP_FILE="./.claude/mcp.json"; fi
+if [[ -z "$MCP_PROJECT_SERVERS" && -n "$PROJECT_MCP_FILE" ]]; then
   if command -v jq &> /dev/null; then
-    MCP_PROJECT_SERVERS=$(jq -r '.mcpServers // {} | keys[]' "./.claude/mcp.json" 2>/dev/null | tr '\n' ',' | sed 's/,$//')
+    MCP_PROJECT_SERVERS=$(jq -r '.mcpServers // {} | keys[]' "$PROJECT_MCP_FILE" 2>/dev/null | tr '\n' ',' | sed 's/,$//')
     if [[ -n "$MCP_PROJECT_SERVERS" ]]; then
-      MCP_PROJECT_SOURCE=".claude/mcp.json (project)"
+      MCP_PROJECT_SOURCE="${PROJECT_MCP_FILE#./} (project)"
     fi
   else
-    MCP_PROJECT_SERVERS=$(grep -oE '"[a-zA-Z0-9_-]+"[[:space:]]*:' "./.claude/mcp.json" 2>/dev/null | head -20 | sed 's/"//g;s/://g' | tr '\n' ',' | sed 's/,$//')
+    MCP_PROJECT_SERVERS=$(grep -oE '"[a-zA-Z0-9_-]+"[[:space:]]*:' "$PROJECT_MCP_FILE" 2>/dev/null | head -20 | sed 's/"//g;s/://g' | tr '\n' ',' | sed 's/,$//')
     if [[ -n "$MCP_PROJECT_SERVERS" ]]; then
-      MCP_PROJECT_SOURCE=".claude/mcp.json (project)"
+      MCP_PROJECT_SOURCE="${PROJECT_MCP_FILE#./} (project)"
     fi
   fi
 fi

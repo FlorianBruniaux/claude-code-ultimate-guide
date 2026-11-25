@@ -25,34 +25,37 @@ Configure Claude Code to remember your preferences and project-specific rules. B
 
 ## The memory hierarchy
 
-Claude Code remembers preferences at three levels:
+Claude Code loads instructions from several CLAUDE.md files, from the broadest scope to the most specific:
 
 ```
 ┌──────────────────────────────────────────┐
-│ 1. GLOBAL (~/.claude/CLAUDE.md)          │
+│ 1. USER (~/.claude/CLAUDE.md)            │
 │    Applies to ALL your projects          │
 │    Example: Your coding style, timezone  │
 └──────────────────────────────────────────┘
-                    ▲
-                    │ (overridden by)
                     │
+                    ▼ (project instructions load after)
 ┌──────────────────────────────────────────┐
-│ 2. PROJECT (/your-project/CLAUDE.md)    │
-│    Applies to THIS project only          │
+│ 2. PROJECT (/your-project/CLAUDE.md)     │
+│    Shared with the team through git      │
 │    Example: Team standards, tech stack   │
 └──────────────────────────────────────────┘
-                    ▲
-                    │ (overridden by)
                     │
+                    ▼ (local instructions load after)
 ┌──────────────────────────────────────────┐
-│ 3. PERSONAL (/your-project/.claude/)    │
-│    Local settings, not committed to git  │
-│    Example: API keys, personal prefs     │
+│ 3. LOCAL (/your-project/CLAUDE.local.md) │
+│    Your private notes for THIS project   │
+│    Gitignored, not shared                │
+│    Example: sandbox URLs, test data      │
 └──────────────────────────────────────────┘
 ```
 
+Organizations can also deploy a managed policy CLAUDE.md that applies to every user (for example `/Library/Application Support/ClaudeCode/CLAUDE.md` on macOS).
+
 ### Rule
-Settings at level 3 override level 2, which overrides level 1.
+All applicable files are loaded and combined, with the more specific file placed after the broader one. They are instructions, not enforced settings, so avoid contradicting yourself between levels. Strict precedence exists for **settings** (see `settings.json` below), not for CLAUDE.md text.
+
+`CLAUDE.md` files in the directories above your working directory load at launch. Files in subdirectories load on demand.
 
 ---
 
@@ -118,7 +121,7 @@ Create `/your-project/CLAUDE.md`:
 - Ask before making cross-file refactors
 ```
 
-Claude will automatically read this file at session start and follow your rules.
+Claude Code loads this file at session start and treats it as instructions for the session.
 
 ---
 
@@ -208,7 +211,7 @@ America/New_York
 Mon-Fri 9am-5pm (UTC-5)
 ```
 
-Claude will load this at startup and combine it with your project CLAUDE.md.
+Claude loads this at startup and combines it with your project CLAUDE.md.
 
 ---
 
@@ -284,7 +287,7 @@ EOF
 claude
 ```
 
-Claude will show that it loaded CLAUDE.md at startup.
+Run `/memory` to see which CLAUDE.md files are loaded.
 
 ### Step 4: Test it
 
@@ -303,65 +306,71 @@ Claude should:
 
 ## .claude/ directory
 
-For local settings (not committed), use `.claude/`:
+Project configuration lives in `.claude/`. Most of it is meant to be committed so the team shares it; only personal files stay local:
 
 ```
 my-project/
-├── CLAUDE.md           (committed - team rules)
+├── CLAUDE.md                 (committed - team rules)
+├── CLAUDE.local.md           (NOT committed - your private notes)
 ├── .claude/
-│   ├── settings.json   (not committed - personal settings)
-│   ├── agents/         (custom agents)
-│   ├── skills/         (custom skills)
-│   └── hooks/          (automation scripts)
+│   ├── settings.json         (committed - shared project settings)
+│   ├── settings.local.json   (NOT committed - your personal overrides)
+│   ├── agents/               (committed - project subagents)
+│   ├── skills/               (committed - project skills)
+│   └── hooks/                (committed - automation scripts)
 ```
 
-Add to `.gitignore`:
+Add only the personal files to `.gitignore`:
 ```
-.claude/
-.claude/settings.json
+.claude/settings.local.json
+CLAUDE.local.md
 ```
 
-Exception: You can commit `.claude/agents/` if they're team-wide.
+Do not ignore the whole `.claude/` directory: that would hide the shared settings, agents and skills from your teammates. Claude Code adds `.claude/settings.local.json` to your global gitignore when it saves a setting there, but `CLAUDE.local.md` you create by hand, so ignore it yourself.
 
 ---
 
 ## Settings.json (Optional)
 
-For fine-grained control, create `.claude/settings.json`:
+For fine-grained control, create `.claude/settings.json` (shared) or `.claude/settings.local.json` (personal):
 
 ```json
 {
-  "model": "claude-opus-5-5",
-  "temperature": 0.7,
-  "context_threshold": 0.75,
-  "auto_compact": true,
-  "require_diff_review": true,
-  "max_file_size": 10000
+  "model": "opus",
+  "autoCompactEnabled": true,
+  "permissions": {
+    "defaultMode": "default",
+    "allow": ["Bash(npm test *)"]
+  }
 }
 ```
 
 Common settings:
-- **model**: Which Claude model to use
-- **context_threshold**: When to warn about context (0.7 = 70%)
-- **auto_compact**: Automatically compact when threshold reached
-- **require_diff_review**: Force review of all changes (safe default)
+- **model**: Which Claude model to use (an alias such as `opus` or `sonnet`, or a full model ID)
+- **autoCompactEnabled**: Automatic compaction near the context limit (also toggled in `/config`)
+- **permissions.defaultMode**: The permission mode a session starts in (`default` prompts before edits)
+- **permissions.allow / permissions.deny**: Rules that approve or block specific tool calls
+
+Keys such as `temperature`, `context_threshold`, `auto_compact` or `require_diff_review` are not Claude Code settings. Unknown keys do nothing, so check names against the [settings reference](https://code.claude.com/docs/en/settings).
+
+Settings precedence, from highest to lowest: managed settings, command-line arguments, `.claude/settings.local.json`, `.claude/settings.json`, then `~/.claude/settings.json`.
 
 ---
 
 ## Agents & skills (preview)
 
-In CLAUDE.md, you can reference custom agents:
+In CLAUDE.md, you can tell Claude which subagents exist and when to use them:
 
 ```markdown
-## Available Agents
-- /code-reviewer: Reviews code for quality
-- /security-auditor: Scans for vulnerabilities
-- /test-writer: Generates test cases
+## Available Subagents
+- code-reviewer: Reviews code for quality
+- security-auditor: Scans for vulnerabilities
+- test-writer: Generates test cases
 
-Use with: /agent code-reviewer
+Ask for one by name: "Use the code-reviewer subagent on my last change"
 ```
 
-These are defined in `.claude/agents/` (covered in Module 04).
+Subagents are defined in `.claude/agents/` (covered in Module 04). They are not slash commands.
 
 ---
 
@@ -387,7 +396,7 @@ These are defined in `.claude/agents/` (covered in Module 04).
 
 ❌ Use conflicting rules between global and project
 
-❌ Assume Claude will remember previous sessions' preferences
+❌ Assume Claude remembers a preference from a previous session unless it is written in CLAUDE.md (or saved by auto memory)
 
 ---
 
@@ -395,11 +404,11 @@ These are defined in `.claude/agents/` (covered in Module 04).
 
 ✓ You've created a CLAUDE.md file in a project
 
-✓ You can explain the three-level hierarchy (global, project, personal)
+✓ You can explain the CLAUDE.md levels (user, project, local) and why `.claude/` is mostly committed
 
-✓ You understand what should go in committed CLAUDE.md vs .claude/
+✓ You know which files to gitignore: `.claude/settings.local.json` and `CLAUDE.local.md`
 
-✓ You've started Claude and seen it load your CLAUDE.md
+✓ You've started Claude and confirmed with `/memory` that it loaded your CLAUDE.md
 
 ✓ Claude followed at least one rule from your CLAUDE.md
 
@@ -425,9 +434,9 @@ This teaches you how to create focused AI personas instead of using one general 
 
 The sections above cover the foundational CLAUDE.md patterns. When you're ready to go deeper, the ecosystem has more:
 
-**Auto Memory and Auto Dream (native, v2.1.59+)**
+**Auto memory (native) and Auto Dream (community-discovered)**
 
-Claude Code can write its own MEMORY.md between sessions (Auto Memory) and consolidate it in the background (Auto Dream). Both work out-of-the-box with `/memory` to manage stored entries. See [Memory Systems: Auto Memory](../core/memory-systems.md#22-auto-memory-v2159) and [Auto Dream](../core/memory-systems.md#23-auto-dream-memory-consolidation).
+Claude Code can write its own MEMORY.md between sessions (auto memory, documented by Anthropic). Use `/memory` to enable or disable it and to view stored entries. Auto Dream, a background consolidation pass over that memory, is not in Anthropic's documentation: it was reverse-engineered by the community and may be gated or change. See [Memory Systems: Auto Memory](../core/memory-systems.md#22-auto-memory-v2159) and [Auto Dream](../core/memory-systems.md#23-auto-dream-memory-consolidation).
 
 **Cross-session tools for individual developers**
 

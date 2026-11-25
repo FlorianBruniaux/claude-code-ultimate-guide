@@ -1,398 +1,71 @@
 ---
 name: ccboard
-description: "Launch and navigate the ccboard TUI/Web dashboard for Claude Code. Use when monitoring token usage, tracking costs, browsing sessions, or checking MCP server status across projects."
-allowed-tools: Bash(ccboard*)
+description: "Read Claude Code usage data with the ccboard CLI: token and cost stats, recent or searchable sessions, usage reports, skill invocation counts, and the TUI or web dashboard. Use when asked about token usage, spend, session history, which skills actually ran, or how to launch ccboard. Not for editing Claude Code settings."
+allowed-tools: Bash(ccboard *)
 effort: low
 metadata:
-  version: 0.1.0
+  verified-with: "ccboard 0.25.0"
 ---
 
-# ccboard - Claude Code dashboard
+# ccboard
 
-Comprehensive TUI/Web dashboard for monitoring and managing your Claude Code usage.
+ccboard is a single Rust binary (TUI and web dashboard) that reads Claude Code data from `~/.claude/` without modifying it. Source: https://github.com/FlorianBruniaux/ccboard
 
-## Overview
+## How Claude should use it
 
-ccboard provides a unified interface to visualize and explore all your Claude Code data:
+The TUI (`ccboard`) is interactive and cannot be driven through the Bash tool. Tell the user to run it in a separate terminal, and answer questions yourself with the non-interactive subcommands below.
 
-- **Sessions**: Browse all conversations across your projects
-- **Statistics**: Real-time token usage, cache hit rates, activity trends
-- **MCP Servers**: Monitor and manage Model Context Protocol servers
-- **Costs**: Track spending with detailed token breakdown and pricing
-- **Configuration**: View cascading settings (Global > Project > Local)
-- **Hooks**: Explore pre/post execution hooks and automation
-- **Agents**: Manage custom agents, commands, and skills
-- **History**: Search across all messages with full-text search
-
-## Installation
-
-### Via cargo (recommended)
+Check installation first:
 
 ```bash
-# Using Claude Code command
-/ccboard-install
-
-# Or manually
-cargo install ccboard
+ccboard --version
 ```
 
-### Requirements
-
-- Rust 1.70+ and Cargo
-- Claude Code installed (reads from `~/.claude/`)
-
-## Commands
-
-| Command | Description | Shortcut |
-|---------|-------------|----------|
-| `/dashboard` | Launch TUI dashboard | `ccboard` |
-| `/mcp-status` | Open MCP servers tab | Press `8` |
-| `/costs` | Open costs analysis | Press `6` |
-| `/sessions` | Browse sessions | Press `2` |
-| `/ccboard-web` | Launch web UI | `ccboard web` |
-| `/ccboard-install` | Install/update ccboard | - |
-
-## Features
-
-### 8 interactive tabs
-
-#### 1. Dashboard (press `1`)
-- Token usage statistics
-- Session count
-- Messages sent
-- Cache hit ratio
-- MCP server count
-- 7-day activity sparkline
-- Top 5 models usage gauges
-
-#### 2. Sessions (press `2`)
-- Dual-pane: Project tree + Session list
-- Metadata: timestamps, duration, tokens, models
-- Search: Filter by project, message, or model (press `/`)
-- File operations: `e` to edit JSONL, `o` to reveal in finder
-
-#### 3. Config (press `3`)
-- 4-column cascading view: Global | Project | Local | Merged
-- Settings inheritance visualization
-- MCP servers configuration
-- Rules (CLAUDE.md) preview
-- Permissions, hooks, environment variables
-- Edit config with `e` key
-
-#### 4. Hooks (press `4`)
-- Event-based hook browsing (PreToolUse, UserPromptSubmit)
-- Hook bash script preview
-- Match patterns and conditions
-- File path tracking for easy editing
-
-#### 5. Agents (press `5`)
-- 3 sub-tabs: Agents (12) | / Commands (5) | ★ Skills (0)
-- Frontmatter metadata extraction
-- File preview and editing
-- Recursive directory scanning
-
-#### 6. Costs (press `6`)
-- 3 views: Overview | By Model | Daily Trend
-- Token breakdown: input, output, cache read/write
-- Pricing: total estimated costs
-- Model distribution breakdown
-
-#### 7. History (press `7`)
-- Full-text search across all sessions
-- Activity by hour histogram (24h)
-- 7-day sparkline
-- All messages searchable
-
-#### 8. MCP (press `8`) **NEW**
-- Dual-pane: Server list (35%) | Details (65%)
-- Live status detection: ● Running, ○ Stopped, ? Unknown
-- Full server details: command, args, environment vars
-- Quick actions: `e` edit config, `o` reveal file, `r` refresh status
-
-### Navigation
-
-**Global Keys**:
-- `1-8` : Jump to tab
-- `Tab` / `Shift+Tab` : Navigate tabs
-- `q` : Quit
-- `F5` : Refresh data
-
-**Vim-style**:
-- `h/j/k/l` : Navigate (left/down/up/right)
-- `←/→/↑/↓` : Arrow alternatives
-
-**Common Actions**:
-- `Enter` : View details / Focus pane
-- `e` : Edit file in $EDITOR
-- `o` : Reveal file in finder
-- `/` : Search (in Sessions/History tabs)
-- `Esc` : Close popup / Cancel
-
-### Real-time Monitoring
-
-ccboard includes a file watcher that monitors `~/.claude/` for changes:
-
-- **Stats updates**: Live refresh when `stats-cache.json` changes
-- **Session updates**: New sessions appear automatically
-- **Config updates**: Settings changes reflected in UI
-- **500ms debounce**: Prevents excessive updates
-
-### File editing
-
-Press `e` on any item to open in your preferred editor:
-
-- Uses `$VISUAL` > `$EDITOR` > platform default (nano/notepad)
-- Supports: Sessions (JSONL), Config (JSON), Hooks (Shell), Agents (Markdown)
-- Terminal state preserved (alternate screen mode)
-- Cross-platform (macOS, Linux, Windows)
-
-### MCP server management
-
-The MCP tab provides comprehensive server monitoring:
-
-**Status Detection** (Unix):
-- Checks running processes via `ps aux`
-- Extracts package name from command
-- Displays PID when running
-- Windows shows "Unknown" status
-
-**Server Details**:
-- Full command and arguments
-- Environment variables with values
-- Config file path (`~/.claude/claude_desktop_config.json`)
-- Quick edit/reveal actions
-
-**Navigation**:
-- `h/l` or `←/→` : Switch between list and details
-- `j/k` or `↑/↓` : Select server
-- `Enter` : Focus detail pane
-- `e` : Edit MCP config
-- `o` : Reveal config in finder
-- `r` : Refresh server status
-
-## Usage examples
-
-### Daily monitoring
+If the command is missing, give the install options (do not install without being asked):
 
 ```bash
-# Launch dashboard
-/dashboard
-
-# Check activity and costs
-# Press '1' for overview
-# Press '6' for costs breakdown
-# Press '7' for recent history
+brew tap FlorianBruniaux/tap && brew install ccboard   # includes the web frontend
+cargo install ccboard                                  # needs Rust 1.85+; `ccboard web` serves no frontend
 ```
 
-### MCP troubleshooting
+## Non-interactive subcommands
+
+| Goal | Command |
+|------|---------|
+| Totals for tokens, sessions, models | `ccboard stats` |
+| Last N sessions | `ccboard recent 10 --since 7d --json` |
+| Find sessions by text, project or branch | `ccboard search "query" --since 30d --limit 20 --json` |
+| One session in detail | `ccboard info <session-id>` |
+| Usage report with optional CI gates | `ccboard report --format markdown --since 7d` (`--budget <tokens>`, `--error-threshold <pct>` exit 1 when exceeded) |
+| Which skills actually ran | `ccboard skills --since 30d --json` |
+| Suggestions for skills, commands and CLAUDE.md rules | `ccboard discover` |
+| Export data to files | `ccboard export` |
+
+Global options: `--claude-home <path>` (or `CCBOARD_CLAUDE_HOME`), `--project <path>`, `--format json|table`, `--no-color`, `--non-interactive`. Run `ccboard <subcommand> --help` for the exact flags of the installed version.
+
+Prefer `--json` when the output feeds further analysis. Session data can contain prompts and file contents: summarize it, and do not paste raw transcripts into shared places.
+
+Not read-only: `ccboard setup` injects hooks into Claude Code `settings.json`, `ccboard resume` starts a Claude session, and `ccboard summarize` calls an LLM. Run these only when the user asks for them by name.
+
+## Dashboards for the user
 
 ```bash
-# Open MCP tab
-/mcp-status
-
-# Or: ccboard then press '8'
-
-# Check server status (● green = running)
-# Press 'e' to edit config if needed
-# Press 'r' to refresh status after changes
+ccboard                    # TUI (default)
+ccboard web --port 3333    # web UI, default port 3333
+ccboard both --port 3333   # TUI and web server together
 ```
 
-### Session analysis
-
-```bash
-# Browse sessions
-/sessions
-
-# Press '/' to search
-# Filter by project: /my-project
-# Filter by model: /opus
-# Press 'e' on session to view full JSONL
-```
-
-### Cost tracking
-
-```bash
-# View costs
-/costs
-
-# Press '1' for overview
-# Press '2' for breakdown by model
-# Press '3' for daily trend
-
-# Identify expensive sessions
-# Track cache efficiency (99.9% hit rate)
-```
-
-## Web interface
-
-Launch browser-based interface for remote monitoring:
-
-```bash
-# Launch web UI
-/ccboard-web
-
-# Or with custom port
-ccboard web --port 8080
-
-# Access at http://localhost:3333
-```
-
-**Features**:
-- Same data as TUI (shared backend)
-- Server-Sent Events (SSE) for live updates
-- Responsive design (desktop/tablet/mobile)
-- Concurrent multi-user access
-
-**Run both simultaneously**:
-```bash
-ccboard both --port 3333
-```
-
-## Architecture
-
-ccboard is a single Rust binary with dual frontends:
-
-```
-ccboard/
-├── ccboard-core/      # Parsers, models, data store, watcher
-├── ccboard-tui/       # Ratatui frontend (8 tabs)
-└── ccboard-web/       # Axum + Leptos frontend
-```
-
-**Data Sources**:
-- `~/.claude/stats-cache.json` - Statistics
-- `~/.claude/claude_desktop_config.json` - MCP config
-- `~/.claude/projects/*/` - Session JSONL files
-- `~/.claude/settings.json` - Global settings
-- `.claude/settings.json` - Project settings
-- `.claude/settings.local.json` - Local overrides
-- `.claude/CLAUDE.md` - Rules and behavior
+In the TUI, tabs are reached with the number keys (`1-9`, `0`, `p`), `?` opens contextual help, `:` opens the command palette, `r` refreshes, `e` edits the selected file in `$EDITOR`, `o` reveals it, `q` quits. The tab list and its order change between releases, so point to `?` or the project's `docs/GUIDE.md` instead of quoting a fixed mapping.
 
 ## Troubleshooting
 
-### ccboard not found
+| Symptom | Check |
+|---------|-------|
+| `ccboard: command not found` | Install it, and confirm `~/.cargo/bin` or the Homebrew prefix is on `PATH`. |
+| No data | `ls ~/.claude/projects` exists and holds session files; pass `--claude-home` for a custom location. |
+| `ccboard web` shows no page | The binary came from `cargo install`, which skips the web frontend. Use the Homebrew or release binary. |
+| Stale numbers after a Claude Code upgrade | `ccboard clear-cache`, then rerun. |
 
-```bash
-# Check installation
-which ccboard
+## Bundled files
 
-# Install if needed
-/ccboard-install
-```
-
-### No data visible
-
-```bash
-# Verify Claude Code is installed
-ls ~/.claude/
-
-# Check stats file exists
-cat ~/.claude/stats-cache.json
-
-# Run with specific project
-ccboard --project ~/path/to/project
-```
-
-### MCP status shows "Unknown"
-
-- Status detection requires Unix (macOS/Linux)
-- Windows shows "Unknown" by default
-- Check if server process is actually running: `ps aux | grep <server-name>`
-
-### File watcher not working
-
-- Ensure `notify` crate supports your platform
-- Check file permissions on `~/.claude/`
-- Restart ccboard if file system events missed
-
-## Advanced usage
-
-### Command-line Options
-
-```bash
-ccboard --help              # Show all options
-ccboard --claude-home PATH  # Custom Claude directory
-ccboard --project PATH      # Specific project
-ccboard stats               # Print stats and exit
-ccboard web --port 8080     # Web UI on port 8080
-ccboard both                # TUI + Web simultaneously
-```
-
-### Environment variables
-
-```bash
-# Editor preference
-export EDITOR=vim
-export VISUAL=code
-
-# Custom Claude home
-export CLAUDE_HOME=~/custom/.claude
-```
-
-### Integration with Claude Code
-
-ccboard reads **read-only** from Claude Code directories:
-
-- Non-invasive monitoring
-- No modifications to Claude data
-- Safe to run concurrently with Claude Code
-- File watcher detects changes in real-time
-
-## Performance
-
-- **Binary size**: 2.4MB (release build)
-- **Initial load**: <2s for 1,000+ sessions
-- **Memory**: ~50MB typical usage
-- **CPU**: <5% during monitoring
-- **Lazy loading**: Session content loaded on-demand
-
-## Limitations
-
-Current version (0.1.0):
-
-- **Read-only**: No write operations to Claude data
-- **MCP status**: Unix only (Windows shows "Unknown")
-- **Web UI**: In development (TUI is primary interface)
-- **Search**: Basic substring matching (no fuzzy search yet)
-
-Future roadmap:
-
-- Enhanced MCP server management (start/stop)
-- MCP protocol health checks
-- Export reports (PDF, JSON, CSV)
-- Config editing (write settings.json)
-- Session resume integration
-- Enhanced search with fuzzy matching
-
-## Contributing
-
-ccboard is open source (MIT OR Apache-2.0).
-
-Repository: https://github.com/{OWNER}/ccboard
-
-Contributions welcome:
-- Bug reports and feature requests
-- Pull requests for new features
-- Documentation improvements
-- Platform-specific testing (Windows, Linux)
-
-## Credits
-
-Built with:
-- [Ratatui](https://ratatui.rs/) - Terminal UI framework
-- [Axum](https://github.com/tokio-rs/axum) - Web framework
-- [Leptos](https://leptos.dev/) - Reactive frontend
-- [Notify](https://github.com/notify-rs/notify) - File watcher
-- [Serde](https://serde.rs/) - Serialization
-
-## License
-
-MIT OR Apache-2.0
-
----
-
-**Questions?**
-
-- GitHub Issues: https://github.com/{OWNER}/ccboard/issues
-- Documentation: https://github.com/{OWNER}/ccboard
-- Claude Code: https://claude.ai/code
+`README.md` and `commands/` describe the original plugin packaging (`/dashboard`, `/costs`, `/sessions`, `/mcp-status`, `/ccboard-web`, `/ccboard-install`). `scripts/` holds the install helpers those commands call.

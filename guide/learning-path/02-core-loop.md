@@ -20,7 +20,7 @@ Understand how Claude Code actually works: the decision loop, context, and how t
 - The complete interaction loop (prompt → analysis → decision → action)
 - How Claude reads and understands your project
 - How context works and why it matters
-- Modes: Normal, Plan, and Think modes
+- Modes: default permission mode, Plan mode, and effort levels (thinking depth)
 - How to structure effective requests
 
 ---
@@ -120,7 +120,7 @@ Be specific about scope:
 
 ## Context: The key concept
 
-**Context** is how much of your conversation Claude remembers. It's finite (~200K tokens).
+**Context** is how much of your conversation Claude can see at once. It's finite: the size depends on the model (1M tokens on most current models).
 
 ### What uses context?
 
@@ -134,78 +134,87 @@ Previous messages:     accumulated tokens
 ### The context meter
 
 ```bash
-/status
+/context
 ```
 
-Shows:
-```
-Context: 67%
-```
+Shows a colored grid of what currently fills the window (messages, file reads, tool output, memory files), with optimization suggestions and capacity warnings. Read it like this:
+- Lots of room remaining: work freely
+- Half-used: be mindful of large file reads
+- Getting tight: use `/compact`
+- Over the limit: `/context` prints a warning naming the command that frees space
 
-This means:
-- 0-50%: Lots of room remaining, work freely
-- 50-70%: Half-used, be mindful
-- 70-90%: Getting tight, use `/compact`
-- 90%+: Critical, you must clean up
+`/status` is not a context meter: it opens the settings screen on a tab with version, model, account and connectivity. For cost and plan limits use `/usage`.
 
 ### `/compact` - your safety valve
 
-When context reaches 70%+, use:
+When `/context` shows the window getting tight, use:
 
 ```bash
 /compact
 ```
 
 This:
-1. Summarizes previous conversation
-2. Discards old messages
-3. Frees up ~40% context
+1. Summarizes the conversation so far
+2. Replaces the old messages with that summary
+3. Frees up context
 4. Keeps you working in the same session
 
-You can compact multiple times in one session.
+You can pass instructions (`/compact keep the auth decisions`) and compact multiple times in one session. Claude Code also compacts automatically near the top of the window. The **Auto-compact** toggle in `/config` writes the `autoCompactEnabled` setting.
 
 ---
 
-## Modes: Normal vs plan vs think
+## Modes: Default vs plan vs effort
 
-Claude Code has three interaction modes.
+Two separate controls shape how Claude works: the **permission mode** (what it may do without asking) and the **effort level** (how hard it thinks).
 
-### Normal mode (default)
+### Default mode (permission prompts)
 
-Claude makes changes immediately after analyzing. Use for:
+In the default mode, Claude proposes edits and commands and asks for your approval before applying them. Use for:
 - Simple bug fixes
 - Small feature additions
 - Refactoring small sections
 
-**Flow**: Ask → Analyze (1-2 sec) → Propose → Apply
+**Flow**: Ask → Analyze → Propose → You approve → Apply
+
+Press `Shift+Tab` to cycle permission modes. Other modes include `acceptEdits` (file edits and common filesystem commands are auto-accepted inside the working directory), `auto` (a background classifier reviews commands) and `bypassPermissions` (no prompts, use with caution). Stay in the default mode while you learn.
 
 ### Plan mode (`/plan`)
 
-Claude thinks first, proposes a plan, waits for approval before making changes. Use for:
+Claude explores your code read-only, proposes a plan, and waits for approval before making changes. Use for:
 - Complex features
 - Risky changes
 - System-wide refactors
 - When you're unsure about approach
 
-**Flow**: Ask → Think → Propose plan → You approve → Analyze → Apply
+**Flow**: Ask → Read-only exploration → Propose plan → You approve → Apply
 
 **Example**:
 ```bash
-/plan
-Refactor the authentication system to use JWT instead of sessions
+/plan Refactor the authentication system to use JWT instead of sessions
 ```
 
-Claude responds with a step-by-step plan for you to review.
+`/plan` accepts an optional description and starts on that task immediately. Claude responds with a step-by-step plan for you to review. You can also enter plan mode with `Shift+Tab`.
 
-### Think mode (`/think`)
+### Effort level (`/effort`) and `ultrathink`
 
-Claude shows extended reasoning, thinking through the problem step-by-step. Use for:
+There is no `/think` command. Thinking depth is controlled by the effort level:
+
+```bash
+/effort          # open the effort picker
+/effort high     # set a level: low, medium, high, xhigh, max, or auto
+```
+
+Higher effort suits:
 - Understanding complex bugs
 - Architectural decisions
 - Security analysis
 - Performance optimization
 
-**Flow**: Ask → Extended reasoning → Analysis → Proposal
+Two related controls:
+- Put `ultrathink` in a single prompt to ask for deeper reasoning on that turn only, without changing your effort setting.
+- `Option+T` (macOS) or `Alt+T` (Windows/Linux) toggles extended thinking on models that allow turning it off. Current models such as Opus 5.5, Sonnet 5.5 and Haiku 5.5 always use it.
+
+The default effort depends on the model, and `max` is session-only. See the [model configuration docs](https://code.claude.com/docs/en/model-config#adjust-effort-level) for current defaults.
 
 ---
 
@@ -248,21 +257,29 @@ A **session** is your current conversation with Claude.
 ### Session facts
 
 - Starts when you run `claude`
-- Ends when you exit or run `/clear`
-- Not saved by default
+- `/clear` starts a new conversation with empty context
+- Saved locally: resume with `claude --continue` (latest session in this directory), `claude --resume`, or `/resume` from inside a session
 - Scoped to one project
-- Can be managed with `/rewind` (go back N steps)
+- Can be managed with `/rewind` (go back to an earlier point)
 
-### Checkpoint sessions
+### Rewind and name sessions
 
-To save a session (optional):
+To go back to an earlier point in the conversation and/or restore your code, use:
 ```bash
-/checkpoint save "fixed login, added tests"
+/rewind
 ```
 
-Later, restore:
+`Esc Esc` opens the same menu. `/checkpoint` and `/undo` are aliases of `/rewind`; there is no `/checkpoint save` or `/checkpoint load`.
+
+To make a session easy to find later, name it:
 ```bash
-/checkpoint load "fixed login, added tests"
+/rename fixed login, added tests
+```
+
+Later, from the terminal or inside Claude Code:
+```bash
+claude --resume
+/resume
 ```
 
 ---
@@ -308,11 +325,11 @@ VERIFY: Write tests in tests/validators.test.js
 
 ✓ Be specific (WHAT/WHERE/HOW/VERIFY) for faster results
 
-✓ Context is finite, watch your percentage and `/compact` at 70%+
+✓ Context is finite: check `/context` and `/compact` when it gets tight
 
-✓ `/plan` for risky changes, normal mode for safe ones
+✓ `/plan` for risky changes, default mode for safe ones, `/effort` or `ultrathink` for hard problems
 
-✓ Sessions are temporary, use `/checkpoint` to save important work
+✓ Sessions are saved locally: `/rename` to label them, `/resume` to return, `/rewind` to undo
 
 ---
 
@@ -320,9 +337,9 @@ VERIFY: Write tests in tests/validators.test.js
 
 ✓ You can explain the 7-step loop to someone else
 ✓ You understand what "context" means and why it matters
-✓ You know the difference between Plan and Normal modes
+✓ You know the difference between Plan mode and the default mode, and what `/effort` changes
 ✓ You've used `/plan` for a complex task
-✓ You can check `/status` and understand the output
+✓ You can check `/context` and understand the output
 
 ---
 

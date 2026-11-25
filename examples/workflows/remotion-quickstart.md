@@ -51,6 +51,9 @@ npx skills add remotion-dev/skills
 ```bash
 # Cloner le repo skills directement
 git clone https://github.com/remotion-dev/skills.git .claude/skills/remotion
+# Claude Code ne charge que .claude/skills/<nom>/SKILL.md (un seul niveau).
+# Vérifiez qu'un SKILL.md se trouve directement dans le dossier cloné,
+# sinon copiez chaque dossier de skill au premier niveau de .claude/skills/.
 ```
 
 ---
@@ -236,11 +239,11 @@ choco install ffmpeg
 
 **Solution**:
 ```bash
-# Vérifier que .claude/skills/ existe
-ls -la .claude/skills/remotion
+# Vérifier que chaque skill a son SKILL.md au premier niveau
+ls .claude/skills/*/SKILL.md
 
-# Re-sourcer les skills
-claude --reload-skills
+# Recharger les skills depuis une session Claude Code
+/reload-skills
 ```
 
 ### Problème: Vidéo rendue mais écran noir

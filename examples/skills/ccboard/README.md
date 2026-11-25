@@ -3,7 +3,7 @@
 > Comprehensive TUI/Web dashboard for monitoring and managing Claude Code
 
 [![License](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue.svg)](../../../LICENSE)
-[![Rust](https://img.shields.io/badge/rust-1.70%2B-orange.svg)](https://www.rust-lang.org)
+[![Rust](https://img.shields.io/badge/rust-1.85%2B-orange.svg)](https://www.rust-lang.org)
 
 ## Quick start
 
@@ -84,7 +84,7 @@ Track your Claude Code spending:
 
 - Total tokens: 17.32M
 - Total cost: $9,145.20
-- Breakdown by model: Opus 4.5 (76%), Sonnet 4.5 (14%)
+- Breakdown by model: Opus 5.5 (76%), Sonnet 5.5 (14%)
 - Cache hit rate: 99.9%
 
 ## Session explorer
@@ -111,7 +111,7 @@ ccboard both --port 3333
 
 ## Requirements
 
-- **Rust 1.70+** and Cargo
+- **Rust 1.85+** and Cargo
 - **Claude Code** installed (reads from `~/.claude/`)
 
 ## Architecture
@@ -172,8 +172,8 @@ cat ~/.claude/stats-cache.json  # Check stats file
 
 ## Links
 
-- **Repository**: https://github.com/{OWNER}/ccboard
-- **Issues**: https://github.com/{OWNER}/ccboard/issues
+- **Repository**: https://github.com/FlorianBruniaux/ccboard
+- **Issues**: https://github.com/FlorianBruniaux/ccboard/issues
 - **Claude Code**: https://claude.ai/code
 
 ## License

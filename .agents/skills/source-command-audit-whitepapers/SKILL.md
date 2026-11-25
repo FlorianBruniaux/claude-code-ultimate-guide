@@ -181,7 +181,7 @@ Score both the FR and EN files of a pair identically on parity (if the pair is c
 | `version` follows semver pattern | 3 | Matches `\d+\.\d+\.\d+` |
 | `wp-version` follows semver pattern | 3 | Matches `\d+\.\d+\.\d+` |
 | `date` is parseable and not in the future | 3 | Valid date, not after today |
-| `series` value is consistent | 2 | Equals "Codex Ultimate Guide" |
+| `series` value is consistent | 2 | Equals "Claude Code Ultimate Guide" |
 | No missing `wp-version` (not left empty or absent) | 3 | Field has a non-empty value |
 
 ### Recap cards (20 points max)

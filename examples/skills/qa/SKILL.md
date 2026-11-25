@@ -1,7 +1,7 @@
 ---
 name: qa
-description: "Systematic QA testing of a web application: diff-aware, tiered, with fix-and-verify loop"
-argument-hint: "[path] [--thorough]"
+description: "Systematic QA testing of a web application: diff-aware scope, three tiers, and an atomic fix-and-verify loop. Use before opening a PR or cutting a release."
+argument-hint: "[routes or url] [--quick|--exhaustive|--full]"
 effort: high
 disable-model-invocation: true
 ---
@@ -207,7 +207,7 @@ VERDICT: [READY TO SHIP / NOT READY: address critical and high issues first]
 4. **Screenshot evidence**: always capture before/after for critical fixes
 5. **Check mobile**: most visual bugs appear at 375px width
 
-## Related commands
+## Related skills
 
 - `/investigate`: root-cause analysis when QA finds a complex bug
 - `/ship`: pre-deploy checklist (run after QA passes)

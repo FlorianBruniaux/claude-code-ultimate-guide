@@ -1,6 +1,7 @@
 ---
 name: landing-page-generator
 description: "Generate complete, deploy-ready landing pages from any repository. Use when creating a homepage for an open-source project, building a project website, converting a README into a marketing page, or standardizing landing pages across multiple repos."
+argument-hint: "from <repo-path> [--risk-banner] [--pricing-table] [--theme dark|light] [--output <path>]"
 allowed-tools: Read Bash Write
 effort: medium
 ---
@@ -236,5 +237,5 @@ Creates `~/projects/my-project-landing/` with:
 
 ## References
 
-See `references/landing-pattern.md` for detailed pattern documentation.
-See `assets/` for reusable templates and snippets.
+See `${CLAUDE_SKILL_DIR}/references/landing-pattern.md` for detailed pattern documentation.
+See `${CLAUDE_SKILL_DIR}/assets/` for reusable templates and snippets.

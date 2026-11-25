@@ -1,16 +1,15 @@
 ---
 name: ci-pipeline
 description: Push current branch and return the pipeline tracking URL (GitLab or GitHub Actions)
-argument-hint: "[--force | --draft]"
 allowed-tools: [Bash]
 model: haiku
 effort: low
 disable-model-invocation: true
 ---
 
-# /ci:pipeline: Push and trigger pipeline
+# /ci-pipeline: Push and trigger pipeline
 
-Pushes the current branch and returns the pipeline tracking link.
+Pushes the current branch and returns the pipeline tracking link. Never force-push: this skill takes no flags.
 
 ## Process
 
@@ -92,7 +91,5 @@ Pipeline status (after 3s):
 ## Usage
 
 ```
-/ci:pipeline
+/ci-pipeline
 ```
-
-Target: $ARGUMENTS

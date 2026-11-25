@@ -50,24 +50,24 @@ Calculate PR complexity to detect if split is needed:
 When split is recommended, display:
 
 ```
-🔴 Scope trop large (score: 32)
+🔴 Scope too large (score: 32)
 
-Commits par scope :
-├── payments (5 commits, 8 fichiers)
+Commits by scope:
+├── payments (5 commits, 8 files)
 │   ├── feat(payments): add Stripe checkout
 │   └── fix(payments): handle currency
 │
-└── notifications (3 commits, 6 fichiers)
+└── notifications (3 commits, 6 files)
     └── feat(notifications): add email templates
 
-💡 Suggestion :
-1. PR #1 : feature/payments-stripe → Commits payments
-2. PR #2 : feature/notifications → Commits notifications
+💡 Suggestion:
+1. PR #1: feature/payments-stripe → payments commits
+2. PR #2: feature/notifications → notifications commits
 
-Options :
-[A] Continuer avec une seule PR (non recommandé)
-[B] Découper (semi-auto - commandes git fournies)
-[C] Voir détail fichiers
+Options:
+[A] Continue with a single PR (not recommended)
+[B] Split (semi-auto: git commands provided)
+[C] Show file details
 ```
 
 **Semi-auto split** provides copy-paste commands:
@@ -173,14 +173,14 @@ gh pr create \
 After PR creation, ALWAYS display:
 
 ```
-✅ PR créée : https://github.com/org/repo/pull/XXX
+✅ PR created: https://github.com/org/repo/pull/XXX
 
-📋 Prochaines étapes automatiques :
-   • SonarQube analysera la qualité du code (bugs, vulnérabilités, code smells)
-   • Claude Code Review fournira un feedback IA sur votre PR
+📋 Automated follow-ups (if configured for this repository):
+   • SonarQube analyzes code quality (bugs, vulnerabilities, code smells)
+   • Claude Code Review gives AI feedback on the PR
 
-⏳ Pensez à surveiller ces analyses dans les prochaines minutes.
-   Si des problèmes sont détectés, corrigez-les avant de demander une review humaine.
+⏳ Watch these checks over the next few minutes.
+   Fix any problems they report before requesting a human review.
 ```
 
 ## Edge cases
@@ -189,7 +189,7 @@ After PR creation, ALWAYS display:
 |-----------|----------|
 | No scope in commits | Analyze by directories |
 | Non-conventional commits | Warn + ask type manually |
-| No commits (same as base) | Error: "Aucun changement" |
+| No commits (same as base) | Error: "No changes to open a PR for" |
 | Single commit | Use commit message as title |
 | Merge commits | Ignore (`--no-merges`) |
 

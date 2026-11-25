@@ -36,8 +36,8 @@ Recent Claude Code Releases:
 2. `machine-readable/claude-code-releases.yaml` - CC version + date
 3. `CHANGELOG.md` - Last 3 guide updates
 4. `machine-readable/claude-code-releases.yaml` - Last 3 CC releases
-5. Run `find examples/ -type f ! -name README.md ! -name index.html | wc -l` - Templates count
-6. Run `jq '. | length' questions.json` - Quiz count
+5. Run `find examples/ -type f \( -name "*.md" -o -name "*.sh" -o -name "*.ps1" -o -name "*.yml" -o -name "*.yaml" -o -name "*.json" \) -not -name README.md -not -name index.md -not -path '*/commands/*' | wc -l` - Templates count (same definition as `scripts/check-landing-sync.sh`)
+6. Run `grep -r '  - id:' quiz/questions/ | wc -l` - Quiz count
 7. Run `wc -l guide/ultimate-guide.md | awk '{print $1}'` - Guide lines
 8. Run `./scripts/check-landing-sync.sh` - Sync status
 

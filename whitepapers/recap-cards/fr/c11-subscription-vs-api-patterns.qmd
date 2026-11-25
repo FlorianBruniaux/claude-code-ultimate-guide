@@ -34,8 +34,8 @@ Les subscriptions utilisent un modèle hybride : une fenêtre glissante de 5 heu
 | Plan | Recommandation |
 |------|---------------|
 | Pro | Choisir un modèle disponible pour la tâche ; surveiller `/usage` |
-| Max 5x | Évaluer un routage explicite vers Sonnet face au modèle par défaut |
-| Max 20x | Plus de liberté Opus, mais surveiller la consommation hebdomadaire |
+| Max | Évaluer un routage explicite vers Sonnet face au modèle par défaut |
+| Ultra | Plus de liberté Opus, mais surveiller la consommation hebdomadaire |
 | API | Haiku pour les tâches mécaniques, Sonnet pour le dev, Opus pour l'audit |
 
 ## Le pattern OpusPlan pour économiser

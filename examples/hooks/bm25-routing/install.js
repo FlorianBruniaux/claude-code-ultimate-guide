@@ -61,14 +61,15 @@ function destinationFor(args) {
 }
 
 function desiredHandler(target, host, dataDir) {
-  return {
-    hooks: [{
-      type: 'command',
-      command: `env SKILL_ROUTER_HOST=${host} SKILL_ROUTER_DATA_DIR=${JSON.stringify(dataDir)} node ${JSON.stringify(path.join(target, 'bm25-suggest.js'))}`,
-      timeout: 2,
-      additionalContextLimit: 300,
-    }],
+  const hook = {
+    type: 'command',
+    command: `env SKILL_ROUTER_HOST=${host} SKILL_ROUTER_DATA_DIR=${JSON.stringify(dataDir)} node ${JSON.stringify(path.join(target, 'bm25-suggest.js'))}`,
+    timeout: 2,
   };
+  // additionalContextLimit is a Codex hook field. The Claude Code hooks reference
+  // does not define it, so it is written for the Codex host only.
+  if (host === 'codex') hook.additionalContextLimit = 300;
+  return { hooks: [hook] };
 }
 
 function readHooks(file) {

@@ -64,7 +64,7 @@ Track per session to avoid repetition:
 |----------|----------|
 | Git | rebase, cherry-pick, reflog, bisect |
 | Architecture | DI, SOLID patterns, composition |
-| Tools | Task agents, MCP servers, MultiEdit |
+| Tools | Subagents, MCP servers, multi-file edits |
 | Performance | memoization, lazy loading, virtualization |
 | Security | sanitization, CORS, CSP headers |
 
@@ -99,6 +99,8 @@ Once explained -> suppress further offers for same technique this session.
 - Don't interrupt task flow with individual offers
 
 ## User control
+
+These flags are prompt conventions that you type in a message, not `claude` command-line flags.
 
 | Flag | Effect |
 |------|--------|

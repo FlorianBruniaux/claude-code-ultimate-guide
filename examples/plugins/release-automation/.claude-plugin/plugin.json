@@ -1,0 +1,14 @@
+{
+  "name": "release-automation",
+  "displayName": "Release Automation",
+  "version": "1.1.0",
+  "description": "Release notes generation skills for changelogs, pull request bodies, and announcements.",
+  "license": "CC-BY-SA-4.0",
+  "keywords": ["release", "changelog"],
+  "metadata": {
+    "components": {
+      "skills": ["release-notes", "release-notes-generator"]
+    },
+    "install": "bash install.sh copies the components from examples/ into .claude/"
+  }
+}

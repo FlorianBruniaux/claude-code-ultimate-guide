@@ -11,7 +11,11 @@
 # For deeper validation, use the output-evaluator agent.
 #
 # Place in: .claude/hooks/output-validator.sh
-# Register in: .claude/settings.json under PostToolUse event
+# Register in: .claude/settings.json under PostToolUse event, matcher "Edit|Write|Bash"
+#
+# What is scanned: for Write and Edit, the content Claude wrote (`tool_input.content`
+# or `tool_input.new_string`); for Bash, the command result (`tool_response`).
+# PostToolUse sends no `tool_output` field.
 
 set -e
 
@@ -19,7 +23,14 @@ set -e
 INPUT=$(cat)
 
 TOOL_NAME=$(echo "$INPUT" | jq -r '.tool_name // empty')
-TOOL_OUTPUT=$(echo "$INPUT" | jq -r '.tool_output // empty')
+case "$TOOL_NAME" in
+    Write|Edit)
+        TOOL_OUTPUT=$(echo "$INPUT" | jq -r '.tool_input.content // .tool_input.new_string // empty')
+        ;;
+    *)
+        TOOL_OUTPUT=$(echo "$INPUT" | jq -r '(.tool_response // "") | if type == "string" then . else tojson end')
+        ;;
+esac
 
 # Only validate tools that produce code/content outputs
 case "$TOOL_NAME" in
@@ -130,7 +141,9 @@ TOOL_OUTPUT_LOWER=$(echo "$TOOL_OUTPUT" | tr '[:upper:]' '[:lower:]')
 for pattern in "${UNCERTAINTY_PATTERNS[@]}"; do
     pattern_lower=$(echo "$pattern" | tr '[:upper:]' '[:lower:]')
     if [[ "$TOOL_OUTPUT_LOWER" == *"$pattern_lower"* ]]; then
-        ((UNCERTAINTY_COUNT++))
+        # Not ((UNCERTAINTY_COUNT++)): it returns status 1 when the count is 0,
+        # which ends the script under `set -e`
+        UNCERTAINTY_COUNT=$((UNCERTAINTY_COUNT + 1))
     fi
 done
 

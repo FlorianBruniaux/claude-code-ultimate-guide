@@ -3,6 +3,8 @@
 # Repository Integrity Scanner Hook
 # =============================================================================
 # Event: PreToolUse (runs before Read on potentially malicious files)
+# Note: files attached with @ in a prompt are inserted without a Read call, so this
+# hook does not see them (use a Read deny rule for those paths)
 # Purpose: Scan repository files for injection vectors before processing
 #
 # This hook detects prompt injection attempts hidden in:
@@ -17,7 +19,7 @@
 #     "hooks": {
 #       "PreToolUse": [{
 #         "matcher": "Read",
-#         "hooks": ["bash examples/hooks/bash/repo-integrity-scanner.sh"]
+#         "hooks": [{ "type": "command", "command": "bash examples/hooks/bash/repo-integrity-scanner.sh" }]
 #       }]
 #     }
 #   }
@@ -198,7 +200,7 @@ for ide_pattern in "${IDE_CONFIG_PATTERNS[@]}"; do
 
         # Check for suspicious config modifications
         if [[ "$FILENAME" == *.json ]]; then
-            local content
+            # (no `local`: this block runs at top level, outside any function)
             content=$(cat "$FILE_PATH" 2>/dev/null || echo "")
 
             # Look for hooks pointing to external URLs or suspicious commands

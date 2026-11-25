@@ -171,20 +171,13 @@ Add to "Environment":
 
 ## Integration with agents
 
-Pair this CLAUDE.md with the DevOps/SRE agent:
+Pair this CLAUDE.md with the DevOps/SRE subagent. Copy [`examples/agents/devops-sre.md`](../agents/devops-sre.md) to `.claude/agents/devops-sre.md`. Claude Code loads subagents from that folder, so no settings entry is needed. Then ask by name:
 
-```json
-{
-  "agents": {
-    "sre": {
-      "path": ".claude/agents/devops-sre.md",
-      "model": "sonnet"
-    }
-  }
-}
+```text
+Use the devops-sre subagent to investigate this pod crash
 ```
 
-Then invoke with: `@sre investigate this pod crash`
+You can also type `@` and pick `devops-sre` from the typeahead to force delegation.
 
 ---
 

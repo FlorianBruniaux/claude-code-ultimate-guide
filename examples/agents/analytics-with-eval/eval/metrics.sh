@@ -4,9 +4,8 @@
 # Produces summary statistics, safety reports, and recommendations
 #
 # Usage:
-#   ./metrics.sh                    # Analyze all metrics
-#   ./metrics.sh --since 2026-02-01 # Filter by date
-#   ./metrics.sh --report           # Generate formatted report
+#   ./metrics.sh                                          # Analyze all metrics
+#   ./metrics.sh .claude/logs/analytics-metrics.jsonl 2026-02-01   # Log file, then optional start date
 
 set -euo pipefail
 

@@ -1,6 +1,8 @@
 ---
 name: update-threat-db
-description: Delegate threat-intelligence research and updates to AgentSec, then validate the guide and landing mirrors.
+description: "Refresh the guide's threat intelligence by delegating research and updates to AgentSec Triage, then validate the guide and landing mirrors. Use when asked to update the threat database, pull new coding-agent or MCP security advisories, or sync the security feed. Not for scanning a repository (use security-check or security-audit) or tracking Claude Code releases."
+effort: high
+disable-model-invocation: true
 ---
 
 # Update threat intelligence through AgentSec

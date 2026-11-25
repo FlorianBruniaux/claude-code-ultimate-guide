@@ -571,13 +571,14 @@ A separate degradation mode that does not depend on context size: repeated tool 
 
 This is distinct from compaction drift. Compaction addresses context *size*; failure re-injection addresses context *quality* within a bounded window.
 
-**Pattern**: re-inject the core task instruction on every command failure, not just after `/compact`. A `PostToolUse` hook can prefix retried prompts with a condensed version of the original task and constraints:
+**Pattern**: re-inject the core task instruction on every command failure, not just after `/compact`. A `PostToolUseFailure` hook (`PostToolUse` only fires when the tool call succeeds) can feed Claude a condensed version of the original task and constraints. Hook input arrives as JSON on stdin, and exit code 2 shows stderr to Claude:
 
 ```bash
-# PostToolUse hook: re-inject intent after failures
-if [[ "$CLAUDE_TOOL_EXIT_CODE" != "0" ]]; then
-  echo "REMINDER: The current task is: $ORIGINAL_TASK_SUMMARY. Ignore the above error if non-blocking and continue toward that goal."
-fi
+# PostToolUseFailure hook: re-inject intent after failures
+INPUT=$(cat)
+TOOL=$(echo "$INPUT" | jq -r '.tool_name')
+echo "REMINDER: $TOOL failed. The current task is: $ORIGINAL_TASK_SUMMARY. Ignore the above error if non-blocking and continue toward that goal." >&2
+exit 2
 ```
 
 Source: [Nick Tune, Workflow DSL: Domain-Driven Claude Code Workflows](https://nick-tune.me/blog/2026-03-01-workflow-dsl-domain-driven-claude-code-workflows/) (2026-03-01)
@@ -1664,7 +1665,7 @@ Three API-level features that architects must understand for production systems:
 
 ### Message Batches API
 
-The Batches API submits up to 100 messages in a single HTTP request and processes them asynchronously within a 24-hour window. The cost is 50% of the synchronous rate: same quality, half the price, at the cost of latency.
+The Batches API accepts up to 100,000 message requests or 256 MB per batch and processes them asynchronously within a 24-hour window. The cost is 50% of the synchronous rate: same quality, half the price, at the cost of latency.
 
 **When to use it:**
 

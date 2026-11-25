@@ -62,7 +62,7 @@ Since late 2025, several agentic capabilities have become available and signific
 |---------|-------|-------------|
 | **Tasks API** | v2.1.16 | Persistent task lists with dependencies; opt in on newer models with `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` |
 | **Auto-memories** | v2.1.32 | Automatic cross-session context capture in `~/.claude/projects/` |
-| **Agent Teams** | v2.1.32 | Multi-agents in parallel via `TeamCreate`/`SendMessage` |
+| **Agent Teams** | v2.1.32 | Multi-agents in parallel via the Agent tool `name` and `SendMessage` (`TeamCreate` removed in v2.1.178) |
 | **LSP Tool** | v2.0.74 | Diagnostics after edits and symbol navigation, enabled by an official code intelligence plugin per language |
 | **Remote Control** | v2.1.51 | Control a local session from mobile or browser (Pro/Max/Team/Enterprise) |
 | **MCP Elicitation** | v2.1.76 | MCP servers can request structured data during a task |
@@ -153,7 +153,7 @@ claude                    # Launch Claude Code
 /init                     # Generate an initial CLAUDE.md for your project
 /status                   # Check session and account state
 /compact                  # Compress context (at 70%+)
-/usage                    # Unified costs, stats, and session graphs (v2.1.118, replaces /cost and /stats)
+/usage                    # Unified costs, stats, and session graphs (v2.1.118, /cost and /stats remain as aliases)
 /context                  # Inspect token usage; use @file in a prompt to reference a file
 /clear                    # Start fresh
 /plan                     # Read-only mode (safe exploration)

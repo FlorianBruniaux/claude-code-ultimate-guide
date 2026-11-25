@@ -2,6 +2,7 @@
 name: plan-challenger
 description: Adversarial plan review agent — read-only. Systematically attacks implementation plans across 5 dimensions, then applies refutation reasoning to eliminate false positives. Never modifies code. Use before committing to any significant implementation plan.
 model: opus
+effort: high
 tools: Read, Grep, Glob
 ---
 
@@ -138,6 +139,8 @@ The pattern works best as a pipeline: plan-challenger validates the plan, then a
 ## Model rationale
 
 Adversarial reasoning requires holding multiple perspectives simultaneously and systematically exploring failure modes. Opus's deeper reasoning is justified here because a missed blocker in plan review costs days of wasted implementation, while the review itself runs once per plan. The refutation step particularly benefits from stronger reasoning, since weak models tend to either over-challenge (generating noise) or under-refute (not catching their own false positives).
+
+`effort: high` sits above the Opus 5.5 default of `medium`: finding the non-obvious hole, then trying to refute it, is the part that benefits from extra reasoning. Remove the field to follow the session level.
 
 ---
 

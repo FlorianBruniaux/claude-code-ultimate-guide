@@ -318,7 +318,7 @@ For monitoring multiple concurrent Claude Code instances via external orchestrat
 - Debugging orchestration failures (agent conflicts, merge issues)
 
 **When native monitoring suffices**:
-- Single Claude Code session or `--delegate` with <3 subagents
+- Single Claude Code session, or a session with fewer than 3 subagents
 - Post-hoc analysis (logs, stats) is enough
 - Budget/complexity constraints
 
@@ -348,8 +348,12 @@ Add to `~/.claude/settings.json`:
   "hooks": {
     "PostToolUse": [
       {
-        "type": "command",
-        "command": "~/.claude/hooks/session-logger.sh"
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/session-logger.sh"
+          }
+        ]
       }
     ]
   }
@@ -698,7 +702,7 @@ mlflow.set_experiment("my-agent")
 
 # Use ClaudeSDKClient normally — all interactions are traced
 # ⚠️ Only ClaudeSDKClient is supported. Direct API calls are not traced.
-from anthropic import claude_agent_sdk
+from claude_agent_sdk import ClaudeSDKClient
 async with ClaudeSDKClient(options=AGENT_OPTIONS) as client:
     await client.query(query)
 ```
@@ -707,7 +711,7 @@ Requires: `mlflow>=3.5` + `claude-agent-sdk>=0.1.0`.
 
 #### MCP server: bidirectional integration
 
-Claude Code can query its own traces directly. Add to `.claude/settings.json`:
+Claude Code can query its own traces directly. Add to `.mcp.json` at the project root (MCP servers are not read from `settings.json`):
 
 ```json
 {

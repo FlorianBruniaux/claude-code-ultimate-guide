@@ -473,7 +473,7 @@ Claude Code's built-in process-level sandboxing (Layer 4 in the [architecture](.
 
 - **No external dependencies**: Works out of the box
 - **Process isolation**: Restricts what commands Claude can execute
-- **Configurable**: Through `allowedTools` in settings
+- **Configurable**: Through the `sandbox` settings key (see [Native Sandbox](./sandbox-native.md))
 - **Limitations**: not full VM isolation, shares host kernel and filesystem
 
 Use this when: Docker is unavailable, lightweight isolation is sufficient, or you want defense-in-depth alongside a sandbox.

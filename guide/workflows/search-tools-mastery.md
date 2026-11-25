@@ -771,7 +771,7 @@ lilmd read docs/architecture.md "=Authentication Flow"
 
 - [Serena MCP Guide](#serena-semantic-code-analysis)
 - [grepai Documentation](#grepai-recommended-semantic-search)
-- [ast-grep Patterns Skill](../../examples/skills/ast-grep-patterns.md)
+- [ast-grep Patterns Skill](../../examples/skills/ast-grep-patterns/SKILL.md)
 - [Architecture: Grep vs RAG History](../core/architecture.md#search-strategy-evolution)
 - [scip-search GitHub](https://github.com/liza-mas/scip-search)
 - [lilmd GitHub](https://github.com/molefrog/lilmd)

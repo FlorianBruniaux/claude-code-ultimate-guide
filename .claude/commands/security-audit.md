@@ -14,7 +14,7 @@ You are a senior application security engineer. Perform a 6-phase security audit
 
 ### Phase 1: Configuration Security (via /security-check)
 
-Execute all checks from `/security-check` (the `examples/commands/security-check.md` command). This covers:
+Execute all checks from `/security-check` (the `examples/skills/security-check/SKILL.md` skill). This covers:
 - MCP server audit against CVE database
 - Skills & agents against known malicious entries
 - Hook exfiltration patterns

@@ -1396,7 +1396,7 @@ You: "What did the research find?"
 
 | Composant | Rôle |
 |-----------|------|
-| `TeamCreate` | Créer une équipe d'agents |
+| `TeamCreate` | Retiré en v2.1.178 : les coéquipiers rejoignent l'équipe implicite de la session via le paramètre `name` de l'outil Agent |
 | `SendMessage` | Envoyer des messages entre agents |
 | `TaskList` | Voir les tâches de tous les agents |
 
@@ -1591,7 +1591,7 @@ Ces commandes ciblent des cas d'usage spécifiques : optimisation de coûts (`/m
 | `/teleport` | Téléporter session depuis web | Migration web→CLI |
 | `/tasks` | Voir et gérer les tâches en arrière-plan, y compris les sous-agents terminés | Agents en arrière-plan |
 | `/remote-env` | Configurer environnement cloud | Setup remote |
-| `/fast` | Basculer le mode rapide (Opus 5.5 : $8/$40 par MTok) | Tâches urgentes |
+| `/fast` | Basculer le mode rapide (Opus 5.5 : $8/$40 par MTok ; Fable 5.2 : $16/$80), jusqu'à 2,5x plus rapide en sortie | Tâches urgentes |
 | `/debug` (skill intégré) | Active les journaux de débogage et diagnostique à partir du journal de session | Debugging structuré |
 | `/config [clé=valeur]` | Ouvrir les réglages, ou modifier une clé directement | Setup |
 | `/cost` | Voir coûts session (alias `/usage`) | Monitoring |
@@ -1622,8 +1622,8 @@ Les numéros `v2.x` ci-dessous désignent Claude Code ; les numéros `v3.x` dés
 | `/session-save` | Commande personnalisée à installer : Handoff de session structuré | v3.37.x |
 | `/autoresearch` | Commande personnalisée à installer : Boucle autonome de qualité de code | v3.37.x |
 | `/loop [interval] [cmd]` | Automatisation récurrente à intervalle fixe (ex: `/loop 5m /qa`) | v3.37.x |
-| `/ultrareview` | Review de code multi-agents en parallèle, cloud-based (branche locale ou PR GitHub) | v3.39.1 |
-| `/fewer-permission-prompts` (skill intégré) | Analyse les transcripts pour repérer les appels Bash et MCP en lecture seule fréquents et ajoute une allowlist priorisée à `.claude/settings.json` du projet | v3.39.1 |
+| `/ultrareview` | Review de code multi-agents en parallèle, cloud-based (branche locale ou PR GitHub) | v2.1.111 (amélioré en v2.1.114) |
+| `/fewer-permission-prompts` (skill intégré) | Analyse les transcripts pour repérer les appels Bash et MCP en lecture seule fréquents et ajoute une allowlist priorisée à `.claude/settings.json` du projet | v2.1.111 (livré sous le nom `/less-permission-prompts`) |
 | `/usage` | Coût de la session, limites du forfait et statistiques d'activité ; `/cost` et `/stats` sont des alias | v2.1.118 |
 | `/cd <path>` | Changer de répertoire de travail en cours de session | v2.1.169 |
 | `/config key=value` | Syntaxe inline pour modifier un setting sans passer par le menu | v2.1.181 |
@@ -1660,7 +1660,7 @@ Tarifs API standard contrôlés le 11 novembre 2026 à la source officielle. Dol
 | Haiku 5.5 | $0,10 / $0,50 (prompts jusqu'à 100K ; $0,50 / $2,50 au-delà) | 1M | medium |
 | Sonnet 5.5 | $2 / $10 | 1M | medium |
 | Opus 5.5 | $4 / $20 | 1M | medium |
-| Fable 5.2 | $8 / $40 | 1M | high |
+| Fable 5.2 | $8 / $40 | 1M | medium |
 
 Sonnet 5.5 remplace le modèle historique Sonnet 5 sur l'API directe depuis v2.1.284, au même tarif standard $2/$10. Opus 5.5 est le défaut du service direct, sauf règle du compte. Le modèle seul ne détermine pas le coût d'une tâche.
 
@@ -1674,7 +1674,7 @@ Les alias dépendent du fournisseur. `opus` sélectionne 5.5 chez la plupart, ma
 
 ## Thinking et effort
 
-Opus 5.5, Sonnet 5.5, Haiku 5.5 et Fable 5.2 utilisent le thinking adaptatif. Haiku 4.5 (historique) n'a **pas de paramètre effort**. L'effort par défaut est celui de Claude Code ; le défaut propre de l'API Claude pour Sonnet 5.5 est `high`. Sur l'API Anthropic, l'alias `haiku` sélectionne 5.5 depuis v2.1.293 ; il reste sur 4.5 sur Claude Platform on AWS, Bedrock, Agent Platform de Google Cloud et Foundry.
+Opus 5.5, Sonnet 5.5, Haiku 5.5 et Fable 5.2 utilisent le thinking adaptatif. Haiku 4.5 (historique) n'a **pas de paramètre effort**. L'effort par défaut est celui de Claude Code ; dans Claude Code, Opus 5.5, Sonnet 5.5, Haiku 5.5 et Fable 5.2 utilisent `medium` ; le défaut propre de l'API Claude pour Fable 5.2 et Sonnet 5.5 est `high`. Sur l'API Anthropic, l'alias `haiku` sélectionne 5.5 depuis v2.1.293 ; il reste sur 4.5 sur Claude Platform on AWS, Bedrock, Agent Platform de Google Cloud et Foundry.
 
 Les modèles adaptatifs actuels acceptent `low`, `medium`, `high`, `xhigh` et `max`. Opus 4.6 et Sonnet 4.6 acceptent `max`, mais pas `xhigh`.
 
@@ -1682,7 +1682,7 @@ Les modèles adaptatifs actuels acceptent `low`, `medium`, `high`, `xhigh` et `m
 
 `Option+T` / `Alt+T` bascule le thinking si le modèle le permet. Ce raccourci n'a pas d'effet sur Opus 5.5, Sonnet 5.5, Haiku 5.5 ni Fable, dont le thinking ne peut pas être désactivé. Réduire plutôt l'effort pour une tâche bornée.
 
-`ultrathink` ajoute une consigne de réflexion sans changer l'effort API. `think hard` est du texte ordinaire.
+`ultrathink` ajoute une consigne de réflexion et, depuis Claude Code v2.1.311 (terminal) et v2.1.316 (VS Code, application desktop), exécute ce tour à `xhigh` sans changer l'effort de la session. `think hard` est du texte ordinaire.
 
 ## Décider sur des résultats mesurés
 

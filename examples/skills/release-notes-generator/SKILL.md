@@ -96,7 +96,7 @@ Product-focused format from `.github/COMMUNICATION_TEMPLATE/slack-release.md`:
 
 ## Workflow integration
 
-This skill integrates with the release workflow:
+This skill only reads git history and drafts text; it writes `CHANGELOG.md` only after the user confirms. It never commits, tags, pushes, or opens a PR itself. The steps below describe the maintainer's surrounding release workflow:
 
 ```
 1. Analyze commits: git log <last-tag>..HEAD
@@ -239,10 +239,10 @@ git show --stat <sha>
 
 ## Reference files
 
-- `assets/changelog-template.md` - CHANGELOG section template
-- `assets/slack-template.md` - Slack announcement template
-- `references/tech-to-product-mappings.md` - Transformation rules
-- `references/commit-categories.md` - Categorization rules
+- `${CLAUDE_SKILL_DIR}/assets/changelog-template.md` - CHANGELOG section template
+- `${CLAUDE_SKILL_DIR}/assets/slack-template.md` - Slack announcement template
+- `${CLAUDE_SKILL_DIR}/references/tech-to-product-mappings.md` - Transformation rules
+- `${CLAUDE_SKILL_DIR}/references/commit-categories.md` - Categorization rules
 
 ## Related skills
 

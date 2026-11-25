@@ -13,7 +13,15 @@
 #   (default: auto-detect if rtk is in PATH)
 #
 # Place in: ~/.claude/hooks/rtk-baseline.sh
-# Register in: ~/.claude/settings.json under SessionStart event
+# Register in: ~/.claude/settings.json under SessionStart event:
+#   {
+#     "hooks": {
+#       "SessionStart": [{
+#         "hooks": [{ "type": "command", "command": "~/.claude/hooks/rtk-baseline.sh", "timeout": 5 }]
+#       }]
+#     }
+#   }
+# (`timeout` is in seconds.)
 
 set -euo pipefail
 

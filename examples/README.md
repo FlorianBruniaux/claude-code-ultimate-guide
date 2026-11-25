@@ -8,7 +8,7 @@ tags: [template, reference, workflows, architecture]
 
 Annotated templates that teach you **why** patterns work, not just how to configure them. Each template includes comments explaining trade-offs, alternatives, and when to deviate.
 
-> **[📚 Browse Auto-Generated Catalog](./CATALOG.md)**: Indexed by complexity, time, and domain (238 templates across six catalog categories; 271 production templates overall)
+> **[📚 Browse Auto-Generated Catalog](./CATALOG.md)**: Indexed by complexity, time, and domain (195 templates across five catalog categories)
 > **[🔍 Browse Interactive Catalog](./index.html)**: View, copy, and download templates with syntax highlighting
 
 ## New: Auto-Generated catalog
@@ -40,9 +40,8 @@ keywords: [tag1, tag2]
 | Folder | Description | Count |
 |--------|-------------|-------|
 | [`agents/`](./agents/) | Custom AI personas for specialized tasks | 21 + 2 collections |
-| [`commands/`](./commands/) | Slash commands (workflow automation) | 52 |
 | [`hooks/`](./hooks/) | Event-driven security and automation scripts | 39 catalog entries |
-| [`skills/`](./skills/) | Reusable knowledge modules, including [9 on SkillHub](https://skills.palebluedot.live/owner/FlorianBruniaux) | 118 catalog entries |
+| [`skills/`](./skills/) | Skills: knowledge modules and user-invocable slash commands, including [9 on SkillHub](https://skills.palebluedot.live/owner/FlorianBruniaux) | 86 skill folders |
 | [`claude-md/`](./claude-md/) | CLAUDE.md configuration profiles | 7 |
 | [`config/`](./config/) | Settings, MCP, git templates | 6 |
 | [`memory/`](./memory/) | CLAUDE.md memory file templates | 1 |
@@ -81,7 +80,7 @@ These worksheets are proposed procedures. Their examples do not establish runtim
 |------|------------------|-----------------|
 | Agents | `.claude/agents/` | `~/.claude/agents/` |
 | Skills | `.claude/skills/` | `~/.claude/skills/` |
-| Commands | `.claude/commands/` | `~/.claude/commands/` |
+| Commands (legacy) | `.claude/commands/` still loads; write new ones as skills | `~/.claude/commands/` |
 | Hooks | `.claude/hooks/` | `~/.claude/hooks/` |
 | Config | `.claude/` | `~/.claude/` |
 | Memory | `./CLAUDE.md` or `.claude/CLAUDE.md` | `~/.claude/CLAUDE.md` |
@@ -105,14 +104,14 @@ These worksheets are proposed procedures. Their examples do not establish runtim
 | [implementer.md](./agents/implementer.md) | Mechanical execution, bounded scope | Haiku |
 | [architecture-reviewer.md](./agents/architecture-reviewer.md) | Architecture & design review, read-only | Opus |
 | [adr-writer.md](./agents/adr-writer.md) | Architecture Decision Record generator, read-only | Opus |
-| [integration-reviewer.md](./agents/integration-reviewer.md) | Runtime integration validator, read-only | Sonnet |
-| [plan-challenger.md](./agents/plan-challenger.md) | Adversarial plan review across 5 dimensions, read-only | Sonnet |
-| [planning-coordinator.md](./agents/planning-coordinator.md) | Synthesis agent for dynamic research teams, read-only | Sonnet |
+| [integration-reviewer.md](./agents/integration-reviewer.md) | Runtime integration validator, read-only | Opus |
+| [plan-challenger.md](./agents/plan-challenger.md) | Adversarial plan review across 5 dimensions, read-only | Opus |
+| [planning-coordinator.md](./agents/planning-coordinator.md) | Synthesis agent for dynamic research teams, read-only | Opus |
 | [security-patcher.md](./agents/security-patcher.md) | Apply security patches from audit findings, proposes for review | Sonnet |
 | [analytics-with-eval/](./agents/analytics-with-eval/) | Collection: analytics agent + evaluation hooks | - |
 | [cyber-defense/](./agents/cyber-defense/) | Collection: anomaly detector, log ingestor, risk classifier, threat reporter | - |
 
-### Skills (68) · [9 on SkillHub](https://skills.palebluedot.live/owner/FlorianBruniaux)
+### Knowledge skills · [9 on SkillHub](https://skills.palebluedot.live/owner/FlorianBruniaux)
 
 | File | Purpose |
 |------|---------|
@@ -120,11 +119,11 @@ These worksheets are proposed procedures. Their examples do not establish runtim
 | [git-ai-archaeology/](./skills/git-ai-archaeology/) | Git-history archaeology of an AI coding harness: creation, churn, copies and abandonment of each config file, AI-trailer usage per month, maturity phases |
 | [token-audit/](./skills/token-audit/) | Measure fixed-context token overhead, classify rules by usage frequency, audit hook cost, produce prioritized action plan |
 | [design-patterns/](./skills/design-patterns/) | Detect and analyze GoF design patterns with stack-aware suggestions |
-| [tdd-workflow.md](./skills/tdd-workflow.md) | Test-Driven Development process |
-| [security-checklist.md](./skills/security-checklist.md) | OWASP Top 10 security checks |
-| [pdf-generator.md](./skills/pdf-generator.md) | Professional PDF generation (Quarto/Typst) |
+| [tdd-workflow.md](./skills/tdd-workflow/SKILL.md) | Test-Driven Development process |
+| [security-checklist.md](./skills/security-checklist/SKILL.md) | OWASP Top 10 security checks |
+| [pdf-generator.md](./skills/pdf-generator/SKILL.md) | Professional PDF generation (Quarto/Typst) |
 | [voice-refine/](./skills/voice-refine/) | Writing voice refinement with before/after examples |
-| [ast-grep-patterns.md](./skills/ast-grep-patterns.md) | AST-based code search patterns |
+| [ast-grep-patterns.md](./skills/ast-grep-patterns/SKILL.md) | AST-based code search patterns |
 | [rtk-optimizer/](./skills/rtk-optimizer/) | RTK token optimization analysis |
 | [audit-agents-skills/](./skills/audit-agents-skills/) | Quality audit for agents, skills, and commands |
 | [skill-creator/](./skills/skill-creator/) | Create new skills with proper structure and best practices |
@@ -138,42 +137,44 @@ These worksheets are proposed procedures. Their examples do not establish runtim
 | [talk-pipeline/](./skills/talk-pipeline/) | 6-stage pipeline: raw material to slides via Kimi |
 | [eval-rules/](./skills/eval-rules/) | Audit `.claude/rules/` and `~/.claude/rules/`: frontmatter, `paths` globs against real files, symlink load status, usefulness review, then in-place edits |
 
-### Commands (52)
+### User-invocable skills (slash commands)
 
-| File | Trigger | Purpose |
+Custom commands were merged into skills. Each template below is a skill folder: copy it to `.claude/skills/<name>/SKILL.md` and invoke it as `/<name>`. Workflows with side effects set `disable-model-invocation: true` so Claude never runs them on its own.
+
+| Skill | Command | Purpose |
 |------|---------|---------|
-| [commit.md](./commands/commit.md) | `/commit` | Conventional commit messages |
-| [pr.md](./commands/pr.md) | `/pr` | Create well-structured PRs with scope analysis |
-| [review-pr.md](./commands/review-pr.md) | `/review-pr` | PR review workflow |
-| [release-notes.md](./commands/release-notes.md) | `/release-notes` | Generate release notes in 3 formats |
-| [sonarqube.md](./commands/sonarqube.md) | `/sonarqube` | Analyze SonarCloud quality issues for PRs |
-| [generate-tests.md](./commands/generate-tests.md) | `/generate-tests` | Test generation |
-| [git-worktree.md](./commands/git-worktree.md) | `/git-worktree` | Isolated git worktree setup |
-| [git-worktree-status.md](./commands/git-worktree-status.md) | `/git-worktree-status` | Check worktree background verification tasks |
-| [git-worktree-remove.md](./commands/git-worktree-remove.md) | `/git-worktree-remove` | Safe worktree removal with merge checks |
-| [git-worktree-clean.md](./commands/git-worktree-clean.md) | `/git-worktree-clean` | Batch cleanup of stale worktrees |
-| [diagnose.md](./commands/diagnose.md) | `/diagnose` | Interactive troubleshooting assistant (FR/EN) |
-| [validate-changes.md](./commands/validate-changes.md) | `/validate-changes` | LLM-as-a-Judge pre-commit validation |
-| [catchup.md](./commands/catchup.md) | `/catchup` | Restore context after /clear |
-| [security.md](./commands/security.md) | `/security` | Quick OWASP security audit |
-| [security-check.md](./commands/security-check.md) | `/security-check` | Config scan vs known threats (~30s) |
-| [security-audit.md](./commands/security-audit.md) | `/security-audit` | Full 6-phase audit with score /100 |
-| [update-threat-db.md](./commands/update-threat-db.md) | `/update-threat-db` | Research & update threat intelligence |
-| [audit-agents-skills.md](./commands/audit-agents-skills.md) | `/audit-agents-skills` | Quality audit for .claude/ config |
-| [sandbox-status.md](./commands/sandbox-status.md) | `/sandbox-status` | Sandbox isolation status check |
-| [refactor.md](./commands/refactor.md) | `/refactor` | SOLID-based code improvements |
-| [explain.md](./commands/explain.md) | `/explain` | Code explanations (3 depth levels) |
-| [optimize.md](./commands/optimize.md) | `/optimize` | Performance analysis and roadmap |
-| [ship.md](./commands/ship.md) | `/ship` | Pre-deploy checklist |
-| [learn/quiz.md](./commands/learn/quiz.md) | `/learn:quiz` | Self-testing for learning concepts |
-| [learn/teach.md](./commands/learn/teach.md) | `/learn:teach` | Step-by-step concept explanations |
-| [learn/alternatives.md](./commands/learn/alternatives.md) | `/learn:alternatives` | Compare different approaches |
-| [audit-codebase.md](./commands/audit-codebase.md) | `/audit-codebase` | Codebase health audit scoring 7 categories |
-| [plan-start.md](./commands/plan-start.md) | `/plan-start` | 5-phase planning: PRD analysis, design review, technical decisions, research team, metrics |
-| [plan-execute.md](./commands/plan-execute.md) | `/plan-execute` | Execute validated plan: worktree isolation, TDD scaffolding, parallel agents, PR creation |
-| [plan-validate.md](./commands/plan-validate.md) | `/plan-validate` | 2-layer plan validation: structural checks + specialist agents, auto-fix issues |
-| [review-plan.md](./commands/review-plan.md) | `/review-plan` | Structured plan review across 4 axes before writing code |
-| [check-cache-bugs.md](./commands/check-cache-bugs.md) | `/check-cache-bugs` | Audit for CC#40524 cache bugs that can silently 10-20x API costs |
+| [commit/](./skills/commit/) | `/commit` | Conventional commit messages |
+| [pr/](./skills/pr/) | `/pr` | Create well-structured PRs with scope analysis |
+| [review-pr/](./skills/review-pr/) | `/review-pr` | PR review workflow |
+| [release-notes/](./skills/release-notes/) | `/release-notes` | Generate release notes in 3 formats |
+| [sonarqube/](./skills/sonarqube/) | `/sonarqube` | Analyze SonarCloud quality issues for PRs |
+| [generate-tests/](./skills/generate-tests/) | `/generate-tests` | Test generation |
+| [git-worktree/](./skills/git-worktree/) | `/git-worktree` | Isolated git worktree setup |
+| [git-worktree-status/](./skills/git-worktree-status/) | `/git-worktree-status` | Check worktree background verification tasks |
+| [git-worktree-remove/](./skills/git-worktree-remove/) | `/git-worktree-remove` | Safe worktree removal with merge checks |
+| [git-worktree-clean/](./skills/git-worktree-clean/) | `/git-worktree-clean` | Batch cleanup of stale worktrees |
+| [diagnose/](./skills/diagnose/) | `/diagnose` | Interactive troubleshooting assistant (FR/EN) |
+| [validate-changes/](./skills/validate-changes/) | `/validate-changes` | LLM-as-a-Judge pre-commit validation |
+| [catchup/](./skills/catchup/) | `/catchup` | Restore context after /clear |
+| [security/](./skills/security/) | `/security` | Quick OWASP security audit |
+| [security-check/](./skills/security-check/) | `/security-check` | Config scan vs known threats (~30s) |
+| [security-audit/](./skills/security-audit/) | `/security-audit` | Full 6-phase audit with score /100 |
+| [update-threat-db/](./skills/update-threat-db/) | `/update-threat-db` | Research & update threat intelligence |
+| [audit-agents-skills/](./skills/audit-agents-skills/) | `/audit-agents-skills` | Quality audit for .claude/ config |
+| [sandbox-status/](./skills/sandbox-status/) | `/sandbox-status` | Sandbox isolation status check |
+| [refactor/](./skills/refactor/) | `/refactor` | SOLID-based code improvements |
+| [explain/](./skills/explain/) | `/explain` | Code explanations (3 depth levels) |
+| [optimize/](./skills/optimize/) | `/optimize` | Performance analysis and roadmap |
+| [ship/](./skills/ship/) | `/ship` | Pre-deploy checklist |
+| [learn-quiz/](./skills/learn-quiz/) | `/learn-quiz` | Self-testing for learning concepts |
+| [learn-teach/](./skills/learn-teach/) | `/learn-teach` | Step-by-step concept explanations |
+| [learn-alternatives/](./skills/learn-alternatives/) | `/learn-alternatives` | Compare different approaches |
+| [audit-codebase/](./skills/audit-codebase/) | `/audit-codebase` | Codebase health audit scoring 7 categories |
+| [plan-pipeline-start/](./skills/plan-pipeline-start/) | `/plan-pipeline-start` | 5-phase planning: PRD analysis, design review, technical decisions, research team, metrics |
+| [plan-pipeline-execute/](./skills/plan-pipeline-execute/) | `/plan-pipeline-execute` | Execute validated plan: worktree isolation, TDD scaffolding, parallel agents, PR creation |
+| [plan-pipeline-validate/](./skills/plan-pipeline-validate/) | `/plan-pipeline-validate` | 2-layer plan validation: structural checks + specialist agents, auto-fix issues |
+| [review-plan/](./skills/review-plan/) | `/review-plan` | Structured plan review across 4 axes before writing code |
+| [check-cache-bugs/](./skills/check-cache-bugs/) | `/check-cache-bugs` | Audit for CC#40524 cache bugs that can silently 10-20x API costs |
 
 ### Hooks (37)
 
@@ -324,7 +325,7 @@ Security-first: 12 security hooks, 8 productivity hooks, 5 automation hooks, 5 m
 
 ### GitHub Actions (6)
 
-| File | Trigger | Purpose |
+| Skill | Command | Purpose |
 |------|---------|---------|
 | [claude-code-review.yml](./github-actions/claude-code-review.yml) ⭐ | PR open/sync + `/claude-review` comment | Prompt-based review (externalized prompt + anti-hallucination protocol) |
 | [claude-pr-auto-review.yml](./github-actions/claude-pr-auto-review.yml) | PR open/update | Auto code review with inline comments |

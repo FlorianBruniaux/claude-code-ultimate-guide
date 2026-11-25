@@ -66,7 +66,6 @@ export function registerGetExample(server: McpServer): void {
                 '',
                 'Available example categories:',
                 '  • examples/agents/     — Custom agent templates',
-                '  • examples/commands/   — Slash command templates',
                 '  • examples/hooks/      — Event hook examples',
                 '  • examples/skills/     — Skill module templates',
                 '  • examples/scripts/    — Utility scripts',

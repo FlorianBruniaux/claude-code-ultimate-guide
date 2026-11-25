@@ -1,13 +1,13 @@
 ---
 name: scaffold
-description: "Interactive coach that asks 4-5 questions to determine whether you need an agent, command, skill, hook, or rule, then generates a ready-to-use template. Usage: /scaffold (no arguments needed, starts the coaching session)"
+description: "Interactive coach that asks 4-5 questions to decide whether a use case needs an agent, a skill, a hook, or a rule, then generates a ready-to-use template. Start it with /scaffold (no arguments); it runs only on request."
 effort: medium
 disable-model-invocation: true
 ---
 
 # Claude Code scaffold coach
 
-Interactive wizard that identifies the right Claude Code component for your use case and generates a ready-to-use template.
+Interactive wizard that identifies the right Claude Code component for your use case and generates a ready-to-use template. Custom commands are now part of skills, so the choices are agent, skill (manual or automatic), hook, or rule.
 
 **Usage**: `/scaffold` (no arguments needed). Start the conversation.
 
@@ -25,7 +25,7 @@ Once you have a rough idea, ask the following questions in order. Skip a questio
 
 > How is this triggered?
 >
-> a) I run it myself with a command (e.g. `/something`)
+> a) I run it myself with a slash command (e.g. `/something`)
 > b) It should fire automatically when Claude takes an action (writes a file, runs bash, finishes a session...)
 > c) It should apply all the time, every session, without me doing anything
 
@@ -48,8 +48,8 @@ Once you have a rough idea, ask the following questions in order. Skip a questio
 > a) A lot: multiple rules, domain-specific examples, nuanced judgment
 > b) Straightforward: a few steps, a template, some bash
 
-- If **a** → likely a **Skill**
-- If **b** → likely a **Command**
+- If **a** → likely a **Skill** with supporting files (`references/`, `scripts/`)
+- If **b** → likely a **Skill** (a single `SKILL.md`, which replaces the older custom command)
 
 ### Q4: Reuse scope
 
@@ -60,8 +60,8 @@ Once you have a rough idea, ask the following questions in order. Skip a questio
 > c) It needs to be invokable by other agents automatically
 
 - **c** → strengthens **Agent** (needs a `description:` field that other agents can read)
-- **b** → strengthens **Command** or **Skill** (shared config)
-- **a** → can stay a simple personal **Command**
+- **b** → strengthens **Skill** (committed to the repository so the team gets it)
+- **a** → can stay a personal **Skill** in `~/.claude/skills/`
 
 ### Q5: Output type
 
@@ -73,7 +73,7 @@ Once you have a rough idea, ask the following questions in order. Skip a questio
 > d) Claude's behavior changes permanently (always does X, never does Y)
 
 - **a** → read-only Agent (no `Write` or `Bash` in tools)
-- **b/c** → Agent or Command/Skill with write access
+- **b/c** → Agent or Skill with write access (set `disable-model-invocation: true` when the action has side effects)
 - **d** → Rule, or Hook if conditional on a specific event
 
 ---
@@ -90,13 +90,13 @@ Triggered manually?
   │   ├─ Yes + invokable by other agents -> Agent
   │   └─ Yes + manual use only -> Agent or Skill
   └─ Procedure / checklist, no special expertise?
-      ├─ Complex, lots of project-specific context -> Skill
-      └─ Simple, a few steps -> Command
+      ├─ Complex, lots of project-specific context -> Skill with supporting files
+      └─ Simple, a few steps -> Skill (single SKILL.md)
 
 Common hybrid cases:
-  - Agent + Command: specialist agent + a shortcut command to invoke it
+  - Agent + Skill: specialist agent + a user-invoked skill that delegates to it
   - Rule + Hook: permanent behavior + blocking on a specific action
-  - Skill + Agent: skill that delegates analysis to an agent
+  - Skill + Agent: skill with `context: fork` and `agent:` that runs in a subagent
 ```
 
 ---
@@ -191,16 +191,18 @@ cat CLAUDE.md 2>/dev/null
 
 ---
 
-### Command scaffold
+### Simple skill scaffold (replaces a custom command)
 
 ```markdown
 ---
 name: [name]
-description: "[What this command does in one sentence]"
+description: "[What this skill does in one sentence. Use when ...]"
 argument-hint: "[arg] [--flag]"
+disable-model-invocation: true   # keep for workflows with side effects; drop for read-only skills
+effort: medium
 ---
 
-# [Command Name]
+# [Skill Name]
 
 [Brief description. What problem it solves. When to use it vs alternatives.]
 
@@ -234,19 +236,20 @@ argument-hint: "[arg] [--flag]"
 
 [Output format. Use a markdown block to show the structure.]
 
-$ARGUMENTS
+\$ARGUMENTS
 ```
 
-**File**: `.claude/commands/[name].md`
+**File**: `.claude/skills/[name]/SKILL.md` (the older `.claude/commands/[name].md` format still works but is not recommended for new work)
 
 ---
 
-### Skill scaffold
+### Skill scaffold with supporting files
 
 ```markdown
 ---
 name: [skill-name]
-description: "[What this skill does. Trigger phrases that activate it. Usage: /[name] [arg]]"
+description: "[What this skill does. Use when [trigger situations]. Not for [sibling skill boundary].]"
+effort: medium
 ---
 
 # [Skill Name]
@@ -286,10 +289,10 @@ description: "[What this skill does. Trigger phrases that activate it. Usage: /[
 - [Mistake 1 and how to avoid it]
 - [Mistake 2 and how to avoid it]
 
-$ARGUMENTS
+\$ARGUMENTS
 ```
 
-**File**: `.claude/skills/[name].md`
+**File**: `.claude/skills/[name]/SKILL.md`, with optional `references/` and `scripts/` next to it (reference scripts with `${CLAUDE_SKILL_DIR}`)
 
 ---
 
@@ -304,7 +307,7 @@ $ARGUMENTS
 # Fires on: [event] matching [tool or pattern]
 #
 # Exit 0 = allow / continue
-# Exit 2 = block with message (PreToolUse only)
+# Exit 2 = block with message (effect depends on the event, see the hooks reference)
 #
 # stdin: JSON payload from Claude Code
 # =============================================================================
@@ -388,8 +391,7 @@ If the user is unsure, show this table:
 | Type | Trigger | Expertise needed | Complexity | Typical example |
 |------|---------|-----------------|------------|-----------------|
 | **Agent** | Manual or automatic | High, domain-specific | Multi-step analysis | `migration-reviewer`, `dbt-specialist` |
-| **Command** | Manual `/name` | Low to medium | Simple, a few steps | `/commit`, `/pr`, `/release` |
-| **Skill** | Manual `/name` | Medium to high | Rich workflow, lots of context | `tdd-workflow`, `api-review` |
+| **Skill** | Manual `/name` or automatic | Low to high | A few steps up to a rich workflow with supporting files | `/commit`, `/release`, `tdd-workflow`, `api-review` |
 | **Hook** | Automatic on event | None (bash logic) | Script | `security-gate.sh`, `format-on-save.sh` |
 | **Rule** | Permanent, every session | None (prose) | Instructions | `no-direct-push.md`, `english-only.md` |
 

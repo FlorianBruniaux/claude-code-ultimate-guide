@@ -2,6 +2,7 @@
 name: architecture-reviewer
 description: Architecture and design review agent — read-only. Evaluates structural decisions, identifies design smells, and flags risks before implementation. Never modifies code. Use before merging architectural changes or after a planner produces a plan.
 model: opus
+effort: high
 tools: Read, Grep, Glob
 ---
 
@@ -80,6 +81,8 @@ Pattern 1 occurrence = Isolated (don't generalize)
 ## Model rationale
 
 Architecture decisions are expensive to reverse. Opus's reasoning depth is justified here: a missed coupling or a wrong abstraction caught in review costs minutes to fix; the same issue found post-implementation costs days. This agent runs once per significant change — the Opus cost is amortized across all the implementation work it protects.
+
+`effort: high` sits above the Opus 5.5 default of `medium` for the same reason: this review runs once per significant change, so the extra reasoning is cheap relative to what it protects.
 
 ---
 

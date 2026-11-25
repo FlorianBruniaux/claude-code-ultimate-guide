@@ -52,7 +52,7 @@ which claude && claude --version
 | `/remote-env` | Configurer un environnement cloud |
 | `/rc` | Démarrer une session de contrôle à distance (Pro/Max/Team/Enterprise) |
 | `/mobile` | Récupérer les liens de téléchargement de l'app mobile Claude |
-| `/fast` | Basculer le mode rapide (Opus 5.5 : $8/$40 par MTok) |
+| `/fast` | Basculer le mode rapide (Opus 5.5 : $8/$40 par MTok ; Fable 5.2 : $16/$80) |
 | `/voice` | Activer la dictée vocale (maintenir ou taper Espace) |
 | `/recap` | Résumé en une ligne de la session en cours, à la demande |
 | `/effort [niveau]` | Profondeur de réflexion : low/medium/high/xhigh/max |
@@ -95,7 +95,7 @@ Demander une délégation   → Claude peut utiliser un agent disponible
 |---------|--------------|
 | **Tasks API** | Listes persistantes avec dépendances ; activer `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` sur les modèles récents |
 | **Background Agents** | Des sous-agents travaillent pendant que vous codez |
-| **Agent Teams** | Coordination multi-agents (TeamCreate/SendMessage) |
+| **Agent Teams** | Coordination multi-agents (outil Agent avec `name` + SendMessage ; TeamCreate retiré en v2.1.178) |
 | **Auto-Memories** | Activées par défaut ; inspecter et corriger avec `/memory` |
 | **Session Forking** | `/branch` crée une branche de conversation ; `/fork` copie vers une session en arrière-plan |
 | **LSP Tool** | Navigation vers définitions et références, selon les serveurs configurés |
@@ -188,7 +188,7 @@ Les préférences personnelles au projet peuvent être placées dans `CLAUDE.loc
 
 ## Thinking et effort
 
-Opus 5.5, Sonnet 5.5, Haiku 5.5 et Fable 5.1 utilisent le thinking adaptatif. Haiku 4.5 (historique) n'a **pas de paramètre effort**.
+Opus 5.5, Sonnet 5.5, Haiku 5.5 et Fable 5.2 utilisent le thinking adaptatif. Haiku 4.5 (historique) n'a **pas de paramètre effort**.
 
 Les modèles adaptatifs actuels acceptent `low`, `medium`, `high`, `xhigh` et `max`. Opus 4.6 et Sonnet 4.6 acceptent `max`, mais pas `xhigh`.
 
@@ -196,7 +196,7 @@ Les modèles adaptatifs actuels acceptent `low`, `medium`, `high`, `xhigh` et `m
 
 `Option+T` / `Alt+T` bascule le thinking si le modèle le permet. Ce raccourci n'a pas d'effet sur Opus 5.5, Sonnet 5.5, Haiku 5.5 ni Fable, dont le thinking ne peut pas être désactivé. Réduire plutôt l'effort pour une tâche bornée.
 
-`ultrathink` ajoute une consigne de réflexion sans changer l'effort API. `think hard` est du texte ordinaire.
+`ultrathink` ajoute une consigne de réflexion et, depuis Claude Code v2.1.311 (terminal) et v2.1.316 (VS Code, application desktop), exécute ce tour à `xhigh` sans changer l'effort de la session. `think hard` est du texte ordinaire.
 
 # Workflow typique
 
@@ -301,14 +301,14 @@ Décision rapide : texte exact → `rg` | nom exact → `rg`/Serena | concept �
 
 ## Modèles actuels
 
-Tarifs API standard vérifiés le 6 octobre 2026. Dollars par million de tokens en entrée/sortie, hors cache.
+Tarifs API standard vérifiés le 23 novembre 2026. Dollars par million de tokens en entrée/sortie, hors cache.
 
 | Modèle | Entrée / sortie | Contexte | Effort par défaut |
 |--------|-----------------|----------|-------------------|
 | Haiku 5.5 | $0,10 / $0,50 (jusqu'à 100K ; $0,50 / $2,50 au-delà) | 1M | medium |
 | Sonnet 5.5 | $2 / $10 | 1M | medium |
 | Opus 5.5 | $4 / $20 | 1M | medium |
-| Fable 5.1 | $10 / $50 | 1M | high |
+| Fable 5.2 | $8 / $40 | 1M | medium |
 
 Le tarif publié de Sonnet reste $2/$10 après la promotion de lancement. Opus 5.5 est le défaut du service direct, sauf règle du compte. Le modèle seul ne détermine pas le coût d'une tâche.
 

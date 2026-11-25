@@ -324,7 +324,7 @@ Strict iteration: 2 weeks max per feature.
 |------|------|----------|------------|
 | **TDD** | Red-Green-Refactor | Quality code | ⭐⭐⭐ Core workflow |
 | **Eval-Driven** | Evals for LLM outputs | AI products | ⭐⭐⭐ Agents |
-| **Multi-Agent** | Orchestrate sub-agents | Complex tasks | ⭐⭐⭐ Task tool |
+| **Multi-Agent** | Orchestrate sub-agents | Complex tasks | ⭐⭐⭐ Agent tool |
 
 **TDD (Test-Driven Development)**: The classic cycle:
 1. **Red**: Write failing test

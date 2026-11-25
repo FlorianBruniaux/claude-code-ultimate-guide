@@ -508,5 +508,5 @@ done
 - [Quarto Documentation](https://quarto.org/docs/guide/)
 - [Typst Documentation](https://typst.app/docs/)
 - [Quarto + Typst Guide](https://quarto.org/docs/output-formats/typst.html)
-- [examples/skills/pdf-generator.md](../../examples/skills/pdf-generator.md): Skill template
+- [examples/skills/pdf-generator/SKILL.md](../../examples/skills/pdf-generator/SKILL.md): Skill template
 - [whitepapers/README.md](../../whitepapers/README.md): Production example

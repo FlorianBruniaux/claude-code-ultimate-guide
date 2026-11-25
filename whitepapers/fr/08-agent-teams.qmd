@@ -2,11 +2,11 @@
 title: "Whitepaper 08 : Agent Teams"
 subtitle: "Coordination multi-agents pour tâches complexes"
 author: "Florian BRUNIAUX"
-date: "2026-10-06"
+date: "2026-11-23"
 date-format: "MMMM YYYY"
 version: "3.44.1"
 guide-version: "3.44.1"
-wp-version: "1.7.0"
+wp-version: "1.7.1"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -493,7 +493,7 @@ git worktree add ../project-agent1 main  # Un worktree par agent
 
 `/batch` lance 5-30 agents en parallèle, chacun ouvre une PR. Utiliser plutôt que les agent teams manuelles quand le changement est répétitif et décomposable en unités indépendantes.
 
-**Commandes worktree du guide** (templates : `examples/commands/git-worktree*.md`) :
+**Commandes worktree du guide** (templates : `examples/skills/git-worktree*/SKILL.md`) :
 
 | Commande | Action |
 |----------|--------|

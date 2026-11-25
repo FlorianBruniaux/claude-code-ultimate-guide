@@ -54,7 +54,7 @@ All diagrams use the consistent Bold Guy palette:
 | [10-adoption-and-learning.md](./10-adoption-and-learning.md) | 4 | Onboarding paths, UVAL protocol, trust calibration, approve only what you can explain |
 | [11-context-engineering.md](./11-context-engineering.md) | 4 | 3-layer context system, context budget checks, modular architecture, rule placement |
 | [12-enterprise-governance.md](./12-enterprise-governance.md) | 4 | Governance risk tiers, MCP approval workflow, data classification, AI attribution through history rewrites |
-| **Total** | **50** | |
+| **Total** | **53** | |
 
 ---
 

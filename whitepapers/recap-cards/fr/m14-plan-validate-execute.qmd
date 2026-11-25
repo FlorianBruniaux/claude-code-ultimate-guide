@@ -5,10 +5,10 @@ card-number: "M14"
 category: "Méthodologie"
 difficulty: "advanced"
 guide-version: "3.44.1"
-wp-version: "1.0.2"
+wp-version: "1.0.3"
 author: "Florian BRUNIAUX"
 version: "3.44.1"
-date: "2026-10-06"
+date: "2026-11-23"
 layout: "two-col"
 lang: fr
 format:
@@ -17,19 +17,19 @@ format:
 
 ## Vue d'ensemble
 
-Plan-Validate-Execute est un workflow de production en trois commandes qui étend le Plan Mode natif : `/plan-start`, `/plan-validate`, `/plan-execute`. Chaque run alimente une boucle d'apprentissage ADR qui réduit les interruptions humaines au fil des projets. Le guide le présente comme une pratique de production Tier 2 ; installer ses commandes personnalisées avant usage.
+Plan-Validate-Execute est un workflow de production en trois commandes qui étend le Plan Mode natif : `/plan-pipeline-start`, `/plan-pipeline-validate`, `/plan-pipeline-execute`. Chaque run alimente une boucle d'apprentissage ADR qui réduit les interruptions humaines au fil des projets. Le guide le présente comme une pratique de production Tier 2 ; installer ses commandes personnalisées avant usage.
 
 ## Les 3 commandes
 
 ```bash
-/plan-start    # PRD + équipe de recherche dynamique + ADRs
-/plan-validate # Checks structurels + agents spécialistes déclenchés
-/plan-execute  # Worktree + TDD + exécution parallèle + PR mergé
+/plan-pipeline-start    # PRD + équipe de recherche dynamique + ADRs
+/plan-pipeline-validate # Checks structurels + agents spécialistes déclenchés
+/plan-pipeline-execute  # Worktree + TDD + exécution parallèle + PR mergé
 ```
 
 Lancer `/clear` entre chaque commande : chaque commande lit ses entrées depuis le disque (fichier de plan, ADRs), rien à garder en mémoire de contexte.
 
-## /plan-start : planification en 4 phases
+## /plan-pipeline-start : planification en 4 phases
 
 | Phase | Contenu |
 |-------|---------|
@@ -40,13 +40,13 @@ Lancer `/clear` entre chaque commande : chaque commande lit ses entrées depuis 
 
 Si 3+ ADRs confirmés couvrent déjà la décision, la phase 2 s'auto-résout sans agent.
 
-## /plan-validate : validation à 2 couches
+## /plan-pipeline-validate : validation à 2 couches
 
 Couche 1 (structurelle, instantanée) : format du plan, ordre des tâches, cohérence avec les ADRs. Couche 2 (spécialistes, 0 à 8 agents selon le risque) : `security-reviewer`, `db-migration-reviewer`, `performance-reviewer`, entre autres, chacun déclenché par un critère précis (auth, migration de schéma, nouvelle route...).
 
 Toute issue doit être résolue : auto-résolue via un ADR ou `PATTERNS.md` existant, ou tranchée par un humain, ce qui devient une règle pour la prochaine fois.
 
-## /plan-execute : jusqu'au PR mergé
+## /plan-pipeline-execute : jusqu'au PR mergé
 
 Worktree isolé, scaffolding TDD, exécution parallèle des tâches indépendantes (commit par tâche), quality gate (tests + smoke test), PR et merge squash, nettoyage du worktree. Si le quality gate échoue : jusqu'à 3 tentatives d'auto-correction par des agents de debug dédiés, puis notification humaine.
 

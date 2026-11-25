@@ -51,7 +51,7 @@ A February 2026 study reported security findings in 1,467 of 3,984 sampled skill
 |--------|------|--------|-----------|-------------------|
 | **Prompt Injection** | Behavior manipulation | High | Common | `prompt-injection-detector.sh` → [Layer 2](#layer-2-hooks-pretooluse) |
 | **MCP Supply Chain** | Malicious code execution | Critical | Rare | Version pinning + 5-min audit → [Layer 3](#layer-3-mcp-vetting) |
-| **Agent Skills Supply Chain** | 36.82% with findings in the February 2026 corpus | Critical | Not estimated | `mcp-scan` before install → [Layer 3](#layer-3-mcp-vetting) |
+| **Agent Skills Supply Chain** | 36.82% with findings in the February 2026 corpus | Critical | Not estimated | Snyk Agent Scan before install → [Layer 3](#layer-3-mcp-vetting) |
 | **.claude/ Attack Surface** | Backdoors in config | High | Emerging | Repository pre-scan → [Section 1.2](#claude-attack-surface) |
 | **Destructive Commands** | Data/secrets loss | High | Frequent | `dangerous-actions-blocker.sh` → [Layer 2](#layer-2-hooks-pretooluse) |
 
@@ -592,15 +592,17 @@ Do not label a package safe solely by name or publisher. Record the reviewed ver
 
 **Mitigations**:
 
-- **Scan before installing**: `mcp-scan` (Snyk, open-source) can provide additional findings; validate coverage and false positives on your own inputs
+- **Scan before installing**: Snyk Agent Scan (formerly `mcp-scan`, open-source) can provide additional findings; validate coverage and false positives on your own inputs
 - **Review SKILL.md before installing**: Check `allowed-tools` for unexpected access (especially `Bash`)
 - **Validate with skills-ref**: `skills-ref validate ./skill-dir` checks spec compliance
 - **Pin skill versions**: Use specific commit hashes when installing from GitHub
 - **Audit scripts/**: Executable scripts bundled with skills = highest-risk component
 
 ```bash
-# Scan a skill directory with mcp-scan (Snyk)
-# Follow current installation and usage: https://github.com/snyk/agent-scan
+# Scan a skill directory with Snyk Agent Scan (formerly mcp-scan).
+# It needs a SNYK_TOKEN and sends skill content to Snyk's analysis API.
+# Follow current usage: https://github.com/snyk/agent-scan
+uvx snyk-agent-scan@latest ./skill-directory
 
 # Validate spec compliance with skills-ref
 skills-ref validate ./skill-directory

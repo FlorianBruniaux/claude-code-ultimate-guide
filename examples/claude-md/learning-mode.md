@@ -155,7 +155,6 @@ Pair this CLAUDE.md with the learning-capture hook to automatically log insights
 {
   "hooks": {
     "Stop": [{
-      "matcher": "",
       "hooks": [{
         "type": "command",
         "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/bash/learning-capture.sh"
@@ -172,7 +171,7 @@ See [examples/hooks/bash/learning-capture.sh](../hooks/bash/learning-capture.sh)
 ## See also
 
 - [Learning with AI Guide](../../guide/roles/learning-with-ai.md): Complete learning methodology
-- [/learn:quiz Command](../commands/learn/quiz.md): Test your understanding
-- [/learn:teach Command](../commands/learn/teach.md): Step-by-step concept explanations
-- [/learn:alternatives Command](../commands/learn/alternatives.md): Compare different approaches
+- [/learn-quiz skill](../skills/learn-quiz/SKILL.md): Test your understanding
+- [/learn-teach skill](../skills/learn-teach/SKILL.md): Step-by-step concept explanations
+- [/learn-alternatives skill](../skills/learn-alternatives/SKILL.md): Compare different approaches
 - [Learning Capture Hook](../hooks/bash/learning-capture.sh): Automated insight logging

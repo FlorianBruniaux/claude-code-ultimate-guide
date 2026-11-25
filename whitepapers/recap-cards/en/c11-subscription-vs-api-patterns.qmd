@@ -34,8 +34,8 @@ Subscriptions use a hybrid model: a 5-hour rolling window and a weekly cap. Both
 | Plan | Recommendation |
 |------|---------------|
 | Pro | Choose an available model for the task; monitor `/usage` |
-| Max 5x | Explicit Sonnet routing can be evaluated against the default |
-| Max 20x | More Opus freedom, but monitor weekly consumption |
+| Max | Explicit Sonnet routing can be evaluated against the default |
+| Ultra | More Opus freedom, but monitor weekly consumption |
 | API | Haiku for mechanical tasks, Sonnet for dev, Opus for audit |
 
 ## The OpusPlan pattern for saving

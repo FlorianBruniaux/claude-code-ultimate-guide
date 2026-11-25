@@ -10,7 +10,8 @@
 # Environment variables:
 #   CLAUDE_LOG_DIR     - Override log directory (default: ~/.claude/logs)
 #   CLAUDE_LOG_TOKENS  - Enable token estimation (default: true)
-#   CLAUDE_SESSION_ID  - Session identifier (auto-generated if not set)
+#
+# The session id comes from the `session_id` field of the hook input.
 #
 # Place in: .claude/hooks/session-logger.sh
 # Register in: .claude/settings.json under PostToolUse event
@@ -20,7 +21,6 @@ set -e
 # Configuration
 LOG_DIR="${CLAUDE_LOG_DIR:-$HOME/.claude/logs}"
 ENABLE_TOKENS="${CLAUDE_LOG_TOKENS:-true}"
-SESSION_ID="${CLAUDE_SESSION_ID:-$(date +%s)-$$}"
 
 # Ensure log directory exists
 mkdir -p "$LOG_DIR"
@@ -34,7 +34,9 @@ INPUT=$(cat)
 # Extract tool information
 TOOL_NAME=$(echo "$INPUT" | jq -r '.tool_name // "unknown"')
 TOOL_INPUT=$(echo "$INPUT" | jq -c '.tool_input // {}')
-TOOL_OUTPUT=$(echo "$INPUT" | jq -r '.tool_output // ""')
+# PostToolUse sends the result as `tool_response` (string or object)
+TOOL_OUTPUT=$(echo "$INPUT" | jq -r '(.tool_response // "") | if type == "string" then . else tojson end')
+SESSION_ID=$(echo "$INPUT" | jq -r '.session_id // "unknown"')
 
 # Get timestamp
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")

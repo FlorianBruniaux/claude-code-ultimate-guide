@@ -4,7 +4,7 @@
 HOW TO USE THIS SKELETON
 
 Fill in each section based on your project. Delete placeholder comments when done.
-Goal: give Claude enough context to make correct decisions without asking, while staying under 500 lines.
+Goal: give Claude enough context to make correct decisions without asking, while staying under 200 lines (the official target per CLAUDE.md file).
 
 Key principles:
 - Specific beats vague: "Use zod for external input validation" beats "validate inputs"

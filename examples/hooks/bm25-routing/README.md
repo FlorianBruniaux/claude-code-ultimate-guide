@@ -64,7 +64,7 @@ node install.js \
 
 Replace `--dry-run` with `--apply` after review. The runtime is installed under `<repo>/.codex/hooks/skill-router/` and uses the same discovery and cache logic. The generated hook sets `SKILL_ROUTER_DATA_DIR` to `~/.codex/skill-router-data`, so prompts never write cache files into the repository.
 
-Claude Code project mode uses `--host claude --scope project`. The hint syntax changes to `/skill-name`. Do not activate both a global Codex router and a project Codex router.
+Claude Code project mode uses `--host claude --scope project`. The hint syntax changes to `/skill-name`, and the installer writes the handler to `<repo>/.claude/settings.json` without the Codex-only `additionalContextLimit` field, which the Claude Code hooks reference does not define. Do not activate both a global Codex router and a project Codex router.
 
 ## Corpus format
 

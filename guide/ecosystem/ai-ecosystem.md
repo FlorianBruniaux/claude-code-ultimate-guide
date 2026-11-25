@@ -1912,7 +1912,7 @@ Beyond general-purpose coding assistants, specialized frameworks target specific
 1. **Use Claude Code's Haiku model** for simple tasks (`/model haiku`)
 2. **Batch research sessions** in Perplexity to maximize Deep Research
 3. **Use free tiers** for Gemini Flash, NotebookLM, Kimi
-4. **Check context usage** regularly (`/status`) to avoid waste
+4. **Check context usage** regularly (`/context`) to avoid waste
 5. **Use Opus sparingly** - only for architectural decisions
 
 ---
@@ -1998,7 +1998,7 @@ Shared context via `~/Shared/CLAUDE.md` file.
 
 | Aspect | Status |
 |--------|--------|
-| Subscription | Pro ($20/mo) or Max ($100-200/mo) |
+| Subscription | Pro, Max, or Ultra plan (see claude.com/pricing) |
 | Platform | macOS only (Windows planned, Linux not announced) |
 | Stability | Research preview |
 
@@ -2313,7 +2313,7 @@ External resources from experienced practitioners that validate and extend the p
 | Van Veen Pattern | This Guide Reference |
 |------------------|---------------------|
 | TDD guardrail | `guide/core/methodologies.md` (TDD, Verification Loops) |
-| Git worktrees | `examples/commands/git-worktree.md` (+ DB branching) |
+| Git worktrees | `examples/skills/git-worktree/SKILL.md` (+ DB branching) |
 | Planning phase | Plan Mode (Section 3.3) |
 | Manual commits | Git best practices (Section 9.9) |
 
@@ -2848,7 +2848,7 @@ This is structurally identical to a CLAUDE.md behavioral rule file, applied to a
 
 ### Scaffold with Claude Code
 
-Use the `/autoresearch` command (available in [examples/commands/](../../examples/commands/autoresearch.md)) to scan your codebase, detect improvement opportunities, and scaffold the mechanical files:
+Use the `/autoresearch` command (available in [examples/skills/autoresearch/](../../examples/skills/autoresearch/SKILL.md)) to scan your codebase, detect improvement opportunities, and scaffold the mechanical files:
 
 ```
 /autoresearch                              # Scan + propose loops
@@ -2948,8 +2948,8 @@ including a reverse-engineered one, which is what this subsection is about.
 
 | Variable | Purpose | Status |
 |----------|---------|--------|
-| `ANTHROPIC_BASE_URL` | API endpoint override | Undocumented for CC |
-| `ANTHROPIC_MODEL` | Default model name | Semi-documented |
+| `ANTHROPIC_BASE_URL` | API endpoint override (proxy or gateway) | Official |
+| `ANTHROPIC_MODEL` | Default model name | Official |
 | `ANTHROPIC_AUTH_TOKEN` | API authentication | Official |
 
 ### Why we recommend against a reverse-engineered proxy
@@ -3323,9 +3323,9 @@ Documented above. One coordinator, N specialists in parallel threads, one level 
 | Haiku 5.5 | $0.10/MTok ($0.50 over 100K) | $0.50/MTok ($2.50 over 100K) | Bounded classification, routing, extraction |
 | Sonnet 5.5 | $2/MTok | $10/MTok | Routine development, subject to task evaluation |
 | Opus 5.5 | $4/MTok | $20/MTok | Default on the direct service; complex reasoning |
-| Fable 5.1 | $10/MTok | $50/MTok | Explicit escalation where account access permits |
+| Fable 5.2 | $8/MTok | $40/MTok | Explicit escalation where account access permits |
 
-Standard API rates verified September 24, 2026. Opus 5.5 fast mode costs $8/$40 per MTok. These rates do not establish a typical session bill: measure input, output, cache tokens, and retries separately. [Official pricing](https://platform.claude.com/docs/en/about-claude/pricing).
+Standard API rates verified November 23, 2026. Fast mode costs $16/$80 per MTok on Fable 5.2 and $8/$40 on Opus 5.5. These rates do not establish a typical session bill: measure input, output, cache tokens, and retries separately. [Official pricing](https://platform.claude.com/docs/en/about-claude/pricing).
 
 **Cost control patterns**:
 

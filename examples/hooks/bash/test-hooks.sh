@@ -46,11 +46,12 @@ assert_blocks() {
     local desc="$1" hook="$2" payload="$3" envs="${4:-}"
     local exit_code=0
     echo "$payload" | env $envs bash "$hook" >/dev/null 2>&1 || exit_code=$?
-    if [[ $exit_code -ne 0 ]]; then
+    # Only exit 2 blocks a PreToolUse hook; exit 1 is a non-blocking error
+    if [[ $exit_code -eq 2 ]]; then
         echo -e "  ${GREEN}✓${NC} blocks: $desc"
         PASS=$((PASS + 1))
     else
-        echo -e "  ${RED}✗${NC} blocks: $desc ${RED}— expected block, got exit 0${NC}"
+        echo -e "  ${RED}✗${NC} blocks: $desc ${RED}(expected exit 2, got exit $exit_code)${NC}"
         FAIL=$((FAIL + 1))
     fi
 }

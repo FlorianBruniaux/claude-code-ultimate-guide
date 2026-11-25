@@ -1,6 +1,6 @@
 ---
 name: code-reviewer
-description: Use for thorough code review with quality, security, and performance checks
+description: "Use proactively after code changes for a thorough review of quality, security, and performance. Read-only: reports findings with severity and does not edit files."
 model: sonnet
 tools: Read, Grep, Glob
 ---

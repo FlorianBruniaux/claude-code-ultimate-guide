@@ -1,19 +1,18 @@
 ---
 name: catchup
-description: Restore context after /clear by summarizing recent work and project state
-argument-hint: "[branch] [--since <date>]"
+description: "Restore context after /clear by summarizing recent commits, uncommitted changes, TODO markers and project state. Read-only."
+argument-hint: "[focus-area] [--brief]"
 effort: low
-when_to_use: "Use after /clear or at session start to restore context."
-disable-model-invocation: true
+when_to_use: "Use after /clear or at session start to restore context, or when the user asks what was recently worked on."
 ---
 
 # Context catchup
 
-Restore context after `/clear` - summarize recent work and project state.
+Restore context after `/clear`: summarize recent work and project state.
 
 ## Purpose
 
-After clearing context with `/clear`, use this command to quickly rebuild understanding of:
+After clearing context with `/clear`, use this skill to quickly rebuild understanding of:
 - What was recently modified
 - Current project state
 - Outstanding TODOs and issues

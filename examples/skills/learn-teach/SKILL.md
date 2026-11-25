@@ -1,7 +1,7 @@
 ---
 name: learn-teach
-description: Step-by-step explanation of a concept with progressive depth
-argument-hint: <concept>
+description: "Teach a programming concept step by step: definition, minimal example, practical example, common mistakes, next topics. Use when the user asks to learn or understand a concept."
+argument-hint: "[--deep|--quick] <concept>"
 effort: low
 ---
 
@@ -12,10 +12,10 @@ Step-by-step explanation of a concept with progressive depth.
 ## Usage
 
 ```
-/learn:teach React hooks         # Learn about React hooks
-/learn:teach async/await         # Understand async patterns
-/learn:teach SOLID principles    # Learn design principles
-/learn:teach --deep SQL joins    # In-depth explanation
+/learn-teach React hooks         # Learn about React hooks
+/learn-teach async/await         # Understand async patterns
+/learn-teach SOLID principles    # Learn design principles
+/learn-teach --deep SQL joins    # In-depth explanation
 ```
 
 ## Instructions
@@ -123,7 +123,7 @@ Step-by-step explanation of a concept with progressive depth.
 ## Example session
 
 ```
-User: /learn:teach useEffect
+User: /learn-teach useEffect
 
 Claude: ## useEffect
 
@@ -170,7 +170,7 @@ function Timer() {
 **Practice challenge**: Add a pause button that stops and resumes the timer.
 ```
 
-## Topics well-suited for /learn:teach
+## Topics well-suited for /learn-teach
 
 | Category | Examples |
 |----------|----------|

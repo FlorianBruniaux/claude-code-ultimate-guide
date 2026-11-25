@@ -84,17 +84,18 @@ No action required. Guide and landing site are in sync.
 Issues to Fix:
 
 1. Templates Count Mismatch
-   Location: Codex-ultimate-guide-landing/index.html
+   Location: claude-code-ultimate-guide-landing/src/data/examples-data.ts
+             (HeroBanner.astro and src/pages/examples/index.astro render
+             {stats.templateCount}, computed from this catalog)
    Current:  63
    Expected: 65
-   Action:   Update badge and meta tags with correct count
+   Action:   Add or remove the catalog entries in examples-data.ts
 
 Quick Fixes:
    # Update landing templates count
-   cd /Users/florianbruniaux/Sites/perso/Codex-ultimate-guide-landing
-   # Edit index.html lines: 6, 9, 188, 204, 455
-   # Change "63 templates" → "65 templates"
-   git add index.html
+   cd ../claude-code-ultimate-guide-landing
+   # Add the missing entries to src/data/examples-data.ts (no literal count to edit)
+   git add src/data/examples-data.ts
    git commit -m "fix: sync templates count (63 → 65)"
    git push
 

@@ -2,11 +2,11 @@
 title: "Whitepaper 08: Agent Teams"
 subtitle: "Multi-agent coordination for complex tasks"
 author: "Florian BRUNIAUX"
-date: "2026-10-27"
+date: "2026-11-23"
 date-format: "MMMM YYYY"
 version: "3.44.1"
 guide-version: "3.44.1"
-wp-version: "1.7.1"
+wp-version: "1.7.2"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -744,7 +744,7 @@ The guide provides 4 commands to manage worktrees efficiently:
 /git-worktree-remove          # Cleanup after agent merge
 ```
 
-> Templates: `examples/commands/git-worktree*.md`
+> Templates: `examples/skills/git-worktree*/SKILL.md`
 
 > **Further reading:** [§9.12 Git Best Practices](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#912-git-best-practices--workflows) --- worktrees, branching strategies
 

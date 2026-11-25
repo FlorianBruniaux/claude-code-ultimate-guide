@@ -1,13 +1,35 @@
 #!/bin/bash
 # subagent-stop.sh
-# Runs when a sub-agent completes
-# Use for cleanup, logging, or metrics
+# Event: SubagentStop (runs when a subagent finishes responding)
+# Use for logging or metrics
+#
+# Input fields read: session_id, agent_id, agent_type, agent_transcript_path,
+# last_assistant_message. The input has no exit code and no duration, so this hook
+# logs what is available. To measure duration, record a timestamp in a SubagentStart
+# hook keyed by agent_id and subtract it here.
+#
+# Matcher: filters on agent_type (for example "Explore", "code-reviewer"). Omit it to
+# log every subagent.
+#
+# Caution: on SubagentStop, JSON that sets decision "block" or
+# hookSpecificOutput.additionalContext keeps the subagent running. This hook only
+# logs and prints nothing.
+#
+# Installation (.claude/settings.json):
+#   {
+#     "hooks": {
+#       "SubagentStop": [{
+#         "hooks": [{ "type": "command", "command": "~/.claude/hooks/subagent-stop.sh" }]
+#       }]
+#     }
+#   }
 
 INPUT=$(cat)
-AGENT_NAME=$(echo "$INPUT" | jq -r '.agent_name // "unknown"')
+AGENT_TYPE=$(echo "$INPUT" | jq -r '.agent_type // "unknown"')
+AGENT_ID=$(echo "$INPUT" | jq -r '.agent_id // "unknown"')
 SESSION_ID=$(echo "$INPUT" | jq -r '.session_id // "unknown"')
-EXIT_CODE=$(echo "$INPUT" | jq -r '.exit_code // 0')
-DURATION=$(echo "$INPUT" | jq -r '.duration_ms // 0')
+TRANSCRIPT=$(echo "$INPUT" | jq -r '.agent_transcript_path // ""')
+REPLY_CHARS=$(echo "$INPUT" | jq -r '(.last_assistant_message // "") | length')
 
 # Log subagent completion
 LOG_DIR="$HOME/.claude/logs"
@@ -16,36 +38,13 @@ TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
 LOG_ENTRY=$(jq -n \
   --arg timestamp "$TIMESTAMP" \
-  --arg agent "$AGENT_NAME" \
+  --arg agent_type "$AGENT_TYPE" \
+  --arg agent_id "$AGENT_ID" \
   --arg session "$SESSION_ID" \
-  --argjson exit_code "$EXIT_CODE" \
-  --argjson duration "$DURATION" \
-  '{timestamp: $timestamp, agent: $agent, session: $session, exit_code: $exit_code, duration_ms: $duration}')
+  --arg transcript "$TRANSCRIPT" \
+  --argjson reply_chars "$REPLY_CHARS" \
+  '{timestamp: $timestamp, agent_type: $agent_type, agent_id: $agent_id, session: $session, agent_transcript_path: $transcript, reply_chars: $reply_chars}')
 
 echo "$LOG_ENTRY" >> "$LOG_DIR/subagents-$(date +%Y-%m-%d).jsonl"
-
-# Calculate duration in seconds for readability
-DURATION_SEC=$(echo "scale=2; $DURATION / 1000" | bc)
-
-# Provide feedback on slow agents (>30 seconds)
-if [[ $(echo "$DURATION > 30000" | bc) -eq 1 ]]; then
-    cat << EOF
-{
-  "systemMessage": "⏱️ Subagent '$AGENT_NAME' took ${DURATION_SEC}s to complete. Consider optimizing or splitting into smaller tasks.",
-  "hookSpecificOutput": {
-    "additionalContext": "Subagent performance: $AGENT_NAME completed in ${DURATION_SEC}s"
-  }
-}
-EOF
-fi
-
-# Alert on failed subagents
-if [[ $EXIT_CODE -ne 0 ]]; then
-    cat << EOF
-{
-  "systemMessage": "❌ Subagent '$AGENT_NAME' failed with exit code $EXIT_CODE. Review task output for errors."
-}
-EOF
-fi
 
 exit 0

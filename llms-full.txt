@@ -11,12 +11,12 @@
 - Title: Claude Code Ultimate Guide
 - Author: Florian Bruniaux (Fractional Chief AI Officer)
 - Version: 3.46.0
-- Last Updated: November 22, 2026
+- Last Updated: November 23, 2026
 - License: CC BY-SA 4.0
 - Repository: https://github.com/FlorianBruniaux/claude-code-ultimate-guide
 - Landing: https://cc.bruniaux.com
-- Lines of Documentation: 26,193
-- Production Templates: 278
+- Lines of Documentation: 26,206
+- Production Templates: 305
 - Quiz Questions: 473
 - Whitepapers: 13 titles (FR + EN)
 
@@ -26,7 +26,7 @@
 
 Claude Code is Anthropic's official CLI for AI-assisted development. It lets developers interact with Claude directly from the terminal to write, edit, debug, and review code. Unlike IDE plugins, it has full filesystem access, can run shell commands, and works autonomously on multi-step tasks.
 
-This guide is the most comprehensive community resource for Claude Code. It covers everything from installation to production security, with 278 ready-to-use templates for agents, hooks, commands, and skills.
+This guide is the most comprehensive community resource for Claude Code. It covers everything from installation to production security, with 305 ready-to-use templates for agents, hooks, commands, and skills.
 
 ## Who This Guide Is For
 
@@ -42,12 +42,12 @@ This guide is the most comprehensive community resource for Claude Code. It cove
 
 **Architecture Deep Dive** (`guide/core/architecture.md`):
 - Master Loop: `while(tool_call)`, no DAGs, no classifiers, no RAG
-- 8 Core Tools: Bash, Read, Edit, Write, Grep, Glob, Task, TodoWrite
-- Context: ~200K tokens, auto-compact at 75-92%
+- Core Tools: Bash, Read, Edit, Write, Grep, Glob, Agent (the former Task tool); task-tracking tools are off by default on current models (opt in with `CLAUDE_CODE_ENABLE_TODO_TOOLS=1`)
+- Context: model-dependent, native 1M on current Opus, Sonnet, Haiku and Fable models; 200K only on the legacy Haiku 4.5. Inspect with `/context`
 - Sub-agents: isolated context, max depth=1
 - Philosophy: "less scaffolding, more model"
 
-**Main Guide Sections** (`guide/ultimate-guide.md`, 26,193 lines):
+**Main Guide Sections** (`guide/ultimate-guide.md`, 26,206 lines):
 1. Quick Start: Installation, first workflow, essential commands
 2. Core Concepts: Context management, Plan Mode, Rewind, Mental Model
 3. Memory & Settings: CLAUDE.md files, .claude/ folder, precedence rules
@@ -95,7 +95,7 @@ tags: [cheatsheet, reference]
 
 **Written with**: Claude (Anthropic)
 
-**Version**: 3.46.0 | **Last Updated**: Nov 22, 2026
+**Version**: 3.46.0 | **Last Updated**: Nov 23, 2026
 
 ---
 
@@ -109,7 +109,7 @@ These are selected daily commands. Availability depends on your version, provide
 | `/powerup` | Interactive animated lessons teaching Claude Code features |
 | `/clear` | Reset conversation |
 | `/compact` | Free up context |
-| `/status` | Session state + context usage |
+| `/status` | Settings on the Status tab: version, model, account, connectivity |
 | `/context` | Detailed token breakdown |
 | `/plan` | Enter Plan Mode (no changes). Exit by approving the plan or `Shift+Tab` |
 | `/model` | Select model and save the default; press `s` in the picker for this session only |
@@ -125,24 +125,25 @@ These are selected daily commands. Availability depends on your version, provide
 | `/tasks` | Monitor background tasks |
 | `/remote-env` | Configure cloud environment |
 | `/remote-control` (`/rc`) | Connect this local session to web/mobile; Team/Enterprise require owner enablement |
-| `/mobile` | Get Claude mobile app download links |
-| `/fast` | Toggle faster Opus output; Opus 5.5 costs $8/$40 per MTok in fast mode |
-| `/voice` | Toggle voice input (hold Space to speak, release to send) |
-| `/recap` | Session context summary on return to a break (v2.1.108) |
-| `/effort [level]` | Thinking depth: low/medium/high/xhigh/max/ultracode; no arg = interactive slider (v2.1.111) |
-| `/tui [fullscreen]` | Full-screen flicker-free TUI rendering (v2.1.110) |
-| `/focus` | Toggle minimal focus view, separate from Ctrl+O (v2.1.110) |
+| `/mobile` | QR code to download the Claude mobile app |
+| `/fast` | Toggle fast mode on Fable 5.2 ($16/$80 per MTok) and Opus 5.5 ($8/$40); Opus 5 and Opus 4.8 ($10/$50) are research preview. Opus 4.8 fast mode is removed on November 30, 2026 (the API then rejects requests). Not on Sonnet or Haiku; usage credits only on subscription plans |
+| `/voice [hold\|tap\|off]` | Toggle voice input (hold Space to speak, release to send). Requires a Claude.ai account |
+| `/recap` | One-line summary of the current session on demand (v2.1.108) |
+| `/effort [level\|auto\|status\|ultracode [on\|off]]` | Effort: low/medium/high/xhigh/max (max is session-only) or auto; `status` prints it (v2.1.111) |
+| `/tui [classic\|fullscreen]` | Set the renderer and relaunch with the conversation intact; `fullscreen` is flicker-free (v2.1.110), `classic` replaces `default` (v2.1.327) |
+| `/focus` | Toggle minimal focus view (fullscreen rendering only), separate from Ctrl+O (v2.1.110) |
+| `/auto-mode-setup` | Guided setup that reads the project and recent sessions to teach auto mode about your environment (v2.1.228+ on Pro/Max/Ultra/Team, v2.1.233+ on native Windows, v2.1.283+ on Enterprise or Console API key) |
 | `/fewer-permission-prompts` | Scan transcripts and propose a read-only tool allowlist (shipped as `/less-permission-prompts` in v2.1.111) |
 | `/btw [question]` | Side question overlay: read-only ephemeral agent, no history pollution, no tools |
-| `/loop [interval] [prompt]` | Repeat on a fixed interval, or let Claude choose the interval when omitted; recurring tasks expire after 7 days (see scheduling reference) |
+| `/loop [interval] [prompt]` | Repeat on a fixed interval, or let Claude choose the interval when omitted; recurring tasks run up to 30 days while the session keeps running (v2.1.330; tasks created before that release still end at 7 days; see scheduling reference) |
 | `/usage` (`/cost`, `/stats`) | Token + cost usage per model, plan limits, activity graph (merged in v2.1.118) |
-| `/ultrareview` | Multi-agent cloud code review, now an alias of `/code-review ultra` (v2.1.114) |
-| `/goal [condition]` | Autonomous multi-turn mode: Claude works until condition is met, live overlay shows elapsed/turns/tokens (v2.1.139) |
-| `/scroll-speed` | Tune mouse wheel scroll speed with interactive live-preview slider (v2.1.139) |
+| `/ultrareview` | Multi-agent cloud code review, now an alias of `/code-review ultra` (v2.1.114). `/code-review --max-findings <n>\|all` caps or lifts the finding count until `default` (v2.1.288) |
+| `/goal [condition\|clear]` | Autonomous multi-turn mode: Claude works until condition is met, live overlay shows elapsed/turns/tokens (v2.1.139) |
+| `/scroll-speed` | Tune mouse wheel scroll speed with interactive live-preview slider; fullscreen rendering only (v2.1.139) |
 | `/rename [name]` | Name or rename the current session |
-| `/copy` | Interactive picker to copy a code block or full response |
-| `/doctor` | Full setup checkup: install, settings, hooks, `CLAUDE.md` bloat, unused skills (v2.1.205+) |
-| `/debug` | Systematic troubleshooting |
+| `/copy [N]` | Copy the Nth-latest response; picker for a code block or the full response |
+| `/doctor` | Full setup checkup: install, settings, hooks, `CLAUDE.md` bloat, unused skills (v2.1.205+). `/doctor prompt-audit` flags prompting patterns written for older models in CLAUDE.md, skills, agents and commands (v2.1.283) |
+| `/debug` | Enable debug logging and troubleshoot from the session log |
 | `/exit` | Quit (or Ctrl+D) |
 
 ---
@@ -161,7 +162,7 @@ These are selected daily commands. Availability depends on your version, provide
 | `Ctrl+B` | Background tasks |
 | `Ctrl+X Ctrl+K` | Stop running background subagents |
 | `Ctrl+Enter` / `Ctrl+X Ctrl+S` | Send queued messages now, interrupting the current turn |
-| `Option+T` / `Alt+T` | Toggle thinking where supported; no effect on Opus 5.5 or Fable |
+| `Option+T` / `Alt+T` | Toggle thinking where supported; no effect on Opus 5.5, Sonnet 5.5, Haiku 5.5 or Fable |
 | `Space` (hold) | Voice input (requires `/voice` enabled) |
 | `Ctrl+D` | Exit |
 
@@ -189,22 +190,24 @@ These are selected daily commands. Availability depends on your version, provide
 |---------|-------|--------------|
 | **Tasks API** | v2.1.16 | Persistent task lists with dependencies; opt in on newer models with `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` |
 | **Background Agents** | v2.0.60 | Sub-agents work while you code. Since v2.1.232 forking is the default: a `subagent_type: "fork"` agent inherits the full conversation and prompt cache, and non-teammate spawns go background on their own |
-| **Agent Teams** | v2.1.32 | Multi-agent coordination (TeamCreate/SendMessage) |
+| **Agent Teams** | v2.1.32 | Multi-agent coordination (Agent tool `name` + SendMessage; TeamCreate removed in v2.1.178) |
 | **Cross-Session Messaging** | v2.1.224 | Sessions message each other across all your machines. `ListAgents` to discover, `SendMessage` to talk, `@name` to mention (v2.1.232). macOS, Linux, Windows (v2.1.234+). [Full guide →](./workflows/cross-session-messaging.md) |
 | **Self-Hosted Environments** | v2.1.224 | `claude self-hosted-runner` makes your own machine or container the place web, mobile, and desktop sessions execute. Team and Enterprise |
 | **Auto-Memories** | v2.1.32 | Automatic cross-session context capture |
 | **Session Forking** | v2.1.19 | Rewind + create parallel timeline |
-| **LSP Tool** | v2.0.74 | IDE-like navigation: symbols, types, refs. ~50ms vs 45s with grep. 11 languages |
+| **LSP Tool** | v2.0.74 | Diagnostics after edits plus definitions, references and symbols, via an official code intelligence plugin per language (13 listed) |
 | **Voice Mode** | v2.1.x | Native voice input, free transcription, no rate limit impact |
 | **Remote Control** | v2.1.51 | Control a local session from phone/browser; subscription required, with owner enablement on Team/Enterprise |
-| **`/loop`** | v2.1.71 | Session-scoped recurring scheduler: `/loop 5m check the deploy` (stops when session ends). Min 1 min, max 50 tasks/session |
+| **`/loop`** | v2.1.71 | Session-scoped recurring scheduler: `/loop 5m check the deploy` (runs while the session is open, up to 30 days since v2.1.330). Min 1 min, max 50 tasks/session |
 | **`/goal`** | v2.1.139 | Autonomous completion loop: set a condition, Claude works across turns until a separate evaluator (Haiku by default on the Claude API) judges the surfaced evidence. Live overlay shows elapsed time, turns, and tokens. Three-element formula: measurable end state + verification mechanism + constraints. |
 | **Cloud Scheduled Tasks** | 2026 | Machine-off scheduling via `/schedule` or `claude.ai/code/scheduled`. Runs on Anthropic infra, clones repo fresh each run, min 1h interval. Pro/Max/Team/Enterprise |
 | **Desktop Scheduled Tasks** | 2026 | Local machine scheduling via Desktop app. Min 1 min, full local file access, no session required |
 | **Skill Evals** | Mar 2026 | Two skill types: Capability Uplift (fills model gap, fades) / Encoded Preference (encodes workflow, stays). Benchmark Mode, A/B testing, Trigger Tuning. |
+| **Claude Mods** | v2.1.287 | Plugins that change deeper Claude Code behavior. Built-in "You should know" side agent: `/plugin enable cc-plugin-you-should-know@builtin` |
+| **Idle compaction** | v2.1.299 | A 200K+ token conversation left idle about 54 min is compacted before its 1h prompt cache expires. `"idleCompaction": false` or `/config` turns it off |
 | **Output Styles** | v2.1.269 command | `/output-style` selects Default, Proactive, Concise, Explanatory, Learning, or a custom style. Coding-oriented custom styles need `keep-coding-instructions: true`. |
 
-**Activate LSP**: Add to `~/.claude/settings.json` → `{ "env": { "ENABLE_LSP_TOOL": "1" } }` (requires LSP server installed for your language: `tsserver`, `pylsp`, `gopls`, `rust-analyzer`, `sourcekit-lsp`...)
+**Activate LSP**: install the language server binary, then its code intelligence plugin: `/plugin install typescript-lsp@claude-plugins-official` (also `pyright-lsp`, `gopls-lsp`, `rust-analyzer-lsp`, `swift-lsp`...). Claude then sees type errors after each edit.
 
 **Pro tip**: These are public, documented in the [CHANGELOG](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md). Read it!
 
@@ -221,7 +224,7 @@ These are selected daily commands. Availability depends on your version, provide
 | dontAsk | Only if in allow rules | Only if in allow rules |
 | bypassPermissions | Auto | Auto (CI/CD only) |
 
-**Shift+Tab** to switch modes
+**Shift+Tab** to switch modes. Since v2.1.284, interactive terminal and VS Code sessions start in `auto` when no permission mode is configured (v2.1.283 did this only on third-party providers or with telemetry off); set `permissions.defaultMode` to choose another. `/auto-mode-setup` tunes the classifier for your environment
 
 ---
 
@@ -236,7 +239,7 @@ These are selected daily commands. Availability depends on your version, provide
 
 | File | Where | Usage |
 |------|-------|-------|
-| `CLAUDE.md` | Project root | Team memory (instructions) |
+| `CLAUDE.md` | Project root | Team memory (instructions). Without one, `AGENTS.md` is read instead (v2.1.277, `/config` > Project instructions; not on Bedrock, Vertex, Foundry) |
 | `settings.json` | `.claude/` | Team settings (hooks) |
 | `settings.local.json` | `.claude/` | Your setting overrides |
 | `CLAUDE.md` | `~/.claude/` (Win: `%USERPROFILE%\.claude\`) | Personal memory |
@@ -247,7 +250,7 @@ These are selected daily commands. Availability depends on your version, provide
 
 ```
 .claude/
-├── CLAUDE.md           # Local memory (gitignored)
+├── CLAUDE.md           # Optional project memory location (committed; personal notes go in CLAUDE.local.md, gitignored)
 ├── settings.json       # Hooks (committed)
 ├── settings.local.json # Permissions (not committed)
 ├── agents/             # Custom agents
@@ -262,11 +265,11 @@ These are selected daily commands. Availability depends on your version, provide
 
 ```
 1. Start session      → claude
-2. Check context      → /status
+2. Check context      → /context
 3. Plan Mode          → Shift+Tab × 2 (for complex tasks)
 4. Describe task      → Clear, specific prompt
 5. Review changes     → Always read the diff!
-6. Accept/Reject      → y/n
+6. Accept/Reject      → Enter/Esc (y/n only via confirm:yes/confirm:no bindings, v2.1.280)
 7. Verify             → Run tests
 8. Commit             → When task complete
 9. /compact           → When context >70%
@@ -324,7 +327,7 @@ Model: Sonnet | Ctx: 89.5k | Cost: $2.11 | Ctx(u): 56.0%
 |---------|-----------|
 | **Master Loop** | Model/tool loop; permissions and auto-mode review are separate controls |
 | **Tools** | Bash, Read, Edit, Write, Grep, Glob, Agent and more ([tool reference](./core/tools-reference.md)) |
-| **Context** | Model-dependent: native 1M on current Opus, Sonnet and Fable; 200K on Haiku 4.5. Inspect `/context` |
+| **Context** | Model-dependent: native 1M on current Opus, Sonnet, Haiku and Fable; 200K only on the legacy Haiku 4.5. Inspect `/context` |
 | **Sub-agents** | Isolated context, max depth=1 |
 | **Philosophy** | "Less scaffolding, more model" (trust Claude's reasoning) |
 
@@ -362,11 +365,11 @@ Evaluate the exact model-harness pair for a bounded coding task. Introduce orche
 | **Plan Mode** | `Shift+Tab × 2` or `/plan` | Explore without modifying |
 | **OpusPlan** | `/model opusplan` | Opus for planning, Sonnet for execution |
 
-> **Verified September 24, 2026**: Opus 5.5 defaults to `medium`; Sonnet 5 and Fable 5.1 default to `high`. Haiku 4.5 has no effort parameter. `ultrathink` adds a reasoning instruction for the turn without changing API effort.
+> **Verified November 23, 2026**: Fable 5.2, Opus 5.5, Sonnet 5.5 and Haiku 5.5 default to `medium` in Claude Code (on the raw API, Fable 5.2 and Sonnet 5.5 default to `high`). Only the legacy Haiku 4.5 has no effort parameter. `ultrathink` adds a reasoning instruction and, since v2.1.311 (terminal) and v2.1.316 (VS Code, desktop Code tab), runs that turn at `xhigh` without changing the session effort.
 
 | Control | Action | Persistence |
 |---------|--------|-------------|
-| **Option+T / Alt+T** | Toggle thinking on supported models; Opus 5.5 and Fable always think | Session |
+| **Option+T / Alt+T** | Toggle thinking on supported models; Opus 5.5, Sonnet 5.5, Haiku 5.5 and Fable always think | Session |
 | **`/effort` or `/model` slider** | Choose a supported level; `Enter` saves per model, `s` applies once | Per model or session |
 | **`/effort max`** | Highest supported effort | Session |
 | **`CLAUDE_CODE_EFFORT_LEVEL`** | Override effort in the launching environment | Process environment |
@@ -385,9 +388,9 @@ Evaluate the exact model-harness pair for a bounded coding task. Introduce orche
 
 | Task | Model | Effort |
 |------|-------|--------|
-| Rename, boilerplate, test gen | Haiku 4.5 | Not supported |
-| Feature dev, debug, refactor | Sonnet 5 or Opus 5.5 | Start at the model default |
-| Architecture, security audit | Opus 5.5; evaluate Fable 5.1 if needed | Increase with evidence |
+| Rename, boilerplate, test gen | Haiku 5.5 | Default `medium`; try `low` |
+| Feature dev, debug, refactor | Sonnet 5.5 or Opus 5.5 | Start at the model default |
+| Architecture, security audit | Opus 5.5; evaluate Fable 5.2 if needed | Increase with evidence |
 
 > Full decision table and pricing boundaries: [Section 2.5 Model Selection & Thinking Guide](ultimate-guide.md#25-model-selection--thinking-guide)
 
@@ -415,18 +418,18 @@ claude --model sonnet
 - ✅ Use Haiku for: simple fixes, typos, validation checks
 - Model switches keep conversation history but can invalidate prompt caches; switch at a useful task boundary.
 
-**Standard Anthropic API rates**, USD per million tokens, checked September 24, 2026:
+**Standard Anthropic API rates**, USD per million tokens, checked November 23, 2026:
 
 | Model | Input | Output | Context |
 |-------|-------|--------|---------|
 | Opus 5.5 | $4 | $20 | 1M |
-| Sonnet 5 | $2 | $10 | 1M |
-| Haiku 4.5 | $1 | $5 | 200K |
-| Fable 5.1 | $10 | $50 | 1M |
+| Sonnet 5.5 | $2 | $10 | 1M |
+| Haiku 5.5 | $0.10 ($0.50 over 100K) | $0.50 ($2.50 over 100K) | 1M |
+| Fable 5.2 | $8 | $40 | 1M |
 
-Opus 5.5 fast mode costs $8/$40. Subscription allowances, usage credits, cache tokens, and cloud-provider pricing are separate. [Official pricing](https://platform.claude.com/docs/en/about-claude/pricing).
+Fast mode costs $16/$80 on Fable 5.2 and $8/$40 on Opus 5.5. Subscription allowances, usage credits, cache tokens, and cloud-provider pricing are separate. [Official pricing](https://platform.claude.com/docs/en/about-claude/pricing).
 
-On the direct Anthropic service, the account default and `opus` select Opus 5.5; `sonnet` selects Sonnet 5. Provider aliases differ: check the [provider table](ultimate-guide.md#model-aliases). `fable` normally selects Fable 5.1, while Claude apps gateway sessions resolve it to Fable 5.
+On the direct Anthropic service, the account default and `opus` select Opus 5.5; `sonnet` selects Sonnet 5.5 and `haiku` selects Haiku 5.5 (v2.1.293+). Provider aliases differ: check the [provider table](ultimate-guide.md#model-aliases). `fable` normally selects Fable 5.2, while Claude apps gateway sessions resolve it to Fable 5.
 
 **Source**: [Gur Sannikov embedded engineering workflow](https://www.linkedin.com/posts/gursannikov_claudecode-embeddedengineering-aiagents-activity-7423851983331328001-DrFb)
 
@@ -578,7 +581,7 @@ VERIFY: Empty email shows error, invalid format shows error
 | `-p "query"` | Non-interactive mode (CI/CD) |
 | `-c` / `--continue` | Continue last session |
 | `-r` / `--resume <id>` | Resume specific session |
-| `--teleport` | Teleport session from web |
+| `--teleport` | Resume a cloud session in your local terminal |
 | `remote-control` | Subcommand: start remote control session |
 | `--model sonnet` | Change model |
 | `--add-dir ../lib` | Allow access outside CWD |
@@ -588,7 +591,7 @@ VERIFY: Empty email shows error, invalid format shows error
 | `--system-prompt "..."` | Replace the entire default system prompt |
 | `--append-system-prompt "..."` | Append text to the default system prompt |
 | `--worktree` / `-w` | Run in isolated git worktree |
-| `--dangerously-skip-permissions` | Auto-accept (use carefully) |
+| `--dangerously-skip-permissions` | Skip permission prompts (same as `--permission-mode bypassPermissions`; use carefully) |
 | `--debug` | Debug output |
 | `--allowedTools "Edit,Read"` | Allow these tools without prompting; use `--tools` to restrict availability |
 | `--effort medium` | Choose session effort on a supported model |
@@ -601,8 +604,8 @@ VERIFY: Empty email shows error, invalid format shows error
 
 | Command | Description |
 |---------|-------------|
-| `claude project purge [path]` | Delete all Claude Code state for a project (transcripts, tasks, config). `--dry-run` for preview. (v2.1.126) |
-| `claude ultrareview [target]` | Non-interactive cloud code review for CI. `--json` output. Exits 0/1. (v2.1.120) |
+| `claude purge [path]` | Delete all local Claude Code state for a project (transcripts, tasks, history, config entry). `--dry-run` previews, `--all` covers every project. Renamed from `claude project purge` in v2.1.288; the old name still works and prints a notice |
+| `claude ultrareview [target]` | Non-interactive cloud code review for CI. `--json` output. Exits 0/1. (v2.1.120). Requires workspace trust since v2.1.309: scripts pass `--trust-workspace` |
 | `claude plugin prune` | Remove orphaned auto-installed plugin deps. (v2.1.121) |
 | `claude plugin details <name>` | Show plugin inventory and token cost estimate. (v2.1.139) |
 | `claude --plugin-url <url>` | Load plugin `.zip` from URL for this session. (v2.1.129) |
@@ -661,7 +664,7 @@ Open the displayed URL or scan the QR code from a browser or the Claude mobile a
 
 ## Task management (v2.1.16+)
 
-**Availability**: newer models, including Opus 5.5, Sonnet 5, and Fable, do not receive task-tracking tools by default. Start with `CLAUDE_CODE_ENABLE_TODO_TOOLS=1 claude` to opt in. `CLAUDE_CODE_ENABLE_TASKS=0` selects legacy TodoWrite only where task tools are enabled. [Official tool availability](https://code.claude.com/docs/en/tools-reference#task-tool-availability).
+**Availability**: newer models, including Opus 5.5, Sonnet 5.5, and Fable, do not receive task-tracking tools by default. Start with `CLAUDE_CODE_ENABLE_TODO_TOOLS=1 claude` to opt in. `CLAUDE_CODE_ENABLE_TASKS=0` selects legacy TodoWrite only where task tools are enabled. [Official tool availability](https://code.claude.com/docs/en/tools-reference#task-tool-availability).
 
 **Two systems available:**
 
@@ -737,7 +740,7 @@ Deep analysis     → Use Opus (thinking on by default)
 
 | Problem | Solution |
 |---------|----------|
-| "Command not found" | Check PATH, reinstall: `curl -fsSL https://claude.ai/install.sh \| sh` |
+| "Command not found" | Check PATH, reinstall: `curl -fsSL https://claude.ai/install.sh \| bash` |
 | Context too high (>70%) | `/compact` immediately |
 | Slow responses | `/compact` or `/clear` |
 | MCP not working | `claude mcp list`, check config |
@@ -773,7 +776,7 @@ where.exe claude; claude doctor; claude mcp list
 | Tool | Purpose | Install |
 |------|---------|---------|
 | **ccusage** | Cost tracking & reports | `bunx ccusage daily` |
-| **RTK** | Shell-output reduction (up to 90%) | `brew install rtk` (or `cargo install --git https://github.com/rtk-ai/rtk`) · [Site](https://www.rtk-ai.app/) (author is a core contributor) |
+| **RTK** | Shell-output reduction (up to 90%) | `brew install rtk` (or `cargo install --git https://github.com/rtk-ai/rtk`) · [Site](https://www.rtk-ai.app/) (author is a historical contributor and current supporter) |
 | **claude-code-viewer** | Session history UI | `npx @kimuson/claude-code-viewer` |
 | **Entire CLI** | Session checkpoints + Git forge | [entire.com](https://entire.com) (CLI Feb 2026, forge Oct 2026) |
 
@@ -801,7 +804,7 @@ Speed: `rg` (~20ms) → Serena (~100ms) → ast-grep (~200ms) → grepai (~500ms
 
 ## Resources
 
-- **Official docs**: [docs.anthropic.com/claude-code](https://docs.anthropic.com/en/docs/claude-code)
+- **Official docs**: [docs.anthropic.com/claude-code](https://code.claude.com/docs)
 - **Advanced guide**: [Claudelog.com](https://claudelog.com/) - Tips & patterns
 - **Full guide**: `ultimate-guide.md` (this repo)
 - **Whitepapers (FR + EN)**: [cc.bruniaux.com/whitepapers](https://cc.bruniaux.com/whitepapers/), 13 focused PDFs
@@ -812,14 +815,14 @@ Speed: `rg` (~20ms) → Serena (~100ms) → ast-grep (~200ms) → grepai (~500ms
 
 **Author**: Florian BRUNIAUX | Fractional Chief AI Officer | Written with Claude
 
-*Last updated: Nov 22, 2026 | Version 3.46.0*
+*Last updated: Nov 23, 2026 | Version 3.46.0*
 
 
 ---
 
-## Template Library (278 templates)
+## Template Library (305 templates)
 
-### Agents (21 files)
+### Agents (23 files)
 - `adr-writer.md`: Architecture Decision Records
 - `architecture-reviewer.md`: System architecture review
 - `code-reviewer.md`: Code quality review
@@ -839,29 +842,10 @@ Speed: `rg` (~20ms) → Serena (~100ms) → ast-grep (~200ms) → grepai (~500ms
 - `cyber-defense/`: Multi-agent cyber defense team (anomaly-detector.md, log-ingestor.md, risk-classifier.md, threat-reporter.md)
 
 ### Commands (legacy, pre-CC 2.1.3)
-Since Claude Code 2.1.3, `.claude/commands/` merged into `.claude/skills/`; every file below is now a redirect stub pointing to its `examples/skills/<name>/SKILL.md` equivalent, kept for backward compatibility.
-- `audit-agents-skills.md`: Quality audit for .claude/ configs
-- `audit-codebase.md`: Full codebase audit
-- `catchup.md`: Daily catchup briefing
-- `commit.md`: Smart git commit
-- `diagnose.md`: Problem diagnosis
-- `explain.md`: Code explanation
-- `generate-tests.md`: Test suite generation
-- `git-worktree.md`: Isolated git worktree workflow
-- `git-worktree-status.md`: Worktree status
-- `git-worktree-clean.md`: Worktree cleanup
-- `git-worktree-remove.md`: Worktree removal
-- `optimize.md`: Performance optimization
-- `plan-execute.md`: Plan then execute workflow
-- `plan-start.md`: Plan mode startup
-- `plan-validate.md`: Plan validation
-- `pr.md`: Pull request creation
-- `refactor.md`: Code refactoring
-- `release-notes.md`: Release notes generation
-- `learn/`: Interactive learning command
+Since Claude Code 2.1.3, `.claude/commands/` merged into `.claude/skills/`. The former command templates and their redirect stubs are removed; each workflow now lives in `examples/skills/<name>/SKILL.md` and runs as `/name`. `examples/commands/` keeps only its README and shared resources such as the threat database.
 
 ### Hooks (bash + PowerShell)
-**Bash hooks** (36 files in `examples/hooks/bash/`, a representative sample):
+**Bash hooks** (38 files in `examples/hooks/bash/`, a representative sample):
 - `dangerous-actions-blocker.sh`: Block destructive commands (PreToolUse)
 - `prompt-injection-detector.sh`: Detect prompt injection attempts (PreToolUse)
 - `security-check.sh`: Block commands containing secrets (PreToolUse)
@@ -878,7 +862,7 @@ Since Claude Code 2.1.3, `.claude/commands/` merged into `.claude/skills/`; ever
 **PowerShell hooks** (2 files in `examples/hooks/powershell/`, Windows equivalents for a subset, not a 1:1 mirror of the bash list):
 - `auto-format.ps1`, `security-check.ps1`
 
-### Skills (64 modules)
+### Skills (86 modules)
 - `ast-grep-patterns.md`: AST-based code search patterns
 - `audit-agents-skills/`: Agents/skills quality audit system
 - `ccboard/`: Claude Code monitoring dashboard
@@ -940,7 +924,7 @@ The 2025-2026 IFTTD additions extend Practitioner Insights to 75 attributed obse
 ## FAQ
 
 **Q: What is the Claude Code Ultimate Guide?**
-A: The most comprehensive community guide for Claude Code (Anthropic's CLI). 26,193 lines in the canonical full guide, 278 production-ready templates, 473-question quiz, and security threat database. Free and open-source (CC BY-SA 4.0).
+A: The most comprehensive community guide for Claude Code (Anthropic's CLI). 26,206 lines in the canonical full guide, 305 production-ready templates, 473-question quiz, and security threat database. Free and open-source (CC BY-SA 4.0).
 
 **Q: Is this guide free?**
 A: Yes, completely free. The guide is CC BY-SA 4.0 (share and adapt with attribution). Templates are CC0 (copy-paste freely, no attribution needed). No paywall, no login required.
@@ -996,20 +980,19 @@ claude-code-ultimate-guide/
 ├── llms.txt                        # This file (short version, for AI indexing)
 ├── llms-full.txt                   # Full content (you are here)
 ├── guide/                          # Core documentation
-│   ├── ultimate-guide.md           # Complete guide (26,193 lines)
+│   ├── ultimate-guide.md           # Complete guide (26,206 lines)
 │   ├── cheatsheet.md               # 1-page reference
 │   ├── core/architecture.md        # How Claude Code works internally
 │   ├── security/security-hardening.md  # Security best practices
 │   ├── security/data-privacy.md    # What data is sent to Anthropic
 │   └── core/claude-code-releases.md    # Official release tracking
-├── examples/                       # 278 production-ready templates
+├── examples/                       # 305 production-ready templates
 │   ├── agents/                     # Custom AI personas
-│   ├── commands/                   # Legacy slash commands (pre-CC 2.1.3)
 │   ├── hooks/                      # Event automation (bash + PowerShell)
 │   ├── skills/                     # User-invocable skills (unified since CC 2.1.3)
 │   └── scripts/                    # Utility scripts
 ├── machine-readable/               # LLM/AI consumption
-│   ├── reference.yaml              # Machine-optimized index (~2K tokens)
+│   ├── reference.yaml              # Machine-optimized index (~330 KB)
 │   └── llms.txt                    # Short version
 ├── whitepapers/                    # 13 focused PDFs (FR + EN)
 └── quiz/                           # 473-question interactive quiz

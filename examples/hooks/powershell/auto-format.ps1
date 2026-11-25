@@ -1,6 +1,20 @@
 # PostToolUse hook - Auto-format files after editing
 # Place in: .claude\hooks\auto-format.ps1
-# Register in: .claude\settings.json (with -ExecutionPolicy Bypass)
+# Register in: .claude\settings.json (PostToolUse, matcher "Edit|Write"), running in PowerShell:
+#   {
+#     "hooks": {
+#       "PostToolUse": [{
+#         "matcher": "Edit|Write",
+#         "hooks": [{
+#           "type": "command",
+#           "shell": "powershell",
+#           "command": "& \"$env:CLAUDE_PROJECT_DIR\\.claude\\hooks\\auto-format.ps1\""
+#         }]
+#       }]
+#     }
+#   }
+# Use the `$env:CLAUDE_PROJECT_DIR` spelling: the bare `$CLAUDE_PROJECT_DIR` resolves
+# to $null in PowerShell.
 
 $inputJson = [Console]::In.ReadToEnd() | ConvertFrom-Json
 $tool = $inputJson.tool_name

@@ -74,8 +74,8 @@ Changing ports breaks:
 ```bash
 # .claude/hooks/PreToolUse.sh
 if [[ "$TOOL" == "Edit" ]]; then
-    FILE=$(echo "$INPUT" | jq -r '.tool.input.file_path')
-    CONTENT=$(echo "$INPUT" | jq -r '.tool.input.new_string')
+    FILE=$(echo "$INPUT" | jq -r '.tool_input.file_path')
+    CONTENT=$(echo "$INPUT" | jq -r '.tool_input.new_string')
 
     if [[ "$FILE" =~ (docker-compose|vite.config|package.json) ]] && \
        [[ "$CONTENT" =~ (port|PORT):[[:space:]]*[0-9] ]]; then
@@ -145,10 +145,10 @@ Destructive operations:
 # .claude/hooks/PreToolUse.sh
 #!/bin/bash
 INPUT=$(cat)
-TOOL=$(echo "$INPUT" | jq -r '.tool.name')
+TOOL=$(echo "$INPUT" | jq -r '.tool_name')
 
 if [[ "$TOOL" == "Bash" ]]; then
-    COMMAND=$(echo "$INPUT" | jq -r '.tool.input.command')
+    COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command')
 
     # Detect destructive database operations
     if [[ "$COMMAND" =~ (DROP TABLE|DELETE FROM|TRUNCATE|ALTER.*DROP) ]]; then
@@ -483,7 +483,7 @@ Dependency approval gates only work if someone actually triages what a new packa
 ```bash
 # .claude/hooks/PreToolUse.sh
 if [[ "$TOOL" == "Bash" ]]; then
-    COMMAND=$(echo "$INPUT" | jq -r '.tool.input.command')
+    COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command')
 
     # Block dependency installation
     if [[ "$COMMAND" =~ (npm|pnpm|yarn)[[:space:]]+(install|add|i)[[:space:]]+[a-zA-Z] ]]; then
@@ -621,7 +621,7 @@ find src/shared/components -name "*Modal*"
 # .claude/hooks/PostToolUse.sh
 #!/bin/bash
 if [[ "$TOOL" == "Write" ]] || [[ "$TOOL" == "Edit" ]]; then
-    FILE=$(echo "$INPUT" | jq -r '.tool.input.file_path')
+    FILE=$(echo "$INPUT" | jq -r '.tool_input.file_path')
 
     # Check for pattern violations
     if [[ "$FILE" =~ \.(tsx?)$ ]]; then
@@ -841,7 +841,9 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # full history so `git diff origin/main...HEAD` works
 
       - name: Check for half-assing
         run: |

@@ -66,14 +66,14 @@ questions:
         question: "Are there fewer than 150 total rules or instructions?"
         failing_indicator: "More than 150 bullet points / numbered items"
         passing_indicator: "Compact set that fits in working memory"
-        note: "150 is the adherence ceiling — beyond this, Claude starts dropping rules"
+        note: "~150 is a community heuristic, not an official limit: long rule lists tend to reduce adherence"
 
       - id: Q3
         weight: 1.0
-        question: "Does the file have fewer than 500 lines?"
-        failing_indicator: "File exceeds 500 lines"
-        passing_indicator: "Under 500 lines, or split into @imported modules"
-        note: "Long files signal either verbosity or lack of modularization"
+        question: "Does the file have fewer than 200 lines?"
+        failing_indicator: "File exceeds 200 lines"
+        passing_indicator: "Under 200 lines, or scoped content moved to .claude/rules/ or @imported modules"
+        note: "Claude Code docs target under 200 lines per CLAUDE.md: longer files use more context and reduce adherence"
 
       - id: Q4
         weight: 1.0

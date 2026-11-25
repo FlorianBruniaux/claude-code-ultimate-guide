@@ -1,43 +1,33 @@
 # PR workflow plugin
 
-Automated pull request review and validation system.
+Pull request review and preparation.
 
 ## Install
 
+From a clone of this repository:
+
 ```bash
-bash install.sh
+bash examples/plugins/pr-workflow/install.sh
 ```
 
 ## Components
 
-- **code-reviewer agent**: Automated code quality and security checks
-- **/review-pr command**: Analyze PRs and provide detailed feedback
-- **/pr command**: Quick PR preparation workflow
-- **pre-pr-check hook**: Validate changes before PR creation
+- **code-reviewer agent**: read-only code quality and security review
+- **`/review-pr` skill**: analyze a PR and report findings
+- **`/pr` skill**: prepare and open a PR (manual invocation only)
+- **`/validate-changes` skill**: check what will be submitted
 
 ## Quick start
 
 ```bash
-# Review an existing PR
 /review-pr 123
-
-# Prepare a new PR
-/pr
-
-# Check what will be submitted
+/pr --draft
 /validate-changes
 ```
 
-## Features
-
-✓ Code quality analysis
-✓ Security scanning
-✓ Test coverage verification
-✓ Compliance checks
-✓ Automated suggestions
-✓ Team notifications
+These bundles are project-level installers, not plugin packages: the manifest in `.claude-plugin/plugin.json` carries metadata only, and `install.sh` copies the listed components from the sibling `examples/` folders into `.claude/` (existing files are never overwritten). To ship them as a real plugin, copy the components under the plugin root (`skills/<name>/SKILL.md`, `agents/<name>.md`) and run `claude plugin validate`.
 
 ## See also
 
-- `guide/workflows/code-review.md` — Full review workflow documentation
-- `/security-check` — Security-specific PR review
+- `guide/workflows/code-review.md`: full review workflow documentation
+- `/security-check`: security-specific review (security-suite plugin)

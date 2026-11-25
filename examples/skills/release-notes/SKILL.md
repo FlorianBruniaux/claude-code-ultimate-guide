@@ -1,7 +1,7 @@
 ---
 name: release-notes
 description: Generate release notes in multiple formats from git commits
-argument-hint: "[--from <tag>] [--format md|slack]"
+argument-hint: "[version | from <tag> to <ref>] [--preview] [--include-pre-release]"
 effort: medium
 when_to_use: "Use when preparing a release and need notes in multiple formats."
 disable-model-invocation: true

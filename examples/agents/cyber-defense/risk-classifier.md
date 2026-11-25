@@ -2,7 +2,7 @@
 name: risk-classifier
 description: Classify overall risk level from detected anomalies. Third stage of the cyber defense pipeline — reads cyber-defense-anomalies.json and assigns CRITICAL/HIGH/MEDIUM/LOW with justification.
 model: sonnet
-tools: Read
+tools: Read, Write
 ---
 
 # Risk classifier agent

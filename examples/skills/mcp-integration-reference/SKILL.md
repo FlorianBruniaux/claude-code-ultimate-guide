@@ -1,8 +1,8 @@
 ---
 name: mcp-integration-reference
-description: "Template for skills that integrate with an MCP server. Demonstrates the reference file pattern: Claude reads a domain-specific MCP cheatsheet before making any tool calls, reducing query failures caused by server-specific gotchas. Fork this skill and replace the Sentry example with your target MCP."
+description: "Template for skills that wrap an MCP server, with a working Sentry error report as the example. Use when building a skill around an MCP server, or when asked for a Sentry error report grouped by root cause. Claude reads a domain-specific MCP cheatsheet before any tool call, which avoids server-specific query failures. Fork it and replace the Sentry example with your target MCP."
 allowed-tools: Read mcp__<your-mcp>__*
-effort: high
+effort: medium
 metadata:
   version: 1.0.0
 ---
@@ -29,7 +29,7 @@ Three types of content go in the reference file:
 **Before doing anything else**, read the full MCP reference:
 
 ```
-Read: references/sentry-mcp.md
+Read: ${CLAUDE_SKILL_DIR}/references/sentry-mcp.md
 ```
 
 This file contains query syntax, known gotchas, and working examples for the Sentry MCP. Do not skip this step.

@@ -197,18 +197,18 @@ questions:
     difficulty: power
     profiles:
       - power
-    question: What does 'allowedTools' configuration do differently from permission categories?
+    question: What do permission rules under permissions.allow add compared with permission modes?
     options:
       a: Nothing, they are the same
       b: Provides granular control with tool-specific patterns in .claude/settings.json
       c: Only works for MCP tools
       d: Requires admin privileges
     correct: b
-    explanation: "The allowedTools configuration in .claude/settings.json or .claude/settings.local.json provides granular control with specific patterns. For example: 'Read(*)' allows all reads, 'Bash(git status *)' allows git status commands, 'Bash(pnpm *)' allows pnpm commands. You can set progressive permission levels from beginner (very restrictive) to advanced. Never use --dangerously-skip-permissions."
+    explanation: "Rules under permissions.allow (and permissions.deny) in .claude/settings.json or .claude/settings.local.json provide granular control with specific patterns. For example: 'Read(*)' allows all reads, 'Bash(git status *)' allows git status commands, 'Bash(pnpm *)' allows pnpm commands. You can set progressive permission levels from beginner (very restrictive) to advanced. Never use --dangerously-skip-permissions."
     doc_reference:
       file: guide/ultimate-guide.md
-      section: allowedTools / autoApproveTools Configuration
-      anchor: "#allowedtools-autoapprovetools-configuration"
+      section: permissions.allow / permissions.deny Configuration
+      anchor: "#permissionsallow--permissionsdeny-configuration"
   - id: 03-013
     difficulty: junior
     profiles:
@@ -232,7 +232,7 @@ questions:
     profiles:
       - senior
       - power
-    question: What are the three levels of progressive permission in allowedTools?
+    question: What are the three levels of progressive permission rules in permissions.allow?
     options:
       a: Admin, User, Guest
       b: Beginner (very restrictive), Intermediate, Advanced
@@ -242,8 +242,8 @@ questions:
     explanation: "The three progressive permission levels are: Beginner (very restrictive - only Read, Grep, Glob), Intermediate (adds Bash git/pnpm commands), and Advanced (adds Edit, Write, WebFetch, Agent). Start restrictive and expand as you gain confidence. This prevents accidents while learning."
     doc_reference:
       file: guide/ultimate-guide.md
-      section: allowedTools / autoApproveTools Configuration
-      anchor: "#allowedtools-autoapprovetools-configuration"
+      section: permissions.allow / permissions.deny Configuration
+      anchor: "#permissionsallow--permissionsdeny-configuration"
   - id: 03-015
     difficulty: power
     profiles:
@@ -255,11 +255,11 @@ questions:
       c: It costs more
       d: It's slower
     correct: b
-    explanation: "Never use --dangerously-skip-permissions because it can lead to destructive operations. Horror stories include: `rm -rf node_modules` followed by `rm -rf .` (path error), `git push --force` to main unintentionally, `DROP TABLE users` in poorly generated migrations, and deletion of .env files with credentials. Always prefer granular allowedTools instead."
+    explanation: "Never use --dangerously-skip-permissions because it can lead to destructive operations. Horror stories include: `rm -rf node_modules` followed by `rm -rf .` (path error), `git push --force` to main unintentionally, `DROP TABLE users` in poorly generated migrations, and deletion of .env files with credentials. Always prefer granular permissions.allow rules instead."
     doc_reference:
       file: guide/ultimate-guide.md
-      section: allowedTools / autoApproveTools Configuration
-      anchor: "#allowedtools-autoapprovetools-configuration"
+      section: permissions.allow / permissions.deny Configuration
+      anchor: "#permissionsallow--permissionsdeny-configuration"
   - id: 03-016
     difficulty: junior
     profiles:

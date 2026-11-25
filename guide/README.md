@@ -53,28 +53,28 @@ Core documentation for mastering Claude Code, organized by topic.
 | [core/community-patterns.md](./core/community-patterns.md) | **Community Patterns**: ~130 community-coined patterns, workflow terms, AI engineering concepts, and quick-reference definitions | 10 min |
 | [core/skill-design-patterns.md](./core/skill-design-patterns.md) | **Skill Design Patterns**: architectural patterns for robust, token-efficient skills with multi-agent pipelines | 20 min |
 | [core/credits.md](./core/credits.md) | Open-source projects and engineering teams whose work informed specific patterns in this guide | 5 min |
-| [diagrams/](./diagrams/) | **Visual Diagrams Series**: 41 Mermaid interactive diagrams for model selection, agent lifecycle, security, multi-agent patterns | 15 min |
+| [diagrams/](./diagrams/) | **Visual Diagrams Series**: 53 Mermaid interactive diagrams for model selection, agent lifecycle, security, multi-agent patterns | 15 min |
 
 ---
 
 ## Visual diagrams
 
-**48 interactive Mermaid diagrams** across 12 thematic files, with GitHub-native Mermaid rendering and an ASCII fallback for every diagram. See [diagrams/README.md](./diagrams/README.md) for the full navigation index and use-case guides.
+**53 interactive Mermaid diagrams** across 12 thematic files, with GitHub-native Mermaid rendering and an ASCII fallback for every diagram. See [diagrams/README.md](./diagrams/README.md) for the full navigation index and use-case guides.
 
 | File | Diagrams | Topics |
 |------|----------|--------|
 | [diagrams/01-foundations.md](./diagrams/01-foundations.md) | 4 | 4-layer model, workflow pipeline, decision tree, permission modes |
 | [diagrams/02-context-and-sessions.md](./diagrams/02-context-and-sessions.md) | 4 | Context zones, memory hierarchy, session teleportation, fresh context |
 | [diagrams/03-configuration-system.md](./diagrams/03-configuration-system.md) | 4 | Config precedence, skills vs commands vs agents, agent lifecycle, hooks |
-| [diagrams/04-architecture-internals.md](./diagrams/04-architecture-internals.md) | 4 | Master loop, tool categories, system prompt assembly, sub-agent isolation |
+| [diagrams/04-architecture-internals.md](./diagrams/04-architecture-internals.md) | 5 | Master loop, tool categories, system prompt assembly, sub-agent isolation |
 | [diagrams/05-mcp-ecosystem.md](./diagrams/05-mcp-ecosystem.md) | 4 | MCP ecosystem map, MCP architecture, rug pull attack, config hierarchy |
-| [diagrams/06-development-workflows.md](./diagrams/06-development-workflows.md) | 5 | TDD cycle, spec-first pipeline, plan-driven, iterative refinement, AI fluency paths |
-| [diagrams/07-multi-agent-patterns.md](./diagrams/07-multi-agent-patterns.md) | 5 | Agent topologies, worktrees, dual-instance, horizontal scaling, decision matrix |
+| [diagrams/06-development-workflows.md](./diagrams/06-development-workflows.md) | 6 | TDD cycle, spec-first pipeline, plan-driven, iterative refinement, AI fluency paths |
+| [diagrams/07-multi-agent-patterns.md](./diagrams/07-multi-agent-patterns.md) | 6 | Agent topologies, worktrees, dual-instance, horizontal scaling, decision matrix |
 | [diagrams/08-security-and-production.md](./diagrams/08-security-and-production.md) | 4 | 3-layer defense, sandbox decision, verification paradox, CI/CD pipeline |
 | [diagrams/09-cost-and-optimization.md](./diagrams/09-cost-and-optimization.md) | 4 | Model selection, cost optimization, subscription tiers, token reduction |
-| [diagrams/10-adoption-and-learning.md](./diagrams/10-adoption-and-learning.md) | 3 | Onboarding paths, UVAL protocol, trust calibration |
+| [diagrams/10-adoption-and-learning.md](./diagrams/10-adoption-and-learning.md) | 4 | Onboarding paths, UVAL protocol, trust calibration |
 | [diagrams/11-context-engineering.md](./diagrams/11-context-engineering.md) | 4 | 3-layer context system, adherence degradation, modular architecture, rule placement |
-| [diagrams/12-enterprise-governance.md](./diagrams/12-enterprise-governance.md) | 3 | Governance risk tiers, MCP approval workflow, data classification |
+| [diagrams/12-enterprise-governance.md](./diagrams/12-enterprise-governance.md) | 4 | Governance risk tiers, MCP approval workflow, data classification |
 
 ---
 

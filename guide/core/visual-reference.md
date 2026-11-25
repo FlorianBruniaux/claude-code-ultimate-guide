@@ -61,7 +61,7 @@ These ASCII diagrams cover selected Claude Code concepts. For the harness taxono
 
 ## 1. Context management zones
 
-How to react based on context window usage (check with `/status`):
+How to react based on context window usage (check with `/context`):
 
 ```
 Context Usage
@@ -127,7 +127,7 @@ The recommended workflow for every task:
 
 ```
   ┌─────────┐    ┌──────────┐    ┌────────────┐    ┌─────────────┐
-  │ 1.START │───→│ 2./status│───→│ 3. plan?   │───→│ 4. describe │
+  │ 1.START │───→│2./context│───→│ 3. plan?   │───→│ 4. describe │
   │ claude  │    │ check ctx│    │ Shift+Tab×2│    │ WHAT/WHERE  │
   └─────────┘    └──────────┘    │ (if risky) │    │ HOW/VERIFY  │
                                  └────────────┘    └──────┬──────┘

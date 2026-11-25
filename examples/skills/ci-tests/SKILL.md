@@ -8,7 +8,7 @@ effort: low
 disable-model-invocation: true
 ---
 
-# /ci:tests: Run tests
+# /ci-tests: Run tests
 
 Detects the stack and runs tests with the right command.
 
@@ -17,8 +17,10 @@ Detects the stack and runs tests with the right command.
 ```bash
 if [ -f "uv.lock" ]; then
   STACK="python"
-elif [ -f "pnpm-lock.yaml" ] || [ -f "package.json" ]; then
-  STACK="node"
+elif [ -f "pnpm-lock.yaml" ]; then
+  STACK="node"          # pnpm + vitest
+elif [ -f "package.json" ]; then
+  STACK="node-npm"      # npm test (jest or the repo's own runner)
 elif [ -f "Cargo.toml" ]; then
   STACK="rust"
 else
@@ -92,9 +94,9 @@ AssertionError: expected discount=0, got discount=10
 ## Usage
 
 ```
-/ci:tests
-/ci:tests tests/test_orders.py
-/ci:tests src/components/Button.test.tsx
+/ci-tests
+/ci-tests tests/test_orders.py
+/ci-tests src/components/Button.test.tsx
 ```
 
 Target: $ARGUMENTS

@@ -1,7 +1,7 @@
 ---
 name: git-worktree-clean
 description: Clean up stale git worktrees with merged branch detection and disk usage report
-argument-hint: "[--dry-run]"
+argument-hint: "[--dry-run] [--all] [--remote] [--force]"
 effort: low
 when_to_use: "Use when cleaning up merged or stale worktrees."
 disable-model-invocation: true
@@ -13,7 +13,7 @@ Batch cleanup of stale git worktrees. Safely removes merged branches, reports di
 
 **Core principle:** Auto-clean merged worktrees, interactive review for unmerged, always report what was reclaimed.
 
-**Part of:** [Worktree Lifecycle Suite](../../commands/git-worktree.md) | [`/git-worktree`](../../commands/git-worktree.md) | [`/git-worktree-status`](../../commands/git-worktree-status.md) | [`/git-worktree-remove`](../../commands/git-worktree-remove.md)
+**Part of:** Worktree Lifecycle Suite: [`/git-worktree`](../git-worktree/SKILL.md) | [`/git-worktree-status`](../git-worktree-status/SKILL.md) | [`/git-worktree-remove`](../git-worktree-remove/SKILL.md)
 
 ## Process
 
@@ -31,6 +31,7 @@ Batch cleanup of stale git worktrees. Safely removes merged branches, reports di
 |------|--------|
 | `--dry-run` | Preview what would be cleaned, no changes |
 | `--all` | Include unmerged worktrees (interactive confirmation each) |
+| `--remote` | Also delete the remote branch of each removed worktree (off by default) |
 | `--force` | Remove all worktrees without confirmation (dangerous) |
 
 ## Worktree discovery
@@ -77,10 +78,12 @@ done
 
 ```bash
 for WORKTREE in $ALL_WORKTREES; do
-  # Calculate size excluding symlinked node_modules
-  SIZE=$(du -sh --exclude='node_modules' "$WORKTREE" 2>/dev/null | cut -f1)
-  # Or on macOS:
-  SIZE=$(du -sh -I 'node_modules' "$WORKTREE" 2>/dev/null | cut -f1)
+  # Size excluding node_modules (GNU du: --exclude, BSD/macOS du: -I)
+  if du -sh -I 'node_modules' "$WORKTREE" >/dev/null 2>&1; then
+    SIZE=$(du -sh -I 'node_modules' "$WORKTREE" | cut -f1)
+  else
+    SIZE=$(du -sh --exclude='node_modules' "$WORKTREE" | cut -f1)
+  fi
   echo "  $WORKTREE: $SIZE"
 done
 ```
@@ -109,7 +112,7 @@ echo "Run without --dry-run to execute."
 
 ## Auto mode (default)
 
-**Only removes merged worktrees. Safe by default.**
+**Only removes merged worktrees and their local branches. Safe by default.** Remote branches are left alone unless `--remote` is passed. A branch merged by squash or rebase is not an ancestor of the main branch, so it is classified as unmerged: confirm those on the forge before removing.
 
 ```bash
 echo "Cleaning merged worktrees..."
@@ -123,8 +126,10 @@ for WORKTREE in $MERGED_LIST; do
   # Delete local branch
   git branch -d "$BRANCH" 2>/dev/null
 
-  # Delete remote branch
-  git push origin --delete "$BRANCH" 2>/dev/null
+  # Delete the remote branch only with --remote (outward-facing, not reversible locally)
+  if [ "$REMOTE_FLAG" = true ]; then
+    git push origin --delete "$BRANCH" 2>/dev/null
+  fi
 
   echo "  Removed: $WORKTREE ($BRANCH)"
 done

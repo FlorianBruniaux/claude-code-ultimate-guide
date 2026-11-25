@@ -202,7 +202,7 @@ If you prefer understanding before configuring, here's a progressive approach. N
    - Medium usage: be more selective
    - High usage: consider `/compact`
    - Near limit: `/clear` to reset
-3. **Try it**: Check `/status` periodically. See how your usage patterns develop.
+3. **Try it**: Check `/usage` periodically. See how your usage patterns develop.
 
 ### Phase 3: Memory files
 
@@ -235,7 +235,7 @@ These are signals that things are working, not rigid milestones.
 
 ```bash
 claude --version          # Responds with version
-claude /status            # Shows context info
+claude /context           # Shows context usage
 claude /mcp               # Lists MCP servers (may be empty)
 ```
 
@@ -334,7 +334,7 @@ These are starting points, not rules. Team dynamics matter more than headcount.
 **What might work**:
 - Documented conventions with rationale
 - Standardized hooks across the team
-- Onboarding that covers basics like `/status`
+- Onboarding that covers basics like `/context`
 - **Production teams**: Enforce [Production Safety Rules](../security/production-safety.md) via hooks and permission deny rules
 
 **Watch for**: Config drift. Without some coordination, setups diverge over time. Whether that matters depends on your team.
@@ -385,10 +385,10 @@ At this scale, individual team setups are not enough. You need a shared config b
 ### "I'm evaluating Claude Code for my team"
 
 **Quick test approach**:
-1. Install: `npm i -g @anthropic-ai/claude-code`
+1. Install: `curl -fsSL https://claude.ai/install.sh | bash` (native installer; `npm i -g @anthropic-ai/claude-code` also works)
 2. Run in an existing project: `claude`
 3. Try a real task: `claude "Analyze this codebase architecture"`
-4. Check `/status` to understand token usage
+4. Check `/context` to understand token usage
 
 **Questions to answer**:
 - Does Claude understand your stack without config?
@@ -507,7 +507,7 @@ A 2026 update (metr.org/blog/2026-02-24-uplift-update/) attempted a broader foll
 
 | Command    | Purpose                          |
 |------------|----------------------------------|
-| `/status`  | Check context usage              |
+| `/context` | Check context usage              |
 | `/compact` | Compress context when it's high  |
 | `/clear`   | Reset context entirely           |
 | `/plan`    | Enter planning mode              |

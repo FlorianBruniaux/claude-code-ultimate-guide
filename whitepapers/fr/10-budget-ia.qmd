@@ -67,7 +67,7 @@ Les montants servent à illustrer le budget. Le 11 novembre 2026, [Cursor](https
 |---|---:|
 | Copilot Individual | 10 USD |
 | Cursor Premium | 30 USD |
-| Claude Max | 100 à 200 USD |
+| Claude Max / Ultra | 100 à 200 USD |
 
 Avant une décision, relevez le plan, les limites d’usage, les dépassements, les taxes, le change et les conditions de résiliation dans les [tarifs GitHub Copilot](https://github.com/features/copilot/plans), [tarifs Cursor](https://cursor.com/pricing) et [tarifs Claude](https://claude.com/pricing).
 
@@ -337,7 +337,7 @@ Comparer les métriques. Lister les livrables concrets. Présenter au décideur 
 
 ## Budget pilote
 
-Avec les hypothèses ci-dessus, Cursor Premium coûte 300 USD pour cinq personnes pendant deux mois. Le même scénario coûte 1 000 à 2 000 USD avec Claude Max, hors coûts d’accompagnement, usage additionnel, change et taxes. Si ça ne marche pas, on arrête. Si ça marche, on a les données pour convaincre à l'échelle.
+Avec les hypothèses ci-dessus, Cursor Premium coûte 300 USD pour cinq personnes pendant deux mois. Le même scénario coûte 1 000 à 2 000 USD avec Claude Max / Ultra, hors coûts d’accompagnement, usage additionnel, change et taxes. Si ça ne marche pas, on arrête. Si ça marche, on a les données pour convaincre à l'échelle.
 
 ## Du pilote au déploiement : plan de montée en charge
 

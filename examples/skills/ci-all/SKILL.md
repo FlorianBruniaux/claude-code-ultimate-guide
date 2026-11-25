@@ -1,6 +1,6 @@
 ---
 name: ci-all
-description: "Full CI pipeline: run local tests, type check, push branch, and return the pipeline URL. The only command you need before opening a PR."
+description: "Run the local test suite and type check, push the current branch, and return the pipeline URL. Use before opening a PR."
 argument-hint: "[--skip-tests | --e2e]"
 allowed-tools: [Bash]
 model: haiku
@@ -8,11 +8,11 @@ effort: medium
 disable-model-invocation: true
 ---
 
-# /ci:all: Full CI before PR
+# /ci-all: Full CI before PR
 
 Runs everything in order: local tests → type check → push → pipeline URL.
 
-One `/ci:all` replaces: manual tests + git push + copying the pipeline URL.
+One `/ci-all` replaces: manual tests + git push + copying the pipeline URL. It pushes, so it runs only when you invoke it.
 
 ## Stack detection
 
@@ -24,7 +24,11 @@ elif [ -f "Cargo.toml" ]; then STACK="rust"
 fi
 ```
 
+Refuse to run on `main`, `master` or `production`: tell the user to switch to a feature branch.
+
 ## Step 1: Local tests (blocking)
+
+Run each command on its own and stop at the first failure: a failing step means do not push.
 
 **Python (uv/pytest):**
 ```bash
@@ -44,7 +48,7 @@ pnpm tsc --noEmit
 cargo test --quiet 2>&1
 ```
 
-If `--skip-tests` is passed → skip to step 2.
+If `--skip-tests` is passed → skip to step 2. If `--e2e` is passed, also run the project's E2E command when the repo defines one (for example a `test:e2e` script), and say so when none exists.
 
 ## Step 2: Push + pipeline
 
@@ -108,7 +112,7 @@ CI: my-app (Node/Vitest)
 ④ Pipeline
   🔗 https://gitlab.com/org/my-app/-/pipelines?ref=feat/my-feature
 
-Next step: open a PR with /pr or directly on GitLab/GitHub.
+Next step: open a PR or MR on the forge.
 ```
 
 If tests fail:
@@ -128,9 +132,9 @@ CI: my-api (Python/pytest)
 ## Usage
 
 ```
-/ci:all
-/ci:all --skip-tests    # push without re-running tests
-/ci:all --e2e           # include E2E tests (if configured)
+/ci-all
+/ci-all --skip-tests    # push without re-running tests
+/ci-all --e2e           # include E2E tests (if configured)
 ```
 
 Target: $ARGUMENTS

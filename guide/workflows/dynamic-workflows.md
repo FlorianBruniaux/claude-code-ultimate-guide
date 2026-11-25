@@ -12,6 +12,8 @@ tags: [workflow, agents, orchestration, parallel, ultracode]
 **What**: A dynamic workflow is a JavaScript file that orchestrates multiple subagents using a small set of primitives (`agent`, `parallel`, `pipeline`, `phase`). The script itself runs as the orchestrator and consumes zero tokens; all token cost comes from the `agent()` calls it makes. The runtime handles concurrency caps, schema validation, progress reporting, and resume on interruption.
 
 **When introduced**: v2.1.154 (2026-05-28). The trigger keyword was `workflow` until v2.1.160, where it was renamed to `ultracode` (breaking change; existing scripts using the old keyword must be updated).
+
+**Session toggle**: `/effort ultracode` (or `ultracode on`; `ultracode off` to stop) makes Claude plan a workflow for every substantive task in the session, and `claude --effort ultracode` starts a session with it on (`ultracode` requests `xhigh` effort). The `on`/`off` arguments need v2.1.284+, the flag v2.1.203+. The `ultracode` settings key persists the choice (official docs, commands and CLI reference).
 **Reading time**: ~40 min
 **Prerequisites**: Familiarity with the [Agent tool](../core/tools-reference.md#agent), basic JavaScript async/await
 

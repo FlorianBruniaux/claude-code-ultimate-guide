@@ -183,7 +183,7 @@ For team installs (committed to repo so `git clone` just works for teammates), s
 |-----------|---------------|-------------|
 | Complex feature, direction uncertain | `/plan-ceo-review` first | [Spec-First](./spec-first.md) |
 | Direction clear, architecture complex | `/plan-eng-review` | [Plan Pipeline](./plan-pipeline.md) |
-| Need independent validation of plan | [Plan Pipeline](./plan-pipeline.md) `/plan-validate` | — |
+| Need independent validation of plan | [Plan Pipeline](./plan-pipeline.md) `/plan-pipeline-validate` | — |
 | One-off browser inspection | `/browse` or an available browser tool | No QA result without an explicit check |
 | Changed-flow verification | `/qa` | Record tested path, failures and untested behavior |
 | Want structured ADR learning loop | [Plan Pipeline](./plan-pipeline.md) | — |

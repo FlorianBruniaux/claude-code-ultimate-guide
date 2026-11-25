@@ -122,7 +122,7 @@ Score Final: (4+2+3+2)/4 = 2.75 → arrondi à 3/5
 
 ### Level 4: Template (PRACTICAL VALUE) ✅
 
-**File**: `examples/skills/ast-grep-patterns.md`
+**File**: `examples/skills/ast-grep-patterns/SKILL.md`
 **Content**: Comprehensive skill (~350 lines):
 - When to suggest ast-grep (decision tree)
 - 10 common patterns (async without try/catch, unused props, SQL injection, etc.)
@@ -141,7 +141,7 @@ Score Final: (4+2+3+2)/4 = 2.75 → arrondi à 3/5
 ```yaml
 ast_grep: "optional plugin for AST-based code search (explicit invocation required)"
 ast_grep_guide: "guide/ultimate-guide.md:6564"
-ast_grep_skill: "examples/skills/ast-grep-patterns.md"
+ast_grep_skill: "examples/skills/ast-grep-patterns/SKILL.md"
 ast_grep_install: "npx skills add ast-grep/agent-skill"
 ast_grep_when: "structural patterns (>50k lines, migrations, AST rules)"
 ast_grep_not_for: "simple string search, small projects (<10k lines)"
@@ -167,7 +167,7 @@ grep_vs_rag_history: "guide/core/architecture.md:33"
 - ✅ Stats non vérifiées qualifiées ([INDICATIVE], [UNVERIFIED])
 - ✅ Ajout decision tree comparatif (grep/ast-grep/Serena/grepai)
 - ✅ Intégration 3 niveaux au lieu d'1 section
-- ✅ Template pratique créé (`examples/skills/ast-grep-patterns.md`)
+- ✅ Template pratique créé (`examples/skills/ast-grep-patterns/SKILL.md`)
 
 ---
 
@@ -220,7 +220,7 @@ grep_vs_rag_history: "guide/core/architecture.md:33"
 - `machine-readable/reference.yaml` (8 new entries)
 
 **Files created**: 2
-- `examples/skills/ast-grep-patterns.md` (~350 lines)
+- `examples/skills/ast-grep-patterns/SKILL.md` (~350 lines)
 - `claudedocs/resource-evaluations/2026-01-25-flavien-metivier-astgrep.md` (this file)
 
 **Total additions**: ~545 lines

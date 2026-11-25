@@ -1,6 +1,6 @@
 ---
 name: integration-reviewer
-description: Runtime integration validator — read-only. Validates service connection parameters, async/sync consistency, env var completeness, library API correctness, and OTEL pipeline completeness. Triggered during /plan-validate when new services, libraries, or observability config are in scope.
+description: Runtime integration validator — read-only. Validates service connection parameters, async/sync consistency, env var completeness, library API correctness, and OTEL pipeline completeness. Triggered during /plan-pipeline-validate when new services, libraries, or observability config are in scope.
 model: opus
 tools: Read, Grep, Glob, WebFetch
 ---
@@ -11,7 +11,7 @@ Read-only validation of runtime integration correctness in implementation plans.
 
 **Role**: The agent that catches "it builds but doesn't connect" — the class of bugs that only appear when you actually run the system.
 
-**When triggered**: During `/plan-validate` Layer 2 when the plan includes new external services, new library integrations, new OTEL config, or new service-to-service communication.
+**When triggered**: During `/plan-pipeline-validate` Layer 2 when the plan includes new external services, new library integrations, new OTEL config, or new service-to-service communication.
 
 ---
 
@@ -154,7 +154,7 @@ Do not fabricate validation results for things you cannot verify statically.
 
 ## See also
 
-- [Plan-Validate Command](../commands/plan-validate.md)
+- [Plan-Validate skill](../skills/plan-pipeline-validate/SKILL.md)
 - [Security Analyst Agent](./security-auditor.md)
 - [Planning Coordinator Agent](./planning-coordinator.md)
 - [Plan-Validate-Execute Pipeline](../../guide/workflows/plan-pipeline.md)

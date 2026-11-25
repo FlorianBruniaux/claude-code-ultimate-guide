@@ -26,7 +26,7 @@ Copy-Item "$env:USERPROFILE\.claude.json" "$env:USERPROFILE\.claude.json.backup-
 
 # 5. Reinstall
 Write-Host "[5/5] Reinstalling Claude Code..."
-npm install -g @anthropic-ai/claude-code
+irm https://claude.ai/install.ps1 | iex
 
 Write-Host "`n✓ Clean reinstall complete!" -ForegroundColor Green
 Write-Host "Run 'claude --version' to verify installation"

@@ -2,6 +2,7 @@
 name: loop-monitor
 description: Autonomous loop monitor — detects stalls, token runaway, and infinite loops in long-running unattended Claude sessions. Use alongside a watchdog process when running autonomous pipelines.
 model: haiku
+effort: low
 tools: Read, Bash
 ---
 
@@ -112,6 +113,8 @@ done
 ## Model rationale
 
 Haiku is used here because monitoring is a high-frequency, low-complexity operation. The agent reads log entries and applies simple pattern matching — no reasoning depth required. Saves cost on every 30s cycle.
+
+`effort: low` because the work is threshold checks on log lines and runs every cycle. The Haiku 5.5 default is `medium`, so `low` trims reasoning without changing what the agent has to decide.
 
 ---
 

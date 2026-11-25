@@ -9,9 +9,9 @@ disable-model-invocation: true
 
 Audit your Claude Code setup for cache and cost bugs discovered in March-April 2026.
 
-**Time**: ~30 seconds | **Scope**: version, config files, CLAUDE.md, skills, hooks, shell profiles, all claude binaries
+**Scope**: version, config files, CLAUDE.md, skills, hooks, shell profiles, all claude binaries
 
-> **Note on cache contamination**: This skill loads content containing `cch=` strings into the current session's message array. For cleanest results, run this command at the very start of a fresh session, or via `claude -p "$(cat .claude/commands/check-cache-bugs.md)"` as a one-shot print-mode invocation.
+> **Note on cache contamination**: This skill loads content containing `cch=` strings into the current session's message array. For cleanest results, run this command at the very start of a fresh session, or via `claude -p "$(cat .claude/skills/check-cache-bugs/SKILL.md)"` as a one-shot print-mode invocation.
 
 **Reference**: `anthropics/claude-code#40524` | **Discovered by**: `@jmarianski` + `@whiletrue0x` | **Extended by**: `@ArkNill` (ArkNill/claude-code-cache-analysis, April 2026)
 
@@ -19,13 +19,15 @@ Audit your Claude Code setup for cache and cost bugs discovered in March-April 2
 
 ## Background
 
-### Fix Status (current as of v2.1.92)
+### Fix Status (as reported at v2.1.92, April 2026)
+
+This table is a dated snapshot of the upstream issue. It was not re-checked against newer releases, so rerun Phase 1 and read the issue thread before acting on an "Active" row. For Bug 3, the current official environment-variable reference says caching on a direct connection to the Anthropic API is unaffected by the attribution header and that the variable is set to `0` (the examples below say `false`); the header matters mainly behind an LLM gateway that caches on the request body, and that case is not re-verified here.
 
 | Bug | Versions affected | Status |
 |-----|------------------|--------|
 | Bug 1: cch sentinel (standalone binary) | v2.1.36-v2.1.90 | **FIXED in v2.1.91** |
 | Bug 2: deferred_tools_delta on --resume | v2.1.69-v2.1.89 | **FIXED in v2.1.90** |
-| Bug 3: attribution header per-session hash | v2.1.69+ | **Active** (env var workaround) |
+| Bug 3: attribution header per-session hash | v2.1.69+ | **Active at v2.1.92** (env var workaround; see note above) |
 | B4: Microcompact / silent context stripping | all versions through v2.1.92 | **Active** (GrowthBook controlled) |
 | B5: Tool result budget cap 200K | all versions through v2.1.92 | **Active** (MCP tools exempted) |
 
@@ -95,29 +97,27 @@ ls -la $(which claude) 2>/dev/null
 
 ### Phase 2: Sentinel scan (Bug 1)
 
-Search for the literal string `cch=` in all static config files. Exclude `.jsonl` files (ephemeral conversation history) and this command file itself.
+Search for the literal string `cch=` in all static config files. Exclude `.jsonl` files (ephemeral conversation history) and this skill itself.
 
 ```bash
 # Global config files
 grep -r "cch=" \
   ~/.claude/CLAUDE.md \
-  ~/.claude/MEMORY.md \
-  ~/.claude/TONE.md \
-  ~/.claude/FLAGS.md \
-  ~/.claude/RULES.md \
-  ~/.claude/RTK.md \
-  ~/.claude/ANTI_AI.md \
+  ~/.claude/rules/ \
   2>/dev/null
 
-# Global skills, commands, agents, hooks (excluding this command file)
-grep -rl "cch=" ~/.claude/skills/ 2>/dev/null
+# Other top-level markdown files in ~/.claude (imported instruction files)
+grep -l "cch=" ~/.claude/*.md 2>/dev/null
+
+# Global skills, commands, agents, hooks (excluding this skill)
+grep -rl "cch=" ~/.claude/skills/ --exclude-dir=check-cache-bugs 2>/dev/null
 grep -rl "cch=" ~/.claude/commands/ --exclude="check-cache-bugs.md" 2>/dev/null
 grep -rl "cch=" ~/.claude/agents/ 2>/dev/null
 grep -rl "cch=" ~/.claude/hooks/ 2>/dev/null
 
 # Project-level config
 grep -r "cch=" CLAUDE.md .claude/CLAUDE.md .claude/MEMORY.md 2>/dev/null
-grep -rl "cch=" .claude/skills/ 2>/dev/null
+grep -rl "cch=" .claude/skills/ --exclude-dir=check-cache-bugs 2>/dev/null
 grep -rl "cch=" .claude/commands/ --exclude="check-cache-bugs.md" 2>/dev/null
 grep -rl "cch=" .claude/agents/ 2>/dev/null
 grep -rl "cch=" .claude/hooks/ 2>/dev/null
@@ -181,8 +181,8 @@ grep -i "CLAUDE_CODE_ATTRIBUTION_HEADER" \
   ~/.zshrc ~/.bashrc ~/.bash_profile ~/.zprofile 2>/dev/null
 ```
 
-- `CLAUDE_CODE_ATTRIBUTION_HEADER` not set to `false` AND version >= 2.1.69 -> flag **BUG 3 ACTIVE**
-- Already set to `false` -> **BUG 3 MITIGATED**
+- `CLAUDE_CODE_ATTRIBUTION_HEADER` not set to `0` or `false` AND version >= 2.1.69 -> flag **BUG 3 ACTIVE** (on a direct Anthropic API connection, add that the current docs say caching is unaffected)
+- Already set to `0` or `false` -> **BUG 3 MITIGATED**
 
 ---
 
@@ -259,10 +259,10 @@ Anthropic tracked as inc-4747. Fixed in v2.1.90.
 
 [If ACTIVE] Every session start and every subagent call misses the system prompt cache (~12K tokens
 rebuilt at cache_creation rate). A session with 5 subagents = 6 cold misses.
--> Fix (immediate, no restart needed): add to ~/.claude/settings.json:
+-> Fix: add to ~/.claude/settings.json (the documented value is "0"):
   {
     "env": {
-      "CLAUDE_CODE_ATTRIBUTION_HEADER": "false"
+      "CLAUDE_CODE_ATTRIBUTION_HEADER": "0"
     }
   }
 -> Expected impact: cache hit ratio 48% -> ~99.98% (measured, source: @whiletrue0x CC#40524)
@@ -304,7 +304,7 @@ MCP tools can partially override via `_meta["anthropic/maxResultSizeChars"]` (v2
 | Stale binaries | -- | [CLEAN / PRESENT] | [remove or none] |
 
 [If Bug 3 ACTIVE (always show this)]
-Quick win: add CLAUDE_CODE_ATTRIBUTION_HEADER=false to settings.json, immediate effect, no restart needed.
+Quick win: add CLAUDE_CODE_ATTRIBUTION_HEADER=0 to settings.json under "env".
 
 [If all SAFE/MITIGATED/FIXED/N/A on Bugs 1-3]
 No active cache exposure on the original CC#40524 bugs. B4/B5 are informational, monitor session length.

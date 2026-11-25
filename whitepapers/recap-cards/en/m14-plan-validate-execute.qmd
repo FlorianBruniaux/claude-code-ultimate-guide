@@ -5,10 +5,10 @@ card-number: "M14"
 category: "Methodology"
 difficulty: "advanced"
 guide-version: "3.44.1"
-wp-version: "1.0.2"
+wp-version: "1.0.3"
 author: "Florian BRUNIAUX"
 version: "3.44.1"
-date: "2026-10-06"
+date: "2026-11-23"
 layout: "two-col"
 lang: en
 format:
@@ -17,19 +17,19 @@ format:
 
 ## Overview
 
-Plan-Validate-Execute is a production workflow in three commands that extends native Plan Mode: `/plan-start`, `/plan-validate`, `/plan-execute`. Each run feeds an ADR learning loop that reduces human interruptions over time. The guide describes it as Tier 2 production practice; install its custom commands before use.
+Plan-Validate-Execute is a production workflow in three commands that extends native Plan Mode: `/plan-pipeline-start`, `/plan-pipeline-validate`, `/plan-pipeline-execute`. Each run feeds an ADR learning loop that reduces human interruptions over time. The guide describes it as Tier 2 production practice; install its custom commands before use.
 
 ## The 3 commands
 
 ```bash
-/plan-start    # PRD + dynamic research team + ADRs
-/plan-validate # Structural checks + triggered specialist agents
-/plan-execute  # Worktree + TDD + parallel execution + merged PR
+/plan-pipeline-start    # PRD + dynamic research team + ADRs
+/plan-pipeline-validate # Structural checks + triggered specialist agents
+/plan-pipeline-execute  # Worktree + TDD + parallel execution + merged PR
 ```
 
 Run `/clear` between each command: every command reads its inputs from disk (the plan file, ADRs), nothing needs to stay in context memory.
 
-## /plan-start: 4-phase planning
+## /plan-pipeline-start: 4-phase planning
 
 | Phase | Content |
 |-------|---------|
@@ -40,13 +40,13 @@ Run `/clear` between each command: every command reads its inputs from disk (the
 
 If 3+ confirmed ADRs already cover the decision, phase 2 auto-resolves with no agent.
 
-## /plan-validate: 2-layer validation
+## /plan-pipeline-validate: 2-layer validation
 
 Layer 1 (structural, instant): plan format, task ordering, ADR consistency. Layer 2 (specialists, 0 to 8 agents by risk): `security-reviewer`, `db-migration-reviewer`, `performance-reviewer`, among others, each triggered by a precise criterion (auth, schema migration, new route...).
 
 Every issue must be resolved: auto-resolved from an existing ADR or `PATTERNS.md` entry, or settled by a human, which becomes a rule for next time.
 
-## /plan-execute: to a merged PR
+## /plan-pipeline-execute: to a merged PR
 
 Isolated worktree, TDD scaffolding, parallel execution of independent tasks (commit per task), quality gate (tests + smoke test), PR and squash merge, worktree cleanup. If the quality gate fails: up to 3 auto-fix attempts by dedicated debug agents, then human notification.
 

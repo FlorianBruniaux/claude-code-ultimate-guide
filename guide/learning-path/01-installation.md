@@ -24,41 +24,44 @@ Get Claude Code installed and running on your system. Verify it works with your 
 
 ## Installation
 
-### macOS (recommended)
+### macOS, Linux, WSL (native installer, recommended)
 
 ```bash
-brew install anthropic/tap/claude-code
+curl -fsSL https://claude.ai/install.sh | bash
 ```
 
-Verify:
-```bash
-claude --version
-```
-
-### Linux
-
-```bash
-curl -sSL https://dl.claudecode.com/install.sh | bash
-```
-
-Verify:
+Open a new terminal window, then verify:
 ```bash
 claude --version
 ```
+
+The native installer updates itself in the background.
+
+### macOS (Homebrew)
+
+```bash
+brew install --cask claude-code
+```
+
+Homebrew installs do not auto-update. Run `brew upgrade claude-code` periodically.
 
 ### Windows
 
-Download the installer from https://dl.claudecode.com/windows or use:
+PowerShell:
 
 ```powershell
-iex ((New-Object System.Net.WebClient).DownloadString('https://dl.claudecode.com/install.ps1'))
+irm https://claude.ai/install.ps1 | iex
 ```
 
-### Docker (any platform)
+Or with WinGet:
 
-```bash
-docker run -it anthropic/claude-code:latest
+```powershell
+winget install Anthropic.ClaudeCode
 ```
+
+WinGet installs do not auto-update. Run `winget upgrade Anthropic.ClaudeCode` periodically. [Git for Windows](https://git-scm.com/downloads/win) is recommended on native Windows so Claude Code can use the Bash tool; WSL setups do not need it.
+
+Debian, Fedora, RHEL, and Alpine users can also install with apt, dnf, or apk. See the official [setup page](https://code.claude.com/docs/en/setup).
 
 ---
 
@@ -71,16 +74,7 @@ cd ~/my-project
 claude
 ```
 
-You'll see:
-
-```
-Claude Code v2.x.x ready
-Project: ~/my-project (git: main)
-Context: 0% · Tokens available: 200,000
-
-Type /help for commands or ask me anything
->
-```
+The first time, Claude Code asks you to sign in. After that it opens an interactive session in your terminal: a welcome screen with the version, the active model and the working directory, then a prompt where you type. The exact layout changes between versions.
 
 ---
 
@@ -89,8 +83,9 @@ Type /help for commands or ask me anything
 | Command | Purpose |
 |---------|---------|
 | `/help` | Show all available commands |
-| `/status` | Check context usage and session state |
-| `/clear` | Start fresh (clears conversation history) |
+| `/context` | Visualize current context usage |
+| `/clear` | Start a new conversation with empty context |
+| `/resume` | Resume a previous conversation |
 | `Ctrl+C` | Cancel the current operation |
 | `/exit` | Close Claude Code |
 
@@ -104,21 +99,17 @@ Type /help for commands or ask me anything
 ```
 
 Review the command list. Notice:
-- **Workflow**: `/plan`, `/rewind`, `/think`
-- **Navigation**: `/goto`, `/read`
-- **Memory**: memory loading at startup
-- **Advanced**: `/model`, `/mode`
+- **Workflow**: `/plan`, `/rewind`, `/effort`
+- **Sessions**: `/resume`, `/clear`, `/compact`
+- **Memory**: `/memory`, `/init`
+- **Advanced**: `/model`, `/permissions`
 
-### Exercise 2: Check session state
+### Exercise 2: Check context usage
 ```bash
-/status
+/context
 ```
 
-You'll see:
-- Context usage percentage
-- Available tokens
-- Current project
-- Git branch
+You'll see a colored grid of what currently fills the context window, plus optimization suggestions when something is heavy. (`/status` is a different command: it opens the settings screen on a tab showing version, model, account and connectivity.)
 
 ### Exercise 3: Ask Claude something
 
@@ -186,26 +177,26 @@ Every interaction follows this pattern:
 
 Each time you run `claude`, you start a new **session**. A session is a conversation with Claude that persists while you're using Claude Code.
 
-- Sessions are **not saved** by default (they end when you exit)
+- Claude Code **saves every conversation locally**. Resume the latest one in the current directory with `claude --continue`, or pick one with `claude --resume` or `/resume`
 - Sessions are **scoped to one project** at a time
-- Your context grows as you ask more questions (max ~200K tokens)
+- Your context grows as you ask more questions, up to the model's context window (1M tokens on most current models)
 
 ### Context
 
-**Context** is how much of the conversation Claude remembers. It's shown as a percentage (0-100%).
+**Context** is how much of the conversation Claude can see at once. Run `/context` to see how full it is.
 
-- 0-50%: Plenty of room, work freely
-- 50-70%: Be selective, `/compact` optional
-- 70%+: Run `/compact` to free space
-- 90%+: You'll be forced to clean up
+Working rules of thumb:
+- Plenty of room: work freely
+- Getting full: be selective, `/compact` optional
+- Close to the limit: run `/compact` to free space (Claude Code also compacts automatically near the top of the window)
+- Switching to an unrelated task: `/clear` instead of carrying old context along
 
 ### Git awareness
 
-Claude Code is **git-aware**. It:
-- Detects your current branch
-- Shows uncommitted changes
-- Helps with commits and reviews
-- Prevents accidental breaking changes
+Claude Code works with git through ordinary git commands. It can:
+- Read your current branch and uncommitted changes
+- Help with commits and reviews
+- Ask for your approval before running commands or editing files (in the default permission mode)
 
 ---
 
@@ -214,7 +205,7 @@ Claude Code is **git-aware**. It:
 ✓ You can run `claude --version` and see your installed version
 ✓ You can start Claude in a project with `claude`
 ✓ You understand the prompt → response loop
-✓ You can see `/status` and understand what it shows
+✓ You can run `/context` and understand what it shows
 ✓ You've reviewed at least one diff from Claude
 
 ---
@@ -225,7 +216,7 @@ Once you're comfortable with this module, move to **Module 02: Core Loop** to un
 - How Claude reads your project
 - How context works in depth
 - How to structure requests for better results
-- Planning mode and thinking modes
+- Plan mode, permission modes and effort levels
 
 **Time to next module**: Ready immediately (no prerequisites beyond running Claude once)
 
@@ -234,19 +225,16 @@ Once you're comfortable with this module, move to **Module 02: Core Loop** to un
 ## Troubleshooting
 
 ### "claude: command not found"
-Your installation didn't complete. Try:
-- **macOS**: `brew install anthropic/tap/claude-code` again
-- **Linux**: Re-run the install script
-- **Windows**: Download the installer from https://dl.claudecode.com/windows
+The install directory is probably not on your PATH yet. Try:
+- Open a new terminal window: the installer may have added the install directory to your PATH only for new shells
+- Re-run the install command for your platform
+- See [Fix your PATH](https://code.claude.com/docs/en/troubleshoot-install#command-not-found-claude-after-installation) in the official troubleshooting page
 
-### "Project not found"
-Make sure you're in a directory with a `package.json`, `.git`, or other project file. Claude Code works best in projects.
+### Install command fails with a syntax error, a 403 or another error
+Match the error to a fix in [Troubleshoot installation](https://code.claude.com/docs/en/troubleshoot-install#find-your-error), which also lists alternative install methods.
 
-### "Permission denied" (macOS)
-Try:
-```bash
-chmod +x /usr/local/bin/claude
-```
+### The command works in PowerShell but not in CMD (or the reverse)
+`irm ... | iex` is PowerShell only. In CMD, use `curl -fsSL https://claude.ai/install.cmd -o install.cmd && install.cmd && del install.cmd`.
 
 ---
 

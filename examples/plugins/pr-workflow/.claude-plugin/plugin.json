@@ -1,0 +1,15 @@
+{
+  "name": "pr-workflow",
+  "displayName": "PR Review Workflow",
+  "version": "1.1.0",
+  "description": "Pull request review and preparation skills with a read-only code-reviewer agent.",
+  "license": "CC-BY-SA-4.0",
+  "keywords": ["pull-request", "code-review"],
+  "metadata": {
+    "components": {
+      "agents": ["code-reviewer"],
+      "skills": ["review-pr", "pr", "validate-changes"]
+    },
+    "install": "bash install.sh copies the components from examples/ into .claude/"
+  }
+}

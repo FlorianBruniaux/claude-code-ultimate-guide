@@ -1,7 +1,7 @@
 ---
 name: audit-codebase
 description: Codebase health audit scoring 7 categories with progression plan
-argument-hint: "[path] [--focus security|performance|quality]"
+argument-hint: "[category ...] (secrets security dependencies structure tests imports ai-patterns)"
 effort: medium
 disable-model-invocation: true
 ---
@@ -10,7 +10,7 @@ disable-model-invocation: true
 
 Score your codebase across 7 health categories, identify weak spots, and get a prioritized progression plan. Each category is scored 1-10 with specific, actionable findings.
 
-**Time**: 3-8 minutes depending on codebase size | **Scope**: Full project
+**Scope**: Full project, or the categories named in the arguments
 
 ## Instructions
 
@@ -26,8 +26,8 @@ Scan for hardcoded credentials, API keys, and sensitive data in code.
 
 ```bash
 # API keys and tokens in code
-grep -rn --include="*.{js,ts,py,go,java,rb,php,yaml,yml,json,toml,env,cfg,ini,conf}" \
-  -E '(?i)(api[_-]?key|apikey|secret[_-]?key|password|passwd|token|bearer)\s*[=:]\s*["'\''"][^"'\'']{8,}' \
+grep -rn --include='*.js' --include='*.ts' --include='*.py' --include='*.go' --include='*.java' --include='*.rb' --include='*.php' --include='*.yaml' --include='*.yml' --include='*.json' --include='*.toml' --include='*.env' --include='*.cfg' --include='*.ini' --include='*.conf' \
+  -iE '(api[_-]?key|apikey|secret[_-]?key|password|passwd|token|bearer)\s*[=:]\s*["'\''"][^"'\'']{8,}' \
   --exclude-dir={node_modules,vendor,.git,dist,build,target,__pycache__,.venv} . 2>/dev/null | head -20
 
 # Known provider patterns
@@ -59,13 +59,13 @@ Check for OWASP-style vulnerabilities and unsafe patterns.
 
 ```bash
 # SQL injection patterns
-grep -rn --include="*.{js,ts,py,java,go,rb,php}" \
+grep -rn --include='*.js' --include='*.ts' --include='*.py' --include='*.java' --include='*.go' --include='*.rb' --include='*.php' \
   -E '(query|execute|exec)\s*\(\s*[`"'\''"].*\+|\$\{|%s|\.format\(' \
   --exclude-dir={node_modules,vendor,.git,dist,build,target,test,__test__} . 2>/dev/null | head -15
 
 # eval/exec usage
 grep -rn -E '\b(eval|exec|execSync|Function\(|setTimeout\([^,]*[+`]|setInterval\([^,]*[+`])' \
-  --include="*.{js,ts,py}" --exclude-dir={node_modules,vendor,.git,dist} . 2>/dev/null | head -10
+  --include='*.js' --include='*.ts' --include='*.py' --exclude-dir={node_modules,vendor,.git,dist} . 2>/dev/null | head -10
 
 # Unsafe deserialization
 grep -rn -E '(pickle\.loads|yaml\.load\(|JSON\.parse\(.*user|unserialize\()' \
@@ -73,7 +73,7 @@ grep -rn -E '(pickle\.loads|yaml\.load\(|JSON\.parse\(.*user|unserialize\()' \
 
 # Missing input validation on routes/endpoints
 grep -rn -E '(app\.(get|post|put|delete|patch)|router\.(get|post|put|delete))' \
-  --include="*.{js,ts}" --exclude-dir={node_modules,.git,dist} . 2>/dev/null | wc -l
+  --include='*.js' --include='*.ts' --exclude-dir={node_modules,.git,dist} . 2>/dev/null | wc -l
 ```
 
 **Scoring:**
@@ -197,7 +197,7 @@ Check for unused imports, circular dependencies, and type coverage.
 [ -f "pyproject.toml" ] || [ -f "setup.py" ] && python -m pyflakes . 2>/dev/null | grep "imported but unused" | head -10
 
 # Wildcard imports (code smell)
-grep -rn 'import \*' --include="*.{py,ts,js}" --exclude-dir={node_modules,vendor,.git} . 2>/dev/null | head -10
+grep -rn 'import \*' --include='*.py' --include='*.ts' --include='*.js' --exclude-dir={node_modules,vendor,.git} . 2>/dev/null | head -10
 ```
 
 **Scoring:**
@@ -217,9 +217,11 @@ Evaluate Claude Code configuration maturity and AI-assisted development readines
 [ -f "CLAUDE.md" ] && echo "OK: CLAUDE.md exists ($(wc -l < CLAUDE.md) lines)" || echo "MISSING: No CLAUDE.md"
 [ -f ".claude/settings.json" ] && echo "OK: .claude/settings.json exists" || echo "MISSING: No .claude/settings.json"
 
-# Custom commands
+# Skills and legacy commands (a skill is .claude/skills/<name>/SKILL.md)
+SKILLS=$(find .claude/skills -maxdepth 2 -name "SKILL.md" 2>/dev/null | wc -l)
+echo "Skills: $SKILLS"
 COMMANDS=$(find .claude/commands -name "*.md" 2>/dev/null | wc -l)
-echo "Custom commands: $COMMANDS"
+echo "Legacy commands: $COMMANDS"
 
 # Hooks
 HOOKS_CFG=$(grep -c "hooks" .claude/settings.json 2>/dev/null || echo "0")
@@ -233,18 +235,14 @@ echo "Rule files: $RULES"
 AGENTS=$(find .claude/agents -name "*.md" 2>/dev/null | wc -l)
 echo "Agent definitions: $AGENTS"
 
-# Skills
-SKILLS=$(find .claude/skills -name "*.md" 2>/dev/null | wc -l)
-echo "Skills: $SKILLS"
-
 # .gitignore for AI artifacts
 grep -q "claude" .gitignore 2>/dev/null && echo "OK: Claude patterns in .gitignore" || echo "INFO: No Claude patterns in .gitignore"
 ```
 
 **Scoring:**
-- 10: CLAUDE.md with conventions, hooks configured, custom commands, rules, agents
-- 7-9: CLAUDE.md exists with project context, some commands or rules
-- 4-6: Basic CLAUDE.md, no hooks or commands
+- 10: CLAUDE.md with conventions, hooks configured, skills, rules, agents
+- 7-9: CLAUDE.md exists with project context, some skills or rules
+- 4-6: Basic CLAUDE.md, no hooks or skills
 - 1-3: No CLAUDE.md or empty CLAUDE.md
 
 ---

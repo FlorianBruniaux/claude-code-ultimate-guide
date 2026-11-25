@@ -1,18 +1,18 @@
 ---
 name: recipe-template
-description: "Template for commands that implement a structured recipe: validate preconditions, then execute numbered steps. Fork this and replace the placeholder content. The 'Context Validation Checkpoints' section is the key pattern, forcing Claude to verify preconditions before starting."
+description: "Template for skills that implement a structured recipe: validate preconditions, then execute numbered steps. Fork this and replace the placeholder content. The 'Context Validation Checkpoints' section is the key pattern, forcing Claude to verify preconditions before starting."
 argument-hint: "[optional-arg]"
 effort: low
 disable-model-invocation: true
 ---
 
-# Recipe command template
+# Recipe skill template
 
 > This is a template. Replace all `[placeholder]` content with your specifics.
 
 ## When to use
 
-- [Describe the exact situation where this command applies]
+- [Describe the exact situation where this skill applies]
 - [Describe when NOT to use it, with a common misuse case]
 
 ## Context validation checkpoints

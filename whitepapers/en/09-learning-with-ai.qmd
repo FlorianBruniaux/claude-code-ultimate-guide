@@ -2,11 +2,11 @@
 title: "Whitepaper 09: Learning with AI"
 subtitle: "The UVAL Protocol and Comprehension Debt"
 author: "Florian BRUNIAUX"
-date: "2026-10-06"
+date: "2026-11-23"
 date-format: "MMMM YYYY"
 version: "3.44.1"
 guide-version: "3.44.1"
-wp-version: "1.3.3"
+wp-version: "1.3.4"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -544,15 +544,15 @@ Y is the single source of truth for Z"
 |---------|---------|-------------|
 | `/powerup` | Interactive animated lessons on Claude Code features | When first discovering Claude Code |
 | Natural-language explanation request | Explain existing code | Ask about confusing code; `/explain` would require a custom command |
-| `/learn:quiz` | Test your understanding | After implementing a new concept |
-| `/learn:alternatives` | Show other approaches | When you want to understand trade-offs |
-| `/learn:teach <concept>` | Step-by-step explanation | When learning something new |
+| `/learn-quiz` | Test your understanding | After implementing a new concept |
+| `/learn-alternatives` | Show other approaches | When you want to understand trade-offs |
+| `/learn-teach <concept>` | Step-by-step explanation | When learning something new |
 
-> **Note**: The `/learn:*` commands below are custom examples. Create their files in `.claude/commands/learn/` before invoking them.
+> **Note**: The `/learn-*` commands below are custom examples. Create each one as `.claude/skills/<name>/SKILL.md` before invoking it; the folder name becomes the command. A legacy `.claude/commands/learn/quiz.md` file still works as `/learn:quiz`.
 
-### Creating /learn:quiz
+### Creating /learn-quiz
 
-Create `.claude/commands/learn/quiz.md`:
+Create `.claude/skills/learn-quiz/SKILL.md`:
 
 ```markdown
 # Quiz Me
@@ -1032,9 +1032,9 @@ Example: [2026-02-15] Zod: manual validation missed
          a nested object edge case in prod
 ```
 
-### /learn:quiz slash command
+### /learn-quiz slash command
 
-File: `.claude/commands/learn/quiz.md`
+File: `.claude/skills/learn-quiz/SKILL.md`
 
 ```markdown
 # Quiz Me
@@ -1113,9 +1113,9 @@ Applying known skills:  30% struggle, 70% AI
 
 ```
 Ask: Explain this code and its trade-offs
-/learn:quiz           -- Test your understanding
-/learn:teach <topic>  -- Learn something new
-/learn:alternatives   -- Compare approaches
+/learn-quiz           -- Test your understanding
+/learn-teach <topic>  -- Learn something new
+/learn-alternatives   -- Compare approaches
 ```
 
 ## D. glossary

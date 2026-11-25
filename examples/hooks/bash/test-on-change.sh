@@ -1,8 +1,13 @@
 #!/bin/bash
 # .claude/hooks/test-on-change.sh
-# Event: PostToolUse
+# Event: PostToolUse (matcher "Edit|Write")
 # Detects and runs associated tests after code changes
 # Part of validation pipeline pattern
+#
+# On failure the hook prints {"decision": "block", "reason": ...}. For PostToolUse the
+# tool already ran, so this does not undo anything: it adds the reason next to the
+# tool result so Claude sees the failing output and can fix it. A systemMessage
+# would only be shown to the user.
 
 set -euo pipefail
 
@@ -62,11 +67,8 @@ if [[ -n "$TEST_FILE" ]]; then
 
     # Check for failures
     if echo "$TEST_OUTPUT" | grep -qE "(FAIL|failed|error|Error)"; then
-        cat << EOF
-{
-  "systemMessage": "⚠ Tests failed in $TEST_FILE:\n\n$TEST_OUTPUT\n\nFix implementation or update tests."
-}
-EOF
+        jq -n --arg file "$TEST_FILE" --arg out "$TEST_OUTPUT" \
+            '{decision: "block", reason: ("Tests failed in " + $file + ":\n\n" + $out + "\n\nFix implementation or update tests.")}'
     fi
 fi
 

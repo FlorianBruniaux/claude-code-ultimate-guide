@@ -153,7 +153,7 @@ examples/skills/cyber-defense-team/
 └── SKILL.md              (~70 lines)
 ```
 
-Each agent file is a YAML frontmatter (name, model, tools) + a plain English system prompt describing role, inputs, outputs, and constraints. The skill file sequences the agents with `Agent tool` calls.
+Each agent file is a YAML frontmatter (name, description, model, tools, plus `effort: low` on the log ingestor) + a plain English system prompt describing role, inputs, outputs, and constraints. The skill file sequences the agents with `Agent tool` calls.
 
 ---
 
@@ -201,8 +201,10 @@ Each agent file is a YAML frontmatter (name, model, tools) + a plain English sys
 | `anomaly-detector.md` | Stage 2 | sonnet | Detect patterns → `cyber-defense-anomalies.json` |
 | `risk-classifier.md` | Stage 3 | sonnet | Score risk → `cyber-defense-risk.json` |
 | `threat-reporter.md` | Stage 4 | sonnet | Generate → `cyber-defense-report.md` |
-| `../skills/cyber-defense-team/SKILL.md` | Orchestrator | — | Sequence agents, handle errors, summarize |
+| `../../skills/cyber-defense-team/SKILL.md` | Orchestrator | n/a | Sequence agents, handle errors, summarize |
 
 ---
+
+Each stage that writes a JSON file has the `Write` tool; the later stages only read the previous stage's file.
 
 **Inspired by**: Maryam Miradi's SMART COMPASS framework — same system, different stack.

@@ -46,8 +46,12 @@
 #   SECTIONS=<csv>  - Section order (comma-separated)
 #
 # Place in: .claude/hooks/session-summary.sh
-# Register in: .claude/settings.json under SessionEnd event
+# Register in: .claude/settings.json under SessionEnd event, with a per-hook timeout:
+#   { "type": "command", "command": "~/.claude/hooks/session-summary.sh", "timeout": 15 }
 # NOTE: Do NOT use Stop event - it fires after every assistant turn, not just at exit
+# NOTE: SessionEnd hooks share a 1.5 second budget by default and are cancelled when
+#       it runs out. A per-hook `timeout` (seconds) raises the budget to match, up to
+#       60 seconds. Without it the summary can be cut off (ccusage, git and RTK calls).
 
 set -euo pipefail
 export LC_NUMERIC=C  # Ensure consistent decimal separator (bc outputs '.' not ',')
@@ -150,8 +154,10 @@ is_section_enabled() {
     esac
 }
 
-# Output target: /dev/tty bypasses Claude Code's stderr capture for lifecycle hooks
-# Falls back to stderr when /dev/tty is unavailable (CI, cron, dry-run in pipes)
+# Output target: /dev/tty, falling back to stderr when /dev/tty is unavailable (CI,
+# cron, dry-run in pipes). The hooks reference says hooks run without a controlling
+# terminal and that Claude Code discards SessionEnd JSON output, so on some setups
+# the summary only reaches the JSONL log.
 if (echo -n "" > /dev/tty) 2>/dev/null; then
     OUTPUT_TARGET="/dev/tty"
 else
@@ -183,6 +189,10 @@ get_pricing() {
     case "$model" in
         claude-opus-5-5)
             [[ "$type" == "input" ]] && echo "4.00" || echo "20.00"
+            ;;
+        claude-fable-5-2)
+            # $8/$40 per Mtok since Claude Code 2.1.321 (default Fable model).
+            [[ "$type" == "input" ]] && echo "8.00" || echo "40.00"
             ;;
         claude-fable-5|claude-fable-5-1)
             [[ "$type" == "input" ]] && echo "10.00" || echo "50.00"
@@ -271,7 +281,7 @@ format_number() {
 
 shorten_model_name() {
     local model="$1"
-    # claude-sonnet-4-5-20250929 -> claude-sonnet-4-5
+    # claude-haiku-4-5-20251001 -> claude-haiku-4-5 (dateless IDs from 4.6 on pass through unchanged)
     echo "$model" | sed -E 's/-(20[0-9]{6})$//'
 }
 

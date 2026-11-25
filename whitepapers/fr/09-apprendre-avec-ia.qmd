@@ -2,11 +2,11 @@
 title: "Whitepaper 09 : Apprendre avec l'IA"
 subtitle: "Protocole UVAL et dette de comprehension"
 author: "Florian BRUNIAUX"
-date: "2026-10-06"
+date: "2026-11-23"
 date-format: "MMMM YYYY"
 version: "3.44.1"
 guide-version: "3.44.1"
-wp-version: "1.2.4"
+wp-version: "1.2.5"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -548,15 +548,15 @@ s'est produit en prod / Y est la source unique de verite"
 |----------|----------|-----------------|
 | `/powerup` | Leçons interactives animées sur les fonctionnalités CC | Quand vous decouvrez Claude Code pour la premiere fois |
 | Demander « Explique ce code » | Expliquer du code existant | Prompt ordinaire ; `/explain` exige une extension personnalisée |
-| `/learn:quiz` | Tester votre comprehension | Apres implementation d'un nouveau concept |
-| `/learn:alternatives` | Montrer d'autres approches | Pour comprendre les trade-offs |
-| `/learn:teach <concept>` | Explication pas a pas | Quand vous apprenez quelque chose de nouveau |
+| `/learn-quiz` | Tester votre comprehension | Apres implementation d'un nouveau concept |
+| `/learn-alternatives` | Montrer d'autres approches | Pour comprendre les trade-offs |
+| `/learn-teach <concept>` | Explication pas a pas | Quand vous apprenez quelque chose de nouveau |
 
-> **Note** : ces commandes sont des templates personnalisés à installer, pas des commandes intégrées. Les exemples utilisent l’ancien emplacement `.claude/commands/learn/`.
+> **Note** : ces commandes sont des templates personnalisés à installer, pas des commandes intégrées. Créez chacune dans `.claude/skills/<nom>/SKILL.md` : le nom du dossier devient la commande. Un ancien fichier `.claude/commands/learn/quiz.md` fonctionne toujours, invoqué par `/learn:quiz`.
 
-### Creer /learn:quiz
+### Creer /learn-quiz
 
-Creez `.claude/commands/learn/quiz.md` :
+Creez `.claude/skills/learn-quiz/SKILL.md` :
 
 ```markdown
 # Quiz Me
@@ -1049,9 +1049,9 @@ Exemple : [2026-02-15] Zod : validation manuelle avait
           rate un cas limite imbrique en prod
 ```
 
-### Slash command /learn:quiz
+### Slash command /learn-quiz
 
-Fichier : `.claude/commands/learn/quiz.md`
+Fichier : `.claude/skills/learn-quiz/SKILL.md`
 
 ```markdown
 # Quiz Me
@@ -1131,9 +1131,9 @@ Appliquer competences connues : 30% lutte, 70% IA
 
 ```
 Prompt : Explique ce code -- Comprendre du code existant
-/learn:quiz           -- Tester sa comprehension
-/learn:teach <sujet>  -- Apprendre quelque chose de nouveau
-/learn:alternatives   -- Comparer des approches
+/learn-quiz           -- Tester sa comprehension
+/learn-teach <sujet>  -- Apprendre quelque chose de nouveau
+/learn-alternatives   -- Comparer des approches
 ```
 
 ## D. glossaire

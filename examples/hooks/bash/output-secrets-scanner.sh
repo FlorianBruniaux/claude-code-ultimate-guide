@@ -13,8 +13,8 @@
 #   {
 #     "hooks": {
 #       "PostToolUse": [{
-#         "matcher": "",
-#         "hooks": ["bash examples/hooks/bash/output-secrets-scanner.sh"]
+#         "matcher": "*",
+#         "hooks": [{ "type": "command", "command": "bash examples/hooks/bash/output-secrets-scanner.sh" }]
 #       }]
 #     }
 #   }
@@ -32,8 +32,10 @@ set -euo pipefail
 # Read the hook input from stdin
 INPUT=$(cat)
 
-# Extract tool output from JSON (handle both formats)
-TOOL_OUTPUT=$(echo "$INPUT" | jq -r '.tool_output // .output // ""' 2>/dev/null || echo "")
+# Extract the tool result. PostToolUse sends it as `tool_response`: a string for
+# some tools, an object for others (Bash: stdout, stderr, ...). Objects are
+# flattened to JSON text so the patterns below can scan them.
+TOOL_OUTPUT=$(echo "$INPUT" | jq -r '(.tool_response // "") | if type == "string" then . else tojson end' 2>/dev/null || echo "")
 
 # If no output or empty, exit cleanly
 if [[ -z "$TOOL_OUTPUT" ]]; then

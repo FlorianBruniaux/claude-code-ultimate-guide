@@ -64,12 +64,7 @@ If user confirms, proceed. If `--wp` was specified, skip confirmation.
 
 ### Setup
 
-```bash
-# Team name includes timestamp for uniqueness
-TEAM_NAME="wp-update-$(date +%Y%m%d-%H%M)"
-```
-
-Create team: `TeamCreate(team_name=TEAM_NAME)`
+Teammates join the session's implicit team: spawn each one with the Agent tool and a `name` (TeamCreate was removed in Claude Code v2.1.178).
 
 Create one task per affected WP.
 
@@ -148,7 +143,7 @@ If changelog contains a version bump:
 ## Step 7: Cleanup
 
 Shutdown all agents via `SendMessage(type: shutdown_request)`.
-Delete team via `TeamDelete()`.
+No team to delete: the implicit team ends with the session (TeamDelete was removed in Claude Code v2.1.178).
 
 ## Step 8: Post-update verification
 

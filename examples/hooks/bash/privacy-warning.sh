@@ -2,42 +2,32 @@
 # privacy-warning.sh - Warn users about data sent to Anthropic
 #
 # Hook type: SessionStart
-# Triggers: Once at the beginning of each Claude Code session
+# Triggers: At the start of a new session (matcher "startup")
 #
 # Purpose:
 #   Reminds users that their prompts, files, and MCP results are sent to Anthropic.
 #   Provides link to opt-out of training data (reduces retention from 5 years to 30 days).
 #
-# Installation:
-#   1. Copy to .claude/hooks/SessionStart/
-#   2. Make executable: chmod +x privacy-warning.sh
-#   3. Register in hooks config (see Claude Code docs)
+# Output: a `systemMessage` JSON object, which Claude Code shows to the user.
+# Plain stdout from a SessionStart hook is added to Claude's context instead, so it
+# would never reach the person this reminder is for.
 #
-# Configuration:
-#   Set PRIVACY_WARNING_SHOWN=1 in your environment to suppress after first run.
+# Installation:
+#   1. Copy to ~/.claude/hooks/ and make it executable: chmod +x privacy-warning.sh
+#   2. Register in ~/.claude/settings.json:
+#      {
+#        "hooks": {
+#          "SessionStart": [{
+#            "matcher": "startup",
+#            "hooks": [{ "type": "command", "command": "~/.claude/hooks/privacy-warning.sh" }]
+#          }]
+#        }
+#      }
 #
 # Reference: https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/security/data-privacy.md
 
-# Only show once per terminal session
-if [[ -n "$PRIVACY_WARNING_SHOWN" ]]; then
-    exit 0
-fi
+cat > /dev/null  # consume stdin
 
-# Output privacy reminder
-echo ""
-echo "┌─────────────────────────────────────────────────────────────────┐"
-echo "│  🔐 PRIVACY REMINDER                                           │"
-echo "├─────────────────────────────────────────────────────────────────┤"
-echo "│  Your prompts, files, and MCP results are sent to Anthropic.   │"
-echo "│                                                                 │"
-echo "│  Retention: 5 years (default) → 30 days (opt-out training)     │"
-echo "│                                                                 │"
-echo "│  Disable training: claude.ai/settings/data-privacy-controls    │"
-echo "└─────────────────────────────────────────────────────────────────┘"
-echo ""
+jq -n '{systemMessage: "PRIVACY REMINDER\nYour prompts, files, and MCP results are sent to Anthropic.\nRetention: 5 years (default), 30 days (training opt-out).\nDisable training: claude.ai/settings/data-privacy-controls"}'
 
-# Mark as shown for this terminal session
-export PRIVACY_WARNING_SHOWN=1
-
-# Always exit 0 to allow session to continue
 exit 0

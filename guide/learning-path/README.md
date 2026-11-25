@@ -125,7 +125,7 @@ The path also routes to focused pages for product surfaces that sit outside the 
 
 - The interaction loop (prompt → tool → decision → feedback)
 - Context and sessions
-- Plans and thinking modes
+- Plan mode, permission modes and effort levels
 - **Exercise:** Use `/plan` to plan a real task, observe the flow
 
 **Complexity:** ⭐ (Beginner)
@@ -138,7 +138,7 @@ The path also routes to focused pages for product surfaces that sit outside the 
 **Goal:** Configure Claude Code for your workflow
 
 - CLAUDE.md structure and hierarchy
-- Settings precedence (global → project → session)
+- Settings precedence (managed → command line → local → project → user)
 - Environment variables
 - **Exercise:** Create your first CLAUDE.md, customize settings
 
@@ -153,7 +153,7 @@ The path also routes to focused pages for product surfaces that sit outside the 
 
 - When to use agents vs a single session
 - Tool restriction and isolation
-- Creating agents (AGENT.md format)
+- Creating agents (`.claude/agents/<name>.md` with YAML frontmatter)
 - **Exercise:** Build 2 agents (generalist + specialist), test them
 
 **Complexity:** ⭐⭐ (Intermediate)
@@ -163,10 +163,10 @@ The path also routes to focused pages for product surfaces that sit outside the 
 ---
 
 ### Module 05: Skills & Automation (1.5 hours)
-**Goal:** Build reusable capabilities that trigger automatically
+**Goal:** Build reusable capabilities that Claude loads when their description matches
 
 - Skill lifecycle and frontmatter
-- Auto-invocation patterns
+- Description-based invocation and invocation controls
 - Bundling scripts with skills
 - **Exercise:** Create a skill that solves a repeated problem
 

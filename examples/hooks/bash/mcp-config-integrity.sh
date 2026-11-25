@@ -15,18 +15,20 @@
 #   Add to .claude/settings.json:
 #   {
 #     "hooks": {
-#       "SessionStart": [
-#         "bash examples/hooks/bash/mcp-config-integrity.sh"
-#       ]
+#       "SessionStart": [{
+#         "matcher": "startup",
+#         "hooks": [{ "type": "command", "command": "bash examples/hooks/bash/mcp-config-integrity.sh" }]
+#       }]
 #     }
 #   }
 #
 # Initial setup (run once to create baseline):
-#   sha256sum ~/.claude.json > ~/.claude/.mcp-baseline.sha256
+#   shasum -a 256 ~/.claude.json > ~/.claude/.mcp-baseline.sha256   # macOS
+#   sha256sum ~/.claude.json > ~/.claude/.mcp-baseline.sha256       # Linux
 #
 # Exit codes:
 #   0 = allow (config unchanged or no baseline)
-#   Non-zero outputs systemMessage warnings
+#   Findings are printed as a systemMessage (shown to the user)
 #
 # References:
 #   - CVE-2025-54135: RCE in Cursor via prompt injection rewriting mcp.json
@@ -42,20 +44,29 @@ PROJECT_MCP=".mcp.json"
 
 WARNINGS=()
 
+# macOS ships shasum, not sha256sum
+sha256_of() {
+    if command -v sha256sum >/dev/null 2>&1; then
+        sha256sum "$1" 2>/dev/null | awk '{print $1}'
+    else
+        shasum -a 256 "$1" 2>/dev/null | awk '{print $1}'
+    fi
+}
+
 # === GLOBAL MCP CONFIG CHECK ===
 if [[ -f "$MCP_CONFIG" ]]; then
     # Check if baseline exists
     if [[ -f "$MCP_BASELINE" ]]; then
         # Compute current hash
-        CURRENT_HASH=$(sha256sum "$MCP_CONFIG" 2>/dev/null | awk '{print $1}')
+        CURRENT_HASH=$(sha256_of "$MCP_CONFIG")
         BASELINE_HASH=$(awk '{print $1}' "$MCP_BASELINE" 2>/dev/null || echo "")
 
         if [[ -n "$CURRENT_HASH" && -n "$BASELINE_HASH" && "$CURRENT_HASH" != "$BASELINE_HASH" ]]; then
-            WARNINGS+=("MCP config modified since baseline was created. Review ~/.claude.json for unauthorized changes. Run 'sha256sum ~/.claude.json > ~/.claude/.mcp-baseline.sha256' to update baseline if changes are legitimate.")
+            WARNINGS+=("MCP config modified since baseline was created. Review ~/.claude.json for unauthorized changes. Re-run the baseline command (shasum -a 256 or sha256sum on ~/.claude.json) to update baseline if changes are legitimate.")
         fi
     else
         # No baseline - suggest creating one
-        WARNINGS+=("No MCP config baseline found. Consider running: sha256sum ~/.claude.json > ~/.claude/.mcp-baseline.sha256")
+        WARNINGS+=("No MCP config baseline found. Create one with: shasum -a 256 ~/.claude.json > ~/.claude/.mcp-baseline.sha256 (sha256sum on Linux)")
     fi
 
     # === CHECK FOR SUSPICIOUS MCP SERVERS ===
@@ -78,7 +89,8 @@ if [[ -f "$MCP_CONFIG" ]]; then
     fi
 
     # Check for external URLs in commands
-    if echo "$MCP_CONTENT" | grep -qE 'https?://[^"]+' | grep -vE 'npm|github|registry'; then
+    # (the filter must sit inside the pipeline: `grep -q | grep` never matched)
+    if echo "$MCP_CONTENT" | grep -oE 'https?://[^"]+' | grep -vE 'npm|github|registry' | grep -q .; then
         WARNINGS+=("MCP config references external URLs. Verify these are trusted sources.")
     fi
 fi
@@ -110,8 +122,8 @@ if [[ ${#WARNINGS[@]} -gt 0 ]]; then
         WARNING_MSG="${WARNING_MSG}⚠️ ${warning} "
     done
 
-    # Output as systemMessage
-    echo "{\"systemMessage\": \"MCP INTEGRITY CHECK: ${WARNING_MSG}\"}"
+    # Output as systemMessage (jq escapes quotes and backslashes in the findings)
+    jq -n --arg msg "MCP INTEGRITY CHECK: ${WARNING_MSG}" '{systemMessage: $msg}'
 fi
 
 # Always exit 0 (warn, don't block session start)

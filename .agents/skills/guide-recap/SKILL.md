@@ -156,8 +156,8 @@ For each requested format (default: all 4) and language (default: both):
 | Slack | GitHub repo URL |
 
 **URLs:**
-- Landing: `https://florianbruniaux.github.io/Codex-ultimate-guide-landing/`
-- GitHub: `https://github.com/FlorianBruniaux/Codex-ultimate-guide`
+- Landing: `https://cc.bruniaux.com`
+- GitHub: `https://github.com/FlorianBruniaux/claude-code-ultimate-guide`
 
 ### Step 7: Output
 
