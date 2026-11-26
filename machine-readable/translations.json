@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-11-25",
-  "measured_at_commit": "80bcaf8207cbec261363121db84aeef7f48b533f",
+  "checked_at": "2026-11-26",
+  "measured_at_commit": "b70890c81ab1eb67532d115c03204372f072e65e",
   "official_scope": "Maintained by the Claude Code Ultimate Guide project; not official Anthropic documentation.",
   "policy": {
     "canonical_language": "en",
@@ -21,10 +21,10 @@
     "maintainer": "Florian Bruniaux",
     "status": "official",
     "version": "3.46.0",
-    "sha256": "718b277fcdf0c5714a02d06364709a550a167a499b175d293955812849c27c9f",
+    "sha256": "44fcc2d6c84c81a7d712ebe3280c289235a0362847058b13e877c1ef895c3a96",
     "source": {
-      "commit": "80bcaf8207cbec261363121db84aeef7f48b533f",
-      "sha256": "718b277fcdf0c5714a02d06364709a550a167a499b175d293955812849c27c9f",
+      "commit": "db259c47e608a310b8f4d41f5e601e6583ffa43a",
+      "sha256": "44fcc2d6c84c81a7d712ebe3280c289235a0362847058b13e877c1ef895c3a96",
       "commit_evidence": "latest_commit_touching_canonical_guide"
     },
     "coverage": {
@@ -48,17 +48,17 @@
       "status": "official",
       "official": true,
       "version": "3.46.0",
-      "last_checked_at": "2026-11-25",
+      "last_checked_at": "2026-11-26",
       "last_full_refresh_at": "2026-11-25",
-      "sync_state": "current",
+      "sync_state": "stale",
       "translated_from": {
         "version": "3.46.0",
         "commit": "80bcaf8207cbec261363121db84aeef7f48b533f",
         "sha256": "718b277fcdf0c5714a02d06364709a550a167a499b175d293955812849c27c9f"
       },
       "artifact": {
-        "sha256": "daecf9036769b00347fe7b44881627fd78ebf8acd1444692c9bc614f1ef57dc2",
-        "last_change_commit": "fc9e00dac7194abf45831d6b747c018dfde36284"
+        "sha256": "d9394fe7803bc360c982758d31b2158264c8655b21b49c323abc3801464a295d",
+        "last_change_commit": "db259c47e608a310b8f4d41f5e601e6583ffa43a"
       },
       "coverage": {
         "type": "full_guide",
@@ -67,10 +67,10 @@
         "semantic_review": "codex_full_review_2026-09-26_and_delta_reconciliation_2026-10-06; not_human_editorial_signoff; delta_reconciliation_2026-11-01_claude_opus_5_5; not_human_editorial_signoff"
       },
       "known_lag": {
-        "status": "current",
-        "canonical_guide_commits": 0,
-        "canonical_repo_commits": 0,
-        "version_delta": "same guide version (3.44.1); canonical source changed; French remains based on its recorded source"
+        "status": "stale",
+        "canonical_guide_commits": 1,
+        "canonical_repo_commits": 4,
+        "version_delta": "same guide version (3.46.0); canonical source changed; French remains based on its recorded source"
       }
     },
     {
@@ -111,8 +111,8 @@
       },
       "known_lag": {
         "status": "stale",
-        "canonical_guide_commits": 85,
-        "canonical_repo_commits": 661,
+        "canonical_guide_commits": 86,
+        "canonical_repo_commits": 665,
         "version_delta": "3.41.0 to 3.43.0"
       },
       "official": false
@@ -187,8 +187,8 @@
       },
       "known_lag": {
         "status": "stale",
-        "canonical_guide_commits": 169,
-        "canonical_repo_commits": 929,
+        "canonical_guide_commits": 170,
+        "canonical_repo_commits": 933,
         "version_delta": "3.32.2 to 3.43.0"
       },
       "official": false
