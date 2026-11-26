@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Fixed
 
+- Refresh positional references and the bundled MCP index after the corrected skill-template fence shifts the guide by one line. Preserve each reference’s exact target content. Use verified section anchors for the task-management workflow index.
 - Repair section links across the guide, including model selection, memory, permissions, session handoffs, task workflows, and the historical release source. Use the existing section or source document when a referenced section has moved or been removed.
 - Keep nested fenced examples intact in the DevOps and Spec-First guides and close the skill template before Skill Examples, so document headings remain available to navigation and the split landing reader.
 
