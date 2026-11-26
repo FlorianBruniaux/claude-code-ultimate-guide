@@ -48,7 +48,7 @@ Claude Code is the product you run in a terminal, an IDE or the desktop app. The
 
 2. **Built-in and extensible tools**: Claude Code provides file editing, shell access, search, sub-agents and other built-in capabilities. The available set varies by version, model and configuration; the [tools reference](https://code.claude.com/docs/en/tools-reference) is the current inventory.
 
-   **Search Strategy Evolution**: Early Claude Code versions experimented with RAG using Voyage embeddings for semantic code search. Anthropic switched to grep-based (ripgrep) agentic search after internal benchmarks showed superior performance with lower operational complexity: no index sync required, no security liabilities from external embedding providers. This "Search, Don't Index" philosophy trades latency/tokens for simplicity/security. Community plugins (ast-grep for AST patterns) and MCP servers (Serena for symbols, grepai for RAG) available for specialized needs.
+   **<span id="search-strategy-evolution">Search Strategy Evolution</span>**: Early Claude Code versions experimented with RAG using Voyage embeddings for semantic code search. Anthropic switched to grep-based (ripgrep) agentic search after internal benchmarks showed superior performance with lower operational complexity: no index sync required, no security liabilities from external embedding providers. This "Search, Don't Index" philosophy trades latency/tokens for simplicity/security. Community plugins (ast-grep for AST patterns) and MCP servers (Serena for symbols, grepai for RAG) available for specialized needs.
 
    *Source*: [Latent Space podcast](https://www.latent.space/p/claude-code) (May 2025), ast-grep documentation
 
@@ -294,7 +294,7 @@ Use this checklist to verify you understand Claude Code's full surface area. Eac
 
 - [ ] **Per-Task Model Selection**: Dynamic model switching mid-session
   - `/model opus|sonnet|haiku` on task boundaries
-  - See: [Section 10 Cost Optimization](#10-claude-code-vs-alternatives)
+  - See: [Model selection](../ultimate-guide.md#25-model-selection--thinking-guide)
 
 - [ ] **MCP Protocol Integration**: Model Context Protocol for tool extensions
   - Context7, Sequential, Serena, Playwright, etc.
@@ -306,7 +306,7 @@ Use this checklist to verify you understand Claude Code's full surface area. Eac
 
 - [ ] **Session Memory**: Persistent context across sessions
   - CLAUDE.md, memory files, project state
-  - See: [Section 8 Session Persistence](#8-session-persistence)
+  - See: [Section 9 Session Persistence](#9-session-persistence)
 
 **Onboarding Tip**: If you haven't explored all 11 capabilities, you're likely missing productivity opportunities. Focus on the unchecked items above.
 
@@ -524,7 +524,7 @@ Recent research and practitioner observations confirm **quality degradation with
 | **85%** | Manual handoff recommended | Prevent auto-compact degradation |
 | **95%** | Force handoff | Severe quality degradation |
 
-**User control**: Use `/compact` manually to trigger summarization at logical breakpoints, or use **session handoffs** (see [Session Handoffs](#session-handoffs)) to preserve intent over compressed history.
+**User control**: Use `/compact` manually to trigger summarization at logical breakpoints, or use **session handoffs** (see [Session Handoff Pattern](../ultimate-guide.md#session-handoff-pattern)) to preserve intent over compressed history.
 
 The [Context compaction](./ai-design-patterns.md#context-compaction) card in AI Design Patterns lists what Claude Code re-injects after a compaction and what survives only as the summary.
 

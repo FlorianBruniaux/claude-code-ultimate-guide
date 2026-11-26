@@ -4328,7 +4328,7 @@ When you use Claude Code, the following data leaves your machine:
 }
 ```
 
-> **Warning**: `permissions.deny` has known limitations. See [Security Hardening Guide](./security/security-hardening.md#known-limitations-of-permissionsdeny) for details.
+> **Warning**: `permissions.deny` has known limitations. See [Security Hardening Guide](./security/security-hardening.md#13-known-limitations-of-permissionsdeny) for details.
 
 **2. Never connect production databases** to MCP servers. Use dev/staging with anonymized data.
 
@@ -4868,7 +4868,7 @@ CLAUDE.md files supply persistent instructions. Applicable root user/project ins
 
 **The anchoring risk**: stale CLAUDE.md entries bias every session toward outdated patterns. Treat pruning as maintenance. Structure around WHAT/WHY/HOW for larger projects.
 
-> **Full coverage**: See [Memory Systems: CLAUDE.md](./core/memory-systems.md#21-claudemd-three-levels) for the three-level hierarchy diagram, discoverability filter, context-file research, and team sharing patterns. For the experimental limits, see the [corrected source evaluation](../docs/resource-evaluations/agents-md-empirical-study-2602-11988.md).
+> **Full coverage**: See [Memory Systems: CLAUDE.md](./core/memory-systems.md#21-claudemd-three-levels-of-memory) for the three-level hierarchy diagram, discoverability filter, context-file research, and team sharing patterns. For the experimental limits, see the [corrected source evaluation](../docs/resource-evaluations/agents-md-empirical-study-2602-11988.md).
 
 ### CLAUDE.md as compounding memory
 
@@ -5165,7 +5165,7 @@ Claude Code automatically saves useful context across sessions without manual CL
 | Management | `/memory` command: view, edit, delete entries |
 | vs CLAUDE.md | CLAUDE.md: team conventions, git-tracked. Auto-memory: personal context, gitignored |
 
-> **Full coverage**: See [Memory Systems: Auto Memory](./core/memory-systems.md#22-auto-memory-v21594) for limits breakdown, CLAUDE.md vs Auto-Memory comparison, and recommended workflow.
+> **Full coverage**: See [Memory Systems: Auto Memory](./core/memory-systems.md#22-auto-memory-v2159) for limits breakdown, CLAUDE.md vs Auto-Memory comparison, and recommended workflow.
 
 ### Auto Dream: Memory consolidation (community-discovered)
 
@@ -5180,7 +5180,7 @@ Background sub-agent that consolidates MEMORY.md between sessions: the system pr
 
 Trigger via `/memory` or natural language: "consolidate my memory files". The `/dream` command exists in the UI but returns "Unknown skill" on most installs, use natural language instead.
 
-> **Full coverage**: See [Memory Systems: Auto Dream](./core/memory-systems.md#23-auto-dream-background-consolidation) for trigger conditions, 4-phase breakdown, quality gaps, and community implementations.
+> **Full coverage**: See [Memory Systems: Auto Dream](./core/memory-systems.md#23-auto-dream-memory-consolidation) for trigger conditions, 4-phase breakdown, quality gaps, and community implementations.
 
 ### Single source of truth pattern
 
@@ -7727,7 +7727,7 @@ The plugin writes per-run grading evidence to `grading.json` and aggregates with
 
 ## 5.3 Skill template
 
-```markdown
+````markdown
 ---
 name: your-skill-name
 description: Expert guidance for [domain] problems
@@ -7790,6 +7790,7 @@ When activated, follow this approach:
 ## Reference Material
 
 See `reference.md` for detailed documentation.
+````
 
 ## 5.4 Skill Examples
 
@@ -12684,7 +12685,7 @@ The four tools serve orthogonal roles in a layered knowledge stack:
 
 Combination workflows: `retrieve_memory()` for business context, `grepai search` to find code, `find_symbol()` for exact location.
 
-> **Full coverage**: See [Memory Systems: Architecture Patterns](./core/memory-systems.md#6-architecture-patterns) and [Master Comparison Table](./core/memory-systems.md#38-master-comparison-table) for the complete 20-tool matrix, combined workflows, multi-agent patterns, and decision flowchart.
+> **Full coverage**: See [Memory Systems: Architecture Patterns](./core/memory-systems.md#6-architecture-patterns) and [Master Comparison Table](./core/memory-systems.md#39-master-comparison-table) for the complete 20-tool matrix, combined workflows, multi-agent patterns, and decision flowchart.
 
 ---
 
@@ -26107,7 +26108,7 @@ You → Coordinate next steps
 
 **Sources**:
 - [CHANGELOG v2.1.16](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md#2116---2026-01-22) - Official task management release
-- [Section 2.6 - Task Management](ultimate-guide.md#26-task-management) - Full documentation
+- [Task management system](ultimate-guide.md#task-management-system) - Full documentation
 
 ---
 

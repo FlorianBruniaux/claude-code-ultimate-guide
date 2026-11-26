@@ -476,7 +476,7 @@ jq -r 'select(.tool == "Edit") | .file' ~/.claude/logs/activity-*.jsonl \
   | sort | uniq -c | sort -rn | head -10
 ```
 
-For each pattern you surface, ask: is there a skill, rule, or CLAUDE.md section that should cover this? See [§9.23 Configuration Lifecycle & The Update Loop](#923-configuration-lifecycle-the-update-loop) for the full workflow.
+For each pattern you surface, ask: is there a skill, rule, or CLAUDE.md section that should cover this? See [§9.23 Configuration Lifecycle & The Update Loop](../ultimate-guide.md#923-configuration-lifecycle--the-update-loop) for the full workflow.
 
 ---
 

@@ -172,7 +172,7 @@ Modifies a Jupyter notebook one cell at a time by `cell_id`. Three modes: `repla
 
 ### PowerShell
 
-Available natively on Windows; opt-in on Linux/macOS via `CLAUDE_CODE_USE_POWERSHELL_TOOL=1` (requires `pwsh` on `PATH`). Claude Code spawns PowerShell with `-ExecutionPolicy Bypass` at process scope only, so enterprise `MachinePolicy` or `UserPolicy` lockdowns still apply. See [the PowerShell Native Tool section](../ultimate-guide.md#powershell-native-tool) for full setup details.
+Available natively on Windows; opt-in on Linux/macOS via `CLAUDE_CODE_USE_POWERSHELL_TOOL=1` (requires `pwsh` on `PATH`). Claude Code spawns PowerShell with `-ExecutionPolicy Bypass` at process scope only, so enterprise `MachinePolicy` or `UserPolicy` lockdowns still apply. See [the PowerShell Native Tool section](../ultimate-guide.md#powershell-native-tool-windows-v2184-opt-in-preview) for full setup details.
 
 ### Read
 
@@ -228,7 +228,7 @@ These tools schedule prompts within the current session. Tasks are session-scope
 
 ### Push notifications: PushNotification
 
-Claude calls `PushNotification` to send a desktop notification and, when Remote Control is connected with "Push when Claude decides" enabled, a phone push. Useful for long tasks where you step away. Delivery runs through Anthropic-hosted infrastructure, so it is not available on Bedrock, Vertex AI, or Foundry. See [Remote Control](../ultimate-guide.md#remote-control).
+Claude calls `PushNotification` to send a desktop notification and, when Remote Control is connected with "Push when Claude decides" enabled, a phone push. Useful for long tasks where you step away. Delivery runs through Anthropic-hosted infrastructure, so it is not available on Bedrock, Vertex AI, or Foundry. See [Remote Control](../ultimate-guide.md#922-remote-control-mobile-access).
 
 ### Agent teams: implicit team / SendMessage
 
@@ -248,7 +248,7 @@ The modern task management system (v2.1.16+, default since v2.1.142). The full t
 - `TaskUpdate`: change status, dependencies, or details; also deletes
 - `TaskStop`: kill a running background task by ID
 
-`TodoWrite` is the legacy alternative; it was disabled by default at v2.1.142. Set `CLAUDE_CODE_ENABLE_TASKS=0` to re-enable it instead. For patterns and cross-session persistence, see [the Tasks API section](../ultimate-guide.md#tasks-api).
+`TodoWrite` is the legacy alternative; it was disabled by default at v2.1.142. Set `CLAUDE_CODE_ENABLE_TASKS=0` to re-enable it instead. For patterns and cross-session persistence, see [the Tasks API section](../ultimate-guide.md#tasks-api-v2116).
 
 ---
 
@@ -272,9 +272,9 @@ Some tools are only available when Claude Code connects through Anthropic's own 
 
 - [Architecture internals](./architecture.md): master loop, tool selection logic, context budget
 - [Permission Rule Syntax](./settings-reference.md#permission-rule-syntax): full `allow`/`deny` rule format with all specifier forms
-- [Sub-agents](../ultimate-guide.md#sub-agents): how `Agent` spawns work, tool inheritance, foreground vs background
+- [Sub-agents](../ultimate-guide.md#4-agents): how `Agent` spawns work, tool inheritance, foreground vs background
 - [Cross-Session Messaging](../workflows/cross-session-messaging.md): full `ListAgents`/`SendMessage` mechanics between independent sessions
 - [Monitor, Channels and Safe Delegation to Codex](../workflows/monitor-event-delegation.md): WebSocket sources, plugin monitors, Channels, Routines, and event-driven least privilege
-- [Skills](../ultimate-guide.md#skills): how to build reusable prompt workflows using the `Skill` tool
+- [Skills](../ultimate-guide.md#5-skills): how to build reusable prompt workflows using the `Skill` tool
 - [MCP servers](../ecosystem/mcp-servers-ecosystem.md): how to add custom tools via MCP
-- [Hooks](../ultimate-guide.md#hooks): run commands before or after tool execution
+- [Hooks](../ultimate-guide.md#7-hooks): run commands before or after tool execution

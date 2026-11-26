@@ -7,7 +7,7 @@ tags: [security, guide, devops]
 # Production safety rules
 
 > **Audience**: Teams deploying Claude Code in production environments.
-> **For solo learners**: See [Getting Started](#getting-started) instead.
+> **For solo learners**: See [Getting Started](../ultimate-guide.md#1-quick-start-day-1) instead.
 
 ---
 
@@ -919,13 +919,13 @@ Team settings take precedence, but individuals can opt-in to stricter rules.
 ## See also
 
 - [AI Design Patterns: Saga](../core/ai-design-patterns.md#saga): checkpoints do not undo shell commands or remote effects, so each external effect needs a written compensation
-- [Ultimate Guide §9.12 Git Best Practices](#912-git-best-practices-workflows): Commit workflow, Plan → Act pattern
+- [Ultimate Guide §9.12 Git Best Practices](../ultimate-guide.md#912-git-best-practices--workflows): Commit workflow, Plan → Act pattern
 - [Security Hardening Guide](./security-hardening.md): MCP security, secret protection, hook stack
 - [Data Privacy Guide](./data-privacy.md): MCP database risks, retention policies
 - [Enterprise AI Governance](./enterprise-governance.md): Org-level governance, usage charters, MCP approval workflow, guardrail tiers, compliance
 - [Adoption Approaches](../roles/adoption-approaches.md): Team setup, shared conventions, enterprise rollout
 - [Plan Mode](#23-plan-mode): Safe exploration before execution
-- [Permissions System](#33-settings-permissions): Allow/deny rules, hooks
+- [Permissions System](../ultimate-guide.md#33-settings--permissions): Allow/deny rules, hooks
 
 ---
 

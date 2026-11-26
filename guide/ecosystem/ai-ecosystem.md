@@ -2585,7 +2585,7 @@ All frameworks (Claude Code, ADK, LangChain) support the **Model Context Protoco
 **Resources**:
 - [MCP Specification](https://modelcontextprotocol.io)
 - [MCP Servers Ecosystem](https://github.com/modelcontextprotocol/servers)
-- [This guide's MCP coverage](../ultimate-guide.md#mcp-servers) (Section 6)
+- [This guide's MCP coverage](../ultimate-guide.md#8-mcp-servers) (Section 8)
 - [Agent Tools: Beyond Claude Code](./agentic-tools.md#section-5-decision-framework): full decision framework with situation-to-tool guide
 
 ---

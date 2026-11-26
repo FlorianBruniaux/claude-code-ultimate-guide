@@ -8,7 +8,7 @@ tags: [devops, guide, ci-cd, workflows]
 
 **Reading time**: 30 minutes
 **Skill level**: Intermediate (assumes DevOps basics)
-**Prerequisites**: Claude Code basics ([Sections 1-2](#getting-started) of main guide)
+**Prerequisites**: Claude Code basics ([Sections 1-2](../ultimate-guide.md#1-quick-start-day-1) of main guide)
 
 ---
 
@@ -98,7 +98,7 @@ claude "Create a brief incident note for our wiki:
 
 ### What Claude returns (first response example)
 
-```markdown
+````markdown
 ## CrashLoopBackOff Triage (Priority Order)
 
 1. **Check exit code and last logs**
@@ -118,7 +118,7 @@ claude "Create a brief incident note for our wiki:
    kubectl rollout history deployment/payment-api -n payment-service
    ```
    If recent: consider rollback while investigating
-```
+````
 
 ---
 

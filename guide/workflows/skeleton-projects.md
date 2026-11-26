@@ -17,7 +17,7 @@ Use existing, battle-tested repositories as scaffolding for new projects instead
 - **Rapid prototyping** where architecture decisions are already made
 - **Onboarding** new team members via a working reference
 
-**Don't use when**: Exploring unknown tech (use [Vibe Coding](#98-vibe-coding-skeleton-projects) instead), or when requirements are too unique for existing templates.
+**Don't use when**: Exploring unknown tech (use [Vibe Coding](../ultimate-guide.md#98-vibe-coding--skeleton-projects) instead), or when requirements are too unique for existing templates.
 
 ---
 
@@ -204,7 +204,7 @@ User: "Run all tests, verify build, check skeleton patterns preserved"
 
 ## Related workflows
 
-- **[Vibe Coding](#98-vibe-coding-skeleton-projects)**: Explore before choosing a skeleton
+- **[Vibe Coding](../ultimate-guide.md#98-vibe-coding--skeleton-projects)**: Explore before choosing a skeleton
 - **[Plan-Driven Development](./plan-driven.md)**: Plan skeleton customization before executing
 - **[TDD with Claude](./tdd-with-claude.md)**: Test-first expansion of skeleton features
 - **[Permutation Frameworks](#919-permutation-frameworks)**: Test multiple skeleton variants before committing

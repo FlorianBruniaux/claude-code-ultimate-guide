@@ -274,7 +274,7 @@ Input → Validation → Processing → Output
 
 ### API spec
 
-```markdown
+````markdown
 ## API: [Endpoint Name]
 
 ### Endpoint
@@ -310,7 +310,7 @@ Bearer token required. Scopes: `read:resource`, `write:resource`
 | 401 | Not authenticated | `{ "message": "..." }` |
 | 403 | Not authorized | `{ "message": "..." }` |
 | 404 | Resource not found | `{ "message": "..." }` |
-```
+````
 
 ---
 

@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Fixed
+
+- Repair section links across the guide, including model selection, memory, permissions, session handoffs, task workflows, and the historical release source. Use the existing section or source document when a referenced section has moved or been removed.
+- Keep nested fenced examples intact in the DevOps and Spec-First guides and close the skill template before Skill Examples, so document headings remain available to navigation and the split landing reader.
+
 ### Added
 
 - **RTK v1 pipelines in `guide/ecosystem/third-party-tools.md` (#101)**: new "RTK v1 pipelines" section covering what a pipeline is, the two places it acts (agent hooks and the `rtk-proxy` daemon), the six built-ins, the no-op default, the BUSL-1.1 engine absent from the Apache-2.0 `rtk-oss` edition, and the upstream `opt-in.toml` example, sourced from RTK's docs. Both `reference.yaml` copies index it as `rtk_pipelines`.

@@ -55,7 +55,7 @@ A three-command protocol for session continuity: `create-handoff` initializes a 
 
 ### Pattern 6: Recipe template with context validation checkpoints
 
-**Guide section**: [Skill Design Patterns](./skill-design-patterns.md#recipe-template-and-context-validation-checkpoints) and template at `examples/skills/recipe-template/SKILL.md`
+**Guide section**: [Skill Design Patterns](./skill-design-patterns.md) and template at `examples/skills/recipe-template/SKILL.md`
 **Source**: recurring pattern across Packmind command files
 
 A command template structure where a "Context Validation Checkpoints" section lists preconditions Claude must verify before executing the recipe steps. Reduces errors caused by missing context or wrong environment.

@@ -365,7 +365,7 @@ TaskCreate: {
 }
 ```
 
-**Full workflow reference**: See [TDD with Claude](tdd-with-claude.md#task-management-integration)
+**Full workflow reference**: See [TDD with Claude](tdd-with-claude.md#integration-with-claude-code-features)
 
 ---
 
@@ -437,7 +437,7 @@ TaskCreate: {
 }
 ```
 
-**Full workflow reference**: See [Plan-Driven Development](plan-driven.md#task-hierarchy-design)
+**Full workflow reference**: See [Plan-Driven Development](plan-driven.md#plan--task-tool)
 
 ---
 
