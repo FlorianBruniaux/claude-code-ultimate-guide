@@ -1,0 +1,73 @@
+CHANGELOG.md
+  s_f5d4f7633adaed::t_ed39d0a563c957 9-13
+guide/core/architecture.md
+  s_f5d4f7633adaed::t_99f07c89e5da58 51,297,309,527
+guide/core/credits.md
+  s_f5d4f7633adaed::t_526f3c2dd66df7 58
+guide/core/glossary.md
+  s_f5d4f7633adaed::t_46adb4827d91c2 22,30,34,54,62,158,162,206,210,234,242,270
+guide/core/methodologies.md
+  s_f5d4f7633adaed::t_ac835405896f33 654
+guide/core/tools-reference.md
+  s_f5d4f7633adaed::t_d0c80c7a0fe375 175,231,251,275,278,280
+guide/ecosystem/ai-ecosystem.md
+  s_f5d4f7633adaed::t_921b3f062ede0a 2588
+guide/ecosystem/context-engineering-tools.md
+  s_f5d4f7633adaed::t_6056fdb2217b2a 948
+guide/ecosystem/team-knowledge-base.md
+  s_f5d4f7633adaed::t_113567fce78ec5 11,365
+guide/ops/ai-traceability.md
+  s_f5d4f7633adaed::t_cc1d710bab573a 913
+guide/ops/ai-unit-economics.md
+  s_134eac28f22fca::t_cbd8f32389efb2 198
+guide/ops/devops-sre.md
+  s_f5d4f7633adaed::t_4d6b6b801453dc 11,101,121
+guide/ops/observability.md
+  s_f5d4f7633adaed::t_8f9ca89b113aaf 479
+guide/security/data-privacy.md
+  s_f5d4f7633adaed::t_7f7f236b8b902b 265
+guide/security/production-safety.md
+  s_f5d4f7633adaed::t_349a9d0da2099d 10,922,928
+guide/security/sandbox-native.md
+  s_134eac28f22fca::t_4c4ad7e1900e8b 654
+guide/ultimate-guide.fr.md
+  s_f5d4f7633adaed::t_dabe8f95758806 4428,4992,5291,5306,12853,26675
+guide/ultimate-guide.md
+  s_f5d4f7633adaed::t_06654bdbe16e45 4331,4871,5168,5183,7730,7793,12688,26111
+guide/workflows/cross-session-messaging.md
+  s_134eac28f22fca::t_6c15715ee8fac4 66
+guide/workflows/dynamic-workflows.md
+  s_134eac28f22fca::t_2f9b0562e65c6a 18,29
+guide/workflows/skeleton-projects.md
+  s_134eac28f22fca::t_f0dfcb71512a3b 20,207
+guide/workflows/spec-first.md
+  s_134eac28f22fca::t_b37456eac0b2c9 277,313
+guide/workflows/task-management.md
+  s_134eac28f22fca::t_faaa6ba75aaad8 368,440
+guide/workflows/tdd-with-claude.md
+  s_f5d4f7633adaed::t_17c3224e0c60a9 289
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "db259c47e608a310b8f4d41f5e601e6583ffa43a",
+  "prompts": {},
+  "sessions": {
+    "s_134eac28f22fca": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a2129d-5c20-74b3-a8c3-cf83ce8aa8a0",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_f5d4f7633adaed": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a21733-83bc-7eb3-8496-5e8609b7af25",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
