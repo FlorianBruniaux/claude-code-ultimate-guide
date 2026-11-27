@@ -46,6 +46,7 @@ Guide version 3.46.0, tracking Claude Code up to v2.1.330 (November 2026).
 
 - Architect-engineer handoffs: versioned self-contained contracts, ADRs, separate task/run/decision state, live-state reconciliation on resume, and review feedback. See guide/workflows/dual-instance-planning.md; role separation has no guaranteed cost or quality benefit, and Honkonen's eng CLI is custom tooling.
 - Harness improvement: recoverable local quality requirements, semantic ownership, MLD observations before memory promotion, isolated curation candidates and versioned publication, worker requalification and four clocks. Selectively adapted from lopopolo/harness-engineering, an anthology rather than a runtime; no local gains measured.
+- Operator testimony: Hugo Lassiège on factory maintenance, observability and human trade-offs (Agentic Crafters, November 24, 2026). Automatic transcript attribution, not inspected implementation or measured review effectiveness. See guide/core/agent-harness.md#operator-account-from-agentic-crafters.
 
 ## Machine-readable entry points
 

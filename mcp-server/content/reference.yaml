@@ -4,7 +4,7 @@
 # Purpose: Condensed index for LLMs to quickly answer user questions about Claude Code
 
 version: "3.46.0"
-updated: "2026-10-17"
+updated: "2026-11-27"
 
 # ════════════════════════════════════════════════════════════════
 # DEEP DIVE - Line numbers in guide/ultimate-guide.md
@@ -1094,6 +1094,7 @@ deep_dive:
   agent_harness_reviewer_independence: "guide/roles/agent-evaluation.md#evaluate-judgment-allocation-and-reviewer-independence"
   agent_harness_graph_observability: "guide/ops/observability.md#graph-level-observability"
   agent_harness_video_evidence: "guide/core/agent-harness.md#10-practitioner-video-evidence"
+  agent_harness_hugo_lassiege: "guide/core/agent-harness.md#operator-account-from-agentic-crafters"  # November 24, 2026 operator account, automatic French transcript, no comparative outcome measurement
   agent_harness_optimizer_research: "guide/core/agent-harness.md#11-harness-optimizers-and-meta-harnesses"
   agent_harness_scaffold_effect: "guide/core/agent-harness.md#the-core-claim"
   agent_harness_reliability_metrics: "guide/core/agent-harness.md#operational-measures-beyond-telemetry"
@@ -3179,6 +3180,7 @@ section_maps:
     - "8-creator-verifier-pattern"
     - "9-reference-architecture"
     - "10-practitioner-video-evidence"
+    - "operator-account-from-agentic-crafters"
     - "11-harness-optimizers-and-meta-harnesses"
   "guide/core/ai-concept-boundaries.md":
     - "context-context-window-and-memory"

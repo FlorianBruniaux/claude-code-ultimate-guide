@@ -606,6 +606,12 @@ These additions and three research papers are assessed in the [corpus supplement
 
 The source list is selective. It includes videos that add a distinct mechanism, metric, or failure boundary to this page. Inclusion is not an endorsement of every claim in a talk.
 
+### Operator account from Agentic Crafters
+
+In [Agentic Crafters, published on November 24, 2026](https://agenticcrafters.fr/fr/episodes/hugo-lassiege-malt/), Hugo Lassiège describes moving from reading all generated code to improving his software factory, investigating defects and making observability support AI-assisted correction ([44:54](https://www.youtube.com/watch?v=A51cv6f4nFM&t=2694s)). He keeps operating cost, user journeys and economic viability in view ([46:23](https://www.youtube.com/watch?v=A51cv6f4nFM&t=2783s)), and distinguishes his solo practice from a larger organization while retaining human budget and risk decisions ([50:12](https://www.youtube.com/watch?v=A51cv6f4nFM&t=3012s)).
+
+This paraphrase uses the episode's [automatic French transcript](https://agenticcrafters.fr/episodes/hugo-lassiege-malt/transcript.txt), unlike the WebVTT-checked quotations above. It supports attribution, not inspection of his factory or a measured reduction in escaped defects. It complements the [meta loop](#three-loop-horizons) and [judgment allocation](#judgment-allocation-where-responsibility-actually-sits), without establishing that another team can remove human review.
+
 ---
 
 ## 11. Harness optimizers and meta-harnesses
@@ -662,4 +668,4 @@ If your team needs to put these controls into practice, [get help setting up you
 
 ---
 
-*Last updated: September 26, 2026. Control testing and review-evaluation evidence were selectively updated; the product inventory was not re-audited. Claude Code implementation mapping checked through v2.1.250. Practitioner quotations checked against the yt-insights WebVTT corpus snapshot generated on 2026-08-25. Academic evidence checked against primary sources through 2026-08-28. arXiv 2605.18747 (Code as Agent Harness) is the primary code-centric survey; arXiv 2606.20683 supplies the six-responsibility runtime taxonomy.*
+*Last updated: September 26, 2026. Control testing and review-evaluation evidence were selectively updated; the product inventory was not re-audited. Claude Code implementation mapping checked through v2.1.250. Practitioner quotations checked against the yt-insights WebVTT corpus snapshot generated on 2026-08-25. The Hugo Lassiège account was added from the automatic episode transcript on November 27, 2026, without re-auditing the product inventory. Academic evidence checked against primary sources through 2026-08-28. arXiv 2605.18747 (Code as Agent Harness) is the primary code-centric survey; arXiv 2606.20683 supplies the six-responsibility runtime taxonomy.*
