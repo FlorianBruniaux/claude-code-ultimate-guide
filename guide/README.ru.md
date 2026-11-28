@@ -14,15 +14,15 @@ tags: [guide, reference, russian]
 
 | Файл | Описание | Время |
 |------|----------|-------|
-| [**learning-path/**](./learning-path/README.md) | **Структурированная траектория из 7 модулей** для новичков: Установка, Базовый цикл, Память, Агенты, Навыки (Skills), Хуки, Продвинутые паттерны | 8–11 часов |
+| [**learning-path/**](./learning-path/README.ru.md) | **Структурированная траектория из 7 модулей** для новичков: Установка, Базовый цикл, Память, Агенты, Навыки (Skills), Хуки, Продвинутые паттерны | 8–11 часов |
 | [core/ai-concept-boundaries.md](./core/ai-concept-boundaries.md) | Семь практических концептуальных различий, примеры из репозитория и сценарии на понимание | В своем темпе |
-| [learning-path/01-installation.md](./learning-path/01-installation.md) | Модуль 01: Установка Claude Code и проверка работоспособности | 15 мин |
-| [learning-path/02-core-loop.md](./learning-path/02-core-loop.md) | Модуль 02: Понимание цикла взаимодействия и контекста | 45 мин |
-| [learning-path/03-memory.md](./learning-path/03-memory.md) | Модуль 03: Создание CLAUDE.md и настройка памяти | 1 час |
-| [learning-path/04-agents.md](./learning-path/04-agents.md) | Модуль 04: Создание специализированных агентов | 1.5 часа |
-| [learning-path/05-skills.md](./learning-path/05-skills.md) | Модуль 05: Создание переиспользуемых навыков | 1.5 часа |
-| [learning-path/06-hooks.md](./learning-path/06-hooks.md) | Модуль 06: Создание автоматизирующих хуков | 1 час |
-| [learning-path/07-advanced.md](./learning-path/07-advanced.md) | Модуль 07: Мульти-агентная оркестрация | 2–3 часа |
+| [learning-path/01-installation.ru.md](./learning-path/01-installation.ru.md) | Модуль 01: Установка Claude Code и проверка работоспособности | 15 мин |
+| [learning-path/02-core-loop.ru.md](./learning-path/02-core-loop.ru.md) | Модуль 02: Понимание цикла взаимодействия и контекста | 45 мин |
+| [learning-path/03-memory.ru.md](./learning-path/03-memory.ru.md) | Модуль 03: Создание CLAUDE.md и настройка памяти | 1 час |
+| [learning-path/04-agents.ru.md](./learning-path/04-agents.ru.md) | Модуль 04: Создание специализированных агентов | 1.5 часа |
+| [learning-path/05-skills.ru.md](./learning-path/05-skills.ru.md) | Модуль 05: Создание переиспользуемых навыков | 1.5 часа |
+| [learning-path/06-hooks.ru.md](./learning-path/06-hooks.ru.md) | Модуль 06: Создание автоматизирующих хуков | 1 час |
+| [learning-path/07-advanced.ru.md](./learning-path/07-advanced.ru.md) | Модуль 07: Мульти-агентная оркестрация | 2–3 часа |
 
 ---
 
@@ -34,6 +34,9 @@ tags: [guide, reference, russian]
 | [ultimate-guide.fr.md](./ultimate-guide.fr.md) | Полный справочник на французском языке (FR) | ~3 часа |
 | [cheatsheet.ru.md](./cheatsheet.ru.md) | **Шпаргалка на русском языке**: ежедневный компактный справочник | 5 мин |
 | [cheatsheet.md](./cheatsheet.md) | Ежедневная шпаргалка на английском языке | 5 мин |
+| [core/glossary.ru.md](./core/glossary.ru.md) | **Глоссарий (RU)**: терминология Claude Code и агентных систем (со ссылками на главы) | 5 мин |
+| [core/tools-reference.ru.md](./core/tools-reference.ru.md) | **Справочник инструментов (RU)**: все 40 встроенных инструментов, синтаксис правил разрешений | 20 мин |
+| [core/computer-use.ru.md](./core/computer-use.ru.md) | **Computer Use (RU)**: границы разрешений, безопасные процедуры и проверка | 12 мин |
 | [core/translations.md](./core/translations.md) | **Управление переводами и языками**: статус, коммиты источников, официальные и комьюнити-версии | 5 мин |
 | [cowork.md](./cowork.md) | Claude Cowork: десктопный агентный инструмент для нетехнических специалистов | 10 мин |
 | [core/architecture.md](./core/architecture.md) | Как Claude Code устроен изнутри: мастер-цикл, инструменты, контекст | 25 мин |
