@@ -27,7 +27,7 @@
 
 Learn Claude Code, build reliable agents, and scale their use safely. The website is the primary reading and discovery interface. This repository contains the canonical Markdown sources, reusable files, machine-readable indexes, and contribution history.
 
-**Start here:** [complete a first task online](https://cc.bruniaux.com/guide/ultimate-guide/01-quick-start/) · [browse the guide portal](https://cc.bruniaux.com/guide/) · [open the complete sitemap](https://cc.bruniaux.com/sitemap/) · [read the Markdown source](./guide/ultimate-guide.md)
+**Start here:** [complete a first task online](https://cc.bruniaux.com/guide/ultimate-guide/01-quick-start/) · [browse the guide portal](https://cc.bruniaux.com/guide/) · [open the complete sitemap](https://cc.bruniaux.com/sitemap/) · [read the Markdown source](./guide/ultimate-guide.md) · [русская версия (AnyKey1)](https://github.com/AnyKey1/claude-code-ultimate-guide-ru)
 
 ## Choose your next step
 
@@ -347,12 +347,13 @@ Use the changelog for the complete history. The README should expose only a smal
 
 ## Languages and translations
 
-English is the canonical edition. French is maintained in this repository. Simplified Chinese, Ukrainian, and Latin American Spanish are independent community editions with separate update schedules.
+English is the canonical edition. French is maintained in this repository. Russian, Simplified Chinese, Ukrainian, and Latin American Spanish are independent community editions with separate update schedules.
 
 | Language | Edition |
 |---|---|
 | English | [Canonical guide](./guide/ultimate-guide.md) |
 | Français | [French guide maintained in this repository](./guide/ultimate-guide.fr.md) |
+| Русский | [Community edition by AnyKey1](https://github.com/AnyKey1/claude-code-ultimate-guide-ru) |
 | 简体中文 | [Community edition by JAYcodr](https://github.com/JAYcodr/claude-code-ultimate-guide-zh) |
 | Українська | [Community edition by gerasimsergey](https://github.com/gerasimsergey/claude-code-ultimate-guide-ua) |
 | Español latinoamericano | [Community edition by Richardls](https://github.com/Richardls/claude-code-ultimate-guide-es) |

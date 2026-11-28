@@ -20,6 +20,7 @@ That command validates the evidence in the registry. It does not review translat
 
 - [English canonical guide](../ultimate-guide.md)
 - [French project-maintained guide](../ultimate-guide.fr.md)
+- [Russian community adaptation](https://github.com/AnyKey1/claude-code-ultimate-guide-ru)
 - [Simplified Chinese community adaptation](https://github.com/JAYcodr/claude-code-ultimate-guide-zh)
 - [Ukrainian community adaptation](https://github.com/gerasimsergey/claude-code-ultimate-guide-ua)
 - [Latin American Spanish community adaptation](https://github.com/Richardls/claude-code-ultimate-guide-es)
@@ -32,6 +33,7 @@ The maintained English and French full guides were reviewed on **2026-09-26** at
 |---------|---------|--------------------------|
 | English | 3.43.0 | Canonical full guide, maintained by Florian Bruniaux |
 | French | 3.43.0 | Project-maintained full guide; current against its recorded English source |
+| Russian | 3.46.0 | Independent adaptation by AnyKey1; README, cheatsheet, and learning path |
 | Simplified Chinese | 3.41.0 | Independent adaptation by JAYcodr; partial and behind its recorded source |
 | Ukrainian | 3.40.0 | Independent adaptation by gerasimsergey; partial, exact source commit unknown |
 | Latin American Spanish | 3.32.2 | Independent adaptation by Richardls; partial and behind its recorded source |
