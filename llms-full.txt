@@ -820,7 +820,7 @@ Speed: `rg` (~20ms) → Serena (~100ms) → ast-grep (~200ms) → grepai (~500ms
 
 ---
 
-## Template Library (305 templates)
+## Template Library (306 templates)
 
 ### Agents (23 files)
 - `adr-writer.md`: Architecture Decision Records

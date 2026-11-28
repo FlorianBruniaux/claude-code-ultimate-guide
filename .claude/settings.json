@@ -20,7 +20,7 @@
           {
             "type": "command",
             "command": "~/.claude/hooks/rtk-baseline.sh",
-            "timeout": 5000
+            "timeout": 5
           }
         ]
       }
@@ -32,7 +32,7 @@
           {
             "type": "command",
             "command": "bash \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/dangerous-actions-blocker.sh",
-            "timeout": 3000
+            "timeout": 3
           }
         ]
       }
@@ -50,7 +50,7 @@
             "type": "command",
             "command": "bash \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/version-consistency-check.sh",
             "async": true,
-            "timeout": 2000
+            "timeout": 2
           }
         ]
       },
@@ -82,7 +82,7 @@
           {
             "type": "command",
             "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/smart-suggest.sh",
-            "timeout": 2000
+            "timeout": 2
           }
         ]
       }
@@ -93,7 +93,7 @@
           {
             "type": "command",
             "command": "bash \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/index-sync-reminder.sh",
-            "timeout": 5000
+            "timeout": 5
           }
         ]
       }
