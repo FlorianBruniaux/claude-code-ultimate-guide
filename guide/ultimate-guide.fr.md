@@ -4425,7 +4425,7 @@ Lorsque vous utilisez Claude Code, les données suivantes quittent votre machine
 }
 ```
 
-> **Avertissement** : `permissions.deny` a des limites connues. Consultez le [Guide de durcissement de la sécurité](./security/security-hardening.md#known-limitations-of-permissionsdeny) pour les détails.
+> **Avertissement** : `permissions.deny` a des limites connues. Consultez le [Guide de durcissement de la sécurité](./security/security-hardening.md#13-known-limitations-of-permissionsdeny) pour les détails.
 
 **2. Ne connectez jamais les bases de données de production** aux serveurs MCP. Utilisez les environnements de développement ou de staging avec des données anonymisées.
 
@@ -4989,7 +4989,7 @@ Les fichiers CLAUDE.md sont des instructions persistantes lues à chaque démarr
 
 **Le risque d'ancrage** : les entrées CLAUDE.md obsolètes biaisent chaque session vers des patterns dépassés. Traitez la suppression d'entrées comme une tâche de maintenance. Structurez autour du QUOI/POURQUOI/COMMENT pour les projets plus importants.
 
-> **Couverture complète** : Voir [Memory Systems: CLAUDE.md](./core/memory-systems.md#21-claudemd-three-levels) pour le diagramme de hiérarchie à trois niveaux, le filtre de découvrabilité, les recherches sur les fichiers de contexte et les pratiques de partage en équipe. Pour les limites expérimentales, voir l’[évaluation corrigée de la source](../docs/resource-evaluations/agents-md-empirical-study-2602-11988.md).
+> **Couverture complète** : Voir [Memory Systems: CLAUDE.md](./core/memory-systems.md#21-claudemd-three-levels-of-memory) pour le diagramme de hiérarchie à trois niveaux, le filtre de découvrabilité, les recherches sur les fichiers de contexte et les pratiques de partage en équipe. Pour les limites expérimentales, voir l’[évaluation corrigée de la source](../docs/resource-evaluations/agents-md-empirical-study-2602-11988.md).
 
 ### CLAUDE.md comme mémoire à effet composé
 
@@ -5288,7 +5288,7 @@ Claude Code sauvegarde automatiquement le contexte utile entre les sessions sans
 | Gestion | Commande `/memory` : voir, éditer, supprimer des entrées |
 | vs CLAUDE.md | CLAUDE.md : conventions d'équipe, versionné. Mémoire auto : contexte personnel, ignoré par git |
 
-> **Couverture complète** : Voir [Systèmes de mémoire : Mémoire automatique](./core/memory-systems.md#22-auto-memory-v21594) pour le détail des limites, la comparaison CLAUDE.md vs mémoire automatique, et le workflow recommandé.
+> **Couverture complète** : Voir [Systèmes de mémoire : Mémoire automatique](./core/memory-systems.md#22-auto-memory-v2159) pour le détail des limites, la comparaison CLAUDE.md vs mémoire automatique, et le workflow recommandé.
 
 ### Auto Dream : consolidation de la mémoire (découverte communautaire)
 
@@ -5303,7 +5303,7 @@ Sous-agent en arrière-plan qui consolide MEMORY.md entre les sessions : le prom
 
 Déclencher via `/memory` ou en langage naturel : « consolidate my memory files ». La commande `/dream` existe dans l'interface mais retourne « Unknown skill » sur la plupart des installations, utilisez plutôt le langage naturel.
 
-> **Couverture complète** : Voir [Systèmes de mémoire : Auto Dream](./core/memory-systems.md#23-auto-dream-background-consolidation) pour les conditions de déclenchement, le déroulement en 4 phases, les lacunes de qualité et les implémentations communautaires.
+> **Couverture complète** : Voir [Systèmes de mémoire : Auto Dream](./core/memory-systems.md#23-auto-dream-memory-consolidation) pour les conditions de déclenchement, le déroulement en 4 phases, les lacunes de qualité et les implémentations communautaires.
 
 ### Modèle source unique de vérité
 
@@ -12850,7 +12850,7 @@ Les quatre outils jouent des rôles orthogonaux dans une pile de connaissances e
 
 Workflows combinés : `retrieve_memory()` pour le contexte métier, `grepai search` pour trouver le code, `find_symbol()` pour la localisation exacte.
 
-> **Couverture complète** : Voir [Memory Systems: Architecture Patterns](./core/memory-systems.md#6-architecture-patterns) et [Master Comparison Table](./core/memory-systems.md#38-master-comparison-table) pour la matrice complète de 20 outils, les workflows combinés, les motifs multi-agents et l'organigramme de décision.
+> **Couverture complète** : Voir [Memory Systems: Architecture Patterns](./core/memory-systems.md#6-architecture-patterns) et [Master Comparison Table](./core/memory-systems.md#39-master-comparison-table) pour la matrice complète de 20 outils, les workflows combinés, les motifs multi-agents et l'organigramme de décision.
 
 ---
 
@@ -26672,7 +26672,7 @@ Vous → Coordonnez les étapes suivantes
 
 **Sources** :
 - [CHANGELOG v2.1.16](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md#2116---2026-01-22) - Publication officielle de la gestion des tâches
-- [Section 2.6 - Gestion des tâches](ultimate-guide.md#26-task-management) - Documentation complète
+- [Gestion des tâches](ultimate-guide.md#task-management-system) - Documentation complète
 
 ---
 

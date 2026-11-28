@@ -945,4 +945,4 @@ A finding that cuts across multiple research directions: token reduction in gene
 > - [Third-Party Tools](./third-party-tools.md): RTK full reference, ccusage, ICM, and other CC-specific tools
 > - [MCP Servers Ecosystem](./mcp-servers-ecosystem.md): MCP as dynamic context injection
 > - [Observability](../ops/observability.md): Monitoring Claude Code in production
-> - [Ultimate Guide: Memory Systems](.#memory-hierarchy): Complete memory architecture for Claude Code
+> - [Ultimate Guide: Memory Systems](../ultimate-guide.md#memory-hierarchy): Complete memory architecture for Claude Code

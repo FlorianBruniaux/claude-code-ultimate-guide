@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Fixed
+
+- Synchronize the MCP bundle with the canonical translation metadata so the publication integrity check reads the same bilingual artifact references.
+- Refresh positional references and the bundled MCP index after the corrected skill-template fence shifts the guide by one line. Preserve each reference’s exact target content. Use verified section anchors for the task-management workflow index.
+- Repair section links across the guide, including model selection, memory, permissions, session handoffs, task workflows, and the historical release source. Use the existing section or source document when a referenced section has moved or been removed.
+- Keep nested fenced examples intact in the DevOps and Spec-First guides and close the skill template before Skill Examples, so document headings remain available to navigation and the split landing reader.
+
 ### Added
 
 - **RTK v1 pipelines in `guide/ecosystem/third-party-tools.md` (#101)**: new "RTK v1 pipelines" section covering what a pipeline is, the two places it acts (agent hooks and the `rtk-proxy` daemon), the six built-ins, the no-op default, the BUSL-1.1 engine absent from the Apache-2.0 `rtk-oss` edition, and the upstream `opt-in.toml` example, sourced from RTK's docs. Both `reference.yaml` copies index it as `rtk_pipelines`.

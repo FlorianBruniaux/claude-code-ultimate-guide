@@ -15,7 +15,7 @@ tags: [workflow, agents, orchestration, parallel, ultracode]
 
 **Session toggle**: `/effort ultracode` (or `ultracode on`; `ultracode off` to stop) makes Claude plan a workflow for every substantive task in the session, and `claude --effort ultracode` starts a session with it on (`ultracode` requests `xhigh` effort). The `on`/`off` arguments need v2.1.284+, the flag v2.1.203+. The `ultracode` settings key persists the choice (official docs, commands and CLI reference).
 **Reading time**: ~40 min
-**Prerequisites**: Familiarity with the [Agent tool](../core/tools-reference.md#agent), basic JavaScript async/await
+**Prerequisites**: Familiarity with the [Agent tool](../core/tools-reference.md#agents-and-orchestration), basic JavaScript async/await
 
 This page documents one Claude Code implementation surface. [Loop & Graph Engineering](../core/loop-graph-engineering.md) explains when explicit topology is warranted and how to specify state, transitions, stopping rules, recovery, and judgment independently of any framework.
 
@@ -26,7 +26,7 @@ This page documents one Claude Code implementation surface. [Loop & Graph Engine
 1. [When to use workflows (vs Agent tool vs Skills)](#1-when-to-use-workflows-vs-agent-tool-vs-skills)
 2. [Primitive reference](#2-primitive-reference)
 3. [Behavioral guarantees](#3-behavioral-guarantees)
-4. [pipeline() vs parallel(): when and why](#4-pipeline-vs-parallel--when-and-why)
+4. [pipeline() vs parallel(): when and why](#4-pipeline-vs-parallel-when-and-why)
 5. [Schema-structured outputs across phases](#5-schema-structured-outputs-across-phases)
 6. [Common patterns](#6-common-patterns)
 7. [Real workflow example: dev-flow (Issue to PR)](#7-real-workflow-example-dev-flow-issue-to-pr)

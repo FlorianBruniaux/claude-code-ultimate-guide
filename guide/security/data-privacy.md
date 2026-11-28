@@ -262,7 +262,7 @@ In `.claude/settings.json`, use `permissions.deny` to block access to sensitive 
 
 > **Note**: The old `excludePatterns` and `ignorePatterns` settings were deprecated in October 2025. Use `permissions.deny` instead.
 
-> **Warning**: `permissions.deny` has [known limitations](./security-hardening.md#known-limitations-of-permissionsdeny). For defense-in-depth, combine with security hooks and external secrets management.
+> **Warning**: `permissions.deny` has [known limitations](./security-hardening.md#13-known-limitations-of-permissionsdeny). For defense-in-depth, combine with security hooks and external secrets management.
 
 #### 3.2 Use security hooks
 

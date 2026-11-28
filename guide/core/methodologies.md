@@ -651,4 +651,4 @@ These are starting combinations, not measured productivity gains. Add a method w
 - [workflows/spec-first.md](../workflows/spec-first.md): spec-first development
 - [workflows/plan-driven.md](../workflows/plan-driven.md): using /plan mode
 - [workflows/iterative-refinement.md](../workflows/iterative-refinement.md): refinement loops
-- [ultimate-guide.md#912](../ultimate-guide.md): Section 9.12 summary
+- [Git best practices and workflows](../ultimate-guide.md#912-git-best-practices--workflows): Section 9.12 summary

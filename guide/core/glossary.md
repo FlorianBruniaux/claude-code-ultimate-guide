@@ -19,7 +19,7 @@ Multiple independent Claude Code sessions coordinated by a team lead, with a sha
 
 ### Agentic loop
 
-The cycle Claude works through for every task: gather context, take action, verify results, repeat until done. Each tool use returns information that informs the next step. Most extension points (hooks, skills, MCP) plug into specific phases of this loop. See [§1 How Claude Code Works](../ultimate-guide.md#1-how-claude-code-works).
+The cycle Claude works through for every task: gather context, take action, verify results, repeat until done. Each tool use returns information that informs the next step. Most extension points (hooks, skills, MCP) plug into specific phases of this loop. See [Architecture: the master loop](./architecture.md#1-the-master-loop).
 
 ### Agent-computer interface
 
@@ -27,11 +27,11 @@ The commands, observations, feedback format, and interaction rules through which
 
 ### Auto memory
 
-Notes Claude writes for itself based on your corrections and preferences, stored per git repository under `~/.claude/projects/`. The first 200 lines or 25 KB of `MEMORY.md` loads at session start. All worktrees of the same repository share one auto memory directory. See [§3 Memory](../ultimate-guide.md#3-configuration--memory).
+Notes Claude writes for itself based on your corrections and preferences, stored per git repository under `~/.claude/projects/`. The first 200 lines or 25 KB of `MEMORY.md` loads at session start. All worktrees of the same repository share one auto memory directory. See [§3 Memory](../ultimate-guide.md#3-memory--settings).
 
 ### Auto mode
 
-A permission mode where a separate classifier model reviews each action in the background instead of showing you approval prompts. The classifier blocks scope escalation, untrusted infrastructure, and prompt injection attempts. It never sees tool results, making it immune to injected instructions. This is a research preview. See [§3 Permission Modes](../ultimate-guide.md#3-configuration--memory).
+A permission mode where a separate classifier model reviews each action in the background instead of showing you approval prompts. The classifier blocks scope escalation, untrusted infrastructure, and prompt injection attempts. It never sees tool results, making it immune to injected instructions. This is a research preview. See [§1.4 Permission Modes](../ultimate-guide.md#14-permission-modes).
 
 ---
 
@@ -51,7 +51,7 @@ Prompt-based playbooks included with Claude Code, such as `/batch`, `/code-revie
 
 ### Channel
 
-An MCP server that pushes events into your running session so Claude can react to things that happen while you're away from the terminal. Channels can be two-way: Claude reads an inbound event and replies back through the same channel. Telegram, Discord, and iMessage are included in the research preview. See [§8 MCP](../ultimate-guide.md#8-mcp).
+An MCP server that pushes events into your running session so Claude can react to things that happen while you're away from the terminal. Channels can be two-way: Claude reads an inbound event and replies back through the same channel. Telegram, Discord, and iMessage are included in the research preview. See [§8 MCP](../ultimate-guide.md#8-mcp-servers).
 
 ### Checkpoint
 
@@ -59,7 +59,7 @@ A restore point created at each prompt you send. Claude Code snapshots files bef
 
 ### `.claude` directory
 
-The directory where Claude Code reads project-scoped configuration: settings, hooks, skills, subagents, rules, and auto memory. A project has `.claude/` at its root; your user-level defaults live at `~/.claude/`. See [§3 Configuration](../ultimate-guide.md#3-configuration--memory).
+The directory where Claude Code reads project-scoped configuration: settings, hooks, skills, subagents, rules, and auto memory. A project has `.claude/` at its root; your user-level defaults live at `~/.claude/`. See [§3 Configuration](../ultimate-guide.md#3-memory--settings).
 
 ### CLAUDE.md
 
@@ -155,11 +155,11 @@ An overloaded term with two current uses. In optimizer research, it is a system 
 
 ### MCP (Model Context Protocol)
 
-An open standard for connecting AI tools to external data sources and services. MCP servers give Claude new tools for Slack, Jira, databases, browsers, and hundreds of other integrations. Connect servers via `/mcp` or by adding them to `.mcp.json`. See [§8 MCP](../ultimate-guide.md#8-mcp).
+An open standard for connecting AI tools to external data sources and services. MCP servers give Claude new tools for Slack, Jira, databases, browsers, and hundreds of other integrations. Connect servers via `/mcp` or by adding them to `.mcp.json`. See [§8 MCP](../ultimate-guide.md#8-mcp-servers).
 
 ### MCP tool search
 
-A context-saving mechanism that defers MCP tool schemas until needed. Only tool names load at startup; Claude fetches the full schema on demand when it decides to use a specific tool. This keeps idle MCP servers from consuming context. See [§8 MCP](../ultimate-guide.md#8-mcp).
+A context-saving mechanism that defers MCP tool schemas until needed. Only tool names load at startup; Claude fetches the full schema on demand when it decides to use a specific tool. This keeps idle MCP servers from consuming context. See [§8 MCP](../ultimate-guide.md#8-mcp-servers).
 
 ---
 
@@ -203,11 +203,11 @@ A bundle of skills, hooks, subagents, and MCP servers packaged as a single insta
 
 ### Project trust
 
-A dialog that accepts a directory before Claude Code loads its configuration. Acceptance is saved per project directory, except your home directory (where trust is per-session only). Trust gates auto-installation of marketplace plugins and execution of project-defined hooks. See [§3 Configuration](../ultimate-guide.md#3-configuration--memory).
+A dialog that accepts a directory before Claude Code loads its configuration. Acceptance is saved per project directory, except your home directory (where trust is per-session only). Trust gates auto-installation of marketplace plugins and execution of project-defined hooks. See [§3 Configuration](../ultimate-guide.md#3-memory--settings).
 
 ### Prompt injection
 
-Hostile instructions embedded in a file, web page, or tool result that attempt to redirect Claude toward actions you never requested. Claude Code's defenses include the permission system, command blocklists, and trust verification. Auto mode adds a server-side classifier that never sees tool results, so injected text cannot influence its approval decisions. See [§10 Security](../ultimate-guide.md#10-security).
+Hostile instructions embedded in a file, web page, or tool result that attempt to redirect Claude toward actions you never requested. Claude Code's defenses include the permission system, command blocklists, and trust verification. Auto mode adds a server-side classifier that never sees tool results, so injected text cannot influence its approval decisions. See [Security Hardening](../security/security-hardening.md).
 
 ---
 
@@ -231,7 +231,7 @@ Modular instruction files in `.claude/rules/` that load alongside CLAUDE.md. A r
 
 ### Sandboxing
 
-OS-level filesystem and network isolation for the Bash tool. Commands run inside a boundary you define upfront, so Claude can work freely within it without per-command approval prompts. Sandboxing is a separate layer from permission rules. See [§10 Security](../ultimate-guide.md#10-security).
+OS-level filesystem and network isolation for the Bash tool. Commands run inside a boundary you define upfront, so Claude can work freely within it without per-command approval prompts. Sandboxing is a separate layer from permission rules. See [Security Hardening](../security/security-hardening.md).
 
 ### Scaffold effect
 
@@ -239,7 +239,7 @@ The variation in outcome, token use, and failure mode caused by the surrounding 
 
 ### Session
 
-A conversation tied to your current directory, with its own independent context window. Sessions can be resumed with `claude -c`, forked with `--fork-session`, or run in parallel across terminals. Each session's transcript is stored under `~/.claude/projects/`. See [§1 How Claude Code Works](../ultimate-guide.md#1-how-claude-code-works).
+A conversation tied to your current directory, with its own independent context window. Sessions can be resumed with `claude -c`, forked with `--fork-session`, or run in parallel across terminals. Each session's transcript is stored under `~/.claude/projects/`. See [Session persistence](./architecture.md#9-session-persistence).
 
 ### Settings layers
 
@@ -267,7 +267,7 @@ A command (`/teleport`) that pulls a cloud Claude Code session into your local t
 
 ### Tool
 
-An action Claude can take: read a file, edit code, run a shell command, search the web, spawn a subagent. Tools are what make Claude Code agentic. Without them, Claude can only respond with text. Each tool use returns a result that informs Claude's next decision in the agentic loop. See [§1 How Claude Code Works](../ultimate-guide.md#1-how-claude-code-works).
+An action Claude can take: read a file, edit code, run a shell command, search the web, spawn a subagent. Tools are what make Claude Code agentic. Without them, Claude can only respond with text. Each tool use returns a result that informs Claude's next decision in the agentic loop. See [Built-in tools reference](./tools-reference.md#all-built-in-tools).
 
 ### Turn
 

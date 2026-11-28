@@ -63,7 +63,7 @@ Ask the session running in my other terminal whether the migration finished
 Explain what we just did to the session working on the payments API
 ```
 
-Or name the target yourself with an `@`-mention, the same mechanism used to [address a subagent](../core/tools-reference.md#agent) explicitly. Type `@` followed by the first letters of the session's name and pick it from the typeahead (requires v2.1.232+):
+Or name the target yourself with an `@`-mention, the same mechanism used to [address a subagent](../core/tools-reference.md#agents-and-orchestration) explicitly. Type `@` followed by the first letters of the session's name and pick it from the typeahead (requires v2.1.232+):
 
 ```text
 Let @api-worker know the schema migration finished
