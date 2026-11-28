@@ -2,11 +2,5 @@
 args = ["mcp-serve"]
 command = "grepai"
 
-[mcp_servers.grepai.env]
-GREPAI_PROJECT_PATH = "/Users/florianbruniaux/Sites/perso/claude-code-ultimate-guide"
-
 [shell_environment_policy]
 inherit = "core"
-
-[shell_environment_policy.set]
-ALLOWED_PATHS = "/Users/florianbruniaux/Sites/perso/claude-code-plugins:/Users/florianbruniaux/Sites/perso/ctxharness"
