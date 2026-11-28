@@ -6,8 +6,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash '/Users/florianbruniaux/Sites/perso/claude-code-ultimate-guide/.codex/hooks/dangerous-actions-blocker.sh'",
-            "timeout": 3000
+            "command": "bash \"$(git rev-parse --show-toplevel)/.codex/hooks/dangerous-actions-blocker.sh\"",
+            "timeout": 3
           }
         ]
       }
@@ -17,8 +17,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "'/Users/florianbruniaux/Sites/perso/claude-code-ultimate-guide/.codex/hooks/smart-suggest.sh'",
-            "timeout": 2000
+            "command": "\"$(git rev-parse --show-toplevel)/.codex/hooks/smart-suggest.sh\"",
+            "timeout": 2
           }
         ]
       }

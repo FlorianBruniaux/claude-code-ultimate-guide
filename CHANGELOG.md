@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Fixed
 
+- **Project Codex hooks**: `.codex/hooks.json` timeouts are now in seconds (3 and 2 instead of 3000 and 2000), and both hook commands resolve from `git rev-parse --show-toplevel` instead of a workstation path.
 - Synchronize the MCP bundle with the canonical translation metadata so the publication integrity check reads the same bilingual artifact references.
 - Refresh positional references and the bundled MCP index after the corrected skill-template fence shifts the guide by one line. Preserve each reference’s exact target content. Use verified section anchors for the task-management workflow index.
 - Repair section links across the guide, including model selection, memory, permissions, session handoffs, task workflows, and the historical release source. Use the existing section or source document when a referenced section has moved or been removed.
